@@ -2075,11 +2075,11 @@ else
 			end;
 			
 			if (barInfo.drawProgress) then
-				render.SetScissorRect(barInfo.x, barInfo.y, barInfo.x + barInfo.progressWidth, barInfo.y + barInfo.height, true)
+				render.SetScissorRect(barInfo.x, barInfo.y, barInfo.x + barInfo.progressWidth, barInfo.y + barInfo.height, true);
 					self:DrawTexturedGradientBox(
 						0, barInfo.x + 2, barInfo.y + 2, barInfo.width, barInfo.height - 4, barInfo.color, 150
 					);
-				render.SetScissorRect(barInfo.x, barInfo.y, barInfo.x + barInfo.progressWidth, barInfo.height, false)
+				render.SetScissorRect(barInfo.x, barInfo.y, barInfo.x + barInfo.progressWidth, barInfo.height, false);
 			end;
 			
 			if (barInfo.flash) then
