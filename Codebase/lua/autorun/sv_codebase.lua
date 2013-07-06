@@ -3,8 +3,6 @@
 	without permission of its author (kurozael@gmail.com).
 --]]
 
-require("json");
-
 local FILE_MANIFEST = nil;
 local OUTPUT_TABLE = nil;
 
@@ -248,7 +246,7 @@ concommand.Add("codebase", function(player, command, arguments)
 
 	if (delay > 0) then
 		timer.Simple(delay, function()
-			file.Write("codebase.txt", Json.Encode(OUTPUT_TABLE));
+			file.Write("codebase.txt", Clockwork.json:Encode(OUTPUT_TABLE));
 			MsgC(Color(255, 128, 128), "@codebase has saved the generated JSON to data/codebase.txt\n");
 		end);
 	end;
