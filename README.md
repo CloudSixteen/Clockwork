@@ -5,8 +5,7 @@ A roleplaying framework developed by Cloud Sixteen for the people.
 
 Installation
 ------------
-http://wiki.cloudsixteen.com/Installing
-http://wiki.cloudsixteen.com/
+http://wiki.cloudsixteen.com/Installinghttp://wiki.cloudsixteen.com/
 
 
 License
