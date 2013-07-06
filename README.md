@@ -5,7 +5,7 @@ A roleplaying framework developed by Cloud Sixteen for the people.
 
 Installation
 ------------
-http://wiki.cloudsixteen.com/index.php?title=Installing_Clockwork
+http://wiki.cloudsixteen.com/Installing_Clockwork
 
 
 License
