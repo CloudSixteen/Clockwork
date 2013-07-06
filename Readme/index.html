@@ -1,0 +1,185 @@
+<style type="text/css">
+	*
+	{
+		margin:0;
+		border:0;
+		padding:0;
+	}
+
+	body {
+		margin:50px;
+		background:#D8C69A;
+		background-image:url('images/bg.png');
+		font-family:Verdana, Arial, sans-serif;
+	}
+	
+	.contentBox
+	{
+		-webkit-box-shadow:0 1px 2px rgba(255, 255, 255, 1);
+		-moz-box-shadow:0 1px 2px rgba(255, 255, 255, 1);
+		box-shadow:0 1px 2px rgba(255, 255, 255, 1);
+		-webkit-border-radius:4px;
+		-moz-border-radius:4px;
+		border-radius:4px;
+		font-family:'Arimo', Arial, Sans-Serif;
+		text-shadow:rgba(255, 255, 255, 0.8) 1px 1px;
+		margin-top:16px;
+		background:#FFF;
+		font-size:14px;
+		border:1px #D1CDCD solid;
+		color:#666;
+	}
+
+	.contentText
+	{
+		padding:4px;
+	}
+	
+	.contentText a
+	{
+		text-decoration:none;
+		font-weight: bold;
+		background:#f4ffee;
+		color:#777;
+	}
+	
+	.contentText a:hover
+	{
+		color:#888;
+	}
+
+	.contentTitle
+	{
+		-webkit-border-radius:4px 4px 4px 0px;
+		-moz-border-radius:4px 4px 0px 0px;
+		border-radius:4px 4px 0 0px;
+		background:-moz-linear-gradient(top, #FFFFFF 0%,  #F2F0F0 100%);
+		background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(100%,#F2F0F0));
+		filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#F2F0F0',GradientType=0 );
+		border-bottom:1px #D1CDCD solid;
+		font-weight:bold;
+		padding:8px;
+	}
+
+	.contentTitle img
+	{
+		vertical-align:middle;
+		margin-right:12px;
+		float:left;
+	}
+	
+	.titleSeperator
+	{
+		border-bottom:1px #EAEAEA solid;
+		font-weight: bold;
+		background:#f4ffee;
+		padding:8px;
+	}
+	
+	.listBox
+	{
+		padding:8px;
+	}
+	
+	.codeText
+	{
+		font-family:Courier New;
+		font-weight: bold;
+		background:#F6F6F6;
+	}
+</style>
+
+<div class="contentBox">
+	<div class="contentTitle">
+		<img src="images/icons/page.png"/>About
+	</div>
+	<div class="titleSeperator">
+		Clockwork
+	</div>
+	<div class="contentText">
+		<i>Clockwork</i> is an <i>open source</i> roleplaying systems framework. Feel free to use it as you wish,
+		but we at <a href="http://cloudsixteen.com">Cloud Sixteen</a> only ask you respect us and our efforts
+		and help us counter piracy of our schemas.
+		<br><br>
+		A list of <i>Cloud Sixteen</i> schemas can be found or bought <a href="http://buy.cloudsixteen.com">here</a>, please
+		do not pirate these schemas; instead become a fully licensed <i>Clockwork</i> customer and receive
+		free lifetime updates of both <i>Clockwork</i> and the schema.
+	</div>
+	<div class="titleSeperator">
+		Cloud Sixteen
+	</div>
+	<div class="contentText">
+		<i>Cloud Sixteen</i> is a small indie games company focused on creating fun games. Although they have moved on to developing
+		their own 2D and 3D engine, they still play a big part in developing one of Garry's Mod's widely used roleplaying frameworks.
+		<br><br>
+		Cloud Sixteen is also a gaming community, and anybody is welcome at the <a href="http://forums.cloudsixteen.com">forums</a> if
+		they have any questions, suggestions, bug reports or just want to hang out.
+	</div>
+	<div class="titleSeperator">
+		Ideal-Hosting
+	</div>
+	<div class="contentText">
+		<i>Ideal-Hosting</i> manage the licensing and distribution of both <i>Cloud Sixteen</i> schemas and free
+		public development keys. <i>Cloud Sixteen</i> and <i>Ideal-Hosting</i> have been business partners since 2010.
+	</div>
+</div>
+
+<div class="contentBox">
+	<div class="contentTitle">
+		<img src="images/icons/wrench.png"/>Install
+	</div>
+	<div class="titleSeperator">
+		Clockwork
+	</div>
+	<div class="contentText">
+		<div class="listBox">
+			<li>Extract the files in this archive to just outside of your <span class="codeText">garrysmod/</span> directory and overwrite any existing files.</li>
+			<li>Edit <span class="codeText">garrysmod/gamemodes/Clockwork/mysql.cfg</span> with your own MySQL database information and save the file.</li>
+			<li>Enter your Steam ID into <span class="codeText">garrysmod/gamemodes/Clockwork/owner.cfg</span> to become a super admin.</li>
+		</div>
+	</div>
+	<div class="titleSeperator">
+		Schema
+	</div>
+	<div class="contentText">
+		<div class="listBox">
+			<li>Place the <span class="codeText">&lt;schema&gt;</span> directory into <span class="codeText">garrysmod/gamemodes/</span> and overwrite any existing files.</li>
+			<li>Place any content such as materials, models, scripts and sounds into the <span class="codeText">garrysmod/</span> directory and overwrite any existing files.</li>
+			<li>Enter your serial key into <span class="codeText">garrysmod/gamemodes/&lt;schema&gt;/serial.cfg</span> and save the file.</li>
+			<li>Set <span class="codeText">sv_defaultgamemode</span> to whatever the folder name of the <span class="codeText">&lt;schema&gt;</span> is, e.g: <span class="codeText">sv_defaultgamemode cwHL2RP</span>.</li>
+			<li>You should be all set from there. Load up your server and enjoy.</li>
+		</div>
+	</div>
+</div>
+
+<div class="contentBox">
+	<div class="contentTitle">
+		<img src="images/icons/report_edit.png"/>Issues
+	</div>
+	<div class="contentText">
+		If you have any issues with <i>Clockwork</i> or you want to report a bug or even give a suggestion, the following are the best places to try:
+		<div class="listBox">
+			<li><a href="http://tracker.cloudsixteen.com">The Cloud Sixteen project tracker.</a></li>
+			<li><a href="http://forums.cloudsixteen.com">The Cloud Sixteen community forums.</a></li>
+			<li><a href="http://ideal-hosting.biz">The Ideal-Hosting billing and support website.</a></li>
+		</div>
+	</div>
+	<div class="titleSeperator">
+		Linux
+	</div>
+	<div class="contentText">
+		<div class="listBox">
+			<li>You need to install <span class="codeText">libboost_thread-mt.so.1.38.0.</span> or <span class="codeText">apt-get install libboost-all-dev</span> from your package manager. If you cannot find them, you may be able to use the files in <span class="codeText">libboost/</span> of this directory, they belong in the <span class="codeText">LD_LIBRARY_PATH ex /usr/lib</span>.</li>
+			<li>You need to install <span class="codeText">libmysqlclient</span> or <span class="codeText">libmysqlclient16</span> or newer via your package manager.</li>
+			<li>When dealing with file directories, names or paths, do not forget Linux is case-sensitive!</li>
+		</div>
+	</div>
+	<div class="titleSeperator">
+		Windows
+	</div>
+	<div class="contentText">
+		<div class="listBox">
+			<li>Make sure you have installed the <span class="codeText">VC++ Redist 2005/2008</span> libraries.</li>
+		</div>
+	</div>
+</div>
