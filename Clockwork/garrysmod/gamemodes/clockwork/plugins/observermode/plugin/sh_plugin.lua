@@ -1,5 +1,5 @@
 --[[
-	© 2013 CloudSixteen.com do not share, re-distribute or modify
+	ï¿½ 2013 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 --]]
 
@@ -13,3 +13,4 @@ PLUGIN:SetGlobalAlias("cwObserverMode");
 Clockwork.kernel:IncludePrefixed("sv_plugin.lua");
 Clockwork.kernel:IncludePrefixed("sv_hooks.lua");
 Clockwork.kernel:IncludePrefixed("cl_hooks.lua");
+Clockwork.kernel:IncludePrefixed("cl_plugin.lua");
