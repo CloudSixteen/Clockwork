@@ -18,6 +18,7 @@ If you wish to contribute to the development of Clockwork, you may issue a pull 
 * Pull requests must only contain one commit. Add all of your changes files to one commit.
 * All contributions must match the coding standard used throughout Clockwork.
 * Commit messages must be descriptive, well punctuated, and tidy.
+  * You can use `Fixes #<id>` in your title to automatically close an issue by that id. For example (and this formatting is mandatory) `Fixed an awful bug where so and so would happen. Fixes #3.` You could also fix multiple in the commit title, `Fixed a bug where so and so would happen, and also fixed a bug where another thing would occur. Fixes #2, Fixes #3.`
 * You agree to contribute your code under the terms of the license below:
 
 License
