@@ -1,10 +1,13 @@
 --[[
-	© 2013 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2013 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 --]]
 
+Clockwork.config:Add("observerReset", true, true);
+
 -- A function to make a player exit observer mode.
 function cwObserverMode:MakePlayerExitObserverMode(player)
+	local observerReset = Clockwork.config:Get("observerReset"):Get()
 	player.cwObserverReset = true;
 	player:DrawWorldModel(true);
 	player:DrawShadow(true);
@@ -14,12 +17,14 @@ function cwObserverMode:MakePlayerExitObserverMode(player)
 	
 	timer.Simple(FrameTime() * 0.5, function()
 		if (IsValid(player)) then
-			if (player.cwObserverPos) then
-				player:SetPos(player.cwObserverPos);
-			end;
+			if(observerReset == true) then
+				if (player.cwObserverPos) then
+					player:SetPos(player.cwObserverPos);
+				end;
 			
-			if (player.cwObserverAng) then
-				player:SetEyeAngles(player.cwObserverAng);
+				if (player.cwObserverAng) then
+					player:SetEyeAngles(player.cwObserverAng);
+				end;
 			end;
 			
 			if (player.cwObserverColor) then
