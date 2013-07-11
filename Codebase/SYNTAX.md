@@ -1,3 +1,7 @@
+Syntax
+---------
+
+```lua
 --[[
 	@codebase Client
 	@details This is a simple demonstration library.
@@ -37,3 +41,4 @@ MyClass = {MyFloat = 1.0};
 --]]
 function MyClass:AllTheThings(thingsToDo)
 end;
+```
