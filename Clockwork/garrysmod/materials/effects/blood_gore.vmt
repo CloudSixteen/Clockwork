@@ -1,0 +1,6 @@
+"Subrect"
+{
+	"$Material"	"particle/particle_composite"
+	"$Pos"		"0 0"
+	"$Size"		"128 128"
+}

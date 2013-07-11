@@ -1,0 +1,54 @@
+--[[
+	© 2013 CloudSixteen.com do not share, re-distribute or modify
+	without permission of its author (kurozael@gmail.com).
+--]]
+
+local NAME_CASH = Clockwork.option:GetKey("name_cash");
+
+local COMMAND = Clockwork.command:New("StorageGive"..string.gsub(NAME_CASH, "%s", ""));
+COMMAND.tip = "Give some "..string.lower(NAME_CASH).." to storage.";
+COMMAND.text = "<number "..string.gsub(NAME_CASH, "%s", "")..">";
+COMMAND.flags = CMD_DEFAULT;
+COMMAND.arguments = 1;
+
+-- Called when the command has been run.
+function COMMAND:OnRun(player, arguments)
+	local storageTable = player:GetStorageTable();
+	
+	if (storageTable) then
+		local target = storageTable.entity;
+		local cash = math.floor(tonumber(arguments[1]));
+		
+		if (!IsValid(target) or !Clockwork.config:Get("cash_enabled"):Get()) then
+			return;
+		end;
+			
+		if (cash and cash > 1 and Clockwork.player:CanAfford(player, cash)) then
+			if (!storageTable.CanGiveCash
+			or (storageTable.CanGiveCash(player, storageTable, cash) != false)) then
+				if (!target:IsPlayer()) then
+					local cashWeight = Clockwork.config:Get("cash_weight"):Get();
+					local myWeight = Clockwork.storage:GetWeight(player);
+					
+					if (myWeight + (cashWeight * cash) <= storageTable.weight) then
+						Clockwork.player:GiveCash(player, -cash, nil, true);
+						Clockwork.storage:UpdateCash(player, storageTable.cash + cash);
+					end;
+				else
+					Clockwork.player:GiveCash(player, -cash, nil, true);
+					Clockwork.player:GiveCash(target, cash, nil, true);
+					Clockwork.storage:UpdateCash(player, target:GetCash());
+				end;
+				
+				if (storageTable.OnGiveCash
+				and storageTable.OnGiveCash(player, storageTable, cash)) then
+					Clockwork.storage:Close(player);
+				end;
+			end;
+		end;
+	else
+		Clockwork.player:Notify(player, "You do not have storage open!");
+	end;
+end;
+
+COMMAND:Register();

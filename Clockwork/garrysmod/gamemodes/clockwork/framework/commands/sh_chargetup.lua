@@ -1,0 +1,22 @@
+--[[
+	© 2013 CloudSixteen.com do not share, re-distribute or modify
+	without permission of its author (kurozael@gmail.com).
+--]]
+
+local Clockwork = Clockwork;
+
+local COMMAND = Clockwork.command:New("CharGetUp");
+COMMAND.tip = "Get your character up from the floor.";
+COMMAND.flags = CMD_DEFAULT;
+
+-- Called when the command has been run.
+function COMMAND:OnRun(player, arguments)
+	if (player:GetRagdollState() == RAGDOLL_FALLENOVER and player:GetSharedVar("FallenOver") and Clockwork.player:GetAction(player) != "unragdoll") then
+		if (Clockwork.plugin:Call("PlayerCanGetUp", player)) then
+			Clockwork.player:SetUnragdollTime(player, 5);
+			player:SetSharedVar("FallenOver", false);
+		end;
+	end;
+end;
+
+COMMAND:Register();
