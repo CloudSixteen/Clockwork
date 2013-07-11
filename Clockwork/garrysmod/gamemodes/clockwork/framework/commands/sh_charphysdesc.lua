@@ -13,19 +13,21 @@ COMMAND.arguments = 0;
 
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)
+	local minimumPhysDesc = Clockwork.config:Get("minimum_physdesc"):Get();
+
 	if (arguments[1]) then
-		local minimumPhysDesc = Clockwork.config:Get("minimum_physdesc"):Get();
 		local text = table.concat(arguments, " ");
 		
 		if (string.len(text) < minimumPhysDesc) then
 			Clockwork.player:Notify(player, "The physical description must be at least "..minimumPhysDesc.." characters long!");
-			
 			return;
 		end;
 		
 		player:SetCharacterData("PhysDesc", Clockwork.kernel:ModifyPhysDesc(text));
 	else
-		Clockwork.datastream:Start(player, "PhysDesc", true);
+		Clockwork.dermaRequest:RequestString(player, "Physical Description Change", "What do you want to change your physical description to?", player:GetSharedVar("PhysDesc"), function(result)
+			player:RunCommand(self.name, result);
+		end)
 	end;
 end;
 

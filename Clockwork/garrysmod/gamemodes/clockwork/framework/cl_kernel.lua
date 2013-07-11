@@ -374,12 +374,6 @@ Clockwork.datastream:Hook("WeaponItemData", function(data)
 	end;
 end);
 
-Clockwork.datastream:Hook("PhysDesc", function(data)
-	Derma_StringRequest("Description", "What do you want to change your physical description to?", Clockwork.Client:GetSharedVar("PhysDesc"), function(text)
-		Clockwork.kernel:RunCommand("CharPhysDesc", text);
-	end);
-end);
-
 Clockwork.datastream:Hook("CinematicText", function(data)
 	if (data and type(data) == "table") then
 		Clockwork.kernel:AddCinematicText(data.text, data.color, data.barLength, data.hangTime);
