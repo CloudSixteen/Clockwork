@@ -456,8 +456,7 @@ function Clockwork:ClockworkInitialized()
 	if (introImage != "") then
 		Clockwork.kernel:AddFile("materials/"..introImage..".png");
 	end;
-	
-	RunConsoleCommand("sv_autorefresh", 0);
+
 end;
 
 -- Called when the Clockwork database has connected.
