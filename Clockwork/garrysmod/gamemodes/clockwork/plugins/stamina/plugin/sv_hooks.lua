@@ -57,7 +57,7 @@ function cwStamina:PlayerThink(player, curTime, infoTable)
 	local decrease = (scale + (scale - (math.min(player:Health(), 500) / 500))) / (scale + attribute);
 	
 	if (infoTable.isRunning or infoTable.isJogging
-	and !Clockwork.player:IsNoClipping(player)) then
+	and !Clockwork.player:IsNoClipping(player) and player:IsOnGround()) then
 		player:SetCharacterData(
 			"Stamina", math.Clamp(
 				player:GetCharacterData("Stamina") - decrease, 0, 100
