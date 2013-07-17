@@ -4481,6 +4481,11 @@ function playerMeta:RunCommand(...)
 	Clockwork.datastream:Start(self, "RunCommand", {...});
 end;
 
+-- A function to run a Clockwork command on a player.
+function playerMeta:RunClockworkCmd(command, ...)
+	Clockwork.player:RunClockworkCommand(self, command, ...)
+end;
+
 -- A function to get a player's wages name.
 function playerMeta:GetWagesName()
 	return Clockwork.player:GetWagesName(self);
