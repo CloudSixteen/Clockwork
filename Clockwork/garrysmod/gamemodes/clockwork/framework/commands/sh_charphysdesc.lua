@@ -29,7 +29,7 @@ function COMMAND:OnRun(player, arguments)
 		player:SetCharacterData("PhysDesc", Clockwork.kernel:ModifyPhysDesc(text));
 	else
 		Clockwork.dermaRequest:RequestString(player, "Physical Description Change", "What do you want to change your physical description to?", player:GetSharedVar("PhysDesc"), function(result)
-			player:RunCommand(self.name, result);
+			player:RunClockworkCmd(self.name, result);
 		end)
 	end;
 end;
