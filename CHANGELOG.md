@@ -13,3 +13,4 @@ The following changes have been made for each official Clockwork build.
   * *Contributed by Spencer Sharkey.*
 * Stamina will no longer deplete if you are not on the ground.
   * *Contributed by Spencer Sharkey.*
+* Optimized client-side vignette drawing. Only performing raycast once every second.
