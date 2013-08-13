@@ -1354,28 +1354,36 @@ end;
 
 -- Called when the local player's vignette should be drawn.
 function Clockwork:DrawPlayerVignette()
+	local curTime = CurTime();
+	
 	if (!self.cwVignetteAlpha) then
 		self.cwVignetteAlpha = 100;
-		self.cwVignetteAlphaDelta = self.cwVignetteAlpha;
+		self.cwVignetteDelta = self.cwVignetteAlpha;
+		self.cwVignetteRayTime = 0;
+	end;
+	
+	if (curTime >= self.cwVignetteRayTime)
+		local data = {};
+			data.start = self.Client:GetShootPos();
+			data.endpos = data.start + (self.Client:GetUp() * 512);
+			data.filder = self.Client;
+		local trace = util.TraceLine(data);
+
+		if (!trace.HitWorld and !trace.HitNonWorld) then
+			self.cwVignetteAlpha = 100;
+		else
+			self.cwVignetteAlpha = 255;
+		end;
+		
+		self.cwVignetteRayTime = curTime + 1;
 	end;
 
-	local data = {};
-		data.start = self.Client:GetShootPos();
-		data.endpos = data.start + (self.Client:GetUp() * 512);
-		data.filder = self.Client;
-	local trace = util.TraceLine(data);
-
-	if (!trace.HitWorld and !trace.HitNonWorld) then
-		self.cwVignetteAlpha = 100;
-	else
-		self.cwVignetteAlpha = 255;
-	end;
-
-	self.cwVignetteAlphaDelta = math.Approach(self.cwVignetteAlphaDelta, self.cwVignetteAlpha, FrameTime() * 70);
+	self.cwVignetteDelta = math.Approach(
+		self.cwVignetteDelta, self.cwVignetteAlpha, FrameTime() * 70
+	);
 
 	local scrW, scrH = ScrW(), ScrH();
-
-	surface.SetDrawColor(0, 0, 0, self.cwVignetteAlphaDelta);
+	surface.SetDrawColor(0, 0, 0, self.cwVignetteDelta);
 	surface.SetMaterial(VIGNETTE_OVERLAY);
 	surface.DrawTexturedRect(0, 0, scrW, scrH);
 end;
