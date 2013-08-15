@@ -151,7 +151,7 @@ function hook.Call(name, gamemode, ...)
 	hook.Timings[name] = timeTook;
 	
 	if (!bStatus) then
-		if (not self.Unauthorized) then
+		if (!Clockwork.Unauthorized) then
 			ErrorNoHalt("[Clockwork] The '"..name.."' hook has failed to run.\n"..value.."\n");
 		end;
 	end;
@@ -164,7 +164,7 @@ function hook.Call(name, gamemode, ...)
 		hook.Timings[name] = timeTook;
 		
 		if (!bStatus) then
-			if (not self.Unauthorized) then
+			if (!Clockwork.Unauthorized) then
 				ErrorNoHalt("[Clockwork] The '"..name.."' hook failed to run.\n"..a.."\n");
 			end;
 		else
