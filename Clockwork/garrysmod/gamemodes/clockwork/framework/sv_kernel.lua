@@ -4805,6 +4805,20 @@ function playerMeta:TakeItem(itemTable)
 	return true;
 end;
 
+-- An easy function to give a table of items to a player.
+function playerMeta:GiveItems(itemTables)
+	for _, itemTable in pairs(itemTables) do
+		self:GiveItem(itemTables)
+	end
+end
+
+-- An easy function to take a table of items from a player.
+function playerMeta:TakeItems(itemTables)
+	for _, itemTable in pairs(itemTables) do
+		self:TakeItem(itemTable)
+	end
+end
+
 -- A function to update a player's attribute.
 function playerMeta:UpdateAttribute(attribute, amount)
 	return Clockwork.attributes:Update(self, attribute, amount);
