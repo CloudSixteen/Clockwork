@@ -19,7 +19,7 @@ function ENT:Initialize()
 	self:SetUseType(SIMPLE_USE);
 	self:SetHealth(25);
 	self:SetSolid(SOLID_VPHYSICS);
-	self:SetCollisionGroup(COLLISION_GROUP_DEBRIS);
+	self:SetCollisionGroup(COLLISION_GROUP_DEBRIS_TRIGGER);
 	
 	local physicsObject = self:GetPhysicsObject();
 	
