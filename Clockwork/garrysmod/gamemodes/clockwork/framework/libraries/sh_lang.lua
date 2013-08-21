@@ -15,9 +15,24 @@ Clockwork.lang = Clockwork.kernel:NewLibrary("Lang");
 Clockwork.lang.stored = {};
 Clockwork.lang.default = {};
 
--- A function to find a language string.
+--[[
+	A list of language names below:
+		english.xml
+		french.xml
+		german.xml
+		korean.xml
+		russian.xml
+	
+	You can create your own language files and
+	e-mail them to kurozael@gmail.com or post them
+	on the Cloud Sixteen forums.
+--]]
+
+--[[
+	A function to find a language string.
+	You can also use CL(identifier, ...)
+--]]
 function Clockwork.lang:Find(identifier, ...)
-	--[[ First we'll try the loaded language, then we'll try the default. --]]
 	local langString = self.stored[identifier] or self.default[identifier];
 	local arguments = {...};
 	
@@ -28,7 +43,18 @@ function Clockwork.lang:Find(identifier, ...)
 	return langString;
 end;
 
--- A function to set the active language.
-function Clockwork.lang:Set(language)
-	--[[ TODO. LOAD LANGUAGES. --]]
+function CL(identifier, ...)
+	return Clockwork.lang:Find(identifier, ...);
 end;
+
+--[[ Server-side only code beyond this point. --]]
+if (not SERVER) then return; end;
+
+--[[
+	A function to add a language file to the collection.
+	This will load an XML file and add it to the language table.
+--]]
+function Clockwork.lang:Add(language, fileName) end;
+
+-- A function to set the active language.
+function Clockwork.lang:Set(language) end;
