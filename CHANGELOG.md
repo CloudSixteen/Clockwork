@@ -19,3 +19,5 @@ player object.
   * *Contributed by Spencer Sharkey.*
 * Fixed a bug where hook errors would not be reported correctly.
   * *Contributed by Alex Grist.*
+* Fixed the PluginLoad/PluginUnload commands.
+  * *Contributed by Alex Grist.*
