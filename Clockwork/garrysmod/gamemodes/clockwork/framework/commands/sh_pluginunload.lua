@@ -24,6 +24,9 @@ function COMMAND:OnRun(player, arguments)
 		return;
 	end;
 	
+	local unloadTable = Clockwork.command:FindByID("PluginLoad");
+	local loadTable = Clockwork.command:FindByID("PluginLoad");
+	
 	if (!Clockwork.plugin:IsDisabled(plugin.name)) then
 		local bSuccess = Clockwork.plugin:SetUnloaded(plugin.name, true);
 		local recipients = {};
@@ -41,7 +44,7 @@ function COMMAND:OnRun(player, arguments)
 			end;
 			
 			if (#recipients > 0) then
-				Clockwork.datastream:Start(recipients, "AdminMntSet", {plugin.name, true});
+				Clockwork.datastream:Start(recipients, "SystemPluginSet", {plugin.name, true});
 			end;
 		else
 			Clockwork.player:Notify(player, "This plugin could not be unloaded!");
