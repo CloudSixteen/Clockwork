@@ -1,5 +1,5 @@
 --[[ 
-	© 2013 CloudSixteen.com do not share, re-distribute or modify
+	ï¿½ 2013 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -1362,7 +1362,7 @@ function Clockwork:DrawPlayerVignette()
 		self.cwVignetteRayTime = 0;
 	end;
 	
-	if (curTime >= self.cwVignetteRayTime)
+	if (curTime >= self.cwVignetteRayTime) then
 		local data = {};
 			data.start = self.Client:GetShootPos();
 			data.endpos = data.start + (self.Client:GetUp() * 512);
