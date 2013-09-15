@@ -26,3 +26,4 @@ player object.
 * Change /Roll to allow the player to specify the range of values.
   * *Contributed by Insomnia Array.*
 * Added a check to inventory:AddInstance to prevent erroring.
+* Loading and unloading of plugins is now fully functional.
