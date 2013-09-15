@@ -21,3 +21,7 @@ player object.
   * *Contributed by Alex Grist.*
 * Fixed the PluginLoad/PluginUnload commands.
   * *Contributed by Alex Grist.*
+* Added sh_charsetdesc.lua for operators to set a character's physical description.
+  * *Contributed by RJ.*
+* Change /Roll to allow the player to specify the range of values.
+  * *Contributed by Insomnia Array.*
