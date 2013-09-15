@@ -27,3 +27,4 @@ player object.
   * *Contributed by Insomnia Array.*
 * Added a check to inventory:AddInstance to prevent erroring.
 * Loading and unloading of plugins is now fully functional.
+* A player's targetname is now set to their faction (for use with mapping.)
