@@ -125,6 +125,10 @@ end;
 
 -- A function to add an instance to a table.
 function Clockwork.inventory:AddInstance(inventory, itemTable)
+	if (itemTable == nil) then
+		return false;
+	end;
+
 	if (!itemTable:IsInstance()) then
 		debug.Trace();
 		return false;

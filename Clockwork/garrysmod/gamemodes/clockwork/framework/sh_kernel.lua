@@ -3853,7 +3853,6 @@ function Clockwork.kernel:SetSharedVar(key, value)
 			end;
 			
 			_G["SetGlobal"..class](key, value);
-			
 			return;
 		end;
 	end;
