@@ -3000,7 +3000,7 @@ function Clockwork:PostPlayerSpawn(player, lightSpawn, changeClass, firstSpawn)
 		player:SetCharacterData("Armor", nil);
 	end;
 	
-	player:Fire("Targetname", self:GetFaction(), 0);
+	player:Fire("Targetname", player:GetFaction(), 0);
 end;
 
 -- Called when a player should take damage.
