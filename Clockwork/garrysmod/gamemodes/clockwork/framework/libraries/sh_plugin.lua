@@ -217,7 +217,7 @@ function Clockwork.plugin:Register(pluginTable)
 		end;
 	end;
 	
-	if (!self:IsUnloaded(pluginTable)) then
+	if (!self:IsUnloaded(pluginTable.folderName)) then
 		self:IncludeExtras(pluginTable:GetBaseDir());
 	
 		if (CLIENT and Schema != pluginTable) then
@@ -292,19 +292,26 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 		PLUGIN = self:New();
 		
 		if (SERVER) then
-			local iniTable = Clockwork.config:LoadINI(
-				"gamemodes/"..Clockwork.kernel:RemoveTextFromEnd(directory, "/plugin").."/plugin.ini", true, true
-			);
+			local iniDir = "gamemodes/"..Clockwork.kernel:RemoveTextFromEnd(directory, "/plugin"); 
+			local iniTable = Clockwork.config:LoadINI(iniDir.."/plugin.ini", true, true);
 			
 			if (iniTable and iniTable["Plugin"]) then
-				table.Merge(PLUGIN, iniTable["Plugin"]);
-				CW_SCRIPT_SHARED.plugins[pathCRC] = iniTable["Plugin"];
+				iniTable = iniTable["Plugin"];
+				iniTable.isUnloaded = self:IsUnloaded(PLUGIN_FOLDERNAME, true);
+					table.Merge(PLUGIN, iniTable);
+				CW_SCRIPT_SHARED.plugins[pathCRC] = iniTable;
 			else
 				ErrorNoHalt("[Clockwork] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
 			end;
 		else
-			if (CW_SCRIPT_SHARED.plugins[pathCRC]) then
-				table.Merge(PLUGIN, CW_SCRIPT_SHARED.plugins[pathCRC]);
+			local iniTable = CW_SCRIPT_SHARED.plugins[pathCRC];
+			
+			if (iniTable) then
+				table.Merge(PLUGIN, iniTable);
+				
+				if (iniTable.isUnloaded) then
+					self.unloaded[PLUGIN_FOLDERNAME] = true;
+				end;
 			else
 				ErrorNoHalt("[Clockwork] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
 			end;
@@ -312,11 +319,18 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 		
 		local isUnloaded = self:IsUnloaded(PLUGIN_FOLDERNAME, true);
 		local isDisabled = self:IsDisabled(PLUGIN_FOLDERNAME, true);
+		local shPluginDir = directory.."/sh_plugin.lua";
+		local addCSLua = true;
 		
 		if (!isUnloaded and !isDisabled) then
-			if (cwFile.Exists(directory.."/sh_plugin.lua", "LUA")) then
-				Clockwork.kernel:IncludePrefixed(directory.."/sh_plugin.lua");
+			if (cwFile.Exists(shPluginDir, "LUA")) then
+				Clockwork.kernel:IncludePrefixed(shPluginDir);
+				addCSLua = false;
 			end;
+		end;
+		
+		if (SERVER and addCSLua) then
+			AddCSLuaFile(shPluginDir);
 		end;
 		
 		PLUGIN:Register();
