@@ -25,3 +25,4 @@ player object.
   * *Contributed by RJ.*
 * Change /Roll to allow the player to specify the range of values.
   * *Contributed by Insomnia Array.*
+* Added a check to inventory:AddInstance to prevent erroring.
