@@ -9,7 +9,49 @@
 local Clockwork = Clockwork;
 local surface = surface;
 
-surface.CreateFont("cwMainText", 
+Clockwork.fonts = Clockwork.kernel:NewLibrary("Fonts");
+Clockwork.fonts.stored = {};
+Clockwork.fonts.sizes = {};
+
+-- A function to add a new font to the system.
+function Clockwork.fonts:Add(name, fontTable)
+	self.stored[name] = fontTable;
+	surface.CreateFont(name, self.stored[name]);
+end;
+
+-- A function to find a font by name.
+function Clockwork.fonts:FindByName(name)
+	return self.stored[name];
+end;
+
+-- A function to grab a font by size (creating what doesn't exist.)
+function Clockwork.fonts:GetSize(name, size)
+	local fontKey = name..size;
+	
+	if (self.sizes[fontKey]) then
+		return fontKey;
+	end;
+	
+	if (not self.stored[name]) then
+		return name;
+	end;
+	
+	self.sizes[fontKey] = table.Copy(self.stored[name]);
+	self.sizes[fontKey].size = size;
+	
+	surface.CreateFont(fontKey, self.sizes[fontKey]);
+	return fontKey;
+end;
+
+-- A function to grab a font by multiplier.
+function Clockwork.fonts:GetMultiplied(name, multiplier)
+	local fontTable = self:FindByName(name);
+	if (fontTable == nil) then return name; end;
+	
+	return self:GetSize(name, fontTable.size * multiplier);
+end;
+
+Clockwork.fonts:Add("cwMainText", 
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(7),
@@ -17,7 +59,7 @@ surface.CreateFont("cwMainText",
 	antialiase	= true,
 	additive 	= false
 });
-surface.CreateFont("cwMenuTextBig",
+Clockwork.fonts:Add("cwMenuTextBig",
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(18),
@@ -25,7 +67,7 @@ surface.CreateFont("cwMenuTextBig",
 	antialiase	= true,
 	additive 	= false
 });
-surface.CreateFont("cwMenuTextTiny",
+Clockwork.fonts:Add("cwMenuTextTiny",
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(7),
@@ -33,7 +75,7 @@ surface.CreateFont("cwMenuTextTiny",
 	antialiase	= true,
 	additive 	= false
 });
-surface.CreateFont("cwMenuTextHuge",
+Clockwork.fonts:Add("cwMenuTextHuge",
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(30),
@@ -41,7 +83,7 @@ surface.CreateFont("cwMenuTextHuge",
 	antialiase	= true,
 	additive 	= false
 });
-surface.CreateFont("cwMenuTextSmall",
+Clockwork.fonts:Add("cwMenuTextSmall",
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(10),
@@ -49,7 +91,7 @@ surface.CreateFont("cwMenuTextSmall",
 	antialiase	= true,
 	additive 	= false
 });
-surface.CreateFont("cwIntroTextBig",
+Clockwork.fonts:Add("cwIntroTextBig",
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(18),
@@ -57,7 +99,7 @@ surface.CreateFont("cwIntroTextBig",
 	antialiase	= true,
 	additive 	= false
 });
-surface.CreateFont("cwIntroTextTiny",
+Clockwork.fonts:Add("cwIntroTextTiny",
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(9),
@@ -65,7 +107,7 @@ surface.CreateFont("cwIntroTextTiny",
 	antialiase	= true,
 	additive 	= false
 });
-surface.CreateFont("cwIntroTextSmall",
+Clockwork.fonts:Add("cwIntroTextSmall",
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(7),
@@ -73,7 +115,7 @@ surface.CreateFont("cwIntroTextSmall",
 	antialiase	= true,
 	additive 	= false
 });
-surface.CreateFont("cwLarge3D2D",
+Clockwork.fonts:Add("cwLarge3D2D",
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:GetFontSize3D(),
@@ -81,7 +123,7 @@ surface.CreateFont("cwLarge3D2D",
 	antialiase	= true,
 	additive 	= false
 });
-surface.CreateFont("cwCinematicText",
+Clockwork.fonts:Add("cwCinematicText",
 {
 	font		= "Trebuchet",
 	size		= Clockwork.kernel:FontScreenScale(8),
@@ -89,7 +131,7 @@ surface.CreateFont("cwCinematicText",
 	antialiase	= true,
 	additive 	= false
 });
-surface.CreateFont("cwChatSyntax",
+Clockwork.fonts:Add("cwChatSyntax",
 {
 	font		= "Courier New",
 	size		= Clockwork.kernel:FontScreenScale(7),
