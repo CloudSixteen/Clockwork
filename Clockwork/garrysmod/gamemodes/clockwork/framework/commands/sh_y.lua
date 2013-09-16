@@ -24,6 +24,7 @@ function COMMAND:OnRun(player, arguments)
 		return;
 	end;
 	
+	Clockwork.chatBox:SetMultiplier(1.25);
 	Clockwork.chatBox:AddInRadius(player, "yell", text, player:GetPos(), Clockwork.config:Get("talk_radius"):Get() * 2);
 end;
 

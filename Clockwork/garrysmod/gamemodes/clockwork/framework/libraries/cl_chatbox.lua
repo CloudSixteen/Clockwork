@@ -140,8 +140,8 @@ function Clockwork.chatBox:IsTypingCommand()
 end;
 
 -- A function to get the spacing between messages.
-function Clockwork.chatBox:GetSpacing()
-	local chatBoxTextFont = Clockwork.option:GetFont("chat_box_text");
+function Clockwork.chatBox:GetSpacing(fontName)
+	local chatBoxTextFont = fontName or Clockwork.option:GetFont("chat_box_text");
 	local textWidth, textHeight = Clockwork.kernel:GetCachedTextSize(chatBoxTextFont, "U");
 	
 	if (textWidth and textHeight) then
@@ -368,7 +368,7 @@ function Clockwork.chatBox:IsOpen()
 end;
 
 -- A function to decode a message.
-function Clockwork.chatBox:Decode(speaker, name, text, data, class)
+function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 	local filtered = nil;
 	local filter = nil;
 	local icon = nil;
@@ -432,6 +432,7 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class)
 				local info = {
 					unrecognised = unrecognised,
 					shouldHear = Clockwork.player:CanHearPlayer(Clockwork.Client, speaker),
+					multiplier = multiplier,
 					focusedOn = focusedOn,
 					filtered = filtered,
 					speaker = speaker,
@@ -445,6 +446,7 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class)
 				};
 				
 				Clockwork.plugin:Call("ChatBoxAdjustInfo", info);
+				Clockwork.chatBox:SetMultiplier(info.multiplier);
 				
 				if (info.visible) then
 					if (info.filter == "ic") then
@@ -551,6 +553,7 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class)
 		end;
 		
 		local info = {
+			multiplier = multiplier,
 			filtered = filtered,
 			visible = true;
 			filter = filter,
@@ -562,6 +565,7 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class)
 		};
 		
 		Clockwork.plugin:Call("ChatBoxAdjustInfo", info);
+		Clockwork.chatBox:SetMultiplier(info.multiplier);
 		
 		if (!info.visible) then return; end;
 		
@@ -700,6 +704,16 @@ function Clockwork.chatBox:Paint()
 	end;
 	
 	for k, v in pairs(messages) do
+		local fontName = Clockwork.fonts:GetMultiplied(chatBoxTextFont, v.multiplier or 1);
+		Clockwork.kernel:OverrideMainFont(fontName);
+		
+		if (!self.spaceWidths[fontName]) then
+			self.spaceWidths[fontName] = Clockwork.kernel:GetTextSize(fontName, " ");
+		end;
+
+		chatBoxSpacing = Clockwork.chatBox:GetSpacing(fontName);
+		spaceWidth = self.spaceWidths[fontName];
+		
 		if (messages[k - 1]) then
 			y = y - messages[k - 1].spacing;
 		end;
@@ -852,6 +866,11 @@ function Clockwork.chatBox:Paint()
 	end;
 end;
 
+-- A function to set the size (multiplier) of the next message.
+function Clockwork.chatBox:SetMultiplier(multiplier)
+	self.multiplier = multiplier;
+end;
+
 -- A function to add a message to the chat box.
 function Clockwork.chatBox:Add(filtered, icon, ...)
 	if (ScrW() == 160 or ScrH() == 27) then
@@ -871,6 +890,11 @@ function Clockwork.chatBox:Add(filtered, icon, ...)
 			lines = 1,
 			icon = icon
 		};
+		
+		if (self.multiplier) then
+			message.multiplier = self.multiplier;
+			self.multiplier = nil;
+		end;
 		
 		local curOnHover = nil;
 		local curColor = nil;
@@ -978,7 +1002,7 @@ end);
 
 Clockwork.datastream:Hook("ChatBoxPlayerMessage", function(data)
 	if (data.speaker:IsPlayer()) then
-		Clockwork.chatBox:Decode(data.speaker, data.speaker:Name(), data.text, data.data, data.class);
+		Clockwork.chatBox:Decode(data.speaker, data.speaker:Name(), data.text, data.data, data.class, data.multiplier);
 	end;
 end);
 
@@ -988,6 +1012,6 @@ end);
 
 Clockwork.datastream:Hook("ChatBoxMessage", function(data)
 	if (data and type(data) == "table") then
-		Clockwork.chatBox:Decode(nil, nil, data.text, data.data, data.class);
+		Clockwork.chatBox:Decode(nil, nil, data.text, data.data, data.class, data.multiplier);
 	end;
 end);

@@ -25,6 +25,7 @@ function COMMAND:OnRun(player, arguments)
 		return;
 	end;
 	
+	Clockwork.chatBox:SetMultiplier(0.75);
 	Clockwork.chatBox:AddInRadius(player, "whisper", text, player:GetPos(), talkRadius);
 end;
 
