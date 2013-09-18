@@ -25,6 +25,8 @@ player object.
   * *Contributed by RJ.*
 * Change /Roll to allow the player to specify the range of values.
   * *Contributed by Insomnia Array.*
+* Added itemTable:EntityHandleMenuOption for cw_item entities (allows more code to be moved into item files).
+  * *Contributed by Insomnia Array.*
 * Added a check to inventory:AddInstance to prevent erroring.
 * Loading and unloading of plugins is now fully functional.
 * A player's targetname is now set to their faction (for use with mapping.)
