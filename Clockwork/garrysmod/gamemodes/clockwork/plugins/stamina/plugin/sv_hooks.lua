@@ -59,8 +59,8 @@ function cwStamina:PlayerThink(player, curTime, infoTable)
 	local scale = Clockwork.config:Get("stam_drain_scale"):Get();
 	local decrease = (scale + (scale - (math.min(player:Health(), 500) / 500))) / (scale + attribute);
 	
-	if (infoTable.isRunning or infoTable.isJogging
-	and !Clockwork.player:IsNoClipping(player) and player:IsOnGround()) then
+	if (!player:IsNoClipping() and player:IsOnGround()
+	and (infoTable.isRunning or infoTable.isJogging)) then
 		player:SetCharacterData(
 			"Stamina", math.Clamp(
 				player:GetCharacterData("Stamina") - decrease, 0, 100
