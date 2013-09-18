@@ -2448,6 +2448,12 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 				player:FakePickup(entity);
 			end;
 		end;
+	elseif (class == "cw_item") then
+		local itemTable = entity.cwItemTable;
+
+		if (itemTable and itemTable.EntityHandleMenuOption) then
+			itemTable:EntityHandleMenuOption(player, entity, option, arguments);
+		end;
 	elseif (entity:GetClass() == "cw_belongings" and arguments == "cwBelongingsOpen") then
 		player:EmitSound("physics/body/body_medium_impact_soft"..math.random(1, 7)..".wav");
 		
