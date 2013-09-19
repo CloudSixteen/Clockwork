@@ -47,6 +47,7 @@ function ENT:SetItemTable(uniqueID, batch)
 	
 	if (itemTable) then
 		self.cwWeight = itemTable("weight") * batch;
+		self.cwSpace = itemTable("space") * batch;
 		self.cwItemTable = itemTable;
 		self.cwInventory = {};
 		

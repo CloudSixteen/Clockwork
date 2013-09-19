@@ -67,6 +67,11 @@ function Clockwork.storage:GetNoCashWeight()
 	return self.noCashWeight;
 end;
 
+-- A function to get whether there is no cash space.
+function Clockwork.storage:GetNoCashSpace()
+	return self.noCashSpace;
+end;
+
 -- A function to get whether the storage is one sided.
 function Clockwork.storage:GetIsOneSided()
 	return self.isOneSided;
@@ -94,6 +99,11 @@ end;
 -- A function to get the storage weight.
 function Clockwork.storage:GetWeight()
 	return self.weight;
+end;
+
+-- A function to get the storage space.
+function Clockwork.storage:GetSpace()
+	return self.space;
 end;
 
 -- A function to get the storage entity.

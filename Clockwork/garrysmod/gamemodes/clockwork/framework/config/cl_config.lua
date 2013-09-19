@@ -31,6 +31,7 @@ Clockwork.config:AddToSystem("Use optimised server rates", "use_optimised_rates"
 Clockwork.config:AddToSystem("Generator interval", "generator_interval", "The time that it takes for generator cash to be distrubuted (seconds).", 0, 7200);
 Clockwork.config:AddToSystem("Gravity gun punt enabled", "enable_gravgun_punt", "Whether or not to enable entities to be punted with the gravity gun.");
 Clockwork.config:AddToSystem("Default inventory weight", "default_inv_weight", "The default inventory weight (kilograms).");
+Clockwork.config:AddToSystem("Default inventory space", "default_inv_space", "The default inventory space (litres).");
 Clockwork.config:AddToSystem("Data save interval", "save_data_interval", "The time that it takes for data to be saved (seconds).", 0, 7200);
 Clockwork.config:AddToSystem("View punch on damage", "damage_view_punch", "Whether or not a player's view gets punched when they take damage.");
 Clockwork.config:AddToSystem("Unrecognised name", "unrecognised_name", "The name that is given to unrecognised players.");
@@ -54,6 +55,7 @@ Clockwork.config:AddToSystem("Wages interval", "wages_interval", "The time that 
 Clockwork.config:AddToSystem("Prop cost scale", "scale_prop_cost", "How to much to scale prop cost by.\nSet to 0 to to make props free.");
 Clockwork.config:AddToSystem("Fade NPC corpses", "fade_dead_npcs", "Whether or not to fade dead NPCs.");
 Clockwork.config:AddToSystem("Cash weight", "cash_weight", "The weight of cash (kilograms).", 0, 100, 3);
+Clockwork.config:AddToSystem("Cash space", "cash_space", "The amount of space cash takes (litres).", 0, 100, 3);
 Clockwork.config:AddToSystem("Head damage scale", "scale_head_dmg", "The amount to scale head damage by.");
 Clockwork.config:AddToSystem("Block inventory binds", "block_inv_binds", "Whether or not inventory binds should be blocked for players.");
 Clockwork.config:AddToSystem("Limb damage scale", "scale_limb_dmg", "The amount to scale limb damage by.");
@@ -81,3 +83,4 @@ Clockwork.config:AddToSystem("Maximum run speed", "run_speed", "The speed that c
 Clockwork.config:AddToSystem("Door price", "door_cost", "The amount of cash that each door costs.");
 Clockwork.config:AddToSystem("Door lock interval", "lock_time", "The time that a player has to wait to lock a door (seconds).", 0, 7200);
 Clockwork.config:AddToSystem("Maximum ownable doors", "max_doors", "The maximum amount of doors a player can own.");
+Clockwork.config:AddToSystem("Enable space system", "enable_space_system", "Whether or not to use the space system that affects inventories.")

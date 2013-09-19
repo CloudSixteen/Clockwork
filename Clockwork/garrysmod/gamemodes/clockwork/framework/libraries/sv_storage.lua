@@ -80,15 +80,32 @@ function Clockwork.storage:GetWeight(player)
 			weight = 0;
 		end;
 		
-		for k, v in pairs(inventory) do
-			local itemTable = Clockwork.item:FindByID(k);
-			
-			if (itemTable) then
-				weight = weight + (math.max(itemTable("storageWeight") or itemTable("weight"), 0) * table.Count(v));
-			end;
+		for k, v in pairs(Clockwork.inventory:GetAsItemsList(inventory)) do		
+			weight = weight + (math.max(v("storageWeight") or v("weight"), 0));
 		end;
 		
 		return weight;
+	else
+		return 0;
+	end;
+end;
+
+-- A function to get the space of a player's storage.
+function Clockwork.storage:GetSpace(player)
+	if (player:GetStorageTable()) then
+		local cash = self:Query(player, "cash");
+		local space = (cash * Clockwork.config:Get("cash_space"):Get());
+		local inventory = self:Query(player, "inventory");
+		
+		if (self:Query(player, "noCashSpace")) then
+			space = 0;
+		end;
+		
+		for k, v in pairs(Clockwork.inventory:GetAsItemsList(inventory)) do		
+			space = space + (math.max(v("storageSpace") or v("space"), 0));
+		end;
+		
+		return space;
 	else
 		return 0;
 	end;
@@ -110,6 +127,10 @@ function Clockwork.storage:Open(player, data)
 	if (data.noCashWeight == nil) then
 		data.noCashWeight = false;
 	end;
+
+	if (data.noCashSpace == nil) then
+		data.noCashSpace = false;
+	end;
 	
 	if (data.isOneSided == nil) then
 		data.isOneSided = false;
@@ -118,17 +139,19 @@ function Clockwork.storage:Open(player, data)
 	data.inventory = data.inventory or {};
 	data.entity = data.entity or player;
 	data.weight = data.weight or Clockwork.config:Get("default_inv_weight"):Get();
+	data.space = data.space or Clockwork.config:Get("default_inv_space"):Get();
 	data.cash = data.cash or 0;
 	data.name = data.name or "Storage";
 	
 	player.cwStorageTab = data;
 	
 	Clockwork.datastream:Start(player, "StorageStart", {
-		noCashWeight = data.noCashWeight, isOneSided = data.isOneSided, entity = data.entity, name = data.name
+		noCashWeight = data.noCashWeight, noCashSpace = data.noCashSpace, isOneSided = data.isOneSided, entity = data.entity, name = data.name
 	});
 	
 	self:UpdateCash(player, data.cash);
 	self:UpdateWeight(player, data.weight);
+	self:UpdateSpace(player, data.space);
 	
 	for k, v in pairs(data.inventory) do
 		self:UpdateByID(player, k);
@@ -167,6 +190,23 @@ function Clockwork.storage:UpdateWeight(player, weight)
 					v.cwStorageTab.weight = weight;
 					
 					Clockwork.datastream:Start(v, "StorageWeight", weight);
+				end;
+			end;
+		end;
+	end;
+end;
+
+-- A function to update a player's storage space.
+function Clockwork.storage:UpdateSpace(player, space)
+	if (player:GetStorageTable()) then
+		local inventory = self:Query(player, "inventory");
+		
+		for k, v in pairs(cwPlayer.GetAll()) do
+			if (v:HasInitialized() and v:GetStorageTable()) then
+				if (self:Query(v, "inventory") == inventory) then
+					v.cwStorageTab.space = space;
+					
+					Clockwork.datastream:Start(v, "StorageSpace", space);
 				end;
 			end;
 		end;
@@ -274,8 +314,9 @@ function Clockwork.storage:GiveTo(player, itemTable)
 	
 	if (!storageTable.entity:IsPlayer()) then
 		local weight = itemTable("storageWeight", itemTable("weight"));
+		local space = itemTable("storageSpace", itemTable("space"));
 		
-		if (self:GetWeight(player) + math.max(weight, 0) > storageTable.weight) then
+		if ((self:GetWeight(player) + math.max(weight, 0) > storageTable.weight) or (self:GetSpace(player) + math.max(space, 0) > storageTable.space)) then
 			return false;
 		end;
 	end;
@@ -319,6 +360,7 @@ function Clockwork.storage:GiveTo(player, itemTable)
 	
 	if (storageTable.entity:IsPlayer()) then
 		self:UpdateWeight(player, storageTable.entity:GetMaxWeight());
+		self:UpdateSpace(player, storageTable.entity:GetMaxSpace());
 	end;
 	
 	return true;
@@ -378,6 +420,7 @@ function Clockwork.storage:TakeFrom(player, itemTable)
 		
 		if (storageTable.entity:IsPlayer()) then
 			self:UpdateWeight(player, storageTable.entity:GetMaxWeight());
+			self:UpdateSpace(player, storageTable.entity:GetMaxSpace());
 		end;
 		
 		return true;

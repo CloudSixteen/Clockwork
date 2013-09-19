@@ -285,6 +285,7 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 	end;
 	
 	player:SetSharedVar("InvWeight", math.ceil(infoTable.inventoryWeight));
+	player:SetSharedVar("InvSpace", math.ceil(infoTable.inventorySpace));
 	player:SetSharedVar("Wages", math.ceil(infoTable.wages));
 	
 	if (self.event:CanRun("limb_damage", "disability")) then
@@ -2461,6 +2462,7 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 			name = "Belongings",
 			cash = entity.cwCash,
 			weight = 100,
+			space = 200,
 			entity = entity,
 			distance = 192,
 			inventory = entity.cwInventory,
@@ -2491,6 +2493,7 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 		self.storage:Open(player, {
 			name = "Shipment",
 			weight = entity.cwWeight,
+			space = entity.cwSpace,
 			entity = entity,
 			distance = 192,
 			inventory = entity.cwInventory,
@@ -2840,6 +2843,7 @@ end;
 -- Called when a player's character has loaded.
 function Clockwork:PlayerCharacterLoaded(player)
 	player:SetSharedVar("InvWeight", self.config:Get("default_inv_weight"):Get());
+	player:SetSharedVar("InvSpace", self.config:Get("default_inv_space"):Get());
 	player.cwCharLoadedTime = CurTime();
 	player.cwCrouchedSpeed = self.config:Get("crouched_speed"):Get();
 	player.cwClipTwoInfo = {weapon = NULL, ammo = 0};
@@ -4674,13 +4678,28 @@ function playerMeta:GetMaxWeight()
 	local weight = self:GetSharedVar("InvWeight");
 	
 	for k, v in pairs(itemsList) do
-		local addInvSpace = v("addInvSpace");
-		if (addInvSpace) then
-			weight = weight + addInvSpace;
+		local addInvWeight = v("addInvWeight");
+		if (addInvWeight) then
+			weight = weight + addInvWeight;
 		end;
 	end;
 	
 	return weight;
+end;
+
+-- A function to get the maximum space a player can carry.
+function playerMeta:GetMaxSpace()
+	local itemsList = Clockwork.inventory:GetAsItemsList(self:GetInventory()); 
+	local space = self:GetSharedVar("InvSpace");
+	
+	for k, v in pairs(itemsList) do
+		local addInvSpace = v("addInvSpace");
+		if (addInvSpace) then
+			space = space + addInvSpace;
+		end;
+	end;
+	
+	return space;
 end;
 
 -- A function to get whether a player can hold a weight.
@@ -4696,9 +4715,27 @@ function playerMeta:CanHoldWeight(weight)
 	end;
 end;
 
+-- A function to get whether a player can hold a weight.
+function playerMeta:CanHoldSpace(space)
+	local inventorySpace = Clockwork.inventory:CalculateSpace(
+		self:GetInventory()
+	);
+	
+	if (inventorySpace + space > self:GetMaxSpace()) then
+		return false;
+	else
+		return true;
+	end;
+end;
+
 -- A function to get a player's inventory weight.
 function playerMeta:GetInventoryWeight()
 	return Clockwork.inventory:CalculateWeight(self:GetInventory());
+end;
+
+-- A function to get a player's inventory weight.
+function playerMeta:GetInventorySpace()
+	return Clockwork.inventory:CalculateSpace(self:GetInventory());
 end;
 
 -- A function to get whether a player has an item by ID.
@@ -4775,7 +4812,7 @@ function playerMeta:GiveItem(itemTable, bForce)
 	
 	local inventory = self:GetInventory();
 	
-	if (self:CanHoldWeight(itemTable("weight")) or bForce) then
+	if (self:CanHoldWeight(itemTable("weight")) and ((Clockwork.config:Get("enable_space_system"):Get() and self:CanHoldSpace(itemTable("space"))) or !Clockwork.config:Get("enable_space_system"):Get()) or bForce) then
 		if (itemTable.OnGiveToPlayer) then
 			itemTable:OnGiveToPlayer(self);
 		end;
