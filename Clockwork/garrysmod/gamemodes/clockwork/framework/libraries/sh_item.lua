@@ -35,6 +35,7 @@ CLASS_TABLE.cost = 0;
 CLASS_TABLE.batch = 5;
 CLASS_TABLE.model = "models/error.mdl";
 CLASS_TABLE.weight = 1;
+CLASS_TABLE.space = 1;
 CLASS_TABLE.itemID = 0;
 CLASS_TABLE.business = false;
 CLASS_TABLE.category = "Other";
@@ -658,6 +659,7 @@ else
 		local description = itemTable("description");
 		local toolTip = itemTable("toolTip");
 		local weight = itemTable("weight").."kg";
+		local space = itemTable("space").."l";
 		local name = itemTable("name");
 		
 		if (itemTable("weightText")) then
@@ -666,6 +668,12 @@ else
 			weight = "Weightless";
 		end;
 		
+		if (itemTable("spaceText")) then
+			space = itemTable("spaceText");
+		elseif (itemTable("space") == 0) then
+			space = "Takes no space";
+		end;
+
 		if (bBusinessStyle) then
 			local totalCost = itemTable("cost") * itemTable("batch");
 			
@@ -700,6 +708,7 @@ else
 			itemTitle = nil,
 			toolTip = toolTip,
 			weight = weight,
+			space = space,
 			name = name
 		};
 		
@@ -707,7 +716,12 @@ else
 			Callback(displayInfo);
 		end;
 		
-		local toolTipTitle = "["..displayInfo.name..", "..displayInfo.weight.."]";
+		local toolTipTitle = ""
+		if (Clockwork.config:Get("enable_space_system"):Get()) then
+			toolTipTitle = "["..displayInfo.name..", "..displayInfo.weight..", "..displayInfo.space.."]";
+		else
+			toolTipTitle = "["..displayInfo.name..", "..displayInfo.weight.."]";
+		end
 		
 		if (displayInfo.itemTitle) then
 			toolTipTitle = displayInfo.itemTitle;

@@ -79,6 +79,13 @@ function PANEL:Rebuild()
 	self.weightForm:SetName("Weight");
 	self.weightForm:AddItem(vgui.Create("cwInventoryWeight", self));
 	
+	if (Clockwork.config:Get("enable_space_system"):Get()) then
+		self.spaceForm = vgui.Create("DForm", self);
+		self.spaceForm:SetPadding(4);
+		self.spaceForm:SetName("Space");
+		self.spaceForm:AddItem(vgui.Create("cwInventorySpace", self));
+	end
+
 	local itemsList = {inventory = {}, equipment = {}};
 	local categories = {inventory = {}, equipment = {}};
 	
@@ -135,7 +142,11 @@ function PANEL:Rebuild()
 	if (self.weightForm) then
 		self.inventoryList:AddItem(self.weightForm);
 	end;
-	
+
+	if (Clockwork.config:Get("enable_space_system"):Get() and self.spaceForm) then
+		self.inventoryList:AddItem(self.spaceForm);
+	end;
+
 	if (#categories.equipment > 0) then
 		for k, v in pairs(categories.equipment) do
 			local collapsibleCategory = Clockwork.kernel:CreateCustomCategoryPanel(v.category, self.equipmentList);
@@ -396,3 +407,55 @@ function PANEL:Think()
 end;
 	
 vgui.Register("cwInventoryWeight", PANEL, "DPanel");
+
+local PANEL = {};
+
+-- Called when the panel is initialized.
+function PANEL:Init()
+	local maximumSpace = Clockwork.player:GetMaxSpace();
+	local colorWhite = Clockwork.option:GetColor("white");
+	
+	self.spaceUsed = vgui.Create("DPanel", self);
+	self.spaceUsed:SetPos(1, 1);
+	
+	self.space = vgui.Create("DLabel", self);
+	self.space:SetText("N/A");
+	self.space:SetTextColor(colorWhite);
+	self.space:SizeToContents();
+	self.space:SetExpensiveShadow(1, Color(0, 0, 0, 150));
+	
+	-- Called when the panel should be painted.
+	function self.spaceUsed.Paint(spaceUsed)
+		local inventorySpace = Clockwork.inventory:CalculateSpace(
+			Clockwork.inventory:GetClient()
+		);
+		local maximumSpace = Clockwork.player:GetMaxSpace();
+		
+		local color = Color(100, 100, 100, 255);
+		local width = math.Clamp((spaceUsed:GetWide() / maximumSpace) * inventorySpace, 0, spaceUsed:GetWide());
+		local red = math.Clamp((255 / maximumSpace) * inventorySpace, 0, 255) ;
+		
+		if (color) then
+			color.r = math.min(color.r - 25, 255);
+			color.g = math.min(color.g - 25, 255);
+			color.b = math.min(color.b - 25, 255);
+		end;
+		
+		Clockwork.kernel:DrawSimpleGradientBox(0, 0, 0, spaceUsed:GetWide(), spaceUsed:GetTall(), color);
+		Clockwork.kernel:DrawSimpleGradientBox(0, 0, 0, width, spaceUsed:GetTall(), Color(139, 215, 113, 255));
+	end;
+end;
+
+-- Called each frame.
+function PANEL:Think()
+	local inventorySpace = Clockwork.inventory:CalculateSpace(
+		Clockwork.inventory:GetClient()
+	);
+	
+	self.spaceUsed:SetSize(self:GetWide() - 2, self:GetTall() - 2);
+	self.space:SetText(inventorySpace.."/"..Clockwork.player:GetMaxSpace().."l");
+	self.space:SetPos(self:GetWide() / 2 - self.space:GetWide() / 2, self:GetTall() / 2 - self.space:GetTall() / 2);
+	self.space:SizeToContents();
+end;
+	
+vgui.Register("cwInventorySpace", PANEL, "DPanel");

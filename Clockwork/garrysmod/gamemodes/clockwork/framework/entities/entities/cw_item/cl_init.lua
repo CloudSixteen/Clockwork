@@ -31,6 +31,9 @@ function ENT:HUDPaintTargetID(x, y, alpha)
 		end;
 		
 		y = Clockwork.kernel:DrawInfo(itemTable("weightText", itemTable("weight").."kg"), x, y, colorWhite, alpha);
+		if (Clockwork.config:Get("enable_space_system"):Get()) then
+			y = Clockwork.kernel:DrawInfo(itemTable("spaceText", itemTable("space").."l"), x, y, colorWhite, alpha);
+		end
 	end;
 end;
 
