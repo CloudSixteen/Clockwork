@@ -23,6 +23,13 @@ Clockwork.Author = "kurozael";
 Clockwork.Email = "kurozael@gmail.com";
 Clockwork.Name = "Clockwork";
 
+--[[ Check if we are using the right CloudAX version. --]]
+if (CloudAuthX.GetVersion() < 2.6) then
+	for i = 1, 3 do
+		Error("[CloudAuthX] Clockwork requires an updated CloudAuthX .dll!\n");
+	end;
+end;
+
 --[[
 	Do not edit this function. Editing this function will cause
 	the schema to not function, and CloudAuthX will not
