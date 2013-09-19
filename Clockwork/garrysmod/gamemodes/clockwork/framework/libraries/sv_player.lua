@@ -2407,6 +2407,21 @@ function Clockwork.player:GetEquippedWeight(player)
 	return weight;
 end;
 
+-- A function to get the total space of a player's equipped weapons.
+function Clockwork.player:GetEquippedSpace(player)
+	local space = 0;
+	
+	for k, v in pairs(player:GetWeapons()) do
+		local itemTable = Clockwork.item:GetByWeapon(v);
+		
+		if (itemTable) then
+			space = space + itemTable("space");
+		end;
+	end;
+	
+	return space;
+end;
+
 -- A function to get a player's holstered weapon.
 function Clockwork.player:GetHolsteredWeapon(player)
 	for k, v in pairs(player:GetWeapons()) do
@@ -3371,6 +3386,7 @@ end;
 -- A function to call a player's think hook.
 function Clockwork.player:CallThinkHook(player, setSharedVars, curTime)
 	player.cwInfoTable.inventoryWeight = Clockwork.config:Get("default_inv_weight"):Get();
+	player.cwInfoTable.inventorySpace = Clockwork.config:Get("default_inv_space"):Get();
 	player.cwInfoTable.crouchedSpeed = player.cwCrouchedSpeed;
 	player.cwInfoTable.jumpPower = player.cwJumpPower;
 	player.cwInfoTable.walkSpeed = player.cwWalkSpeed;

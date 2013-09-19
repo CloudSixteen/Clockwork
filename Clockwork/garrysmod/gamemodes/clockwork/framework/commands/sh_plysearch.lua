@@ -26,6 +26,7 @@ function COMMAND:OnRun(player, arguments)
 					name = target:Name(),
 					cash = target:GetCash(),
 					weight = target:GetMaxWeight(),
+					space = target:GetMaxSpace(),
 					entity = target,
 					inventory = target:GetInventory(),
 					OnClose = function(player, storageTable, entity)

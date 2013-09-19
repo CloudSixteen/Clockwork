@@ -98,16 +98,28 @@ end;
 function Clockwork.inventory:CalculateWeight(inventory)
 	local weight = 0;
 	
-	for k, v in pairs(inventory) do
-		local itemTable = Clockwork.item:FindByID(k);
-		
-		if (itemTable and itemTable("weight")) then
-			weight = weight + (itemTable("weight") * table.Count(v));
+	for k, v in pairs(self:GetAsItemsList(inventory)) do
+		if (v("weight")) then
+			weight = weight + v("weight");
 		end;
 	end;
 	
 	return weight;
 end;
+
+-- A function to calculate the space of an inventory.
+function Clockwork.inventory:CalculateSpace(inventory)
+	local space = 0;
+	
+	for k, v in pairs(self:GetAsItemsList(inventory)) do
+		if (v("space")) then
+			space = space + v("space");
+		end;
+	end;
+	
+	return space;
+end;
+
 
 -- A function to get whether an inventory is empty.
 function Clockwork.inventory:IsEmpty(inventory)

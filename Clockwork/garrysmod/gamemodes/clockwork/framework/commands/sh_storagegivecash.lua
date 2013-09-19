@@ -32,8 +32,11 @@ function COMMAND:OnRun(player, arguments)
 				if (!target:IsPlayer()) then
 					local cashWeight = Clockwork.config:Get("cash_weight"):Get();
 					local myWeight = Clockwork.storage:GetWeight(player);
+
+					local cashSpace = Clockwork.config:Get("cash_space"):Get();
+					local mySpace = Clockwork.storage:GetSpace(player);
 					
-					if (myWeight + (cashWeight * cash) <= storageTable.weight) then
+					if (myWeight + (cashWeight * cash) <= storageTable.weight and mySpace + (cashSpace * cash) <= storageTable.space) then
 						Clockwork.player:GiveCash(player, -cash, nil, true);
 						Clockwork.storage:UpdateCash(player, storageTable.cash + cash);
 					end;

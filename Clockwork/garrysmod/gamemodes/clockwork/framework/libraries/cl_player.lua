@@ -32,6 +32,19 @@ function Clockwork.player:CanHoldWeight(weight)
 	end;
 end;
 
+-- A function to get whether the local player can fit a space.
+function Clockwork.player:CanHoldSpace(space)
+	local inventorySpace = Clockwork.inventory:CalculateSpace(
+		Clockwork.inventory:GetClient()
+	);
+	
+	if (inventorySpace + space > Clockwork.player:GetMaxSpace()) then
+		return false;
+	else
+		return true;
+	end;
+end;
+
 -- A function to get the maximum amount of weight the local player can carry.
 function Clockwork.player:GetMaxWeight()
 	local itemsList = Clockwork.inventory:GetAsItemsList(
@@ -42,14 +55,34 @@ function Clockwork.player:GetMaxWeight()
 	);
 	
 	for k, v in pairs(itemsList) do
-		local addInvSpace = v("addInvSpace");
+		local addInvWeight = v("addInvWeight");
 		
-		if (addInvSpace) then
-			weight = weight + addInvSpace;
+		if (addInvWeight) then
+			weight = weight + addInvWeight;
 		end;
 	end;
 	
 	return weight;
+end;
+
+-- A function to get the maximum amount of space the local player can carry.
+function Clockwork.player:GetMaxSpace()
+	local itemsList = Clockwork.inventory:GetAsItemsList(
+		Clockwork.inventory:GetClient()
+	);
+	local space = Clockwork.Client:GetSharedVar(
+		"InvSpace", Clockwork.config:Get("default_inv_space"):Get()
+	);
+	
+	for k, v in pairs(itemsList) do
+		local addInvSpace = v("addInvSpace");
+		
+		if (addInvSpace) then
+			space = space + addInvSpace;
+		end;
+	end;
+	
+	return space;
 end;
 
 -- A function to find a player by an identifier.

@@ -56,23 +56,30 @@ function PANEL:Init()
 end;
 
 -- A function to rebuild a panel.
-function PANEL:RebuildPanel(storagePanel, storageType, usedWeight, weight, cash, inventory)
+function PANEL:RebuildPanel(storagePanel, storageType, usedWeight, weight, usedSpace, space, cash, inventory)
 	storagePanel:Clear(true);
 		storagePanel.cash = cash;
 		storagePanel.weight = weight;
 		storagePanel.usedWeight = usedWeight;
+		storagePanel.space = space;
+		storagePanel.usedSpace = usedSpace;
 		storagePanel.inventory = inventory;
 		storagePanel.storageType = storageType;
 	Clockwork.plugin:Call("PlayerPreRebuildStorage", storagePanel);
 	
 	local categories = {};
 	local usedWeight = (cash * Clockwork.config:Get("cash_weight"):Get());
+	local usedSpace = (cash * Clockwork.config:Get("cash_space"):Get());
 	local itemsList = {};
 	
 	if (Clockwork.storage:GetNoCashWeight()) then
 		usedWeight = 0;
 	end;
-	
+
+	if (Clockwork.storage:GetNoCashSpace()) then
+		usedSpace = 0;
+	end;
+
 	for k, v in pairs(storagePanel.inventory) do
 		for k2, v2 in pairs(v) do
 			if ((storageType == "Container" and Clockwork.storage:CanTakeFrom(v2))
@@ -83,6 +90,7 @@ function PANEL:RebuildPanel(storagePanel, storageType, usedWeight, weight, cash,
 					itemsList[itemCategory] = itemsList[itemCategory] or {};
 					itemsList[itemCategory][#itemsList[itemCategory] + 1] = v2;
 					usedWeight = usedWeight + math.max(v2("storageWeight", v2("weight")), 0);
+					usedSpace = usedSpace + math.max(v2("storageSpace", v2("space")), 0);
 				end;
 			end;
 		end;
@@ -101,6 +109,10 @@ function PANEL:RebuildPanel(storagePanel, storageType, usedWeight, weight, cash,
 	
 	if (!storagePanel.usedWeight) then
 		storagePanel.usedWeight = usedWeight;
+	end;
+
+	if (!storagePanel.usedSpace) then
+		storagePanel.usedSpace = usedSpace;
 	end;
 	
 	Clockwork.plugin:Call(
@@ -149,6 +161,14 @@ function PANEL:RebuildPanel(storagePanel, storageType, usedWeight, weight, cash,
 			informationForm:AddItem(vgui.Create("cwStorageWeight", storagePanel));
 		storagePanel:AddItem(informationForm);
 	end;
+
+	if (Clockwork.config:Get("enable_space_system"):Get() and storagePanel.usedSpace > 0) then
+		local informationForm = vgui.Create("DForm", storagePanel);
+			informationForm:SetPadding(5);
+			informationForm:SetName("Space");
+			informationForm:AddItem(vgui.Create("cwStorageSpace", storagePanel));
+		storagePanel:AddItem(informationForm);
+	end;
 	
 	if (cashForm) then
 		storagePanel:AddItem(cashForm);
@@ -189,6 +209,7 @@ end;
 function PANEL:Rebuild()
 	self:RebuildPanel(self.containerPanel, "Container", nil,
 		Clockwork.storage:GetWeight(),
+		nil, Clockwork.storage:GetSpace(),
 		Clockwork.storage:GetCash(),
 		Clockwork.storage:GetInventory()
 	);
@@ -197,10 +218,12 @@ function PANEL:Rebuild()
 		local inventory = Clockwork.inventory:GetClient();
 		local maxWeight = Clockwork.player:GetMaxWeight();
 		local weight = Clockwork.inventory:CalculateWeight(inventory);
+		local maxSpace = Clockwork.player:GetMaxSpace();
+		local space = Clockwork.inventory:CalculateSpace(inventory);
 		local cash = Clockwork.player:GetCash();
 		
 		self:RebuildPanel(self.inventoryPanel, "Inventory",
-			weight, maxWeight, cash, inventory
+			weight, maxWeight, space, maxSpace, cash, inventory
 		);
 	end;
 end;
@@ -319,6 +342,52 @@ end;
 	
 vgui.Register("cwStorageWeight", PANEL, "DPanel");
 
+local PANEL = {};
+
+-- Called when the panel is initialized.
+function PANEL:Init()
+	local colorWhite = Clockwork.option:GetColor("white");
+	
+	self.spaceUsed = vgui.Create("DPanel", self);
+	self.spaceUsed:SetPos(1, 1);
+	self.panel = self:GetParent();
+	
+	self.space = vgui.Create("DLabel", self);
+	self.space:SetText("N/A");
+	self.space:SetTextColor(colorWhite);
+	self.space:SizeToContents();
+	self.space:SetExpensiveShadow(1, Color(0, 0, 0, 150));
+	
+	-- Called when the panel should be painted.
+	function self.spaceUsed.Paint(spaceUsed)
+		local maximumSpace = self.panel.space or 0;
+		local usedSpace = self.panel.usedSpace or 0;
+		
+		local color = Color(100, 100, 100, 255);
+		local width = math.Clamp((spaceUsed:GetWide() / maximumSpace) * usedSpace, 0, spaceUsed:GetWide());
+		local red = math.Clamp((255 / maximumSpace) * usedSpace, 0, 255) ;
+		
+		if (color) then
+			color.r = math.min(color.r - 25, 255);
+			color.g = math.min(color.g - 25, 255);
+			color.b = math.min(color.b - 25, 255);
+		end;
+		
+		Clockwork.kernel:DrawSimpleGradientBox(0, 0, 0, spaceUsed:GetWide(), spaceUsed:GetTall(), color);
+		Clockwork.kernel:DrawSimpleGradientBox(0, 0, 0, width, spaceUsed:GetTall(), Color(139, 215, 113, 255));
+	end;
+end;
+
+-- Called each frame.
+function PANEL:Think()
+	self.spaceUsed:SetSize(self:GetWide() - 2, self:GetTall() - 2);
+	self.space:SetText((self.panel.usedSpace or 0).."/"..(self.panel.space or 0).."l");
+	self.space:SetPos(self:GetWide() / 2 - self.space:GetWide() / 2, self:GetTall() / 2 - self.space:GetTall() / 2);
+	self.space:SizeToContents();
+end;
+	
+vgui.Register("cwStorageSpace", PANEL, "DPanel");
+
 Clockwork.datastream:Hook("StorageStart", function(data)
 	if (Clockwork.storage:IsStorageOpen()) then
 		CloseDermaMenus();
@@ -329,9 +398,11 @@ Clockwork.datastream:Hook("StorageStart", function(data)
 	gui.EnableScreenClicker(true);
 	
 	Clockwork.storage.noCashWeight = data.noCashWeight;
+	Clockwork.storage.noCashSpace = data.noCashSpace;
 	Clockwork.storage.isOneSided = data.isOneSided;
 	Clockwork.storage.inventory = {};
 	Clockwork.storage.weight = Clockwork.config:Get("default_inv_weight"):Get();
+	Clockwork.storage.space = Clockwork.config:Get("default_inv_space"):Get();
 	Clockwork.storage.entity = data.entity;
 	Clockwork.storage.name = data.name;
 	Clockwork.storage.cash = 0;
@@ -357,6 +428,13 @@ Clockwork.datastream:Hook("StorageWeight", function(data)
 	end;
 end);
 
+Clockwork.datastream:Hook("StorageSpace", function(data)
+	if (Clockwork.storage:IsStorageOpen()) then
+		Clockwork.storage.space = data;
+		Clockwork.storage:GetPanel():Rebuild();
+	end;
+end);
+
 Clockwork.datastream:Hook("StorageClose", function(data)
 	if (Clockwork.storage:IsStorageOpen()) then
 		Clockwork.kernel:RemoveBackgroundBlur(Clockwork.storage:GetPanel());
@@ -370,6 +448,7 @@ Clockwork.datastream:Hook("StorageClose", function(data)
 		
 		Clockwork.storage.inventory = nil;
 		Clockwork.storage.weight = nil;
+		Clockwork.storage.space = nil;
 		Clockwork.storage.entity = nil;
 		Clockwork.storage.name = nil;
 	end;
