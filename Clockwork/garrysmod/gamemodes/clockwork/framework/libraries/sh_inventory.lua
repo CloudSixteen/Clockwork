@@ -85,6 +85,11 @@ function Clockwork.inventory:ToSaveable(inventory)
 	return newTable;
 end;
 
+-- A function to get whether we should use the space system.
+function Clockwork.inventory:UseSpaceSystem()
+	return Clockwork.config:Get("enable_space_system"):Get();
+end;
+
 -- A function to get an inventory as an items list.
 function Clockwork.inventory:GetAsItemsList(inventory)
 	local itemsList = {};
@@ -112,9 +117,8 @@ function Clockwork.inventory:CalculateSpace(inventory)
 	local space = 0;
 	
 	for k, v in pairs(self:GetAsItemsList(inventory)) do
-		if (v("space")) then
-			space = space + v("space");
-		end;
+		local spaceUsed = v("space");
+		if (spaceUsed) then space = space + spaceUsed; end;
 	end;
 	
 	return space;

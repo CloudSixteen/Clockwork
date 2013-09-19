@@ -662,14 +662,16 @@ else
 		local space = itemTable("space").."l";
 		local name = itemTable("name");
 		
-		if (itemTable("weightText")) then
-			weight = itemTable("weightText");
+		local weightText = itemTable("weightText");
+		if (weightText) then
+			weight = weightText;
 		elseif (itemTable("weight") == 0) then
 			weight = "Weightless";
 		end;
 		
-		if (itemTable("spaceText")) then
-			space = itemTable("spaceText");
+		local spaceText = itemTable("spaceText");
+		if (spaceText) then
+			space = spaceText;
 		elseif (itemTable("space") == 0) then
 			space = "Takes no space";
 		end;
@@ -717,7 +719,7 @@ else
 		end;
 		
 		local toolTipTitle = ""
-		if (Clockwork.config:Get("enable_space_system"):Get()) then
+		if (Clockwork.inventory:UseSpaceSystem()) then
 			toolTipTitle = "["..displayInfo.name..", "..displayInfo.weight..", "..displayInfo.space.."]";
 		else
 			toolTipTitle = "["..displayInfo.name..", "..displayInfo.weight.."]";

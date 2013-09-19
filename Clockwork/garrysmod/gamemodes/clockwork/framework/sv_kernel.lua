@@ -4717,6 +4717,10 @@ end;
 
 -- A function to get whether a player can hold a weight.
 function playerMeta:CanHoldSpace(space)
+	if (!Clockwork.inventory:UseSpaceSystem()) then
+		return true;
+	end;
+
 	local inventorySpace = Clockwork.inventory:CalculateSpace(
 		self:GetInventory()
 	);
@@ -4812,7 +4816,8 @@ function playerMeta:GiveItem(itemTable, bForce)
 	
 	local inventory = self:GetInventory();
 	
-	if (self:CanHoldWeight(itemTable("weight")) and ((Clockwork.config:Get("enable_space_system"):Get() and self:CanHoldSpace(itemTable("space"))) or !Clockwork.config:Get("enable_space_system"):Get()) or bForce) then
+	if ((self:CanHoldWeight(itemTable("weight"))
+	and self:CanHoldSpace(itemTable("space"))) or bForce) then
 		if (itemTable.OnGiveToPlayer) then
 			itemTable:OnGiveToPlayer(self);
 		end;

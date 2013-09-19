@@ -79,7 +79,7 @@ function PANEL:Rebuild()
 	self.weightForm:SetName("Weight");
 	self.weightForm:AddItem(vgui.Create("cwInventoryWeight", self));
 	
-	if (Clockwork.config:Get("enable_space_system"):Get()) then
+	if (Clockwork.inventory:UseSpaceSystem()) then
 		self.spaceForm = vgui.Create("DForm", self);
 		self.spaceForm:SetPadding(4);
 		self.spaceForm:SetName("Space");
@@ -143,7 +143,7 @@ function PANEL:Rebuild()
 		self.inventoryList:AddItem(self.weightForm);
 	end;
 
-	if (Clockwork.config:Get("enable_space_system"):Get() and self.spaceForm) then
+	if (Clockwork.inventory:UseSpaceSystem() and self.spaceForm) then
 		self.inventoryList:AddItem(self.spaceForm);
 	end;
 

@@ -162,7 +162,7 @@ function PANEL:RebuildPanel(storagePanel, storageType, usedWeight, weight, usedS
 		storagePanel:AddItem(informationForm);
 	end;
 
-	if (Clockwork.config:Get("enable_space_system"):Get() and storagePanel.usedSpace > 0) then
+	if (Clockwork.inventory:UseSpaceSystem() and storagePanel.usedSpace > 0) then
 		local informationForm = vgui.Create("DForm", storagePanel);
 			informationForm:SetPadding(5);
 			informationForm:SetName("Space");

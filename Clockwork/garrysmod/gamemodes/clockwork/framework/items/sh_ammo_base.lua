@@ -24,12 +24,13 @@ function ITEM:GetItemWeight()
 	return (self.weight / self.ammoAmount) * self:GetData("Rounds");
 end;
 
+-- A function to get the item's space.
 function ITEM:GetItemSpace()
 	return (self.space / self.ammoAmount) * self:GetData("Rounds");
 end;
 
-ITEM:AddQueryProxy("weight", ITEM:GetItemWeight());
-ITEM:AddQueryProxy("space", ITEM:GetItemSpace());
+ITEM:AddQueryProxy("weight", ITEM:GetItemWeight);
+ITEM:AddQueryProxy("space", ITEM:GetItemSpace);
 ITEM:AddQueryProxy("ammoCount", "Rounds", true);
 
 -- Called when a player uses the item.
