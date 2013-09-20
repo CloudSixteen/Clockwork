@@ -326,12 +326,12 @@ function Clockwork.item:CreateInstance(uniqueID, itemID, data)
 			setmetatable(self.instances[itemID], CLASS_TABLE);
 		end;
 		
-		if (self.instances[itemID].OnInstantiated) then
-			self.instances[itemID]:OnInstantiated();
-		end;
-		
 		if (data) then
 			table.Merge(self.instances[itemID].data, data);
+		end;
+		
+		if (self.instances[itemID].OnInstantiated) then
+			self.instances[itemID]:OnInstantiated();
 		end;
 		
 		return self.instances[itemID];
