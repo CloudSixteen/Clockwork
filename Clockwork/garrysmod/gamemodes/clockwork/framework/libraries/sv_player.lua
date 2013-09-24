@@ -1,5 +1,5 @@
 --[[
-	© 2013 CloudSixteen.com do not share, re-distribute or modify
+	ï¿½ 2013 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -2207,6 +2207,8 @@ function Clockwork.player:GiveCash(player, amount, reason, bNoMsg)
 		Clockwork.plugin:Call("PlayerCashUpdated", player, roundedAmount, reason, bNoMsg);
 	end;
 end;
+
+Clockwork.player:AddToMetaTable("Player", "GiveCash");
 
 -- A function to show cinematic text to a player.
 function Clockwork.player:CinematicText(player, text, color, barLength, hangTime)
