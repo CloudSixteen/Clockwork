@@ -1,5 +1,5 @@
 --[[ 
-	© 2013 CloudSixteen.com do not share, re-distribute or modify
+	ï¿½ 2013 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -17,7 +17,7 @@ local game = game;
 Clockwork = Clockwork or GM;
 Clockwork.ClockworkFolder = Clockwork.ClockworkFolder or GM.Folder;
 Clockwork.SchemaFolder = Clockwork.SchemaFolder or GM.Folder;
-Clockwork.KernelVersion = "0.89";
+Clockwork.KernelVersion = "0.9";
 Clockwork.Website = "http://kurozael.com";
 Clockwork.Author = "kurozael";
 Clockwork.Email = "kurozael@gmail.com";
