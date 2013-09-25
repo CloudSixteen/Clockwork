@@ -55,7 +55,7 @@ function Clockwork.player:GetMaxWeight()
 	);
 	
 	for k, v in pairs(itemsList) do
-		local addInvWeight = v("addInvWeight");
+		local addInvWeight = v("addInvSpace");
 		
 		if (addInvWeight) then
 			weight = weight + addInvWeight;
@@ -75,7 +75,7 @@ function Clockwork.player:GetMaxSpace()
 	);
 	
 	for k, v in pairs(itemsList) do
-		local addInvSpace = v("addInvSpace");
+		local addInvSpace = v("addInvVolume");
 		
 		if (addInvSpace) then
 			space = space + addInvSpace;

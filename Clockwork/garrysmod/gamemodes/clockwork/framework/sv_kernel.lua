@@ -4678,7 +4678,7 @@ function playerMeta:GetMaxWeight()
 	local weight = self:GetSharedVar("InvWeight");
 	
 	for k, v in pairs(itemsList) do
-		local addInvWeight = v("addInvWeight");
+		local addInvWeight = v("addInvSpace");
 		if (addInvWeight) then
 			weight = weight + addInvWeight;
 		end;
@@ -4693,7 +4693,7 @@ function playerMeta:GetMaxSpace()
 	local space = self:GetSharedVar("InvSpace");
 	
 	for k, v in pairs(itemsList) do
-		local addInvSpace = v("addInvSpace");
+		local addInvSpace = v("addInvVolume");
 		if (addInvSpace) then
 			space = space + addInvSpace;
 		end;
