@@ -7,7 +7,7 @@ The following changes have been made for each official Clockwork build.
 
 * Added GiveCash from the player library to the player meta table.
   * *Contributed by SomeSortOfDuck.*
-  * 
+  
 0.9
 -------
 * Progress bars will now use ScissorRect for an improved graphical aesthetic.
