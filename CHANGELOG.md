@@ -7,6 +7,8 @@ The following changes have been made for each official Clockwork build.
 
 * Added GiveCash from the player library to the player meta table.
   * *Contributed by SomeSortOfDuck.*
+* Added \n to a few ErrorNoHalt calls that were missing it.
+  * *Contributed by SomeSortOfDuck.*
   
 0.9
 -------
