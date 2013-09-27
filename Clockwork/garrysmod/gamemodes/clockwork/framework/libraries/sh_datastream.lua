@@ -1,5 +1,5 @@
 --[[
-	© 2013 CloudSixteen.com do not share, re-distribute or modify
+	ï¿½ 2013 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -83,7 +83,7 @@ if (SERVER) then
 			CW_DS_DATA = util.Decompress(CW_DS_DATA);
 			
 			if (!CW_DS_DATA) then
-				ErrorNoHalt("[Clockwork] The datastream failed to decompress!");
+				ErrorNoHalt("[Clockwork] The datastream failed to decompress!\n");
 				
 				return;
 			end;
@@ -138,7 +138,7 @@ else
 			CW_DS_DATA = util.Decompress(CW_DS_DATA);
 
 			if (!CW_DS_DATA) then
-				ErrorNoHalt("[Clockwork] The datastream failed to decompress!");
+				ErrorNoHalt("[Clockwork] The datastream failed to decompress!\n");
 				
 				return;
 			end;
