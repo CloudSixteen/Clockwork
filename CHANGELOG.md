@@ -9,6 +9,8 @@ The following changes have been made for each official Clockwork build.
   * *Contributed by SomeSortOfDuck.*
 * Added \n to a few ErrorNoHalt calls that were missing it.
   * *Contributed by SomeSortOfDuck.*
+* Extended item options capabilities.
+  * *Contributed by Insomnia Array.*
   
 0.9
 -------
