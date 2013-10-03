@@ -3578,6 +3578,30 @@ Clockwork.datastream:Hook("EntityMenuOption", function(player, data)
 	end;
 end);
 
+-- MenuOption datastream callback.
+Clockwork.datastream:Hook("MenuOption", function(player, data)
+	local item = data.item;
+	local option = data.option;
+	local entity = data.entity;
+	local data = data.data;
+	local shootPos = player:GetShootPos();
+
+	if (type(data) != "table") then
+		data = {data};
+	end;
+
+	local itemTable = Clockwork.item:FindInstance(item);
+	if (itemTable and itemTable:IsInstance() and type(option) == "string") then
+		if (itemTable.HandleOptions) then
+			if (player:HasItemInstance(itemTable)) then
+				itemTable:HandleOptions(option, player, data);
+			elseif (IsValid(entity) and entity:GetClass() == "cw_item" and entity:GetItemTable() == itemTable and entity:NearestPoint(shootPos):Distance(shootPos) <= 80) then
+				itemTable:HandleOptions(option, player, data, entity);
+			end;
+		end;
+	end;
+end);
+
 -- DataStreamInfoSent datastream callback.
 Clockwork.datastream:Hook("DataStreamInfoSent", function(player, data)
 	if (!player.cwDataStreamInfoSent) then
