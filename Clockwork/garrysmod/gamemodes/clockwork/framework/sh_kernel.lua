@@ -1,5 +1,5 @@
 --[[
-	© 2013 CloudSixteen.com do not share, re-distribute or modify
+	ï¿½ 2013 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -1538,15 +1538,22 @@ else
 	-- A function to handle an entity's menu.
 	function Clockwork.kernel:HandleEntityMenu(entity)
 		local options = {};
-		local itemTable;
-			Clockwork.plugin:Call("GetEntityMenuOptions", entity, options);
+		local itemTable = nil;
+		
+		Clockwork.plugin:Call("GetEntityMenuOptions", entity, options);
 
 		if (entity:GetClass() == "cw_item") then
 			itemTable = entity:GetItemTable();
 			if (itemTable and itemTable:IsInstance() and itemTable.GetOptions) then
 				local itemOptions = itemTable:GetOptions(entity);
+				
 				for k, v in pairs(itemOptions) do
-					options[k] = {title = k, name = v, isOptionTable = true, isArgTable = true};
+					options[k] = {
+						title = k,
+						name = v,
+						isOptionTable = true,
+						isArgTable = true
+					};
 				end;
 			end;
 		end;
@@ -1558,8 +1565,14 @@ else
 				menuPanel:AddOption(arguments.title, function()
 					if (itemTable.HandleOptions) then
 						local transmit, data = itemTable:HandleOptions(arguments.name, nil, nil, entity);
+						
 						if (transmit) then
-							Clockwork.datastream:Start("MenuOption", {option = arguments.name, data = data, item = itemTable("itemID"), entity = entity});
+							Clockwork.datastream:Start("MenuOption", {
+								option = arguments.name,
+								data = data,
+								item = itemTable("itemID"),
+								entity = entity
+							});
 						end;
 					end;
 				end)
