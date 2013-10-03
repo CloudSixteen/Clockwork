@@ -1538,33 +1538,56 @@ else
 	-- A function to handle an entity's menu.
 	function Clockwork.kernel:HandleEntityMenu(entity)
 		local options = {};
+		local itemTable;
 			Clockwork.plugin:Call("GetEntityMenuOptions", entity, options);
+
+		if (entity:GetClass() == "cw_item") then
+			itemTable = entity:GetItemTable();
+			if (itemTable and itemTable:IsInstance() and itemTable.GetOptions) then
+				local itemOptions = itemTable:GetOptions(entity);
+				for k, v in pairs(itemOptions) do
+					options[k] = {title = k, name = v, isOptionTable = true, isArgTable = true};
+				end;
+			end;
+		end;
+
 		if (table.Count(options) == 0) then return; end;
 		
 		local menuPanel = self:AddMenuFromData(nil, options, function(menuPanel, option, arguments)
-			menuPanel:AddOption(option, function()
-				if (type(arguments) == "table" and arguments.isArgTable) then
-					if (arguments.Callback) then
-						arguments.Callback(function(arguments)
+			if (itemTable and type(arguments) == "table" and arguments.isOptionTable) then
+				menuPanel:AddOption(arguments.title, function()
+					if (itemTable.HandleOptions) then
+						local transmit, data = itemTable:HandleOptions(arguments.name, nil, nil, entity);
+						if (transmit) then
+							Clockwork.datastream:Start("MenuOption", {option = arguments.name, data = data, item = itemTable("itemID"), entity = entity});
+						end;
+					end;
+				end)
+			else
+				menuPanel:AddOption(option, function()
+					if (type(arguments) == "table" and arguments.isArgTable) then
+						if (arguments.Callback) then
+							arguments.Callback(function(arguments)
+								Clockwork.entity:ForceMenuOption(
+									entity, option, arguments
+								);
+							end);
+						else
 							Clockwork.entity:ForceMenuOption(
-								entity, option, arguments
+								entity, option, arguments.arguments
 							);
-						end);
+						end;
 					else
 						Clockwork.entity:ForceMenuOption(
-							entity, option, arguments.arguments
+							entity, option, arguments
 						);
 					end;
-				else
-					Clockwork.entity:ForceMenuOption(
-						entity, option, arguments
-					);
-				end;
-				
-				timer.Simple(FrameTime(), function()
-					self:RemoveActiveToolTip();
+					
+					timer.Simple(FrameTime(), function()
+						self:RemoveActiveToolTip();
+					end);
 				end);
-			end);
+			end;
 			
 			menuPanel.Items = menuPanel:GetChildren();
 			local panel = menuPanel.Items[#menuPanel.Items];
@@ -2511,6 +2534,13 @@ else
 				itemFunctions[#itemFunctions + 1] = v;
 			end;
 		end;
+
+		if (itemTable.GetOptions) then
+			local options = itemTable:GetOptions(nil, nil);
+			for k, v in pairs(options) do
+				itemFunctions[#itemFunctions + 1] = {title = k, name = v};
+			end
+		end
 		
 		if (itemTable.OnEditFunctions) then
 			itemTable:OnEditFunctions(itemFunctions);
@@ -2519,7 +2549,7 @@ else
 		Clockwork.plugin:Call("PlayerAdjustItemFunctions", itemTable, itemFunctions);
 		self:ValidateTableKeys(itemFunctions);
 		
-		table.sort(itemFunctions, function(a, b) return a < b; end);
+		table.sort(itemFunctions, function(a, b) return ((type(a) == "table" and a.title) or a) < ((type(b) == "table" and b.title) or b); end);
 		if (#itemFunctions == 0 and !Callback) then return; end;
 		
 		local options = {};
@@ -2602,6 +2632,15 @@ else
 				end);
 				
 				subMenu:AddOption("No", function() end);
+			elseif (type(v) == "table") then
+				itemMenu:AddOption(v.title, function()
+					if (itemTable.HandleOptions) then
+						local transmit, data = itemTable:HandleOptions(v.name);
+						if (transmit) then
+							Clockwork.datastream:Start("MenuOption", {option = v.name, data = data, item = itemTable("itemID")});
+						end;
+					end;
+				end);
 			else
 				if (itemTable.OnCustomFunction) then
 					itemTable:OnCustomFunction(v);

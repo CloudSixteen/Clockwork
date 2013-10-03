@@ -222,6 +222,10 @@ if (SERVER) then
 			self.networkQueue = {};
 		end);
 	end;
+else
+	function CLASS_TABLE:SubmitOption(option, data, entity)
+		Clockwork.datastream:Start("MenuOption", {option = option, data = data, item = self("itemID"), entity = entity});
+	end;
 end;
 
 --[[
