@@ -25,17 +25,6 @@ local function SplitDirectory(directory)
 end;
 
 --[[
-	Fix for file.IsDir not working in LUA for folders that aren't in lua/*.
-		http://facepunch.com/showthread.php?t=1213957
---]]
-local ClockworkFileIsDir = file.IsDir;
-function file.IsDir(directory, path)
-	if (ClockworkFileIsDir(directory, path) or !string.GetExtensionFromFilename(directory)) then
-		return true;
-	end;
-end;
-
---[[
 	Fix for file.Find returning both files and folders in the first return.
 		http://facepunch.com/showthread.php?t=1213505
 --]]
