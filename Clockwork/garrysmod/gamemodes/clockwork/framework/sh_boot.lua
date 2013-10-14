@@ -24,7 +24,7 @@ Clockwork.Email = "kurozael@gmail.com";
 Clockwork.Name = "Clockwork";
 
 --[[ Check if we are using the right CloudAX version. --]]
-if (SERVER and CloudAuthX.GetVersion() < 2.6) then
+if (SERVER and CloudAuthX.GetVersion() < 2.7) then
 	for i = 1, 3 do
 		Error("[CloudAuthX] Clockwork requires an updated CloudAuthX .dll!\n");
 	end;
