@@ -3588,7 +3588,7 @@ function Clockwork.kernel:AddFile(fileName)
 	if (cwFile.Exists(fileName, "GAME")) then
 		resource.AddFile(fileName);
 	else
-		print(Format("[Clockwork] File does not exist: %s.", fileName));
+		-- print(Format("[Clockwork] File does not exist: %s.", fileName));
 	end;
 end;
 
