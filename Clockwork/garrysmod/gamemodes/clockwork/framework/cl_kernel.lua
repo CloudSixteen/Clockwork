@@ -1366,7 +1366,7 @@ function Clockwork:DrawPlayerVignette()
 		local data = {};
 			data.start = self.Client:GetShootPos();
 			data.endpos = data.start + (self.Client:GetUp() * 512);
-			data.filder = self.Client;
+			data.filter = self.Client;
 		local trace = util.TraceLine(data);
 
 		if (!trace.HitWorld and !trace.HitNonWorld) then
