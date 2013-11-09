@@ -9,6 +9,13 @@ Installation
 http://wiki.cloudsixteen.com/Installing  
 http://wiki.cloudsixteen.com/
 
+Donations
+------------
+If you'd like to support the development you can donate via Bitcoin to the following address
+**12wPvfmNkokbyyjNFUcCVHrJiQR4vL76Q1**
+
+Or via PayPal to **kurozael@gmail.com**
+
 Contributing
 ------------
 If you wish to contribute to the development of Clockwork, you may issue a pull request using GitHub. You can find the Clockwork GitHub repository here https://github.com/CloudSixteen/Clockwork/  
