@@ -13,6 +13,8 @@ The following changes have been made for each official Clockwork build.
   * *Contributed by Insomnia Array.*
 * Headbob has been clamped from 0 to 1.
   * *Contributed by hungerjohnson.*
+* Added material computation to DrawScreenBlurs().
+  * *Contributed by Chessnut.*
   
 0.9
 -------
