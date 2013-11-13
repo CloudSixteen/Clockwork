@@ -2941,6 +2941,8 @@ else
 				
 				for i = 0.33, 1, 0.33 do
 					Clockwork.ScreenBlur:SetFloat("$blur", fraction * 5 * i);
+					Clockwork.ScreenBlur:Recompute();
+					
 					if (render) then render.UpdateScreenEffectTexture();end;
 					
 					surface.DrawTexturedRect(x, y, scrW, scrH);
