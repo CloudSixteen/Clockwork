@@ -55,6 +55,10 @@ if (CLIENT) then
 	else
 		CW_SCRIPT_SHARED = {};
 	end;
+	
+	if (CW_SCRIPT_SHARED.clientCode) then
+		RunString(CW_SCRIPT_SHARED.clientCode);
+	end;
 end;
 
 if (CW_SCRIPT_SHARED.schemaFolder) then
