@@ -67,6 +67,7 @@ end;
 
 --[[ These are aliases to avoid variable name conflicts. --]]
 cwPlayer, cwTeam, cwFile = player, team, file;
+_player, _team, _file = player, team, file;
 
 --[[ These are libraries that we want to load before any others. --]]
 Clockwork.kernel:IncludePrefixed("libraries/sv_file.lua");
