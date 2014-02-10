@@ -15,6 +15,8 @@ The following changes have been made for each official Clockwork build.
   * *Contributed by hungerjohnson.*
 * Added material computation to DrawScreenBlurs().
   * *Contributed by Chessnut.*
+* Added cl_imagebutton.lua
+  * *Contributed by RJ.*
   
 0.9
 -------
