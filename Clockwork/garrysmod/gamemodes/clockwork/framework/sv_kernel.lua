@@ -1,5 +1,5 @@
 --[[ 
-	© 2013 CloudSixteen.com do not share, re-distribute or modify
+	ï¿½ 2013 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -3953,6 +3953,11 @@ end;
 -- A function to give a player an item weapon.
 function playerMeta:GiveItemWeapon(itemTable)
 	Clockwork.player:GiveItemWeapon(self, itemTable);
+end;
+
+-- A function to notify a player.
+function playerMeta:Notify(text)
+	Clockwork.player:Notify(self, text);
 end;
 
 -- A function to give a weapon to a player.
