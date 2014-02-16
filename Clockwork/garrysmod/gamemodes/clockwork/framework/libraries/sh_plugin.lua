@@ -1,5 +1,5 @@
 --[[
-	© 2013 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2013 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -197,7 +197,7 @@ function Clockwork.plugin:CheckMismatches()
 		end;
 		
 		for k, v in ipairs(funcIdxMismatches) do
-			ErrorNoHalt("[Clockwork] The Schema hook '"..k.."' was overriden by a plugin, this is not good!\n");
+			ErrorNoHalt("[Clockwork] The Schema hook '"..v.."' was overriden by a plugin, this is not good!\n");
 		end;
 	end;
 end;
