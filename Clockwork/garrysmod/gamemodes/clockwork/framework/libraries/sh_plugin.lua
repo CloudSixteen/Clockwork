@@ -579,6 +579,10 @@ function Clockwork.plugin:IncludeExtras(directory)
 	for k, v in pairs(cwFile.Find(directory.."/commands/*.lua", "LUA", "namedesc")) do
 		Clockwork.kernel:IncludePrefixed(directory.."/commands/"..v);
 	end;
+
+	for k, v in pairs(cwFile.Find(directory.."/recipes/*.lua", "LUA", "namedesc")) do
+		Clockwork.kernel:IncludePrefixed(directory.."/recipes/"..v);
+	end;
 end;
 
 --[[ This table will hold the plugin info, if it doesn't already exist. --]]
