@@ -252,6 +252,8 @@ Clockwork.datastream:Hook("RecogniseMenu", function(data)
 		);
 	end;
 	
+	print(Clockwork.Client:GetCharacterData("Test"));
+	
 	Clockwork.kernel:SetRecogniseMenu(menuPanel);
 end);
 
@@ -3038,6 +3040,30 @@ end;
 -- A function to get a player's wages name.
 function playerMeta:GetWagesName()
 	return Clockwork.player:GetWagesName(self);
+end;
+
+-- A function to get a player's data.
+function playerMeta:GetData(key, default)
+	local playerData = Clockwork.player.playerData[key];
+	
+	if (playerData and (not playerData.playerOnly
+	or self == Clockwork.Client)) then
+		return self:GetSharedVar(key);
+	end;
+	
+	return default;
+end;
+
+-- A function to get a player's character data.
+function playerMeta:GetCharacterData(key, default)
+	local characterData = Clockwork.player.characterData[key];
+	
+	if (characterData and (not characterData.playerOnly
+	or self == Clockwork.Client)) then
+		return self:GetSharedVar(key);
+	end;
+	
+	return default;
 end;
 
 -- A function to get a player's maximum armor.

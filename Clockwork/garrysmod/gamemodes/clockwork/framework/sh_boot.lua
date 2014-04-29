@@ -109,8 +109,20 @@ end;
 
 Clockwork.kernel:IncludeDirectory("commands/", true);
 
+Clockwork.player:AddCharacterData("Test", NWTYPE_STRING, "DEFAULT", false, function(value)
+	return value.." [Networked]";
+end);
+
 -- Called when the Clockwork shared variables are added.
 function Clockwork:ClockworkAddSharedVars(globalVars, playerVars)
+	for k, v in pairs(self.player.characterData) do
+		playerVars:Add(k, v.nwType, v.playerOnly);
+	end;
+	
+	for k, v in pairs(self.player.playerData) do
+		playerVars:Add(k, v.nwType, v.playerOnly);
+	end;
+	
 	playerVars:Number("InvWeight", true);
 	playerVars:Number("MaxHP", true);
 	playerVars:Number("MaxAP", true);

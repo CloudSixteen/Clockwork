@@ -23,6 +23,8 @@ function COMMAND:OnRun(player, arguments)
 		
 		return;
 	end;
+	
+	player:SetCharacterData("Test", "CHANGED");
 
 	Clockwork.chatBox:AddInTargetRadius(player, "it", text, player:GetPos(), Clockwork.config:Get("talk_radius"):Get() * 2);
 end;
