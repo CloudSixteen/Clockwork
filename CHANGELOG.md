@@ -2,6 +2,11 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.92
+-------
+
+* Added Clockwork.player:AddCharacterData and Clockwork.player:AddPlayerData for adding character and player data that is automatically networked to either all players, or the local player only. This comes with a client-side version of player:GetData(key, default) and player:GetCharacterData(key, default).
+
 0.91
 -------
 
