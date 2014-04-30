@@ -79,6 +79,7 @@ Clockwork.kernel:IncludePrefixed("libraries/sv_file.lua");
 if (SERVER) then CloudAuthX.Authenticate(); end;
 
 Clockwork.kernel:IncludeDirectory("libraries/", true);
+Clockwork.kernel:IncludeDirectory("language/", true);
 Clockwork.kernel:IncludeDirectory("directory/", true);
 Clockwork.kernel:IncludeDirectory("config/", true);
 Clockwork.kernel:IncludePlugins("plugins/", true);
@@ -109,9 +110,8 @@ end;
 
 Clockwork.kernel:IncludeDirectory("commands/", true);
 
-Clockwork.player:AddCharacterData("Test", NWTYPE_STRING, "DEFAULT", false, function(value)
-	return value.." [Networked]";
-end);
+Clockwork.player:AddCharacterData("PhysDesc", NWTYPE_STRING, "");
+Clockwork.player:AddPlayerData("Language", NWTYPE_STRING, "English", true);
 
 -- Called when the Clockwork shared variables are added.
 function Clockwork:ClockworkAddSharedVars(globalVars, playerVars)
@@ -142,7 +142,6 @@ function Clockwork:ClockworkAddSharedVars(globalVars, playerVars)
 	playerVars:Bool("Initialized");
 	playerVars:Bool("IsJogMode");
 	playerVars:Bool("IsRunMode");
-	playerVars:String("PhysDesc");
 	playerVars:String("Clothes", true);
 	playerVars:String("Model", true);
 	playerVars:String("ActName");

@@ -6,35 +6,51 @@
 	https://creativecommons.org/licenses/by-nc-nd/3.0/legalcode
 --]]
 
-local Clockwork = Clockwork;
-local tostring = tostring;
-local pairs = pairs;
-local string = string;
-
+--[[
+	@codebase Shared
+	@details Provides an interface for the language system.
+	@field stored A table containing a list of stored languages.
+--]]
 Clockwork.lang = Clockwork.kernel:NewLibrary("Lang");
 Clockwork.lang.stored = {};
-Clockwork.lang.default = {};
+
+CW_LANGUAGE_CLASS = {__index = CW_LANGUAGE_CLASS};
+
+function CW_LANGUAGE_CLASS:Add(identifier, value)
+	self[identifier] = value;
+end;
 
 --[[
-	A list of language names below:
-		english.xml
-		french.xml
-		german.xml
-		korean.xml
-		russian.xml
+	@codebase Shared
+	@details Get the language table for the given language (or create if it doesn't exist.)
+	@param String The language to get the table for.
+	@returns The language table for the given language.
+--]]
+function Clockwork.lang:GetTable(name)
+	if (!Clockwork.lang.stored[name]) then
+		Clockwork.lang.stored[name] = Clockwork.kernel:NewMetaTable(
+			CW_LANGUAGE_CLASS
+		);
+	end;
 	
-	You can create your own language files and
-	e-mail them to kurozael@gmail.com or post them
-	on the Cloud Sixteen forums.
---]]
+	return Clockwork.lang.stored[name];
+end;
 
 --[[
-	A function to find a language string.
-	You can also use CL(identifier, ...)
+	@codebase Shared
+	@details Get the language string for the given identifier.
+	@param String The language which table to search.
+	@param String The identifier to search for.
+	@param Various A list of arguments to replace in the string.
+	@returns The final string for the given identifier.
 --]]
-function Clockwork.lang:Find(identifier, ...)
-	local langString = self.stored[identifier] or self.default[identifier];
+function Clockwork.lang:GetString(language, identifier, ...)
+	local langString = self.stored[language][identifier];
 	local arguments = {...};
+	
+	if (!langString) then
+		langString = self.stored["English"][identifier] or identifier;
+	end;
 	
 	for k, v in pairs(arguments) do
 		langString = string.gsub(langString, "#"..k, tostring(v), 1);
@@ -43,18 +59,14 @@ function Clockwork.lang:Find(identifier, ...)
 	return langString;
 end;
 
-function CL(identifier, ...)
-	return Clockwork.lang:Find(identifier, ...);
+if (CLIENT) then
+	function L(identifier, ...)
+		local language = Clockwork.Client:GetData("Language");
+		return Clockwork.lang:GetString(language, identifier, ...);
+	end;
+else
+	function L(player, identifier, ...)
+		local language = player:GetData("Language");
+		return Clockwork.lang:GetString(language, identifier, ...);
+	end;
 end;
-
---[[ Server-side only code beyond this point. --]]
-if (not SERVER) then return; end;
-
---[[
-	A function to add a language file to the collection.
-	This will load an XML file and add it to the language table.
---]]
-function Clockwork.lang:Add(language, fileName) end;
-
--- A function to set the active language.
-function Clockwork.lang:Set(language) end;
