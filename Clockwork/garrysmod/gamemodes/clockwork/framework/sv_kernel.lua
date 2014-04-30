@@ -1568,7 +1568,6 @@ function Clockwork:PlayerSetSharedVars(player, curTime)
 	player:HandleAttributeProgress(curTime);
 	player:HandleAttributeBoosts(curTime);
 	
-	player:SetSharedVar("PhysDesc", player:GetCharacterData("PhysDesc"));
 	player:SetSharedVar("Flags", player:GetFlags());
 	player:SetSharedVar("Model", player:GetDefaultModel());
 	player:SetSharedVar("Name", player:Name());
@@ -1795,7 +1794,7 @@ end;
 function Clockwork:PlayerCanHolsterWeapon(player, itemTable, weapon, bForce, bNoMsg)
 	if (self.player:GetSpawnWeapon(player, itemTable("weaponClass"))) then
 		if (!bNoMsg) then
-			self.player:Notify(player, "You cannot holster this weapon!");
+			self.player:Notify(player, L(player, "CannotHolsterWeapon"));
 		end;
 		
 		return false;
@@ -1810,7 +1809,7 @@ end;
 function Clockwork:PlayerCanDropWeapon(player, itemTable, weapon, bNoMsg)
 	if (self.player:GetSpawnWeapon(player, itemTable("weaponClass"))) then
 		if (!bNoMsg) then
-			self.player:Notify(player, "You cannot drop this weapon!");
+			self.player:Notify(player, L(player, "CannotDropWeapon"));
 		end;
 		
 		return false;
@@ -1825,7 +1824,7 @@ end;
 function Clockwork:PlayerCanUseItem(player, itemTable, bNoMsg)
 	if (self.item:IsWeapon(itemTable) and self.player:GetSpawnWeapon(player, itemTable("weaponClass"))) then
 		if (!bNoMsg) then
-			self.player:Notify(player, "You cannot use this weapon!");
+			self.player:Notify(player, L(player, "CannotUseWeapon"));
 		end;
 		
 		return false;
@@ -2063,7 +2062,9 @@ function Clockwork:PlayerCanChangeClass(player, class)
 	local curTime = CurTime();
 	
 	if (player.cwNextChangeClass and curTime < player.cwNextChangeClass) then
-		self.player:Notify(player, "You cannot change class for another "..math.ceil(player.cwNextChangeClass - curTime).." second(s)!");
+		self.player:Notify(player, L(player, "CannotChangeClassFor",
+			math.ceil(player.cwNextChangeClass - curTime))
+		);
 		
 		return false;
 	else
@@ -2098,7 +2099,7 @@ function Clockwork:ClockworkInitPostEntity() end;
 -- Called when a player attempts to say something in-character.
 function Clockwork:PlayerCanSayIC(player, text)
 	if ((!player:Alive() or player:IsRagdolled(RAGDOLL_FALLENOVER)) and !self.player:GetDeathCode(player, true)) then
-		self.player:Notify(player, "You cannot do this action at the moment!");
+		self.player:Notify(player, L(player, "CannotActionRightNow"));
 		
 		return false;
 	else
@@ -2313,7 +2314,7 @@ function Clockwork:PlayerSpawnNPC(player, model)
 	end;
 	
 	if (!player:Alive() or player:IsRagdolled()) then
-		self.player:Notify(player, "You cannot do this action at the moment!");
+		self.player:Notify(player, L(player, "CannotActionRightNow"));
 		
 		return false;
 	end;
@@ -2380,7 +2381,7 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 	
 	if (class == "cw_item" and (arguments == "cwItemTake" or arguments == "cwItemUse")) then
 		if (self.entity:BelongsToAnotherCharacter(player, entity)) then
-			self.player:Notify(player, "You cannot pick up items you dropped on another character!");
+			self.player:Notify(player, L(player, "DroppedItemsOtherChar"));
 			return;
 		end;
 		
@@ -2513,7 +2514,7 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 		});
 	elseif (class == "cw_cash" and arguments == "cwCashTake") then
 		if (self.entity:BelongsToAnotherCharacter(player, entity)) then
-			self.player:Notify(player, "You cannot pick up "..self.option:GetKey("name_cash", true).." you dropped on another character!");
+			self.player:Notify(player, L(player, "DroppedCashOtherChar", self.option:GetKey("name_cash", true)));
 			return;
 		end;
 		
@@ -2555,7 +2556,7 @@ function Clockwork:PlayerSpawnedProp(player, model, entity)
 				self.player:GiveCash(player, -info.cost, info.name);
 				entity.cwGiveRefundTab = {CurTime() + 10, player, info.cost};
 			else
-				self.player:Notify(player, "You need another "..Clockwork.kernel:FormatCash(info.cost - player:GetCash(), nil, true).."!");
+				self.player:Notify(player, L(player, "YouNeedAnother", Clockwork.kernel:FormatCash(info.cost - player:GetCash(), nil, true)));
 				entity:Remove();
 				return;
 			end;
@@ -2583,7 +2584,7 @@ function Clockwork:PlayerSpawnProp(player, model)
 	end;
 	
 	if (!player:Alive() or player:IsRagdolled()) then
-		self.player:Notify(player, "You cannot do this action at the moment!");
+		self.player:Notify(player, L(player, "CannotActionRightNow"));
 		return false;
 	end;
 	
@@ -2599,7 +2600,7 @@ function Clockwork:PlayerSpawnRagdoll(player, model)
 	if (!self.player:HasFlags(player, "r")) then return false; end;
 	
 	if (!player:Alive() or player:IsRagdolled()) then
-		self.player:Notify(player, "You cannot do this action at the moment!");
+		self.player:Notify(player, L(player, "CannotActionRightNow"));
 		
 		return false;
 	end;
@@ -2614,7 +2615,7 @@ end;
 -- Called when a player attempts to spawn an effect.
 function Clockwork:PlayerSpawnEffect(player, model)
 	if (!player:Alive() or player:IsRagdolled()) then
-		self.player:Notify(player, "You cannot do this action at the moment!");
+		self.player:Notify(player, L(player, "CannotActionRightNow"));
 		
 		return false;
 	end;
@@ -2637,7 +2638,7 @@ function Clockwork:PlayerSpawnVehicle(player, model)
 	end;
 	
 	if (!player:Alive() or player:IsRagdolled()) then
-		self.player:Notify(player, "You cannot do this action at the moment!");
+		self.player:Notify(player, L(player, "CannotActionRightNow"));
 		
 		return false;
 	end;
@@ -3682,7 +3683,7 @@ Clockwork.datastream:Hook("DoorManagement", function(player, data)
 						local doors = Clockwork.player:GetDoorCount(player);
 						
 						if (doors == Clockwork.config:Get("max_doors"):Get()) then
-							Clockwork.player:Notify(player, "You cannot purchase another door!");
+							Clockwork.player:Notify(player, L(player, "CannotPurchaseAnotherDoor"));
 						else
 							local doorCost = Clockwork.config:Get("door_cost"):Get();
 							
@@ -3701,7 +3702,9 @@ Clockwork.datastream:Hook("DoorManagement", function(player, data)
 							else
 								local amount = doorCost - player:GetCash();
 								
-								Clockwork.player:Notify(player, "You need another "..Clockwork.kernel:FormatCash(amount, nil, true).."!");
+								Clockwork.player:Notify(player, L(player, "YouNeedAnother",
+									Clockwork.kernel:FormatCash(amount, nil, true))
+								);
 							end;
 						end;
 					end;
