@@ -700,9 +700,13 @@ else
 			name = itemTable("batch").." "..Clockwork.kernel:Pluralize(name);
 		end;
 		
+		local toolTipTitle = ""
+		local toolTipColor = informationColor;
+		local markupObject = Clockwork.theme:GetMarkupObject();
+		
 		if (itemTable.GetClientSideInfo
 		and itemTable:GetClientSideInfo()) then
-			toolTip = itemTable:GetClientSideInfo();
+			toolTip = itemTable:GetClientSideInfo(markupObject);
 		end;
 		
 		if (itemTable.GetClientSideDescription
@@ -722,34 +726,34 @@ else
 			Callback(displayInfo);
 		end;
 		
-		local toolTipTitle = ""
 		if (Clockwork.inventory:UseSpaceSystem()) then
-			toolTipTitle = "["..displayInfo.name..", "..displayInfo.weight..", "..displayInfo.space.."]";
+			toolTipTitle = displayInfo.name..", "..displayInfo.weight..", "..displayInfo.space;
 		else
-			toolTipTitle = "["..displayInfo.name..", "..displayInfo.weight.."]";
-		end
+			toolTipTitle = displayInfo.name..", "..displayInfo.weight;
+		end;
 		
 		if (displayInfo.itemTitle) then
 			toolTipTitle = displayInfo.itemTitle;
 		end;
 		
 		if (itemTable("color")) then
-			toolTipTitle = Clockwork.kernel:MarkupTextWithColor(toolTipTitle, itemTable("color"));
-		else
-			toolTipTitle = Clockwork.kernel:MarkupTextWithColor(toolTipTitle, informationColor);
+			toolTipColor = itemTable("color");
 		end;
+		
+		markupObject:Title(toolTipTitle, toolTipColor);
 		
 		if (displayInfo.toolTip) then
-			displayInfo.toolTip = Clockwork.kernel:MarkupTextWithColor("[Information]", informationColor).."\n"..displayInfo.toolTip;
-			toolTipTitle = toolTipTitle.."\n"..Clockwork.config:Parse(description).."\n"..Clockwork.config:Parse(displayInfo.toolTip);
+			markupObject:Add(description);
+			markupObject:Title("Information");
+			markupObject:Add(displayInfo.toolTip);
 		else
-			toolTipTitle = toolTipTitle.."\n"..Clockwork.config:Parse(description);
+			markupObject:Add(description);
 		end;
 		
-		toolTipTitle = toolTipTitle.."\n"..Clockwork.kernel:MarkupTextWithColor("[Category]", informationColor);
-		toolTipTitle = toolTipTitle.."\n"..itemTable("category");
+		markupObject:Title("Category");
+		markupObject:Add(itemTable("category"));
 		
-		return toolTipTitle;
+		return markupObject:GetText();
 	end;
 	
 	Clockwork.datastream:Hook("ItemData", function(data)
