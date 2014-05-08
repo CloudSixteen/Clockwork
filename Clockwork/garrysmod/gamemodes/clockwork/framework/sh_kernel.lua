@@ -2803,12 +2803,17 @@ else
 	end;
 	
 	-- A function to markup text with a color.
-	function Clockwork.kernel:MarkupTextWithColor(text, color)
+	function Clockwork.kernel:MarkupTextWithColor(text, color, scale)
+		local fontName = Clockwork.fonts:GetMultiplied("cwTooltip", scale or 1);
+		local finalText = text;
+		
 		if (color) then
-			return self:ColorToMarkup(color)..text.."</color>";
-		else
-			return text;
+			finalText = self:ColorToMarkup(color)..text.."</color>";
 		end;
+		
+		finalText = "<font="..fontName..">"..finalText.."</font>";
+		
+		return finalText;
 	end;
 	
 	-- A function to create a markup tool tip.

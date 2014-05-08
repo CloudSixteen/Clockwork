@@ -74,6 +74,34 @@ function Clockwork.theme:Call(hookName, ...)
 	end;
 end;
 
+local MARKUP_OBJECT = {__index = MARKUP_OBJECT, text = ""};
+
+-- A function to add new text to the markup object.
+function MARKUP_OBJECT:Add(text, color, scale)
+	if (self.text != "") then
+		self.text = self.text.."\n";
+	end;
+	
+	self.text = self.text..Clockwork.kernel:MarkupTextWithColor(
+		Clockwork.config:Parse(text), color, scale
+	);
+end;
+
+-- A function to add a new title to the markup object.
+function MARKUP_OBJECT:Title(title, color, scale)
+	self:Add(title, Clockwork.option:GetColor("information"), 1.2);
+end;
+
+-- A function to get the markup object's text.
+function MARKUP_OBJECT:GetText()
+	return self.text;
+end;
+
+-- A function to get a new markup object.
+function Clockwork.theme:GetMarkupObject()
+	return Clockwork.kernel:NewMetaTable(MARKUP_OBJECT);
+end;
+
 --[[ 
 	The following are available hooks for Clockwork.theme library:
 	
