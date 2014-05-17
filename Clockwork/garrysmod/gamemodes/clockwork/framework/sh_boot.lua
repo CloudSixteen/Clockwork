@@ -3,7 +3,7 @@
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
-	https://creativecommons.org/licenses/by-nc-nd/3.0/legalcode
+	http://cloudsixteen.com/license/clockwork.html
 --]]
 
 local AddCSLuaFile = AddCSLuaFile;
@@ -23,10 +23,10 @@ Clockwork.Author = "kurozael";
 Clockwork.Email = "kurozael@gmail.com";
 Clockwork.Name = "Clockwork";
 
---[[ Check if we are using the right CloudAX version. --]]
+--[[ Check if we are using the right CloudAuthX version. --]]
 if (SERVER and CloudAuthX.GetVersion() < 5) then
 	for i = 1, 3 do
-		Error("[CloudAuthX] Clockwork requires an updated CloudAuthX .dll!\n");
+		Error("[CloudAuthX] Clockwork requires an updated CloudAuthX .dll or .so!\n");
 	end;
 end;
 
