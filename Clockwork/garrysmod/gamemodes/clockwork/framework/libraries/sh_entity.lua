@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	ï¿½ 2014 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -888,11 +888,7 @@ if (SERVER) then
 	-- A function to set a door's name.
 	function Clockwork.entity:SetDoorName(entity, name)
 		if (self:IsDoor(entity)) then
-			if (name) then
-				entity:SetNetworkedString("Name", name);
-			else
-				entity:SetNetworkedString("Name", "");
-			end;
+			entity:SetNetworkedString("Name", name or "");
 		end;
 	end;
 	
@@ -1001,9 +997,7 @@ if (SERVER) then
 	
 	-- A function to get whether an entity is a map entity.
 	function Clockwork.entity:IsMapEntity(entity)
-		if (Clockwork.Entities[entity]) then
-			return true;
-		end;
+		return Clockwork.Entities[entity] != nil;
 	end;
 	
 	-- A function to make an entity flush with the ground.
