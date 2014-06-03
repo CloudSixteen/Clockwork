@@ -78,6 +78,7 @@ Clockwork.option:SetKey("name_business", "Business");
 Clockwork.option:SetKey("name_destroy", "Destroy");
 Clockwork.option:SetKey("schema_logo", "");
 Clockwork.option:SetKey("intro_image", "");
+Clockwork.option:SetKey("intro_sound", "music/hl2_song7.mp3");
 Clockwork.option:SetKey("menu_music", "music/hl2_song32.mp3");
 Clockwork.option:SetKey("name_cash", "Cash");
 Clockwork.option:SetKey("name_drop", "Drop");
