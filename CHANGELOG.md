@@ -7,6 +7,8 @@ The following changes have been made for each official Clockwork build.
 
 * Added Clockwork.player:AddCharacterData and Clockwork.player:AddPlayerData for adding character and player data that is automatically networked to either all players, or the local player only. This comes with a client-side version of player:GetData(key, default) and player:GetCharacterData(key, default).
 * Added Linux binaries. This is a big deal. You can now run Clockwork on your Linux server, please report bugs to the issue tracker as it isn't guaranteed to be flawless right now, but at least it will run.
+* Added support for intro sound configuration and reduced line count.
+  * *Contributed by ametrocavich.*
 
 0.91
 -------
