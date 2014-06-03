@@ -260,6 +260,7 @@ end);
 Clockwork.datastream:Hook("ClockworkIntro", function(data)
 	if (!Clockwork.ClockworkIntroFadeOut) then
 		local introImage = Clockwork.option:GetKey("intro_image");
+		local introSound = Clockwork.option:GetKey("intro_sound");
 		local duration = 8;
 		local curTime = UnPredictedCurTime();
 		
@@ -269,7 +270,7 @@ Clockwork.datastream:Hook("ClockworkIntro", function(data)
 		
 		Clockwork.ClockworkIntroWhiteScreen = curTime + (FrameTime() * 8);
 		Clockwork.ClockworkIntroFadeOut = curTime + duration;
-		Clockwork.ClockworkIntroSound = CreateSound(Clockwork.Client, "music/hl2_song7.mp3");
+		Clockwork.ClockworkIntroSound = CreateSound(Clockwork.Client, introSound);
 		Clockwork.ClockworkIntroSound:PlayEx(0.75, 100);
 		
 		timer.Simple(duration - 4, function()
