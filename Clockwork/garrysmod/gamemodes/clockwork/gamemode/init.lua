@@ -8,6 +8,8 @@
 
 --[[ Require the CloudAuthX authentication system. --]]
 require("cloudauthx");
+require("mysqloo");
+
 AddCSLuaFile("cl_init.lua");
 AddCSLuaFile("external/von.lua");
 
