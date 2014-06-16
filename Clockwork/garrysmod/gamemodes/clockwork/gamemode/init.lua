@@ -8,7 +8,10 @@
 
 --[[ Require the CloudAuthX authentication system. --]]
 require("cloudauthx");
-require("mysqloo");
+
+if (system.IsLinux()) then
+	require("mysqloo");
+end;
 
 AddCSLuaFile("cl_init.lua");
 AddCSLuaFile("external/von.lua");
