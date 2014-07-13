@@ -3326,11 +3326,19 @@ function Clockwork.player:SaveCharacter(player, bCreate, character, Callback)
 					queryObj:SetValue(tableKey, v);
 				end;
 			end;
-			queryObj:SetCallback(function(result, status, lastID)
-				if (Callback and tonumber(lastID)) then
-					Callback(tonumber(lastID));
-				end;
-			end);
+			if (system.IsWindows()) then
+				queryObj:SetCallback(function(result, status, lastID)
+					if (Callback and tonumber(lastID)) then
+						Callback(tonumber(lastID));
+					end;
+				end);
+			elseif (system.IsLinux()) then
+				queryObj:SetCallback(function(result, status, lastID)
+					if (Callback) then
+						Callback(tonumber(lastID));
+					end;
+				end);
+			end;
 			queryObj:SetFlag(2);
 		queryObj:Push();
 	elseif (player:HasInitialized()) then
