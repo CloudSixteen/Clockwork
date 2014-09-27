@@ -3,7 +3,10 @@
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
-	https://creativecommons.org/licenses/by-nc-nd/3.0/legalcode
+	http://cloudsixteen.com/license/clockwork.html
+--]]
+--[[
+	Datastream (C) Alex Grist
 --]]
 
 local Clockwork = Clockwork;
@@ -14,11 +17,8 @@ local pcall = pcall;
 local type = type;
 local util = util;
 
---[[ The datastream library is already defined! --]]
-if (Clockwork.datastream) then return; end;
-
 Clockwork.datastream = Clockwork.kernel:NewLibrary("Datastream");
-Clockwork.datastream.stored = {};
+Clockwork.datastream.stored = Clockwork.datastream.stored or {};
 
 --[[
 	@codebase Shared
@@ -62,8 +62,7 @@ if (SERVER) then
 		if (data == nil) then data = 0; end;
 		
 		local dataTable = {data = data};
-		local vonData = Clockwork.kernel:Serialize(dataTable);
-		local encodedData = util.Compress(vonData);
+		local encodedData = pon.encode(dataTable);
 			
 		if (encodedData and #encodedData > 0 and bShouldSend) then
 			net.Start("cwDataDS");
@@ -80,14 +79,6 @@ if (SERVER) then
 		local CW_DS_DATA = net.ReadData(CW_DS_LENGTH);
 		
 		if (CW_DS_NAME and CW_DS_DATA and CW_DS_LENGTH) then
-			CW_DS_DATA = util.Decompress(CW_DS_DATA);
-			
-			if (!CW_DS_DATA) then
-				ErrorNoHalt("[Clockwork] The datastream failed to decompress!\n");
-				
-				return;
-			end;
-			
 			player.cwDataStreamName = CW_DS_NAME;
 			player.cwDataStreamData = "";
 			
@@ -95,12 +86,12 @@ if (SERVER) then
 				player.cwDataStreamData = CW_DS_DATA;
 				
 				if (Clockwork.datastream.stored[player.cwDataStreamName]) then
-					local bSuccess, value = pcall(Clockwork.kernel.Deserialize, Clockwork.kernel, player.cwDataStreamData);
+					local bSuccess, value = pcall(pon.decode, player.cwDataStreamData);
 					
 					if (bSuccess) then
 						Clockwork.datastream.stored[player.cwDataStreamName](player, value.data);
 					elseif (value != nil) then
-						ErrorNoHalt("[Clockwork] The '"..CW_DS_NAME.."' datastream has failed to run.\n"..value.."\n");
+						ErrorNoHalt("[Clockwork] The '"..CW_DS_NAME.."' datastream has failed to run.\n"..value.."\nData: "..tostring(player.cwDataStreamData).."\n");
 					end;
 				end;
 				
@@ -117,8 +108,7 @@ else
 		if (data == nil) then data = 0; end;
 		
 		local dataTable = {data = data};
-		local vonData = Clockwork.kernel:Serialize(dataTable);
-		local encodedData = util.Compress(vonData);
+		local encodedData = pon.encode(dataTable);
 		
 		if (encodedData and #encodedData > 0) then
 			net.Start("cwDataDS");
@@ -128,28 +118,20 @@ else
 			net.SendToServer();
 		end;
 	end;
-	
-	net.Receive("cwDataDS", function(length)
-		CW_DS_NAME = net.ReadString();
-		CW_DS_LENGTH = net.ReadUInt(32);
-		CW_DS_DATA = net.ReadData(CW_DS_LENGTH);
-		
-		if (CW_DS_NAME and CW_DS_DATA and CW_DS_LENGTH) then
-			CW_DS_DATA = util.Decompress(CW_DS_DATA);
 
-			if (!CW_DS_DATA) then
-				ErrorNoHalt("[Clockwork] The datastream failed to decompress!\n");
-				
-				return;
-			end;
-						
+	net.Receive("cwDataDS", function(length)
+		local CW_DS_NAME = net.ReadString();
+		local CW_DS_LENGTH = net.ReadUInt(32);
+		local CW_DS_DATA = net.ReadData(CW_DS_LENGTH);
+
+		if (CW_DS_NAME and CW_DS_DATA and CW_DS_LENGTH) then			
 			if (Clockwork.datastream.stored[CW_DS_NAME]) then
-				local bSuccess, value = pcall(Clockwork.kernel.Deserialize, Clockwork.kernel, CW_DS_DATA);
+				local bSuccess, value = pcall(pon.decode, CW_DS_DATA);
 			
 				if (bSuccess) then
 					Clockwork.datastream.stored[CW_DS_NAME](value.data);
 				elseif (value != nil) then
-					ErrorNoHalt("[Clockwork] The '"..CW_DS_NAME.."' datastream has failed to run.\n"..value.."\n");
+					ErrorNoHalt("[Clockwork] The '"..CW_DS_NAME.."' datastream has failed to run.\n"..value.."\nData: "..tostring(CW_DS_DATA).."\n");
 				end;
 			end;
 		end;
