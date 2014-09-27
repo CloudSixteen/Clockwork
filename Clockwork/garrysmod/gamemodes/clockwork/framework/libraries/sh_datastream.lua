@@ -5,9 +5,6 @@
 	Clockwork was created by Conna Wiles (also known as kurozael.)
 	http://cloudsixteen.com/license/clockwork.html
 --]]
---[[
-	Datastream (C) Alex Grist
---]]
 
 local Clockwork = Clockwork;
 local net = net;
