@@ -9,6 +9,8 @@ The following changes have been made for each official Clockwork build.
 * Added Linux binaries. This is a big deal. You can now run Clockwork on your Linux server, please report bugs to the issue tracker as it isn't guaranteed to be flawless right now, but at least it will run.
 * Added support for intro sound configuration and reduced line count.
   * *Contributed by ametrocavich.*
+* Now using PON + made datastreams faster.
+  * *Contributed by TheGarry.*
 
 0.91
 -------
