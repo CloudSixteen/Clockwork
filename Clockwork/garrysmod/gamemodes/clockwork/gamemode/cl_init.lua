@@ -6,8 +6,9 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
---[[ Include Vercas's serialization library. --]]
+--[[ Include Vercas's serialization library and Penguin's Object Notation. --]]
 include("external/von.lua");
+include("external/pon.lua");
 
 --[[
 	Include the shared Lua table and
