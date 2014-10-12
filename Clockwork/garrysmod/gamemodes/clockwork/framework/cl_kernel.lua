@@ -1075,7 +1075,7 @@ function Clockwork:CalcViewModelView(weapon, viewModel, oldEyePos, oldEyeAngles,
 	eyeAngles:RotateAroundAxis(eyeAngles:Right(), viewInfo.angles.r * fraction);
 
 	client.cwRaisedFraction = Lerp(FrameTime() * 2, client.cwRaisedFraction or 100, targetValue)
-	print(client.cwRaisedFraction);
+	
 	viewModel:SetAngles(eyeAngles)
 
 	return oldEyePos, eyeAngles;
