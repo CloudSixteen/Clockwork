@@ -59,7 +59,6 @@ SWEP.Secondary.Ammo	= "";
 
 SWEP.NoIronSightFovChange = true;
 SWEP.NoIronSightAttack = true;
-SWEP.LoweredAngles = Angle(60, 60, 60);
 SWEP.IronSightPos = Vector(0, 0, 0);
 SWEP.IronSightAng = Vector(0, 0, 0);
 

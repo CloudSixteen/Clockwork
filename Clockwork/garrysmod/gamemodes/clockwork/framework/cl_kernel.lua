@@ -842,6 +842,8 @@ function Clockwork:CreateMove(userCmd)
 	end
 end;
 
+local LAST_RAISED_TARGET = 0;
+
 -- Called when the view should be calculated.
 function Clockwork:CalcView(player, origin, angles, fov)
 	local scale = math.Clamp(CW_CONVAR_HEADBOBSCALE:GetFloat(),0,1) or 1;
@@ -934,6 +936,8 @@ function Clockwork:CalcView(player, origin, angles, fov)
 	end;
 	
 	local view = self.BaseClass:CalcView(player, origin, angles, fov);
+	
+	--[[
 	local weapon = self.Client:GetActiveWeapon();
 	local changedAngles = (view.vm_angles != nil);
 	local changedOrigin = (view.vm_origin != nil);
@@ -946,12 +950,19 @@ function Clockwork:CalcView(player, origin, angles, fov)
 			weaponRaised = nil;
 		end;
 		
-		if (!weaponRaised) then
+		local targetValue = 0;
+		
+		if (weaponRaised) then
+			targetValue = 100;
+		end;
+		
+		if (LAST_RAISED_TARGET < 100) then
 			local originalOrigin = Vector(origin.x, origin.y, origin.z);
 			local originalAngles = Angle(angles.p, angles.y, angles.r);
 			local itemTable = self.item:GetByWeapon(weapon);
 			local originMod = Vector(-3.0451, -1.6419, -0.5771);
-			local anglesMod = Angle(-12.9015, -47.2118, 5.1173);
+			local fraction = LAST_RAISED_TARGET / 100;
+			local anglesMod = Angle(30, -3, -25); --Angle(-12.9015, -47.2118, 5.1173);
 			
 			if (itemTable and itemTable("loweredAngles")) then
 				anglesMod = itemTable("loweredAngles");
@@ -964,6 +975,12 @@ function Clockwork:CalcView(player, origin, angles, fov)
 			elseif (weapon.LoweredOrigin) then
 				originMod = weapon.LoweredOrigin;
 			end;
+			
+			anglesMod.x = anglesMod.x * fraction;
+			anglesMod.y = anglesMod.y * fraction;
+			anglesMod.z = anglesMod.z * fraction;
+			
+			LAST_RAISED_TARGET = Lerp(FrameTime() * 2, LAST_RAISED_TARGET, targetValue);
 			
 			local viewInfo = {
 				origin = originMod,
@@ -982,6 +999,7 @@ function Clockwork:CalcView(player, origin, angles, fov)
 			
 			view.vm_origin = originalOrigin;
 			view.vm_angles = originalAngles;
+			
 		elseif (self.config:Get("use_free_aiming"):Get()) then
 			if (!self.kernel:IsDefaultWeapon(weapon) and !changedAngles) then
 				-- Thanks to BlackOps7799 for this open source example.
@@ -1000,10 +1018,67 @@ function Clockwork:CalcView(player, origin, angles, fov)
 			end;
 		end;
 	end;
+	--]]
 	
 	self.plugin:Call("CalcViewAdjustTable", view);
 	
 	return view;
+end;
+
+local WEAPON_LOWERED_ANGLES = Angle(30, -30, -25)
+
+function Clockwork:CalcViewModelView(weapon, viewModel, oldEyePos, oldEyeAngles, eyePos, eyeAngles)
+	if (!IsValid(weapon)) then return; end;
+
+	local client = self.Client;
+	local weaponRaised = self.player:GetWeaponRaised(client);
+	
+	if (!self.Client:HasInitialized() or !self.config:HasInitialized()
+	or self.Client:GetMoveType() == MOVETYPE_OBSERVER) then
+		weaponRaised = nil;
+	end;
+	
+	local targetValue = 100;
+	
+	if (weaponRaised) then
+		targetValue = 0;
+	end;
+
+	local fraction = (client.cwRaisedFraction or 100) / 100;
+	local itemTable = self.item:GetByWeapon(weapon);
+	local originMod = Vector(-3.0451, -1.6419, -0.5771);
+	local anglesMod = weapon.LoweredAngles or WEAPON_LOWERED_ANGLES;
+	
+	if (itemTable and itemTable("loweredAngles")) then
+		anglesMod = itemTable("loweredAngles");
+	elseif (weapon.LoweredAngles) then
+		anglesMod = weapon.LoweredAngles;
+	end;
+	
+	local viewInfo = {
+		origin = originMod,
+		angles = anglesMod
+	};
+	
+	self.plugin:Call("GetWeaponLoweredViewInfo", itemTable, weapon, viewInfo);
+	
+	--[[
+	if (itemTable and itemTable("loweredOrigin")) then
+		originMod = itemTable("loweredOrigin");
+	elseif (weapon.LoweredOrigin) then
+		originMod = weapon.LoweredOrigin;
+	end;
+	--]]
+	
+	eyeAngles:RotateAroundAxis(eyeAngles:Up(), viewInfo.angles.p * fraction);
+	eyeAngles:RotateAroundAxis(eyeAngles:Forward(), viewInfo.angles.y * fraction);
+	eyeAngles:RotateAroundAxis(eyeAngles:Right(), viewInfo.angles.r * fraction);
+
+	client.cwRaisedFraction = Lerp(FrameTime() * 2, client.cwRaisedFraction or 100, targetValue)
+	print(client.cwRaisedFraction);
+	viewModel:SetAngles(eyeAngles)
+
+	return oldEyePos, eyeAngles;
 end;
 
 -- Called when the local player's limb damage is received.
