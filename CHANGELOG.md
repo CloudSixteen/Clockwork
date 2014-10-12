@@ -13,6 +13,8 @@ The following changes have been made for each official Clockwork build.
   * *Contributed by TheGarry.*
 * Added a config option to disable black intro bars.
 * Added two config options to use different types of server rates, that should prevent few nasty item dupe glitches and also kill lags.
+* Added console versions of common admin commands (such as "setgroup", "demote" etc). Use "cwc COMMAND ARGUMENTS" in console.
+* Changed Clockwork intro music to old OpenAura one.
 
 0.91
 -------
