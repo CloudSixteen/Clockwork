@@ -739,7 +739,7 @@ function Clockwork.chatBox:Paint()
 		end;
 		
 		if (v.icon) then
-			local messageIcon = Material(v.icon);
+			local messageIcon = Clockwork.kernel:GetMaterial(v.icon);
 
 			surface.SetMaterial(messageIcon);
 			surface.SetDrawColor(255, 255, 255, alpha);

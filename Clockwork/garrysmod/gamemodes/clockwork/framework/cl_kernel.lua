@@ -717,15 +717,15 @@ function Clockwork:ClockworkInitialized()
 		newLogoFile = oldLogoFile;
 	end;
 	
-	self.SpawnIconMaterial = Material("vgui/spawnmenu/hover");
+	self.SpawnIconMaterial = Clockwork.kernel:GetMaterial("vgui/spawnmenu/hover");
 	self.DefaultGradient = surface.GetTextureID("gui/gradient_down");
-	self.GradientTexture = Material(self.option:GetKey("gradient")..".png");
-	self.ClockworkSplash = Material(newLogoFile);
-	self.FishEyeTexture = Material("models/props_c17/fisheyelens");
+	self.GradientTexture = Clockwork.kernel:GetMaterial(self.option:GetKey("gradient")..".png");
+	self.ClockworkSplash = Clockwork.kernel:GetMaterial(newLogoFile);
+	self.FishEyeTexture = Clockwork.kernel:GetMaterial("models/props_c17/fisheyelens");
 	self.GradientCenter = surface.GetTextureID("gui/center_gradient");
 	self.GradientRight = surface.GetTextureID("gui/gradient");
 	self.GradientUp = surface.GetTextureID("gui/gradient_up");
-	self.ScreenBlur = Material("pp/blurscreen");
+	self.ScreenBlur = Clockwork.kernel:GetMaterial("pp/blurscreen");
 	self.Gradients = {
 		[GRADIENT_CENTER] = self.GradientCenter;
 		[GRADIENT_RIGHT] = self.GradientRight;
@@ -1404,8 +1404,8 @@ function Clockwork:HUDPaintImportant() end;
 -- Called when the top screen HUD should be painted.
 function Clockwork:HUDPaintTopScreen(info) end;
 
-local SCREEN_DAMAGE_OVERLAY = Material("clockwork/screendamage.png");
-local VIGNETTE_OVERLAY = Material("clockwork/vignette.png");
+local SCREEN_DAMAGE_OVERLAY = Clockwork.kernel:GetMaterial("clockwork/screendamage.png");
+local VIGNETTE_OVERLAY = Clockwork.kernel:GetMaterial("clockwork/vignette.png");
 
 -- Called when the local player's screen damage should be drawn.
 function Clockwork:DrawPlayerScreenDamage(damageFraction)
@@ -2658,7 +2658,7 @@ function Clockwork:HUDDrawScoreBoard()
 		if (!self.ClockworkIntroOverrideImage) then
 			if (introImage != "" and timeLeft <= 8) then
 				self.ClockworkIntroWhiteScreen = curTime + (FrameTime() * 8);
-				self.ClockworkIntroOverrideImage = Material(introImage..".png");
+				self.ClockworkIntroOverrideImage = Clockwork.kernel:GetMaterial(introImage..".png");
 				surface.PlaySound("buttons/combine_button5.wav");
 			end;
 		end;
@@ -2759,7 +2759,7 @@ function Clockwork:PostDrawBackgroundBlurs()
 		if (factionTable and factionTable.material) then
 			if (file.Exists("materials/"..factionTable.material..".png", "GAME")) then
 				if (!panelInfo[3]) then
-					panelInfo[3] = Material(factionTable.material..".png");
+					panelInfo[3] = Clockwork.kernel:GetMaterial(factionTable.material..".png");
 				end;
 				
 				if (self.kernel:IsCharacterScreenOpen(true)) then

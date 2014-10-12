@@ -1399,16 +1399,16 @@ else
 	local cam = cam;
 	local gui = gui;
 
-	Clockwork.BackgroundBlurs = {};
-	Clockwork.RecognisedNames = {};
-	Clockwork.NetworkProxies = {};
-	Clockwork.AccessoryData = {};
+	Clockwork.BackgroundBlurs = Clockwork.BackgroundBlurs or {};
+	Clockwork.RecognisedNames = Clockwork.RecognisedNames or {};
+	Clockwork.NetworkProxies = Clockwork.NetworkProxies or {};
+	Clockwork.AccessoryData = Clockwork.AccessoryData or {};
 	Clockwork.InfoMenuOpen = false;
-	Clockwork.ColorModify = {};
-	Clockwork.ClothesData = {};
-	Clockwork.Cinematics = {};
-	Clockwork.kernel.ESPInfo = {};
-	Clockwork.kernel.Hints = {};
+	Clockwork.ColorModify = Clockwork.ColorModify or {};
+	Clockwork.ClothesData = Clockwork.ClothesData or {};
+	Clockwork.Cinematics = Clockwork.Cinematics or {};
+	Clockwork.kernel.ESPInfo = Clockwork.kernel.ESPInfo or {};
+	Clockwork.kernel.Hints = Clockwork.kernel.Hints or {};
 
 	-- A function to register a network proxy.
 	function Clockwork.kernel:RegisterNetworkProxy(entity, name, Callback)
@@ -1450,6 +1450,17 @@ else
 		--]]
 	
 		return ScreenScale(size);
+	end;
+	
+	-- A function to get a material.
+	function Clockwork.kernel:GetMaterial(materialPath, pngParameters)
+		self.CachedMaterial = self.CachedMaterial or {};
+
+		if (!self.CachedMaterial[materialPath]) then
+			self.CachedMaterial[materialPath] = Material(materialPath, pngParameters);
+		end;
+
+		return self.CachedMaterial[materialPath];
 	end;
 
 	-- A function to get the 3D font size.
