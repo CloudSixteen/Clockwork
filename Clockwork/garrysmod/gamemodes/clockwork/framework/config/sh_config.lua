@@ -37,3 +37,4 @@ Clockwork.config:ShareKey("talk_radius");
 Clockwork.config:ShareKey("wages_name");
 Clockwork.config:ShareKey("door_cost");
 Clockwork.config:ShareKey("enable_space_system");
+Clockwork.config:ShareKey("draw_intro_bars");

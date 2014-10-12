@@ -3126,41 +3126,43 @@ else
 	
 	-- A function to draw the cinematic introduction bars.
 	function Clockwork.kernel:DrawCinematicIntroBars()
-		local maxBarLength = ScrH() / 8;
-		
-		if (!Clockwork.CinematicBarsTarget and !Clockwork.CinematicBarsAlpha) then
-			Clockwork.CinematicBarsAlpha = 0;
-			Clockwork.CinematicBarsTarget = 255;
-			Clockwork.option:PlaySound("rollover");
-		end;
-		
-		Clockwork.CinematicBarsAlpha = math.Approach(Clockwork.CinematicBarsAlpha, Clockwork.CinematicBarsTarget, 1);
-		
-		if (Clockwork.CinematicScreenDone) then
-			if (Clockwork.CinematicScreenBarLength != 0) then
-				Clockwork.CinematicScreenBarLength = math.Clamp((maxBarLength / 255) * Clockwork.CinematicBarsAlpha, 0, maxBarLength);
-			end;
+		if (Clockwork.config:Get("draw_intro_bars"):Get()) then
+			local maxBarLength = ScrH() / 8;
 			
-			if (Clockwork.CinematicBarsTarget != 0) then
-				Clockwork.CinematicBarsTarget = 0;
+			if (!Clockwork.CinematicBarsTarget and !Clockwork.CinematicBarsAlpha) then
+				Clockwork.CinematicBarsAlpha = 0;
+				Clockwork.CinematicBarsTarget = 255;
 				Clockwork.option:PlaySound("rollover");
 			end;
 			
-			if (Clockwork.CinematicBarsAlpha == 0) then
-				Clockwork.CinematicBarsDrawn = true;
-			end;
-		elseif (Clockwork.CinematicScreenBarLength != maxBarLength) then
-			if (!Clockwork.IntroBarsMultiplier) then
-				Clockwork.IntroBarsMultiplier = 1;
-			else
-				Clockwork.IntroBarsMultiplier = math.Clamp(Clockwork.IntroBarsMultiplier + (FrameTime() * 8), 1, 12);
+			Clockwork.CinematicBarsAlpha = math.Approach(Clockwork.CinematicBarsAlpha, Clockwork.CinematicBarsTarget, 1);
+			
+			if (Clockwork.CinematicScreenDone) then
+				if (Clockwork.CinematicScreenBarLength != 0) then
+					Clockwork.CinematicScreenBarLength = math.Clamp((maxBarLength / 255) * Clockwork.CinematicBarsAlpha, 0, maxBarLength);
+				end;
+				
+				if (Clockwork.CinematicBarsTarget != 0) then
+					Clockwork.CinematicBarsTarget = 0;
+					Clockwork.option:PlaySound("rollover");
+				end;
+				
+				if (Clockwork.CinematicBarsAlpha == 0) then
+					Clockwork.CinematicBarsDrawn = true;
+				end;
+			elseif (Clockwork.CinematicScreenBarLength != maxBarLength) then
+				if (!Clockwork.IntroBarsMultiplier) then
+					Clockwork.IntroBarsMultiplier = 1;
+				else
+					Clockwork.IntroBarsMultiplier = math.Clamp(Clockwork.IntroBarsMultiplier + (FrameTime() * 8), 1, 12);
+				end;
+				
+				Clockwork.CinematicScreenBarLength = math.Clamp((maxBarLength / 255) * math.Clamp(Clockwork.CinematicBarsAlpha * Clockwork.IntroBarsMultiplier, 0, 255), 0, maxBarLength);
 			end;
 			
-			Clockwork.CinematicScreenBarLength = math.Clamp((maxBarLength / 255) * math.Clamp(Clockwork.CinematicBarsAlpha * Clockwork.IntroBarsMultiplier, 0, 255), 0, maxBarLength);
+			draw.RoundedBox(0, 0, 0, ScrW(), Clockwork.CinematicScreenBarLength, Color(0, 0, 0, 255));
+			draw.RoundedBox(0, 0, ScrH() - Clockwork.CinematicScreenBarLength, ScrW(), maxBarLength, Color(0, 0, 0, 255));
 		end;
-		
-		draw.RoundedBox(0, 0, 0, ScrW(), Clockwork.CinematicScreenBarLength, Color(0, 0, 0, 255));
-		draw.RoundedBox(0, 0, ScrH() - Clockwork.CinematicScreenBarLength, ScrW(), maxBarLength, Color(0, 0, 0, 255));
 	end;
 	
 	-- A function to draw the cinematic info.
