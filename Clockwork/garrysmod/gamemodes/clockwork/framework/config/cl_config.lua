@@ -27,7 +27,9 @@ Clockwork.config:AddToSystem("Class changing interval", "change_class_interval",
 Clockwork.config:AddToSystem("Sprinting lowers weapon", "sprint_lowers_weapon", "Whether or not sprinting lowers a player's weapon.");
 Clockwork.config:AddToSystem("Weapon raising system enabled", "raised_weapon_system", "Whether or not the raised weapon system is enabled.");
 Clockwork.config:AddToSystem("Prop kill protection enabled", "prop_kill_protection", "Whether or not prop kill protection is enabled.");
-Clockwork.config:AddToSystem("Use optimised server rates", "use_optimised_rates", "Whether or not to use Clockwork optimised rates.");
+Clockwork.config:AddToSystem("Use smooth server rates", "use_smooth_rates", "Whether or not to use Clockwork smooth rates.");
+Clockwork.config:AddToSystem("Use medium performance server rates", "use_optimised_rates", "Whether or not to use Clockwork mid performance rates (bars will be less smooth).");
+Clockwork.config:AddToSystem("Use lag free server rates", "use_lag_free_rates", "Whether or not to use Clockwork max performance rates (kills all lags, screws up bars).");
 Clockwork.config:AddToSystem("Generator interval", "generator_interval", "The time that it takes for generator cash to be distrubuted (seconds).", 0, 7200);
 Clockwork.config:AddToSystem("Gravity gun punt enabled", "enable_gravgun_punt", "Whether or not to enable entities to be punted with the gravity gun.");
 Clockwork.config:AddToSystem("Default inventory weight", "default_inv_weight", "The default inventory weight (kilograms).");
@@ -83,4 +85,5 @@ Clockwork.config:AddToSystem("Maximum run speed", "run_speed", "The speed that c
 Clockwork.config:AddToSystem("Door price", "door_cost", "The amount of cash that each door costs.");
 Clockwork.config:AddToSystem("Door lock interval", "lock_time", "The time that a player has to wait to lock a door (seconds).", 0, 7200);
 Clockwork.config:AddToSystem("Maximum ownable doors", "max_doors", "The maximum amount of doors a player can own.");
-Clockwork.config:AddToSystem("Enable space system", "enable_space_system", "Whether or not to use the space system that affects inventories.")
+Clockwork.config:AddToSystem("Enable space system", "enable_space_system", "Whether or not to use the space system that affects inventories.");
+Clockwork.config:AddToSystem("Draw intro bars", "draw_intro_bars", "Whether or not to draw cinematic intro black bars on top and bottom of the screen.");

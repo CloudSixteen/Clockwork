@@ -11,6 +11,8 @@ The following changes have been made for each official Clockwork build.
   * *Contributed by ametrocavich.*
 * Now using PON + made datastreams faster.
   * *Contributed by TheGarry.*
+* Added a config option to disable black intro bars.
+* Added two config options to use different types of server rates, that should prevent few nasty item dupe glitches and also kill lags.
 
 0.91
 -------

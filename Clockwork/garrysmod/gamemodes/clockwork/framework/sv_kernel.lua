@@ -790,11 +790,29 @@ function Clockwork:ClockworkConfigInitialized(key, value)
 		if (value) then
 			RunConsoleCommand("sv_alltalk", "0");
 		end;
-	elseif (key == "use_optimised_rates") then
+	elseif (key == "use_smooth_rates") then
 		if (value) then
 			RunConsoleCommand("sv_maxupdaterate", "66");
 			RunConsoleCommand("sv_minupdaterate", "0");
 			RunConsoleCommand("sv_maxcmdrate", "66");
+			RunConsoleCommand("sv_mincmdrate", "0");
+			RunConsoleCommand("sv_maxrate", "25000");
+			RunConsoleCommand("sv_minrate", "0");
+		end;
+	elseif (key == "use_mid_performance_rates") then
+		if (value) then
+			RunConsoleCommand("sv_maxupdaterate", "40");
+			RunConsoleCommand("sv_minupdaterate", "0");
+			RunConsoleCommand("sv_maxcmdrate", "40");
+			RunConsoleCommand("sv_mincmdrate", "0");
+			RunConsoleCommand("sv_maxrate", "25000");
+			RunConsoleCommand("sv_minrate", "0");
+		end;
+	elseif (key == "use_lag_free_rates") then
+		if (value) then
+			RunConsoleCommand("sv_maxupdaterate", "24");
+			RunConsoleCommand("sv_minupdaterate", "0");
+			RunConsoleCommand("sv_maxcmdrate", "24");
 			RunConsoleCommand("sv_mincmdrate", "0");
 			RunConsoleCommand("sv_maxrate", "25000");
 			RunConsoleCommand("sv_minrate", "0");
