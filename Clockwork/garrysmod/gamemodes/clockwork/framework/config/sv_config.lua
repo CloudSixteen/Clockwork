@@ -102,4 +102,4 @@ Clockwork.config:Add("door_cost", 10, true);
 Clockwork.config:Add("lock_time", 2);
 Clockwork.config:Add("max_doors", 5);
 Clockwork.config:Add("enable_space_system", false, true);
-Clockwork.config:Add("draw_intro_bars", false, true);
+Clockwork.config:Add("draw_intro_bars", true, true);

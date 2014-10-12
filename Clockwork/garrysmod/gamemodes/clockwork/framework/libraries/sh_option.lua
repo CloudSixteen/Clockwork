@@ -13,8 +13,8 @@ local surface = surface;
 local string = string;
 
 Clockwork.option = Clockwork.kernel:NewLibrary("Option");
-Clockwork.option.keys = {};
-Clockwork.option.sounds = {};
+Clockwork.option.keys = Clockwork.option.keys or {};
+Clockwork.option.sounds = Clockwork.option.sounds or {};
 
 -- A function to set a schema key.
 function Clockwork.option:SetKey(key, value)
@@ -78,7 +78,7 @@ Clockwork.option:SetKey("name_business", "Business");
 Clockwork.option:SetKey("name_destroy", "Destroy");
 Clockwork.option:SetKey("schema_logo", "");
 Clockwork.option:SetKey("intro_image", "");
-Clockwork.option:SetKey("intro_sound", "music/hl2_song7.mp3");
+Clockwork.option:SetKey("intro_sound", "music/HL2_song25_Teleporter.mp3");
 Clockwork.option:SetKey("menu_music", "music/hl2_song32.mp3");
 Clockwork.option:SetKey("name_cash", "Cash");
 Clockwork.option:SetKey("name_drop", "Drop");
@@ -91,8 +91,8 @@ Clockwork.option:SetSound("rollover", "ui/buttonrollover.wav");
 Clockwork.option:SetSound("click", "ui/buttonclick.wav");
 
 if (CLIENT) then
-	Clockwork.option.fonts = {};
-	Clockwork.option.colors = {};
+	Clockwork.option.fonts = Clockwork.option.fonts or {};
+	Clockwork.option.colors = Clockwork.option.colors or {};
 
 	-- A function to set a schema color.
 	function Clockwork.option:SetColor(name, color)

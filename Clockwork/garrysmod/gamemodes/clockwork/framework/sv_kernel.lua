@@ -5159,6 +5159,338 @@ concommand.Add("cwStatus", function(player, command, arguments)
 	end;
 end);
 
+-- The most awfully written function in Clockwork.
+-- Allows you to call certain commands from server console.
+-- ToDo: Rewrite everything to be shorter;
+concommand.Add("cwc", function(player, command, arguments)
+	-- Yep, it's awfully written, but it's not meant to be edited, so...
+	local cmdTable = {
+		sg  = "setgroup",
+		d   = "demote",
+		sc  = "setcash",
+		w   = "whitelist",
+		uw  = "unwhitelist",
+		b   = "ban",
+		k   = "kick",
+		sn  = "setname",
+		sm  = "setmodel",
+		r   = "restart",
+		gf  = "giveflags",
+		tf  = "takeflags"
+	};
+	
+	--  if called from console
+	if (!IsValid(player)) then
+		-- PlySetGroup
+		if (arguments[1] == cmdTable.sg) then
+			local target = Clockwork.player:FindByID(arguments[2]);
+			local userGroup = arguments[3];
+			
+			if (userGroup != "superadmin" and userGroup != "admin" and userGroup != "operator") then
+				ErrorNoHalt("The user group must be superadmin, admin or operator!\n");
+				
+				return;
+			end;
+			
+			if (target) then
+				if (!Clockwork.player:IsProtected(target)) then
+					print("Console has set "..target:Name().."'s user group to "..userGroup..".");
+					Clockwork.player:NotifyAll("Console has set "..target:Name().."'s user group to "..userGroup..".");
+						target:SetClockworkUserGroup(userGroup);
+					Clockwork.player:LightSpawn(target, true, true);
+				else
+					ErrorNoHalt(target:Name().." is protected!\n");
+				end;
+			else
+				ErrorNoHalt(arguments[2].." is not a valid player!\n");
+			end;
+			
+			return;
+		-- PlyDemote
+		elseif (arguments[1] == cmdTable.d) then
+			local target = Clockwork.player:FindByID(arguments[2]);
+			
+			if (target) then
+				if (!Clockwork.player:IsProtected(target)) then
+					local userGroup = target:GetClockworkUserGroup();
+					
+					if (userGroup != "user") then
+						print("Console has demoted "..target:Name().." from "..userGroup.." to user.");
+						Clockwork.player:NotifyAll("Console has demoted "..target:Name().." from "..userGroup.." to user.");
+							target:SetClockworkUserGroup("user");
+						Clockwork.player:LightSpawn(target, true, true);
+					else
+						ErrorNoHalt("This player is only a user and cannot be demoted!\n");
+					end;
+				else
+					ErrorNoHalt(target:Name().." is protected!\n");
+				end;
+			else
+				ErrorNoHalt(arguments[2].." is not a valid player!\n");
+			end;
+			
+			return;
+		-- SetCash
+		elseif (arguments[1] == cmdTable.sc) then
+			local target = Clockwork.player:FindByID(arguments[2])
+			local cash = math.floor(tonumber((arguments[3] or 0)));
+			
+			if (target) then
+				if (cash and cash >= 1) then
+					local playerName = "Console";
+					local targetName = target:Name();
+					local giveCash = cash - target:GetCash();
+					
+					Clockwork.player:GiveCash(target, giveCash);
+					
+					print("Console has set "..targetName.."'s cash to "..Clockwork.kernel:FormatCash(cash, nil, true)..".");
+					Clockwork.player:Notify(target, "Your cash was set to "..Clockwork.kernel:FormatCash(cash, nil, true).." by "..playerName..".");
+				else
+					ErrorNoHalt("This is not a valid amount!\n");
+				end;
+			else
+				ErrorNoHalt(arguments[2].." is not a valid player!\n");
+			end;
+			
+			return;
+		-- PlyWhitelist
+		elseif (arguments[1] == cmdTable.w) then
+			local target = Clockwork.player:FindByID(arguments[2])
+			
+			if (target) then
+				local factionTable = Clockwork.faction:FindByID(table.concat(arguments, " ", 3));
+				
+				if (factionTable) then
+					if (factionTable.whitelist) then
+						if (!Clockwork.player:IsWhitelisted(target, factionTable.name)) then
+							Clockwork.player:SetWhitelisted(target, factionTable.name, true);
+							Clockwork.player:SaveCharacter(target);
+							
+							print("Console has added "..target:Name().." to the "..factionTable.name.." whitelist.");
+							Clockwork.player:NotifyAll("Console has added "..target:Name().." to the "..factionTable.name.." whitelist.");
+						else
+							ErrorNoHalt(target:Name().." is already on the "..factionTable.name.." whitelist!\n");
+						end;
+					else
+						ErrorNoHalt(factionTable.name.." does not have a whitelist!\n");
+					end;
+				else
+					ErrorNoHalt(table.concat(arguments, " ", 3).." is not a valid faction!\n");
+				end;
+			else
+				ErrorNoHalt(arguments[2].." is not a valid player!\n");
+			end;
+			
+			return;
+		-- PlyUnWhitelist
+		elseif (arguments[1] == cmdTable.uw) then
+			local target = Clockwork.player:FindByID(arguments[2])
+			
+			if (target) then
+				local factionTable = Clockwork.faction:FindByID(table.concat(arguments, " ", 3));
+				
+				if (factionTable) then
+					if (factionTable.whitelist) then
+						if (Clockwork.player:IsWhitelisted(target, factionTable.name)) then
+							Clockwork.player:SetWhitelisted(target, factionTable.name, false);
+							Clockwork.player:SaveCharacter(target);
+							
+							print("Console has removed "..target:Name().." from the "..factionTable.name.." whitelist.");
+							Clockwork.player:NotifyAll("Console has removed "..target:Name().." from the "..factionTable.name.." whitelist.");
+						else
+							ErrorNoHalt(target:Name().." is not on the "..factionTable.name.." whitelist!\n");
+						end;
+					else
+						ErrorNoHalt(factionTable.name.." does not have a whitelist!\n");
+					end;
+				else
+					ErrorNoHalt(factionTable.name.." is not a valid faction!\n");
+				end;
+			else
+				ErrorNoHalt(arguments[2].." is not a valid player!\n");
+			end;
+			
+			return;
+		-- PlyBan
+		elseif (arguments[1] == cmdTable.b) then
+			local schemaFolder = Clockwork.kernel:GetSchemaFolder();
+			local duration = tonumber(arguments[3]);
+			local reason = table.concat(arguments, " ", 4);
+			
+			if (!reason or reason == "") then
+				reason = nil;
+			end;
+			
+			if (!Clockwork.player:IsProtected(arguments[2])) then
+				if (duration) then
+					Clockwork.bans:Add(arguments[2], duration * 60, reason, function(steamName, duration, reason)
+						if (IsValid(player)) then
+							if (steamName) then
+								if (duration > 0) then
+									local hours = math.Round(duration / 3600);
+									
+									if (hours >= 1) then
+										print("Console has banned '"..steamName.."' for "..hours.." hour(s) ("..reason..").");
+										Clockwork.player:NotifyAll("Console has banned '"..steamName.."' for "..hours.." hour(s) ("..reason..").");
+									else
+										print("Console has banned '"..steamName.."' for "..math.Round(duration / 60).." minute(s) ("..reason..").");
+										Clockwork.player:NotifyAll("Console has banned '"..steamName.."' for "..math.Round(duration / 60).." minute(s) ("..reason..").");
+									end;
+								else
+									print("Console has banned '"..steamName.."' permanently ("..reason..").");
+									Clockwork.player:NotifyAll("Console has banned '"..steamName.."' permanently ("..reason..").");
+								end;
+							else
+								ErrorNoHalt("This is not a valid identifier!\n");
+							end;
+						end;
+					end);
+				else
+					ErrorNoHalt("This is not a valid duration!\n");
+				end;
+			else
+				local target = Clockwork.player:FindByID(arguments[2]);
+				
+				if (target) then
+					ErrorNoHalt(target:Name().." is protected!\n");
+				else
+					ErrorNoHalt("This player is protected!\n");
+				end;
+			end;
+			
+			return;
+		-- PlyKick
+		elseif (arguments[1] == cmdTable.k) then
+			local target = Clockwork.player:FindByID(arguments[2]);
+			local reason = table.concat(arguments, " ", 3);
+			
+			if (!reason or reason == "") then
+				reason = "N/A";
+			end;
+			
+			if (target) then
+				if (!Clockwork.player:IsProtected(arguments[2])) then
+					print("Console has kicked '"..target:Name().."' ("..reason..").");
+					Clockwork.player:NotifyAll("Console has kicked '"..target:Name().."' ("..reason..").");
+						target:Kick(reason);
+					target.kicked = true;
+				else
+					ErrorNoHalt(target:Name().." is protected!\n");
+				end;
+			else
+				ErrorNoHalt(arguments[1].." is not a valid player!\n");
+			end;
+			
+			return;
+		-- CharSetName
+		elseif (arguments[1] == cmdTable.sn) then
+			local target = Clockwork.player:FindByID(arguments[2])
+			
+			if (target) then
+				if (arguments[3] == "nil") then
+					ErrorNoHalt("You have to specify the name as the last argument, it also has to be 'quoted'.\n");
+					
+					return;
+				else
+					local name = table.concat(arguments, " ", 3);
+					
+					print("Console has set "..target:Name().."'s name to "..name..".");
+					Clockwork.player:NotifyAll("Console has set "..target:Name().."'s name to "..name..".");
+					
+					Clockwork.player:SetName(target, name);
+				end;
+			else
+				ErrorNoHalt(arguments[2].." is not a valid character!\n");
+			end;
+			
+			return;
+		-- CharSetModel
+		elseif (arguments[1] == cmdTable.sm) then
+			local target = Clockwork.player:FindByID(arguments[2])
+			
+			if (target) then
+				local model = table.concat(arguments, " ", 3);
+				
+				target:SetCharacterData("Model", model, true);
+				target:SetModel(model);
+				
+				print("Console has set "..target:Name().."'s model to "..model..".");
+				Clockwork.player:NotifyAll("Console has set "..target:Name().."'s model to "..model..".");
+			else
+				ErrorNoHalt(arguments[2].." is not a valid character!\n");
+			end;
+			
+			return;
+		-- MapRestart
+		elseif (arguments[1] == cmdTable.r) then
+			local delay = tonumber(arguments[2]) or 10;
+			
+			if (type(arguments[2]) == "number") then
+				delay = arguments[2];
+			end;
+
+			print("Console is restarting the map in "..delay.." seconds!");
+			Clockwork.player:NotifyAll("Console is restarting the map in "..delay.." seconds!");
+			
+			timer.Simple(delay, function()
+				RunConsoleCommand("changelevel", game.GetMap());
+			end);
+			
+			return;
+		-- GiveFlags
+		elseif (arguments[1] == cmdTable.gf) then
+			local target = Clockwork.player:FindByID(arguments[2])
+			
+			if (target) then
+				if (string.find(arguments[3], "a") or string.find(arguments[3], "s") or string.find(arguments[3], "o")) then
+					ErrorNoHalt("You cannot give 'o', 'a' or 's' flags!\n");
+					
+					return;
+				end;
+				
+				if (!arguments[3]) then print("You haven't entered any flags!"); return; end;
+				
+				Clockwork.player:GiveFlags(target, arguments[3]);
+				
+				print("Console gave "..target:Name().." '"..arguments[3].."' flags.");
+				Clockwork.player:NotifyAll("Console gave "..target:Name().." '"..arguments[3].."' flags.");
+			else
+				ErrorNoHalt(arguments[2].." is not a valid character!\n");
+			end;
+	
+			return;
+		-- TakeFlags
+		elseif (arguments[1] == cmdTable.tf) then
+			local target = Clockwork.player:FindByID(arguments[2])
+			
+			if (target) then
+				if (string.find(arguments[3], "a") or string.find(arguments[3], "s") or string.find(arguments[3], "o")) then
+					Clockwork.player:Notify(player, "You cannot take 'o', 'a' or 's' flags!");
+					
+					return;
+				end;
+				
+				if (!arguments[3]) then print("You haven't entered any flags!"); return; end;
+				
+				Clockwork.player:TakeFlags(target, arguments[3]);
+				
+				print("Console took '"..arguments[3].."' flags from "..target:Name()..".");
+				Clockwork.player:NotifyAll("Console took '"..arguments[3].."' flags from "..target:Name()..".");
+			else
+				ErrorNoHalt(arguments[2].." is not a valid character!\n");
+			end;
+	
+			return;
+		-- Everything else
+		else
+			ErrorNoHalt("'"..arguments[1].. "' command not found!\n");
+		end;
+	-- if not too bad, players are not allowed to use this swag
+	else
+		Clockwork.player.Notify(player, "You are not allowed to use server-side commands!");
+	end;
+end);
+
 concommand.Add("cwDeathCode", function(player, command, arguments)
 	if (player.cwDeathCodeIdx) then
 		if (arguments and tonumber(arguments[1]) == player.cwDeathCodeIdx) then
