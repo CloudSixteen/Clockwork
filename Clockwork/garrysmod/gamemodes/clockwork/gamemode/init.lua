@@ -18,8 +18,8 @@ AddCSLuaFile("external/von.lua");
 AddCSLuaFile("external/pon.lua");
 
 --[[
-	Include Vercas's serialization library, Penguin's Object Notation and the Clockwork kernel. 
---]]
+	Include Vercas's serialization library
+	and the Clockwork kernel. --]]
 include("external/von.lua");
 include("external/pon.lua");
 include("clockwork/framework/sv_kernel.lua");
