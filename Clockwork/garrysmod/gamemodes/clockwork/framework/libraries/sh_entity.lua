@@ -364,9 +364,9 @@ if (CLIENT) then
 		if (curTime > entity.m_iNextFetchItemData) then
 			entity.m_iNextFetchItemData = curTime + 4;
 			
-			if (entity:GetClass() == "prop_vehicle_jeep") then
+			if (entity:IsVehicle()) then
 				Clockwork.datastream:Start("FetchItemData", entity:EntIndex());
-			elseif (!Clockwork.entity:IsChairEntity(entity)) then
+			else
 				Clockwork.datastream:Start("FetchItemData", entity);
 			end;
 		end;
@@ -407,6 +407,10 @@ else
 		
 		if (itemTable) then
 			local definition = Clockwork.item:GetDefinition(itemTable, true);
+			
+			if (entity:IsVehicle()) then
+				data = entity:EntIndex();
+			end;
 			
 			Clockwork.datastream:Start(player, "FetchItemData", {
 				definition = definition,
