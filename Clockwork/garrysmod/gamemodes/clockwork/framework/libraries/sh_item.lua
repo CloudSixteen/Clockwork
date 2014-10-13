@@ -75,7 +75,7 @@ function CLASS_TABLE:__call(varName, failSafe)
 		Check data first. We may be overriding this value
 		or simply want to return it instead.
 	--]]
-	if (self.data[varName] != nil)
+	if (self.data[varName] != nil) then
 		return self.data[varName];
 	end;
 	
