@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2014 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -69,6 +69,14 @@ function CLASS_TABLE:__call(varName, failSafe)
 				return returnValue;
 			end;
 		end;
+	end;
+	
+	--[[
+		Check data first. We may be overriding this value
+		or simply want to return it instead.
+	--]]
+	if (self.data[varName] != nil)
+		return self.data[varName];
 	end;
 	
 	return (self[varName] != nil and self[varName] or failSafe);
