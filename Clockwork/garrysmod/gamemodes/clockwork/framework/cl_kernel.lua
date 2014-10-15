@@ -1030,11 +1030,11 @@ local WEAPON_LOWERED_ANGLES = Angle(30, -30, -25)
 function Clockwork:CalcViewModelView(weapon, viewModel, oldEyePos, oldEyeAngles, eyePos, eyeAngles)
 	if (!IsValid(weapon)) then return; end;
 
-	local client = self.Client;
-	local weaponRaised = self.player:GetWeaponRaised(client);
+	local player = self.Client;
+	local weaponRaised = self.player:GetWeaponRaised(player);
 	
-	if (!self.Client:HasInitialized() or !self.config:HasInitialized()
-	or self.Client:GetMoveType() == MOVETYPE_OBSERVER) then
+	if (!player:HasInitialized() or !self.config:HasInitialized()
+	or player:GetMoveType() == MOVETYPE_OBSERVER) then
 		weaponRaised = nil;
 	end;
 	
@@ -1044,7 +1044,7 @@ function Clockwork:CalcViewModelView(weapon, viewModel, oldEyePos, oldEyeAngles,
 		targetValue = 0;
 	end;
 
-	local fraction = (client.cwRaisedFraction or 100) / 100;
+	local fraction = (player.cwRaisedFraction or 100) / 100;
 	local itemTable = self.item:GetByWeapon(weapon);
 	local originMod = Vector(-3.0451, -1.6419, -0.5771);
 	local anglesMod = weapon.LoweredAngles or WEAPON_LOWERED_ANGLES;
@@ -1074,7 +1074,7 @@ function Clockwork:CalcViewModelView(weapon, viewModel, oldEyePos, oldEyeAngles,
 	eyeAngles:RotateAroundAxis(eyeAngles:Forward(), viewInfo.angles.y * fraction);
 	eyeAngles:RotateAroundAxis(eyeAngles:Right(), viewInfo.angles.r * fraction);
 
-	client.cwRaisedFraction = Lerp(FrameTime() * 2, client.cwRaisedFraction or 100, targetValue)
+	player.cwRaisedFraction = Lerp(FrameTime() * 2, player.cwRaisedFraction or 100, targetValue)
 	
 	viewModel:SetAngles(eyeAngles)
 
