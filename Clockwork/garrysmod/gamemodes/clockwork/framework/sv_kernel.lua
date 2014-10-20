@@ -39,6 +39,7 @@ local math = math;
 local game = game;
 local os = os;
 
+Clockwork.kernel:AddDirectory("materials/clockwork/sliced/");
 Clockwork.kernel:AddDirectory("materials/clockwork/limbs/");
 Clockwork.kernel:AddDirectory("materials/clockwork/donations/");
 Clockwork.kernel:AddDirectory("materials/clockwork/logo/");

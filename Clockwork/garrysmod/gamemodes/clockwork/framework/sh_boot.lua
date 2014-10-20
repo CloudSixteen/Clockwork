@@ -74,10 +74,12 @@ cwPlayer, cwTeam, cwFile = player, team, file;
 _player, _team, _file = player, team, file;
 
 --[[ These are libraries that we want to load before any others. --]]
-Clockwork.kernel:IncludePrefixed("libraries/sv_file.lua");
+Clockwork.kernel:IncludePrefixed("libraries/server/sv_file.lua");
 
 if (SERVER) then CloudAuthX.Authenticate(); end;
 
+Clockwork.kernel:IncludeDirectory("libraries/server", true);
+Clockwork.kernel:IncludeDirectory("libraries/client", true);
 Clockwork.kernel:IncludeDirectory("libraries/", true);
 Clockwork.kernel:IncludeDirectory("language/", true);
 Clockwork.kernel:IncludeDirectory("directory/", true);

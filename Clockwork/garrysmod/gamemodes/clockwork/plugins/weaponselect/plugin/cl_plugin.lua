@@ -85,7 +85,7 @@ function cwWeaponSelect:DrawWeaponInformation(itemTable, weapon, x, y, alpha)
 		local weaponMarkupHeight = weapon.InfoMarkup:GetHeight();
 		local realY = y - (weaponMarkupHeight / 2);
 		local info = {
-			drawBackground = false,
+			drawBackground = true,
 			weapon = weapon,
 			height = weaponMarkupHeight + 8,
 			width = 260,
@@ -97,9 +97,7 @@ function cwWeaponSelect:DrawWeaponInformation(itemTable, weapon, x, y, alpha)
 		Clockwork.plugin:Call("PreDrawWeaponSelectionInfo", info);
 		
 		if (info.drawBackground) then
-			Clockwork.kernel:DrawGradient(
-				GRADIENT_CENTER, x - 64, realY, 320, weaponMarkupHeight + 8, Color(100, 100, 100, alpha)
-			);
+			SLICED_LARGE_DEFAULT:Draw(x - 64, realY, 320, weaponMarkupHeight + 8, 8, Color(255, 255, 255, alpha));
 		end;
 		
 		if (weapon.InfoMarkup) then

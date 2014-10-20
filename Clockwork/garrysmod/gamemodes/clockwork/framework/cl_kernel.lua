@@ -1476,9 +1476,7 @@ function Clockwork:HUDPaintForeground()
 		local x = ScrW() * 0.25;
 		local y = ScrH() * 0.3;
 		
-		self.kernel:DrawGradient(
-			GRADIENT_RIGHT, x - 16, y - 16, width + 32, height + 32, Color(100, 100, 100, 200)
-		);
+		SLICED_PROGRESS_BAR:Draw(x - 16, y - 16, width + 32, height + 32, 8);
 		
 		self.kernel:DrawBar(
 			x, y, width, height, info.color or Clockwork.option:GetColor("information"),
@@ -1493,9 +1491,7 @@ function Clockwork:HUDPaintForeground()
 			local x = ScrW() * 0.25;
 			local y = ScrH() * 0.3;
 			
-			self.kernel:DrawGradient(
-				GRADIENT_RIGHT, x - 16, y - 16, width + 32, height + 32, Color(100, 100, 100, 200)
-			);
+			SLICED_PROGRESS_BAR:Draw(x - 16, y - 16, width + 32, height + 32, 8);
 			
 			self.kernel:DrawBar(
 				x, y, width, height, info.color or Clockwork.option:GetColor("information"),
