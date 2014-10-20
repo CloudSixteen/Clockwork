@@ -14,9 +14,21 @@ Clockwork.render = Clockwork.kernel:NewLibrary("Render");
 SLICE_OBJECT = {__index = SLICE_OBJECT};
 
 -- A function to draw the sliced sprite at a location (corner size can be overriden.)
-function SLICE_OBJECT:Draw(x, y, w, h, overrideCornerSize)
+function SLICE_OBJECT:Draw(x, y, w, h, overrideCornerSize, overrideColor, overrideAlpha)
+	if (not overrideAlpha) then
+		if (overrideColor) then
+			overrideAlpha = overrideColor.a;
+		else
+			overrideAlpha = 255;
+		end;
+	end;
+	
+	overrideColor = overrideColor or color_white;
+	
+	local finalColor = Color(overrideColor.r, overrideColor.g, overrideColor.b, overrideAlpha);
+	
 	surface.SetMaterial(self.material);
-	surface.SetDrawColor(color_white);
+	surface.SetDrawColor(finalColor);
 
 	local topCornerSize = h * self.top;
 	local cornerSize = w * self.left;
@@ -33,6 +45,10 @@ function SLICE_OBJECT:Draw(x, y, w, h, overrideCornerSize)
 	local tlCornerH = cornerSize;
 	local tlCornerX = x;
 	local tlCornerY = y;
+	
+	if (self.name == "SimpleRed") then
+		print(finalColor.a);
+	end;
 
 	surface.DrawTexturedRectUV(tlCornerX, tlCornerY, tlCornerW, tlCornerH, 0, 0, self.left, self.top);
 	
@@ -103,12 +119,13 @@ end;
 --]]
 function Clockwork.render:AddSlice9(name, fileName, cornerSize)
 	local material = Material(fileName..".png", "noclamp");
-	local sliceObject = self:NewMetaTable(SLICE_OBJECT);
+	local sliceObject = Clockwork.kernel:NewMetaTable(SLICE_OBJECT);
 
 	sliceObject.material = material;
 	sliceObject.texture = material:GetTexture("$basetexture");
 	sliceObject.origW = sliceObject.texture:GetMappingWidth();
 	sliceObject.origH = sliceObject.texture:GetMappingHeight();
+	sliceObject.name = name;
 	
 	local left = cornerSize;
 	local right = sliceObject.origW - cornerSize;
@@ -123,4 +140,11 @@ function Clockwork.render:AddSlice9(name, fileName, cornerSize)
 	return sliceObject;
 end;
 
-CW_9SLICE_TEST = Clockwork.render:AddSlice9("SliceTest", "SliceTest", 11);
+SMALL_BAR_BG = Clockwork.render:AddSlice9("SimpleTint", "clockwork/sliced/simpletint", 6);
+SMALL_BAR_FG = Clockwork.render:AddSlice9("SimpleTint", "clockwork/sliced/simpletint", 6);
+SLICED_SMALL_TINT = Clockwork.render:AddSlice9("SimpleTint", "clockwork/sliced/simpletint", 6);
+SLICED_INFO_MENU_INSIDE = Clockwork.render:AddSlice9("SimpleTint", "clockwork/sliced/simpletint", 6);
+SLICED_LARGE_DEFAULT = Clockwork.render:AddSlice9("SimpleRed", "clockwork/sliced/simplered", 28);
+SLICED_PROGRESS_BAR = Clockwork.render:AddSlice9("SimpleRed", "clockwork/sliced/simplered", 28);
+SLICED_PLAYER_INFO = Clockwork.render:AddSlice9("SimpleRed", "clockwork/sliced/simplered", 28);
+SLICED_INFO_MENU_BG = Clockwork.render:AddSlice9("SimpleRed", "clockwork/sliced/simplered", 28);

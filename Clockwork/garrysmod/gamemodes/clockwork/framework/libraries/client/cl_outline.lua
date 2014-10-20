@@ -12,7 +12,9 @@ local render = render;
 local math = math;
 
 --[[ We need the plugin library to add this as a module! --]]
-if (!Clockwork.plugin) then include("sh_plugin.lua"); end;
+if (!Clockwork.plugin) then
+	include("clockwork/framework/libraries/sh_plugin.lua");
+end;
 
 Clockwork.outline = Clockwork.kernel:NewLibrary("Outline");
 

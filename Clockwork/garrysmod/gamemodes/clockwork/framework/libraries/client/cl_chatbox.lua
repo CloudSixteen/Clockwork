@@ -26,7 +26,9 @@ local math = math;
 local vgui = vgui;
 
 --[[ We need the datastream library to add the hooks! --]]
-if (!Clockwork.datastream) then include("sh_datastream.lua"); end;
+if (!Clockwork.datastream) then
+	include("clockwork/framework/libraries/sh_datastream.lua");
+end;
 
 Clockwork.chatBox = Clockwork.kernel:NewLibrary("ChatBox");
 	Clockwork.chatBox.classes = {};

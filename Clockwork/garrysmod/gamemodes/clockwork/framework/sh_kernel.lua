@@ -1865,8 +1865,8 @@ else
 			self:DrawInfo("CHARACTER AND ROLEPLAY INFO", x, y + 4, colorInfo, nil, true, function(x, y, width, height)
 				return x, y - height;
 			end);
-		
-			self:DrawSimpleGradientBox(2, x, y + 8, width, height, backgroundColor);
+			
+			SLICED_INFO_MENU_BG:Draw(x, y + 8, width, height, 8, backgroundColor);
 			y = y + height + 16;
 			
 			if (self:CanCreateInfoMenuPanel() and self:IsInfoMenuOpen()) then
@@ -1879,7 +1879,8 @@ else
 				end);
 				
 				self:CreateInfoMenuPanel(menuPanelX, menuPanelY, width);
-				self:DrawSimpleGradientBox(2, Clockwork.InfoMenuPanel.x - 4, Clockwork.InfoMenuPanel.y - 4, Clockwork.InfoMenuPanel:GetWide() + 8, Clockwork.InfoMenuPanel:GetTall() + 8, backgroundColor);
+				
+				SLICED_INFO_MENU_INSIDE:Draw( Clockwork.InfoMenuPanel.x - 4, Clockwork.InfoMenuPanel.y - 4, Clockwork.InfoMenuPanel:GetWide() + 8, Clockwork.InfoMenuPanel:GetTall() + 8, 8, backgroundColor);
 				
 				--[[ Override the menu's width to fit nicely. --]]
 				Clockwork.InfoMenuPanel:SetSize(width, Clockwork.InfoMenuPanel:GetTall());
@@ -2087,7 +2088,6 @@ else
 		local newBarInfo = {
 			progressWidth = progressWidth,
 			drawBackground = true,
-			drawForeground = true,
 			drawProgress = true,
 			cornerSize = 2,
 			maximum = maximum,
@@ -2113,22 +2113,12 @@ else
 		
 		if (!Clockwork.plugin:Call("PreDrawBar", barInfo)) then
 			if (barInfo.drawBackground) then
-				self:DrawTexturedGradientBox(
-					barInfo.cornerSize, barInfo.x, barInfo.y, barInfo.width, barInfo.height, backgroundColor, 50
-				);
-			end;
-			
-			if (barInfo.drawForeground) then
-				self:DrawTexturedGradientBox(
-					barInfo.cornerSize, barInfo.x + 2, barInfo.y + 2, barInfo.width - 4, barInfo.height - 4, foregroundColor, 50
-				);
+				SMALL_BAR_BG:Draw(barInfo.x, barInfo.y, barInfo.width, barInfo.height, barInfo.cornerSize, backgroundColor, 50);
 			end;
 			
 			if (barInfo.drawProgress) then
 				render.SetScissorRect(barInfo.x, barInfo.y, barInfo.x + barInfo.progressWidth, barInfo.y + barInfo.height, true);
-					self:DrawTexturedGradientBox(
-						0, barInfo.x + 2, barInfo.y + 2, barInfo.width, barInfo.height - 4, barInfo.color, 150
-					);
+					SMALL_BAR_FG:Draw(barInfo.x + 2, barInfo.y + 2, barInfo.width - 4, barInfo.height - 4, 3, barInfo.color, 150);
 				render.SetScissorRect(barInfo.x, barInfo.y, barInfo.x + barInfo.progressWidth, barInfo.height, false);
 			end;
 			
@@ -2350,10 +2340,7 @@ else
 			end;
 			
 			if (#information > 0 and boxInfo.drawBackground) then
-				self:DrawTexturedGradientBox(
-					boxInfo.cornerSize, x, y, width, height - ((textHeight + 12) * #subInformation),
-					foregroundColor, 50
-				);
+				SLICED_PLAYER_INFO:Draw(x, y, width, height - ((textHeight + 12) * #subInformation), boxInfo.cornerSize);
 			end;
 			
 			if (#information > 0) then
@@ -2491,11 +2478,12 @@ else
 	-- A function to draw a simple gradient box.
 	function Clockwork.kernel:DrawSimpleGradientBox(cornerSize, x, y, width, height, color, maxAlpha)
 		local gradientAlpha = math.min(color.a, maxAlpha or 100);
+		
 		draw.RoundedBox(cornerSize, x, y, width, height, Color(color.r, color.g, color.b, color.a * 0.75));
 		
 		if (x + cornerSize < x + width and y + cornerSize < y + height) then
 			surface.SetDrawColor(gradientAlpha, gradientAlpha, gradientAlpha, gradientAlpha);
-			surface.SetTexture(Clockwork.DefaultGradient);
+			surface.SetMaterial(self:GetGradientTexture());
 			surface.DrawTexturedRect(x + cornerSize, y + cornerSize, width - (cornerSize * 2), height - (cornerSize * 2));
 		end;
 	end;
@@ -2503,8 +2491,9 @@ else
 	-- A function to draw a textured gradient.
 	function Clockwork.kernel:DrawTexturedGradientBox(cornerSize, x, y, width, height, color, maxAlpha)
 		local gradientAlpha = math.min(color.a, maxAlpha or 100);
-		draw.RoundedBox(cornerSize, x, y, width, height, Color(color.r, color.g, color.b, color.a * 0.75));
 		
+		draw.RoundedBox(cornerSize, x, y, width, height, Color(color.r, color.g, color.b, color.a * 0.75));
+
 		if (x + cornerSize < x + width and y + cornerSize < y + height) then
 			surface.SetDrawColor(gradientAlpha, gradientAlpha, gradientAlpha, gradientAlpha);
 			surface.SetMaterial(self:GetGradientTexture());
@@ -2519,9 +2508,7 @@ else
 		local boxHeight = boxInfo.textHeight + 8;
 		
 		if (boxInfo.drawBackground) then
-			self:DrawTexturedGradientBox(
-				boxInfo.cornerSize, x, y, width, boxHeight, foregroundColor, 50
-			);
+			SLICED_PLAYER_INFO:Draw(x, y, width, boxHeight, 4, foregroundColor, 50);
 		end;
 		
 		self:DrawInfo(text, x + 8, y + (boxHeight / 2), colorInfo, 255, true,

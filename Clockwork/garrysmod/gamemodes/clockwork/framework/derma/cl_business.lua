@@ -118,7 +118,9 @@ end;
 
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
-	derma.SkinHook("Paint", "Frame", self, w, h);
+	SLICED_LARGE_DEFAULT:Draw(self.x - 12, self.y - 12, w + 24, h + 24, 8);
+	
+	--derma.SkinHook("Paint", "Frame", self, w, h);
 	
 	return true;
 end;
