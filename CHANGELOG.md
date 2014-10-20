@@ -16,6 +16,8 @@ The following changes have been made for each official Clockwork build.
 * Added console versions of common admin commands (such as "setgroup", "demote" etc). Use "cwc COMMAND ARGUMENTS" in console.
 * Fixed bug where weapons didn't raise correctly.
 * Changed Clockwork intro music to old OpenAura one.
+* Clockwork will try to use SQLLite if the default SQL file is not touched.
+* Clockwork will try to use MySQLOO if it is installed and loaded.
 
 0.91
 -------
