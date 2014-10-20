@@ -71,6 +71,7 @@ for k, v in pairs(SILKICON_MATERIAL_TABLE)do
 	Clockwork.kernel:AddFile("materials/icon16/"..v..".png");
 end;
 
+Clockwork.kernel:AddFile("materials/SliceTest.png");
 Clockwork.kernel:AddFile("models/humans/female_gestures.ani");
 Clockwork.kernel:AddFile("models/humans/female_gestures.mdl");
 Clockwork.kernel:AddFile("models/humans/female_postures.ani");
