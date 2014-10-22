@@ -252,8 +252,6 @@ Clockwork.datastream:Hook("RecogniseMenu", function(data)
 		);
 	end;
 	
-	print(Clockwork.Client:GetCharacterData("Test"));
-	
 	Clockwork.kernel:SetRecogniseMenu(menuPanel);
 end);
 
