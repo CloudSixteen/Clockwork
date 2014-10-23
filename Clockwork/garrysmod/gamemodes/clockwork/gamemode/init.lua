@@ -11,6 +11,8 @@ require("cloudauthx");
 
 if (system.IsLinux()) then
 	require("mysqloo");
+else
+	require("tmysql4");
 end;
 
 AddCSLuaFile("cl_init.lua");
