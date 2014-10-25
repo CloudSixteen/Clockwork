@@ -268,7 +268,7 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 	PLUGIN_FOLDERNAME = folderName;
 	
 	if (bIsSchema) then
-		Schema = self:New();
+		PLUGIN = self:New(); Schema = PLUGIN;
 		
 		if (SERVER) then
 			local schemaInfo = Clockwork.kernel:GetSchemaGamemodeInfo();

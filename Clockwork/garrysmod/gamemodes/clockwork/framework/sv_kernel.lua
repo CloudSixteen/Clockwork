@@ -130,7 +130,7 @@ end;
 	This is a hack to allow us to call plugin hooks based
 	on default GMod hooks that are called.
 --]]
-hook.ClockworkCall = hook.Call;
+hook.ClockworkCall = hook.ClockworkCall or hook.Call;
 hook.Timings = {};
 
 function hook.Call(name, gamemode, ...)
@@ -1459,6 +1459,8 @@ end;
 
 -- Called when a player's data should be saved.
 function Clockwork:PlayerSaveData(player, data)
+	Clockwork.player:RestoreData(player, data);
+	
 	if (data["Whitelisted"] and table.Count(data["Whitelisted"]) == 0) then
 		data["Whitelisted"] = nil;
 	end;
@@ -1669,8 +1671,6 @@ function Clockwork:PlayerDestroyGenerator(player, entity, generator) end;
 
 -- Called when a player's data should be restored.
 function Clockwork:PlayerRestoreData(player, data)
-	Clockwork.player:RestoreData(player, data);
-	
 	if (!data["Whitelisted"]) then
 		data["Whitelisted"] = {};
 	end;

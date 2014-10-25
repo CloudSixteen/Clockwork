@@ -6,7 +6,11 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
---[[ Require the CloudAuthX authentication system. --]]
+if (Clockwork and Clockwork.config) then
+	ErrorNoHalt("[Clockwork] Clockwork does not currently support AutoRefresh but is being worked on.\n");
+	return;
+end;
+
 require("cloudauthx");
 
 if (system.IsLinux()) then

@@ -55,8 +55,8 @@ DeriveGamemode("sandbox");
 	on default GMod hooks that are called.
 --]]
 
-hook.ClockworkCall = hook.Call;
-hook.Timings = {};
+hook.ClockworkCall = hook.ClockworkCall or hook.Call;
+hook.Timings = hook.Timings or {};
 
 function hook.Call(name, gamemode, ...)
 	if (!IsValid(Clockwork.Client)) then
@@ -2978,13 +2978,22 @@ end;
 -- Overriding Garry's "grab ear" animation.
 function Clockwork:GrabEarAnimation(player) end;
 
+concommand.Add("cwLua", function(player, command, arguments)
+	if (player:IsSuperAdmin()) then
+		RunString(table.concat(arguments, " "));
+		return;
+	end;
+	
+	print("You do not have access to this command, "..player:Name()..".");
+end);
+
 local entityMeta = FindMetaTable("Entity");
 local weaponMeta = FindMetaTable("Weapon");
 local playerMeta = FindMetaTable("Player");
 
-entityMeta.ClockworkFireBullets = entityMeta.FireBullets;
-weaponMeta.OldGetPrintName = weaponMeta.GetPrintName;
-playerMeta.SteamName = playerMeta.Name;
+entityMeta.ClockworkFireBullets = entityMeta.ClockworkFireBullets or entityMeta.FireBullets;
+weaponMeta.OldGetPrintName = weaponMeta.OldGetPrintName or weaponMeta.GetPrintName;
+playerMeta.SteamName = playerMeta.SteamName or playerMeta.Name;
 
 -- A function to make a player fire bullets.
 function entityMeta:FireBullets(bulletInfo)
@@ -3170,12 +3179,3 @@ end;
 
 playerMeta.GetName = playerMeta.Name;
 playerMeta.Nick = playerMeta.Name;
-
-concommand.Add("cwLua", function(player, command, arguments)
-	if (player:IsSuperAdmin()) then
-		RunString(table.concat(arguments, " "));
-		return;
-	end;
-	
-	print("You do not have access to this command, "..player:Name()..".");
-end);
