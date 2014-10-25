@@ -19,6 +19,50 @@ else
 	Clockwork.theme.factory = {};
 end;
 
+function Clockwork.theme:HookReplace(vguiName, functionName, callback)
+	if (not self.factory[vguiName]) then
+		return;
+	end;
+	
+	self.factory[vguiName][functionName] = function(vguiObject, ...)
+		callback(vguiObject, ...);
+	end;
+end;
+
+function Clockwork.theme:HookBefore(vguiName, functionName, callback)
+	if (not self.factory[vguiName]) then
+		return;
+	end;
+	
+	local oldFunction = self.factory[vguiName][functionName];
+	
+	if (oldFunction == nil) then
+		return;
+	end;
+	
+	self.factory[vguiName][functionName] = function(vguiObject, ...)
+		callback(vguiObject, ...);
+		oldFunction(vguiObject, ...);
+	end;
+end;
+
+function Clockwork.theme:HookAfter(vguiName, functionName, callback)
+	if (not self.factory[vguiName]) then
+		return;
+	end;
+	
+	local oldFunction = self.factory[vguiName][functionName];
+	
+	if (oldFunction == nil) then
+		return;
+	end;
+	
+	self.factory[vguiName][functionName] = function(vguiObject, ...)
+		oldFunction(vguiObject, ...);
+		callback(vguiObject, ...);
+	end;
+end;
+
 -- A function to begin the theme.
 function Clockwork.theme:Begin()
 	return {
