@@ -6,6 +6,11 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
+if (Clockwork and Clockwork.config) then
+	ErrorNoHalt("[Clockwork] Clockwork does not currently support AutoRefresh but is being worked on.\n");
+	return;
+end;
+
 local AddCSLuaFile = AddCSLuaFile;
 local IsValid = IsValid;
 local pairs = pairs;
@@ -24,7 +29,7 @@ Clockwork.Email = "kurozael@gmail.com";
 Clockwork.Name = "Clockwork";
 
 --[[ Check if we are using the right CloudAuthX version. --]]
-if (SERVER and CloudAuthX.GetVersion() < 7) then
+if (SERVER and CloudAuthX.GetVersion() < 12) then
 	for i = 1, 3 do
 		Error("[CloudAuthX] Clockwork requires an updated CloudAuthX .dll or .so!\n");
 	end;

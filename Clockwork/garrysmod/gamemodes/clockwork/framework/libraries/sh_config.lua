@@ -21,10 +21,10 @@ local game = game;
 if (!Clockwork.datastream) then include("sh_datastream.lua"); end;
 
 Clockwork.config = Clockwork.kernel:NewLibrary("Config");
-Clockwork.config.indexes = {};
-Clockwork.config.stored = {};
-Clockwork.config.cache = {};
-Clockwork.config.map = {};
+Clockwork.config.indexes = Clockwork.config.indexes or {};
+Clockwork.config.stored = Clockwork.config.stored or {};
+Clockwork.config.cache = Clockwork.config.cache or {};
+Clockwork.config.map = Clockwork.config.map or {};
 
 --[[ Set the __index meta function of the class. --]]
 local CLASS_TABLE = {__index = CLASS_TABLE};
