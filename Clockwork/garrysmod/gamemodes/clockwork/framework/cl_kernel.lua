@@ -2646,8 +2646,8 @@ function Clockwork:HUDDrawScoreBoard()
 		local material = self.ClockworkIntroOverrideImage or self.ClockworkSplash;
 		local sineWave = math.sin(curTime);
 		local height = 256;
-		local width = 512;
-		local alpha = 255;
+		local width = 768;
+		local alpha = 384;
 		
 		if (!self.ClockworkIntroOverrideImage) then
 			if (introImage != "" and timeLeft <= 8) then
@@ -2695,16 +2695,10 @@ function Clockwork:HUDDrawScoreBoard()
 		self.kernel:DrawSimpleGradientBox(0, 0, 0, scrW, scrH, Color(0, 0, 0, 255));
 		draw.SimpleText(self.kernel:GetSharedVar("NoMySQL"), introTextSmallFont, scrW / 2, scrH / 2, Color(179, 46, 49, 255), 1, 1);
 	elseif (self.DataStreamedAlpha and self.DataStreamedAlpha > 0) then
-		local textString = "Please wait while Clockwork initializes.";
-		
-		if (!self.CreatedLocalPlayer) then
-			textString = "Please wait while Source creates the local player.";
-		elseif (!self.config:HasInitialized()) then
-			textString = "Please wait while the server config is retrieved.";
-		end;
+		local textString = "LOADING...";
 		
 		self.kernel:DrawSimpleGradientBox(0, 0, 0, scrW, scrH, Color(0, 0, 0, self.DataStreamedAlpha));
-		draw.SimpleText(textString, introTextSmallFont, scrW / 2, scrH / 2, Color(colorWhite.r, colorWhite.g, colorWhite.b, self.DataStreamedAlpha), 1, 1);
+		draw.SimpleText(textString, introTextSmallFont, scrW / 2, scrH * 0.75, Color(colorWhite.r, colorWhite.g, colorWhite.b, self.DataStreamedAlpha), 1, 1);
 		
 		drawPendingScreenBlack = nil;
 	end;

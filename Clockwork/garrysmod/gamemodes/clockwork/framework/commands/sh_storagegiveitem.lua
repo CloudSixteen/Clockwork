@@ -20,9 +20,8 @@ function COMMAND:OnRun(player, arguments)
 	local uniqueID = arguments[1];
 	local itemID = tonumber(arguments[2]);
 	
-	if (storageTable and IsValid(storageTable.entity)) then
+	if (storageTable and (!storageTable.entity or IsValid(storageTable.entity))) then
 		local itemTable = player:FindItemByID(uniqueID, itemID);
-		local target = storageTable.entity;
 		
 		if (!itemTable) then
 			Clockwork.player:Notify(player, "You do not have an instance of this item!");

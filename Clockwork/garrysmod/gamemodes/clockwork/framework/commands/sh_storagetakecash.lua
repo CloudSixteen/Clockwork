@@ -22,14 +22,14 @@ function COMMAND:OnRun(player, arguments)
 		local target = storageTable.entity;
 		local cash = math.floor(tonumber(arguments[1]));
 		
-		if (!IsValid(target) or !Clockwork.config:Get("cash_enabled"):Get()) then
+		if ((target and !IsValid(target)) or !Clockwork.config:Get("cash_enabled"):Get()) then
 			return;
 		end;
 		
 		if (cash and cash > 1 and cash <= storageTable.cash) then
 			if (!storageTable.CanTakeCash
 			or (storageTable.CanTakeCash(player, storageTable, cash) != false)) then
-				if (!target:IsPlayer()) then
+				if (target and !target:IsPlayer()) then
 					Clockwork.player:GiveCash(player, cash, nil, true);
 					Clockwork.storage:UpdateCash(player, storageTable.cash - cash);
 				else
