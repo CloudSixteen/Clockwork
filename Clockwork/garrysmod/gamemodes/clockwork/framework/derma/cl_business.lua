@@ -199,7 +199,7 @@ local PANEL = {};
 -- Called when the panel is initialized.
 function PANEL:Init()
 	local itemData = self:GetParent().itemData;
-		self:SetSize(40, 40);
+		self:SetSize(48, 48);
 		self.itemTable = itemData.itemTable;
 	Clockwork.plugin:Call("PlayerAdjustBusinessItemTable", self.itemTable);
 	
@@ -219,7 +219,7 @@ function PANEL:Init()
 	
 	self.spawnIcon:SetModel(model, skin);
 	self.spawnIcon:SetToolTip("");
-	self.spawnIcon:SetSize(40, 40);
+	self.spawnIcon:SetSize(48, 48);
 end;
 
 -- Called each frame.

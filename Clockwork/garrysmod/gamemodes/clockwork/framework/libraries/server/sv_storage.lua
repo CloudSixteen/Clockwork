@@ -314,7 +314,7 @@ function Clockwork.storage:GiveTo(player, itemTable)
 		return false;
 	end;
 	
-	if (!storageTable.entity:IsPlayer()) then
+	if (not storageTable.entity or !storageTable.entity:IsPlayer()) then
 		local weight = itemTable("storageWeight", itemTable("weight"));
 		local space = itemTable("storageSpace", itemTable("space"));
 		
@@ -330,7 +330,7 @@ function Clockwork.storage:GiveTo(player, itemTable)
 	bCanGiveStorage = !storageTable.CanGiveItem or storageTable.CanGiveItem(player, storageTable, itemTable);
 	if (bCanGiveStorage == false) then return false; end;
 	
-	if (storageTable.entity:IsPlayer() and !storageTable.entity:GiveItem(itemTable)) then
+	if (storageTable.entity and storageTable.entity:IsPlayer() and !storageTable.entity:GiveItem(itemTable)) then
 		return false;
 	end;
 	
@@ -361,7 +361,7 @@ function Clockwork.storage:GiveTo(player, itemTable)
 		self:Close(player);
 	end;
 	
-	if (storageTable.entity:IsPlayer()) then
+	if (storageTable.entity and storageTable.entity:IsPlayer()) then
 		self:UpdateWeight(player, storageTable.entity:GetMaxWeight());
 		self:UpdateSpace(player, storageTable.entity:GetMaxSpace());
 	end;
@@ -397,7 +397,7 @@ function Clockwork.storage:TakeFrom(player, itemTable)
 	if (bSuccess) then
 		Clockwork.plugin:Call("PlayerTakeFromStorage", player, storageTable, itemTable);
 		
-		if (!storageTable.entity:IsPlayer()) then
+		if (not storageTable.entity or !storageTable.entity:IsPlayer()) then
 			Clockwork.inventory:RemoveInstance(inventory, itemTable);
 		else
 			storageTable.entity:TakeItem(itemTable);
@@ -421,7 +421,7 @@ function Clockwork.storage:TakeFrom(player, itemTable)
 			self:Close(player);
 		end;
 		
-		if (storageTable.entity:IsPlayer()) then
+		if (storageTable.entity and storageTable.entity:IsPlayer()) then
 			self:UpdateWeight(player, storageTable.entity:GetMaxWeight());
 			self:UpdateSpace(player, storageTable.entity:GetMaxSpace());
 		end;
