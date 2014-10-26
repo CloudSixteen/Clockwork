@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2014 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -19,6 +19,9 @@ else
 	Clockwork.theme.factory = {};
 end;
 
+--[[
+	Replaces a VGUI's function.
+--]]
 function Clockwork.theme:HookReplace(vguiName, functionName, callback)
 	if (not self.factory[vguiName]) then
 		return;
@@ -29,6 +32,10 @@ function Clockwork.theme:HookReplace(vguiName, functionName, callback)
 	end;
 end;
 
+--[[
+	Runs the callback function before the original
+	function is ran.
+--]]
 function Clockwork.theme:HookBefore(vguiName, functionName, callback)
 	if (not self.factory[vguiName]) then
 		return;
@@ -46,6 +53,10 @@ function Clockwork.theme:HookBefore(vguiName, functionName, callback)
 	end;
 end;
 
+--[[
+	Runs the callback function after the original
+	function is ran.
+--]]
 function Clockwork.theme:HookAfter(vguiName, functionName, callback)
 	if (not self.factory[vguiName]) then
 		return;

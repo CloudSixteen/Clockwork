@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2014 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -42,12 +42,24 @@ function Clockwork.database:OnConnectionFailed(errText) end;
 function Clockwork.database:Connect(host, username, password, database, port) end;
 
 --[[
+
+	:IsResult only works for :Select, and someone must join
+	the server once in order for the queries to work. After
+	someone joins, queries may be executed freely. You may 
+	use a bot to trigger the ability to use queries.
+
+	You should always use callbacks, as the query is not 
+	instantaneous, and your script will continue to run
+	even though the query has not yet been executed.
+
 	EXAMPLE:
-	
-	local myInsert = Clockwork.database:Insert();
-		myInsert:SetTable("players");
-		myInsert:SetValue("_Name", "Joe");
-		myInsert:SetValue("_SteamID", "STEAM_0:1:9483843344");
-		myInsert:AddCallback(MyCallback);
-	myInsert:Push();
+
+	local queryObj = Clockwork.database:Select(Clockwork.config:Get("mysql_characters_table"):Get());
+		queryObj:AddWhere("_Name = ?", "Jim Bob");
+		queryObj:SetCallback(function(result, status, error)
+			if (Clockwork.database:IsResult(result)) then
+				print("Jim Bob is there!");
+			end;
+		end);
+	queryObj:Pull();
 --]]
