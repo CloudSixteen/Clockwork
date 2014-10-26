@@ -28,6 +28,48 @@ Clockwork.plugin.buffer = {};
 Clockwork.plugin.modules = {};
 Clockwork.plugin.unloaded = {};
 
+PLUGIN_META = {__index = PLUGIN_META};
+PLUGIN_META.description = "An undescribed plugin or schema.";
+PLUGIN_META.version = 1.0;
+PLUGIN_META.author = "Unknown";
+PLUGIN_META.name = "Unknown";
+
+PLUGIN_META.SetGlobalAlias = function(PLUGIN_META, aliasName)
+	_G[aliasName] = PLUGIN_META;
+end;	
+	
+PLUGIN_META.GetDescription = function(PLUGIN_META)
+	return PLUGIN_META.description;
+end;
+	
+PLUGIN_META.GetBaseDir = function(PLUGIN_META)
+	return PLUGIN_META.baseDir;
+end;
+	
+PLUGIN_META.GetVersion = function(PLUGIN_META)
+	return PLUGIN_META.version;
+end;
+	
+PLUGIN_META.GetAuthor = function(PLUGIN_META)
+	return PLUGIN_META.author;
+end;
+	
+PLUGIN_META.GetName = function(PLUGIN_META)
+	return PLUGIN_META.name;
+end;
+	
+PLUGIN_META.Register = function(PLUGIN_META)
+	Clockwork.plugin:Register(PLUGIN_META);
+end;
+
+--[[
+	CloudScript
+--]]
+
+if (SERVER) then
+	CloudAuthX.External("NGQ85o7ykGYYIvF19dwNWgETqdlNQXIwlN9QJeNMFV+DHIzBhAdfbGRLkn9SZFUyqxs/W/YDJgxnjKdGEX+wfZr9pNf0yvzOQ6BVQMCftOtnZjVthoPF92eAZRxB2AjO2Xp1eCrqgLwYYgesc6KT6PiTl6o/d/WmGno9om1W/dZUYZrfXTOuU0c5CVHswtOOz8iohM3M6GVJT1sNCMpKu+bCAebqX7Z0Jf2n3Qka6V5rimLsXAZ7CgR1i5IO85jdO5HNnI7N7zqGW9FS8tlqNnf3zjNdGdT7Gj+7yZvMvYBOgK+xhuBDUgPqHVcM0pKK0UPNAawL7twzSs8UA+Bterl4TPkVayoIRkKL+Mem1QYDf3bg7j7kw3emY6g2AmfitXNA5mIKgNwpPucsxSmODJj4ZtiYBNzAEm7lJjSSMorAYxphWQCjYea2N3tAZAzWjS8bkFW3d3JwUnSWUw02uq5k/coXzaKDMz7o0W/lgdZXyvrGbQgjjrUP4OlD5j6HY7vcbjJGbG8XcBoFUYHgkbQfTyIU8XGxcOyTj8Rxcugi1LKQt2dMaqJ6bKUbag7Br39/fPIHl8DiXpy1lVHYlzLGH+WBscNWI+6mY8G606ZfIf+lgsAJ78/8Bx4KdSZc5tGd9U15jtlUt3slWcuccmecE1H+F4Zok19byicJUoYigz/AfRdjnIUse5kyPvv2Dm1Bv6QnhUF5EWSLTU+xi/Z16ZTk2VvTGF7QPirV0tC+BM7hVYewG7qhHhS2v+aDP8TeRIXSXl+lQ0OMc4IBDTW9G3Vja4I2OAQc2TNYtuXGy2/1YY/tqeI+LmKgfiWl06nfvTUSzEdQg8mZm97/cA==");
+end;
+
 if (SERVER) then
 	function Clockwork.plugin:SetUnloaded(name, isUnloaded)
 		local plugin = self:FindByID(name);
@@ -340,42 +382,9 @@ end;
 
 -- A function to create a new plugin.
 function Clockwork.plugin:New()
-	local pluginTable = {
-		description = "An undescribed plugin or schema.",
-		folderName = PLUGIN_FOLDERNAME,
-		baseDir = PLUGIN_BASE_DIR,
-		version = 1.0,
-		author = "Unknown",
-		name = "Unknown"
-	};
-	
-	pluginTable.SetGlobalAlias = function(pluginTable, aliasName)
-		_G[aliasName] = pluginTable;
-	end;
-	
-	pluginTable.GetDescription = function(pluginTable)
-		return pluginTable.description;
-	end;
-	
-	pluginTable.GetBaseDir = function(pluginTable)
-		return pluginTable.baseDir;
-	end;
-	
-	pluginTable.GetVersion = function(pluginTable)
-		return pluginTable.version;
-	end;
-	
-	pluginTable.GetAuthor = function(pluginTable)
-		return pluginTable.author;
-	end;
-	
-	pluginTable.GetName = function(pluginTable)
-		return pluginTable.name;
-	end;
-	
-	pluginTable.Register = function(pluginTable)
-		self:Register(pluginTable);
-	end;
+	local pluginTable = Clockwork.kernel:NewMetaTable(PLUGIN_META);
+	pluginTable.baseDir = PLUGIN_BASE_DIR;
+	pluginTable.folderName = PLUGIN_FOLDERNAME;
 	
 	return pluginTable;
 end;
