@@ -23,12 +23,13 @@ end;
 -- A function to get whether the local player can give to storage.
 function Clockwork.storage:CanGiveTo(itemTable)
 	local entity = Clockwork.storage:GetEntity();
+	local isPlayer = (entity and entity:IsPlayer());
 	
-	if (itemTable and IsValid(entity)) then
-		local bAllowPlayerStorage = (!entity:IsPlayer() or itemTable("allowPlayerStorage") != false);
-		local bAllowEntityStorage = (entity:IsPlayer() or itemTable("allowEntityStorage") != false);
-		local bAllowPlayerGive = (!entity:IsPlayer() or itemTable("allowPlayerGive") != false);
-		local bAllowEntityGive = (entity:IsPlayer() or itemTable("allowEntityGive") != false);
+	if (itemTable) then
+		local bAllowPlayerStorage = (!isPlayer or itemTable("allowPlayerStorage") != false);
+		local bAllowEntityStorage = (isPlayer or itemTable("allowEntityStorage") != false);
+		local bAllowPlayerGive = (!isPlayer or itemTable("allowPlayerGive") != false);
+		local bAllowEntityGive = (isPlayer or itemTable("allowEntityGive") != false);
 		local bAllowStorage = (itemTable("allowStorage") != false);
 		local bIsShipment = (entity and entity:GetClass() == "cw_shipment");
 		local bAllowGive = (itemTable("allowGive") != false);
@@ -44,12 +45,13 @@ end;
 -- A function to get whether the local player can take from storage.
 function Clockwork.storage:CanTakeFrom(itemTable)
 	local entity = Clockwork.storage:GetEntity();
+	local isPlayer = (entity and entity:IsPlayer());
 	
-	if (itemTable and IsValid(entity)) then
-		local bAllowPlayerStorage = (!entity:IsPlayer() or itemTable("allowPlayerStorage") != false);
-		local bAllowEntityStorage = (entity:IsPlayer() or itemTable("allowEntityStorage") != false);
-		local bAllowPlayerTake = (!entity:IsPlayer() or itemTable("allowPlayerTake") != false);
-		local bAllowEntityTake = (entity:IsPlayer() or itemTable("allowEntityTake") != false);
+	if (itemTable) then
+		local bAllowPlayerStorage = (!isPlayer or itemTable("allowPlayerStorage") != false);
+		local bAllowEntityStorage = (isPlayer or itemTable("allowEntityStorage") != false);
+		local bAllowPlayerTake = (!isPlayer or itemTable("allowPlayerTake") != false);
+		local bAllowEntityTake = (isPlayer or itemTable("allowEntityTake") != false);
 		local bAllowStorage = (itemTable("allowStorage") != false);
 		local bIsShipment = (entity and entity:GetClass() == "cw_shipment");
 		local bAllowTake = (itemTable("allowTake") != false);

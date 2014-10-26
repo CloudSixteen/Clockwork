@@ -1470,7 +1470,9 @@ end;
 function Clockwork:PlayerStorageShouldClose(player, storageTable)
 	local entity = player:GetStorageEntity();
 	
-	if (player:IsRagdolled() or !player:Alive() or (storageTable.entity and !entity) or (storageTable.distance and player:GetShootPos():Distance(entity:GetPos()) > storageTable.distance)) then
+	if (player:IsRagdolled() or !player:Alive() or (storageTable.entity and !entity)
+	or (storageTable.entity and storageTable.distance
+	and player:GetShootPos():Distance(entity:GetPos()) > storageTable.distance)) then
 		return true;
 	elseif (storageTable.ShouldClose and storageTable.ShouldClose(player, storageTable)) then
 		return true;

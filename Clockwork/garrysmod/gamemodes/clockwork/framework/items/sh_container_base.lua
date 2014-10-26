@@ -41,16 +41,14 @@ function ITEM:OnLoaded()
 end;
 
 if (SERVER) then
-	function ITEM:OnInstantiated()
-		self:SetData("Inventory", {});
-	end;
-	
 	function ITEM:GetInventory()
-		if (SERVER and !self("Inventory")) then
+		local inventory = self:GetData("Inventory");
+		
+		if (inventory == nil) then
 			self:SetData("Inventory", {});
 		end;
 		
-		return self("Inventory");
+		return inventory;
 	end;
 		
 	function ITEM:HasItem(itemTable)
@@ -102,10 +100,10 @@ function ITEM:OpenFor(player, itemEntity)
 		cash = cash,
 		inventory = inventory,
 		OnGiveCash = function(player, storageTable, cash)
-			self:SetData("Cash", cash);
+			self:SetData("Cash", self:GetCash() + cash);
 		end,
 		OnTakeCash = function(player, storageTable, cash)
-			self:SetData("Cash", cash);
+			self:SetData("Cash", self:GetCash() - cash);
 		end
 	});
 end;

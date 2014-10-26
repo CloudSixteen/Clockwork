@@ -29,7 +29,7 @@ function COMMAND:OnRun(player, arguments)
 		if (cash and cash > 1 and Clockwork.player:CanAfford(player, cash)) then
 			if (!storageTable.CanGiveCash
 			or (storageTable.CanGiveCash(player, storageTable, cash) != false)) then
-				if (target and !target:IsPlayer()) then
+				if (!target or !target:IsPlayer()) then
 					local cashWeight = Clockwork.config:Get("cash_weight"):Get();
 					local myWeight = Clockwork.storage:GetWeight(player);
 
