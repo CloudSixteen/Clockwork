@@ -82,7 +82,7 @@ if (SERVER) then
 		if (data == nil) then data = 0; end;
 		
 		local dataTable = {data = data};
-		local encodedData = pon.encode(dataTable);
+		local encodedData = Clockwork.kernel:Serialize(dataTable);
 			
 		if (encodedData and #encodedData > 0 and bShouldSend) then
 			net.Start("cwDataDS");
@@ -106,7 +106,7 @@ if (SERVER) then
 				player.cwDataStreamData = CW_DS_DATA;
 				
 				if (Clockwork.datastream.stored[player.cwDataStreamName]) then
-					local bSuccess, value = pcall(pon.decode, player.cwDataStreamData);
+					local bSuccess, value = pcall(Clockwork.kernel.Deserialize, Clockwork.kernel player.cwDataStreamData);
 					
 					if (bSuccess) then
 						Clockwork.datastream.stored[player.cwDataStreamName](player, value.data);
@@ -128,7 +128,7 @@ else
 		if (data == nil) then data = 0; end;
 		
 		local dataTable = {data = data};
-		local encodedData = pon.encode(dataTable);
+		local encodedData = Clockwork.kernel:Serialize(dataTable);
 		
 		if (encodedData and #encodedData > 0) then
 			net.Start("cwDataDS");
@@ -146,7 +146,7 @@ else
 
 		if (CW_DS_NAME and CW_DS_DATA and CW_DS_LENGTH) then			
 			if (Clockwork.datastream.stored[CW_DS_NAME]) then
-				local bSuccess, value = pcall(pon.decode, CW_DS_DATA);
+				local bSuccess, value = pcall(Clockwork.kernel.Deserialize, Clockwork.kernel, CW_DS_DATA);
 			
 				if (bSuccess) then
 					Clockwork.datastream.stored[CW_DS_NAME](value.data);
