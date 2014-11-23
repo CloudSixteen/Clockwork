@@ -106,7 +106,7 @@ if (SERVER) then
 				player.cwDataStreamData = CW_DS_DATA;
 				
 				if (Clockwork.datastream.stored[player.cwDataStreamName]) then
-					local bSuccess, value = pcall(Clockwork.kernel.Deserialize, Clockwork.kernel player.cwDataStreamData);
+					local bSuccess, value = pcall(Clockwork.kernel.Deserialize, Clockwork.kernel, player.cwDataStreamData);
 					
 					if (bSuccess) then
 						Clockwork.datastream.stored[player.cwDataStreamName](player, value.data);
