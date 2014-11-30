@@ -847,7 +847,7 @@ else
 						Clockwork.inventory:GetClient(), k2
 					);
 					
-					if (table.Count(numItems) >= v2) then
+					if (numItems and table.Count(numItems) >= v2) then
 						colorToUse = greenColor;
 					end;
 					
@@ -860,9 +860,10 @@ else
 					local nameString = v2.."x "..itemName;
 					
 					if (addedFirst) then
-						markupObject:Add(", "..nameString);
+						markupObject:Add(", ", nil, 1, addedFirst);
+						markupObject:Add(", "..nameString, colorToUse, 1, true);
 					else
-						markupObject:Add(nameString);
+						markupObject:Add(nameString, colorToUse, 1, addedFirst);
 					end;
 					
 					addedFirst = true;
