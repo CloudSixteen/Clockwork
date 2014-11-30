@@ -158,7 +158,7 @@ function hook.Call(name, gamemode, ...)
 		end;
 	end;
 	
-	if (value == nil) then
+	if (value == nil or name == THINK_NAME) then
 		local startTime = SysTime();
 			local bStatus, a, b, c = pcall(hook.ClockworkCall, name, gamemode or Clockwork, unpack(arguments));
 		local timeTook = SysTime() - startTime;
@@ -3646,7 +3646,7 @@ end);
 -- LocalPlayerCreated datastream callback.
 Clockwork.datastream:Hook("LocalPlayerCreated", function(player, data)
 	if (IsValid(player) and !player:HasConfigInitialized()) then
-		Clockwork.kernel:CreateTimer("SendCfg"..player:UniqueID(), FrameTime() * 64, 1, function()
+		Clockwork.kernel:CreateTimer("SendCfg"..player:UniqueID(), FrameTime(), 1, function()
 			if (IsValid(player)) then
 				Clockwork.config:Send(player);
 			end;
@@ -4108,7 +4108,7 @@ function entityMeta:EmitHitSound(sound)
 		math.random(100, 150), math.random(150, 170)
 	);
 	
-	timer.Simple(FrameTime() * 8, function()
+	timer.Simple(FrameTime(), function()
 		if (IsValid(self)) then
 			self:EmitSound(sound);
 		end;
