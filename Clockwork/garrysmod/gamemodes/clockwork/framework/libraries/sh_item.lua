@@ -232,7 +232,7 @@ if (SERVER) then
 					end;
 					
 					if (hasIngredients) then
-						for k2, v2 in pairs(v) do
+						for k2, v2 in pairs(v.ingredients) do
 							for i = 1, v2 do
 								player:TakeItem(k2);
 							end;
@@ -259,7 +259,9 @@ if (SERVER) then
 					local hasIngredients = true;
 					
 					for k2, v2 in pairs(v.ingredients) do
-						if (table.Count(player:GetItemsByID(k2)) < v2) then
+						local itemList = player:GetItemsByID(k2);
+						
+						if (not itemList or table.Count(itemList) < v2) then
 							hasIngredients = false;
 						end;
 					end;
@@ -768,15 +770,6 @@ else
 		elseif (itemTable("space") == 0) then
 			space = "Takes no space";
 		end;
-
-		if (bBusinessStyle and #itemTable.recipes == 0) then
-			local totalCost = itemTable("cost") * itemTable("batch");
-			
-			if (Clockwork.config:Get("cash_enabled"):Get()
-			and totalCost != 0) then
-				weight = Clockwork.kernel:FormatCash(totalCost);
-			end;
-		end;
 		
 		if (itemTable.GetClientSideName
 		and itemTable:GetClientSideName()) then
@@ -837,38 +830,59 @@ else
 			markupObject:Add(description);
 		end;
 		
-		if (bBusinessStyle and #itemTable.recipes > 0) then
+		if (bBusinessStyle) then
 			local redColor = Color(255, 50, 50, 255);
 			local greenColor = Color(50, 255, 50, 255);
-			local numRecipe = 1;
 			
-			for k, v in ipairs(itemTable.recipes) do
-				if (Clockwork.kernel:HasObjectAccess(Clockwork.Client, v)) then
-					markupObject:Title("Recipe #"..numRecipe);
-						
-					for k2, v2 in pairs(v.ingredients) do
-						local colorToUse = redColor;
-						local requiredItem = Clockwork.item:FindByID(k2);
-						local numItems = Clockwork.inventory:GetItemsByID(
-							Clockwork.inventory:GetClient(), k2
-						);
-						
-						if (numItems and table.Count(numItems) >= v2) then
-							colorToUse = greenColor;
+			if (#itemTable.recipes > 0) then
+				local numRecipe = 1;
+				
+				for k, v in ipairs(itemTable.recipes) do
+					if (Clockwork.kernel:HasObjectAccess(Clockwork.Client, v)) then
+						markupObject:Title("Recipe "..numRecipe);
+							
+						for k2, v2 in pairs(v.ingredients) do
+							local colorToUse = redColor;
+							local requiredItem = Clockwork.item:FindByID(k2);
+							
+							if (requiredItem) then
+								local numItems = Clockwork.inventory:GetItemsByID(
+									Clockwork.inventory:GetClient(), k2
+								);
+								
+								if (numItems and table.Count(numItems) >= v2) then
+									colorToUse = greenColor;
+								end;
+								
+								local itemName = requiredItem("name");
+								
+								if (v2 > 1) then
+									itemName = Clockwork.kernel:Pluralize(itemName);
+								end;
+								
+								local nameString = v2.."x "..itemName;
+								
+								markupObject:Add(nameString, colorToUse, 0.95);
+							end;
 						end;
 						
-						local itemName = requiredItem("name");
-						
-						if (v2 > 1) then
-							itemName = Clockwork.kernel:Pluralize(itemName);
-						end;
-						
-						local nameString = v2.."x "..itemName;
-						
-						markupObject:Add(nameString, colorToUse, 0.95);
+						numRecipe = numRecipe + 1;
+					end;
+				end;
+			else
+				local totalCost = itemTable("cost") * itemTable("batch");
+				
+				if (Clockwork.config:Get("cash_enabled"):Get()
+				and totalCost != 0) then
+					local costString = Clockwork.kernel:FormatCash(totalCost);
+					local colorToUse = redColor;
+					
+					if (Clockwork.player:GetCash() >= totalCost) then
+						colorToUse = greenColor;
 					end;
 					
-					numRecipe = numRecipe + 1;
+					markupObject:Title("Price");
+					markupObject:Add(costString, colorToUse, 1);
 				end;
 			end;
 		end;
