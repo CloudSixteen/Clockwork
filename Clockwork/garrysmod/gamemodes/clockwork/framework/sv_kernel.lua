@@ -4900,6 +4900,21 @@ function playerMeta:TakeItem(itemTable)
 	return true;
 end;
 
+-- A function to take an item by unique ID.
+function playerMeta:TakeItemByUniqueID(uniqueID, amount)
+	if (!amount) then
+		amount = 1;
+	end;
+	
+	for i = 1, amount do
+		local itemInstance = self:FindItemByID(uniqueID);
+		
+		if (itemInstance) then
+			self:TakeItem(itemInstance);
+		end;
+	end;
+end;
+
 -- An easy function to give a table of items to a player.
 function playerMeta:GiveItems(itemTables)
 	for _, itemTable in pairs(itemTables) do

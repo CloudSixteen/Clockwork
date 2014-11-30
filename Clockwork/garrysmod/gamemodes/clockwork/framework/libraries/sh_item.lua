@@ -234,7 +234,7 @@ if (SERVER) then
 					if (hasIngredients) then
 						for k2, v2 in pairs(v.ingredients) do
 							for i = 1, v2 do
-								player:TakeItem(k2);
+								player:TakeItemByUniqueID(k2);
 							end;
 						end;
 						
