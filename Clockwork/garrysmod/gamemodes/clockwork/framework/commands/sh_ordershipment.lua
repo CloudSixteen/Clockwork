@@ -34,21 +34,13 @@ function COMMAND:OnRun(player, arguments)
 		return false;
 	end;
 	
-	if (Clockwork.player:CanAfford(player, itemTable("cost") * itemTable("batch"))) then
+	if (itemTable:CanPlayerAfford(player)) then
 		local trace = player:GetEyeTraceNoCursor();
 		local entity = nil;
 
 		if (player:GetShootPos():Distance(trace.HitPos) <= 192) then
 			if (itemTable.CanOrder and itemTable:CanOrder(player, v) == false) then
 				return false;
-			end;
-			
-			if (itemTable("batch") > 1) then
-				Clockwork.player:GiveCash(player, -(itemTable("cost") * itemTable("batch")), itemTable("batch").." "..Clockwork.kernel:Pluralize(itemTable("name")));
-				Clockwork.kernel:PrintLog(LOGTYPE_MINOR, player:Name().." has ordered "..itemTable("batch").." "..Clockwork.kernel:Pluralize(itemTable("name"))..".");
-			else
-				Clockwork.player:GiveCash(player, -(itemTable("cost") * itemTable("batch")), itemTable("batch").." "..itemTable("name"));
-				Clockwork.kernel:PrintLog(LOGTYPE_MINOR, player:Name().." has ordered "..itemTable("batch").." "..itemTable("name")..".");
 			end;
 			
 			if (itemTable.OnCreateShipmentEntity) then
@@ -67,6 +59,8 @@ function COMMAND:OnRun(player, arguments)
 				Clockwork.entity:MakeFlushToGround(entity, trace.HitPos, trace.HitNormal);
 			end;
 			
+			itemTable:DeductFunds(player);
+			
 			if (itemTable.OnOrder) then
 				itemTable:OnOrder(player, entity);
 			end;
@@ -78,6 +72,8 @@ function COMMAND:OnRun(player, arguments)
 		else
 			Clockwork.player:Notify(player, "You cannot order this item that far away!");
 		end;
+	elseif (#itemTable.recipes > 0) then
+		Clockwork.player:Notify(player, "You do not have the required ingredients to craft this recipe!");
 	else
 		local amount = (itemTable("cost") * itemTable("batch")) - player:GetCash();
 		Clockwork.player:Notify(player, "You need another "..Clockwork.kernel:FormatCash(amount, nil, true).."!");
