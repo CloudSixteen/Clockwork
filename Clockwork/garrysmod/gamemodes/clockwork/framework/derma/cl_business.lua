@@ -224,8 +224,18 @@ end;
 
 -- Called each frame.
 function PANEL:Think()
+	if (!self.nextUpdateMarkup) then
+		self.nextUpdateMarkup = 0;
+	end;
+	
+	if (CurTime() < self.nextUpdateMarkup) then
+		return;
+	end;
+
 	self.spawnIcon:SetMarkupToolTip(Clockwork.item:GetMarkupToolTip(self.itemTable, true));
 	self.spawnIcon:SetColor(self.itemTable("color"));
+	
+	self.nextUpdateMarkup = CurTime() + 1;
 end;
 	
 vgui.Register("cwBusinessItem", PANEL, "DPanel");

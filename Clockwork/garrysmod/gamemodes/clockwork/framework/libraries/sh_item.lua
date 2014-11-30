@@ -181,6 +181,25 @@ function CLASS_TABLE:GetData(dataName)
 	return self.data[dataName];
 end;
 
+-- A function to add a new recipie for this item.
+function CLASS_TABLE:AddRecipe(...)
+	local arguments = {...};
+	local currentItem = nil;
+	local recipeTable = {};
+	
+	for k, v in pairs(arguments) do
+		if (type(v) == "string") then
+			currentItem = v;
+		elseif (type(v) == "number") then
+			if (currentItem) then
+				recipeTable[currentItem] = v;
+			end;
+		end;
+	end;
+	
+	self.recipes[#self.recipes + 1] = recipeTable;
+end;
+
 -- A function to get whether two items are the same.
 function CLASS_TABLE:IsTheSameAs(itemTable)
 	if (itemTable) then
@@ -194,7 +213,62 @@ end;
 -- A function to get whether data is networked.
 function CLASS_TABLE:IsDataNetworked(key)
 	return (self.networkData[key] == true);
+end;
+
+if (SERVER) then
+	-- A function to deduct neccessary funds from a plater after ordering.
+	function CLASS_TABLE:DeductFunds(player)
+		if (#self.recipes > 0) then
+			for k, v in pairs(self.recipes) do
+				local hasIngredients = true;
+				
+				for k2, v2 in pairs(v) do
+					if (table.Count(player:GetItemsByID(k2)) < v2) then
+						hasIngredients = false;
+					end;
+				end;
+				
+				if (hasIngredients) then
+					for k2, v2 in pairs(v) do
+						for i = 1, v2 do
+							player:TakeItem(k2);
+						end;
+					end;
+					
+					return;
+				end;
+			end;
+		elseif (self("batch") > 1) then
+			Clockwork.player:GiveCash(player, -(self("cost") * self("batch")), self("batch").." "..Clockwork.kernel:Pluralize(self("name")));
+			Clockwork.kernel:PrintLog(LOGTYPE_MINOR, player:Name().." has ordered "..self("batch").." "..Clockwork.kernel:Pluralize(self("name"))..".");
+		else
+			Clockwork.player:GiveCash(player, -(self("cost") * self("batch")), self("batch").." "..self("name"));
+			Clockwork.kernel:PrintLog(LOGTYPE_MINOR, player:Name().." has ordered "..self("batch").." "..self("name")..".");
+		end;
+	end;
 	
+	-- A function to get whether a player can afford to order the item.
+	function CLASS_TABLE:CanPlayerAfford(player)
+		if (#self.recipes > 0) then
+			for k, v in pairs(self.recipes) do
+				local hasIngredients = true;
+				
+				for k2, v2 in pairs(v) do
+					if (table.Count(player:GetItemsByID(k2)) < v2) then
+						hasIngredients = false;
+					end;
+				end;
+				
+				if (hasIngredients) then
+					return true;
+				end;
+			end;
+			
+			return false;
+		end;
+		
+		return Clockwork.player:CanAfford(player, self("cost") * self("batch"));
+	end;
 end;
 
 -- A function to register a new item.
@@ -257,6 +331,7 @@ function Clockwork.item:New(baseItem, bIsBaseItem)
 		object.networkQueue = {};
 		object.networkData = {};
 		object.defaultData = {};
+		object.recipes = {};
 		object.queryProxies = {};
 		object.isBaseItem = bIsBaseItem;
 		object.baseItem = baseItem;
@@ -688,14 +763,12 @@ else
 			space = "Takes no space";
 		end;
 
-		if (bBusinessStyle) then
+		if (bBusinessStyle and #itemTable.recipes == 0) then
 			local totalCost = itemTable("cost") * itemTable("batch");
 			
 			if (Clockwork.config:Get("cash_enabled"):Get()
 			and totalCost != 0) then
 				weight = Clockwork.kernel:FormatCash(totalCost);
-			else
-				weight = "Free";
 			end;
 		end;
 		
@@ -756,6 +829,45 @@ else
 			markupObject:Add(displayInfo.toolTip);
 		else
 			markupObject:Add(description);
+		end;
+		
+		if (bBusinessStyle and #itemTable.recipes > 0) then
+			local redColor = Color(255, 50, 50, 255);
+			local greenColor = Color(50, 255, 50, 255);
+			
+			for k, v in ipairs(itemTable.recipes) do
+				local addedFirst = false;
+				
+				markupObject:Title("Recipe #"..k);
+					
+				for k2, v2 in pairs(v) do
+					local colorToUse = redColor;
+					local requiredItem = Clockwork.item:FindByID(k2);
+					local numItems = Clockwork.inventory:GetItemsByID(
+						Clockwork.inventory:GetClient(), k2
+					);
+					
+					if (table.Count(numItems) >= v2) then
+						colorToUse = greenColor;
+					end;
+					
+					local itemName = requiredItem("name");
+					
+					if (v2 > 1) then
+						itemName = Clockwork.kernel:Pluralize(itemName);
+					end;
+					
+					local nameString = v2.."x "..itemName;
+					
+					if (addedFirst) then
+						markupObject:Add(", "..nameString);
+					else
+						markupObject:Add(nameString);
+					end;
+					
+					addedFirst = true;
+				end;
+			end;
 		end;
 		
 		markupObject:Title("Category");

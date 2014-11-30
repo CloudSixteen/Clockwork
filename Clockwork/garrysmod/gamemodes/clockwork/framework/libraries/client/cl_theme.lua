@@ -132,8 +132,8 @@ end;
 local MARKUP_OBJECT = {__index = MARKUP_OBJECT, text = ""};
 
 -- A function to add new text to the markup object.
-function MARKUP_OBJECT:Add(text, color, scale)
-	if (self.text != "") then
+function MARKUP_OBJECT:Add(text, color, scale, noNewLine)
+	if (self.text != "" and !noNewLine) then
 		self.text = self.text.."\n";
 	end;
 	
