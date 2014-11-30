@@ -181,23 +181,25 @@ function CLASS_TABLE:GetData(dataName)
 	return self.data[dataName];
 end;
 
--- A function to add a new recipie for this item.
+-- A function to add a new recipe for this item.
 function CLASS_TABLE:AddRecipe(...)
 	local arguments = {...};
 	local currentItem = nil;
-	local recipeTable = {};
+	local recipeTable = {ingredients = {}};
 	
 	for k, v in pairs(arguments) do
 		if (type(v) == "string") then
 			currentItem = v;
 		elseif (type(v) == "number") then
 			if (currentItem) then
-				recipeTable[currentItem] = v;
+				recipeTable.ingredients[currentItem] = v;
 			end;
 		end;
 	end;
 	
 	self.recipes[#self.recipes + 1] = recipeTable;
+	
+	return recipeTable;
 end;
 
 -- A function to get whether two items are the same.
@@ -220,22 +222,24 @@ if (SERVER) then
 	function CLASS_TABLE:DeductFunds(player)
 		if (#self.recipes > 0) then
 			for k, v in pairs(self.recipes) do
-				local hasIngredients = true;
-				
-				for k2, v2 in pairs(v) do
-					if (table.Count(player:GetItemsByID(k2)) < v2) then
-						hasIngredients = false;
-					end;
-				end;
-				
-				if (hasIngredients) then
-					for k2, v2 in pairs(v) do
-						for i = 1, v2 do
-							player:TakeItem(k2);
+				if (Clockwork.kernel:HasObjectAccess(player, v)) then
+					local hasIngredients = true;
+					
+					for k2, v2 in pairs(v.ingredients) do
+						if (table.Count(player:GetItemsByID(k2)) < v2) then
+							hasIngredients = false;
 						end;
 					end;
 					
-					return;
+					if (hasIngredients) then
+						for k2, v2 in pairs(v) do
+							for i = 1, v2 do
+								player:TakeItem(k2);
+							end;
+						end;
+						
+						return;
+					end;
 				end;
 			end;
 		elseif (self("batch") > 1) then
@@ -251,16 +255,18 @@ if (SERVER) then
 	function CLASS_TABLE:CanPlayerAfford(player)
 		if (#self.recipes > 0) then
 			for k, v in pairs(self.recipes) do
-				local hasIngredients = true;
-				
-				for k2, v2 in pairs(v) do
-					if (table.Count(player:GetItemsByID(k2)) < v2) then
-						hasIngredients = false;
+				if (Clockwork.kernel:HasObjectAccess(player, v)) then
+					local hasIngredients = true;
+					
+					for k2, v2 in pairs(v.ingredients) do
+						if (table.Count(player:GetItemsByID(k2)) < v2) then
+							hasIngredients = false;
+						end;
 					end;
-				end;
-				
-				if (hasIngredients) then
-					return true;
+					
+					if (hasIngredients) then
+						return true;
+					end;
 				end;
 			end;
 			
@@ -834,39 +840,35 @@ else
 		if (bBusinessStyle and #itemTable.recipes > 0) then
 			local redColor = Color(255, 50, 50, 255);
 			local greenColor = Color(50, 255, 50, 255);
+			local numRecipe = 1;
 			
 			for k, v in ipairs(itemTable.recipes) do
-				local addedFirst = false;
-				
-				markupObject:Title("Recipe #"..k);
-					
-				for k2, v2 in pairs(v) do
-					local colorToUse = redColor;
-					local requiredItem = Clockwork.item:FindByID(k2);
-					local numItems = Clockwork.inventory:GetItemsByID(
-						Clockwork.inventory:GetClient(), k2
-					);
-					
-					if (numItems and table.Count(numItems) >= v2) then
-						colorToUse = greenColor;
+				if (Clockwork.kernel:HasObjectAccess(Clockwork.Client, v)) then
+					markupObject:Title("Recipe #"..numRecipe);
+						
+					for k2, v2 in pairs(v.ingredients) do
+						local colorToUse = redColor;
+						local requiredItem = Clockwork.item:FindByID(k2);
+						local numItems = Clockwork.inventory:GetItemsByID(
+							Clockwork.inventory:GetClient(), k2
+						);
+						
+						if (numItems and table.Count(numItems) >= v2) then
+							colorToUse = greenColor;
+						end;
+						
+						local itemName = requiredItem("name");
+						
+						if (v2 > 1) then
+							itemName = Clockwork.kernel:Pluralize(itemName);
+						end;
+						
+						local nameString = v2.."x "..itemName;
+						
+						markupObject:Add(nameString, colorToUse, 0.95);
 					end;
 					
-					local itemName = requiredItem("name");
-					
-					if (v2 > 1) then
-						itemName = Clockwork.kernel:Pluralize(itemName);
-					end;
-					
-					local nameString = v2.."x "..itemName;
-					
-					if (addedFirst) then
-						markupObject:Add(", ", nil, 1, addedFirst);
-						markupObject:Add(", "..nameString, colorToUse, 1, true);
-					else
-						markupObject:Add(nameString, colorToUse, 1, addedFirst);
-					end;
-					
-					addedFirst = true;
+					numRecipe = numRecipe + 1;
 				end;
 			end;
 		end;
