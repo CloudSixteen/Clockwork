@@ -1911,70 +1911,94 @@ function Clockwork:GetModelSelectWeaponModel(model) end;
 -- Called when a model selection's sequence is needed.
 function Clockwork:GetModelSelectSequence(entity, model) end;
 
--- Called when the admin ESP info is needed.
+--[[
+    @codebase Client
+    @details Finds the location of the player and packs together the info for observer ESP.
+    @class Clockwork
+    @param Table The current table of ESP positions/colors/names to add on to.
+--]]
 function Clockwork:GetAdminESPInfo(info)
-	for k, v in pairs(cwPlayer.GetAll()) do
-		if (v:HasInitialized()) then
-			local physBone = v:LookupBone("ValveBiped.Bip01_Head1");
+	for k, v in pairs(cwPlayer.GetAll()) do --Find the table of players and construct our info for each.
+		if (v:HasInitialized()) then --Check if they are initialized or not.
+			local physBone = v:LookupBone("ValveBiped.Bip01_Head1"); --Find the head bone.
+			local position = nil;
 			
-			if (physBone) then
-				local bonePosition = v:GetBonePosition(physBone);
-				local position = nil;
-					
-				if (string.find(v:GetModel(), "vortigaunt")) then
-					bonePosition = v:GetBonePosition(v:LookupBone("ValveBiped.Head"));
-				end;
-					
-				if (bonePosition) then
-					position = bonePosition + Vector(0, 0, 16);
-				else
-					position = v:GetPos() + Vector(0, 0, 80);
-				end;
+			if (physBone) then --If the player's model has a humanoid head bone.
+				local bonePosition = v:GetBonePosition(physBone); --Set the position of the ESP info to the head bone.
 				
-				info[#info + 1] = {
-					position = position,
-					color = cwTeam.GetColor(v:Team()),
-					text = v:Name().." ("..v:Health().."/"..v:GetMaxHealth()..")"
-				};
+				if (bonePosition) then
+					position = bonePosition + Vector(0, 0, 16); --Set the position to 16 units above the player's head.
+				end;
+			else --If the player's model does NOT have a humanoid head bone.
+				position = v:GetPos() + Vector(0, 0, 80); --Add 80 units to the player's current position.
 			end;
+			
+			info[#info + 1] = { --This adds the info to the current table of ESP info.
+				position = position, --Sets the position of the ESP info to the position we've calculated.
+				color = cwTeam.GetColor(v:Team()), --Sets the color of the text to the player's team/faction color.
+				text = v:Name().." ("..v:Health().."/"..v:GetMaxHealth()..")" --Sets the text to the player's name, as well as their current to max health.
+				--Example: Bob Good (67/100)
+			};
 		end;
 	end;
 end;
 
--- Called when the post progress bar info is needed.
+--[[
+    @codebase Client
+    @details This function is called after the progress bar info updates.
+    @class Clockwork
+--]]
 function Clockwork:GetPostProgressBarInfo() end;
 
--- Called when the custom character options are needed.
+--[[
+    @codebase Client
+    @details This function is called when custom character options are needed.
+    @class Clockwork
+	@param Table The character whose options are needed.
+	@param Table The currently available options.
+	@param Table The menu itself.
+--]]
 function Clockwork:GetCustomCharacterOptions(character, options, menu) end;
 
--- Called when the custom character buttons are needed.
+--[[
+    @codebase Client
+    @details This function is called when custom character buttons are needed.
+    @class Clockwork
+	@param Table The character whose buttons are needed.
+	@param Table The currently available buttons.
+--]]
 function Clockwork:GetCustomCharacterButtons(character, buttons) end;
 
--- Called when the progress bar info is needed.
+--[[
+    @codebase Client
+    @details This function is called to figure out the text, percentage and flash of the current progress bar.
+    @class Clockwork
+	@returns Table The text, flash, and percentage of the progress bar.
+--]]
 function Clockwork:GetProgressBarInfo()
-	local action, percentage = self.player:GetAction(self.Client, true);
+	local action, percentage = self.player:GetAction(self.Client, true); --Finds the action and percentage of the action.
 	
-	if (!self.Client:Alive() and action == "spawn") then
-		return {text = "You will be respawned shortly.", percentage = percentage, flash = percentage < 10};
+	if (!self.Client:Alive() and action == "spawn") then --If the player is not alive, and their current action is respawning.
+		return {text = "You will be respawned shortly.", percentage = percentage, flash = percentage < 10}; --Return the progress bar table.
 	end;
 	
-	if (!self.Client:IsRagdolled()) then
-		if (action == "lock") then
-			return {text = "The entity is being locked.", percentage = percentage, flash = percentage < 10};
-		elseif (action == "unlock") then
-			return {text = "The entity is being unlocked.", percentage = percentage, flash = percentage < 10};
+	if (!self.Client:IsRagdolled()) then -- If the player is not ragdolled.
+		if (action == "lock") then -- If the player's action is locking something.
+			return {text = "The entity is being locked.", percentage = percentage, flash = percentage < 10}; --Return the progress bar table.
+		elseif (action == "unlock") then -- If the player's action is unlocking something.
+			return {text = "The entity is being unlocked.", percentage = percentage, flash = percentage < 10}; --Return the progress bar table.
 		end;
-	elseif (action == "unragdoll") then
-		if (self.Client:GetRagdollState() == RAGDOLL_FALLENOVER) then
-			return {text = "You are regaining stability.", percentage = percentage, flash = percentage < 10};
-		else
-			return {text = "You are regaining conciousness.", percentage = percentage, flash = percentage < 10};
+	elseif (action == "unragdoll") then -- If the player's action is getting out of ragdoll.
+		if (self.Client:GetRagdollState() == RAGDOLL_FALLENOVER) then -- If the player's ragdoll state is fallen over. (/charfallover)
+			return {text = "You are regaining stability.", percentage = percentage, flash = percentage < 10}; --Return the progress bar table.
+		else -- If the player's ragdoll state is knocked out.
+			return {text = "You are regaining conciousness.", percentage = percentage, flash = percentage < 10}; --Return the progress bar table.
 		end;
-	elseif (self.Client:GetRagdollState() == RAGDOLL_FALLENOVER) then
-		local fallenOver = self.Client:GetSharedVar("FallenOver");
+	elseif (self.Client:GetRagdollState() == RAGDOLL_FALLENOVER) then -- If the player is fallen over. (/charfallover)
+		local fallenOver = self.Client:GetSharedVar("FallenOver"); -- Checks to see if the player is fallen over.
 		
-		if (fallenOver and self.plugin:Call("PlayerCanGetUp")) then
-			return {text = "Press 'jump' to get up.", percentage = 100};
+		if (fallenOver and self.plugin:Call("PlayerCanGetUp")) then -- If they are fallen over and plugins allow them to get back up.
+			return {text = "Press 'jump' to get up.", percentage = 100}; --Return the progress bar table.
 		end;
 	end;
 end;
@@ -1988,51 +2012,68 @@ function Clockwork:PostDrawPlayerInfo(boxInfo, information, subInformation) end;
 -- Called just after the date time box is drawn.
 function Clockwork:PostDrawDateTimeBox(info) end;
 
--- Called when the player info text is needed.
+--[[
+    @codebase Client
+    @details This function is called when local player info text is needed and adds onto it (F1 menu).
+    @class Clockwork
+	@param Table The current table of player info text to add onto.
+--]]
 function Clockwork:GetPlayerInfoText(playerInfoText)
-	local cash = self.player:GetCash();
-	local wages = self.player:GetWages();
+	local cash = self.player:GetCash(); -- Find how much cash the player has.
+	local wages = self.player:GetWages(); -- Find the player's wages.
 	
-	if (self.config:Get("cash_enabled"):Get()) then
-		if (cash > 0) then
-			playerInfoText:Add("CASH", self.option:GetKey("name_cash")..": "..Clockwork.kernel:FormatCash(cash, true));
+	if (self.config:Get("cash_enabled"):Get()) then -- If currency is enabled in the config.
+		if (cash > 0) then -- If the player's cash is more than zero.
+			playerInfoText:Add("CASH", self.option:GetKey("name_cash")..": "..Clockwork.kernel:FormatCash(cash, true)); -- Add info showing player's current money amount.
 		end;
 		
-		if (wages > 0) then
-			playerInfoText:Add("WAGES", self.Client:GetWagesName()..": "..Clockwork.kernel:FormatCash(wages));
+		if (wages > 0) then -- If player's wages are more than zero.
+			playerInfoText:Add("WAGES", self.Client:GetWagesName()..": "..Clockwork.kernel:FormatCash(wages)); -- Add info showing player's wages.
 		end;
 	end;
 
-	playerInfoText:AddSub("NAME", self.Client:Name(), 2);
-	playerInfoText:AddSub("CLASS", cwTeam.GetName(self.Client:Team()), 1);
+	playerInfoText:AddSub("NAME", self.Client:Name(), 2); -- Add text with the character's name.
+	playerInfoText:AddSub("CLASS", cwTeam.GetName(self.Client:Team()), 1); -- Add text with the character's team/faction.
 end;
 
--- Called when the target player's fade distance is needed.
+--[[
+    @codebase Client
+    @details This function is called when the player's fade distance is needed for their target text (when you look at them).
+    @class Clockwork
+	@param Table The player we are finding the distance for.
+	@returns Int The fade distance, defaulted at 4096.
+--]]
 function Clockwork:GetTargetPlayerFadeDistance(player)
-	return 4096;
+	return 4096; --Return the fade distance.
 end;
 
 -- Called when the player info text should be destroyed.
 function Clockwork:DestroyPlayerInfoText(playerInfoText) end;
 
--- Called when the target player's text is needed.
+--[[
+    @codebase Client
+    @details This function is called when the targeted player's target text is needed.
+    @class Clockwork
+	@param Table The player we are finding the distance for.
+	@param Table The player's current target text.
+--]]
 function Clockwork:GetTargetPlayerText(player, targetPlayerText)
-	local targetIDTextFont = self.option:GetFont("target_id_text");
-	local physDescTable = {};
-	local thirdPerson = "him";
+	local targetIDTextFont = self.option:GetFont("target_id_text"); -- Find the target text font from the schema's theme.
+	local physDescTable = {}; -- Declare the physDesc table.
+	local thirdPerson = "him"; -- The player is male unless they are female.
 	
-	if (player:GetGender() == GENDER_FEMALE) then
-		thirdPerson = "her";
+	if (player:GetGender() == GENDER_FEMALE) then -- If the player is female.
+		thirdPerson = "her"; -- Change the string to a female pronoun.
 	end;
 	
-	if (self.player:DoesRecognise(player, RECOGNISE_PARTIAL)) then
-		self.kernel:WrapText(self.player:GetPhysDesc(player), targetIDTextFont, math.max(ScrW() / 9, 384), physDescTable);
+	if (self.player:DoesRecognise(player, RECOGNISE_PARTIAL)) then -- If you recognize the player.
+		self.kernel:WrapText(self.player:GetPhysDesc(player), targetIDTextFont, math.max(ScrW() / 9, 384), physDescTable); -- Add the physical description in a recognized format.
 		
-		for k, v in pairs(physDescTable) do
-			targetPlayerText:Add("PHYSDESC_"..k, v);
+		for k, v in pairs(physDescTable) do -- Make a loop out of the table of physDesc.
+			targetPlayerText:Add("PHYSDESC_"..k, v); -- Add the physDesc info to the text.
 		end;
-	elseif (player:Alive()) then
-		targetPlayerText:Add("PHYSDESC", "You do not recognise "..thirdPerson..".");
+	elseif (player:Alive()) then -- If you don't recognize them and they are alive.
+		targetPlayerText:Add("PHYSDESC", "You do not recognise "..thirdPerson.."."); -- You do not recognize him/her.
 	end;
 end;
 
