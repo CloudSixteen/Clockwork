@@ -1,5 +1,5 @@
 --[[ 
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2014 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -96,9 +96,13 @@ function file.Exists(filePath, searchPath)
 		return true;
 	else
 		local files, folders = file.Find(filePath, searchPath);
-
-		if (#files > 0) then
-			return true;
+		
+		if(!files == nil) then
+			if (#files > 0) then
+				return true;
+			end;
+		else
+			return false;
 		end;
 	end;
 	
