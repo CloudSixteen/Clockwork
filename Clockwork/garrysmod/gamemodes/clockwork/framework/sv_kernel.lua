@@ -1,5 +1,5 @@
 --[[ 
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2014 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -2945,6 +2945,14 @@ function Clockwork:PlayerConfigInitialized(player)
 		timer.Simple(FrameTime() * 32, function()
 			if (IsValid(player)) then
 				Clockwork.datastream:Start(player, "DataStreaming", true);
+				
+				timer.Create("DataStreaming"..player:SteamID(), 2, 2, function()
+					if (!player.cwDataStreamInfoSent) then
+						Clockwork.datastream:Start(player, "DataStreaming", true);
+					else
+						timer.Destroy("DataStreaming"..player:SteamID());
+					end;
+				end);
 			end;
 		end);
 	else
