@@ -3498,7 +3498,7 @@ end;
 
 -- A function to modify a physical description.
 function Clockwork.kernel:ModifyPhysDesc(description)
-	local CutOff = Clockwork.config:Get("phys_desc_cutoff")
+	local CutOff = Clockwork.config:Get("phys_desc_cutoff");
 	
 	if (string.len(description) <= cutoff) then
 		if (!string.find(string.sub(description, -2), "%p")) then
