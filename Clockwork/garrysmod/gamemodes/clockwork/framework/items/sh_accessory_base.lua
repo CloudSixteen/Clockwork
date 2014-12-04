@@ -69,15 +69,14 @@ if (CLIENT) then
 		
 		if (Clockwork.player:IsWearingAccessory(self)) then
 			return "Is Wearing: Yes";
+			timer.Create("AccessoryUpdater", 120, 0, function()
+				player:RemoveAccessory(self);
+				player:WearAccessory(self);
+			end);
 		else
 			return "Is Wearing: No";
 		end;
 	end;
 end;
-
-timer.Create("AccessoryUpdater", 120, 0, function()
-	player:RemoveAccessory(self);
-	player:WearAccessory(self);
-end);
 
 Clockwork.item:Register(ITEM);
