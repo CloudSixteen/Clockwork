@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2014 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -54,10 +54,11 @@ end;
 
 -- Called at an interval while a player is connected.
 function cwStamina:PlayerThink(player, curTime, infoTable)
-	local regeneration = 0;
+	local RegenScale = Clockwork.config:Get("stam_regen_scale"):Get();
+	local DrainScale = Clockwork.config:Get("stam_drain_scale"):Get();
 	local attribute = Clockwork.attributes:Fraction(player, ATB_STAMINA, 1, 0.25);
-	local scale = Clockwork.config:Get("stam_drain_scale"):Get();
-	local decrease = (scale + (scale - (math.min(player:Health(), 500) / 500))) / (scale + attribute);
+	local regeneration = 0;
+	local decrease = (DrainScale + (DrainScale - (math.min(player:Health(), 500) / 500))) / (DrainScale + attribute);
 	
 	if (!player:IsNoClipping() and player:IsOnGround()
 	and (infoTable.isRunning or infoTable.isJogging)) then
@@ -76,12 +77,8 @@ function cwStamina:PlayerThink(player, curTime, infoTable)
 		end;
 	elseif (player:GetVelocity():Length() == 0) then
 		if (player:Crouching()) then
-			regeneration = scale * 0.3;
-		else
-			regeneration = scale * 0.15;
+			regeneration = RegenScale * 2;
 		end;
-	else
-		regeneration = 0.05;
 	end;
 
 	if (regeneration > 0 and Clockwork.plugin:Call("PlayerShouldStaminaRegenerate", player)) then
