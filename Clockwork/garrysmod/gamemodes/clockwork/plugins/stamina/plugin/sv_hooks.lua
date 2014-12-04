@@ -54,11 +54,11 @@ end;
 
 -- Called at an interval while a player is connected.
 function cwStamina:PlayerThink(player, curTime, infoTable)
-	local regenscale = Clockwork.config:Get("stam_regen_scale"):Get();
-	local drainscale = Clockwork.config:Get("stam_drain_scale"):Get();
+	local RegenScale = Clockwork.config:Get("stam_regen_scale"):Get();
+	local DrainScale = Clockwork.config:Get("stam_drain_scale"):Get();
 	local attribute = Clockwork.attributes:Fraction(player, ATB_STAMINA, 1, 0.25);
 	local regeneration = 0;
-	local decrease = (drainscale + (drainscale - (math.min(player:Health(), 500) / 500))) / (drainscale + attribute);
+	local decrease = (DrainScale + (DrainScale - (math.min(player:Health(), 500) / 500))) / (DrainScale + attribute);
 	
 	if (!player:IsNoClipping() and player:IsOnGround()
 	and (infoTable.isRunning or infoTable.isJogging)) then
@@ -77,7 +77,7 @@ function cwStamina:PlayerThink(player, curTime, infoTable)
 		end;
 	elseif (player:GetVelocity():Length() == 0) then
 		if (player:Crouching()) then
-			regeneration = regenscale * 2;
+			regeneration = RegenScale * 2;
 		end;
 	end;
 
