@@ -3,11 +3,16 @@ Clockwork
 A roleplaying framework developed by Cloud Sixteen for the people.  
 *Clockwork was created and is under development by Conna Wiles, also known as kurozael.*
 
-
 Installation
 ------------
 http://wiki.cloudsixteen.com/Installing  
 http://wiki.cloudsixteen.com/
+
+Coding Standard
+------------
+Please make sure any contributed code follows this standard to the letter:
+
+https://docs.google.com/document/d/1F24V5s21aXx5T5bbz0bQsOT1FWLgnqaP5iMy-DxHhL8/edit
 
 Donations
 ------------
@@ -18,10 +23,11 @@ Or via PayPal to **kurozael@gmail.com**
 
 Contributing
 ------------
-If you wish to contribute to the development of Clockwork, you may issue a pull request using GitHub. You can find the Clockwork GitHub repository here https://github.com/CloudSixteen/Clockwork/  
+If you wish to contribute to the development of Clockwork, you may issue a pull request using GitHub. You can find the Clockwork GitHub repository here https://github.com/CloudSixteen/Clockwork/
   
-**We will only accept your pull request if it meets the following requirements:**  
+**We will only accept your pull request if it meets the following requirements:**
   
+* Code must follow this standard: https://docs.google.com/document/d/1F24V5s21aXx5T5bbz0bQsOT1FWLgnqaP5iMy-DxHhL8/edit
 * Pull requests must only contain one commit. Add all of your changes files to one commit.
 * All contributions must match the coding standard used throughout Clockwork.
 * Commit messages must be descriptive, well punctuated, and tidy.
