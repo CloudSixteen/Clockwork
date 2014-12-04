@@ -97,12 +97,8 @@ function file.Exists(filePath, searchPath)
 	else
 		local files, folders = file.Find(filePath, searchPath);
 		
-		if(!files == nil) then
-			if (#files > 0) then
-				return true;
-			end;
-		else
-			return false;
+		if (files and #files > 0) then
+			return true;
 		end;
 	end;
 	
