@@ -1378,6 +1378,9 @@ if (SERVER) then
 			if (dateInfo.day < 10) then dateInfo.day = "0"..dateInfo.day; end;
 			local fileName = dateInfo.year.."-"..dateInfo.month.."-"..dateInfo.day;
 			
+			if (dateInfo.hour < 10) then dateInfo.hour = "0"..dateInfo.hour; end;
+			if (dateInfo.min < 10) then dateInfo.min = "0"..dateInfo.min; end;
+			if (dateInfo.sec < 10) then dateInfo.sec = "0"..dateInfo.sec; end;
 			local time = dateInfo.hour..":"..dateInfo.min..":"..dateInfo.sec;
 			local logText = time..": "..string.gsub(text, "\n", "");
 
