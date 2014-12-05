@@ -2874,18 +2874,14 @@ end;
 
 -- Called when the local player's crosshair should be drawn.
 function Clockwork:DrawPlayerCrosshair(x, y, color)
-	if (self.config:Get("use_free_aiming"):Get()) then
-		surface.SetDrawColor(color.r, color.g, color.b, color.a);
-		surface.DrawRect(x, y, 2, 2);
-		surface.DrawRect(x, y + 9, 2, 2);
-		surface.DrawRect(x, y - 9, 2, 2);
-		surface.DrawRect(x + 9, y, 2, 2);
-		surface.DrawRect(x - 9, y, 2, 2);
-		
-		return true;
-	else
-		return false;
-	end;
+	surface.SetDrawColor(color.r, color.g, color.b, color.a);
+	surface.DrawRect(x, y, 2, 2);
+	surface.DrawRect(x, y + 9, 2, 2);
+	surface.DrawRect(x, y - 9, 2, 2);
+	surface.DrawRect(x + 9, y, 2, 2);
+	surface.DrawRect(x - 9, y, 2, 2);
+
+	return true;
 end;
 
 -- Called when a player starts using voice.
