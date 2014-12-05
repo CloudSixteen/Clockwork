@@ -54,30 +54,36 @@ end;
 
 -- Called at an interval while a player is connected.
 function cwStamina:PlayerThink(player, curTime, infoTable)
-	local RegenScale = Clockwork.config:Get("stam_regen_scale"):Get();
-	local DrainScale = Clockwork.config:Get("stam_drain_scale"):Get();
+	local regenScale = Clockwork.config:Get("stam_regen_scale"):Get();
+	local drainScale = Clockwork.config:Get("stam_drain_scale"):Get();
 	local attribute = Clockwork.attributes:Fraction(player, ATB_STAMINA, 1, 0.25);
 	local regeneration = 0;
-	local decrease = (DrainScale + (DrainScale - (math.min(player:Health(), 500) / 500))) / (DrainScale + attribute);
+	local decrease = (drainScale + (drainScale - (math.min(player:Health(), 500) / 500))) / (drainScale + attribute);
 	
-	if (!player:IsNoClipping() and player:IsOnGround()
-	and (infoTable.isRunning or infoTable.isJogging)) then
-		player:SetCharacterData(
-			"Stamina", math.Clamp(
-				player:GetCharacterData("Stamina") - decrease, 0, 100
-			)
-		);
-		
-		if (player:GetCharacterData("Stamina") > 1) then
-			if (infoTable.isRunning) then
-				player:ProgressAttribute(ATB_STAMINA, 0.025, true);
-			elseif (infoTable.isJogging) then
-				player:ProgressAttribute(ATB_STAMINA, 0.0125, true);
+	if (!player:IsNoClipping() and player:IsOnGround()) then
+		local playerVelocityLength = player:GetVelocity():Length();
+		if ((infoTable.isRunning or infoTable.isJogging) and playerVelocityLength != 0) then
+			player:SetCharacterData(
+				"Stamina", math.Clamp(
+					player:GetCharacterData("Stamina") - decrease, 0, 100
+				)
+			);
+			
+			if (player:GetCharacterData("Stamina") > 1) then
+				if (infoTable.isRunning) then
+					player:ProgressAttribute(ATB_STAMINA, 0.025, true);
+				elseif (infoTable.isJogging) then
+					player:ProgressAttribute(ATB_STAMINA, 0.0125, true);
+				end;
 			end;
-		end;
-	elseif (player:GetVelocity():Length() == 0) then
-		if (player:Crouching()) then
-			regeneration = RegenScale * 2;
+		elseif (playerVelocityLength == 0) then
+			if (player:Crouching()) then
+				regeneration = regenScale * 2;
+			else
+				regeneration = regenScale;
+			end;
+		else
+			regeneration = regenScale / 3;
 		end;
 	end;
 
