@@ -32,6 +32,7 @@ end;
 
 Clockwork.chatBox = Clockwork.kernel:NewLibrary("ChatBox");
 	Clockwork.chatBox.classes = {};
+	Clockwork.chatBox.defaultClasses = {}
 	Clockwork.chatBox.messages = {};
 	Clockwork.chatBox.historyPos = 0;
 	Clockwork.chatBox.historyMsgs = {};
@@ -63,6 +64,14 @@ end;
 -- A function to register a chat box class.
 function Clockwork.chatBox:RegisterClass(class, filter, Callback)
 	self.classes[class] = {
+		Callback = Callback,
+		filter = filter
+	};
+end;
+
+-- A function to register a default chat box class.
+function Clockwork.chatBox:RegisterDefaultClass(class, filter, Callback)
+	self.defaultClasses[class] = {
 		Callback = Callback,
 		filter = filter
 	};
@@ -381,9 +390,10 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 	
 	if (self.classes[class]) then
 		filter = self.classes[class].filter;
-	elseif (class == "pm" or class == "ooc"
-	or class == "roll" or class == "looc"
-	or class == "priv") then
+	elseif (self.defaultClasses[class]) then
+		filter = self.defaultClasses[class].filter;
+	elseif (class == "pm" or class == "ooc"	or class == "roll"
+		or class == "looc" or class == "priv") then
 		filtered = (CW_CONVAR_SHOWOOC:GetInt() == 0);
 		filter = "ooc";
 	else
@@ -469,6 +479,9 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 					
 					if (self.classes[info.class]) then
 						self.classes[info.class].Callback(info);
+					elseif (self.defaultClasses[info.class]) then
+						self.defaultClasses[info.class].Callback(info);
+						
 					elseif (info.class == "radio_eavesdrop") then
 						if (info.shouldHear) then
 							local color = Color(255, 255, 175, 255);
@@ -491,6 +504,8 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 						end;
 					elseif (info.class == "event") then
 						Clockwork.chatBox:Add(info.filtered, nil, Color(200, 100, 50, 255), info.text);
+					elseif (info.class == "localevent") then
+						Clockwork.chatBox:Add(info.filtered, nil, Color(200, 100, 50, 255), "(LOCAL) "..info.text);
 					elseif (info.class == "radio") then
 						Clockwork.chatBox:Add(info.filtered, nil, Color(75, 150, 50, 255), info.name.." radios in \""..info.text.."\"");
 					elseif (info.class == "yell") then
@@ -523,10 +538,37 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 						end;
 						
 						if (string.sub(info.text, 1, 1) == "'") then
-							Clockwork.chatBox:Add(info.filtered, nil, color, "** "..info.name..info.text);
+							Clockwork.chatBox:Add(info.filtered, nil, color, "*** "..info.name..info.text);
 						else
-							Clockwork.chatBox:Add(info.filtered, nil, color, "** "..info.name.." "..info.text);
+							Clockwork.chatBox:Add(info.filtered, nil, color, "*** "..info.name.." "..info.text);
 						end;
+					elseif (info.class == "mec") then
+						local color;
+						if (!info.focusedOn) then
+							color = Color(255, 255, 150, 255);
+						else
+							color = Color(175, 255, 175, 255);
+						end;
+						
+						if (string.sub(info.text, 1, 1) == "'") then
+							Clockwork.chatBox:Add(info.filtered, nil, color, "* "..info.name..info.text);
+						else
+							Clockwork.chatBox:Add(info.filtered, nil, color, "* "..info.name.." "..info.text);
+						end;
+					elseif (info.class == "mel") then
+						local color;
+						if (!info.focusedOn) then
+							color = Color(255, 255, 150, 255);
+						else
+							color = Color(175, 255, 175, 255);
+						end;
+						
+						if (string.sub(info.text, 1, 1) == "'") then
+							Clockwork.chatBox:Add(info.filtered, nil, color, "***** "..info.name..info.text);
+						else
+							Clockwork.chatBox:Add(info.filtered, nil, color, "***** "..info.name.." "..info.text);
+						end;
+
 					elseif (info.class == "it") then
 						local color = Color(255, 255, 175, 255);
 						
@@ -534,7 +576,25 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 							color = Color(175, 255, 175, 255);
 						end;
 						
-						Clockwork.chatBox:Add(info.filtered, nil, color, "** "..info.text);
+						Clockwork.chatBox:Add(info.filtered, nil, color, "***' "..info.text);
+					elseif (info.class == "itc") then
+						local color;
+						if (!info.focusedOn) then
+							color = Color(255, 255, 150, 255);
+						else
+							color = Color(175, 255, 175, 255);
+						end;
+						
+						Clockwork.chatBox:Add(info.filtered, nil, color, "*' "..info.text);
+					elseif (info.class == "itl") then
+						local color;
+						if (!info.focusedOn) then
+							color = Color(255, 255, 150, 255);
+						else
+							color = Color(175, 255, 175, 255);
+						end;
+						
+						Clockwork.chatBox:Add(info.filtered, nil, color, "*****' "..info.text);
 					elseif (info.class == "ic") then
 						if (info.shouldHear) then
 							local color = Color(255, 255, 150, 255);
@@ -573,6 +633,9 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 		
 		if (self.classes[info.class]) then
 			self.classes[info.class].Callback(info);
+		elseif (self.defaultClasses[info.class]) then
+			self.defaultClasses[info.class].Callback(info);
+
 		elseif (info.class == "notify_all") then
 			if (Clockwork.kernel:GetNoticePanel()) then
 				Clockwork.kernel:AddCinematicText(info.text, Color(255, 255, 255, 255), 32, 6, Clockwork.option:GetFont("menu_text_tiny"), true);
