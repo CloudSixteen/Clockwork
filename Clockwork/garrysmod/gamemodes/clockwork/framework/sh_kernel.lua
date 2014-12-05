@@ -1374,7 +1374,10 @@ if (SERVER) then
 		local unixTime = os.time();
 		
 		if (dateInfo) then
-			local fileName = dateInfo.day.."-"..dateInfo.month.."-"..dateInfo.year;
+			if (dateInfo.month < 10) then dateInfo.month = "0"..dateInfo.month; end;
+			if (dateInfo.day < 10) then dateInfo.day = "0"..dateInfo.day; end;
+			local fileName = dateInfo.year.."-"..dateInfo.month.."-"..dateInfo.day;
+			
 			local time = dateInfo.hour..":"..dateInfo.min..":"..dateInfo.sec;
 			local logText = time..": "..string.gsub(text, "\n", "");
 
