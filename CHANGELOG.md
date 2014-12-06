@@ -19,13 +19,20 @@ The following changes have been made for each official Clockwork build.
 * Clockwork will try to use SQLLite if the default SQL file is not touched.
 * Clockwork will try to use MySQLOO if it is installed and loaded.
 * Added a built-in crafting / recipe system. Use ITEM:AddRecipe(uniqueId, amount, uniqueId, amount, uniqueId, amount, ...) to add recipes. Items can have multiple recipes. AddRecipe returns a table, which you can use .access, .factions, .classes to prohibit access to it.
-* Fixed the config option for crosshairs
+* Fixed the config option for crosshairs.
+  * *Contributed by Gr4Ss.*
 * Changed log files so they are named in order of year-month-day so they sort correctly.
+  * *Contributed by Gr4Ss.*
 * Added MeC, MeL, ItC and ItL commands to account for distances when using the Me and It commands.
+  * *Contributed by Gr4Ss.*
 * Added a config option to the stamina plugin which allows you to change the stamina regeneration rate.
+  * *Contributed by Vortix, fixed by Gr4Ss.*
 * Fixed the file.Exists function.
+  * *Contributed by Vortix.*
 * Fixed the CharSetDesc command.
+  * *Contributed by Vortix.*
 * Added the ending to the vocoder speech for MPF and Overwatch (::>)
+  * *Contributed by Vortix.*
 
 0.91
 -------
