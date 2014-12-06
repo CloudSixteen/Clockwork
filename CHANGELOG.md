@@ -19,6 +19,9 @@ The following changes have been made for each official Clockwork build.
 * Clockwork will try to use SQLLite if the default SQL file is not touched.
 * Clockwork will try to use MySQLOO if it is installed and loaded.
 * Added a built-in crafting / recipe system. Use ITEM:AddRecipe(uniqueId, amount, uniqueId, amount, uniqueId, amount, ...) to add recipes. Items can have multiple recipes. AddRecipe returns a table, which you can use .access, .factions, .classes to prohibit access to it.
+* Added a config option to the stamina plugin which allows you to change the stamina regeneration rate.
+* Fixed the file.Exists function.
+* Fixed the CharSetDesc command.
 
 0.91
 -------
