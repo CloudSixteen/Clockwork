@@ -16,18 +16,19 @@ COMMAND.arguments = 2;
 
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)
-	local target = Clockwork.player:FindByID(arguments[1])
-	
+	local target = Clockwork.player:FindByID(arguments[1]);
 	local minimumPhysDesc = Clockwork.config:Get("minimum_physdesc"):Get();
 	local text = tostring(arguments[2]);
 	
-	if (string.len(text) < minimumPhysDesc) then
-		Clockwork.player:Notify(player, "The physical description must be at least "..minimumPhysDesc.." characters long!");
-		
-		return;
+	if (target) then
+		if (string.len(text) < minimumPhysDesc) then
+			Clockwork.player:Notify(player, "The physical description must be at least "..minimumPhysDesc.." characters long!");
+		else
+			target:SetCharacterData("PhysDesc", Clockwork.kernel:ModifyPhysDesc(text));
+		end;
+	else
+		Clockwork.player:Notify(player, arguments[1].." is not a valid character!");
 	end;
-	
-	target:SetCharacterData("PhysDesc", Clockwork.kernel:ModifyPhysDesc(text));
 end;
 
 COMMAND:Register();
