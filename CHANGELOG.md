@@ -25,6 +25,7 @@ The following changes have been made for each official Clockwork build.
 * Added a config option to the stamina plugin which allows you to change the stamina regeneration rate.
 * Fixed the file.Exists function.
 * Fixed the CharSetDesc command.
+* Added the ending to the vocoder speech for MPF and Overwatch (::>)
 
 0.91
 -------
