@@ -31,6 +31,7 @@ if (CLIENT) then
 		self.infoText = vgui.Create("cwInfoText", systemPanel);
 			self.infoText:SetText("Click on a config key to begin editing the config value.");
 			self.infoText:SetInfoColor("blue");
+			self.infoText:DockMargin(0, 0, 0, 8);
 		systemPanel.panelList:AddItem(self.infoText);
 		
 		self.configForm = vgui.Create("DForm", systemPanel);

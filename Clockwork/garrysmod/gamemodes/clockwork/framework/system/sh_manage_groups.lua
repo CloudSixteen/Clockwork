@@ -38,6 +38,7 @@ if (CLIENT) then
 			local label = vgui.Create("cwInfoText", systemPanel);
 				label:SetText("Selecting a user group will bring up a list of users in that group.");
 				label:SetInfoColor("blue");
+				label:DockMargin(0, 0, 0, 8);
 			systemPanel.panelList:AddItem(label);
 			
 			local userGroupsForm = vgui.Create("DForm", systemPanel);

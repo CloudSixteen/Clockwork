@@ -17,11 +17,11 @@ local PANEL = {};
 function PANEL:Init()
 	self:SetSize(Clockwork.menu:GetWidth(), Clockwork.menu:GetHeight());
 	
-	self.panelList = vgui.Create("cwPanelList", self);
+	self.panelList = vgui.Create("DCategoryList", self);
  	self.panelList:SetPadding(2);
- 	self.panelList:SetSpacing(2);
- 	self.panelList:SizeToContents();
-	self.panelList:EnableVerticalScrollbar();
+ 	--self.panelList:SetSpacing(2);
+ 	self.panelList:StretchToParent(4, 4, 4, 4);
+	--self.panelList:EnableVerticalScrollbar();
 	
 	Clockwork.system.panel = self;
 	
@@ -36,6 +36,8 @@ function PANEL:Rebuild()
 		self.navigationForm = vgui.Create("DForm", self);
 			self.navigationForm:SetPadding(4);
 			self.navigationForm:SetName("Navigation");
+			self.navigationForm:SetTall(100);
+			self.navigationForm:Dock(TOP);
 		self.panelList:AddItem(self.navigationForm);
 	
 		local backButton = vgui.Create("DButton", self);
@@ -56,6 +58,8 @@ function PANEL:Rebuild()
 				self.systemForm = vgui.Create("DForm", self);
 					self.systemForm:SetPadding(4);
 					self.systemForm:SetName(systemTable.name);
+					self.systemForm:SetTall(100);
+					self.systemForm:Dock(TOP);
 				self.panelList:AddItem(self.systemForm);
 			end;
 			
@@ -63,14 +67,20 @@ function PANEL:Rebuild()
 		end;
 	else
 		local label = vgui.Create("cwInfoText", self);
-			label:SetText("The "..Clockwork.option:GetKey("name_system").." provides you with various tools.");
+			label:SetText("The "..Clockwork.option:GetKey("name_system").." provides you with various Clockwork administrative tools.");
 			label:SetInfoColor("blue");
+			label:Dock(TOP);
+			label:DockMargin(0, 0, 0, 8);
 		self.panelList:AddItem(label);
+		
+		local totalY = 0;
 		
 		for k, v in pairs(Clockwork.system:GetAll()) do
 			self.systemCategoryForm = vgui.Create("DForm", self);
 				self.systemCategoryForm:SetPadding(4);
 				self.systemCategoryForm:SetName(v.name);
+				self.systemCategoryForm:SetTall(100);
+				self.systemCategoryForm:Dock(TOP);
 			self.panelList:AddItem(self.systemCategoryForm);
 			
 			self.systemCategoryForm:Help(v.toolTip);
@@ -96,6 +106,10 @@ function PANEL:Rebuild()
 				
 				systemButton:SetShowIcon(false);
 			self.systemCategoryForm:AddItem(systemButton);
+			
+			--self.systemCategoryForm:SetPos(0, totalY);
+			
+			--totalY = totalY + 100;
 		end;
 	end;
 	
@@ -116,19 +130,14 @@ function PANEL:OnSelected() self:Rebuild(); end;
 
 -- Called when the layout should be performed.
 function PANEL:PerformLayout(w, h)
-	self.panelList:StretchToParent(4, 4, 4, 4);
-	self:SetSize(w, math.min(self.panelList.pnlCanvas:GetTall() + 32, ScrH() * 0.75));
+	--self.panelList:StretchToParent(4, 4, 4, 4);
+	--self:SetSize(w, math.min(self.panelList.pnlCanvas:GetTall() + 32, ScrH() * 0.75));
 end;
 
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
 	DERMA_SLICED_BG:Draw(0, 0, w, h, 8, COLOR_WHITE);
 	return true;
-end;
-
--- Called each frame.
-function PANEL:Think()
-	self:InvalidateLayout(true);
 end;
 
 vgui.Register("cwSystem", PANEL, "EditablePanel");

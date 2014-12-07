@@ -62,18 +62,9 @@ if (CLIENT) then
 		
 		if (#mainPlugins > 0) then
 			local label = vgui.Create("cwInfoText", systemPanel);
-				label:SetText("Plugins colored red are unloaded.");
-				label:SetInfoColor("red");
-			systemPanel.panelList:AddItem(label);
-			
-			local label = vgui.Create("cwInfoText", systemPanel);
-				label:SetText("Plugins colored green are loaded.");
-				label:SetInfoColor("green");
-			systemPanel.panelList:AddItem(label);
-			
-			local label = vgui.Create("cwInfoText", systemPanel);
-				label:SetText("Plugins colored orange are disabled.");
-				label:SetInfoColor("orange");
+				label:SetText("Red plugins are unloaded, green ones are loaded, and orange are disabled.");
+				label:SetInfoColor("blue");
+				label:DockMargin(0, 0, 0, 8);
 			systemPanel.panelList:AddItem(label);
 			
 			for k, v in pairs(mainPlugins) do

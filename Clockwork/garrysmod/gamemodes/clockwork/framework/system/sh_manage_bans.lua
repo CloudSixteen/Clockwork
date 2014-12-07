@@ -58,6 +58,7 @@ if (CLIENT) then
 						label:SetButton(true);
 						label:SetToolTip(v.identifier.."\n"..timeLeftMessage.."\nBanned for '"..v.reason.."'.");
 						label:SetInfoColor(infoColor);
+						label:DockMargin(0, 0, 0, 8);
 					systemPanel.panelList:AddItem(label);
 					
 					-- Called when the button is clicked.
@@ -96,12 +97,14 @@ if (CLIENT) then
 				local label = vgui.Create("cwInfoText", systemPanel);
 					label:SetText("There are no banned players to display.");
 					label:SetInfoColor("orange");
+					label:DockMargin(0, 0, 0, 8);
 				systemPanel.panelList:AddItem(label);
 			end;
 		else
 			local label = vgui.Create("cwInfoText", systemPanel);
 				label:SetText("Hold on while the banned player list is retrieved...");
 				label:SetInfoColor("blue");
+				label:DockMargin(0, 0, 0, 8);
 			systemPanel.panelList:AddItem(label);
 		end;
 	end;
