@@ -28,7 +28,7 @@ function PANEL:Init()
  	self.equipmentList:SetPadding(2);
  	self.equipmentList:SetSpacing(2);
 	
-	self.columnSheet = vgui.Create("DColumnSheet", self);
+	self.columnSheet = vgui.Create("cwColumnSheet", self);
 	self.columnSheet.Navigation:SetWidth(150);
 	self.columnSheet:AddSheet(Clockwork.option:GetKey("name_inventory"), self.inventoryList, "icon16/box.png");
 	self.columnSheet:AddSheet("Equipment", self.equipmentList, "icon16/shield.png");
@@ -39,7 +39,7 @@ end;
 
 -- Called to by the menu to get the width of the panel.
 function PANEL:GetMenuWidth()
-	return ScrW() * 0.4;
+	return ScrW() * 0.5;
 end;
 
 -- A function to handle unequipping for the panel.
@@ -233,7 +233,7 @@ end;
 
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
-	DERMA_SLICED_BG:Draw(0, 0, w, h, 8, COLOR_WHITE);
+	--DERMA_SLICED_BG:Draw(0, 0, w, h, 8, COLOR_WHITE);
 	return true;
 end;
 
