@@ -125,14 +125,13 @@ function PANEL:OnSelected() self:Rebuild(); end;
 
 -- Called when the layout should be performed.
 function PANEL:PerformLayout(w, h)
-	self.panelList:StretchToParent(4, 28, 4, 4);
+	self.panelList:StretchToParent(4, 4, 4, 4);
 	self:SetSize(w, math.min(self.panelList.pnlCanvas:GetTall() + 32, ScrH() * 0.75));
 end;
 
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
-	derma.SkinHook("Paint", "Frame", self, w, h);
-	
+	DERMA_SLICED_BG:Draw(0, 0, w, h, 8, COLOR_WHITE);
 	return true;
 end;
 
@@ -148,7 +147,7 @@ local PANEL = {};
 -- Called when the panel is initialized.
 function PANEL:Init()
 	SCOREBOARD_PANEL = true;
-		self:SetSize(self:GetParent():GetWide(), 32);
+		self:SetSize(self:GetParent():GetWide(), 40);
 		
 		local playerData = self:GetParent().playerData;
 		local info = {
@@ -188,11 +187,11 @@ function PANEL:Init()
 		if (info.doesRecognise) then
 			self.spawnIcon = vgui.Create("cwSpawnIcon", self);
 			self.spawnIcon:SetModel(info.model, info.skin);
-			self.spawnIcon:SetSize(30, 30);
+			self.spawnIcon:SetSize(40, 40);
 		else
 			self.spawnIcon = vgui.Create("DImageButton", self);
 			self.spawnIcon:SetImage("clockwork/unknown.png");
-			self.spawnIcon:SetSize(30, 30);
+			self.spawnIcon:SetSize(40, 40);
 		end;
 		
 		-- Called when the spawn icon is clicked.
@@ -203,7 +202,7 @@ function PANEL:Init()
 		end;
 		
 		self.avatarImage = vgui.Create("AvatarImage", self);
-		self.avatarImage:SetSize(30, 30);
+		self.avatarImage:SetSize(40, 40);
 		
 		self.avatarButton = vgui.Create("DButton", self.avatarImage);
 		self.avatarButton:Dock(FILL);
@@ -224,6 +223,11 @@ function PANEL:Init()
 	SCOREBOARD_PANEL = nil;
 end;
 
+function PANEL:Paint(width, height)
+	INFOTEXT_SLICED:Draw(0, 0, width, height, 8, Color(255, 255, 255, 150));
+	return true;
+end;
+
 -- Called each frame.
 function PANEL:Think()
 	if (IsValid(self.player)) then
@@ -234,20 +238,21 @@ function PANEL:Think()
 		end;
 	end;
 	
-	self.spawnIcon:SetPos(1, 1);
-	self.spawnIcon:SetSize(30, 30);
+	self.spawnIcon:SetPos(0, 0);
+	self.spawnIcon:SetSize(40, 40);
 end;
+
 -- Called when the layout should be performed.
 function PANEL:PerformLayout(w, h)
 	self.factionLabel:SizeToContents();
 	
-	self.spawnIcon:SetPos(1, 1);
-	self.spawnIcon:SetSize(30, 30);
-	self.avatarImage:SetPos(40, 1);
-	self.avatarImage:SetSize(30, 30);
+	self.spawnIcon:SetPos(0, 0);
+	self.spawnIcon:SetSize(40, 40);
+	self.avatarImage:SetPos(48, 0);
+	self.avatarImage:SetSize(40, 40);
 	
-	self.nameLabel:SetPos(80, 2);
-	self.factionLabel:SetPos(80, 30 - self.factionLabel:GetTall());
+	self.nameLabel:SetPos(96, 4);
+	self.factionLabel:SetPos(96, 36 - self.factionLabel:GetTall());
 end;
 
 vgui.Register("cwScoreboardItem", PANEL, "DPanel");

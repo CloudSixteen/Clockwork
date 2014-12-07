@@ -46,10 +46,6 @@ function SLICE_OBJECT:Draw(x, y, w, h, overrideCornerSize, overrideColor, overri
 	local tlCornerX = x;
 	local tlCornerY = y;
 	
-	if (self.name == "SimpleRed") then
-		print(finalColor.a);
-	end;
-
 	surface.DrawTexturedRectUV(tlCornerX, tlCornerY, tlCornerW, tlCornerH, 0, 0, self.left, self.top);
 	
 	local trCornerW = cornerSize;
@@ -142,8 +138,12 @@ end;
 
 SMALL_BAR_BG = Clockwork.render:AddSlice9("SimpleTint", "clockwork/sliced/simpletint", 6);
 SMALL_BAR_FG = Clockwork.render:AddSlice9("SimpleTint", "clockwork/sliced/simpletint", 6);
+INFOTEXT_SLICED = Clockwork.render:AddSlice9("SimpleTint", "clockwork/sliced/simpletint", 6);
+MENU_ITEM_SLICED = Clockwork.render:AddSlice9("SimpleTint", "clockwork/sliced/simpletint", 6);
 SLICED_SMALL_TINT = Clockwork.render:AddSlice9("SimpleTint", "clockwork/sliced/simpletint", 6);
 SLICED_INFO_MENU_INSIDE = Clockwork.render:AddSlice9("SimpleTint", "clockwork/sliced/simpletint", 6);
+PANEL_LIST_SLICED = Clockwork.render:AddSlice9("SimpleTint", "clockwork/sliced/simpletint", 6);
+DERMA_SLICED_BG = Clockwork.render:AddSlice9("SimpleRed", "clockwork/sliced/simplered", 28);
 SLICED_LARGE_DEFAULT = Clockwork.render:AddSlice9("SimpleRed", "clockwork/sliced/simplered", 28);
 SLICED_PROGRESS_BAR = Clockwork.render:AddSlice9("SimpleRed", "clockwork/sliced/simplered", 28);
 SLICED_PLAYER_INFO = Clockwork.render:AddSlice9("SimpleRed", "clockwork/sliced/simplered", 28);
