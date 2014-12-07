@@ -6,8 +6,13 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
-local Clockwork = Clockwork;
 local surface = surface;
+local Clockwork = Clockwork;
+local CreateFont = surface.CreateFont;
+
+function surface.CreateFont(...)
+	Clockwork.fonts:Add(...);
+end;
 
 Clockwork.fonts = Clockwork.kernel:NewLibrary("Fonts");
 Clockwork.fonts.stored = {};
@@ -16,7 +21,7 @@ Clockwork.fonts.sizes = {};
 -- A function to add a new font to the system.
 function Clockwork.fonts:Add(name, fontTable)
 	self.stored[name] = fontTable;
-	surface.CreateFont(name, self.stored[name]);
+	CreateFont(name, self.stored[name]);
 end;
 
 -- A function to find a font by name.
@@ -39,7 +44,7 @@ function Clockwork.fonts:GetSize(name, size)
 	self.sizes[fontKey] = table.Copy(self.stored[name]);
 	self.sizes[fontKey].size = size;
 	
-	surface.CreateFont(fontKey, self.sizes[fontKey]);
+	CreateFont(fontKey, self.sizes[fontKey]);
 	return fontKey;
 end;
 
