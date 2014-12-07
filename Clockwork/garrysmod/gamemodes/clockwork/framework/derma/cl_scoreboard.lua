@@ -22,10 +22,8 @@ function PANEL:Init()
 	self:SetSize(Clockwork.menu:GetWidth(), Clockwork.menu:GetHeight());
 	
 	self.panelList = vgui.Create("cwPanelList", self);
- 	self.panelList:SetPadding(2);
- 	self.panelList:SetSpacing(2);
- 	self.panelList:SizeToContents();
-	self.panelList:EnableVerticalScrollbar();
+ 	self.panelList:SetPadding(4);
+ 	self.panelList:StretchToParent(4, 4, 4, 4);
 	
 	Clockwork.scoreboard = self;
 	Clockwork.scoreboard:Rebuild();
@@ -70,13 +68,18 @@ function PANEL:Rebuild()
 	
 	if (table.Count(classes) > 0) then
 		local label = vgui.Create("cwInfoText", self);
-			label:SetText("Clicking a player's model icon may bring up some options.");
+			label:SetText("Click on a player's model icon to bring up available commands.");
 			label:SetInfoColor("blue");
 		self.panelList:AddItem(label);
 		
 		for k, v in pairs(classes) do
 			local characterForm = vgui.Create("DForm", self);
 			local panelList = vgui.Create("DPanelList", self);
+			
+			panelList:SetAutoSize(true);
+			panelList:SetPadding(4);
+			panelList:SetSpacing(4);
+			panelList:Dock(TOP);
 			
 			for k2, v2 in pairs(v.players) do
 				self.playerData = {
@@ -90,18 +93,16 @@ function PANEL:Rebuild()
 					name = v2:Name()
 				};
 				
-				panelList:AddItem(vgui.Create("cwScoreboardItem", self)) ;
+				panelList:AddItem(vgui.Create("cwScoreboardItem", self));
 			end;
 			
 			self.panelList:AddItem(characterForm);
 			
-			panelList:SetAutoSize(true);
-			panelList:SetPadding(4);
-			panelList:SetSpacing(4);
-			
 			characterForm:SetName(v.name);
 			characterForm:AddItem(panelList);
 			characterForm:SetPadding(4); 
+			
+			panelList:InvalidateLayout(true);
 		end;
 	else
 		local label = vgui.Create("cwInfoText", self);
@@ -125,19 +126,14 @@ function PANEL:OnSelected() self:Rebuild(); end;
 
 -- Called when the layout should be performed.
 function PANEL:PerformLayout(w, h)
-	self.panelList:StretchToParent(4, 4, 4, 4);
-	self:SetSize(w, math.min(self.panelList.pnlCanvas:GetTall() + 32, ScrH() * 0.75));
+	--self.panelList:StretchToParent(4, 4, 4, 4);
+	--self:SetSize(w, math.min(self.panelList.pnlCanvas:GetTall() + 32, ScrH() * 0.75));
 end;
 
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
 	DERMA_SLICED_BG:Draw(0, 0, w, h, 8, COLOR_WHITE);
 	return true;
-end;
-
--- Called each frame.
-function PANEL:Think()
-	self:InvalidateLayout(true);
 end;
 
 vgui.Register("cwScoreboard", PANEL, "EditablePanel");

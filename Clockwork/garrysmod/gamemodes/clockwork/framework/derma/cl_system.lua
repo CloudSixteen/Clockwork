@@ -17,11 +17,9 @@ local PANEL = {};
 function PANEL:Init()
 	self:SetSize(Clockwork.menu:GetWidth(), Clockwork.menu:GetHeight());
 	
-	self.panelList = vgui.Create("DCategoryList", self);
- 	self.panelList:SetPadding(2);
- 	--self.panelList:SetSpacing(2);
+	self.panelList = vgui.Create("cwPanelList", self);
+ 	self.panelList:SetPadding(4);
  	self.panelList:StretchToParent(4, 4, 4, 4);
-	--self.panelList:EnableVerticalScrollbar();
 	
 	Clockwork.system.panel = self;
 	
@@ -37,7 +35,6 @@ function PANEL:Rebuild()
 			self.navigationForm:SetPadding(4);
 			self.navigationForm:SetName("Navigation");
 			self.navigationForm:SetTall(100);
-			self.navigationForm:Dock(TOP);
 		self.panelList:AddItem(self.navigationForm);
 	
 		local backButton = vgui.Create("DButton", self);
@@ -59,7 +56,6 @@ function PANEL:Rebuild()
 					self.systemForm:SetPadding(4);
 					self.systemForm:SetName(systemTable.name);
 					self.systemForm:SetTall(100);
-					self.systemForm:Dock(TOP);
 				self.panelList:AddItem(self.systemForm);
 			end;
 			
@@ -69,8 +65,6 @@ function PANEL:Rebuild()
 		local label = vgui.Create("cwInfoText", self);
 			label:SetText("The "..Clockwork.option:GetKey("name_system").." provides you with various Clockwork administrative tools.");
 			label:SetInfoColor("blue");
-			label:Dock(TOP);
-			label:DockMargin(0, 0, 0, 8);
 		self.panelList:AddItem(label);
 		
 		local totalY = 0;
@@ -80,7 +74,6 @@ function PANEL:Rebuild()
 				self.systemCategoryForm:SetPadding(4);
 				self.systemCategoryForm:SetName(v.name);
 				self.systemCategoryForm:SetTall(100);
-				self.systemCategoryForm:Dock(TOP);
 			self.panelList:AddItem(self.systemCategoryForm);
 			
 			self.systemCategoryForm:Help(v.toolTip);
@@ -136,7 +129,7 @@ end;
 
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
-	DERMA_SLICED_BG:Draw(0, 0, w, h, 8, COLOR_WHITE);
+	--DERMA_SLICED_BG:Draw(0, 0, w, h, 8, COLOR_WHITE);
 	return true;
 end;
 
