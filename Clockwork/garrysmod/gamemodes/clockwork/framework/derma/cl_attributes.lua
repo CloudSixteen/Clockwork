@@ -20,8 +20,9 @@ function PANEL:Init()
 	self:SetSize(Clockwork.menu:GetWidth(), Clockwork.menu:GetHeight());
 	
 	self.panelList = vgui.Create("cwPanelList", self);
- 	self.panelList:SetPadding(2);
- 	self.panelList:SetSpacing(2);
+ 	self.panelList:SetPadding(4);
+ 	self.panelList:SetSpacing(4);
+	self.panelList:StretchToParent(4, 4, 4, 4);
 	
 	Clockwork.attributes.panel = self;
 	Clockwork.attributes.panel.boosts = {};
@@ -152,19 +153,14 @@ function PANEL:OnSelected() self:Rebuild(); end;
 
 -- Called when the layout should be performed.
 function PANEL:PerformLayout(w, h)
-	self.panelList:StretchToParent(4, 4, 4, 4);
-	self:SetSize(w, math.min(self.panelList.pnlCanvas:GetTall() + 32, ScrH() * 0.75));
+	--self.panelList:StretchToParent(4, 4, 4, 4);
+	--self:SetSize(w, math.min(self.panelList.pnlCanvas:GetTall() + 32, ScrH() * 0.75));
 end;
 
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
 	DERMA_SLICED_BG:Draw(0, 0, w, h, 8, COLOR_WHITE);
 	return true;
-end;
-
--- Called each frame.
-function PANEL:Think()
-	self:InvalidateLayout(true);
 end;
 
 vgui.Register("cwAttributes", PANEL, "EditablePanel");
@@ -199,8 +195,8 @@ function PANEL:Init()
 	
 	-- Called when the panel should be painted.
 	function self.baseBar.Paint(baseBar)
-		local hinderColor = Color(179, 46, 49, 255);
-		local boostColor = Color(139, 215, 113, 255);
+		local hinderColor = Color(255, 50, 50, 255);
+		local boostColor = Color(50, 255, 50, 255);
 		local attributes = Clockwork.attributes.panel.attributes;
 		local mainColor = Color(100, 100, 100, 255);
 		local frameTime = FrameTime() * 10;
