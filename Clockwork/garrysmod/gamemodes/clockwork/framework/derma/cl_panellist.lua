@@ -25,10 +25,8 @@ end;
 
 -- Called when the panel should be painted.
 function PANEL:Paint(width, height)
-	surface.SetDrawColor(self.backgroundColor);
-	surface.DrawRect(0, 0, width, height);
-
-	derma.SkinHook("Paint", "cwPanelList", self, width, height);
+	PANEL_LIST_SLICED:Draw(0, 0, width, height, 8, self.backgroundColor);
+	return true;
 end;
 
 vgui.Register("cwPanelList", PANEL, "DPanelList");

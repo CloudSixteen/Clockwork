@@ -39,7 +39,7 @@ end;
 
 -- Called to by the menu to get the width of the panel.
 function PANEL:GetMenuWidth()
-	return ScrW() * 0.6;
+	return ScrW() * 0.4;
 end;
 
 -- A function to handle unequipping for the panel.
@@ -226,15 +226,14 @@ function PANEL:OnSelected() self:Rebuild(); end;
 -- Called when the layout should be performed.
 function PANEL:PerformLayout(w, h)
 	self:SetSize(w, ScrH() * 0.75);
-	self.columnSheet:StretchToParent(4, 28, 4, 4);
+	self.columnSheet:StretchToParent(4, 4, 4, 4);
 	self.inventoryList:StretchToParent(4, 4, 4, 4);
 	self.equipmentList:StretchToParent(4, 4, 4, 4);
 end;
 
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
-	derma.SkinHook("Paint", "Frame", self, w, h);
-	
+	DERMA_SLICED_BG:Draw(0, 0, w, h, 8, COLOR_WHITE);
 	return true;
 end;
 
@@ -448,6 +447,16 @@ end;
 
 -- Called each frame.
 function PANEL:Think()
+	if (!self.nextUpdateContents) then
+		self.nextUpdateContents = CurTime() + 0.1;
+	end;
+	
+	if (CurTime() < self.nextUpdateContents) then
+		return;
+	end;
+	
+	self.nextUpdateContents = nil;
+	
 	local inventorySpace = Clockwork.inventory:CalculateSpace(
 		Clockwork.inventory:GetClient()
 	);

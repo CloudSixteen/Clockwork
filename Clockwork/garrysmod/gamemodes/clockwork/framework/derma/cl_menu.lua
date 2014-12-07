@@ -116,7 +116,7 @@ function PANEL:Rebuild()
 		end);
 		
 		for k, v in pairs(Clockwork.menuitems.stored) do
-			local button, panel = nil, nil;
+			local container, button, panel = nil;
 			
 			if (Clockwork.menu.stored[v.panel]) then
 				panel = Clockwork.menu.stored[v.panel].panel;
@@ -129,33 +129,25 @@ function PANEL:Rebuild()
 			end;
 			
 			if (!panel.IsButtonVisible or panel:IsButtonVisible()) then
-				button = vgui.Create("cwLabelButton", self);
+				container = vgui.Create("cwMenuButton", self);
 			end;
 			
-			if (button) then
-				button:SetFont(Clockwork.option:GetFont("menu_text_tiny"));
-				button:SetText(string.upper(v.text));
-				button:SetAlpha(0);
-				button:FadeIn(0.5);
-				button:SetToolTip(v.tip);
-				button:SetCallback(function(button)
-					if (Clockwork.menu:GetActivePanel() != panel) then
-						self:OpenPanel(panel);
-					end;
-				end);
-				button:SizeToContents();
-				button:SetMouseInputEnabled(true);
-				button:SetPos(x, y);
+			if (container) then
+				container:SetupLabel(v, panel);
+				container:SetPos(x, y);
 				
-				y = y + button:GetTall() + 8;
+				y = y + container:GetTall() + 12;
 				bIsVisible = true;
 				
-				if (button:GetWide() > width) then
-					width = button:GetWide();
+				if (container:GetWide() > width) then
+					width = container:GetWide();
 				end;
+				
+				button = container.LabelButton;
 			end;
 			
 			Clockwork.menu.stored[v.panel] = {
+				container = container,
 				button = button,
 				panel = panel
 			};
@@ -221,6 +213,7 @@ end;
 
 -- A function to make a panel fade out.
 function PANEL:FadeOut(speed, panel, Callback)
+	--[[
 	if (panel:GetAlpha() > 0 and (!self.fadeOutAnimation or !self.fadeOutAnimation:Active())) then
 		self.fadeOutAnimation = Derma_Anim("Fade Panel", panel, function(panel, animation, delta, data)
 			panel:SetAlpha(255 - (delta * 255));
@@ -241,17 +234,18 @@ function PANEL:FadeOut(speed, panel, Callback)
 		
 		Clockwork.option:PlaySound("rollover");
 	else
-		panel:SetVisible(false);
-		panel:SetAlpha(0);
-		
-		if (Callback) then
-			Callback();
-		end;
+	--]]
+	
+	panel:SetVisible(false);
+	
+	if (Callback) then
+		Callback();
 	end;
 end;
 
 -- A function to make a panel fade in.
 function PANEL:FadeIn(speed, panel, Callback)
+	--[[
 	if (panel:GetAlpha() == 0 and (!self.fadeInAnimation or !self.fadeInAnimation:Active())) then
 		self.fadeInAnimation = Derma_Anim("Fade Panel", panel, function(panel, animation, delta, data)
 			panel:SetVisible(true);
@@ -272,12 +266,13 @@ function PANEL:FadeIn(speed, panel, Callback)
 		
 		Clockwork.option:PlaySound("click_release");
 	else
-		panel:SetVisible(true);
-		panel:SetAlpha(255);
-		
-		if (Callback) then
-			Callback();
-		end;
+	--]]
+
+	panel:SetVisible(true);
+	panel:SetAlpha(255);
+	
+	if (Callback) then
+		Callback();
 	end;
 end;
 
@@ -288,10 +283,13 @@ function PANEL:Paint(w, h)
 		Clockwork.theme:Call("PostMainMenuPaint", self);
 	end;
 	
+	--[[
 	local scrW, scrH = ScrW(), ScrH();
+	
 	Clockwork.kernel:DrawGradient(
 		GRADIENT_RIGHT, 0, 0, scrW * 0.2, scrH, Color(100, 100, 100, 150)
 	);
+	--]]
 	
 	return true;
 end;

@@ -31,7 +31,7 @@ end;
 
 -- Called to by the menu to get the width of the panel.
 function PANEL:GetMenuWidth()
-	return ScrW() * 0.7;
+	return ScrW() * 0.5;
 end;
 
 local PAGE_ICON = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAINSURBVBgZBcG/r55zGAfg6/4+z3va01NHlYgzEfE7MdCIGISFgS4Gk8ViYyM2Mdlsko4GSf8Do0FLRCIkghhYJA3aVBtEz3nP89wf11VJvPDepdd390+8Nso5nESBQoq0pfvXm9fzWf19453LF85vASqJlz748vInb517dIw6EyYBIIG49u+xi9/c9MdvR//99MPPZ7+4cP4IZhhTPbwzT2d+vGoaVRRp1rRliVvHq+cfvM3TD82+7mun0o/ceO7NT+/4/KOXjwZU1ekk0840bAZzMQ2mooqh0A72d5x/6sB9D5zYnff3PoYBoWBgFKPKqDKqjCpjKr//dcu9p489dra88cydps30KswACfNEKanSaxhlntjJ8Mv12Paie+vZ+0+oeSwwQ0Iw1xAR1CiFNJkGO4wu3ZMY1AAzBI0qSgmCNJsJUEOtJSMaCTBDLyQ0CknAGOgyTyFFiLI2awMzdEcSQgSAAKVUmAeNkxvWJWCGtVlDmgYQ0GFtgg4pNtOwbBcwQy/Rife/2yrRRVI0qYCEBly8Z+P4qMEMy7JaVw72N568e+iwhrXoECQkfH91kY7jwwXMsBx1L93ZruqrK6uuiAIdSnTIKKPLPFcvay8ww/Hh+ufeznTXu49v95IMoQG3784gYXdTqvRmqn/Wpa/ADFX58MW3L71SVU9ETgEIQQQIOOzub+fhIvwPRDgeVjWDahIAAAAASUVORK5CYII=";
@@ -225,16 +225,15 @@ end;
 -- Called when the layout should be performed.
 function PANEL:PerformLayout(w, h)
 	self:SetSize(w, ScrH() * 0.75);
-	self.treeNode:SetPos(4, 28);
-	self.treeNode:SetSize(w * 0.25, h - 36);
-	self.htmlPanel:SetPos((w * 0.25) + 8, 28);
-	self.htmlPanel:SetSize((w * 0.75) - 16, h - 36);
+	self.treeNode:SetPos(4, 4);
+	self.treeNode:SetSize(w * 0.25, h - 8);
+	self.htmlPanel:SetPos((w * 0.25) + 8, 4);
+	self.htmlPanel:SetSize((w * 0.75) - 16, h - 8);
 end;
 
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
-	derma.SkinHook("Paint", "Frame", self, w, h);
-	
+	DERMA_SLICED_BG:Draw(0, 0, w, h, 8, COLOR_WHITE);
 	return true;
 end;
 

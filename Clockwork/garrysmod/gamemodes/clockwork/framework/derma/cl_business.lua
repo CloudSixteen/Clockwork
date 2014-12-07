@@ -112,16 +112,13 @@ function PANEL:OnSelected() self:Rebuild(); end;
 
 -- Called when the layout should be performed.
 function PANEL:PerformLayout(w, h)
-	self.panelList:StretchToParent(4, 28, 4, 4);
+	self.panelList:StretchToParent(4, 4, 4, 4);
 	self:SetSize(w, math.min(self.panelList.pnlCanvas:GetTall() + 32, ScrH() * 0.75));
 end;
 
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
-	SLICED_LARGE_DEFAULT:Draw(self.x - 12, self.y - 12, w + 24, h + 24, 8);
-	
-	--derma.SkinHook("Paint", "Frame", self, w, h);
-	
+	DERMA_SLICED_BG:Draw(0, 0, w, h, 8, COLOR_WHITE);
 	return true;
 end;
 
@@ -136,7 +133,7 @@ local PANEL = {};
 
 -- Called when the panel is initialized.
 function PANEL:Init()
-	self:SetSize(self:GetParent():GetWide(), 32);
+	self:SetSize(self:GetParent():GetWide(), 40);
 	
 	local customData = self:GetParent().customData or {};
 	local toolTip = nil;
@@ -156,12 +153,14 @@ function PANEL:Init()
 	end;
 	
 	self.nameLabel = vgui.Create("DLabel", self);
-	self.nameLabel:SetPos(36, 2);
+	self.nameLabel:SetPos(48, 6);
+	self.nameLabel:SetDark(true);
 	self.nameLabel:SetText(customData.name);
 	self.nameLabel:SizeToContents();
 	
 	self.infoLabel = vgui.Create("DLabel", self);
-	self.infoLabel:SetPos(36, 2);
+	self.infoLabel:SetPos(48, 6);
+	self.infoLabel:SetDark(true);
 	self.infoLabel:SetText(customData.information);
 	self.infoLabel:SizeToContents();
 	
@@ -184,12 +183,18 @@ function PANEL:Init()
 	
 	self.spawnIcon:SetModel(customData.model, customData.skin);
 	self.spawnIcon:SetToolTip(toolTip);
-	self.spawnIcon:SetSize(32, 32);
+	self.spawnIcon:SetSize(40, 40);
+	self.spawnIcon:SetPos(0, 0);
+end;
+
+function PANEL:Paint(width, height)
+	INFOTEXT_SLICED:Draw(0, 0, width, height, 8, Color(255, 255, 255, 150));
+	return true;
 end;
 
 -- Called each frame.
 function PANEL:Think()
-	self.infoLabel:SetPos(self.infoLabel.x, 30 - self.infoLabel:GetTall());
+	self.infoLabel:SetPos(self.infoLabel.x, 34 - self.infoLabel:GetTall());
 end;
 	
 vgui.Register("cwBusinessCustom", PANEL, "DPanel");

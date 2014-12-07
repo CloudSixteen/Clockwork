@@ -53,16 +53,17 @@ function PANEL:Paint(w, h)
 		local x, y = 0, 0;
 		
 		if (self:IsDepressed()) then
-			height = height - 4;
-			width = width - 4;
-			x = x + 2;
-			y = y + 2;
+			height = height - 2;
+			width = width - 2;
+			x = x + 1;
+			y = y + 1;
 		end;
 		
-		Clockwork.kernel:DrawSimpleGradientBox(4, x, y, width, height, self:GetBackgroundColor());
+		INFOTEXT_SLICED:Draw(x, y, width, height, 8, self:GetBackgroundColor());
 		
 		if (self:IsButton() and self:IsHovered()) then
-			Clockwork.kernel:DrawSimpleGradientBox(4, x, y, width, height, Color(255, 255, 255, 50));
+			surface.SetDrawColor(255, 255, 255, 50);
+			surface.DrawRect(x, y, width, height);
 		end;
 	end	
 	

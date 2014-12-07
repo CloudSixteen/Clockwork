@@ -138,8 +138,6 @@ function PANEL:OverrideTextColor(color)
 	end;
 end;
 
-function PANEL:Paint(w, h) end;
-
 -- Called every frame.
 function PANEL:Think()
 	if (self.animation) then
