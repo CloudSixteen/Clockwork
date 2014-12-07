@@ -52,8 +52,9 @@ function SYSTEM:OnDisplay(systemPanel, systemForm)
 	
 	if (table.Count(classes) > 0) then
 		local label = vgui.Create("cwInfoText", systemPanel);
-			label:SetText("Clicking on a player may bring up some options.");
+			label:SetText("Clicking on a player will bring up all available commands.");
 			label:SetInfoColor("blue");
+			label:DockMargin(0, 0, 0, 8);
 		systemPanel.panelList:AddItem(label);
 		
 		for k, v in pairs(classes) do

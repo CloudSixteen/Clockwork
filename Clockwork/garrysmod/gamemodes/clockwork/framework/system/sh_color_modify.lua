@@ -50,11 +50,13 @@ if (CLIENT) then
 		local infoText = vgui.Create("cwInfoText", systemPanel);
 			infoText:SetText("Changing these values will affect the color for all players.");
 			infoText:SetInfoColor("blue");
+			infoText:DockMargin(0, 0, 0, 8);
 		systemPanel.panelList:AddItem(infoText);
 		
 		local infoText = vgui.Create("cwInfoText", systemPanel);
 			infoText:SetText("Please note that this is for advanced users only.");
 			infoText:SetInfoColor("orange");
+			infoText:DockMargin(0, 0, 0, 8);
 		systemPanel.panelList:AddItem(infoText);
 		
 		self.colorModForm = vgui.Create("DForm", systemPanel);
