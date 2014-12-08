@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2014 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -103,3 +103,4 @@ Clockwork.config:Add("lock_time", 2);
 Clockwork.config:Add("max_doors", 5);
 Clockwork.config:Add("enable_space_system", false, true);
 Clockwork.config:Add("draw_intro_bars", true, true);
+Clockwork.config:Add("phys_desc_cutoff", 180);
