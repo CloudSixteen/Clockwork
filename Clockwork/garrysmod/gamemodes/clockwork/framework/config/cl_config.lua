@@ -87,4 +87,4 @@ Clockwork.config:AddToSystem("Door lock interval", "lock_time", "The time that a
 Clockwork.config:AddToSystem("Maximum ownable doors", "max_doors", "The maximum amount of doors a player can own.");
 Clockwork.config:AddToSystem("Enable space system", "enable_space_system", "Whether or not to use the space system that affects inventories.");
 Clockwork.config:AddToSystem("Draw intro bars", "draw_intro_bars", "Whether or not to draw cinematic intro black bars on top and bottom of the screen.");
-Clockwork.config:AddToSystem("Enable alt jogging", "enable_alt_jog", "Whether or not to enable alt jogging.");
+Clockwork.config:AddToSystem("Enable jogging", "enable_jogging", "Whether or not to enable jogging.");
