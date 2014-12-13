@@ -3423,3 +3423,9 @@ end;
 function Clockwork.player:GetWages(player)
 	return player:GetSharedVar("Wages");
 end;
+
+-- A function to set a player's flags.
+function Clockwork.player:SetFlags(player, flags)
+	Clockwork.player:TakeFlags(player, player:GetFlags());
+	Clockwork.player:GiveFlags(player, flags);
+end;
