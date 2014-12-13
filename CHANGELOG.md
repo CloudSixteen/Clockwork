@@ -27,6 +27,7 @@ The following changes have been made for each official Clockwork build.
 * Fixed the CharSetDesc command.
 * Added the ending to the vocoder speech for MPF and Overwatch (::>)
 * Added a config option to disable/enable alt jogging.
+* Added CharSetFlags and CharCheckFlags commands, as well as a SetFlags function.
 
 0.91
 -------
