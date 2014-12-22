@@ -88,3 +88,4 @@ Clockwork.config:AddToSystem("Maximum ownable doors", "max_doors", "The maximum 
 Clockwork.config:AddToSystem("Enable space system", "enable_space_system", "Whether or not to use the space system that affects inventories.");
 Clockwork.config:AddToSystem("Draw intro bars", "draw_intro_bars", "Whether or not to draw cinematic intro black bars on top and bottom of the screen.");
 Clockwork.config:AddToSystem("Enable jogging", "enable_jogging", "Whether or not to enable jogging.");
+Clockwork.config:AddToSystem("Enable LOOC icons", "enable_looc_icons", "Whether or not to enable LOOC chat icons.");
