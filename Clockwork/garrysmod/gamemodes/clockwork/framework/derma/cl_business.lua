@@ -206,12 +206,12 @@ function PANEL:Init()
 	Clockwork.plugin:Call("PlayerAdjustBusinessItemTable", self.itemTable);
 	
 	if (!self.itemTable.originalCost) then
-		self.itemTable.originalCost = Clockwork.item:FindByID(self.itemTable("uniqueID")).cost;
-	end
+		self.itemTable.originalCost = self.itemTable("cost");
+	end;
 
 	if (costScale >= 0) then
 		self.itemTable.cost = self.itemTable.originalCost * costScale;
-	end
+	end;
 
 	local model, skin = Clockwork.item:GetIconInfo(self.itemTable);
 	self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("cwSpawnIcon", self));
