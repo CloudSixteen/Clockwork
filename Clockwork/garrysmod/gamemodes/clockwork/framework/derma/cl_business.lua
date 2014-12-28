@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2014 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -197,11 +197,22 @@ local PANEL = {};
 
 -- Called when the panel is initialized.
 function PANEL:Init()
+	local FACTION = Clockwork.faction:FindByID(Clockwork.Client:GetFaction());
+	local CLASS = Clockwork.class:FindByID(Clockwork.Client:Team());
+	local costScale = CLASS.costScale or FACTION.costScale or 1;
 	local itemData = self:GetParent().itemData;
 		self:SetSize(48, 48);
 		self.itemTable = itemData.itemTable;
 	Clockwork.plugin:Call("PlayerAdjustBusinessItemTable", self.itemTable);
 	
+	if (!self.itemTable.originalCost) then
+		self.itemTable.originalCost = self.itemTable("cost");
+	end;
+
+	if (costScale >= 0) then
+		self.itemTable.cost = self.itemTable.originalCost * costScale;
+	end;
+
 	local model, skin = Clockwork.item:GetIconInfo(self.itemTable);
 	self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("cwSpawnIcon", self));
 	
