@@ -243,8 +243,8 @@ if (SERVER) then
 				end;
 			end;
 		else
-			local FACTION = Clockwork.faction:FindByID(Clockwork.Client:GetFaction());
-			local CLASS = Clockwork.class:FindByID(Clockwork.Client:Team());
+			local FACTION = Clockwork.faction:FindByID(player:GetFaction());
+			local CLASS = Clockwork.class:FindByID(player:Team());
 			local costScale = CLASS.costScale or FACTION.costScale or 1;
 
 			local cost = self("cost");	
@@ -287,8 +287,8 @@ if (SERVER) then
 			return false;
 		end;
 
-		local FACTION = Clockwork.faction:FindByID(Clockwork.Client:GetFaction());
-		local CLASS = Clockwork.class:FindByID(Clockwork.Client:Team());
+		local FACTION = Clockwork.faction:FindByID(player:GetFaction());
+		local CLASS = Clockwork.class:FindByID(player:Team());
 		local costScale = CLASS.costScale or FACTION.costScale or 1;
 
 		local cost = self("cost");	
