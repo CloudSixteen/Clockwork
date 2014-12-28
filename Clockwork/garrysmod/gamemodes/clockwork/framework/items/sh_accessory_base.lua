@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2014 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -69,6 +69,10 @@ if (CLIENT) then
 		
 		if (Clockwork.player:IsWearingAccessory(self)) then
 			return "Is Wearing: Yes";
+			timer.Create("AccessoryUpdater", 120, 0, function()
+				player:RemoveAccessory(self);
+				player:WearAccessory(self);
+			end);
 		else
 			return "Is Wearing: No";
 		end;
