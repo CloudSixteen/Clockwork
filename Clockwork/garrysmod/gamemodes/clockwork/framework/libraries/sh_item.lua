@@ -242,12 +242,24 @@ if (SERVER) then
 					end;
 				end;
 			end;
-		elseif (self("batch") > 1) then
-			Clockwork.player:GiveCash(player, -(self("cost") * self("batch")), self("batch").." "..Clockwork.kernel:Pluralize(self("name")));
-			Clockwork.kernel:PrintLog(LOGTYPE_MINOR, player:Name().." has ordered "..self("batch").." "..Clockwork.kernel:Pluralize(self("name"))..".");
 		else
-			Clockwork.player:GiveCash(player, -(self("cost") * self("batch")), self("batch").." "..self("name"));
-			Clockwork.kernel:PrintLog(LOGTYPE_MINOR, player:Name().." has ordered "..self("batch").." "..self("name")..".");
+			local FACTION = Clockwork.faction:FindByID(player:GetFaction());
+			local CLASS = Clockwork.class:FindByID(player:Team());
+			local costScale = CLASS.costScale or FACTION.costScale or 1;
+
+			local cost = self("cost");	
+
+			if (costScale >= 0) then
+				cost = cost * costScale;
+			end;
+
+			if (self("batch") > 1) then
+				Clockwork.player:GiveCash(player, -(cost * self("batch")), self("batch").." "..Clockwork.kernel:Pluralize(self("name")));
+				Clockwork.kernel:PrintLog(LOGTYPE_MINOR, player:Name().." has ordered "..self("batch").." "..Clockwork.kernel:Pluralize(self("name"))..".");
+			else
+				Clockwork.player:GiveCash(player, -(cost * self("batch")), self("batch").." "..self("name"));
+				Clockwork.kernel:PrintLog(LOGTYPE_MINOR, player:Name().." has ordered "..self("batch").." "..self("name")..".");
+			end;
 		end;
 	end;
 	
@@ -274,8 +286,18 @@ if (SERVER) then
 			
 			return false;
 		end;
+
+		local FACTION = Clockwork.faction:FindByID(player:GetFaction());
+		local CLASS = Clockwork.class:FindByID(player:Team());
+		local costScale = CLASS.costScale or FACTION.costScale or 1;
+
+		local cost = self("cost");	
+
+		if (costScale >= 0) then
+			cost = cost * costScale;
+		end;
 		
-		return Clockwork.player:CanAfford(player, self("cost") * self("batch"));
+		return Clockwork.player:CanAfford(player, cost * self("batch"));
 	end;
 end;
 
