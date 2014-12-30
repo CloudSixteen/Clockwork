@@ -2946,7 +2946,7 @@ function Clockwork:PlayerConfigInitialized(player)
 			if (IsValid(player)) then
 				Clockwork.datastream:Start(player, "DataStreaming", true);
 				
-				timer.Create("DataStreaming"..player:SteamID(), 2, 2, function()
+				timer.Create("DataStreaming"..player:SteamID(), 2, 0, function()
 					if (!player.cwDataStreamInfoSent) then
 						Clockwork.datastream:Start(player, "DataStreaming", true);
 					else
