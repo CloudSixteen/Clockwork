@@ -1911,46 +1911,69 @@ function Clockwork:GetModelSelectWeaponModel(model) end;
 -- Called when a model selection's sequence is needed.
 function Clockwork:GetModelSelectSequence(entity, model) end;
 
--- Called when the admin ESP info is needed.
+--[[
+    @codebase Client
+    @details Finds the location of the player and packs together the info for observer ESP.
+    @class Clockwork
+    @param Table The current table of ESP positions/colors/names to add on to.
+--]]
 function Clockwork:GetAdminESPInfo(info)
 	for k, v in pairs(cwPlayer.GetAll()) do
 		if (v:HasInitialized()) then
 			local physBone = v:LookupBone("ValveBiped.Bip01_Head1");
+			local position = nil;
 			
 			if (physBone) then
 				local bonePosition = v:GetBonePosition(physBone);
-				local position = nil;
-					
-				if (string.find(v:GetModel(), "vortigaunt")) then
-					bonePosition = v:GetBonePosition(v:LookupBone("ValveBiped.Head"));
-				end;
-					
+				
 				if (bonePosition) then
 					position = bonePosition + Vector(0, 0, 16);
-				else
-					position = v:GetPos() + Vector(0, 0, 80);
 				end;
-				
-				info[#info + 1] = {
-					position = position,
-					color = cwTeam.GetColor(v:Team()),
-					text = v:Name().." ("..v:Health().."/"..v:GetMaxHealth()..")"
-				};
+			else
+				position = v:GetPos() + Vector(0, 0, 80);
 			end;
+			
+			info[#info + 1] = {
+				position = position,
+				color = cwTeam.GetColor(v:Team()), 
+				text = v:Name().." ("..v:Health().."/"..v:GetMaxHealth()..")"
+			};
 		end;
 	end;
 end;
 
--- Called when the post progress bar info is needed.
+--[[
+    @codebase Client
+    @details This function is called after the progress bar info updates.
+    @class Clockwork
+--]]
 function Clockwork:GetPostProgressBarInfo() end;
 
--- Called when the custom character options are needed.
+--[[
+    @codebase Client
+    @details This function is called when custom character options are needed.
+    @class Clockwork
+    @param Table The character whose options are needed.
+    @param Table The currently available options.
+    @param Table The menu itself.
+--]]
 function Clockwork:GetCustomCharacterOptions(character, options, menu) end;
 
--- Called when the custom character buttons are needed.
+--[[
+    @codebase Client
+    @details This function is called when custom character buttons are needed.
+    @class Clockwork
+    @param Table The character whose buttons are needed.
+    @param Table The currently available buttons.
+--]]
 function Clockwork:GetCustomCharacterButtons(character, buttons) end;
 
--- Called when the progress bar info is needed.
+--[[
+    @codebase Client
+    @details This function is called to figure out the text, percentage and flash of the current progress bar.
+    @class Clockwork
+    @returns Table The text, flash, and percentage of the progress bar.
+--]]
 function Clockwork:GetProgressBarInfo()
 	local action, percentage = self.player:GetAction(self.Client, true);
 	
@@ -1988,7 +2011,12 @@ function Clockwork:PostDrawPlayerInfo(boxInfo, information, subInformation) end;
 -- Called just after the date time box is drawn.
 function Clockwork:PostDrawDateTimeBox(info) end;
 
--- Called when the player info text is needed.
+--[[
+    @codebase Client
+    @details This function is called when local player info text is needed and adds onto it (F1 menu).
+    @class Clockwork
+    @param Table The current table of player info text to add onto.
+--]]
 function Clockwork:GetPlayerInfoText(playerInfoText)
 	local cash = self.player:GetCash();
 	local wages = self.player:GetWages();
@@ -2007,7 +2035,13 @@ function Clockwork:GetPlayerInfoText(playerInfoText)
 	playerInfoText:AddSub("CLASS", cwTeam.GetName(self.Client:Team()), 1);
 end;
 
--- Called when the target player's fade distance is needed.
+--[[
+    @codebase Client
+    @details This function is called when the player's fade distance is needed for their target text (when you look at them).
+    @class Clockwork
+    @param Table The player we are finding the distance for.
+    @returns Int The fade distance, defaulted at 4096.
+--]]
 function Clockwork:GetTargetPlayerFadeDistance(player)
 	return 4096;
 end;
@@ -2015,7 +2049,13 @@ end;
 -- Called when the player info text should be destroyed.
 function Clockwork:DestroyPlayerInfoText(playerInfoText) end;
 
--- Called when the target player's text is needed.
+--[[
+    @codebase Client
+    @details This function is called when the targeted player's target text is needed.
+    @class Clockwork
+    @param Table The player we are finding the distance for.
+    @param Table The player's current target text.
+--]]
 function Clockwork:GetTargetPlayerText(player, targetPlayerText)
 	local targetIDTextFont = self.option:GetFont("target_id_text");
 	local physDescTable = {};

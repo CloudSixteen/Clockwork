@@ -503,7 +503,11 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 					elseif (info.class == "chat") then
 						Clockwork.chatBox:Add(info.filtered, nil, classColor, info.name, ": ", info.text, nil, info.filtered);
 					elseif (info.class == "looc") then
-						Clockwork.chatBox:Add(info.filtered, nil, Color(225, 50, 50, 255), "[LOOC] ", Color(255, 255, 150, 255), info.name..": "..info.text);
+						if (Clockwork.config:Get("enable_looc_icons"):Get()) then
+							Clockwork.chatBox:Add(info.filtered, info.icon, Color(225, 50, 50, 255), "[LOOC] ", Color(255, 255, 150, 255), info.name..": "..info.text);
+						else
+							Clockwork.chatBox:Add(info.filtered, nil, Color(225, 50, 50, 255), "[LOOC] ", Color(255, 255, 150, 255), info.name..": "..info.text);
+						end;
 					elseif (info.class == "priv") then
 						Clockwork.chatBox:Add(info.filtered, nil, Color(255, 200, 50, 255), "@"..info.data.userGroup.." ", classColor, info.name, ": ", info.text);
 					elseif (info.class == "roll") then
