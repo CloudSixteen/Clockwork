@@ -30,7 +30,7 @@ if (CLIENT) then
 	SWEP.SlotPos = 3;
 	SWEP.DrawAmmo = false;
 	SWEP.PrintName = "Hands";
-	SWEP.DrawCrosshair = false;
+	SWEP.DrawCrosshair = true;
 end
 
 SWEP.Instructions = "Primary Fire: Punch.\nSecondary Fire: Knock.";

@@ -45,6 +45,7 @@ Clockwork.datastream.stored = Clockwork.datastream.stored or {};
 	@details A function to hook a data stream.
 	@param String A unique identifier.
 	@param Function The datastream callback.
+	@returns Bool Whether or not the tables are equal.
 --]]
 function Clockwork.datastream:Hook(name, Callback)
 	self.stored[name] = Callback;
