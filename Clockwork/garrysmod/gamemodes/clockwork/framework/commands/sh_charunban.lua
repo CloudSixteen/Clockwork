@@ -17,16 +17,17 @@ COMMAND.arguments = 1;
 
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)
+	local charName = string.lower(arguments[1]);
 	for k, v in pairs(cwPlayer.GetAll()) do
 		if (v:HasInitialized()) then
-			if (v:Name() == arguments[1]) then
+			if (string.lower(v:Name()) == charName) then
 				Clockwork.player:NotifyAll(player:Name().." unbanned the character '"..arguments[1].."'.");
 				Clockwork.player:SetBanned(player, false);
 				
 				return;
 			else
 				for k2, v2 in pairs(v:GetCharacters()) do
-					if (v2.name == arguments[1]) then
+					if (string.lower(v2.name) == charName) then
 						Clockwork.player:NotifyAll(player:Name().." unbanned the character '"..arguments[1].."'.");
 						
 						v2.data["CharBanned"] = false;
