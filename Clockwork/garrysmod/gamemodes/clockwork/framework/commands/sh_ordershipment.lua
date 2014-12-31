@@ -34,6 +34,10 @@ function COMMAND:OnRun(player, arguments)
 		return false;
 	end;
 	
+	if (player.cwNextOrderTime and CurTime() < player.cwNextOrderTime) then
+		return false;
+	end;
+	
 	if (itemTable:CanPlayerAfford(player)) then
 		local trace = player:GetEyeTraceNoCursor();
 		local entity = nil;
@@ -61,13 +65,29 @@ function COMMAND:OnRun(player, arguments)
 			
 			itemTable:DeductFunds(player);
 			
-			if (itemTable.OnOrder) then
-				itemTable:OnOrder(player, entity);
+			if (itemTable("batch") > 1 and entity.cwInventory) then
+				local itemTables = Clockwork.inventory:GetItemsByID(
+					entity.cwInventory, itemTable("uniqueID")
+				);
+				
+				for k, v in pairs(itemTables) do
+					if (v.OnOrder) then
+						v:OnOrder(player, entity);
+					end;
+				end;
+				
+				Clockwork.plugin:Call("PlayerOrderShipment", player, itemTable, entity, itemTables);
+			else
+				itemTable = entity:GetItemTable();
+				
+				Clockwork.plugin:Call("PlayerOrderShipment", player, itemTable, entity);
+				
+				if (itemTable.OnOrder) then
+					itemTable:OnOrder(player, entity);
+				end;
 			end;
 			
-			Clockwork.plugin:Call("PlayerOrderShipment", player, itemTable, entity);
 			player.cwNextOrderTime = CurTime() + (2 * itemTable("batch"));
-			
 			Clockwork.datastream:Start(player, "OrderTime", player.cwNextOrderTime);
 		else
 			Clockwork.player:Notify(player, "You cannot order this item that far away!");

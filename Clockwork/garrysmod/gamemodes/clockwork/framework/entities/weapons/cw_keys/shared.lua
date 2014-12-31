@@ -27,7 +27,7 @@ if (CLIENT) then
 	SWEP.SlotPos = 2;
 	SWEP.DrawAmmo = false;
 	SWEP.PrintName = "Keys";
-	SWEP.DrawCrosshair = false;
+	SWEP.DrawCrosshair = true;
 end
 
 SWEP.Instructions = "Primary Fire: Lock.\nSecondary Fire: Unlock.";
