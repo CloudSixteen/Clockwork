@@ -63,7 +63,7 @@ end;
 function PANEL:Paint(w, h)
 	Clockwork.kernel:RegisterBackgroundBlur(self, self.createTime);
 	
-	--DERMA_SLICED_BG:Draw(0, 0, w, h, 8, COLOR_WHITE);
+	DERMA_SLICED_BG:Draw(0, 0, w, h, 8, COLOR_WHITE);
 	
 	return true;
 end;

@@ -1285,14 +1285,7 @@ if (SERVER) then
 				if (Clockwork.plugin:Call("PlayerCanEarnWagesCash", v, wages)) then
 					if (wages > 0) then
 						if (Clockwork.plugin:Call("PlayerGiveWagesCash", v, wages, v:GetWagesName())) then
-							local cash = tonumber(v:GetCharacterData("ATM")) or 0;
-
-							cash = cash + wages;
-							v:SetCharacterData("ATM", cash);
-
-							Clockwork.hint:Send(
-								v, "Payday! $"..tostring(math.Round(wages)).." has been added to your account.", 4, "positive_hint"
-							);
+							Clockwork.player:GiveCash(v, wages, v:GetWagesName());
 						end;
 					end;
 					
@@ -1381,7 +1374,13 @@ if (SERVER) then
 		local unixTime = os.time();
 		
 		if (dateInfo) then
-			local fileName = dateInfo.day.."-"..dateInfo.month.."-"..dateInfo.year;
+			if (dateInfo.month < 10) then dateInfo.month = "0"..dateInfo.month; end;
+			if (dateInfo.day < 10) then dateInfo.day = "0"..dateInfo.day; end;
+			local fileName = dateInfo.year.."-"..dateInfo.month.."-"..dateInfo.day;
+			
+			if (dateInfo.hour < 10) then dateInfo.hour = "0"..dateInfo.hour; end;
+			if (dateInfo.min < 10) then dateInfo.min = "0"..dateInfo.min; end;
+			if (dateInfo.sec < 10) then dateInfo.sec = "0"..dateInfo.sec; end;
 			local time = dateInfo.hour..":"..dateInfo.min..":"..dateInfo.sec;
 			local logText = time..": "..string.gsub(text, "\n", "");
 
