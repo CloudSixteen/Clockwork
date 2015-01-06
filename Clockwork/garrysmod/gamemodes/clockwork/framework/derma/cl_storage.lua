@@ -190,13 +190,13 @@ function PANEL:RebuildPanel(storagePanel, storageType, usedWeight, weight, usedS
 			end);
 			
 			for k2, v2 in pairs(v.itemsList) do
-				storagePanel.itemData = {
+				CURRENT_ITEM_DATA = {
 					itemTable = v2,
 					storageType = storagePanel.storageType
 				};
 				
 				categoryList:AddItem(
-					vgui.Create("cwStorageItem", storagePanel)
+					vgui.Create("cwStorageItem", categoryList)
 				);
 			end;
 		end;
@@ -250,7 +250,7 @@ local PANEL = {};
 
 -- Called when the panel is initialized.
 function PANEL:Init()
-	local itemData = self:GetParent().itemData;
+	local itemData = self:GetParent().itemData or CURRENT_ITEM_DATA;
 	
 	self:SetSize(48, 48);
 	self.itemTable = itemData.itemTable;
