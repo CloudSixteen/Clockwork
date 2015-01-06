@@ -234,37 +234,35 @@ if (SERVER) then
 					if (hasIngredients) then
 						for k2, v2 in pairs(v.ingredients) do
 							for i = 1, v2 do
-								player:TakeItemByUniqueID(k2);
+								player:TakeItemByID(k2);
 							end;
 						end;
 						
-						return;
+						break;
 					end;
 				end;
 			end;
+		end;
+		
+		if (self("cost") == 0) then
+			return;
+		end;
+		
+		if (self("batch") > 1) then
+			Clockwork.player:GiveCash(player, -(self("cost") * self("batch")), self("batch").." "..Clockwork.kernel:Pluralize(self("name")));
+			Clockwork.kernel:PrintLog(LOGTYPE_MINOR, player:Name().." has ordered "..self("batch").." "..Clockwork.kernel:Pluralize(self("name"))..".");
 		else
-			local FACTION = Clockwork.faction:FindByID(player:GetFaction());
-			local CLASS = Clockwork.class:FindByID(player:Team());
-			local costScale = CLASS.costScale or FACTION.costScale or 1;
-
-			local cost = self("cost");	
-
-			if (costScale >= 0) then
-				cost = cost * costScale;
-			end;
-
-			if (self("batch") > 1) then
-				Clockwork.player:GiveCash(player, -(cost * self("batch")), self("batch").." "..Clockwork.kernel:Pluralize(self("name")));
-				Clockwork.kernel:PrintLog(LOGTYPE_MINOR, player:Name().." has ordered "..self("batch").." "..Clockwork.kernel:Pluralize(self("name"))..".");
-			else
-				Clockwork.player:GiveCash(player, -(cost * self("batch")), self("batch").." "..self("name"));
-				Clockwork.kernel:PrintLog(LOGTYPE_MINOR, player:Name().." has ordered "..self("batch").." "..self("name")..".");
-			end;
+			Clockwork.player:GiveCash(player, -(self("cost") * self("batch")), self("batch").." "..self("name"));
+			Clockwork.kernel:PrintLog(LOGTYPE_MINOR, player:Name().." has ordered "..self("batch").." "..self("name")..".");
 		end;
 	end;
 	
 	-- A function to get whether a player can afford to order the item.
 	function CLASS_TABLE:CanPlayerAfford(player)
+		if (not Clockwork.player:CanAfford(player, self("cost") * self("batch"))) then
+			return false;
+		end;
+		
 		if (#self.recipes > 0) then
 			for k, v in pairs(self.recipes) do
 				if (Clockwork.kernel:HasObjectAccess(player, v)) then
@@ -286,18 +284,8 @@ if (SERVER) then
 			
 			return false;
 		end;
-
-		local FACTION = Clockwork.faction:FindByID(player:GetFaction());
-		local CLASS = Clockwork.class:FindByID(player:Team());
-		local costScale = CLASS.costScale or FACTION.costScale or 1;
-
-		local cost = self("cost");	
-
-		if (costScale >= 0) then
-			cost = cost * costScale;
-		end;
 		
-		return Clockwork.player:CanAfford(player, cost * self("batch"));
+		return true;
 	end;
 end;
 
@@ -891,21 +879,21 @@ else
 						numRecipe = numRecipe + 1;
 					end;
 				end;
-			else
-				local totalCost = itemTable("cost") * itemTable("batch");
+			end;
+			
+			local totalCost = itemTable("cost") * itemTable("batch");
+			
+			if (Clockwork.config:Get("cash_enabled"):Get()
+			and totalCost != 0) then
+				local costString = Clockwork.kernel:FormatCash(totalCost);
+				local colorToUse = redColor;
 				
-				if (Clockwork.config:Get("cash_enabled"):Get()
-				and totalCost != 0) then
-					local costString = Clockwork.kernel:FormatCash(totalCost);
-					local colorToUse = redColor;
-					
-					if (Clockwork.player:GetCash() >= totalCost) then
-						colorToUse = greenColor;
-					end;
-					
-					markupObject:Title("Price");
-					markupObject:Add(costString, colorToUse, 1);
+				if (Clockwork.player:GetCash() >= totalCost) then
+					colorToUse = greenColor;
 				end;
+				
+				markupObject:Title("Price");
+				markupObject:Add(costString, colorToUse, 1);
 			end;
 		end;
 		

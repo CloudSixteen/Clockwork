@@ -1,5 +1,5 @@
 --[[ 
-	Â© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2014 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -944,8 +944,13 @@ function Clockwork:PlayerCanKnockOnDoor(player, door) return true; end;
 -- Called when a player punches an entity.
 function Clockwork:PlayerPunchEntity(player, entity) end;
 
--- Called when a player orders an item shipment.
-function Clockwork:PlayerOrderShipment(player, itemTable, entity) end;
+--[[
+	Called when a player orders an item shipment.
+	
+	If itemTables is set, the order is a shipment. This means that
+	you should use the itemTables table, and not the itemTable parameter.
+--]]
+function Clockwork:PlayerOrderShipment(player, itemTable, entity, itemTables) end;
 
 -- Called when a player holsters a weapon.
 function Clockwork:PlayerHolsterWeapon(player, itemTable, weapon, bForce) end;
@@ -2945,14 +2950,6 @@ function Clockwork:PlayerConfigInitialized(player)
 		timer.Simple(FrameTime() * 32, function()
 			if (IsValid(player)) then
 				Clockwork.datastream:Start(player, "DataStreaming", true);
-				
-				timer.Create("DataStreaming"..player:SteamID(), 2, 0, function()
-					if (!player.cwDataStreamInfoSent) then
-						Clockwork.datastream:Start(player, "DataStreaming", true);
-					else
-						timer.Destroy("DataStreaming"..player:SteamID());
-					end;
-				end);
 			end;
 		end);
 	else
@@ -3551,7 +3548,7 @@ function Clockwork:KeyPress(player, key)
 		local velocity = player:GetVelocity():Length();
 		
 		if (velocity > 0 and !player:KeyDown(IN_SPEED)) then
-			if (player:GetSharedVar("IsJogMode") or !Clockwork.config:Get("enable_jogging"):Get()) then
+			if (player:GetSharedVar("IsJogMode")) then
 				player:SetSharedVar("IsJogMode", false);
 			else
 				player:SetSharedVar("IsJogMode", true);
@@ -4846,6 +4843,17 @@ function playerMeta:GetItemInstance(uniqueID, itemID)
 	);
 end;
 
+-- A function to take a player's item by ID.
+function playerMeta:TakeItemByID(uniqueID, itemID)
+	local itemTable = self:GetItemInstance(uniqueID, itemID);
+	
+	if (itemTable) then
+		return self:TakeItem(itemTable);
+	else
+		return false;
+	end;
+end;
+
 -- A function to get a player's attribute boosts.
 function playerMeta:GetAttributeBoosts()
 	return self.cwAttrBoosts;
@@ -4906,21 +4914,6 @@ function playerMeta:TakeItem(itemTable)
 		Clockwork.inventory:RemoveInstance(inventory, itemTable);
 	Clockwork.datastream:Start(self, "InvTake", {itemTable("index"), itemTable("itemID")});
 	return true;
-end;
-
--- A function to take an item by unique ID.
-function playerMeta:TakeItemByUniqueID(uniqueID, amount)
-	if (!amount) then
-		amount = 1;
-	end;
-	
-	for i = 1, amount do
-		local itemInstance = self:FindItemByID(uniqueID);
-		
-		if (itemInstance) then
-			self:TakeItem(itemInstance);
-		end;
-	end;
 end;
 
 -- An easy function to give a table of items to a player.
