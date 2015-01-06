@@ -144,12 +144,22 @@ function Clockwork.faction:FindByID(identifier)
 	
 	if (tonumber(identifier)) then
 		return self.buffer[tonumber(identifier)];
+	elseif (self.stored[identifier]) then
+		return self.stored[identifier];
 	else
+		local shortest = nil;
+		local shortestLength = math.huge;
+		local lowerIdentifier = string.lower(identifier);
+
 		for k, v in pairs(self:GetAll())do
-			if (string.find(string.lower(k), string.lower(identifier))) then
-				return v;
+			if (string.find(string.lower(k), lowerIdentifier)
+				and string.len(k) < shortestLength) then
+				shortestLength = string.len(k);
+				shortest = v;
 			end;
 		end;
+
+		return shortest;
 	end;
 end;
 
