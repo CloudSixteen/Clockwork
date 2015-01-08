@@ -551,7 +551,10 @@ function Clockwork:ClockworkConfigInitialized(key, value)
 end;
 
 -- Called when a Clockwork ConVar has changed.
-function Clockwork:ClockworkConVarChanged(name, previousValue, newValue) end;
+function Clockwork:ClockworkConVarChanged(name, previousValue, newValue)
+	Clockwork.option:SetColor("information", Color(GetConVarNumber("cwTextColorR"), 
+		GetConVarNumber("cwTextColorG"), GetConVarNumber("cwTextColorB"), GetConVarNumber("cwTextColorA")));
+end;
 
 -- Called when Clockwork config has changed.
 function Clockwork:ClockworkConfigChanged(key, data, previousValue, newValue) end;
@@ -680,6 +683,27 @@ function Clockwork:Initialize()
 	CW_CONVAR_SHOWLOG = self.kernel:CreateClientConVar("cwShowLog", 1, true, true);
 	CW_CONVAR_SHOWOOC = self.kernel:CreateClientConVar("cwShowOOC", 1, true, true);
 	CW_CONVAR_SHOWIC = self.kernel:CreateClientConVar("cwShowIC", 1, true, true);
+	
+	CW_CONVAR_TEXTCOLORR = self.kernel:CreateClientConVar("cwTextColorR", 255, true, true);
+	CW_CONVAR_TEXTCOLORG = self.kernel:CreateClientConVar("cwTextColorG", 255, true, true);
+	CW_CONVAR_TEXTCOLORB = self.kernel:CreateClientConVar("cwTextColorB", 255, true, true);
+	CW_CONVAR_TEXTCOLORA = self.kernel:CreateClientConVar("cwTextColorA", 255, true, true);
+	CW_CONVAR_BACKCOLORR = self.kernel:CreateClientConVar("cwBackColorR", 255, true, true);
+	CW_CONVAR_BACKCOLORG = self.kernel:CreateClientConVar("cwBackColorG", 255, true, true);
+	CW_CONVAR_BACKCOLORB = self.kernel:CreateClientConVar("cwBackColorB", 255, true, true);
+	CW_CONVAR_BACKCOLORA = self.kernel:CreateClientConVar("cwBackColorA", 255, true, true);
+	CW_CONVAR_TABX = self.kernel:CreateClientConVar("cwTabPosX", 0, true, true);
+	CW_CONVAR_TABY = self.kernel:CreateClientConVar("cwTabPosY", 0, true, true);
+	CW_CONVAR_FADEPANEL = self.kernel:CreateClientConVar("cwFadePanels", 1, true, true);
+	CW_CONVAR_CHARSTRING = self.kernel:CreateClientConVar("cwCharString", "CHARACTERS", true, true);
+	CW_CONVAR_CLOSESTRING = self.kernel:CreateClientConVar("cwCloseString", "CLOSE MENU", true, true);
+	CW_CONVAR_MATERIAL = self.kernel:CreateClientConVar("cwMaterial", "hunter/myplastic", true, true);
+	CW_CONVAR_BACKX = self.kernel:CreateClientConVar("cwBackX", 0, true, true);
+	CW_CONVAR_BACKY = self.kernel:CreateClientConVar("cwBackY", 0, true, true);
+	CW_CONVAR_BACKW = self.kernel:CreateClientConVar("cwBackW", 100, true, true);
+	CW_CONVAR_BACKH = self.kernel:CreateClientConVar("cwBackH", 100, true, true);
+	CW_CONVAR_SHOWMATERIAL = self.kernel:CreateClientConVar("cwShowMaterial", 0, true, true);
+	CW_CONVAR_SHOWGRADIENT = self.kernel:CreateClientConVar("cwShowGradient", 1, true, true);
 	
 	if (!self.chatBox.panel) then
 		self.chatBox:CreateDermaAll();

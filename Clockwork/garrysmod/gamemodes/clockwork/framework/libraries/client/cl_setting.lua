@@ -106,6 +106,22 @@ function Clockwork.setting:AddCheckBox(category, text, conVar, toolTip, Conditio
 	return index;
 end;
 
+-- A function to add a color mixer setting.
+function Clockwork.setting:AddColorMixer(category, text, conVar, toolTip, Condition)
+	local index = #self.stored + 1;
+	
+	self.stored[index] = {
+		Condition = Condition,
+		category = category,
+		toolTip = toolTip,
+		conVar = conVar,
+		class = "colorMixer",
+		text = text
+	};
+	
+	return index;
+end;
+
 -- A function to remove a setting by its index.
 function Clockwork.setting:RemoveByIndex(index)
 	self.stored[index] = nil;
@@ -147,6 +163,21 @@ Clockwork.setting:AddCheckBox("Chat Box", "Show messages related to Clockwork.",
 Clockwork.setting:AddCheckBox("Chat Box", "Show messages from the server.", "cwShowServer", "Whether or not to show you any server messages.");
 Clockwork.setting:AddCheckBox("Chat Box", "Show out-of-character messages.", "cwShowOOC", "Whether or not to show you any out-of-character messages.");
 Clockwork.setting:AddCheckBox("Chat Box", "Show in-character messages.", "cwShowIC", "Whether or not to show you any in-character messages.");
+
+Clockwork.setting:AddColorMixer("Theme", "Text Color", "cwTextColor", "The Text Color");
+Clockwork.setting:AddColorMixer("Theme", "Background Color", "cwBackColor", "The Background Color");
+Clockwork.setting:AddNumberSlider("Theme", "TabMenu X-Axis", "cwTabPosX", 0, ScrW(), 0, "The position of the tab menu on the X axis.");
+Clockwork.setting:AddNumberSlider("Theme", "TabMenu Y-Axis", "cwTabPosY", 0, ScrH(), 0, "The position of the tab menu on the Y axis.");
+Clockwork.setting:AddNumberSlider("Theme", "BackMenu X-Axis", "cwBackX", 0, ScrW(), 0, "The position of the background on the X axis.");
+Clockwork.setting:AddNumberSlider("Theme", "BackMenu Y-Axis", "cwBackY", 0, ScrH(), 0, "The position of the background on the Y axis.");
+Clockwork.setting:AddNumberSlider("Theme", "BackMenu Width", "cwBackW", 0, ScrW(), 0, "The width of the background.");
+Clockwork.setting:AddNumberSlider("Theme", "BackMenu Height", "cwBackH", 0, ScrH(), 0, "The height of the background.");
+Clockwork.setting:AddCheckBox("Theme", "Fade Panels", "cwFadePanels", "Whether or not to fade in and out menu panels.");
+Clockwork.setting:AddCheckBox("Theme", "Show Material", "cwShowMaterial", "Whether or not to show a material background.");
+Clockwork.setting:AddCheckBox("Theme", "Show Gradient", "cwShowGradient", "Whether or not to show a gradient background.");
+Clockwork.setting:AddTextEntry("Theme", "Character Text", "cwCharString", "The word(s) to be displayed on the character button.");
+Clockwork.setting:AddTextEntry("Theme", "Close Text", "cwCloseString", "The word(s) to be displayed on the close menu button.");
+Clockwork.setting:AddTextEntry("Theme", "Material", "cwMaterial", "The material to be used for the tab menu.");
 
 Clockwork.setting:AddCheckBox("Framework", "Enable the admin ESP.", "cwAdminESP", "Whether or not to show the admin ESP.", function()
 	return Clockwork.player:IsAdmin(Clockwork.Client);
