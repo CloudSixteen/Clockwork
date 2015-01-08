@@ -3002,7 +3002,13 @@ function Clockwork:PlayerAdjustPropCostInfo(player, entity, info) end;
 function Clockwork:PlayerAdjustDeathInfo(player, info) end;
 
 -- Called when chat box info should be adjusted.
-function Clockwork:ChatBoxAdjustInfo(info) end;
+function Clockwork:ChatBoxAdjustInfo(info)
+	if (info.class == "ic") then
+		Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, info.speaker:Name().." says: \""..info.text.."\"");
+	elseif (info.class == "looc") then
+		Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, "[LOOC] "..info.speaker:Name()..": "..info.text);
+	end;
+end;
 
 -- Called when a chat box message has been added.
 function Clockwork:ChatBoxMessageAdded(info) end;

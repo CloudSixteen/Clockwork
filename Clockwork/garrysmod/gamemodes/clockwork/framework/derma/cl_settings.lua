@@ -93,6 +93,20 @@ function PANEL:Rebuild()
 					panel = form:TextEntry(v2.text, v2.conVar);
 				elseif (v2.class == "checkBox") then
 					panel = form:CheckBox(v2.text, v2.conVar);
+				elseif (v2.class == "colorMixer") then
+					local Mixer = vgui.Create("DColorMixer");
+					local label = vgui.Create("DLabel");
+					label:SetText(v2.text);
+					Mixer:Dock(FILL);
+					Mixer:SetPalette(true);
+					Mixer:SetAlphaBar(true);
+					Mixer:SetWangs(true);
+					Mixer:SetConVarR(v2.conVar.."R")
+					Mixer:SetConVarG(v2.conVar.."G")
+					Mixer:SetConVarB(v2.conVar.."B")
+					Mixer:SetConVarA(v2.conVar.."A")
+					form:AddItem(label);
+					form:AddItem(Mixer);
 				end;
 				
 				if (IsValid(panel)) then
