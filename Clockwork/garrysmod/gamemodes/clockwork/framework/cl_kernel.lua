@@ -1946,6 +1946,7 @@ function Clockwork:GetAdminESPInfo(info)
 		if (v:HasInitialized()) then
 			local physBone = v:LookupBone("ValveBiped.Bip01_Head1");
 			local position = nil;
+			local health = v:Health();
 			
 			if (physBone) then
 				local bonePosition = v:GetBonePosition(physBone);
@@ -1956,14 +1957,36 @@ function Clockwork:GetAdminESPInfo(info)
 			else
 				position = v:GetPos() + Vector(0, 0, 80);
 			end;
-			
+					
 			info[#info + 1] = {
 				position = position,
-				color = cwTeam.GetColor(v:Team()), 
-				text = v:Name().." ("..v:Health().."/"..v:GetMaxHealth()..")"
+				text = {
+					{v:Name(), cwTeam.GetColor(v:Team())},
+					{"Health: ["..health.." / "..v:GetMaxHealth().."]", self:GetValueColor(health)}				
+				}
 			};
+			
+			Clockwork.plugin:Call("GetPlayerESPInfo", {v, info[#info]["text"]});	
 		end;
 	end;
+end;
+
+-- Called when extra player info is needed.
+function Clockwork:GetPlayerESPInfo(info)
+	local player = info[1];
+	local text = info[2];
+	
+	if (player:Armor() > 0) then
+		text[#text+1] = {"Armor: ["..player:Armor().."]", self:GetValueColor(player:Armor())};
+	end;
+end;
+
+-- A function to get the color of a value.
+function Clockwork:GetValueColor(value)
+	local red = 255 - (value * 2.55);
+	local green = value * 2.55;
+	
+	return Color(red, green, 0, 255);
 end;
 
 --[[

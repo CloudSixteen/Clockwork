@@ -2064,12 +2064,8 @@ else
 	function Clockwork.kernel:DrawAdminESP()
 		local colorWhite = Clockwork.option:GetColor("white");
 		local curTime = UnPredictedCurTime();
-		
-		if (!Clockwork.NextGetESPInfo) then
-			Clockwork.NextGetESPInfo = curTime + 1;
-		end;
-		
-		if (curTime >= Clockwork.NextGetESPInfo) then
+
+		if (!Clockwork.NextGetESPInfo or curTime >= Clockwork.NextGetESPInfo) then
 			Clockwork.NextGetESPInfo = curTime + 1;
 			self.ESPInfo = {};
 			
@@ -2080,7 +2076,22 @@ else
 			local position = v.position:ToScreen();
 			
 			if (position) then
-				self:DrawSimpleText(v.text, position.x, position.y, v.color or colorWhite, 1, 1);
+				if (type(v.text) == "string") then
+					self:DrawSimpleText(v.text, position.x, position.y, v.color or colorWhite, 1, 1);
+				else
+					for k2, v2 in ipairs(v.text) do
+						local width, height;
+						if (type(v2) == "string") then
+							width, height = surface.GetTextSize(v2);
+							self:DrawSimpleText(v2, position.x, position.y, v.color or colorWhite, 1, 1);						
+						else
+							width, height = surface.GetTextSize(v2[1]);
+							self:DrawSimpleText(v2[1], position.x, position.y, v2[2] or colorWhite, 1, 1);
+						end;		
+						
+						position.y = position.y + height + 2;
+					end;
+				end;			
 			end;
 		end;
 	end;
