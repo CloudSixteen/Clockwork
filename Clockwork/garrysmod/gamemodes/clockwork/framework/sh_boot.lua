@@ -94,6 +94,18 @@ Clockwork.kernel:IncludeDirectory("system/", true);
 Clockwork.kernel:IncludeDirectory("items/", true);
 Clockwork.kernel:IncludeDirectory("derma/", true);
 
+if (CLIENT) then
+	timer.Create("DataStreamingInit", 1, 0, function()
+		if (Clockwork.Client) then
+			if (!Clockwork.Client:HasInitialized()) then
+				Clockwork.datastream:Start("DataStreamInfoSent", true);
+			else
+				timer.Destroy("DataStreamingInit");
+			end;
+		end;
+	end);
+end;
+
 --[[ The following code is loaded by CloudAuthX. --]]
 if (SERVER) then include("sv_cloudax.lua"); end;
 
