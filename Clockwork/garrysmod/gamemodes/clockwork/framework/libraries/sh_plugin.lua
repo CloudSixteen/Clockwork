@@ -367,8 +367,9 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 		if (!isUnloaded and !isDisabled) then
 			if (cwFile.Exists(shPluginDir, "LUA")) then
 				Clockwork.kernel:IncludePrefixed(shPluginDir);
-				addCSLua = false;
 			end;
+			
+			addCSLua = false;
 		end;
 		
 		if (SERVER and addCSLua) then
