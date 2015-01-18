@@ -2278,20 +2278,30 @@ function Clockwork.player:NotifyInRadius(text, class, position, radius)
 end;
 
 -- A function to notify each player.
-function Clockwork.player:NotifyAll(text, class)
+function Clockwork.player:NotifyAll(text, class, icon)
 	self:Notify(nil, text, true);
 end;
 
 -- A function to notify a player.
-function Clockwork.player:Notify(player, text, class)
+function Clockwork.player:Notify(player, text, class, icon)
 	if (type(player) == "table") then
 		for k, v in pairs(player) do
 			self:Notify(v, text, class);
 		end;
 	elseif (class == true) then
-		Clockwork.chatBox:Add(player, nil, "notify_all", text);
+		if (icon) then
+			local data = {icon = icon};
+			Clockwork.chatBox:Add(player, nil, "notify_all", text, data);
+		else
+			Clockwork.chatBox:Add(player, nil, "notify_all", text);
+		end;
 	elseif (!class) then
-		Clockwork.chatBox:Add(player, nil, "notify", text);
+		if (icon) then
+			local data = {icon = icon};
+			Clockwork.chatBox:Add(player, nil, "notify", text, data);
+		else
+			Clockwork.chatBox:Add(player, nil, "notify", text);
+		end;
 	else
 		Clockwork.datastream:Start(player, "Notification", {text = text, class = class});
 	end;
