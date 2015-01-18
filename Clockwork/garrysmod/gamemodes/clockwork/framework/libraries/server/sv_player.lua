@@ -2278,7 +2278,7 @@ function Clockwork.player:NotifyInRadius(text, class, position, radius)
 end;
 
 -- A function to notify each player.
-function Clockwork.player:NotifyAll(text, class, icon)
+function Clockwork.player:NotifyAll(text, icon)
 	self:Notify(nil, text, true);
 end;
 
