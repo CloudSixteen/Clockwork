@@ -28,6 +28,8 @@ The following changes have been made for each official Clockwork build.
 * Added the ending to the vocoder speech for MPF and Overwatch (::>)
 * Added a config option to disable/enable alt jogging.
 * Added CharSetFlags and CharCheckFlags commands, as well as a SetFlags function.
+* Fixed issue preventing salesmen and storage from working.
+* Added a way to allow icons to be set for notifications.
 
 0.91
 -------
