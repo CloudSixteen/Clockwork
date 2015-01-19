@@ -503,10 +503,6 @@ end;
 
 vgui.Register("cwCharacterMenu", PANEL, "DPanel");
 
-Clockwork.theme:HookBefore("cwCharacterMenu", "Init", function(vguiObject)
-	MsgN(tostring(vguiObject));
-end);
-
 --[[
 	Add a hook to control clicking outside of the active panel.
 --]]
