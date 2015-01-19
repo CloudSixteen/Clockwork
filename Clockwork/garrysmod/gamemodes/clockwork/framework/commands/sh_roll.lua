@@ -14,7 +14,7 @@ COMMAND.text = "[number Range]";
 
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)
-	local number = math.Clamp(tonumber(arguments[1]) or 100, 0, 1000000000);
+	local number = math.Clamp(math.Round(tonumber(arguments[1]) or 100), 0, 1000000000);
 	local roll = math.random(0, number)
 		
 	Clockwork.chatBox:AddInRadius(player, "roll", "has rolled "..roll.." out of "..number..".",
