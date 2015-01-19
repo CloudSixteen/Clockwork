@@ -685,23 +685,23 @@ function Clockwork:Initialize()
 	CW_CONVAR_SHOWIC = self.kernel:CreateClientConVar("cwShowIC", 1, true, true);
 	
 	CW_CONVAR_TEXTCOLORR = self.kernel:CreateClientConVar("cwTextColorR", 255, true, true);
-	CW_CONVAR_TEXTCOLORG = self.kernel:CreateClientConVar("cwTextColorG", 255, true, true);
-	CW_CONVAR_TEXTCOLORB = self.kernel:CreateClientConVar("cwTextColorB", 255, true, true);
+	CW_CONVAR_TEXTCOLORG = self.kernel:CreateClientConVar("cwTextColorG", 200, true, true);
+	CW_CONVAR_TEXTCOLORB = self.kernel:CreateClientConVar("cwTextColorB", 0, true, true);
 	CW_CONVAR_TEXTCOLORA = self.kernel:CreateClientConVar("cwTextColorA", 255, true, true);
-	CW_CONVAR_BACKCOLORR = self.kernel:CreateClientConVar("cwBackColorR", 255, true, true);
-	CW_CONVAR_BACKCOLORG = self.kernel:CreateClientConVar("cwBackColorG", 255, true, true);
-	CW_CONVAR_BACKCOLORB = self.kernel:CreateClientConVar("cwBackColorB", 255, true, true);
+	CW_CONVAR_BACKCOLORR = self.kernel:CreateClientConVar("cwBackColorR", 40, true, true);
+	CW_CONVAR_BACKCOLORG = self.kernel:CreateClientConVar("cwBackColorG", 40, true, true);
+	CW_CONVAR_BACKCOLORB = self.kernel:CreateClientConVar("cwBackColorB", 40, true, true);
 	CW_CONVAR_BACKCOLORA = self.kernel:CreateClientConVar("cwBackColorA", 255, true, true);
-	CW_CONVAR_TABX = self.kernel:CreateClientConVar("cwTabPosX", 0, true, true);
-	CW_CONVAR_TABY = self.kernel:CreateClientConVar("cwTabPosY", 0, true, true);
+	CW_CONVAR_TABX = self.kernel:CreateClientConVar("cwTabPosX", 56, true, true);
+	CW_CONVAR_TABY = self.kernel:CreateClientConVar("cwTabPosY", 112, true, true);
 	CW_CONVAR_FADEPANEL = self.kernel:CreateClientConVar("cwFadePanels", 1, true, true);
 	CW_CONVAR_CHARSTRING = self.kernel:CreateClientConVar("cwCharString", "CHARACTERS", true, true);
 	CW_CONVAR_CLOSESTRING = self.kernel:CreateClientConVar("cwCloseString", "CLOSE MENU", true, true);
 	CW_CONVAR_MATERIAL = self.kernel:CreateClientConVar("cwMaterial", "hunter/myplastic", true, true);
-	CW_CONVAR_BACKX = self.kernel:CreateClientConVar("cwBackX", 0, true, true);
-	CW_CONVAR_BACKY = self.kernel:CreateClientConVar("cwBackY", 0, true, true);
-	CW_CONVAR_BACKW = self.kernel:CreateClientConVar("cwBackW", 100, true, true);
-	CW_CONVAR_BACKH = self.kernel:CreateClientConVar("cwBackH", 100, true, true);
+	CW_CONVAR_BACKX = self.kernel:CreateClientConVar("cwBackX", 61, true, true);
+	CW_CONVAR_BACKY = self.kernel:CreateClientConVar("cwBackY", 109, true, true);
+	CW_CONVAR_BACKW = self.kernel:CreateClientConVar("cwBackW", 321, true, true);
+	CW_CONVAR_BACKH = self.kernel:CreateClientConVar("cwBackH", 109, true, true);
 	CW_CONVAR_SHOWMATERIAL = self.kernel:CreateClientConVar("cwShowMaterial", 0, true, true);
 	CW_CONVAR_SHOWGRADIENT = self.kernel:CreateClientConVar("cwShowGradient", 1, true, true);
 	
@@ -1983,8 +1983,8 @@ end;
 
 -- A function to get the color of a value.
 function Clockwork:GetValueColor(value)
-	local red = 255 - (value * 2.55);
-	local green = value * 2.55;
+	local red = math.floor(255 - (value * 2.55));
+	local green = math.floor(value * 2.55);
 	
 	return Color(red, green, 0, 255);
 end;
