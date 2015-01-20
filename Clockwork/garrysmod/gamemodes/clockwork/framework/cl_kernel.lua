@@ -683,6 +683,7 @@ function Clockwork:Initialize()
 	CW_CONVAR_SHOWLOG = self.kernel:CreateClientConVar("cwShowLog", 1, true, true);
 	CW_CONVAR_SHOWOOC = self.kernel:CreateClientConVar("cwShowOOC", 1, true, true);
 	CW_CONVAR_SHOWIC = self.kernel:CreateClientConVar("cwShowIC", 1, true, true);
+	CW_CONVAR_ESPTIME = self.kernel:CreateClientConVar("cwESPTime", 1, true, true);
 	
 	CW_CONVAR_TEXTCOLORR = self.kernel:CreateClientConVar("cwTextColorR", 255, true, true);
 	CW_CONVAR_TEXTCOLORG = self.kernel:CreateClientConVar("cwTextColorG", 200, true, true);
@@ -1944,44 +1945,101 @@ function Clockwork:GetModelSelectSequence(entity, model) end;
 function Clockwork:GetAdminESPInfo(info)
 	for k, v in pairs(cwPlayer.GetAll()) do
 		if (v:HasInitialized()) then
-			local physBone = v:LookupBone("ValveBiped.Bip01_Head1");
-			local position = nil;
-			local health = v:Health();
-			
-			if (physBone) then
-				local bonePosition = v:GetBonePosition(physBone);
-				
-				if (bonePosition) then
-					position = bonePosition + Vector(0, 0, 16);
-				end;
-			else
-				position = v:GetPos() + Vector(0, 0, 80);
-			end;
+			if (self.Client != v) then
+				local physBone = v:LookupBone("ValveBiped.Bip01_Head1");
+				local position = nil;	
+				local topText = {v:Name()}
 					
-			info[#info + 1] = {
-				position = position,
-				text = {
-					{v:Name(), cwTeam.GetColor(v:Team())},
-					{"Health: ["..health.." / "..v:GetMaxHealth().."]", self:GetValueColor(health)}				
-				}
-			};
-			
-			Clockwork.plugin:Call("GetPlayerESPInfo", {v, info[#info]["text"]});	
+				if (physBone) then
+					local bonePosition = v:GetBonePosition(physBone);
+						
+					if (bonePosition) then
+						position = bonePosition + Vector(0, 0, 16);
+					end;
+				else
+					position = v:GetPos() + Vector(0, 0, 80);
+				end;
+					
+				Clockwork.plugin:Call("GetStatusInfo", v, topText)			
+					
+				info[#info + 1] = {
+					position = position,
+					text = {
+						{table.concat(topText, " "), cwTeam.GetColor(v:Team())}				
+					}
+				};
+					
+				Clockwork.plugin:Call("GetPlayerESPInfo", v, info[#info]["text"]);	
+			end;
+		end;
+	end;
+end;
+
+-- Called when a player's status info is needed.
+function Clockwork:GetStatusInfo(player, text)
+	local action = self.player:GetAction(player, true);
+	
+	if (action) then
+		if (!player:IsRagdolled()) then
+			if (action == "lock") then
+				table.insert(text, "[Locking]");
+			elseif (action == "unlock") then
+				table.insert(text, "[Unlocking]");
+			end;
+		elseif (action == "unragdoll") then
+			if (player:GetRagdollState() == RAGDOLL_FALLENOVER) then
+				table.insert(text, "[Getting Up]");
+			else
+				table.insert(text, "[Unconscious]");
+			end;
+		elseif (!player:Alive()) then
+			table.insert(text, "[Dead]");
+		else
+			table.insert(text, "[Performing '"..action.."']");
+		end;
+	end;
+	
+	if (player:GetRagdollState() == RAGDOLL_FALLENOVER) then
+		local fallenOver = player:GetSharedVar("FallenOver");
+				
+		if (fallenOver) then
+			table.insert(text, "[Fallen Over]");			
 		end;
 	end;
 end;
 
 -- Called when extra player info is needed.
-function Clockwork:GetPlayerESPInfo(info)
-	local player = info[1];
-	local text = info[2];
-	
-	if (player:Armor() > 0) then
-		text[#text+1] = {"Armor: ["..player:Armor().."]", self:GetValueColor(player:Armor())};
+function Clockwork:GetPlayerESPInfo(player, text)
+	if (player:IsValid()) then
+		local weapon = player:GetActiveWeapon();
+		local health = player:Health();
+		local color;
+		if (player:Alive()) then			
+			table.insert(text, {"Health: ["..health.."]", self:GetValueColor(health)})
+			
+			if (player:Armor() > 0) then
+				table.insert(text, {"Armor: ["..player:Armor().."]", self:GetValueColor(player:Armor())});
+			end;
+		
+			if (weapon) then			
+				local raised = self.player:GetWeaponRaised(player);
+				
+				if (raised == true) then
+					color = Color(255, 0, 0, 255);
+				else
+					color = Color(255, 255, 255, 255);
+				end;
+				
+				local printName = weapon:GetPrintName();
+				if (printName) then
+					table.insert(text, {printName, color})
+				end;
+			end;
+		end;
 	end;
 end;
 
--- A function to get the color of a value.
+-- A function to get the color of a value from green to red.
 function Clockwork:GetValueColor(value)
 	local red = math.floor(255 - (value * 2.55));
 	local green = math.floor(value * 2.55);
