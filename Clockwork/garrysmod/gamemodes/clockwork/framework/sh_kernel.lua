@@ -2066,7 +2066,7 @@ else
 		local curTime = UnPredictedCurTime();
 
 		if (!Clockwork.NextGetESPInfo or curTime >= Clockwork.NextGetESPInfo) then
-			Clockwork.NextGetESPInfo = curTime + 1;
+			Clockwork.NextGetESPInfo = curTime + (CW_CONVAR_ESPTIME:GetInt() or 1);
 			self.ESPInfo = {};
 			
 			Clockwork.plugin:Call("GetAdminESPInfo", self.ESPInfo);
@@ -2079,17 +2079,29 @@ else
 				if (type(v.text) == "string") then
 					self:DrawSimpleText(v.text, position.x, position.y, v.color or colorWhite, 1, 1);
 				else
+					
 					for k2, v2 in ipairs(v.text) do
-						local width, height;
+						local text, color, width, height;
+											
 						if (type(v2) == "string") then
-							width, height = surface.GetTextSize(v2);
-							self:DrawSimpleText(v2, position.x, position.y, v.color or colorWhite, 1, 1);						
+							text = v2;
+							color = v.color;
+							v2 = {text, color};
 						else
-							width, height = surface.GetTextSize(v2[1]);
-							self:DrawSimpleText(v2[1], position.x, position.y, v2[2] or colorWhite, 1, 1);
-						end;		
+							text = v2[1];
+							color = v2[2];
+						end;
+									
+						if (k2 > 1) then
+							self:OverrideMainFont(Clockwork.option:GetFont("esp_text"));
+							width, height = surface.GetTextSize(text);							
+						else
+							self:OverrideMainFont(false);
+							width, height = surface.GetTextSize(text);
+						end;
 						
-						position.y = position.y + height + 2;
+						self:DrawSimpleText(text, position.x, position.y, color or colorWhite, 1, 1);
+						position.y = position.y + height;
 					end;
 				end;			
 			end;

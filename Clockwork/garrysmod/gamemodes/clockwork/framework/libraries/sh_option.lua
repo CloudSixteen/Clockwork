@@ -141,4 +141,5 @@ if (CLIENT) then
 	Clockwork.option:SetFont("hints_text", "cwIntroTextTiny");
 	Clockwork.option:SetFont("main_text", "cwMainText");
 	Clockwork.option:SetFont("bar_text", "cwMainText");
+	Clockwork.option:SetFont("esp_text", "cwESPText");
 end;
