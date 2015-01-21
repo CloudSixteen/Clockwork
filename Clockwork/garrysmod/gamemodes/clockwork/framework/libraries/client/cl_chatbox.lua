@@ -644,14 +644,17 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 			if (Clockwork.kernel:GetNoticePanel()) then
 				Clockwork.kernel:AddCinematicText(info.text, Color(255, 255, 255, 255), 32, 6, Clockwork.option:GetFont("menu_text_tiny"), true);
 			end;
-			
+
 			local filtered = (CW_CONVAR_SHOWAURA:GetInt() == 0) or info.filtered;
-			
+			local icon = info.data.icon or "comment";
+			local color = Color(125, 150, 175, 255);
+
 			if (string.sub(info.text, -1) == "!") then
-				Clockwork.chatBox:Add(filtered, "icon16/error.png", Color(200, 175, 200, 255), info.text);
-			else
-				Clockwork.chatBox:Add(filtered, "icon16/comment.png", Color(125, 150, 175, 255), info.text);
+				icon = info.data.icon or "error";
+				color = Color(200, 175, 200, 255);
 			end;
+
+			Clockwork.chatBox:Add(filtered, "icon16/"..icon..".png", color, info.text);
 		elseif (info.class == "disconnect") then
 			local filtered = (CW_CONVAR_SHOWAURA:GetInt() == 0) or info.filtered;
 			
@@ -662,12 +665,15 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 			end;
 			
 			local filtered = (CW_CONVAR_SHOWAURA:GetInt() == 0) or info.filtered;
-			
+			local icon = info.data.icon or "comment";
+			local color = Color(175, 200, 255, 255);
+
 			if (string.sub(info.text, -1) == "!") then
-				Clockwork.chatBox:Add(filtered, "icon16/error.png", Color(200, 175, 200, 255), info.text);
-			else
-				Clockwork.chatBox:Add(filtered, "icon16/comment.png", Color(175, 200, 255, 255), info.text);
+				icon = info.data.icon or "error";
+				color = Color(200, 175, 200, 255);
 			end;
+
+			Clockwork.chatBox:Add(filtered, "icon16/"..icon..".png", color, info.text);
 		elseif (info.class == "connect") then
 			local filtered = (CW_CONVAR_SHOWAURA:GetInt() == 0) or info.filtered;
 			Clockwork.chatBox:Add(filtered, "icon16/user_add.png", Color(150, 150, 200, 255), info.text);
