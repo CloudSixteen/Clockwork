@@ -252,13 +252,13 @@ function PANEL:RebuildPanel(panelList, typeName, inventory)
 			end);
 			
 			for k2, v2 in pairs(v.items) do
-				panelList.itemData = {
+				CURRENT_ITEM_DATA = {
 					itemTable = Clockwork.item:FindByID(v2[1]),
 					typeName = typeName
 				};
 				
 				categoryList:AddItem(
-					vgui.Create("cwSalesmanItem", panelList)
+					vgui.Create("cwSalesmanItem", categoryList)
 				);
 			end;
 		end;
@@ -317,11 +317,10 @@ local PANEL = {};
 
 -- Called when the panel is initialized.
 function PANEL:Init()
-	local itemData = self:GetParent().itemData;
-	
+	local itemData = self:GetParent().itemData or CURRENT_ITEM_DATA;
 	self:SetSize(40, 40);
-	self.typeName = self:GetParent().typeName;
 	self.itemTable = itemData.itemTable;
+	self.typeName = itemData.typeName;
 	self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("cwSpawnIcon", self));
 	self.spawnIcon:SetColor(self.itemTable("color"));
 	
@@ -330,7 +329,7 @@ function PANEL:Init()
 		if (self.typeName == "Items") then
 			if (self.itemTable("cost") == 0 and Clockwork.config:Get("cash_enabled"):Get()) then
 				local cashName = Clockwork.option:GetKey("name_cash");
-				
+
 				Clockwork.kernel:AddMenuFromData(nil, {
 					["Buys"] = function()
 						Derma_StringRequest(cashName, "How much do you want the item to be bought for?", "", function(text)

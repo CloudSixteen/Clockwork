@@ -149,13 +149,13 @@ function PANEL:RebuildPanel(typeName, panelList, inventory)
 				end);
 				
 				for k2, v2 in pairs(v.items) do
-					panelList.itemData = {
+					CURRENT_ITEM_DATA = {
 						itemTable = Clockwork.item:FindByID(v2[1]),
 						typeName = typeName
 					};
 					
 					categoryList:AddItem(
-						vgui.Create("cwSalesmenuItem", panelList)
+						vgui.Create("cwSalesmenuItem", categoryList)
 					);
 				end;
 			else
@@ -168,13 +168,13 @@ function PANEL:RebuildPanel(typeName, panelList, inventory)
 				end);
 				
 				for k2, v2 in pairs(v.items) do
-					panelList.itemData = {
+					CURRENT_ITEM_DATA = {
 						itemTable = v2,
 						typeName = typeName
 					};
 					
 					categoryList:AddItem(
-						vgui.Create("cwSalesmenuItem", panelList)
+						vgui.Create("cwSalesmenuItem", categoryList)
 					);
 				end;
 			end;
@@ -215,7 +215,7 @@ local PANEL = {};
 
 -- Called when the panel is initialized.
 function PANEL:Init()
-	local itemData = self:GetParent().itemData;
+	local itemData = self:GetParent().itemData or CURRENT_ITEM_DATA;
 	
 	self:SetSize(40, 40);
 	self.itemTable = itemData.itemTable;

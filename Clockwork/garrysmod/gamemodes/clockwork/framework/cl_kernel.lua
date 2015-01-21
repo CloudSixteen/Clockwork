@@ -551,7 +551,10 @@ function Clockwork:ClockworkConfigInitialized(key, value)
 end;
 
 -- Called when a Clockwork ConVar has changed.
-function Clockwork:ClockworkConVarChanged(name, previousValue, newValue) end;
+function Clockwork:ClockworkConVarChanged(name, previousValue, newValue)
+	Clockwork.option:SetColor("information", Color(GetConVarNumber("cwTextColorR"), 
+		GetConVarNumber("cwTextColorG"), GetConVarNumber("cwTextColorB"), GetConVarNumber("cwTextColorA")));
+end;
 
 -- Called when Clockwork config has changed.
 function Clockwork:ClockworkConfigChanged(key, data, previousValue, newValue) end;
@@ -680,6 +683,28 @@ function Clockwork:Initialize()
 	CW_CONVAR_SHOWLOG = self.kernel:CreateClientConVar("cwShowLog", 1, true, true);
 	CW_CONVAR_SHOWOOC = self.kernel:CreateClientConVar("cwShowOOC", 1, true, true);
 	CW_CONVAR_SHOWIC = self.kernel:CreateClientConVar("cwShowIC", 1, true, true);
+	CW_CONVAR_ESPTIME = self.kernel:CreateClientConVar("cwESPTime", 1, true, true);
+	
+	CW_CONVAR_TEXTCOLORR = self.kernel:CreateClientConVar("cwTextColorR", 255, true, true);
+	CW_CONVAR_TEXTCOLORG = self.kernel:CreateClientConVar("cwTextColorG", 200, true, true);
+	CW_CONVAR_TEXTCOLORB = self.kernel:CreateClientConVar("cwTextColorB", 0, true, true);
+	CW_CONVAR_TEXTCOLORA = self.kernel:CreateClientConVar("cwTextColorA", 255, true, true);
+	CW_CONVAR_BACKCOLORR = self.kernel:CreateClientConVar("cwBackColorR", 40, true, true);
+	CW_CONVAR_BACKCOLORG = self.kernel:CreateClientConVar("cwBackColorG", 40, true, true);
+	CW_CONVAR_BACKCOLORB = self.kernel:CreateClientConVar("cwBackColorB", 40, true, true);
+	CW_CONVAR_BACKCOLORA = self.kernel:CreateClientConVar("cwBackColorA", 255, true, true);
+	CW_CONVAR_TABX = self.kernel:CreateClientConVar("cwTabPosX", 56, true, true);
+	CW_CONVAR_TABY = self.kernel:CreateClientConVar("cwTabPosY", 112, true, true);
+	CW_CONVAR_FADEPANEL = self.kernel:CreateClientConVar("cwFadePanels", 1, true, true);
+	CW_CONVAR_CHARSTRING = self.kernel:CreateClientConVar("cwCharString", "CHARACTERS", true, true);
+	CW_CONVAR_CLOSESTRING = self.kernel:CreateClientConVar("cwCloseString", "CLOSE MENU", true, true);
+	CW_CONVAR_MATERIAL = self.kernel:CreateClientConVar("cwMaterial", "hunter/myplastic", true, true);
+	CW_CONVAR_BACKX = self.kernel:CreateClientConVar("cwBackX", 61, true, true);
+	CW_CONVAR_BACKY = self.kernel:CreateClientConVar("cwBackY", 109, true, true);
+	CW_CONVAR_BACKW = self.kernel:CreateClientConVar("cwBackW", 321, true, true);
+	CW_CONVAR_BACKH = self.kernel:CreateClientConVar("cwBackH", 109, true, true);
+	CW_CONVAR_SHOWMATERIAL = self.kernel:CreateClientConVar("cwShowMaterial", 0, true, true);
+	CW_CONVAR_SHOWGRADIENT = self.kernel:CreateClientConVar("cwShowGradient", 1, true, true);
 	
 	if (!self.chatBox.panel) then
 		self.chatBox:CreateDermaAll();
@@ -1920,26 +1945,106 @@ function Clockwork:GetModelSelectSequence(entity, model) end;
 function Clockwork:GetAdminESPInfo(info)
 	for k, v in pairs(cwPlayer.GetAll()) do
 		if (v:HasInitialized()) then
-			local physBone = v:LookupBone("ValveBiped.Bip01_Head1");
-			local position = nil;
-			
-			if (physBone) then
-				local bonePosition = v:GetBonePosition(physBone);
-				
-				if (bonePosition) then
-					position = bonePosition + Vector(0, 0, 16);
+			if (self.Client != v) then
+				local physBone = v:LookupBone("ValveBiped.Bip01_Head1");
+				local position = nil;	
+				local topText = {v:Name()}
+					
+				if (physBone) then
+					local bonePosition = v:GetBonePosition(physBone);
+						
+					if (bonePosition) then
+						position = bonePosition + Vector(0, 0, 16);
+					end;
+				else
+					position = v:GetPos() + Vector(0, 0, 80);
 				end;
-			else
-				position = v:GetPos() + Vector(0, 0, 80);
+					
+				Clockwork.plugin:Call("GetStatusInfo", v, topText)			
+					
+				info[#info + 1] = {
+					position = position,
+					text = {
+						{table.concat(topText, " "), cwTeam.GetColor(v:Team())}				
+					}
+				};
+					
+				Clockwork.plugin:Call("GetPlayerESPInfo", v, info[#info]["text"]);	
 			end;
-			
-			info[#info + 1] = {
-				position = position,
-				color = cwTeam.GetColor(v:Team()), 
-				text = v:Name().." ("..v:Health().."/"..v:GetMaxHealth()..")"
-			};
 		end;
 	end;
+end;
+
+-- Called when a player's status info is needed.
+function Clockwork:GetStatusInfo(player, text)
+	local action = self.player:GetAction(player, true);
+	
+	if (action) then
+		if (!player:IsRagdolled()) then
+			if (action == "lock") then
+				table.insert(text, "[Locking]");
+			elseif (action == "unlock") then
+				table.insert(text, "[Unlocking]");
+			end;
+		elseif (action == "unragdoll") then
+			if (player:GetRagdollState() == RAGDOLL_FALLENOVER) then
+				table.insert(text, "[Getting Up]");
+			else
+				table.insert(text, "[Unconscious]");
+			end;
+		elseif (!player:Alive()) then
+			table.insert(text, "[Dead]");
+		else
+			table.insert(text, "[Performing '"..action.."']");
+		end;
+	end;
+	
+	if (player:GetRagdollState() == RAGDOLL_FALLENOVER) then
+		local fallenOver = player:GetSharedVar("FallenOver");
+				
+		if (fallenOver) then
+			table.insert(text, "[Fallen Over]");			
+		end;
+	end;
+end;
+
+-- Called when extra player info is needed.
+function Clockwork:GetPlayerESPInfo(player, text)
+	if (player:IsValid()) then
+		local weapon = player:GetActiveWeapon();
+		local health = player:Health();
+		local color;
+		if (player:Alive()) then			
+			table.insert(text, {"Health: ["..health.."]", self:GetValueColor(health)})
+			
+			if (player:Armor() > 0) then
+				table.insert(text, {"Armor: ["..player:Armor().."]", self:GetValueColor(player:Armor())});
+			end;
+		
+			if (weapon) then			
+				local raised = self.player:GetWeaponRaised(player);
+				
+				if (raised == true) then
+					color = Color(255, 0, 0, 255);
+				else
+					color = Color(255, 255, 255, 255);
+				end;
+				
+				local printName = weapon:GetPrintName();
+				if (printName) then
+					table.insert(text, {printName, color})
+				end;
+			end;
+		end;
+	end;
+end;
+
+-- A function to get the color of a value from green to red.
+function Clockwork:GetValueColor(value)
+	local red = math.floor(255 - (value * 2.55));
+	local green = math.floor(value * 2.55);
+	
+	return Color(red, green, 0, 255);
 end;
 
 --[[

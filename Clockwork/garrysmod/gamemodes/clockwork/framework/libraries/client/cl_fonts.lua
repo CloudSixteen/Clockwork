@@ -64,6 +64,14 @@ Clockwork.fonts:Add("cwMainText",
 	antialiase	= true,
 	additive 	= false
 });
+Clockwork.fonts:Add("cwESPText", 
+{
+	font		= "Arial",
+	size		= Clockwork.kernel:FontScreenScale(5.5),
+	weight		= 700,
+	antialiase	= true,
+	additive 	= false
+});
 Clockwork.fonts:Add("cwTooltip", 
 {
 	font		= "Arial",

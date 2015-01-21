@@ -229,11 +229,16 @@ function PANEL:ReturnToMainMenu()
 	local panel = Clockwork.character:GetActivePanel();
 	
 	if (panel) then
-		panel:FadeOut(0.5, function()
-			Clockwork.character.activePanel = nil;
-				panel:Remove();
-			self:FadeInTitle();
-		end);
+	--	if (CW_CONVAR_FADEPANEL:GetInt() == 1) then
+			panel:FadeOut(0.5, function()
+				Clockwork.character.activePanel = nil;
+					panel:Remove();
+				self:FadeInTitle();
+			end);
+--		else
+--			Clockwork.character.activePanel = nil;
+	--		panel:Remove();
+--		end;
 	else
 		self:FadeInTitle();
 	end;
@@ -503,10 +508,6 @@ end;
 
 vgui.Register("cwCharacterMenu", PANEL, "DPanel");
 
-Clockwork.theme:HookBefore("cwCharacterMenu", "Init", function(vguiObject)
-	MsgN(tostring(vguiObject));
-end);
-
 --[[
 	Add a hook to control clicking outside of the active panel.
 --]]
@@ -539,7 +540,7 @@ function PANEL:Paint(w, h) end;
 
 -- A function to make the panel fade out.
 function PANEL:FadeOut(speed, Callback)
-	if (self:GetAlpha() > 0 and (!self.animation or !self.animation:Active())) then
+	if (self:GetAlpha() > 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
 		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
 			panel:SetAlpha(255 - (delta * 255));
 			
@@ -569,7 +570,7 @@ end;
 
 -- A function to make the panel fade in.
 function PANEL:FadeIn(speed, Callback)
-	if (self:GetAlpha() == 0 and (!self.animation or !self.animation:Active())) then
+	if (self:GetAlpha() == 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
 		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
 			panel:SetVisible(true);
 			panel:SetAlpha(delta * 255);
@@ -757,6 +758,14 @@ function PANEL:Init()
 	self.factionLabel:SizeToContents();
 	self.factionLabel:SetPos(0, self.nameLabel.y + self.nameLabel:GetTall() + 4);
 	
+	local color = Color(255, 255, 255, 255);
+	for k, class in pairs(Clockwork.class:GetAll()) do
+		if (class.factions[1] == self.customData.faction) then
+			color = class.color;
+		end;
+	end;
+	self.factionLabel:OverrideTextColor(color)
+		
 	self.characterModel = vgui.Create("cwCharacterModel", self);
 	self.characterModel:SetModel(self.customData.model);
 	self.characterModel:SetSize(512, 512);
@@ -960,7 +969,7 @@ end;
 
 -- A function to make the panel fade out.
 function PANEL:FadeOut(speed, Callback)
-	if (self:GetAlpha() > 0 and (!self.animation or !self.animation:Active())) then
+	if (self:GetAlpha() > 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
 		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
 			panel:SetAlpha(255 - (delta * 255));
 			
@@ -992,7 +1001,7 @@ end;
 
 -- A function to make the panel fade in.
 function PANEL:FadeIn(speed, Callback)
-	if (self:GetAlpha() == 0 and (!self.animation or !self.animation:Active())) then
+	if (self:GetAlpha() == 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
 		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
 			panel:SetAlpha(delta * 255);
 			
@@ -1290,7 +1299,7 @@ function PANEL:Paint(w, h) end;
 
 -- A function to make the panel fade out.
 function PANEL:FadeOut(speed, Callback)
-	if (self:GetAlpha() > 0 and (!self.animation or !self.animation:Active())) then
+	if (self:GetAlpha() > 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
 		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
 			panel:SetAlpha(255 - (delta * 255));
 			
@@ -1320,7 +1329,7 @@ end;
 
 -- A function to make the panel fade in.
 function PANEL:FadeIn(speed, Callback)
-	if (self:GetAlpha() == 0 and (!self.animation or !self.animation:Active())) then
+	if (self:GetAlpha() == 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
 		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
 			panel:SetVisible(true);
 			panel:SetAlpha(delta * 255);
@@ -1411,7 +1420,7 @@ function PANEL:Paint(w, h) end;
 
 -- A function to make the panel fade out.
 function PANEL:FadeOut(speed, Callback)
-	if (self:GetAlpha() > 0 and (!self.animation or !self.animation:Active())) then
+	if (self:GetAlpha() > 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
 		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
 			panel:SetAlpha(255 - (delta * 255));
 			
@@ -1441,7 +1450,7 @@ end;
 
 -- A function to make the panel fade in.
 function PANEL:FadeIn(speed, Callback)
-	if (self:GetAlpha() == 0 and (!self.animation or !self.animation:Active())) then
+	if (self:GetAlpha() == 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
 		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
 			panel:SetVisible(true);
 			panel:SetAlpha(delta * 255);
@@ -1678,7 +1687,7 @@ function PANEL:Paint(w, h) end;
 
 -- A function to make the panel fade out.
 function PANEL:FadeOut(speed, Callback)
-	if (self:GetAlpha() > 0 and (!self.animation or !self.animation:Active())) then
+	if (self:GetAlpha() > 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
 		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
 			panel:SetAlpha(255 - (delta * 255));
 			
@@ -1708,7 +1717,7 @@ end;
 
 -- A function to make the panel fade in.
 function PANEL:FadeIn(speed, Callback)
-	if (self:GetAlpha() == 0 and (!self.animation or !self.animation:Active())) then
+	if (self:GetAlpha() == 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
 		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
 			panel:SetVisible(true);
 			panel:SetAlpha(delta * 255);
@@ -1876,7 +1885,7 @@ function PANEL:Paint(w, h) end;
 
 -- A function to make the panel fade out.
 function PANEL:FadeOut(speed, Callback)
-	if (self:GetAlpha() > 0 and (!self.animation or !self.animation:Active())) then
+	if (self:GetAlpha() > 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
 		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
 			panel:SetAlpha(255 - (delta * 255));
 			
@@ -1906,7 +1915,7 @@ end;
 
 -- A function to make the panel fade in.
 function PANEL:FadeIn(speed, Callback)
-	if (self:GetAlpha() == 0 and (!self.animation or !self.animation:Active())) then
+	if (self:GetAlpha() == 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
 		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
 			panel:SetVisible(true);
 			panel:SetAlpha(delta * 255);
