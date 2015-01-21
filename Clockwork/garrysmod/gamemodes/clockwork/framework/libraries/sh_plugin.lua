@@ -30,6 +30,7 @@ Clockwork.plugin.unloaded = {};
 
 PLUGIN_META = {__index = PLUGIN_META};
 PLUGIN_META.description = "An undescribed plugin or schema.";
+PLUGIN_META.hookOrder = 0;
 PLUGIN_META.version = 1.0;
 PLUGIN_META.author = "Unknown";
 PLUGIN_META.name = "Unknown";
@@ -44,6 +45,10 @@ end;
 	
 PLUGIN_META.GetBaseDir = function(PLUGIN_META)
 	return PLUGIN_META.baseDir;
+end;
+
+PLUGIN_META.GetHookOrder = function(PLUGIN_META)
+	return PLUGIN_META.hookOrder;
 end;
 	
 PLUGIN_META.GetVersion = function(PLUGIN_META)
@@ -367,8 +372,9 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 		if (!isUnloaded and !isDisabled) then
 			if (cwFile.Exists(shPluginDir, "LUA")) then
 				Clockwork.kernel:IncludePrefixed(shPluginDir);
-				addCSLua = false;
 			end;
+			
+			addCSLua = false;
 		end;
 		
 		if (SERVER and addCSLua) then
@@ -389,26 +395,49 @@ function Clockwork.plugin:New()
 	return pluginTable;
 end;
 
+-- A function to sort a list of plugins storted by k, v.
+function Clockwork.plugins:SortList(pluginList)
+	local sortedTable = {};
+	
+	for k, v in pairs(pluginList) do
+		sortedTable[#sortedTable + 1] = v;
+	end;
+	
+	table.sort(sortedTable, function(a, b)
+		return a:GetHookOrder() > b:GetHookOrder();
+	end);
+	
+	return sortedTable;
+end;
+
 -- A function to run the plugin hooks.
 function Clockwork.plugin:RunHooks(name, bGamemode, ...)
-	for k, v in pairs(self.modules) do
-		if (v[name]) then
+	if (not self.sortedModules) then
+		self.sortedModules = self:SortList(self.modules);
+	end;
+	
+	if (not self.sortedPlugins) then
+		self.sortedPlugins = self:SortList(self.stored);
+	end;
+
+	for k, v in ipairs(self.sortedModules) do
+		if (self.modules[v.name] and v[name]) then
 			local bSuccess, value = pcall(v[name], v, ...);
 			
 			if (!bSuccess) then
-				ErrorNoHalt("[Clockwork] The '"..name.."' plugin hook has failed to run.\n"..value.."\n");
+				ErrorNoHalt("[CW::Module::"..v.name.."] The '"..name.."' plugin hook has failed to run.\n"..value.."\n");
 			elseif (value != nil) then
 				return value;
 			end;
 		end;
 	end;
 	
-	for k, v in pairs(self.stored) do
-		if (Schema != v and v[name]) then
+	for k, v in ipairs(self.sortedPlugins) do
+		if (self.stored[v.name] and Schema != v and v[name]) then
 			local bSuccess, value = pcall(v[name], v, ...);
 			
 			if (!bSuccess) then
-				ErrorNoHalt("[Clockwork] The '"..name.."' plugin hook has failed to run.\n"..value.."\n");
+				ErrorNoHalt("[CW::Plugin::"..v:GetName().."] The '"..name.."' plugin hook has failed to run.\n"..value.."\n");
 			elseif (value != nil) then
 				return value;
 			end;
@@ -419,7 +448,7 @@ function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 		local bSuccess, value = pcall(Schema[name], Schema, ...);
 		
 		if (!bSuccess) then
-			ErrorNoHalt("[Clockwork] The '"..name.."' schema hook has failed to run.\n"..value.."\n");
+			ErrorNoHalt("[CW::Schema::"..Schema:GetName().."] The '"..name.."' schema hook has failed to run.\n"..value.."\n");
 		elseif (value != nil) then
 			return value;
 		end;
@@ -429,7 +458,7 @@ function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 		local bSuccess, value = pcall(Clockwork[name], Clockwork, ...);
 		
 		if (!bSuccess) then
-			ErrorNoHalt("[Clockwork] The '"..name.."' clockwork hook has failed to run.\n"..value.."\n");
+			ErrorNoHalt("[CW::Kernel] The '"..name.."' clockwork hook has failed to run.\n"..value.."\n");
 		elseif (value != nil) then
 			return value;
 		end;
@@ -447,7 +476,13 @@ function Clockwork.plugin:Remove(name)
 end;
 
 -- A function to add a table as a module.
-function Clockwork.plugin:Add(name, moduleTable)
+function Clockwork.plugin:Add(name, moduleTable, hookOrder)
+	if (not moduleTable.name) then
+		moduleTable.name = name;
+	end;
+	
+	moduleTable.hookOrder = hookOrder or 0;
+	
 	self.modules[name] = moduleTable;
 end;
 

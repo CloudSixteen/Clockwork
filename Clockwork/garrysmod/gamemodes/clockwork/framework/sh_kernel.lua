@@ -3660,7 +3660,11 @@ function Clockwork.kernel:IncludePrefixed(fileName)
 		return;
 	end;
 	
-	include(fileName);
+	local success, err = pcall(include, fileName);
+	
+	if (!success) then
+		MsgN("[Clockwork] File System -> "..err);
+	end;
 end;
 
 -- A function to include plugins in a directory.
