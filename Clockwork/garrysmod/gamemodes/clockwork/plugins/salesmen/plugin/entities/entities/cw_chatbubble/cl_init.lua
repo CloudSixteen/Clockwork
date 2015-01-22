@@ -16,11 +16,7 @@ end;
 
 -- Called every frame.
 function ENT:Think()
-	if (!self.cwOriginalPos) then
-		self.cwOriginalPos = self:GetPos();
-	end;
-	
-	self:SetPos(self.cwOriginalPos + Vector(0, 0, math.sin(UnPredictedCurTime()) * 2.5));
+	self:SetPos(self:GetNWEntity("salesman"):GetPos() + Vector(0, 0, 90) + Vector(0, 0, math.sin(UnPredictedCurTime()) * 2.5));
 	
 	if (self.cwNextChangeAngle <= UnPredictedCurTime()) then
 		self:SetAngles(self:GetAngles() + Angle(0, 0.25, 0));
