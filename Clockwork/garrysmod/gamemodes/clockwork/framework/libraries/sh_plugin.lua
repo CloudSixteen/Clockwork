@@ -396,7 +396,7 @@ function Clockwork.plugin:New()
 end;
 
 -- A function to sort a list of plugins storted by k, v.
-function Clockwork.plugins:SortList(pluginList)
+function Clockwork.plugin:SortList(pluginList)
 	local sortedTable = {};
 	
 	for k, v in pairs(pluginList) do
