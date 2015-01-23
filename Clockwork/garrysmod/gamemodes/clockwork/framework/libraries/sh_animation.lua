@@ -414,6 +414,86 @@ Clockwork.animation.stored.maleHuman = {
 	["sit"] = ACT_BUSY_SIT_CHAIR
 };
 
+Clockwork.animation.stored.vortigaunt = {
+	["crouch_grenade_aim_idle"] = "CrouchIdle",
+	["crouch_grenade_aim_walk"] = ACT_WALK,
+	["stand_grenade_aim_idle"] = ACT_IDLE,
+	["crouch_pistol_aim_idle"] = "CrouchIdle",
+	["stand_grenade_aim_walk"] = ACT_WALK,
+	["crouch_pistol_aim_walk"] = "Walk_all_TC",
+	["crouch_heavy_aim_idle"] = "CrouchIdle",
+	["crouch_blunt_aim_idle"] = "CrouchIdle",
+	["stand_grenade_aim_run"] = ACT_RUN,
+	["crouch_blunt_aim_walk"] = "Walk_all_TC",
+	["crouch_heavy_aim_walk"] = "Walk_all_TC",
+	["stand_pistol_aim_walk"] = "Walk_all_TC",
+	["stand_pistol_aim_idle"] = "TCidlecombat",
+	["crouch_fist_aim_walk"] = "Walk_all_TC",
+	["crouch_slam_aim_walk"] = "Walk_all_HoldPart",
+	["stand_pistol_aim_run"] = "run_all_TC",
+	["crouch_fist_aim_idle"] = "TCidlecombat",
+	["stand_heavy_aim_idle"] = "TCidlecombat",
+	["stand_blunt_aim_idle"] = "TCidlecombat",
+	["crouch_slam_aim_idle"] = "CrouchIdle",
+	["stand_blunt_aim_walk"] = "Walk_all_TC",
+	["stand_heavy_aim_walk"] = "Walk_all_TC",
+	["stand_fist_aim_idle"] = "TCidle",
+	["crouch_smg_aim_walk"] = "Walk_all_TC",
+	["crouch_smg_aim_idle"] = "TCidlecombat",
+	["stand_fist_aim_walk"] = "Walk_all_TC",
+	["stand_blunt_aim_run"] = ACT_RUN,
+	["stand_heavy_aim_run"] = "run_all_TC",
+	["crouch_grenade_walk"] = ACT_WALK,
+	["crouch_grenade_idle"] = "CrouchIdle",
+	["stand_slam_aim_idle"] = "lab_partInstall_idle",
+	["stand_slam_aim_walk"] = "Walk_all_HoldPart",
+	["stand_slam_aim_run"] = ACT_RUN,
+	["stand_smg_aim_idle"] = "TCidlecombat",
+	["stand_smg_aim_walk"] = "Walk_all_TC",
+	["stand_fist_aim_run"] = "run_all_TC",
+	["crouch_pistol_idle"] = "CrouchIdle",
+	["stand_grenade_walk"] = ACT_WALK,
+	["crouch_pistol_walk"] = ACT_WALK,
+	["stand_grenade_idle"] = ACT_IDLE,
+	["stand_grenade_run"] = ACT_RUN,
+	["crouch_blunt_idle"] = "CrouchIdle",
+	["stand_pistol_walk"] = ACT_WALK,
+	["crouch_blunt_walk"] = ACT_WALK,
+	["crouch_heavy_walk"] = "Walk_all_TC",
+	["stand_pistol_idle"] = ACT_IDLE,
+	["crouch_heavy_idle"] = "CrouchIdle",
+	["stand_smg_aim_run"] = "run_all_TC",
+	["stand_heavy_walk"] = "Walk_all_TC",
+	["stand_blunt_walk"] = ACT_WALK,
+	["stand_blunt_idle"] = ACT_IDLE,
+	["crouch_fist_idle"] = "CrouchIdle",
+	["crouch_fist_walk"] = ACT_WALK,
+	["crouch_slam_idle"] = "CrouchIdle",
+	["stand_pistol_run"] = ACT_RUN,
+	["stand_heavy_idle"] = "TCidle",
+	["crouch_slam_walk"] = "Walk_all_TC",
+	["stand_heavy_run"] = "run_all_TC",
+	["stand_slam_idle"] = "lab_partInstall_idle",
+	["stand_fist_walk"] = ACT_WALK,
+	["stand_slam_walk"] = "Walk_all_HoldPart",
+	["stand_blunt_run"] = ACT_RUN,
+	["crouch_smg_walk"] = "Walk_all_TC",
+	["crouch_smg_idle"] = "CrouchIdle",
+	["stand_fist_idle"] = ACT_IDLE,
+	["stand_slam_run"] = ACT_RUN,
+	["stand_smg_idle"] = "TCidle",
+	["stand_fist_run"] = ACT_RUN,
+	["stand_smg_walk"] = "Walk_all_TC",
+	["stand_smg_run"] = "run_all_TC",
+	["crouch_idle"] = "CrouchIdle",
+	["crouch_walk"] = ACT_WALK,
+	["stand_idle"] = ACT_IDLE,
+	["stand_walk"] = ACT_WALK,
+	["stand_run"] = ACT_RUN,
+	["jump"] = ACT_BARNACLE_CHOMP,
+	["sit"] = "chess_wait"
+};
+
 -- A function to set a model's menu sequence.
 function Clockwork.animation:SetMenuSequence(model, sequence)
 	self.sequences[string.lower(model)] = sequence;
@@ -488,6 +568,11 @@ function Clockwork.animation:GetModelClass(model, alwaysReal)
 	end;
 end;
 
+-- A function to add a vortigaunt model.
+function Clockwork.animation:AddVortigauntModel(model)
+	return self:AddModel("vortigaunt", model);
+end;
+
 -- A function to add a Combine Overwatch model.
 function Clockwork.animation:AddCombineOverwatchModel(model)
 	return self:AddModel("combineOverwatch", model);
@@ -546,6 +631,10 @@ function Clockwork.animation:GetTable(model)
 		return self.stored.maleHuman;
 	end;
 end;
+
+Clockwork.animation:AddVortigauntModel("models/vortigaunt.mdl");
+Clockwork.animation:AddVortigauntModel("models/vortigaunt_slave.mdl");
+Clockwork.animation:AddVortigauntModel("models/vortigaunt_doctor.mdl");
 
 Clockwork.animation:AddCombineOverwatchModel("models/combine_soldier_prisonguard.mdl");
 Clockwork.animation:AddCombineOverwatchModel("models/combine_super_soldier.mdl");
