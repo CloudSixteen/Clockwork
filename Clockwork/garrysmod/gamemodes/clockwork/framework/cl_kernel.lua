@@ -1944,31 +1944,31 @@ function Clockwork:GetModelSelectSequence(entity, model) end;
 --]]
 function Clockwork:GetAdminESPInfo(info)
 	for k, v in pairs(cwPlayer.GetAll()) do
-		if (v:HasInitialized()) then
-			if (self.Client != v) then
-				local physBone = v:LookupBone("ValveBiped.Bip01_Head1");
-				local position = nil;	
-				local topText = {v:Name()}
+		if (v:HasInitialized()) then			
+			local physBone = v:LookupBone("ValveBiped.Bip01_Head1");
+			local position = nil;	
+			local topText = {v:Name()}
 					
-				if (physBone) then
-					local bonePosition = v:GetBonePosition(physBone);
+			if (physBone) then
+				local bonePosition = v:GetBonePosition(physBone);
 						
-					if (bonePosition) then
-						position = bonePosition + Vector(0, 0, 16);
-					end;
-				else
-					position = v:GetPos() + Vector(0, 0, 80);
+				if (bonePosition) then
+					position = bonePosition + Vector(0, 0, 16);
 				end;
+			else
+				position = v:GetPos() + Vector(0, 0, 80);
+			end;
 					
-				Clockwork.plugin:Call("GetStatusInfo", v, topText)			
+			Clockwork.plugin:Call("GetStatusInfo", v, topText)			
 					
-				info[#info + 1] = {
-					position = position,
-					text = {
-						{table.concat(topText, " "), cwTeam.GetColor(v:Team())}				
-					}
-				};
-					
+			info[#info + 1] = {
+				position = position,
+				text = {
+					{table.concat(topText, " "), cwTeam.GetColor(v:Team())}				
+				}
+			};
+			
+			if (self.Client != v) then	
 				Clockwork.plugin:Call("GetPlayerESPInfo", v, info[#info]["text"]);	
 			end;
 		end;
