@@ -403,9 +403,9 @@ function Clockwork.plugin:SortList(pluginList)
 		sortedTable[#sortedTable + 1] = v;
 	end;
 	
-	table.sort(sortedTable, function(a, b)
+	--[[table.sort(sortedTable, function(a, b)
 		return a:GetHookOrder() > b:GetHookOrder();
-	end);
+	end);]]
 	
 	return sortedTable;
 end;
