@@ -51,6 +51,7 @@ local util = util;
 Clockwork.kernel = Clockwork.kernel or {};
 Clockwork.Timers = Clockwork.Timers or {};
 Clockwork.Libraries = Clockwork.Libraries or {};
+Clockwork.SharedTables = Clockwork.SharedTables or {};
 
 --[[
 	@codebase Shared
@@ -3933,43 +3934,60 @@ function Clockwork.kernel:GetDefaultClassValue(class)
 end;
 
 -- A function to set a shared variable.
-function Clockwork.kernel:SetSharedVar(key, value)
-	local sharedVars = self:GetSharedVars():Global();
+function Clockwork.kernel:SetSharedVar(key, value, sharedTable)
+	if (!sharedTable) then
+		local sharedVars = self:GetSharedVars():Global();
 	
-	if (sharedVars and sharedVars[key]) then
-		local class = self:ConvertNetworkedClass(sharedVars.class);
+		if (sharedVars and sharedVars[key]) then
+			local class = self:ConvertNetworkedClass(sharedVars.class);
 		
-		if (class) then
-			if (value == nil) then
-				value = Clockwork:GetDefaultClassValue(class);
-			end;
+			if (class) then
+				if (value == nil) then
+					value = Clockwork:GetDefaultClassValue(class);
+				end;
 			
-			_G["SetGlobal"..class](key, value);
-			return;
+				_G["SetGlobal"..class](key, value);
+				return;
+			end;
+		end;
+	
+		SetGlobalVar(key, value);
+	else
+		Clockwork.SharedTables[sharedTable] = Clockwork.SharedTables[sharedTable] or {};
+		Clockwork.SharedTables[sharedTable][key] = value;
+
+		if (SERVER) then
+			Clockwork.datastream:Start(nil, "SetSharedTableVar", {sharedTable = sharedTable, key = key, value = value});
 		end;
 	end;
-	
-	SetGlobalVar(key, value);
 end;
 
 -- A function to get the shared vars.
 function Clockwork.kernel:GetSharedVars()
-	return Clockwork.SharedVars;
+	return Clockwork.SharedVars, Clockwork.SharedTables;
 end;
 
 -- A function to get a shared variable.
-function Clockwork.kernel:GetSharedVar(key)
-	local sharedVars = self:GetSharedVars():Global();
+function Clockwork.kernel:GetSharedVar(key, sharedTable)
+	if (!sharedTable) then
+		local sharedVars = self:GetSharedVars():Global();
 	
-	if (sharedVars and sharedVars[key]) then
-		local class = self:ConvertNetworkedClass(sharedVars.class);
+		if (sharedVars and sharedVars[key]) then
+			local class = self:ConvertNetworkedClass(sharedVars.class);
 		
-		if (class) then
-			return _G["GetGlobal"..class](key);
+			if (class) then
+				return _G["GetGlobal"..class](key);
+			end;
+		end;
+	
+		return GetGlobalVar(key);
+	else
+		sharedTable = Clockwork.SharedTables[sharedTable];
+		
+		if (sharedTable) then
+			return sharedTable[key];
 		end;
 	end;
-	
-	return GetGlobalVar(key);
 end;
 
 -- A function to create fake damage info.

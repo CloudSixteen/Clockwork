@@ -1404,6 +1404,8 @@ end;
 
 -- Called when a player's data stream info should be sent.
 function Clockwork:PlayerSendDataStreamInfo(player)
+	Clockwork.datastream:Start(player, "SharedTables", self.SharedTables);
+
 	if (self.OverrideColorMod and self.OverrideColorMod != nil) then
 		self.datastream:Start(player, "SystemColGet", self.OverrideColorMod);
 	end;
