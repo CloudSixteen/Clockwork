@@ -1194,17 +1194,22 @@ function Clockwork:MenuItemsAdd(menuItems)
 	local scoreboardName = self.option:GetKey("name_scoreboard");
 	local directoryName = self.option:GetKey("name_directory");
 	local inventoryName = self.option:GetKey("name_inventory");
-	local businessName = self.option:GetKey("name_business");
 	
 	menuItems:Add("Classes", "cwClasses", "Choose from a list of available classes.");
 	menuItems:Add("Settings", "cwSettings", "Configure the way Clockwork works for you.");
 	menuItems:Add("Donations", "cwDonations", "Check your donation subscriptions.");
 	menuItems:Add(systemName, "cwSystem", self.option:GetKey("description_system"));
 	menuItems:Add(scoreboardName, "cwScoreboard", self.option:GetKey("name_scoreboard"));
-	menuItems:Add(businessName, "cwBusiness", self.option:GetKey("description_business"));
 	menuItems:Add(inventoryName, "cwInventory", self.option:GetKey("description_inventory"));
 	menuItems:Add(directoryName, "cwDirectory", self.option:GetKey("description_directory"));
 	menuItems:Add(attributesName, "cwAttributes", self.option:GetKey("description_attributes"));
+	
+	print(self.config:Get("show_business"):GetBoolean());
+	
+	if (self.config:Get("show_business"):GetBoolean() == true) then
+		local businessName = self.option:GetKey("name_business");
+		menuItems:Add(businessName, "cwBusiness", self.option:GetKey("description_business"));
+	end;
 end;
 
 -- Called when the menu's items should be destroyed.
