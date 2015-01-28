@@ -45,7 +45,7 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 	if (player.cwIsCreatingChar) then
 		return;
 	end;
-	
+
 	local minimumPhysDesc = Clockwork.config:Get("minimum_physdesc"):Get();
 	local attributesTable = Clockwork.attribute:GetAll();
 	local factionTable = Clockwork.faction:FindByID(data.faction);
@@ -72,6 +72,10 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 	info.gender = data.gender;
 	info.model = data.model;
 	info.data = {};
+	
+	for k, v in pairs(data.plugin) do
+		info.data[k] = v;
+	end;
 	
 	local classes = false;
 	

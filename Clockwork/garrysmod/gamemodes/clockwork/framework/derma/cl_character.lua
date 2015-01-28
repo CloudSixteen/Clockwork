@@ -735,6 +735,7 @@ function PANEL:Init()
 	local colorWhite = Clockwork.option:GetColor("white");
 	local buttonX = 20;
 	local buttonY = 0;
+	local labels = {};
 	
 	if (not WOW) then
 		WOW = self;
@@ -743,6 +744,8 @@ function PANEL:Init()
 	self.customData = self:GetParent().customData;
 	self.buttonPanels = {};
 	self:SetPaintBackground(false);
+	
+	Clockwork.plugin:Call("GetCharacterPanelLabels", labels, self.customData);
 	
 	self.nameLabel = vgui.Create("cwLabelButton", self);
 	self.nameLabel:SetDisabled(true);
@@ -774,7 +777,7 @@ function PANEL:Init()
 	buttonY = self.factionLabel.y + self.factionLabel:GetTall() + 4;
 	
 	self.characterModel:SetPos(0, buttonY + 24);
-	
+		
 	local modelPanel = self.characterModel;
 	local sequence = Clockwork.plugin:Call(
 		"GetCharacterPanelSequence", modelPanel.Entity, self.customData.charTable
@@ -897,6 +900,19 @@ function PANEL:Init()
 	
 	if (self.factionLabel:GetWide() > maxWidth) then
 		maxWidth = self.factionLabel:GetWide();
+	end;
+	
+	local labelY = self.characterModel.y + self.characterModel:GetTall() + 4;
+	
+	for k, v in pairs(labels) do
+		local label = vgui.Create("cwLabelButton", self);
+		label:SetDisabled(true);
+		label:SetFont(tinyTextFont);
+		label:SetText(string.upper(v.text));
+		label:OverrideTextColor(v.color)
+		label:SizeToContents();
+		label:SetPos((maxWidth / 2) - (label:GetWide()/2), labelY);
+		labelY = labelY + label:GetTall() + 4;
 	end;
 	
 	self.characterModel.x = (maxWidth / 2) - 256;
@@ -1795,7 +1811,7 @@ function PANEL:Init()
  	self.categoryList:SizeToContents();
 	
 	self.settingsForm = vgui.Create("DForm");
-	self.settingsForm:SetName("Settings");
+	self.settingsForm:SetName("Persuasion");
 	self.settingsForm:SetPadding(4);
 	
 	if (#factions > 1) then
@@ -1812,7 +1828,7 @@ function PANEL:Init()
 						self.genderMultiChoice = self.settingsForm:ComboBox("Gender");
 						self.settingsForm:Rebuild();
 					end;
-					
+
 					if (v.singleGender) then
 						self.genderMultiChoice:AddChoice(v.singleGender);
 					else
@@ -1830,7 +1846,7 @@ function PANEL:Init()
 		for k, v in pairs(Clockwork.faction.stored) do
 			if (v.name == factions[1]) then
 				self.genderMultiChoice = self.settingsForm:ComboBox("Gender");
-				
+
 				if (v.singleGender) then
 					self.genderMultiChoice:AddChoice(v.singleGender);
 				else
@@ -1852,11 +1868,31 @@ function PANEL:Init()
 		end;
 	end;
 	
+	self.customChoices = {};
+	Clockwork.plugin:Call("GetPersuasionChoices", self.customChoices);
+				
+	if (#self.customChoices > 0) then
+		self.customPanels = {};
+		for k2, v2 in pairs(self.customChoices) do
+			table.insert(self.customPanels, {v2.name, self.settingsForm:ComboBox(v2.name)});
+			for k3, v3 in ipairs(v2.choices) do
+				self.customPanels[#self.customPanels][2]:AddChoice(v3)
+			end;
+		end;
+	end;
+	
 	self.categoryList:AddItem(self.settingsForm);
 end;
 
 -- Called when the next button is pressed.
 function PANEL:OnNext()
+	self.info.plugin = {};
+	if (#self.customPanels > 0) then
+		for k, v in pairs(self.customPanels) do
+			self.info.plugin[v[1]] = v[2]:GetValue();
+		end;
+	end;
+
 	if (IsValid(self.genderMultiChoice)) then
 		local faction = self.forcedFaction;
 		local gender = self.genderMultiChoice:GetValue();

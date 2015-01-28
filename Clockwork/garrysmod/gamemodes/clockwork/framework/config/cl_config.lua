@@ -89,3 +89,4 @@ Clockwork.config:AddToSystem("Enable space system", "enable_space_system", "Whet
 Clockwork.config:AddToSystem("Draw intro bars", "draw_intro_bars", "Whether or not to draw cinematic intro black bars on top and bottom of the screen.");
 Clockwork.config:AddToSystem("Enable jogging", "enable_jogging", "Whether or not to enable jogging.");
 Clockwork.config:AddToSystem("Enable LOOC icons", "enable_looc_icons", "Whether or not to enable LOOC chat icons.");
+Clockwork.config:AddToSystem("Show Business Menu", "show_business", "Whether or not to show the business menu.");
