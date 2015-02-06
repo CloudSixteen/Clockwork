@@ -2940,6 +2940,10 @@ function Clockwork:PlayerCharacterLoaded(player)
 			v:OnRestorePlayerGear(player);
 		end;
 	end;
+	
+	if (player:GetPlayerFlags()) then
+		Clockwork.player:SetFlags(player, player:GetPlayerFlags())
+	end;
 end;
 
 -- Called when a player's property should be restored.
@@ -4427,8 +4431,11 @@ function playerMeta:GetCash()
 	end;
 end;
 
--- A function to get a player's flags.
+-- A function to get a character's flags.
 function playerMeta:GetFlags() return self:QueryCharacter("Flags"); end;
+
+-- A function to get a player's flags.
+function playerMeta:GetPlayerFlags() return self:GetData("Flags"); end;
 
 -- A function to get a player's faction.
 function playerMeta:GetFaction() return self:QueryCharacter("Faction"); end;

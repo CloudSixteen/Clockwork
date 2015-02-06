@@ -90,3 +90,4 @@ Clockwork.config:AddToSystem("Draw intro bars", "draw_intro_bars", "Whether or n
 Clockwork.config:AddToSystem("Enable jogging", "enable_jogging", "Whether or not to enable jogging.");
 Clockwork.config:AddToSystem("Enable LOOC icons", "enable_looc_icons", "Whether or not to enable LOOC chat icons.");
 Clockwork.config:AddToSystem("Show Business Menu", "show_business", "Whether or not to show the business menu.");
+Clockwork.config:AddToSystem("Enable Chat Multiplier", "chat_multiplier", "Whether or not to change text size based on types of chat.");
