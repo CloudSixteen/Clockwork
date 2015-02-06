@@ -1154,7 +1154,7 @@ function Clockwork.player:GiveSpawnItemWeapon(player, itemTable)
 	end;
 end;
 
--- A function to give flags to a player.
+-- A function to give flags to a character.
 function Clockwork.player:GiveFlags(player, flags)
 	for i = 1, #flags do
 		local flag = string.sub(flags, i, i);
@@ -1163,6 +1163,17 @@ function Clockwork.player:GiveFlags(player, flags)
 			player:SetCharacterData("Flags", player:GetFlags()..flag, true);
 			
 			Clockwork.plugin:Call("PlayerFlagsGiven", player, flag);
+		end;
+	end;
+end;
+
+-- A function to give flags to a player.
+function Clockwork.player:GivePlayerFlags(player, flags)
+	for i = 1, #flags do
+		local flag = string.sub(flags, i, i);
+		
+		if (!string.find(player:GetPlayerFlags(), flag)) then
+			player:SetData("Flags", player:GetPlayerFlags()..flag, true);
 		end;
 	end;
 end;
@@ -1356,7 +1367,7 @@ function Clockwork.player:ReturnProperty(player)
 	Clockwork.plugin:Call("PlayerReturnProperty", player);
 end;
 
--- A function to take flags from a player.
+-- A function to take flags from a character.
 function Clockwork.player:TakeFlags(player, flags)
 	for i = 1, #flags do
 		local flag = string.sub(flags, i, i);
@@ -1365,6 +1376,17 @@ function Clockwork.player:TakeFlags(player, flags)
 			player:SetCharacterData("Flags", string.gsub(player:GetFlags(), flag, ""), true);
 			
 			Clockwork.plugin:Call("PlayerFlagsTaken", player, flag);
+		end;
+	end;
+end;
+
+-- A function to take flags from a player.
+function Clockwork.player:TakePlayerFlags(player, flags)
+	for i = 1, #flags do
+		local flag = string.sub(flags, i, i);
+		
+		if (string.find(player:GetPlayerFlags(), flag)) then
+			player:SetData("Flags", string.gsub(player:GetFlags(), flag, ""), true);
 		end;
 	end;
 end;
@@ -3438,8 +3460,14 @@ function Clockwork.player:GetWages(player)
 	return player:GetSharedVar("Wages");
 end;
 
--- A function to set a player's flags.
+-- A function to set a character's flags.
 function Clockwork.player:SetFlags(player, flags)
 	Clockwork.player:TakeFlags(player, player:GetFlags());
 	Clockwork.player:GiveFlags(player, flags);
+end;
+
+-- A function to set a player's flags.
+function Clockwork.player:SetPlayerFlags(player, flags)
+	Clockwork.player:TakePlayerFlags(player, player:GetPlayerFlags());
+	Clockwork.player:GivePlayerFlags(player, flags);
 end;

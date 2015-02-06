@@ -106,3 +106,4 @@ Clockwork.config:Add("draw_intro_bars", true, true);
 Clockwork.config:Add("enable_jogging", false, true);
 Clockwork.config:Add("enable_looc_icons", true, true);
 Clockwork.config:Add("show_business", true);
+Clockwork.config:Add("chat_multiplier", true);
