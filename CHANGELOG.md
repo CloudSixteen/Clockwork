@@ -2,6 +2,9 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.93
+-------
+
 0.92
 -------
 

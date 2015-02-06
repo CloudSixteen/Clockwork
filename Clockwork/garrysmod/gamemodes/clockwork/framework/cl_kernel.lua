@@ -116,6 +116,15 @@ Clockwork.datastream:Hook("RunCommand", function(data)
 	RunConsoleCommand(unpack(data));
 end);
 
+Clockwork.datastream:Hook("SharedTables", function(data)
+	Clockwork.SharedTables = data;
+end);
+
+Clockwork.datastream:Hook("SetSharedTableVar", function(data)
+	Clockwork.SharedTables[data.sharedTable] = Clockwork.SharedTables[data.sharedTable] or {};
+	Clockwork.SharedTables[data.sharedTable][data.key] = data.value;
+end);
+
 Clockwork.datastream:Hook("HiddenCommands", function(data)
 	for k, v in pairs(data) do
 		for k2, v2 in pairs(Clockwork.command.stored) do

@@ -1105,9 +1105,10 @@ function Clockwork:Think()
 	self.kernel:CallTimerThink(CurTime());
 end;
 
--- Called when a player has been authenticated.
-function Clockwork:PlayerAuthed(player, steamID)
-	local banTable = self.bans.stored[player:IPAddress()] or self.bans.stored[steamID];
+-- Called when a player attempts to connect to the server.
+function Clockwork:CheckPassword(steamID, ipAddress, svPassword, clPassword, name)
+	steamID = util.SteamIDFrom64(steamID);
+	local banTable = self.bans.stored[ipAddress] or self.bans.stored[steamID];
 	
 	if (banTable) then
 		local unixTime = os.time();
@@ -1136,9 +1137,9 @@ function Clockwork:PlayerAuthed(player, steamID)
 				bannedMessage = string.gsub(bannedMessage, "!f", "second(s)");
 			end;
 			
-			player:Kick(bannedMessage);
+			return false, bannedMessage;
 		elseif (unbanTime == 0) then
-			player:Kick(banTable.reason);
+			return false, banTable.reason;
 		else
 			self.bans:Remove(ipAddress);
 			self.bans:Remove(steamID);
@@ -1404,6 +1405,8 @@ end;
 
 -- Called when a player's data stream info should be sent.
 function Clockwork:PlayerSendDataStreamInfo(player)
+	Clockwork.datastream:Start(player, "SharedTables", self.SharedTables);
+
 	if (self.OverrideColorMod and self.OverrideColorMod != nil) then
 		self.datastream:Start(player, "SystemColGet", self.OverrideColorMod);
 	end;

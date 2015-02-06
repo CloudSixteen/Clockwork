@@ -396,16 +396,16 @@ function Clockwork.plugin:New()
 end;
 
 -- A function to sort a list of plugins storted by k, v.
-function Clockwork.plugins:SortList(pluginList)
+function Clockwork.plugin:SortList(pluginList)
 	local sortedTable = {};
 	
 	for k, v in pairs(pluginList) do
 		sortedTable[#sortedTable + 1] = v;
 	end;
 	
-	table.sort(sortedTable, function(a, b)
+	--[[table.sort(sortedTable, function(a, b)
 		return a:GetHookOrder() > b:GetHookOrder();
-	end);
+	end);]]
 	
 	return sortedTable;
 end;
@@ -420,7 +420,7 @@ function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 		self.sortedPlugins = self:SortList(self.stored);
 	end;
 
-	for k, v in ipairs(self.sortedModules) do
+	for k, v in ipairs(self.modules) do
 		if (self.modules[v.name] and v[name]) then
 			local bSuccess, value = pcall(v[name], v, ...);
 			
@@ -432,7 +432,7 @@ function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 		end;
 	end;
 	
-	for k, v in ipairs(self.sortedPlugins) do
+	for k, v in ipairs(self.stored) do
 		if (self.stored[v.name] and Schema != v and v[name]) then
 			local bSuccess, value = pcall(v[name], v, ...);
 			

@@ -7,44 +7,59 @@
 --]]
 
 local Clockwork = Clockwork;
+local amountTable = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"};
 
 local COMMAND = Clockwork.command:New("CharGiveItem");
 COMMAND.tip = "Give an item to a character.";
-COMMAND.text = "<string Name> <string Item>";
+COMMAND.text = "<string Name> <string Item> [number Amount]";
 COMMAND.access = "s";
 COMMAND.arguments = 2;
+COMMAND.optionalArguments = 1;
 
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)
 	if (Clockwork.player:HasFlags(player, "G")) then
 		local target = Clockwork.player:FindByID(arguments[1]);
+		local amount = tonumber(arguments[3]) or 1;
 		
 		if (target) then
-			local itemTable = Clockwork.item:FindByID(arguments[2]);
+			if (amount > 0 and amount <= 10) then
+				local itemTable = Clockwork.item:FindByID(arguments[2]);
 			
-			if (itemTable and !itemTable.isBaseItem) then
-				local itemTable = Clockwork.item:CreateInstance(itemTable("uniqueID"));
-				local bSuccess, fault = target:GiveItem(itemTable, true);
+				if (itemTable and !itemTable.isBaseItem) then
+					for i = 1, amount do
+						local itemTable = Clockwork.item:CreateInstance(itemTable("uniqueID"));
+						local bSuccess, fault = target:GiveItem(itemTable, true);
 				
-				if (bSuccess) then
-					if (string.sub(itemTable("name"), -1) == "s") then
+						if (!bSuccess) then
+							Clockwork.player:Notify(player, fault);
+
+							break;
+						end;
+					end;
+
+					if (string.sub(itemTable("name"), -1) == "s" and amount == 1) then
 						Clockwork.player:Notify(player, "You have given "..target:Name().." some "..itemTable("name")..".");
+					elseif (amount > 1) then
+						Clockwork.player:Notify(target, "You have given "..target:Name().." "..amountTable[amount].." "..Clockwork.kernel:Pluralize(itemTable("name"))..".");
 					else
 						Clockwork.player:Notify(player, "You have given "..target:Name().." a "..itemTable("name")..".");
 					end;
 					
 					if (player != target) then
-						if (string.sub(itemTable("name"), -1) == "s") then
+						if (string.sub(itemTable("name"), -1) == "s" and amount == 1) then
 							Clockwork.player:Notify(target, player:Name().." has given you some "..itemTable("name")..".");
+						elseif (amount > 1) then
+							Clockwork.player:Notify(target, player:Name().." has given you "..amountTable[amount].." "..Clockwork.kernel:Pluralize(itemTable("name"))..".");
 						else
 							Clockwork.player:Notify(target, player:Name().." has given you a "..itemTable("name")..".");
 						end;
 					end;
 				else
-					Clockwork.player:Notify(player, target:Name().." does not have enough space for this item!");
+					Clockwork.player:Notify(player, "This is not a valid item!");
 				end;
 			else
-				Clockwork.player:Notify(player, "This is not a valid item!");
+				Clockwork.player:Notify(player, "You must specify an amount between 1 and 10!");
 			end;
 		else
 			Clockwork.player:Notify(player, arguments[1].." is not a valid character!");
