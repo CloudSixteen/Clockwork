@@ -27,6 +27,7 @@ Clockwork.plugin.stored = {};
 Clockwork.plugin.buffer = {};
 Clockwork.plugin.modules = {};
 Clockwork.plugin.unloaded = {};
+Clockwork.plugin.extras = {};
 
 PLUGIN_META = {__index = PLUGIN_META};
 PLUGIN_META.description = "An undescribed plugin or schema.";
@@ -66,6 +67,8 @@ end;
 PLUGIN_META.Register = function(PLUGIN_META)
 	Clockwork.plugin:Register(PLUGIN_META);
 end;
+
+debug.getregistry().Plugin = PLUGIN_META;
 
 --[[
 	CloudScript
@@ -582,52 +585,33 @@ function Clockwork.plugin:IncludePlugins(directory)
 	end;
 end;
 
+-- A function to add an extra folder to include for plugins.
+function Clockwork.plugin:AddExtra(folderName)
+	self.extras[folderName] = folderName;
+end;
+
 -- A function to include a plugin's extras.
 function Clockwork.plugin:IncludeExtras(directory)
 	self:IncludeEffects(directory);
 	self:IncludeWeapons(directory);
 	self:IncludeEntities(directory);
-	
-	for k, v in pairs(cwFile.Find(directory.."/libraries/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/libraries/"..v);
-	end;
 
-	for k, v in pairs(cwFile.Find(directory.."/directory/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/directory/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/system/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/system/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/factions/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/factions/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/classes/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/classes/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/attributes/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/attributes/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/items/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/items/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/derma/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/derma/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/commands/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/commands/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/language/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/language/"..v);
+	for k, v in pairs(self.extras) do
+		Clockwork.kernel:IncludeDirectory(directory..v);
 	end;
 end;
+
+Clockwork.plugin:AddExtra("libraries/");
+Clockwork.plugin:AddExtra("directory/");
+Clockwork.plugin:AddExtra("system/");
+Clockwork.plugin:AddExtra("factions/");
+Clockwork.plugin:AddExtra("classes/");
+Clockwork.plugin:AddExtra("attributes/");
+Clockwork.plugin:AddExtra("items/");
+Clockwork.plugin:AddExtra("derma/");
+Clockwork.plugin:AddExtra("commands/");
+Clockwork.plugin:AddExtra("language/");
+Clockwork.plugin:AddExtra("config/");
 
 --[[ This table will hold the plugin info, if it doesn't already exist. --]]
 if (!CW_SCRIPT_SHARED.plugins) then
