@@ -22,3 +22,24 @@ function PLUGIN:CheckPassword(steamID, ipAddress, svPassword, clPassword, name)
 		end;
 	end;
 end;
+
+-- Called when a player is banned.
+function PLUGIN:PlayerBanned(player, duration, reason) 
+	local apiKey = Clockwork.config:Get("steam_api_key"):Get();
+
+	if (apiKey != "") then
+		local response = Clockwork.json:Decode(CloudAuthX.WebPost(string.format(apiURL, apiKey, player:SteamID()), ""));
+
+		if (response) then
+			local lenderSteamID = response["response"]["lender_steamid"];
+
+			if (lenderSteamID != "0") then
+				Clockwork.bans:Add(lenderSteamID, duration, reason, function()
+					local steamID = util.SteamIDFrom64(lenderSteamID);
+
+					Clockwork.player:NotifyAll(steamID..", the account sharing Garry's Mod with "..player:Name()..", has also been banned.");
+				end);
+			end;
+		end;
+	end;
+end;
