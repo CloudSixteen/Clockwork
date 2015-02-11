@@ -1,3 +1,10 @@
+Private Development
+---------
+
+The development Clockwork repo has moved. From now on, we'll only update this repository when a new update is released for Clockwork.
+
+If you have a Contribution you'd like to make, feel free to make a pull-request as usual.
+
 Clockwork
 ---------
 A roleplaying framework developed by Cloud Sixteen for the people.  
