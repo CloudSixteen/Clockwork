@@ -28,7 +28,7 @@ function PLUGIN:PlayerBanned(player, duration, reason)
 	local apiKey = Clockwork.config:Get("steam_api_key"):Get();
 
 	if (apiKey != "") then
-		local response = Clockwork.json:Decode(CloudAuthX.WebPost(string.format(apiURL, apiKey, player:SteamID()), ""));
+		local response = Clockwork.json:Decode(CloudAuthX.WebPost(string.format(apiURL, apiKey, player:CommunityID()), ""));
 
 		if (response) then
 			local lenderSteamID = response["response"]["lender_steamid"];
