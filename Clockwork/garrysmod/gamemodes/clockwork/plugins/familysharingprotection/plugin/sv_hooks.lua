@@ -34,10 +34,10 @@ function PLUGIN:PlayerBanned(player, duration, reason)
 			local lenderSteamID = response["response"]["lender_steamid"];
 
 			if (lenderSteamID != "0") then
-				Clockwork.bans:Add(lenderSteamID, duration, reason, function()
-					local steamID = util.SteamIDFrom64(lenderSteamID);
+				lenderSteamID = util.SteamIDFrom64(lenderSteamID);
 
-					Clockwork.player:NotifyAll(steamID..", the account sharing Garry's Mod with "..player:Name()..", has also been banned.");
+				Clockwork.bans:Add(lenderSteamID, duration, reason, function()
+					Clockwork.player:NotifyAll(lenderSteamID..", the account sharing Garry's Mod with "..player:Name()..", has also been banned.");
 				end);
 			end;
 		end;
