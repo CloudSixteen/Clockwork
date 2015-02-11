@@ -140,7 +140,7 @@ function Clockwork.inventory:IsEmpty(inventory)
 end;
 
 -- A function to add an instance to a table.
-function Clockwork.inventory:AddInstance(inventory, itemTable)
+function Clockwork.inventory:AddInstance(inventory, itemTable, quantity)
 	if (itemTable == nil) then
 		return false;
 	end;
@@ -154,7 +154,11 @@ function Clockwork.inventory:AddInstance(inventory, itemTable)
 		inventory[itemTable("uniqueID")] = {};
 	end;
 	
-	inventory[itemTable("uniqueID")][itemTable("itemID")] = itemTable;
+	for i = 1, (quantity or 1) do
+		itemTable = Clockwork.item:CreateInstance(itemTable("uniqueID"));
+		inventory[itemTable("uniqueID")][itemTable("itemID")] = itemTable;
+	end;
+	
 	return itemTable;
 end;
 
