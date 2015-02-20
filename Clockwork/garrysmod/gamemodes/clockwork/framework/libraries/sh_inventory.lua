@@ -24,6 +24,10 @@ function Clockwork.inventory:ToLoadable(inventory)
 		
 		if (itemTable) then
 			local uniqueID = itemTable("uniqueID");
+
+			if (uniqueID != k) then
+				continue;
+			end;
 			
 			if (!newTable[uniqueID]) then
 				newTable[uniqueID] = {};
@@ -37,7 +41,7 @@ function Clockwork.inventory:ToLoadable(inventory)
 				
 				if (instance and !instance.OnLoaded
 				or instance:OnLoaded() != false) then
-					newTable[k][itemID] = instance;
+					newTable[uniqueID][itemID] = instance;
 				end;
 			end;
 		end;
