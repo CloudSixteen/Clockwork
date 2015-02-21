@@ -24,6 +24,10 @@ function Clockwork.inventory:ToLoadable(inventory)
 		
 		if (itemTable) then
 			local uniqueID = itemTable("uniqueID");
+
+			if (uniqueID != k) then
+				continue;
+			end;
 			
 			if (!newTable[uniqueID]) then
 				newTable[uniqueID] = {};
@@ -37,7 +41,7 @@ function Clockwork.inventory:ToLoadable(inventory)
 				
 				if (instance and !instance.OnLoaded
 				or instance:OnLoaded() != false) then
-					newTable[k][itemID] = instance;
+					newTable[uniqueID][itemID] = instance;
 				end;
 			end;
 		end;
@@ -140,7 +144,9 @@ function Clockwork.inventory:IsEmpty(inventory)
 end;
 
 -- A function to add an instance to a table.
-function Clockwork.inventory:AddInstance(inventory, itemTable)
+function Clockwork.inventory:AddInstance(inventory, itemTable, quantity)
+	quantity = quantity or 1;
+
 	if (itemTable == nil) then
 		return false;
 	end;
@@ -155,6 +161,11 @@ function Clockwork.inventory:AddInstance(inventory, itemTable)
 	end;
 	
 	inventory[itemTable("uniqueID")][itemTable("itemID")] = itemTable;
+	
+	if (quantity != 1) then
+		self:AddInstance(inventory, Clockwork.item:CreateInstance(itemTable("uniqueID")), quantity - 1);
+	end;
+	
 	return itemTable;
 end;
 

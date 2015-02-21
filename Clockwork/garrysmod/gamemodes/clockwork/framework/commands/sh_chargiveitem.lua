@@ -41,7 +41,7 @@ function COMMAND:OnRun(player, arguments)
 					if (string.sub(itemTable("name"), -1) == "s" and amount == 1) then
 						Clockwork.player:Notify(player, "You have given "..target:Name().." some "..itemTable("name")..".");
 					elseif (amount > 1) then
-						Clockwork.player:Notify(target, "You have given "..target:Name().." "..amountTable[amount].." "..Clockwork.kernel:Pluralize(itemTable("name"))..".");
+						Clockwork.player:Notify(player, "You have given "..target:Name().." "..amountTable[amount].." "..Clockwork.kernel:Pluralize(itemTable("name"))..".");
 					else
 						Clockwork.player:Notify(player, "You have given "..target:Name().." a "..itemTable("name")..".");
 					end;
