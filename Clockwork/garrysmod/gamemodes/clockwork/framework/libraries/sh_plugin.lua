@@ -423,7 +423,7 @@ function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 		self.sortedPlugins = self:SortList(self.stored);
 	end;
 
-	for k, v in ipairs(self.modules) do
+	for k, v in ipairs(self.sortedModules) do
 		if (self.modules[v.name] and v[name]) then
 			local bSuccess, value = pcall(v[name], v, ...);
 			
@@ -435,7 +435,7 @@ function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 		end;
 	end;
 	
-	for k, v in ipairs(self.stored) do
+	for k, v in ipairs(self.sortedPlugins) do
 		if (self.stored[v.name] and Schema != v and v[name]) then
 			local bSuccess, value = pcall(v[name], v, ...);
 			
