@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2014 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -105,6 +105,6 @@ Clockwork.config:Add("enable_space_system", false, true);
 Clockwork.config:Add("draw_intro_bars", true, true);
 Clockwork.config:Add("enable_jogging", false, true);
 Clockwork.config:Add("enable_looc_icons", true, true);
-Clockwork.config:Add("show_business", true);
+Clockwork.config:Add("show_business", true, true);
 Clockwork.config:Add("chat_multiplier", true);
 Clockwork.config:Add("steam_api_key", "");
