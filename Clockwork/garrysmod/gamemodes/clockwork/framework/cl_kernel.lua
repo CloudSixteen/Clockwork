@@ -1213,8 +1213,6 @@ function Clockwork:MenuItemsAdd(menuItems)
 	menuItems:Add(directoryName, "cwDirectory", self.option:GetKey("description_directory"));
 	menuItems:Add(attributesName, "cwAttributes", self.option:GetKey("description_attributes"));
 	
-	print(self.config:Get("show_business"):GetBoolean());
-	
 	if (self.config:Get("show_business"):GetBoolean() == true) then
 		local businessName = self.option:GetKey("name_business");
 		menuItems:Add(businessName, "cwBusiness", self.option:GetKey("description_business"));
