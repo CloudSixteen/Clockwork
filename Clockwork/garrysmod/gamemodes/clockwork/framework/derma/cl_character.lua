@@ -1894,7 +1894,7 @@ function PANEL:OnNext()
                 self.info.plugin[v[1]] = v[2]:GetValue();
             end;
         end;
-	end;
+    end;
 
 	if (IsValid(self.genderMultiChoice)) then
 		local faction = self.forcedFaction;
