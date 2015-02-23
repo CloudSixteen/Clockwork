@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2014 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -1887,10 +1887,13 @@ end;
 -- Called when the next button is pressed.
 function PANEL:OnNext()
 	self.info.plugin = {};
-	if (#self.customPanels > 0) then
-		for k, v in pairs(self.customPanels) do
-			self.info.plugin[v[1]] = v[2]:GetValue();
-		end;
+	
+    if (self.customPanels) then
+        if (#self.customPanels > 0) then
+            for k, v in pairs(self.customPanels) do
+                self.info.plugin[v[1]] = v[2]:GetValue();
+            end;
+        end;
 	end;
 
 	if (IsValid(self.genderMultiChoice)) then
