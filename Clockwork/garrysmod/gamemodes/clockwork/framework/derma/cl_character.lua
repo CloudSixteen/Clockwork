@@ -1888,13 +1888,13 @@ end;
 function PANEL:OnNext()
 	self.info.plugin = {};
 	
-    if (self.customPanels) then
-        if (#self.customPanels > 0) then
-            for k, v in pairs(self.customPanels) do
-                self.info.plugin[v[1]] = v[2]:GetValue();
-            end;
-        end;
-    end;
+	if (self.customPanels) then
+		if (#self.customPanels > 0) then
+			for k, v in pairs(self.customPanels) do
+				self.info.plugin[v[1]] = v[2]:GetValue();
+			end;
+		end;
+	end;
 
 	if (IsValid(self.genderMultiChoice)) then
 		local faction = self.forcedFaction;
