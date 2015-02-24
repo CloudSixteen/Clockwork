@@ -1,5 +1,5 @@
 --[[
-	Â© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2014 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -1870,13 +1870,18 @@ function PANEL:Init()
 	
 	self.customChoices = {};
 	Clockwork.plugin:Call("GetPersuasionChoices", self.customChoices);
-				
-	if (#self.customChoices > 0) then
+
+	if (self.customChoices) then
 		self.customPanels = {};
 		for k2, v2 in pairs(self.customChoices) do
-			table.insert(self.customPanels, {v2.name, self.settingsForm:ComboBox(v2.name)});
-			for k3, v3 in ipairs(v2.choices) do
-				self.customPanels[#self.customPanels][2]:AddChoice(v3)
+			if (!v2.type or string.lower(v2.type) == "combobox") then
+				table.insert(self.customPanels, {v2, self.settingsForm:ComboBox(v2.name)});
+
+				for k3, v3 in ipairs(v2.choices) do
+					self.customPanels[#self.customPanels][2]:AddChoice(v3)
+				end;
+			elseif (string.lower(v2.type) == "textentry") then
+				table.insert(self.customPanels, {v2, self.settingsForm:TextEntry(v2.name)});
 			end;
 		end;
 	end;
@@ -1887,12 +1892,35 @@ end;
 -- Called when the next button is pressed.
 function PANEL:OnNext()
 	self.info.plugin = {};
-	
+
 	if (self.customPanels) then
-		if (#self.customPanels > 0) then
-			for k, v in pairs(self.customPanels) do
-				self.info.plugin[v[1]] = v[2]:GetValue();
+		for k, v in pairs(self.customPanels) do
+			local value = v[2]:GetValue();
+
+			if (value == "") then
+				Clockwork.character:SetFault("You did not fill out "..v[1].name.."!");
+				return false;
+			elseif (v[1].isNumber) then
+				local max = v[1].max;
+				local min = v[1].min;
+
+				if (!tonumber(value)) then
+					Clockwork.character:SetFault("You did not fill out "..v[1].name.." with a number!");
+					return false;
+				end;
+
+				if (max and max < tonumber(value)) then
+					Clockwork.character:SetFault("You cannot go higher than "..tostring(max).." in the "..v[1].name.." text entry!");
+					return false;
+				end;
+
+				if (min and min > tonumber(value)) then
+					Clockwork.character:SetFault("You cannot go lower than "..tostring(min).." in the "..v[1].name.." text entry!");
+					return false;
+				end;
 			end;
+
+			self.info.plugin[v[1].name] = value;
 		end;
 	end;
 
