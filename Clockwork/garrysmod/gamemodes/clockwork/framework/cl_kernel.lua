@@ -3125,6 +3125,10 @@ end;
 -- Overriding Garry's "grab ear" animation.
 function Clockwork:GrabEarAnimation(player) end;
 
+concommand.Add("cwSay", function(player, command, arguments)
+	return Clockwork.datastream:Start("PlayerSay", table.concat(arguments, " "));
+end);
+
 concommand.Add("cwLua", function(player, command, arguments)
 	if (player:IsSuperAdmin()) then
 		RunString(table.concat(arguments, " "));
