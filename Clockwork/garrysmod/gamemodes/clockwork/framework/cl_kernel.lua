@@ -735,6 +735,7 @@ function Clockwork:Initialize()
 	self.theme:Initialize();
 	
 	self.plugin:CheckMismatches();
+	self.plugin:ClearHookCache();
 end;
 
 --[[

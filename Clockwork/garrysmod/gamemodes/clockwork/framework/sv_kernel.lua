@@ -132,6 +132,7 @@ end;
 --]]
 hook.ClockworkCall = hook.ClockworkCall or hook.Call;
 hook.Timings = {};
+hook.Averages = {};
 
 function hook.Call(name, gamemode, ...)
 	local arguments = {...};
@@ -151,6 +152,10 @@ function hook.Call(name, gamemode, ...)
 	local timeTook = SysTime() - startTime;
 	
 	hook.Timings[name] = timeTook;
+	--[[hook.Averages[name] = hook.Averages[name] or {0, 0};
+	local avg = hook.Averages[name][1];
+	local n = hook.Averages[name][2];
+	hook.Averages[name] = {((avg * n) + timeTook) / (n + 1), n + 1};]]
 	
 	if (!bStatus) then
 		if (!Clockwork.Unauthorized) then
@@ -260,6 +265,7 @@ function Clockwork:Initialize()
 	
 	self.plugin:Call("ClockworkInitialized");
 	self.plugin:CheckMismatches();
+	self.plugin:ClearHookCache();
 end;
 
 -- Called at an interval while a player is connected.
