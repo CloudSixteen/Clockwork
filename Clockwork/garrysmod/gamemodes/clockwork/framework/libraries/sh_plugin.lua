@@ -28,6 +28,7 @@ Clockwork.plugin.buffer = {};
 Clockwork.plugin.modules = {};
 Clockwork.plugin.unloaded = {};
 Clockwork.plugin.extras = {};
+Clockwork.plugin.hookCache = {};
 
 PLUGIN_META = {__index = PLUGIN_META};
 PLUGIN_META.description = "An undescribed plugin or schema.";
@@ -413,6 +414,15 @@ function Clockwork.plugin:SortList(pluginList)
 	return sortedTable;
 end;
 
+-- A function to clear the hook cache for all hooks or a specific one.
+function Clockwork.plugin:ClearHookCache(name)
+	if (!name) then
+		self.hookCache = {};
+	elseif (self.hookCache[name]) then
+		self.hookCache[name] = nil;
+	end;
+end;
+
 -- A function to run the plugin hooks.
 function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 	if (not self.sortedModules) then
@@ -423,7 +433,39 @@ function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 		self.sortedPlugins = self:SortList(self.stored);
 	end;
 
-	for k, v in ipairs(self.sortedModules) do
+	local cache = self.hookCache[name];
+	if (not cache) then
+		cache = {};
+		for k, v in ipairs(self.sortedModules) do
+			if (self.modules[v.name] and v[name]) then
+				table.insert(cache, {v[name], v});
+			end;
+		end;
+
+		for k, v in ipairs(self.sortedPlugins) do
+			if (self.stored[v.name] and Schema != v and v[name]) then
+				table.insert(cache, {v[name], v});
+			end;
+		end;
+
+		if (Schema and Schema[name]) then
+			table.insert(cache, {Schema[name], Schema});
+		end;
+
+		self.hookCache[name] = cache;
+	end;
+
+	for k, v in ipairs(cache) do
+		local bSuccess, value = pcall(v[1], v[2], ...);
+			
+		if (!bSuccess) then
+			ErrorNoHalt("[CW::"..v[2].name.."] The '"..name.."' hook has failed to run.\n"..value.."\n");
+		elseif (value != nil) then
+			return value;
+		end;
+	end;
+
+	--[[for k, v in ipairs(self.sortedModules) do
 		if (self.modules[v.name] and v[name]) then
 			local bSuccess, value = pcall(v[name], v, ...);
 			
@@ -455,7 +497,7 @@ function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 		elseif (value != nil) then
 			return value;
 		end;
-	end;
+	end;]]
 	
 	if (bGamemode and Clockwork[name]) then
 		local bSuccess, value = pcall(Clockwork[name], Clockwork, ...);
