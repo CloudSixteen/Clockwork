@@ -420,6 +420,8 @@ function Clockwork.plugin:ClearHookCache(name)
 		self.hookCache = {};
 	elseif (self.hookCache[name]) then
 		self.hookCache[name] = nil;
+	else
+	    ErrorNoHalt("Attempted to clear cache for invalid hook '"..name.."'");
 	end;
 end;
 
