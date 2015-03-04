@@ -3237,8 +3237,8 @@ function playerMeta:SetSharedVar(key, value)
 end;
 
 -- A function to get a player's shared variable.
-function playerMeta:GetSharedVar(key)
-	return Clockwork.player:GetSharedVar(self, key);
+function playerMeta:GetSharedVar(key, sharedTable)
+	return Clockwork.player:GetSharedVar(self, key, sharedTable);
 end;
 
 -- A function to get whether a player has initialized.

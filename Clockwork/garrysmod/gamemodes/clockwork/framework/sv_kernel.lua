@@ -5021,8 +5021,8 @@ function playerMeta:GetSharedVar(key)
 end;
 
 -- A function to set a shared variable for a player.
-function playerMeta:SetSharedVar(key, value)
-	Clockwork.player:SetSharedVar(self, key, value);
+function playerMeta:SetSharedVar(key, value, sharedTable)
+	Clockwork.player:SetSharedVar(self, key, value, sharedTable);
 end;
 
 -- A function to get a player's character data.
