@@ -1982,41 +1982,45 @@ function Clockwork.player:HolsterAll(player)
 end;
 
 -- A function to set a shared variable for a player.
-function Clockwork.player:SetSharedVar(player, key, value)
+function Clockwork.player:SetSharedVar(player, key, value, sharedTable)
 	if (IsValid(player)) then
-		local sharedVars = Clockwork.kernel:GetSharedVars():Player();
+		if (!sharedTable) then
+			local sharedVars = Clockwork.kernel:GetSharedVars():Player();
 		
-		if (!sharedVars or not sharedVars[key]) then
-			player:SetNetworkedVar(key, value);
-			return;
-		end;
-		
-		local sharedVarData = sharedVars[key];
-		
-		if (sharedVarData.bPlayerOnly) then
-			local realValue = value;
-			
-			if (value == nil) then
-				realValue = Clockwork.kernel:GetDefaultNetworkedValue(sharedVarData.class);
+			if (!sharedVars or not sharedVars[key]) then
+				player:SetNetworkedVar(key, value);
+				return;
 			end;
+		
+			local sharedVarData = sharedVars[key];
+		
+			if (sharedVarData.bPlayerOnly) then
+				local realValue = value;
 			
-			if (player.cwSharedVars[key] != realValue) then
-				player.cwSharedVars[key] = realValue;
+				if (value == nil) then
+					realValue = Clockwork.kernel:GetDefaultNetworkedValue(sharedVarData.class);
+				end;
+			
+				if (player.cwSharedVars[key] != realValue) then
+					player.cwSharedVars[key] = realValue;
 				
-				Clockwork.datastream:Start(player, "SharedVar", {key = key, value = realValue});
+					Clockwork.datastream:Start(player, "SharedVar", {key = key, value = realValue});
+				end;
+			else
+				local class = Clockwork.kernel:ConvertNetworkedClass(sharedVarData.class);
+			
+				if (class) then
+					if (value == nil) then
+						value = Clockwork.kernel:GetDefaultClassValue(class);
+					end;
+				
+					player["SetNetworked"..class](player, key, value);
+				else
+					player:SetNetworkedVar(key, value);
+				end;
 			end;
 		else
-			local class = Clockwork.kernel:ConvertNetworkedClass(sharedVarData.class);
-			
-			if (class) then
-				if (value == nil) then
-					value = Clockwork.kernel:GetDefaultClassValue(class);
-				end;
-				
-				player["SetNetworked"..class](player, key, value);
-			else
-				player:SetNetworkedVar(key, value);
-			end;
+			Clockwork.datastream:Start(player, "SetSharedTableVar", {sharedTable = sharedTable, key = key, value = value})
 		end;
 	end;
 end;
