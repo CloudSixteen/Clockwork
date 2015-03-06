@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	ï¿½ 2014 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -51,6 +51,8 @@ if (CLIENT) then
 
 		self.listView = vgui.Create("DListView");
 			self.listView:AddColumn("Name");
+			self.listView:AddColumn("Key");
+			self.listView:AddColumn("Added By");
 			self.listView:SetMultiSelect(false);
 			self.listView:SetTall(256);
 		self:PopulateComboBox();
@@ -142,7 +144,7 @@ if (CLIENT) then
 				local adminValues = Clockwork.config:GetFromSystem(v);
 				
 				if (adminValues) then
-					local comboBoxItem = self.listView:AddLine(adminValues.name);
+					local comboBoxItem = self.listView:AddLine(adminValues.name, v, adminValues.category);
 						comboBoxItem:SetToolTip(adminValues.help);
 						comboBoxItem.key = v;
 					
