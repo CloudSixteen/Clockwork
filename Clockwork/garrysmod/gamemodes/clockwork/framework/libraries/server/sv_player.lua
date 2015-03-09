@@ -1986,37 +1986,40 @@ function Clockwork.player:SetSharedVar(player, key, value, sharedTable)
 	if (IsValid(player)) then
 		if (!sharedTable) then
 			local sharedVars = Clockwork.kernel:GetSharedVars():Player();
-		
-			if (!sharedVars or not sharedVars[key]) then
-				player:SetNetworkedVar(key, value);
+			
+			if (!sharedVars) then
+				ErrorNoHalt("[Clockwork:PlayerSharedVars] Couldn't get the sharedVars table.\n");
+				return;
+			elseif (not sharedVars[key]) then
+				ErrorNoHalt("[Clockwork:PlayerSharedVars] Couldn't find key '"..key.."' in sharedVars table. Is it registered?\n");
 				return;
 			end;
-		
+			
 			local sharedVarData = sharedVars[key];
-		
+			
 			if (sharedVarData.bPlayerOnly) then
 				local realValue = value;
-			
+				
 				if (value == nil) then
 					realValue = Clockwork.kernel:GetDefaultNetworkedValue(sharedVarData.class);
 				end;
-			
+				
 				if (player.cwSharedVars[key] != realValue) then
 					player.cwSharedVars[key] = realValue;
-				
+					
 					Clockwork.datastream:Start(player, "SharedVar", {key = key, value = realValue});
 				end;
 			else
 				local class = Clockwork.kernel:ConvertNetworkedClass(sharedVarData.class);
-			
+				
 				if (class) then
 					if (value == nil) then
 						value = Clockwork.kernel:GetDefaultClassValue(class);
 					end;
-				
+					
 					player["SetNetworked"..class](player, key, value);
 				else
-					player:SetNetworkedVar(key, value);
+					ErrorNoHalt("[Clockwork:PlayerSharedVars] Couldn't find network class for key '"..key.."'.");
 				end;
 			end;
 		else
@@ -2030,8 +2033,12 @@ function Clockwork.player:GetSharedVar(player, key)
 	if (IsValid(player)) then
 		local sharedVars = Clockwork.kernel:GetSharedVars():Player();
 		
-		if (!sharedVars or not sharedVars[key]) then
-			return player:GetNetworkedVar(key);
+		if (!sharedVars) then
+			ErrorNoHalt("[Clockwork:PlayerSharedVars] Couldn't get the sharedVars table.\n");
+			return;
+		elseif (not sharedVars[key]) then
+			ErrorNoHalt("[Clockwork:PlayerSharedVars] Couldn't find key '"..key.."' in sharedVars table. Is it registered?\n");
+			return;
 		end;
 		
 		local sharedVarData = sharedVars[key];
@@ -2043,14 +2050,12 @@ function Clockwork.player:GetSharedVar(player, key)
 				return player.cwSharedVars[key];
 			end;
 		else
-			local class = Clockwork.kernel:ConvertNetworkedClass(
-				sharedVarData.class
-			);
+			local class = Clockwork.kernel:ConvertNetworkedClass(sharedVarData.class);
 			
 			if (class) then
 				return player["GetNetworked"..class](player, key);
 			else
-				return player:GetNetworkedVar(key);
+				ErrorNoHalt("[Clockwork:PlayerSharedVars] Couldn't find network class for key '"..key.."'.");
 			end;
 		end;
 	end;
