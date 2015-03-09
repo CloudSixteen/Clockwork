@@ -1197,7 +1197,11 @@ function Clockwork:InitPostEntity()
 		end;
 	end;
 	
-	self.kernel:SetSharedVar("NoMySQL", Clockwork.NoMySQL);
+	if (!Clockwork.NoMySQL) then
+		self.kernel:SetSharedVar("NoMySQL");
+	else
+		self.kernel:SetSharedVar("NoMySQL", Clockwork.NoMySQL);
+	end;
 	self.plugin:Call("ClockworkInitPostEntity");
 end;
 

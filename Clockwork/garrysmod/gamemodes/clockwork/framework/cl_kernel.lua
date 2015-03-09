@@ -1108,8 +1108,7 @@ function Clockwork:CalcViewModelView(weapon, viewModel, oldEyePos, oldEyeAngles,
 	eyeAngles:RotateAroundAxis(eyeAngles:Right(), viewInfo.angles.r * fraction);
 
 	client.cwRaisedFraction = Lerp(FrameTime() * 2, client.cwRaisedFraction or 100, targetValue)
-	
-	viewModel:SetAngles(eyeAngles)
+	--viewModel:SetAngles(eyeAngles)
 
 	return oldEyePos, eyeAngles;
 end;
@@ -1396,10 +1395,14 @@ function Clockwork:Tick()
 end;
 
 -- Called when an entity is created.
-function Clockwork:OnEntityCreated(entity)
+--[[function Clockwork:OnEntityCreated(entity)
 	if (entity == LocalPlayer() and IsValid(entity)) then
 		self.Client = entity;
 	end;
+end;]]
+
+function Clockwork:InitPostEntity()
+	self.Client = LocalPlayer();
 end;
 
 -- Called each frame.
@@ -2849,7 +2852,7 @@ function Clockwork:HUDDrawScoreBoard()
 		drawPendingScreenBlack = nil;
 	end;
 	
-	if (self.kernel:GetSharedVar("NoMySQL")) then
+	if (self.kernel:GetSharedVar("NoMySQL") and self.kernel:GetSharedVar("NoMySQL") != "") then
 		self.kernel:DrawSimpleGradientBox(0, 0, 0, scrW, scrH, Color(0, 0, 0, 255));
 		draw.SimpleText(self.kernel:GetSharedVar("NoMySQL"), introTextSmallFont, scrW / 2, scrH / 2, Color(179, 46, 49, 255), 1, 1);
 	elseif (self.DataStreamedAlpha and self.DataStreamedAlpha > 0) then

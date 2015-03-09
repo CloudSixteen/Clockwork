@@ -131,6 +131,7 @@ function Clockwork:ClockworkAddSharedVars(globalVars, playerVars)
 	end;
 	
 	playerVars:Number("InvWeight", true);
+	playerVars:Number("InvSpace", true);
 	playerVars:Number("MaxHP", true);
 	playerVars:Number("MaxAP", true);
 	playerVars:Number("IsDrunk", true);
