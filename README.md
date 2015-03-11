@@ -46,9 +46,21 @@ http://cloudsixteen.com/license/cloudauthx.html
 Credits
 -------
 
-**Credit where credit is due**
+#### kurozael
+* Cider/Blueprint/kuroScript/OpenAura/Clockwork creator and long-term developer.
 
-* Kurozael for main contributions to the framework and creating it in the first place.
-* Gr4ss, RJ, Duck and Vortix for maintaining the framework and associated schemas.
-* Alexgrist and impulse(impulsh?) for major code contributions.
+#### SomeSortOfDuck
+* Lead developer from 2015-Present.
+* Maintaining the framework and associated schemas.
+
+#### Gr4ss + Vortix
+* Maintaining the frameworkand associated schemas
+* Contracted work on HL2 RP 2015.
+
+#### RJ + NightAngel
+* Maintaining the framework and associated schemas.
+* Contracted work on Severance.
+
+#### Other Contributors
+* Alex Grist and Impulse for fixing Clockwork and schemas to work with GMod 13 API.
 * Assorted contributors that have sent pull requests and fixes through the years.
