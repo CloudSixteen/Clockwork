@@ -42,3 +42,13 @@ http://cloudsixteen.com/license/clockwork.html
 
 #### CloudAuthX
 http://cloudsixteen.com/license/cloudauthx.html
+
+Credits
+-------
+
+**Credit where credit is due**
+
+* Kurozael for main contributions to the framework and creating it in the first place.
+* Gr4ss, RJ, Duck and Vortix for maintaining the framework and associated schemas.
+* Alexgrist and impulse(impulsh?) for major code contributions.
+* Assorted contributors that have sent pull requests and fixes through the years.
