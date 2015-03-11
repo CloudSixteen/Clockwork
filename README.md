@@ -58,7 +58,7 @@ Credits
 * Helped establish secure community back-end.
 
 #### Gr4ss + Vortix
-* Maintaining the frameworkand associated schemas
+* Maintaining the framework and associated schemas
 * Contracted work on HL2 RP 2015.
 
 #### RJ + NightAngel
