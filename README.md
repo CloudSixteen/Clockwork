@@ -53,6 +53,10 @@ Credits
 * Lead developer from 2015-Present.
 * Maintaining the framework and associated schemas.
 
+#### alexanderk
+* Various Clockwork contributions in many forms, including web applications.
+* Helped establish secure community back-end.
+
 #### Gr4ss + Vortix
 * Maintaining the frameworkand associated schemas
 * Contracted work on HL2 RP 2015.
