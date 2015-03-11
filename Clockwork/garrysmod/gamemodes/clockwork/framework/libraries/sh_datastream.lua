@@ -91,6 +91,17 @@ if (SERVER) then
 			net.Send(recipients);
 		end;
 	end;
+
+	-- A function to listen for a request.
+	function Clockwork.datastream:Listen(name, Callback)
+		self:Hook(name, function(player, data)
+			local bShouldReply, reply = Callback(player, data);
+			
+			if (bShouldReply) then
+				self:Start(player, name, reply);
+			end;
+		end);
+	end;
 	
 	net.Receive("cwDataDS", function(length, player)
 		local CW_DS_NAME = net.ReadString();
@@ -136,6 +147,12 @@ else
 				net.WriteData(encodedData, #encodedData);
 			net.SendToServer();
 		end;
+	end;
+
+	-- A function to send a request.
+	function Clockwork.datastream:Request(name, data, Callback)
+		self:Hook(name, Callback);		
+		self:Start(name, data);
 	end;
 
 	net.Receive("cwDataDS", function(length)
