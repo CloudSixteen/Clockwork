@@ -537,7 +537,7 @@ end;
 
 -- A function to get whether a player can see an NPC.
 function Clockwork.player:CanSeeNPC(player, target, iAllowance, tIgnoreEnts)
-	if (!player:GetEyeTraceNoCursor().Entity == target) then
+	if (player:GetEyeTraceNoCursor().Entity != target) then
 		local trace = {};
 		
 		trace.mask = CONTENTS_SOLID + CONTENTS_MOVEABLE + CONTENTS_OPAQUE + CONTENTS_DEBRIS + CONTENTS_HITBOX + CONTENTS_MONSTER;
@@ -565,8 +565,8 @@ end;
 
 -- A function to get whether a player can see a player.
 function Clockwork.player:CanSeePlayer(player, target, iAllowance, tIgnoreEnts)
-	if (!player:GetEyeTraceNoCursor().Entity == target
-	and !target:GetEyeTraceNoCursor().Entity == player) then
+	if (player:GetEyeTraceNoCursor().Entity != target
+	and target:GetEyeTraceNoCursor().Entity != player) then
 		local trace = {};
 		
 		trace.mask = CONTENTS_SOLID + CONTENTS_MOVEABLE + CONTENTS_OPAQUE + CONTENTS_DEBRIS + CONTENTS_HITBOX + CONTENTS_MONSTER;
@@ -594,7 +594,7 @@ end;
 
 -- A function to get whether a player can see an entity.
 function Clockwork.player:CanSeeEntity(player, target, iAllowance, tIgnoreEnts)
-	if (!player:GetEyeTraceNoCursor().Entity == target) then
+	if (player:GetEyeTraceNoCursor().Entity != target) then
 		local trace = {};
 		
 		trace.mask = CONTENTS_SOLID + CONTENTS_MOVEABLE + CONTENTS_OPAQUE + CONTENTS_DEBRIS + CONTENTS_HITBOX + CONTENTS_MONSTER;
