@@ -3674,7 +3674,7 @@ end);
 -- LocalPlayerCreated datastream callback.
 Clockwork.datastream:Hook("LocalPlayerCreated", function(player, data)
 	if (IsValid(player) and !player:HasConfigInitialized()) then
-		Clockwork.kernel:CreateTimer("SendCfg"..player:UniqueID(), FrameTime(), 1, function()
+		Clockwork.kernel:CreateTimer("SendCfg"..player:UniqueID(), FrameTime() * 64, 1, function()
 			if (IsValid(player)) then
 				Clockwork.config:Send(player);
 			end;
