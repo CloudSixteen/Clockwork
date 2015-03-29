@@ -2314,7 +2314,7 @@ end;
 
 -- A function to notify each player.
 function Clockwork.player:NotifyAll(text, icon)
-	self:Notify(nil, text, true);
+	self:Notify(nil, text, true, icon);
 end;
 
 -- A function to notify a player.
