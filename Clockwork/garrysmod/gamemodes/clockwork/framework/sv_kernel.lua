@@ -208,9 +208,17 @@ function Clockwork:Initialize()
 	local database = self.config:Get("mysql_database"):Get();
 	local dateInfo = os.date("*t");
 	local host = self.config:Get("mysql_host"):Get();
-	local port = self.config:Get("mysql_port"):Get();
+	local port = tonumber( self.config:Get("mysql_port"):Get() );
+	local unix = self.config:Get("mysql_unix"):Get();
+	local flags = tonumber( self.config:Get("mysql_flags"):Get() );
 	
-	self.database:Connect(host, username, password, database, port);
+	if (unix != "" and flags != 0) then
+		self.database:Connect(host, username, password, database, port, unix, flags);
+	elseif (unix != "") then
+		self.database:Connect(host, username, password, database, port, unix);
+	else
+		self.database:Connect(host, username, password, database, port);
+	end
 	
 	if (useLocalMachineTime) then
 		self.config:Get("minute_time"):Set(60);

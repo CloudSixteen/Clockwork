@@ -22,6 +22,8 @@ Clockwork.config:Add("mysql_password", "", nil, nil, true, true, true);
 Clockwork.config:Add("mysql_database", "", nil, nil, true, true, true);
 Clockwork.config:Add("mysql_host", "", nil, nil, true, true, true);
 Clockwork.config:Add("mysql_port", 3306, nil, nil, true, true, true);
+Clockwork.config:Add("mysql_unix", "", nil, nil, true, true, true);
+Clockwork.config:Add("mysql_flags", 0, nil, nil, true, true, true);
 Clockwork.config:Add("scale_attribute_progress", 1);
 Clockwork.config:Add("messages_must_see_player", false, true);
 Clockwork.config:Add("bash_in_door_enabled", false);
