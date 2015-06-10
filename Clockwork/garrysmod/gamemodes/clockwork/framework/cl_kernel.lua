@@ -1,5 +1,5 @@
 --[[ 
-	� 2013 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -437,16 +437,28 @@ Clockwork.datastream:Hook("Notification", function(data)
 	end;
 end);
 
--- Called when a weapon is picked up and added to the HUD.
+--[[
+	@codebase Client
+	@details Called to display a HUD notification when a weapon has been picked up. (Used to override GMOD function)
+--]]
 function Clockwork:HUDWeaponPickedUp(...) end;
 
--- Called when an item is picked up and added to the HUD.
+--[[
+	@codebase Client
+	@details Called to display a HUD notification when an item has been picked up. (Used to override GMOD function)
+--]]
 function Clockwork:HUDItemPickedUp(...) end;
 
--- Called when some ammo is picked up and added to the HUD.
+--[[
+	@codebase Client
+	@details Called to display a HUD notification when ammo has been picked up. (Used to override GMOD function)
+--]]
 function Clockwork:HUDAmmoPickedUp(...) end;
 
--- Called when the context menu is opened.
+--[[
+	@codebase Client
+	@details Called when the context menu is opened.
+--]]
 function Clockwork:OnContextMenuOpen()
 	if (self.kernel:IsUsingTool()) then
 		return self.BaseClass:OnContextMenuOpen(self);
@@ -455,7 +467,10 @@ function Clockwork:OnContextMenuOpen()
 	end;
 end;
 
--- Called when the context menu is closed.
+--[[
+	@codebase Client
+	@details Called when the context menu is close.
+--]]
 function Clockwork:OnContextMenuClose()
 	if (self.kernel:IsUsingTool()) then
 		return self.BaseClass:OnContextMenuClose(self);
@@ -464,7 +479,14 @@ function Clockwork:OnContextMenuClose()
 	end;
 end;
 
--- Called when a player attempts to use the property menu.
+--[[
+	@codebase Client
+	@details Called to determine if a player can use property.
+	@param Player The player that is trying to use property.
+	@param
+	@param Entity The entity that is being used.
+	@returns Bool Whether or not the player can use property.
+--]]
 function Clockwork:CanProperty(player, property, entity)
 	if (!IsValid(entity)) then
 		return false;
@@ -479,7 +501,13 @@ function Clockwork:CanProperty(player, property, entity)
 	return self.BaseClass:CanProperty(player, property, entity);
 end;
 
--- Called when a player attempts to use drive.
+--[[
+	@codebase Client
+	@details Called to determine if a player can drive.
+	@param Player The player trying to drive.
+	@param Entity The entity that the player is trying to drive.
+	@return Bool Whether or not the player can drive the entity.
+--]]
 function Clockwork:CanDrive(player, entity)
 	if (!IsValid(entity)) then
 		return false;
@@ -494,7 +522,11 @@ function Clockwork:CanDrive(player, entity)
 	return self.BaseClass:CanDrive(player, entity);
 end;
 
--- Called when the Clockwork directory is rebuilt.
+--[[
+	@codebase Client
+	@details Called when the directory is rebuilt.
+	@param <DPanel> The directory panel.
+--]]
 function Clockwork:ClockworkDirectoryRebuilt(panel)
 	for k, v in pairs(self.command.stored) do
 		if (!self.player:HasFlags(self.Client, v.access)) then
@@ -505,7 +537,11 @@ function Clockwork:ClockworkDirectoryRebuilt(panel)
 	end;
 end;
 
--- Called when a Derma skin should be forced.
+--[[
+	@codebase Client
+	@details Called when the derma skin needs to be forced.
+	@return String The name of the skin to be forced (nil if not forcing skin).
+--]]
 function Clockwork:ForceDermaSkin()
 	--[[
 		Disable the custom Derma skin as it needs updating to GWEN.
@@ -515,14 +551,22 @@ function Clockwork:ForceDermaSkin()
 	return nil;
 end;
 
--- Called when the local player is given an item.
+--[[
+	@codebase Client
+	@details Called when the local player is given an item.
+	@param Table The table of the item that was given.
+--]]
 function Clockwork:PlayerItemGiven(itemTable)
 	if (self.storage:IsStorageOpen()) then
 		self.storage:GetPanel():Rebuild();
 	end;
 end;
 
--- Called when the local player has an item taken.
+--[[
+	@codebase Client
+	@details Called when the local player has an item taken from them.
+	@param Table The table of the item that was taken.
+--]]
 function Clockwork:PlayerItemTaken(itemTable)
 	if (self.storage:IsStorageOpen()) then
 		self.storage:GetPanel():Rebuild();
@@ -532,25 +576,59 @@ end;
 -- Called when the local player's character has initialized.
 function Clockwork:PlayerCharacterInitialized(iCharacterKey) end;
 
--- Called before the local player's storage is rebuilt.
+--[[
+	@codebase Client
+	@details Called before the local player's storage is rebuilt.
+	@param <DPanel> The player's storage panel.
+--]]
 function Clockwork:PlayerPreRebuildStorage(panel) end;
 
--- Called when the local player's storage is rebuilt.
+--[[
+	@codebase Client
+	@details Called when the local player's storage is rebuilt.
+	@param <DPanel> The player's storage panel.
+	@param Table The categories for the player's storage.
+--]]
 function Clockwork:PlayerStorageRebuilt(panel, categories) end;
 
--- Called when the local player's business is rebuilt.
+--[[
+	@codebase Client
+	@details Called when the local player's business is rebuilt.
+	@param <DPanel> The player's business panel.
+	@param Table The categories for the player's business.
+--]]
 function Clockwork:PlayerBusinessRebuilt(panel, categories) end;
 
--- Called when the local player's inventory is rebuilt.
+--[[
+	@codebase Client
+	@details Called when the local player's storage is rebuilt.
+	@param <DPanel> The player's storage panel.
+	@param Table The categories for the player's inventory.
+--]]
 function Clockwork:PlayerInventoryRebuilt(panel, categories) end;
 
--- Called when an entity fires some bullets.
+--[[
+	@codebase Client
+	@details Called when an entity attempts to fire bullets.
+	@param Entity The entity trying to fire bullets.
+	@param Table The info of the bullets being fired.
+--]]
 function Clockwork:EntityFireBullets(entity, bulletInfo) end;
 
--- Called when a player's bullet info should be adjusted.
+--[[
+	@codebase Client
+	@details Called when a player's bulletInfo needs to be adjusted.
+	@param Player The player that is firing bullets.
+	@param Table The info of the bullets that need to be adjusted.
+--]]
 function Clockwork:PlayerAdjustBulletInfo(player, bulletInfo) end;
 
--- Called when Clockwork config has initialized.
+--[[
+	@codebase Client
+	@details Called when clockwork's config is initialized.
+	@param String The name of the config key.
+	@param String The value relating to the key in the table.
+--]]
 function Clockwork:ClockworkConfigInitialized(key, value)
 	if (key == "cash_enabled" and !value) then
 		for k, v in pairs(self.item:GetAll()) do
@@ -559,16 +637,50 @@ function Clockwork:ClockworkConfigInitialized(key, value)
 	end;
 end;
 
--- Called when a Clockwork ConVar has changed.
+--[[
+	@codebase Client
+	@details Called when one of the client's console variables have been changed.
+	@param String The name of the convar that was changed.
+	@param String The previous value of the convar.
+	@param String The new value of the convar.
+--]]
 function Clockwork:ClockworkConVarChanged(name, previousValue, newValue)
-	Clockwork.option:SetColor("information", Color(GetConVarNumber("cwTextColorR"), 
-		GetConVarNumber("cwTextColorG"), GetConVarNumber("cwTextColorB"), GetConVarNumber("cwTextColorA")));
+	local checkTable = {
+		"cwTextColorR" = true,
+		"cwTextColorG" = true,
+		"cwTextColorB" = true,
+		"cwTextColorA" = true
+	}
+
+	if (checkTable[name]) then
+		Clockwork.option:SetColor(
+			"information",
+			Color(
+				GetConVarNumber("cwTextColorR"), 
+				GetConVarNumber("cwTextColorG"), 
+				GetConVarNumber("cwTextColorB"), 
+				GetConVarNumber("cwTextColorA")
+			)
+		);
+	end;
 end;
 
--- Called when Clockwork config has changed.
+--[[
+	@codebase Client
+	@details Called when one of the configs have been changed.
+	@param String The config key that was changed.
+	@param String The data provided.
+	@param String The previous value of the key.
+	@param String The new value of the key.
+--]]
 function Clockwork:ClockworkConfigChanged(key, data, previousValue, newValue) end;
 
--- Called when an entity's menu options are needed.
+--[[
+	@codebase Client
+	@details Called when an entity's menu options are needed.
+	@param Entity The entity that is being checked for menu options.
+	@param Table The table of options for the entity.
+--]]
 function Clockwork:GetEntityMenuOptions(entity, options)
 	local class = entity:GetClass();
 	local generator = self.generator:FindByID(class);
@@ -619,7 +731,10 @@ function Clockwork:GetEntityMenuOptions(entity, options)
 	end;
 end;
 
--- Called when the GUI mouse is released.
+--[[
+	@codebase Client
+	@details Called when the GUI mouse has been released.
+--]]
 function Clockwork:GUIMouseReleased(code)
 	if (!self.config:Get("use_opens_entity_menus"):Get()
 	and vgui.CursorVisible()) then
@@ -635,7 +750,12 @@ function Clockwork:GUIMouseReleased(code)
 	end;
 end;
 
--- Called when a key is released.
+--[[
+	@codebase Client
+	@details Called when a key has been released.
+	@param Player The player releasing a key.
+	@param Key The key that is being released.
+--]]
 function Clockwork:KeyRelease(player, key)
 	if (self.config:Get("use_opens_entity_menus"):Get()) then
 		if (key == IN_USE) then
@@ -661,7 +781,10 @@ function Clockwork:KeyRelease(player, key)
 	end;
 end;
 
--- Called when the local player is created.
+--[[
+	@codebase Client
+	@details Called when the local player has been created.
+--]]
 function Clockwork:LocalPlayerCreated()
 	Clockwork.kernel:RegisterNetworkProxy(Clockwork.Client, "Clothes", function(entity, name, oldValue, newValue)
 		if (oldValue != newValue) then
@@ -679,7 +802,10 @@ function Clockwork:LocalPlayerCreated()
 	end);
 end;
 
--- Called when the client initializes.
+--[[
+	@codebase Client
+	@details Called when the client initializes.
+--]]
 function Clockwork:Initialize()
 	CW_CONVAR_TWELVEHOURCLOCK = self.kernel:CreateClientConVar("cwTwelveHourClock", 0, true, true);
 	CW_CONVAR_SHOWTIMESTAMPS = self.kernel:CreateClientConVar("cwShowTimeStamps", 0, true, true);
@@ -769,12 +895,15 @@ end;
 --[[
 	@codebase Client
 	@details Called when an Clockwork item has initialized.
+	@param Table The table of the item being initialized.
 --]]
 function Clockwork:ClockworkItemInitialized(itemTable) end;
 
 --[[
 	@codebase Client
 	@details Called when a player's phys desc override is needed.
+	@param Player The player whose phys desc override is needed.
+	@param String The player's physDesc.
 --]]
 function Clockwork:GetPlayerPhysDescOverride(player, physDesc) end;
 
