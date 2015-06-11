@@ -27,6 +27,8 @@ Clockwork.plugin.stored = {};
 Clockwork.plugin.buffer = {};
 Clockwork.plugin.modules = {};
 Clockwork.plugin.unloaded = {};
+Clockwork.plugin.extras = {};
+Clockwork.plugin.hookCache = {};
 
 PLUGIN_META = {__index = PLUGIN_META};
 PLUGIN_META.description = "An undescribed plugin or schema.";
@@ -66,6 +68,8 @@ end;
 PLUGIN_META.Register = function(PLUGIN_META)
 	Clockwork.plugin:Register(PLUGIN_META);
 end;
+
+debug.getregistry().Plugin = PLUGIN_META;
 
 --[[
 	CloudScript
@@ -410,6 +414,17 @@ function Clockwork.plugin:SortList(pluginList)
 	return sortedTable;
 end;
 
+-- A function to clear the hook cache for all hooks or a specific one.
+function Clockwork.plugin:ClearHookCache(name)
+	if (!name) then
+		self.hookCache = {};
+	elseif (self.hookCache[name]) then
+		self.hookCache[name] = nil;
+	else
+	    ErrorNoHalt("Attempted to clear cache for invalid hook '"..name.."'");
+	end;
+end;
+
 -- A function to run the plugin hooks.
 function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 	if (not self.sortedModules) then
@@ -420,40 +435,39 @@ function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 		self.sortedPlugins = self:SortList(self.stored);
 	end;
 
-	for k, v in ipairs(self.sortedModules) do
-		if (self.modules[v.name] and v[name]) then
-			local bSuccess, value = pcall(v[name], v, ...);
-			
-			if (!bSuccess) then
-				ErrorNoHalt("[CW::Module::"..v.name.."] The '"..name.."' plugin hook has failed to run.\n"..value.."\n");
-			elseif (value != nil) then
-				return value;
+	local cache = self.hookCache[name];
+	
+	if (not cache) then
+		cache = {};
+		for k, v in ipairs(self.sortedModules) do
+			if (self.modules[v.name] and v[name]) then
+				table.insert(cache, {v[name], v});
 			end;
 		end;
-	end;
-	
-	for k, v in ipairs(self.sortedPlugins) do
-		if (self.stored[v.name] and Schema != v and v[name]) then
-			local bSuccess, value = pcall(v[name], v, ...);
-			
-			if (!bSuccess) then
-				ErrorNoHalt("[CW::Plugin::"..v:GetName().."] The '"..name.."' plugin hook has failed to run.\n"..value.."\n");
-			elseif (value != nil) then
-				return value;
+
+		for k, v in ipairs(self.sortedPlugins) do
+			if (self.stored[v.name] and Schema != v and v[name]) then
+				table.insert(cache, {v[name], v});
 			end;
 		end;
+
+		if (Schema and Schema[name]) then
+			table.insert(cache, {Schema[name], Schema});
+		end;
+
+		self.hookCache[name] = cache;
 	end;
-	
-	if (Schema and Schema[name]) then
-		local bSuccess, value = pcall(Schema[name], Schema, ...);
-		
+
+	for k, v in ipairs(cache) do
+		local bSuccess, value = pcall(v[1], v[2], ...);
+			
 		if (!bSuccess) then
-			ErrorNoHalt("[CW::Schema::"..Schema:GetName().."] The '"..name.."' schema hook has failed to run.\n"..value.."\n");
+			ErrorNoHalt("[CW::"..v[2].name.."] The '"..name.."' hook has failed to run.\n"..value.."\n");
 		elseif (value != nil) then
 			return value;
 		end;
 	end;
-	
+
 	if (bGamemode and Clockwork[name]) then
 		local bSuccess, value = pcall(Clockwork[name], Clockwork, ...);
 		
@@ -569,6 +583,136 @@ function Clockwork.plugin:IncludeWeapons(directory)
 	end;
 end;
 
+--[[
+	@codebase Shared
+	@details A function to create a base for tools to be added to the tool gun.
+--]]
+function Clockwork.plugin:CreateToolObj()
+	ToolObj = {};
+
+	function ToolObj:Create()
+		local o = {}
+		
+		setmetatable( o, self )
+		self.__index = self
+		
+		o.Mode				= nil
+		o.SWEP				= nil
+		o.Owner				= nil
+		o.ClientConVar		= {}
+		o.ServerConVar		= {}
+		o.Objects			= {}
+		o.Stage				= 0
+		o.Message			= "start"
+		o.LastMessage		= 0
+		o.AllowedCVar		= 0
+		
+		return o		
+	end
+
+	function ToolObj:CreateConVars()
+		local mode = self:GetMode()
+
+		if ( CLIENT ) then	
+			for cvar, default in pairs( self.ClientConVar ) do		
+				CreateClientConVar( mode.."_"..cvar, default, true, true )				
+			end
+			
+			return 
+		end		
+		
+		if ( SERVER ) then
+			self.AllowedCVar = CreateConVar( "toolmode_allow_"..mode, 1, FCVAR_NOTIFY )		
+		end		
+	end
+
+	function ToolObj:GetServerInfo( property )
+		local mode = self:GetMode()
+		
+		return GetConVarString( mode.."_"..property )		
+	end
+
+	function ToolObj:BuildConVarList()
+		local mode = self:GetMode()
+		local convars = {}
+
+		for k, v in pairs( self.ClientConVar ) do convars[ mode .. "_" .. k ] = v end
+
+		return convars		
+	end
+
+	function ToolObj:GetClientInfo( property )
+		local mode = self:GetMode()
+		return self:GetOwner():GetInfo( mode.."_"..property )	
+	end
+
+	function ToolObj:GetClientNumber( property, default )
+		default = default or 0
+		local mode = self:GetMode()
+		return self:GetOwner():GetInfoNum( mode.."_"..property, default )
+	end
+
+	function ToolObj:Allowed()
+		if ( CLIENT ) then return true end
+		return self.AllowedCVar:GetBool()	
+	end
+
+	function ToolObj:Init()	end
+
+	function ToolObj:GetMode() 			return self.Mode end
+	function ToolObj:GetSWEP() 			return self.SWEP end
+	function ToolObj:GetOwner() 			return self:GetSWEP().Owner or self.Owner end
+	function ToolObj:GetWeapon() 			return self:GetSWEP().Weapon or self.Weapon end
+
+	function ToolObj:LeftClick()			return false end
+	function ToolObj:RightClick()			return false end
+	function ToolObj:Reload()			self:ClearObjects() end
+	function ToolObj:Deploy()			self:ReleaseGhostEntity() return end
+	function ToolObj:Holster()			self:ReleaseGhostEntity() return end
+	function ToolObj:Think()			self:ReleaseGhostEntity() end
+
+	function ToolObj:CheckObjects()
+		for k, v in pairs( self.Objects ) do			
+			if ( !v.Ent:IsWorld() && !v.Ent:IsValid() ) then
+				self:ClearObjects();
+			end;				
+		end;
+	end;
+end;
+
+--[[
+	@codebase Shared
+	@details A function to include a plugin's tools for the toolgun.
+	@param String The directory that the function is going to check.
+--]]
+function Clockwork.plugin:IncludeTools(directory)
+	if (!self.toolTable) then
+		self.toolTable = {};
+	end;
+
+	self:CreateToolObj();
+
+	local files = cwFile.Find(directory.."/stools/*", "LUA");
+
+	for k, v in pairs(files) do
+		if (v != ".." and v != ".") then
+			local char1,char2,toolmode = string.find(v, "([%w_]*).lua")
+
+			TOOL = ToolObj:Create();
+			TOOL.Mode = toolmode;
+
+			AddCSLuaFile(directory.."/stools/"..v)
+			include(directory.."/stools/"..v)
+
+			TOOL:CreateConVars()
+
+			self.toolTable[toolmode] = TOOL;
+
+			TOOL = nil;
+		end;
+	end;
+end;
+
 -- A function to include a plugin's plugins.
 function Clockwork.plugin:IncludePlugins(directory)
 	local files, pluginFolders = cwFile.Find(directory.."/plugins/*", "LUA", "namedesc");
@@ -582,52 +726,36 @@ function Clockwork.plugin:IncludePlugins(directory)
 	end;
 end;
 
+-- A function to add an extra folder to include for plugins.
+function Clockwork.plugin:AddExtra(folderName)
+	if (!table.HasValue(self.extras, folderName)) then
+		self.extras[#self.extras + 1] = folderName;
+	end;
+end;
+
 -- A function to include a plugin's extras.
 function Clockwork.plugin:IncludeExtras(directory)
 	self:IncludeEffects(directory);
 	self:IncludeWeapons(directory);
 	self:IncludeEntities(directory);
-	
-	for k, v in pairs(cwFile.Find(directory.."/libraries/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/libraries/"..v);
-	end;
+	self:IncludeTools(directory);
 
-	for k, v in pairs(cwFile.Find(directory.."/directory/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/directory/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/system/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/system/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/factions/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/factions/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/classes/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/classes/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/attributes/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/attributes/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/items/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/items/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/derma/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/derma/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/commands/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/commands/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/language/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/language/"..v);
+	for k, v in ipairs(self.extras) do
+		Clockwork.kernel:IncludeDirectory(directory..v);
 	end;
 end;
+
+Clockwork.plugin:AddExtra("/libraries/");
+Clockwork.plugin:AddExtra("/directory/");
+Clockwork.plugin:AddExtra("/system/");
+Clockwork.plugin:AddExtra("/factions/");
+Clockwork.plugin:AddExtra("/classes/");
+Clockwork.plugin:AddExtra("/attributes/");
+Clockwork.plugin:AddExtra("/items/");
+Clockwork.plugin:AddExtra("/derma/");
+Clockwork.plugin:AddExtra("/commands/");
+Clockwork.plugin:AddExtra("/language/");
+Clockwork.plugin:AddExtra("/config/");
 
 --[[ This table will hold the plugin info, if it doesn't already exist. --]]
 if (!CW_SCRIPT_SHARED.plugins) then

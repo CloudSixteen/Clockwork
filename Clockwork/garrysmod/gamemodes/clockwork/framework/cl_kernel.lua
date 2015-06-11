@@ -861,6 +861,7 @@ function Clockwork:Initialize()
 	self.theme:Initialize();
 	
 	self.plugin:CheckMismatches();
+	self.plugin:ClearHookCache();
 end;
 
 --[[
@@ -890,6 +891,32 @@ function Clockwork:ClockworkInitialized()
 		[GRADIENT_DOWN] = self.DefaultGradient;
 		[GRADIENT_UP] = self.GradientUp;
 	};
+end;
+
+--[[
+	@codebase Client
+	@details Called when the tool menu needs to be populated.
+--]]
+function Clockwork:PopulateToolMenu()
+	local toolGun = weapons.GetStored("gmod_tool");
+
+	for k, v in pairs(self.plugin.toolTable) do
+		toolGun.Tool[v.Mode] = v;
+
+		if ( v.AddToMenu != false ) then		
+			spawnmenu.AddToolMenuOption( v.Tab or "Main",
+				v.Category or "New Category", 
+				k, 
+				v.Name or "#"..k, 
+				v.Command or "gmod_tool "..k, 
+				v.ConfigName or k,
+				v.BuildCPanel 
+			);			
+		end;
+	end;
+
+	self.plugin.toolTable = nil;
+	ToolObj = nil;
 end;
 
 --[[
@@ -1236,8 +1263,7 @@ function Clockwork:CalcViewModelView(weapon, viewModel, oldEyePos, oldEyeAngles,
 	eyeAngles:RotateAroundAxis(eyeAngles:Right(), viewInfo.angles.r * fraction);
 
 	client.cwRaisedFraction = Lerp(FrameTime() * 2, client.cwRaisedFraction or 100, targetValue)
-	
-	viewModel:SetAngles(eyeAngles)
+	--viewModel:SetAngles(eyeAngles)
 
 	return oldEyePos, eyeAngles;
 end;
@@ -1332,17 +1358,20 @@ function Clockwork:MenuItemsAdd(menuItems)
 	local scoreboardName = self.option:GetKey("name_scoreboard");
 	local directoryName = self.option:GetKey("name_directory");
 	local inventoryName = self.option:GetKey("name_inventory");
-	local businessName = self.option:GetKey("name_business");
 	
 	menuItems:Add("Classes", "cwClasses", "Choose from a list of available classes.");
 	menuItems:Add("Settings", "cwSettings", "Configure the way Clockwork works for you.");
 	menuItems:Add("Donations", "cwDonations", "Check your donation subscriptions.");
 	menuItems:Add(systemName, "cwSystem", self.option:GetKey("description_system"));
 	menuItems:Add(scoreboardName, "cwScoreboard", self.option:GetKey("name_scoreboard"));
-	menuItems:Add(businessName, "cwBusiness", self.option:GetKey("description_business"));
 	menuItems:Add(inventoryName, "cwInventory", self.option:GetKey("description_inventory"));
 	menuItems:Add(directoryName, "cwDirectory", self.option:GetKey("description_directory"));
 	menuItems:Add(attributesName, "cwAttributes", self.option:GetKey("description_attributes"));
+	
+	if (self.config:Get("show_business"):GetBoolean() == true) then
+		local businessName = self.option:GetKey("name_business");
+		menuItems:Add(businessName, "cwBusiness", self.option:GetKey("description_business"));
+	end;
 end;
 
 -- Called when the menu's items should be destroyed.
@@ -1521,10 +1550,14 @@ function Clockwork:Tick()
 end;
 
 -- Called when an entity is created.
-function Clockwork:OnEntityCreated(entity)
+--[[function Clockwork:OnEntityCreated(entity)
 	if (entity == LocalPlayer() and IsValid(entity)) then
 		self.Client = entity;
 	end;
+end;]]
+
+function Clockwork:InitPostEntity()
+	self.Client = LocalPlayer();
 end;
 
 -- Called each frame.
@@ -2082,31 +2115,31 @@ function Clockwork:GetModelSelectSequence(entity, model) end;
 --]]
 function Clockwork:GetAdminESPInfo(info)
 	for k, v in pairs(cwPlayer.GetAll()) do
-		if (v:HasInitialized()) then
-			if (self.Client != v) then
-				local physBone = v:LookupBone("ValveBiped.Bip01_Head1");
-				local position = nil;	
-				local topText = {v:Name()}
+		if (v:HasInitialized()) then			
+			local physBone = v:LookupBone("ValveBiped.Bip01_Head1");
+			local position = nil;	
+			local topText = {v:Name()}
 					
-				if (physBone) then
-					local bonePosition = v:GetBonePosition(physBone);
+			if (physBone) then
+				local bonePosition = v:GetBonePosition(physBone);
 						
-					if (bonePosition) then
-						position = bonePosition + Vector(0, 0, 16);
-					end;
-				else
-					position = v:GetPos() + Vector(0, 0, 80);
+				if (bonePosition) then
+					position = bonePosition + Vector(0, 0, 16);
 				end;
+			else
+				position = v:GetPos() + Vector(0, 0, 80);
+			end;
 					
-				Clockwork.plugin:Call("GetStatusInfo", v, topText)			
+			Clockwork.plugin:Call("GetStatusInfo", v, topText)			
 					
-				info[#info + 1] = {
-					position = position,
-					text = {
-						{table.concat(topText, " "), cwTeam.GetColor(v:Team())}				
-					}
-				};
-					
+			info[#info + 1] = {
+				position = position,
+				text = {
+					{table.concat(topText, " "), cwTeam.GetColor(v:Team())}				
+				}
+			};
+			
+			if (self.Client != v) then	
 				Clockwork.plugin:Call("GetPlayerESPInfo", v, info[#info]["text"]);	
 			end;
 		end;
@@ -2974,7 +3007,7 @@ function Clockwork:HUDDrawScoreBoard()
 		drawPendingScreenBlack = nil;
 	end;
 	
-	if (self.kernel:GetSharedVar("NoMySQL")) then
+	if (self.kernel:GetSharedVar("NoMySQL") and self.kernel:GetSharedVar("NoMySQL") != "") then
 		self.kernel:DrawSimpleGradientBox(0, 0, 0, scrW, scrH, Color(0, 0, 0, 255));
 		draw.SimpleText(self.kernel:GetSharedVar("NoMySQL"), introTextSmallFont, scrW / 2, scrH / 2, Color(179, 46, 49, 255), 1, 1);
 	elseif (self.DataStreamedAlpha and self.DataStreamedAlpha > 0) then
@@ -3251,6 +3284,10 @@ end;
 -- Overriding Garry's "grab ear" animation.
 function Clockwork:GrabEarAnimation(player) end;
 
+concommand.Add("cwSay", function(player, command, arguments)
+	return Clockwork.datastream:Start("PlayerSay", table.concat(arguments, " "));
+end);
+
 concommand.Add("cwLua", function(player, command, arguments)
 	if (player:IsSuperAdmin()) then
 		RunString(table.concat(arguments, " "));
@@ -3358,8 +3395,8 @@ function playerMeta:SetSharedVar(key, value)
 end;
 
 -- A function to get a player's shared variable.
-function playerMeta:GetSharedVar(key)
-	return Clockwork.player:GetSharedVar(self, key);
+function playerMeta:GetSharedVar(key, sharedTable)
+	return Clockwork.player:GetSharedVar(self, key, sharedTable);
 end;
 
 -- A function to get whether a player has initialized.

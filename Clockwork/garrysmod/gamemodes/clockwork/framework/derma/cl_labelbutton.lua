@@ -49,13 +49,13 @@ function PANEL:OnCursorEntered()
 		self:SetHovered(true);
 	end;
 	
-	DLabel.ApplySchemeSettings(self);
+	self:InvalidateLayout();
 end;
 
 -- Called when the cursor has exited the panel.
 function PANEL:OnCursorExited()
 	self:SetHovered(false);
-	DLabel.ApplySchemeSettings(self);
+	self:InvalidateLayout();
 end;
 
 -- Called when the mouse is pressed.

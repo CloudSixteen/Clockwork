@@ -7,11 +7,11 @@
 --]]
 
 -- Called when Clockwork has loaded all of the entities.
-function cwStaticProps:ClockworkInitPostEntity()
-	self:LoadStaticProps();
+function cwStaticEnts:ClockworkInitPostEntity()
+	self:LoadStaticEnts();
 end;
 
 -- Called just after data should be saved.
-function cwStaticProps:PostSaveData()
-	self:SaveStaticProps();
+function cwStaticEnts:PostSaveData()
+	self:SaveStaticEnts();
 end;

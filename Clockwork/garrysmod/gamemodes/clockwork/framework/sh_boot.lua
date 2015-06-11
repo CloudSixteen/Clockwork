@@ -22,7 +22,8 @@ local game = game;
 Clockwork = Clockwork or GM;
 Clockwork.ClockworkFolder = Clockwork.ClockworkFolder or GM.Folder;
 Clockwork.SchemaFolder = Clockwork.SchemaFolder or GM.Folder;
-Clockwork.KernelVersion = "0.92";
+Clockwork.KernelVersion = "0.93";
+Clockwork.DeveloperVersion = true;
 Clockwork.Website = "http://kurozael.com";
 Clockwork.Author = "kurozael";
 Clockwork.Email = "kurozael@gmail.com";
@@ -131,6 +132,7 @@ function Clockwork:ClockworkAddSharedVars(globalVars, playerVars)
 	end;
 	
 	playerVars:Number("InvWeight", true);
+	playerVars:Number("InvSpace", true);
 	playerVars:Number("MaxHP", true);
 	playerVars:Number("MaxAP", true);
 	playerVars:Number("IsDrunk", true);
