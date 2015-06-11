@@ -5,6 +5,14 @@ The following changes have been made for each official Clockwork build.
 0.93
 -------
 
+* Added Entity Library documentation.
+    * *Contributed by RJ.*
+* Fixed copyright logos.
+    * *Contributed by Night Angel.*
+* Added Developer Version option to disable auto updating via CAX.
+* Added documentation to cl_kernel.lua
+    * *Contributed by Night Angel.*
+
 0.92
 -------
 
