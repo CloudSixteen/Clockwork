@@ -646,10 +646,10 @@ end;
 --]]
 function Clockwork:ClockworkConVarChanged(name, previousValue, newValue)
 	local checkTable = {
-		"cwTextColorR" = true,
-		"cwTextColorG" = true,
-		"cwTextColorB" = true,
-		"cwTextColorA" = true
+		["cwTextColorR"] = true,
+		["cwTextColorG"] = true,
+		["cwTextColorB"] = true,
+		["cwTextColorA"] = true
 	}
 
 	if (checkTable[name]) then
