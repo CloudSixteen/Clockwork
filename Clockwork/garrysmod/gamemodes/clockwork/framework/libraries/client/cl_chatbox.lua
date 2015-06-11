@@ -458,7 +458,10 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 				};
 				
 				Clockwork.plugin:Call("ChatBoxAdjustInfo", info);
-				Clockwork.chatBox:SetMultiplier(info.multiplier);
+				
+				if (Clockwork.config:Get("chat_multiplier"):Get()) then
+					Clockwork.chatBox:SetMultiplier(info.multiplier);
+				end;
 				
 				if (info.visible) then
 					if (info.filter == "ic") then

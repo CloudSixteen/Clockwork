@@ -3918,19 +3918,19 @@ function Clockwork.kernel:ConvertNetworkedClass(class)
 	return NETWORKED_CLASS_TABLE[class];
 end;
 
+local DEFAULT_NETWORK_CLASS_VALUE = {
+	["String"] = "",
+	["Entity"] = NULL,
+	["Vector"] = Vector(0, 0, 0),
+	["Int"] = 0,
+	["Angle"] = Angle(0, 0, 0),
+	["Float"] = 0.0,
+	["Bool"] = false
+};
+
 -- A function to get the default class value.
 function Clockwork.kernel:GetDefaultClassValue(class)
-	local convertTable = {
-		["String"] = "",
-		["Entity"] = NULL,
-		["Vector"] = Vector(0, 0, 0),
-		["Int"] = 0,
-		["Angle"] = Angle(0, 0, 0),
-		["Float"] = 0.0,
-		["Bool"] = false
-	};
-	
-	return convertTable[class];
+	return DEFAULT_NETWORK_CLASS_VALUE[class];
 end;
 
 -- A function to set a shared variable.
@@ -3939,19 +3939,18 @@ function Clockwork.kernel:SetSharedVar(key, value, sharedTable)
 		local sharedVars = self:GetSharedVars():Global();
 	
 		if (sharedVars and sharedVars[key]) then
-			local class = self:ConvertNetworkedClass(sharedVars.class);
-		
+			local class = self:ConvertNetworkedClass(sharedVars[key].class);
 			if (class) then
 				if (value == nil) then
-					value = Clockwork:GetDefaultClassValue(class);
+					value = self:GetDefaultClassValue(class);
 				end;
-			
-				_G["SetGlobal"..class](key, value);
+				local success, err = pcall(_G["SetGlobal"..class], key, value);
+				if (!success) then
+					ErrorNoHalt("[Clockwork:GlobalSharedVars] Attempted to set SharedVar '"..key.."'' of type '"..class.."'' with value of type '"..type(value).."'.\n"..err.."\n");
+				end;
 				return;
 			end;
 		end;
-	
-		SetGlobalVar(key, value);
 	else
 		Clockwork.SharedTables[sharedTable] = Clockwork.SharedTables[sharedTable] or {};
 		Clockwork.SharedTables[sharedTable][key] = value;
@@ -3971,16 +3970,13 @@ end;
 function Clockwork.kernel:GetSharedVar(key, sharedTable)
 	if (!sharedTable) then
 		local sharedVars = self:GetSharedVars():Global();
-	
 		if (sharedVars and sharedVars[key]) then
-			local class = self:ConvertNetworkedClass(sharedVars.class);
+			local class = self:ConvertNetworkedClass(sharedVars[key].class);
 		
 			if (class) then
 				return _G["GetGlobal"..class](key);
 			end;
 		end;
-	
-		return GetGlobalVar(key);
 	else
 		sharedTable = Clockwork.SharedTables[sharedTable];
 		

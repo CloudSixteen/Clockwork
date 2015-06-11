@@ -611,47 +611,44 @@ function Clockwork.player:SetSharedVar(player, key, value)
 	if (IsValid(player)) then
 		local sharedVars = Clockwork.kernel:GetSharedVars():Player();
 		
-		if (!sharedVars or not sharedVars[key]) then
-			player:SetNetworkedVar(key);
+		if (!sharedVars) then
+			return;
+		elseif (not sharedVars[key]) then
 			return;
 		end;
 		
 		local sharedVarData = sharedVars[key];
 		
-		if (sharedVarData) then
-			if (sharedVarData.bPlayerOnly) then
-				if (value == nil) then
-					sharedVarData.value = Clockwork.kernel:GetDefaultNetworkedValue(sharedVarData.class);
-				else
-					sharedVarData.value = value;
-				end;
+		if (sharedVarData.bPlayerOnly) then
+			if (value == nil) then
+				sharedVarData.value = Clockwork.kernel:GetDefaultNetworkedValue(sharedVarData.class);
 			else
-				local class = Clockwork.kernel:ConvertNetworkedClass(sharedVarData.class);
-				
-				if (class) then
-					player["SetNetworked"..class](player, key, value);
-				else
-					player:SetNetworkedVar(key, value);
-				end;
+				sharedVarData.value = value;
 			end;
 		else
-			player:SetNetworkedVar(key, value);
+			local class = Clockwork.kernel:ConvertNetworkedClass(sharedVarData.class);
+			
+			if (class) then
+				player["SetNetworked"..class](player, key, value);
+			end;
 		end;
 	end;
 end;
 
 -- A function to get a player's shared variable.
-function Clockwork.player:GetSharedVar(player, key)
+function Clockwork.player:GetSharedVar(player, key, sharedTable)
 	if (IsValid(player)) then
-		local sharedVars = Clockwork.kernel:GetSharedVars():Player();
-		
-		if (!sharedVars or not sharedVars[key]) then
-			return player:GetNetworkedVar(key);
-		end;
-		
-		local sharedVarData = sharedVars[key];
-		
-		if (sharedVarData) then
+		if (!sharedTable) then
+			local sharedVars = Clockwork.kernel:GetSharedVars():Player();
+			
+			if (!sharedVars) then
+				return;
+			elseif (not sharedVars[key]) then
+				return;
+			end;
+			
+			local sharedVarData = sharedVars[key];
+			
 			if (sharedVarData.bPlayerOnly) then
 				if (!sharedVarData.value) then
 					return Clockwork.kernel:GetDefaultNetworkedValue(sharedVarData.class);
@@ -663,12 +660,14 @@ function Clockwork.player:GetSharedVar(player, key)
 				
 				if (class) then
 					return player["GetNetworked"..class](player, key);
-				else
-					return player:GetNetworkedVar(key);
 				end;
 			end;
 		else
-			return player:GetNetworkedVar(key);
+			sharedTable = Clockwork.SharedTables[sharedTable];
+		
+			if (sharedTable) then
+				return sharedTable[key];
+			end;
 		end;
 	end;
 end;

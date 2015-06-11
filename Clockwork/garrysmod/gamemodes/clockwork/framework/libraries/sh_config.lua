@@ -590,13 +590,16 @@ else
 	end;
 	
 	-- A function to add a config key entry to the system.
-	function Clockwork.config:AddToSystem(name, key, help, minimum, maximum, decimals)
+	function Clockwork.config:AddToSystem(name, key, help, minimum, maximum, decimals, category)
+		category = PLUGIN and PLUGIN:GetName();
+
 		self.system[key] = {
 			name = name or key,
 			decimals = decimals or 0,
 			maximum = maximum or 100,
 			minimum = minimum or 0,
-			help = help or "No help was provided for this config key!"
+			help = help or "No information was provided for this entry.",
+			category = category or "Clockwork"
 		};
 	end;
 	

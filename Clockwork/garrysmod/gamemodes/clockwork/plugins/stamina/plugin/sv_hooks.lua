@@ -78,9 +78,9 @@ function cwStamina:PlayerThink(player, curTime, infoTable)
 			end;
 		elseif (playerVelocityLength == 0) then
 			if (player:Crouching()) then
-				regeneration = regenScale * 2;
+				regeneration = (regenScale + attribute) * 2;
 			else
-				regeneration = regenScale;
+				regeneration = (regenScale + attribute);
 			end;
 		else
 			regeneration = regenScale / 3;

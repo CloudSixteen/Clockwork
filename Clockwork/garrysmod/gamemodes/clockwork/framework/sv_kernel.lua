@@ -132,6 +132,7 @@ end;
 --]]
 hook.ClockworkCall = hook.ClockworkCall or hook.Call;
 hook.Timings = {};
+hook.Averages = {};
 
 function hook.Call(name, gamemode, ...)
 	local arguments = {...};
@@ -151,6 +152,10 @@ function hook.Call(name, gamemode, ...)
 	local timeTook = SysTime() - startTime;
 	
 	hook.Timings[name] = timeTook;
+	--[[hook.Averages[name] = hook.Averages[name] or {0, 0};
+	local avg = hook.Averages[name][1];
+	local n = hook.Averages[name][2];
+	hook.Averages[name] = {((avg * n) + timeTook) / (n + 1), n + 1};]]
 	
 	if (!bStatus) then
 		if (!Clockwork.Unauthorized) then
@@ -260,6 +265,7 @@ function Clockwork:Initialize()
 	
 	self.plugin:Call("ClockworkInitialized");
 	self.plugin:CheckMismatches();
+	self.plugin:ClearHookCache();
 end;
 
 -- Called at an interval while a player is connected.
@@ -463,6 +469,14 @@ function Clockwork:ClockworkInitialized()
 		Clockwork.kernel:AddFile("materials/"..introImage..".png");
 	end;
 
+	local toolGun = weapons.GetStored("gmod_tool");
+
+	for k, v in pairs(self.plugin.toolTable) do
+		toolGun.Tool[v.Mode] = v;
+	end;
+
+	self.plugin.toolTable = nil;
+	ToolObj = nil;
 end;
 
 -- Called when the Clockwork database has connected.
@@ -1191,7 +1205,11 @@ function Clockwork:InitPostEntity()
 		end;
 	end;
 	
-	self.kernel:SetSharedVar("NoMySQL", Clockwork.NoMySQL);
+	if (!Clockwork.NoMySQL) then
+		self.kernel:SetSharedVar("NoMySQL");
+	else
+		self.kernel:SetSharedVar("NoMySQL", Clockwork.NoMySQL);
+	end;
 	self.plugin:Call("ClockworkInitPostEntity");
 end;
 
@@ -2940,6 +2958,10 @@ function Clockwork:PlayerCharacterLoaded(player)
 			v:OnRestorePlayerGear(player);
 		end;
 	end;
+	
+	if (player:GetPlayerFlags()) then
+		Clockwork.player:SetFlags(player, player:GetPlayerFlags())
+	end;
 end;
 
 -- Called when a player's property should be restored.
@@ -3660,7 +3682,7 @@ end);
 -- LocalPlayerCreated datastream callback.
 Clockwork.datastream:Hook("LocalPlayerCreated", function(player, data)
 	if (IsValid(player) and !player:HasConfigInitialized()) then
-		Clockwork.kernel:CreateTimer("SendCfg"..player:UniqueID(), FrameTime(), 1, function()
+		Clockwork.kernel:CreateTimer("SendCfg"..player:UniqueID(), FrameTime() * 64, 1, function()
 			if (IsValid(player)) then
 				Clockwork.config:Send(player);
 			end;
@@ -4427,8 +4449,11 @@ function playerMeta:GetCash()
 	end;
 end;
 
--- A function to get a player's flags.
+-- A function to get a character's flags.
 function playerMeta:GetFlags() return self:QueryCharacter("Flags"); end;
+
+-- A function to get a player's flags.
+function playerMeta:GetPlayerFlags() return self:GetData("Flags"); end;
 
 -- A function to get a player's faction.
 function playerMeta:GetFaction() return self:QueryCharacter("Faction"); end;
@@ -5008,8 +5033,8 @@ function playerMeta:GetSharedVar(key)
 end;
 
 -- A function to set a shared variable for a player.
-function playerMeta:SetSharedVar(key, value)
-	Clockwork.player:SetSharedVar(self, key, value);
+function playerMeta:SetSharedVar(key, value, sharedTable)
+	Clockwork.player:SetSharedVar(self, key, value, sharedTable);
 end;
 
 -- A function to get a player's character data.
