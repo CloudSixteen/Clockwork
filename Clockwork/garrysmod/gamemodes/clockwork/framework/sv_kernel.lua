@@ -469,6 +469,14 @@ function Clockwork:ClockworkInitialized()
 		Clockwork.kernel:AddFile("materials/"..introImage..".png");
 	end;
 
+	local toolGun = weapons.GetStored("gmod_tool");
+
+	for k, v in pairs(self.plugin.toolTable) do
+		toolGun.Tool[v.Mode] = v;
+	end;
+
+	self.plugin.toolTable = nil;
+	ToolObj = nil;
 end;
 
 -- Called when the Clockwork database has connected.

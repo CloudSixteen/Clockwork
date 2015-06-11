@@ -769,6 +769,32 @@ end;
 
 --[[
 	@codebase Client
+	@details Called when the tool menu needs to be populated.
+--]]
+function Clockwork:PopulateToolMenu()
+	local toolGun = weapons.GetStored("gmod_tool");
+
+	for k, v in pairs(self.plugin.toolTable) do
+		toolGun.Tool[v.Mode] = v;
+
+		if ( v.AddToMenu != false ) then		
+			spawnmenu.AddToolMenuOption( v.Tab or "Main",
+				v.Category or "New Category", 
+				k, 
+				v.Name or "#"..k, 
+				v.Command or "gmod_tool "..k, 
+				v.ConfigName or k,
+				v.BuildCPanel 
+			);			
+		end;
+	end;
+
+	self.plugin.toolTable = nil;
+	ToolObj = nil;
+end;
+
+--[[
+	@codebase Client
 	@details Called when an Clockwork item has initialized.
 --]]
 function Clockwork:ClockworkItemInitialized(itemTable) end;

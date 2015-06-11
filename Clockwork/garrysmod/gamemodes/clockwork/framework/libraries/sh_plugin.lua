@@ -616,6 +616,136 @@ function Clockwork.plugin:IncludeWeapons(directory)
 	end;
 end;
 
+--[[
+	@codebase Shared
+	@details A function to create a base for tools to be added to the tool gun.
+--]]
+function Clockwork.plugin:CreateToolObj()
+	ToolObj = {};
+
+	function ToolObj:Create()
+		local o = {}
+		
+		setmetatable( o, self )
+		self.__index = self
+		
+		o.Mode				= nil
+		o.SWEP				= nil
+		o.Owner				= nil
+		o.ClientConVar		= {}
+		o.ServerConVar		= {}
+		o.Objects			= {}
+		o.Stage				= 0
+		o.Message			= "start"
+		o.LastMessage		= 0
+		o.AllowedCVar		= 0
+		
+		return o		
+	end
+
+	function ToolObj:CreateConVars()
+		local mode = self:GetMode()
+
+		if ( CLIENT ) then	
+			for cvar, default in pairs( self.ClientConVar ) do		
+				CreateClientConVar( mode.."_"..cvar, default, true, true )				
+			end
+			
+			return 
+		end		
+		
+		if ( SERVER ) then
+			self.AllowedCVar = CreateConVar( "toolmode_allow_"..mode, 1, FCVAR_NOTIFY )		
+		end		
+	end
+
+	function ToolObj:GetServerInfo( property )
+		local mode = self:GetMode()
+		
+		return GetConVarString( mode.."_"..property )		
+	end
+
+	function ToolObj:BuildConVarList()
+		local mode = self:GetMode()
+		local convars = {}
+
+		for k, v in pairs( self.ClientConVar ) do convars[ mode .. "_" .. k ] = v end
+
+		return convars		
+	end
+
+	function ToolObj:GetClientInfo( property )
+		local mode = self:GetMode()
+		return self:GetOwner():GetInfo( mode.."_"..property )	
+	end
+
+	function ToolObj:GetClientNumber( property, default )
+		default = default or 0
+		local mode = self:GetMode()
+		return self:GetOwner():GetInfoNum( mode.."_"..property, default )
+	end
+
+	function ToolObj:Allowed()
+		if ( CLIENT ) then return true end
+		return self.AllowedCVar:GetBool()	
+	end
+
+	function ToolObj:Init()	end
+
+	function ToolObj:GetMode() 			return self.Mode end
+	function ToolObj:GetSWEP() 			return self.SWEP end
+	function ToolObj:GetOwner() 			return self:GetSWEP().Owner or self.Owner end
+	function ToolObj:GetWeapon() 			return self:GetSWEP().Weapon or self.Weapon end
+
+	function ToolObj:LeftClick()			return false end
+	function ToolObj:RightClick()			return false end
+	function ToolObj:Reload()			self:ClearObjects() end
+	function ToolObj:Deploy()			self:ReleaseGhostEntity() return end
+	function ToolObj:Holster()			self:ReleaseGhostEntity() return end
+	function ToolObj:Think()			self:ReleaseGhostEntity() end
+
+	function ToolObj:CheckObjects()
+		for k, v in pairs( self.Objects ) do			
+			if ( !v.Ent:IsWorld() && !v.Ent:IsValid() ) then
+				self:ClearObjects();
+			end;				
+		end;
+	end;
+end;
+
+--[[
+	@codebase Shared
+	@details A function to include a plugin's tools for the toolgun.
+	@param String The directory that the function is going to check.
+--]]
+function Clockwork.plugin:IncludeTools(directory)
+	if (!self.toolTable) then
+		self.toolTable = {};
+	end;
+
+	self:CreateToolObj();
+
+	local files = cwFile.Find(directory.."/stools/*", "LUA");
+
+	for k, v in pairs(files) do
+		if (v != ".." and v != ".") then
+			local char1,char2,toolmode = string.find(v, "([%w_]*).lua")
+
+			TOOL = ToolObj:Create();
+			TOOL.Mode = toolmode;
+
+			AddCSLuaFile(directory.."/stools/"..v)
+			include(directory.."/stools/"..v)
+
+			TOOL:CreateConVars()
+
+			self.toolTable[toolmode] = TOOL;
+
+			TOOL = nil;
+		end;
+	end;
+end;
+
 -- A function to include a plugin's plugins.
 function Clockwork.plugin:IncludePlugins(directory)
 	local files, pluginFolders = cwFile.Find(directory.."/plugins/*", "LUA", "namedesc");
@@ -641,6 +771,7 @@ function Clockwork.plugin:IncludeExtras(directory)
 	self:IncludeEffects(directory);
 	self:IncludeWeapons(directory);
 	self:IncludeEntities(directory);
+	self:IncludeTools(directory);
 
 	for k, v in ipairs(self.extras) do
 		Clockwork.kernel:IncludeDirectory(directory..v);
