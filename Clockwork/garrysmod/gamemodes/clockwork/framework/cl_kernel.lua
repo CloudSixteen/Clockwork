@@ -916,7 +916,6 @@ function Clockwork:PopulateToolMenu()
 	end;
 
 	self.plugin.toolTable = nil;
-	ToolObj = nil;
 end;
 
 --[[
