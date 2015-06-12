@@ -50,9 +50,8 @@ function Clockwork.player:GetMaxWeight()
 	local itemsList = Clockwork.inventory:GetAsItemsList(
 		Clockwork.inventory:GetClient()
 	);
-	local weight = Clockwork.Client:GetSharedVar(
-		"InvWeight", Clockwork.config:Get("default_inv_weight"):Get()
-	);
+	
+	local weight = Clockwork.Client:GetSharedVar("InvWeight") or Clockwork.config:Get("default_inv_weight"):Get();
 	
 	for k, v in pairs(itemsList) do
 		local addInvWeight = v("addInvSpace");
