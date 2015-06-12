@@ -471,12 +471,9 @@ function Clockwork:ClockworkInitialized()
 
 	local toolGun = weapons.GetStored("gmod_tool");
 
-	for k, v in pairs(self.plugin.toolTable) do
+	for k, v in pairs(self.tool:GetAll()) do
 		toolGun.Tool[v.Mode] = v;
 	end;
-
-	self.plugin.toolTable = nil;
-	ToolObj = nil;
 end;
 
 -- Called when the Clockwork database has connected.

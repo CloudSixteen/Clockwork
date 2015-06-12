@@ -900,10 +900,10 @@ end;
 function Clockwork:PopulateToolMenu()
 	local toolGun = weapons.GetStored("gmod_tool");
 
-	for k, v in pairs(self.plugin.toolTable) do
+	for k, v in pairs(self.tool:GetAll()) do
 		toolGun.Tool[v.Mode] = v;
 
-		if ( v.AddToMenu != false ) then		
+		if (v.AddToMenu != false) then		
 			spawnmenu.AddToolMenuOption( v.Tab or "Main",
 				v.Category or "New Category", 
 				k, 
@@ -913,9 +913,11 @@ function Clockwork:PopulateToolMenu()
 				v.BuildCPanel 
 			);			
 		end;
-	end;
 
-	self.plugin.toolTable = nil;
+		language.Add("tool."..v.UniqueID..".name", v.Name);
+		language.Add("tool."..v.UniqueID..".desc", v.Desc);
+		language.Add("tool."..v.UniqueID..".0", v.HelpText);
+	end;
 end;
 
 --[[
