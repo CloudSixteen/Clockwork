@@ -588,7 +588,7 @@ end;
 	@details A function to create a base for tools to be added to the tool gun.
 --]]
 function Clockwork.plugin:CreateToolObj()
-	ToolObj = {};
+	local ToolObj = {};
 
 	function ToolObj:Create()
 		local o = {}
@@ -678,6 +678,249 @@ function Clockwork.plugin:CreateToolObj()
 			end;				
 		end;
 	end;
+
+	function ToolObj:UpdateData()
+		
+		self:SetStage( self:NumObjects() )
+		
+	end
+
+	function ToolObj:SetStage( i )
+		
+		if ( SERVER ) then
+			self:GetWeapon():SetNWInt( "Stage", i, true )
+		end
+		
+	end
+
+	function ToolObj:GetStage()
+		return self:GetWeapon():GetNWInt( "Stage", 0 )
+	end
+
+	function ToolObj:GetOperation()
+		return self:GetWeapon():GetNWInt( "Op", 0 )
+	end
+
+	function ToolObj:SetOperation( i )
+		
+		if ( SERVER ) then
+			self:GetWeapon():SetNWInt( "Op", i, true )
+		end
+		
+	end
+
+	function ToolObj:ClearObjects()
+
+		self:ReleaseGhostEntity()
+		self.Objects = {}
+		self:SetStage( 0 )
+		self:SetOperation( 0 )
+		
+	end
+
+	function ToolObj:GetEnt( i )
+
+		if (!self.Objects[i]) then return NULL end
+		
+		return self.Objects[i].Ent
+	end
+
+	function ToolObj:GetPos( i )
+
+		if (self.Objects[i].Ent:EntIndex() == 0) then
+			return self.Objects[i].Pos
+		else
+			if (self.Objects[i].Phys ~= nil && self.Objects[i].Phys:IsValid()) then
+				return self.Objects[i].Phys:LocalToWorld(self.Objects[i].Pos)
+			else
+				return self.Objects[i].Ent:LocalToWorld(self.Objects[i].Pos)
+			end
+		end
+		
+	end
+
+	function ToolObj:GetLocalPos( i )
+		return self.Objects[i].Pos
+	end
+
+	function ToolObj:GetBone( i )
+		return self.Objects[i].Bone
+	end
+
+	function ToolObj:GetNormal( i )
+		if (self.Objects[i].Ent:EntIndex() == 0) then
+			return self.Objects[i].Normal
+		else
+			local norm
+			if (self.Objects[i].Phys ~= nil && self.Objects[i].Phys:IsValid()) then
+				norm = self.Objects[i].Phys:LocalToWorld(self.Objects[i].Normal)
+			else
+				norm = self.Objects[i].Ent:LocalToWorld(self.Objects[i].Normal)
+			end
+			
+			return norm - self:GetPos(i)
+		end
+	end
+
+	function ToolObj:GetPhys( i )
+
+		if (self.Objects[i].Phys == nil) then
+			return self:GetEnt(i):GetPhysicsObject()
+		end
+
+		return self.Objects[i].Phys
+	end
+
+	function ToolObj:SetObject( i, ent, pos, phys, bone, norm )
+
+		self.Objects[i] = {}
+		self.Objects[i].Ent = ent
+		self.Objects[i].Phys = phys
+		self.Objects[i].Bone = bone
+		self.Objects[i].Normal = norm
+
+		-- Worldspawn is a special case
+		if (ent:EntIndex() == 0) then
+
+			self.Objects[i].Phys = nil
+			self.Objects[i].Pos = pos
+			
+		else
+			
+			norm = norm + pos
+
+			if ( IsValid( phys ) ) then
+				self.Objects[i].Normal = self.Objects[i].Phys:WorldToLocal(norm)
+				self.Objects[i].Pos = self.Objects[i].Phys:WorldToLocal(pos)
+			else
+				self.Objects[i].Normal = self.Objects[i].Ent:WorldToLocal(norm)
+				self.Objects[i].Pos = self.Objects[i].Ent:WorldToLocal(pos)
+			end	
+		end
+	end
+
+	function ToolObj:NumObjects()
+
+		if ( CLIENT ) then
+		
+			return self:GetStage()
+		
+		end
+
+		return #self.Objects
+		
+	end
+
+	function ToolObj:GetHelpText()
+
+		return "#tool." .. GetConVarString( "gmod_toolmode" ) .. "." .. self:GetStage()
+		
+	end
+
+	function ToolObj:MakeGhostEntity( model, pos, angle )
+
+		util.PrecacheModel( model )
+
+		if (SERVER && !game.SinglePlayer()) then return end
+		if (CLIENT && game.SinglePlayer()) then return end
+		
+		self:ReleaseGhostEntity()
+		
+		if (!util.IsValidProp( model )) then return end
+		
+		if ( CLIENT ) then
+			self.GhostEntity = ents.CreateClientProp( model )
+		else
+			self.GhostEntity = ents.Create( "prop_physics" )
+		end
+
+		if (!self.GhostEntity:IsValid()) then
+			self.GhostEntity = nil
+			return
+		end
+		
+		self.GhostEntity:SetModel( model )
+		self.GhostEntity:SetPos( pos )
+		self.GhostEntity:SetAngles( angle )
+		self.GhostEntity:Spawn()
+		
+		self.GhostEntity:SetSolid( SOLID_VPHYSICS );
+		self.GhostEntity:SetMoveType( MOVETYPE_NONE )
+		self.GhostEntity:SetNotSolid( true );
+		self.GhostEntity:SetRenderMode( RENDERMODE_TRANSALPHA )
+		self.GhostEntity:SetColor( Color( 255, 255, 255, 150 ) )
+		
+	end
+
+	function ToolObj:StartGhostEntity( ent )
+		local class = ent:GetClass()
+
+		if (SERVER && !game.SinglePlayer()) then return end
+		if (CLIENT && game.SinglePlayer()) then return end
+		
+		self:MakeGhostEntity( ent:GetModel(), ent:GetPos(), ent:GetAngles() )	
+	end
+
+	function ToolObj:ReleaseGhostEntity()
+		if ( self.GhostEntity ) then
+			if (!self.GhostEntity:IsValid()) then self.GhostEntity = nil return end
+			self.GhostEntity:Remove()
+			self.GhostEntity = nil
+		end
+		
+		if ( self.GhostEntities ) then
+		
+			for k,v in pairs( self.GhostEntities ) do
+				if ( v:IsValid() ) then v:Remove() end
+				self.GhostEntities[k] = nil
+			end
+			
+			self.GhostEntities = nil
+		end
+		
+		if ( self.GhostOffset ) then
+		
+			for k,v in pairs( self.GhostOffset ) do
+				self.GhostOffset[k] = nil
+			end
+			
+		end
+		
+	end
+
+	function ToolObj:UpdateGhostEntity()
+
+		if (self.GhostEntity == nil) then return end
+		if (!self.GhostEntity:IsValid()) then self.GhostEntity = nil return end
+		
+		local tr = util.GetPlayerTrace( self:GetOwner() )
+		local trace = util.TraceLine( tr )
+		if (!trace.Hit) then return end
+		
+		local Ang1, Ang2 = self:GetNormal(1):Angle(), (trace.HitNormal * -1):Angle()
+		local TargetAngle = self:GetEnt(1):AlignAngles( Ang1, Ang2 )
+		
+		self.GhostEntity:SetPos( self:GetEnt(1):GetPos() )
+		self.GhostEntity:SetAngles( TargetAngle )
+		
+		local TranslatedPos = self.GhostEntity:LocalToWorld( self:GetLocalPos(1) )
+		local TargetPos = trace.HitPos + (self:GetEnt(1):GetPos() - TranslatedPos) + (trace.HitNormal)
+		
+		self.GhostEntity:SetPos( TargetPos )
+		
+	end
+
+
+	if (CLIENT) then
+		function ToolObj:FreezeMovement()
+				return false 
+		end
+
+		function ToolObj:DrawHUD()
+		end
+	end;
+
+	return ToolObj;
 end;
 
 --[[
@@ -690,13 +933,13 @@ function Clockwork.plugin:IncludeTools(directory)
 		self.toolTable = {};
 	end;
 
-	self:CreateToolObj();
+	local ToolObj = self:CreateToolObj();
 
 	local files = cwFile.Find(directory.."/stools/*", "LUA");
 
 	for k, v in pairs(files) do
 		if (v != ".." and v != ".") then
-			local char1,char2,toolmode = string.find(v, "([%w_]*).lua")
+			local char1,char2,toolmode = string.find(v, "sh_([%w_]*).lua")
 
 			TOOL = ToolObj:Create();
 			TOOL.Mode = toolmode;
