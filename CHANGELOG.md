@@ -64,6 +64,8 @@ The following changes have been made for each official Clockwork build.
 	* *Contributed by Vortix.*
 * Added easy loading for toolgun tools.
 	* *Contributed by NightAngel.*
+* Added NotifyAdmins function for ease of use when notifying admins.
+	* *Contributed by NightAngel.*
 
 0.92
 -------

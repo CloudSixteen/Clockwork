@@ -2317,6 +2317,31 @@ function Clockwork.player:NotifyAll(text, icon)
 	self:Notify(nil, text, true, icon);
 end;
 
+--[[
+	@codebase Server
+	@details A function to notify admins by rank.
+	@param String The rank and up that will be notified.
+	@param String The text that will be sent to each admin.
+	@param String The name of the icon that will be used in the message, can be nil.
+--]]
+function Clockwork.player:NotifyAdmins(adminLevel, text, icon)
+	for k, v in pairs(player.GetAll()) do
+		if (adminLevel == "operator" or adminLevel == "o") then
+			if (v:IsUserGroup("operator") or v:IsAdmin()) then
+				self:Notify(v, text, true, icon);
+			end;
+		elseif (adminLevel == "admin" or adminLevel == "a") then
+			if (v:IsAdmin()) then
+				self:Notify(v, text, true, icon);
+			end;
+		elseif (adminLevel == "superadmin" or adminLevel == "s") then
+			if (v:IsSuperAdmin()) then
+				self:Notify(v, text, true, icon);
+			end;
+		end;
+	end;
+end;
+
 -- A function to notify a player.
 function Clockwork.player:Notify(player, text, class, icon)
 	if (type(player) == "table") then
