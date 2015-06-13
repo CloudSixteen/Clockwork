@@ -272,34 +272,50 @@ end;
 function Clockwork:PlayerThink(player, curTime, infoTable)
 	local bPlayerBreathSnd = false;
 	local storageTable = player:GetStorageTable();
+	local player = player;
+	local curTime = curTime;
+	local infoTable = infoTable;
+	local cwConfig = self.config;
+	local cwPlayer = self.player;
+	local cwStorage = self.storage;
+	local cwEvent = self.event;
+	local cwPlugin = self.plugin;
+	local cwLimb = self.limb;
+	local cwItem = self.item;
+	local cwEntity = self.entity;
+	local mathCeil = math.ceil;
+	local mathMax = math.max;
+	local mathMin = math.min;
+	local mathApproach = math.Approach;
+
 	
-	if (!self.config:Get("cash_enabled"):Get()) then
+	if (!cwConfig:Get("cash_enabled"):Get()) then
 		player:SetCharacterData("Cash", 0, true);
 		infoTable.wages = 0;
 	end;
 	
 	if (player.cwReloadHoldTime and curTime >= player.cwReloadHoldTime) then
-		self.player:ToggleWeaponRaised(player);
+		cwPlayer:ToggleWeaponRaised(player);
 		player.cwReloadHoldTime = nil;
-		player.cwNextShootTime = curTime + self.config:Get("shoot_after_raise_time"):Get();
+		player.cwNextShootTime = curTime + cwConfig:Get("shoot_after_raise_time"):Get();
 	end;
 	
 	if (player:IsRagdolled()) then
 		player:SetMoveType(MOVETYPE_OBSERVER);
 	end;
 	
-	if (storageTable and hook.Call("PlayerStorageShouldClose", self, player, storageTable)) then
-		self.storage:Close(player);
+	if (storageTable and cwPlugin:Call("PlayerStorageShouldClose", self, player, storageTable)) then
+		cwStorage:Close(player);
 	end;
 	
-	player:SetSharedVar("InvWeight", math.ceil(infoTable.inventoryWeight));
-	player:SetSharedVar("InvSpace", math.ceil(infoTable.inventorySpace));
-	player:SetSharedVar("Wages", math.ceil(infoTable.wages));
+	player:SetSharedVar("InvWeight", mathCeil(infoTable.inventoryWeight));
+	player:SetSharedVar("InvSpace", mathCeil(infoTable.inventorySpace));
+	player:SetSharedVar("Wages", mathCeil(infoTable.wages));
 	
-	if (self.event:CanRun("limb_damage", "disability")) then
-		local leftLeg = self.limb:GetDamage(player, HITGROUP_LEFTLEG, true);
-		local rightLeg = self.limb:GetDamage(player, HITGROUP_RIGHTLEG, true);
-		local legDamage = math.max(leftLeg, rightLeg);
+	if (cwEvent:CanRun("limb_damage", "disability")) then
+		local leftLeg = cwLimb:GetDamage(player, HITGROUP_LEFTLEG, true);
+		local rightLeg = cwLimb:GetDamage(player, HITGROUP_RIGHTLEG, true);
+		local legDamage = mathMax(leftLeg, rightLeg);
 		
 		if (legDamage > 0) then
 			infoTable.runSpeed = infoTable.runSpeed / (1 + legDamage);
@@ -319,7 +335,7 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 		infoTable.runSpeed = infoTable.walkSpeed;
 	end;
 	
-	if (self.plugin:Call("PlayerShouldSmoothSprint", player, infoTable)) then
+	if (cwPlugin:Call("PlayerShouldSmoothSprint", player, infoTable)) then
 		--[[ The target run speed is what we're aiming for! --]]
 		player.cwTargetRunSpeed = infoTable.runSpeed;
 		
@@ -334,11 +350,11 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 		end;
 		
 		if (player:IsRunning(true)) then
-			player.cwLastRunSpeed = math.Approach(
+			player.cwLastRunSpeed = mathApproach(
 				player.cwLastRunSpeed, infoTable.runSpeed, player.cwLastRunSpeed * 0.3
 			);
 		else
-			player.cwLastRunSpeed = math.Approach(
+			player.cwLastRunSpeed = mathApproach(
 				player.cwLastRunSpeed, infoTable.walkSpeed, player.cwLastRunSpeed * 0.3
 			);
 		end;
@@ -350,13 +366,13 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 	player:UpdateWeaponFired(); player:UpdateWeaponRaised();
 	player:SetSharedVar("IsRunMode", infoTable.isRunning);
 	
-	player:SetCrouchedWalkSpeed(math.max(infoTable.crouchedSpeed, 0), true);
-	player:SetWalkSpeed(math.max(infoTable.walkSpeed, 0), true);
-	player:SetJumpPower(math.max(infoTable.jumpPower, 0), true);
-	player:SetRunSpeed(math.max(infoTable.runSpeed, 0), true);
+	player:SetCrouchedWalkSpeed(mathMax(infoTable.crouchedSpeed, 0), true);
+	player:SetWalkSpeed(mathMax(infoTable.walkSpeed, 0), true);
+	player:SetJumpPower(mathMax(infoTable.jumpPower, 0), true);
+	player:SetRunSpeed(mathMax(infoTable.runSpeed, 0), true);
 	
 	local activeWeapon = player:GetActiveWeapon();
-	local weaponItemTable = Clockwork.item:GetByWeapon(activeWeapon);
+	local weaponItemTable = cwItem:GetByWeapon(activeWeapon);
 	
 	if (weaponItemTable and weaponItemTable:IsInstance()) then
 		local clipOne = activeWeapon:Clip1();
@@ -377,21 +393,21 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 	local velocity = player:GetVelocity():Length();
 	local entity = traceLine.Entity;
 		
-	if (traceLine.HitPos:Distance(player:GetShootPos()) > math.max(48, math.min(velocity, 256))
+	if (traceLine.HitPos:Distance(player:GetShootPos()) > mathMax(48, mathMin(velocity, 256))
 	or !IsValid(entity)) then
 		return;
 	end;
 	
-	if (entity:GetClass() != "prop_door_rotating" or self.player:IsNoClipping(player)) then
+	if (entity:GetClass() != "prop_door_rotating" or cwPlayer:IsNoClipping(player)) then
 		return;
 	end;
 	
-	local doorPartners = Clockwork.entity:GetDoorPartners(entity);
+	local doorPartners = cwEntity:GetDoorPartners(entity);
 	
 	for k, v in pairs(doorPartners) do
-		if ((!self.entity:IsDoorLocked(v) and self.config:Get("bash_in_door_enabled"):Get())
+		if ((!cwEntity:IsDoorLocked(v) and cwConfig:Get("bash_in_door_enabled"):Get())
 		and (!v.cwNextBashDoor or curTime >= v.cwNextBashDoor)) then
-			self.entity:BashInDoor(v, player);
+			cwEntity:BashInDoor(v, player);
 			
 			player:ViewPunch(
 				Angle(math.Rand(-32, 32), math.Rand(-80, 80), math.Rand(-16, 16))
