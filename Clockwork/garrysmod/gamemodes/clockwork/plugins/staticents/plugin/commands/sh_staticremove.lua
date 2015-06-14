@@ -18,14 +18,16 @@ function COMMAND:OnRun(player, arguments)
 		if (cwStaticEnts:CanStatic(target) != false) then
 			for k, v in pairs(cwStaticEnts.staticEnts) do
 				if (target == v) then
-					cwStaticEnts.staticEnts[k] = nil;
+					table.remove(cwStaticEnts.staticEnts, k);
 					cwStaticEnts:SaveStaticEnts();
 					
 					Clockwork.player:Notify(player, "You have removed a static entity.");
-					
+
 					return;
 				end;
 			end;
+
+			Clockwork.player:Notify(player, "This entity is not static.");
 		else
 			Clockwork.player:Notify(player, "This entity is not able to be a static entity!");
 		end;
