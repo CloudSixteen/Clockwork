@@ -15,7 +15,7 @@ function COMMAND:OnRun(player, arguments)
 	local target = player:GetEyeTraceNoCursor().Entity;
 	
 	if (IsValid(target)) then
-		if (cwStaticEnts:CanStatic(v) != false) then
+		if (cwStaticEnts:CanStatic(target) != false) then
 			for k, v in pairs(cwStaticEnts.staticEnts) do
 				if (target == v) then
 					cwStaticEnts.staticEnts[k] = nil;
