@@ -1382,37 +1382,50 @@ function Clockwork:MenuItemsDestroy(menuItems) end;
 function Clockwork:Tick()
 	local realCurTime = CurTime();
 	local curTime = UnPredictedCurTime();
-	local font = self.option:GetFont("player_info_text");
+	local cwChar = self.character;
+	local cwPlugin = self.plugin;
+	local cwBars = self.bars;
+	local cwPlyInfoText = self.PlayerInfoText;
+	local cwKernel = self.kernel;
+	local cwConfig = self.config;
+	local cwEntity = self.entity;
+	local cwClient = self.Client;
+	local cwOption = self.option;
+	local cwAttriBoost = self.attributes.boosts;
+	local cwMusic = self.MusicSound;
+	local mathMin = math.min;
+	local mathMax = math.max;
+	local font = cwOption:GetFont("player_info_text");
 	
-	if (self.character:IsPanelPolling()) then
-		local panel = self.character:GetPanel();
+	if (cwChar:IsPanelPolling()) then
+		local panel = cwChar:GetPanel();
 		
-		if (!panel and self.plugin:Call("ShouldCharacterMenuBeCreated")) then
-			self.character:SetPanelPolling(false);
-			self.character.isOpen = true;
-			self.character.panel = vgui.Create("cwCharacterMenu");
-			self.character.panel:MakePopup();
-			self.character.panel:ReturnToMainMenu();
+		if (!panel and cwPlugin:Call("ShouldCharacterMenuBeCreated")) then
+			cwChar:SetPanelPolling(false);
+			cwChar.isOpen = true;
+			cwChar.panel = vgui.Create("cwCharacterMenu");
+			cwChar.panel:MakePopup();
+			cwChar.panel:ReturnToMainMenu();
 
-			self.plugin:Call("PlayerCharacterScreenCreated", self.character.panel);
+			cwPlugin:Call("PlayerCharacterScreenCreated", cwChar.panel);
 		end;
 	end;
 	
-	if (IsValid(self.Client) and !self.kernel:IsChoosingCharacter()) then
-		self.bars.stored = {};
-		self.PlayerInfoText.text = {};
-		self.PlayerInfoText.width = ScrW() * 0.15;
-		self.PlayerInfoText.subText = {};
+	if (IsValid(cwClient) and !cwKernel:IsChoosingCharacter()) then
+		cwBars.stored = {};
+		cwPlyInfoText.text = {};
+		cwPlyInfoText.width = ScrW() * 0.15;
+		cwPlyInfoText.subText = {};
 		
-		self.kernel:DrawHealthBar();
-		self.kernel:DrawArmorBar();
+		cwKernel:DrawHealthBar();
+		cwKernel:DrawArmorBar();
 		
-		self.plugin:Call("GetBars", self.bars);
-		self.plugin:Call("DestroyBars", self.bars);
-		self.plugin:Call("GetPlayerInfoText", self.PlayerInfoText);
-		self.plugin:Call("DestroyPlayerInfoText", self.PlayerInfoText);
+		cwPlugin:Call("GetBars", cwBars);
+		cwPlugin:Call("DestroyBars", cwBars);
+		cwPlugin:Call("GetPlayerInfoText", cwPlyInfoText);
+		cwPlugin:Call("DestroyPlayerInfoText", cwPlyInfoText);
 		
-		table.sort(self.bars.stored, function(a, b)
+		table.sort(cwBars.stored, function(a, b)
 			if (a.text == "" and b.text == "") then
 				return a.priority > b.priority;
 			elseif (a.text == "") then
@@ -1422,37 +1435,37 @@ function Clockwork:Tick()
 			end;
 		end);
 		
-		table.sort(self.PlayerInfoText.subText, function(a, b)
+		table.sort(cwPlyInfoText.subText, function(a, b)
 			return a.priority > b.priority;
 		end);
 		
-		for k, v in pairs(self.PlayerInfoText.text) do
-			self.PlayerInfoText.width = self.kernel:AdjustMaximumWidth(font, v.text, self.PlayerInfoText.width);
+		for k, v in pairs(cwPlyInfoText.text) do
+			cwPlyInfoText.width = cwKernel:AdjustMaximumWidth(font, v.text, cwPlyInfoText.width);
 		end;
 		
-		for k, v in pairs(self.PlayerInfoText.subText) do
-			self.PlayerInfoText.width = self.kernel:AdjustMaximumWidth(font, v.text, self.PlayerInfoText.width);
+		for k, v in pairs(cwPlyInfoText.subText) do
+			cwPlyInfoText.width = cwKernel:AdjustMaximumWidth(font, v.text, cwPlyInfoText.width);
 		end;
 		
-		self.PlayerInfoText.width = self.PlayerInfoText.width + 16;
+		cwPlyInfoText.width = cwPlyInfoText.width + 16;
 		
-		if (self.config:Get("fade_dead_npcs"):Get()) then
+		if (cwConfig:Get("fade_dead_npcs"):Get()) then
 			for k, v in pairs(ents.FindByClass("class C_ClientRagdoll")) do
-				if (!self.entity:IsDecaying(v)) then
-					self.entity:Decay(v, 300);
+				if (!cwEntity:IsDecaying(v)) then
+					cwEntity:Decay(v, 300);
 				end;
 			end;
 		end;
 		
 		local playedHeartbeatSound = false;
 		
-		if (self.Client:Alive() and self.config:Get("enable_heartbeat"):Get()) then
-			local maxHealth = self.Client:GetMaxHealth();
-			local health = self.Client:Health();
+		if (cwClient:Alive() and cwConfig:Get("enable_heartbeat"):Get()) then
+			local maxHealth = cwClient:GetMaxHealth();
+			local health = cwClient:Health();
 			
 			if (health < maxHealth) then
 				if (!self.HeartbeatSound) then
-					self.HeartbeatSound = CreateSound(self.Client, "player/heartbeat1.wav");
+					self.HeartbeatSound = CreateSound(cwClient, "player/heartbeat1.wav");
 				end;
 				
 				if (!self.NextHeartbeat or curTime >= self.NextHeartbeat) then
@@ -1472,19 +1485,19 @@ function Clockwork:Tick()
 	if (!self.NextHandleAttributeBoosts or realCurTime >= self.NextHandleAttributeBoosts) then
 		self.NextHandleAttributeBoosts = realCurTime + 3;
 		
-		for k, v in pairs(self.attributes.boosts) do
+		for k, v in pairs(cwAttriBoost) do
 			for k2, v2 in pairs(v) do
 				if (v2.duration and v2.endTime) then
 					if (realCurTime > v2.endTime) then
-						self.attributes.boosts[k][k2] = nil;
+						cwAttriBoost[k][k2] = nil;
 					else
 						local timeLeft = v2.endTime - realCurTime;
 						
 						if (timeLeft >= 0) then
 							if (v2.default < 0) then
-								v2.amount = math.min((v2.default / v2.duration) * timeLeft, 0);
+								v2.amount = mathMin((v2.default / v2.duration) * timeLeft, 0);
 							else
-								v2.amount = math.max((v2.default / v2.duration) * timeLeft, 0);
+								v2.amount = mathMax((v2.default / v2.duration) * timeLeft, 0);
 							end;
 						end;
 					end;
@@ -1493,9 +1506,9 @@ function Clockwork:Tick()
 		end;
 	end;
 	
-	if (self.kernel:IsInfoMenuOpen() and !input.IsKeyDown(KEY_F1)) then
-		Clockwork.kernel:RemoveBackgroundBlur("InfoMenu");
-		Clockwork.kernel:CloseActiveDermaMenus();
+	if (cwKernel:IsInfoMenuOpen() and !input.IsKeyDown(KEY_F1)) then
+		cwKernel:RemoveBackgroundBlur("InfoMenu");
+		cwKernel:CloseActiveDermaMenus();
 		Clockwork.InfoMenuOpen = false;
 		
 		if (IsValid(Clockwork.InfoMenuPanel)) then
@@ -1503,21 +1516,21 @@ function Clockwork:Tick()
 		end;
 		
 		timer.Simple(FrameTime() * 0.5, function()
-			Clockwork.kernel:RemoveActiveToolTip();
+			cwKernel:RemoveActiveToolTip();
 		end);
 	end;
 	
-	local menuMusic = self.option:GetKey("menu_music");
+	local menuMusic = cwOption:GetKey("menu_music");
 	
 	if (menuMusic != "") then
-		if (IsValid(self.Client) and self.character:IsPanelOpen()) then
-			if (!self.MusicSound) then
-				self.MusicSound = CreateSound(self.Client, menuMusic);
-				self.MusicSound:PlayEx(0.3, 100);
+		if (IsValid(cwClient) and cwChar:IsPanelOpen()) then
+			if (!cwMusic) then
+				cwMusic = CreateSound(cwClient, menuMusic);
+				cwMusic:PlayEx(0.3, 100);
 				self.MusicFading = false;
 			end;
-		elseif (self.MusicSound and !self.MusicFading) then
-			self.MusicSound:FadeOut(8);
+		elseif (cwMusic and !self.MusicFading) then
+			cwMusic:FadeOut(8);
 			self.MusicFading = true;
 			
 			timer.Simple(8, function()
@@ -1534,7 +1547,7 @@ function Clockwork:Tick()
 				local value = nil;
 				
 				if (k == worldEntity) then
-					value = self.kernel:GetSharedVar(k2);
+					value = cwKernel:GetSharedVar(k2);
 				else
 					value = k:GetSharedVar(k2);
 				end;
