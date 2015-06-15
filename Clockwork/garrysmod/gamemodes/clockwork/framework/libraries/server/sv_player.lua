@@ -1991,7 +1991,7 @@ function Clockwork.player:SetSharedVar(player, key, value, sharedTable)
 				ErrorNoHalt("[Clockwork:PlayerSharedVars] Couldn't get the sharedVars table.\n");
 				return;
 			elseif (not sharedVars[key]) then
-				--ErrorNoHalt("[Clockwork:PlayerSharedVars] Couldn't find key '"..key.."' in sharedVars table. Is it registered?\n");
+				ErrorNoHalt("[Clockwork:PlayerSharedVars] Couldn't find key '"..key.."' in sharedVars table. Is it registered?\n");
 				return;
 			end;
 			
