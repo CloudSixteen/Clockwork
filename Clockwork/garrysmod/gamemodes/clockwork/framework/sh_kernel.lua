@@ -480,6 +480,9 @@ end;
 
 -- Called when a player's animation is updated.
 function Clockwork:UpdateAnimation(player, velocity, maxSeqGroundSpeed)
+	local player = player;
+	local velocity = velocity;
+	local maxSeqGroundSpeed = maxSeqGroundSpeed;
 	local velLength = velocity:Length2D();
 	local rate = 1.0;
 	
@@ -505,22 +508,29 @@ end;
 
 -- Called when the main activity should be calculated.
 function Clockwork:CalcMainActivity(player, velocity)
+	local player = player;
+	local velocity = velocity;
 	local model = player:GetModel();
+	local stringFind = string.find;
+	local mathNormalize = math.NormalizeAngle;
+	local cwBaseClass = self.BaseClass;
+	local cwPlayer = self.player;
+	local cwAnim = self.animation;
 	
-	if (string.find(model, "/player/")) then
-		return self.BaseClass:CalcMainActivity(player, velocity);
+	if (stringFind(model, "/player/")) then
+		return cwBaseClass:CalcMainActivity(player, velocity);
 	end;
 	
 	ANIMATION_PLAYER = player;
 	
 	local weapon = player:GetActiveWeapon();
-	local bIsRaised = self.player:GetWeaponRaised(player, true);
+	local bIsRaised = cwPlayer:GetWeaponRaised(player, true);
 	local animationAct = "stand";
 	local weaponHoldType = "pistol";
 	local forcedAnimation = player:GetForcedAnimation();
 
 	if (IsValid(weapon)) then
-		weaponHoldType = self.animation:GetWeaponHoldType(player, weapon);
+		weaponHoldType = cwAnim:GetWeaponHoldType(player, weapon);
 	
 		if (weaponHoldType) then
 			animationAct = animationAct.."_"..weaponHoldType;
@@ -531,7 +541,7 @@ function Clockwork:CalcMainActivity(player, velocity)
 		animationAct = animationAct.."_aim";
 	end;
 	
-	player.CalcIdeal = self.animation:GetForModel(model, animationAct.."_idle");
+	player.CalcIdeal = cwAnim:GetForModel(model, animationAct.."_idle");
 	player.CalcSeqOverride = -1;
 	
 	if (!self:HandlePlayerDriving(player)
@@ -543,9 +553,9 @@ function Clockwork:CalcMainActivity(player, velocity)
 		local velLength = velocity:Length2D();
 				
 		if (player:IsRunning() or player:IsJogging()) then
-			player.CalcIdeal = self.animation:GetForModel(model, animationAct.."_run");
+			player.CalcIdeal = cwAnim:GetForModel(model, animationAct.."_run");
 		elseif (velLength > 0.5) then
-			player.CalcIdeal = self.animation:GetForModel(model, animationAct.."_walk");
+			player.CalcIdeal = cwAnim:GetForModel(model, animationAct.."_walk");
 		end;
 		
 		if (CLIENT) then
@@ -574,7 +584,7 @@ function Clockwork:CalcMainActivity(player, velocity)
 
 	local eyeAngles = player:EyeAngles();
 	local yaw = velocity:Angle().yaw;
-	local normalized = math.NormalizeAngle(yaw - eyeAngles.y);
+	local normalized = mathNormalize(yaw - eyeAngles.y);
 
 	player:SetPoseParameter("move_yaw", normalized);
 	

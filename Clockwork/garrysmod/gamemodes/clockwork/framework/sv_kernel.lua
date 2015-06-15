@@ -1,5 +1,5 @@
 --[[ 
-	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -266,6 +266,8 @@ function Clockwork:Initialize()
 	self.plugin:Call("ClockworkInitialized");
 	self.plugin:CheckMismatches();
 	self.plugin:ClearHookCache();
+
+	hook.Remove("PlayerTick", "TickWidgets")
 end;
 
 -- Called at an interval while a player is connected.
@@ -415,6 +417,7 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 		end;
 	end;
 end;
+
 
 -- Called when a player should smooth sprint.
 function Clockwork:PlayerShouldSmoothSprint(player, infoTable)
@@ -940,19 +943,27 @@ end;
 
 -- Called when a player's move data is set up.
 function Clockwork:SetupMove(player, moveData)
+	local player = player;
+	local moveData = moveData;
+
 	if (player:Alive() and !player:IsRagdolled()) then
+		local cwPlayer = self.player;
 		local frameTime = FrameTime();
 		local curTime = CurTime();
-		local isDrunk = self.player:GetDrunk(player);
+		local isDrunk = cwPlayer:GetDrunk(player);
+		local mathClamp = math.Clamp;
+		local mathMin = math.min;
+		local mathCos = math.cos;
+		local mathMax = math.max;
 		
 		if (isDrunk and player.cwDrunkSwerve) then
-			player.cwDrunkSwerve = math.Clamp(player.cwDrunkSwerve + frameTime, 0, math.min(isDrunk * 2, 16));
+			player.cwDrunkSwerve = mathClamp(player.cwDrunkSwerve + frameTime, 0, mathMin(isDrunk * 2, 16));
 			
-			moveData:SetMoveAngles(moveData:GetMoveAngles() + Angle(0, math.cos(curTime) * player.cwDrunkSwerve, 0));
+			moveData:SetMoveAngles(moveData:GetMoveAngles() + Angle(0, mathCos(curTime) * player.cwDrunkSwerve, 0));
 		elseif (player.cwDrunkSwerve and player.cwDrunkSwerve > 1) then
-			player.cwDrunkSwerve = math.max(player.cwDrunkSwerve - frameTime, 0);
+			player.cwDrunkSwerve = mathMax(player.cwDrunkSwerve - frameTime, 0);
 			
-			moveData:SetMoveAngles(moveData:GetMoveAngles() + Angle(0, math.cos(curTime) * player.cwDrunkSwerve, 0));
+			moveData:SetMoveAngles(moveData:GetMoveAngles() + Angle(0, mathCos(curTime) * player.cwDrunkSwerve, 0));
 		elseif (player.cwDrunkSwerve != 1) then
 			player.cwDrunkSwerve = 1;
 		end;
@@ -1531,33 +1542,39 @@ end;
 function Clockwork:Tick()
 	local sysTime = SysTime();
 	local curTime = CurTime();
+	local players = player.GetAll();
+	local cwHint = self.hint;
+	local cwKernel = self.kernel;
+	local cwPlugin = self.plugin;
+	local cwConfig = self.config;
+	local cwPlayer = self.player;
 	
 	if (!self.NextHint or curTime >= self.NextHint) then
-		self.hint:Distribute();
-		self.NextHint = curTime + self.config:Get("hint_interval"):Get();
+		cwHint:Distribute();
+		self.NextHint = curTime + cwConfig:Get("hint_interval"):Get();
 	end;
 	
 	if (!self.NextWagesTime or curTime >= self.NextWagesTime) then
-		self.kernel:DistributeWagesCash();
-		self.NextWagesTime = curTime + self.config:Get("wages_interval"):Get();
+		cwKernel:DistributeWagesCash();
+		self.NextWagesTime = curTime + cwConfig:Get("wages_interval"):Get();
 	end;
 	
 	if (!self.NextGeneratorTime or curTime >= self.NextGeneratorTime) then
-		self.kernel:DistributeGeneratorCash();
-		self.NextGeneratorTime = curTime + self.config:Get("generator_interval"):Get();
+		cwKernel:DistributeGeneratorCash();
+		self.NextGeneratorTime = curTime + cwConfig:Get("generator_interval"):Get();
 	end;
 	
 	if (!self.NextDateTimeThink or sysTime >= self.NextDateTimeThink) then
-		self.kernel:PerformDateTimeThink();
-		self.NextDateTimeThink = sysTime + self.config:Get("minute_time"):Get();
+		cwKernel:PerformDateTimeThink();
+		self.NextDateTimeThink = sysTime + cwConfig:Get("minute_time"):Get();
 	end;
 	
 	if (!self.NextSaveData or sysTime >= self.NextSaveData) then
-		self.plugin:Call("PreSaveData");
-			self.plugin:Call("SaveData");
-		self.plugin:Call("PostSaveData");
+		cwPlugin:Call("PreSaveData");
+			cwPlugin:Call("SaveData");
+		cwPlugin:Call("PostSaveData");
 		
-		self.NextSaveData = sysTime + self.config:Get("save_data_interval"):Get();
+		self.NextSaveData = sysTime + cwConfig:Get("save_data_interval"):Get();
 	end;
 	
 	if (!self.NextCheckEmpty) then
@@ -1567,12 +1584,12 @@ function Clockwork:Tick()
 	if (sysTime >= self.NextCheckEmpty) then
 		self.NextCheckEmpty = nil;
 		
-		if (#cwPlayer.GetAll() == 0) then
+		if (#players == 0) then
 			RunConsoleCommand("changelevel", game.GetMap());
 		end;
 	end;
 	
-	for k, v in pairs(player.GetAll()) do
+	for k, v in pairs(players) do
 		if (v:HasInitialized()) then
 			if (!v.cwNextThink) then
 				v.cwNextThink = curTime + 0.1;
@@ -1583,7 +1600,7 @@ function Clockwork:Tick()
 			end;
 			
 			if (curTime >= v.cwNextThink) then
-				self.player:CallThinkHook(
+				cwPlayer:CallThinkHook(
 					v, (curTime >= v.cwNextSetSharedVars), curTime
 				);
 			end;
