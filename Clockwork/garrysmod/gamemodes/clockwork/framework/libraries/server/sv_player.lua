@@ -3506,23 +3506,6 @@ function Clockwork.player:SetPlayerFlags(player, flags)
 	Clockwork.player:GivePlayerFlags(player, flags);
 end;
 
--- A function to get a player's rank within their faction.
-function Clockwork.player:GetFactionRank(player)
-	local faction = Clockwork.faction:FindByID(player:GetFaction());
-	
-	if (faction and istable(faction.ranks)) then
-		local rank;
-		
-		for k, v in pairs(faction.ranks) do
-			if (k == player:GetCharacterData("factionrank")) then
-				rank = v;
-			end;
-		end;
-		
-		return player:GetCharacterData("factionrank"), rank;
-	end;
-end;
-
 -- A function to set a player's rank within their faction.
 function Clockwork.player:SetFactionRank(player, rank)
 	player:SetCharacterData("factionrank", rank);
