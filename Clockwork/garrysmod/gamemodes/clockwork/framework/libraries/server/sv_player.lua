@@ -1,5 +1,5 @@
 --[[ 
-	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -3465,27 +3465,35 @@ end;
 
 -- A function to call a player's think hook.
 function Clockwork.player:CallThinkHook(player, setSharedVars, curTime)
-	player.cwInfoTable.inventoryWeight = Clockwork.config:Get("default_inv_weight"):Get();
-	player.cwInfoTable.inventorySpace = Clockwork.config:Get("default_inv_space"):Get();
-	player.cwInfoTable.crouchedSpeed = player.cwCrouchedSpeed;
-	player.cwInfoTable.jumpPower = player.cwJumpPower;
-	player.cwInfoTable.walkSpeed = player.cwWalkSpeed;
-	player.cwInfoTable.isRunning = player:IsRunning();
-	player.cwInfoTable.isJogging = player:IsJogging();
-	player.cwInfoTable.runSpeed = player.cwRunSpeed;
-	player.cwInfoTable.wages = Clockwork.class:Query(player:Team(), "wages", 0);
+	local player = player;
+	local infoTable = player.cwInfoTable;
+	local setSharedVars = setSharedVars;
+	local curTime = curTime;
+	local cwConfig = Clockwork.config;
+	local cwClass = Clockwork.class;
+	local cwPlugin = Clockwork.plugin;
+
+	infoTable.inventoryWeight = cwConfig:Get("default_inv_weight"):Get();
+	infoTable.inventorySpace = cwConfig:Get("default_inv_space"):Get();
+	infoTable.crouchedSpeed = player.cwCrouchedSpeed;
+	infoTable.jumpPower = player.cwJumpPower;
+	infoTable.walkSpeed = player.cwWalkSpeed;
+	infoTable.isRunning = player:IsRunning();
+	infoTable.isJogging = player:IsJogging();
+	infoTable.runSpeed = player.cwRunSpeed;
+	infoTable.wages = cwClass:Query(player:Team(), "wages", 0);
 	
 	if (!player:IsJogging(true)) then
-		player.cwInfoTable.isJogging = nil;
+		infoTable.isJogging = nil;
 		player:SetSharedVar("IsJogMode", false);
 	end;
 	
 	if (setSharedVars) then
-		Clockwork.plugin:Call("PlayerSetSharedVars", player, curTime);
+		cwPlugin:Call("PlayerSetSharedVars", player, curTime);
 		player.cwNextSetSharedVars = nil;
 	end;
 	
-	Clockwork.plugin:Call("PlayerThink", player, curTime, player.cwInfoTable);
+	cwPlugin:Call("PlayerThink", player, curTime, infoTable);
 	player.cwNextThink = nil;
 end;
 

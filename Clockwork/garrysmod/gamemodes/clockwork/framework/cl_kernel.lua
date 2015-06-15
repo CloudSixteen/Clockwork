@@ -862,6 +862,8 @@ function Clockwork:Initialize()
 	
 	self.plugin:CheckMismatches();
 	self.plugin:ClearHookCache();
+
+	hook.Remove("PostDrawEffects", "RenderWidgets")
 end;
 
 --[[
