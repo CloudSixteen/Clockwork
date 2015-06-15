@@ -1,5 +1,5 @@
 --[[ 
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -5193,6 +5193,16 @@ end;
 -- A function to check if a player can afford an amount.
 function playerMeta:CanAfford(amount)
 	return Clockwork.player:CanAfford(self, amount);
+end;
+
+-- A function to get a player's rank within their faction.
+function playerMeta:GetFactionRank()
+	return Clockwork.player:GetFactionRank(self);
+end;
+
+-- A function to set a player's rank within their faction.
+function playerMeta:SetFactionRank(rank)
+	Clockwork.player:SetFactionRank(self, rank);
 end;
 
 playerMeta.GetName = playerMeta.Name;
