@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -181,6 +181,58 @@ function Clockwork.faction:GetPlayers(faction)
 	end;
 	
 	return players;
+end;
+
+-- A function to get the rank with the lowest 'position' (highest rank) in this faction.
+function Clockwork.faction:GetHighestRank(faction)
+	local faction = Clockwork.faction:FindByID(faction);
+	
+	if (istable(faction.ranks)) then
+		local lowestPos;
+		local highestRank;
+		
+		for k, v in pairs(faction.ranks) do
+			if (!lowestPos) then
+				lowestPos = v.position;
+				highestRank = k;
+			else
+				if (v.position) then
+					if (math.min(lowestPos, v.position) == v.position) then
+						highestRank = k;
+						lowestPos = v.position;
+					end;
+				end;
+			end;
+		end;
+		
+		return highestRank;
+	end;
+end;
+
+-- A function to get the rank with the highest 'position' (lowest rank) in this faction.
+function Clockwork.faction:GetLowestRank(faction)
+	local faction = Clockwork.faction:FindByID(faction);
+	
+	if (istable(faction.ranks)) then
+		local highestPos;
+		local lowestRank;
+		
+		for k, v in pairs(faction.ranks) do
+			if (!highestPos) then
+				highestPos = v.position;
+				lowestRank = k;
+			else
+				if (v.position) then
+					if (math.max(highestPos, v.position) == v.position) then
+						lowestRank = k;
+						highestPos = v.position;
+					end;
+				end;
+			end;
+		end;
+		
+		return lowestRank;
+	end;
 end;
 
 if (SERVER) then
