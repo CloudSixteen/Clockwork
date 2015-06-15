@@ -3501,5 +3501,12 @@ function playerMeta:GetRagdollEntity()
 	return Clockwork.player:GetRagdollEntity(self);
 end;
 
+-- A function to get a player's rank within their faction.
+function playerMeta:GetFactionRank()
+	local rankName, rank = Clockwork.player:GetFactionRank(self);
+	
+	return rankName, rank;
+end;
+
 playerMeta.GetName = playerMeta.Name;
 playerMeta.Nick = playerMeta.Name;
