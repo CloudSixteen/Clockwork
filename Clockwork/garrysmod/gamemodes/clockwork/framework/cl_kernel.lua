@@ -2130,12 +2130,16 @@ function Clockwork:GetModelSelectSequence(entity, model) end;
     @param Table The current table of ESP positions/colors/names to add on to.
 --]]
 function Clockwork:GetAdminESPInfo(info)
+	local info = info;
+	local cwPlugin = self.plugin;
+	local cwPlayer = cwPlayer;
+	local cwTeam = cwTeam;
+
 	for k, v in pairs(cwPlayer.GetAll()) do
 		if (v:HasInitialized()) then			
 			local physBone = v:LookupBone("ValveBiped.Bip01_Head1");
-			local position = nil;	
-			local topText = {v:Name()}
-					
+			local position = nil;
+								
 			if (physBone) then
 				local bonePosition = v:GetBonePosition(physBone);
 						
@@ -2145,19 +2149,23 @@ function Clockwork:GetAdminESPInfo(info)
 			else
 				position = v:GetPos() + Vector(0, 0, 80);
 			end;
-					
-			Clockwork.plugin:Call("GetStatusInfo", v, topText)			
-					
-			info[#info + 1] = {
-				position = position,
-				text = {
-					{table.concat(topText, " "), cwTeam.GetColor(v:Team())}				
+
+			local topText =  {v:Name()};
+
+			cwPlugin:Call("GetStatusInfo", v, topText);	
+
+			local text = {
+				{
+					table.concat(topText, " "), cwTeam.GetColor(v:Team())
 				}
 			};
-			
-			if (self.Client != v) then	
-				Clockwork.plugin:Call("GetPlayerESPInfo", v, info[#info]["text"]);	
-			end;
+
+			cwPlugin:Call("GetPlayerESPInfo", v, text);
+
+			table.insert(info, {
+				position = position,
+				text = text
+			});
 		end;
 	end;
 end;
@@ -2197,10 +2205,18 @@ end;
 
 -- Called when extra player info is needed.
 function Clockwork:GetPlayerESPInfo(player, text)
+	local player = player;
+	local text = text;
+
 	if (player:IsValid()) then
 		local weapon = player:GetActiveWeapon();
 		local health = player:Health();
+		local colorWhite = Color(255, 255, 255, 255);
+		local colorRed = Color(255, 0, 0, 255);
 		local color;
+
+		table.insert(text, {player:SteamName(), colorWhite})
+
 		if (player:Alive()) then			
 			table.insert(text, {"Health: ["..health.."]", self:GetValueColor(health)})
 			
@@ -2212,9 +2228,9 @@ function Clockwork:GetPlayerESPInfo(player, text)
 				local raised = self.player:GetWeaponRaised(player);
 				
 				if (raised == true) then
-					color = Color(255, 0, 0, 255);
+					color = colorRed;
 				else
-					color = Color(255, 255, 255, 255);
+					color = colorWhite;
 				end;
 				
 				local printName = weapon:GetPrintName();
