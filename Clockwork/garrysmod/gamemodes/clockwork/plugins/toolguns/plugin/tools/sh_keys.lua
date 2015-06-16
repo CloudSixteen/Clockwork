@@ -1,10 +1,19 @@
+--[[
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	without permission of its author (kurozael@gmail.com).
+
+	Clockwork was created by Conna Wiles (also known as kurozael.)
+	http://cloudsixteen.com/license/clockwork.html
+--]]
+
+
 local TOOL = Clockwork.tool:New();
 
 TOOL.Category		= "Clockwork tools";
 TOOL.Name 			= "Skeleton Key";
 TOOL.UniqueID 		= "keys";
 TOOL.Desc 			= "Lock and Unlock all those doors!";
-TOOL.HelpText		= "Primary: Lock Secondary: Unlock";
+TOOL.HelpText		= "Primary: Lock | Secondary: Unlock";
 
 function TOOL:LeftClick(tr)
 	local Clockwork = Clockwork
@@ -54,7 +63,7 @@ end
 
 
 function TOOL.BuildCPanel( CPanel )
-	CPanel:AddControl( "Header", { Text = "#tool.sh_keys.name", Description	= "#tool.sh_keys.desc" }  )
+	CPanel:AddControl( "Header", { Text = "Skeleton Keys", Description	= "Skeleton Keys. Open or Lock doors." }  )
 end
 
 TOOL:Register();
