@@ -411,25 +411,7 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 				local classColor = cwTeam.GetColor(classIndex);
 				local focusedOn = false;
 				
-				if (speaker:IsSuperAdmin()) then
-					icon = "icon16/shield.png";
-				elseif (speaker:IsAdmin()) then
-					icon = "icon16/star.png";
-				elseif (speaker:IsUserGroup("operator")) then
-					icon = "icon16/emoticon_smile.png";
-				else
-					local faction = speaker:GetFaction();
-					
-					if (faction and Clockwork.faction.stored[faction]) then
-						if (Clockwork.faction.stored[faction].whitelist) then
-							icon = "icon16/add.png";
-						end;
-					end;
-					
-					if (!icon) then
-						icon = "icon16/user.png";
-					end;
-				end;
+				icon = Clockwork.player:GetChatIcon(speaker);
 				
 				if (!Clockwork.player:DoesRecognise(speaker, RECOGNISE_TOTAL) and filter == "ic") then
 					unrecognised = true;
