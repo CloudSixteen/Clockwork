@@ -814,11 +814,13 @@ function Clockwork:Initialize()
 	CW_CONVAR_SHOWSERVER = self.kernel:CreateClientConVar("cwShowServer", 1, true, true);
 	CW_CONVAR_SHOWAURA = self.kernel:CreateClientConVar("cwShowClockwork", 1, true, true);
 	CW_CONVAR_SHOWHINTS = self.kernel:CreateClientConVar("cwShowHints", 1, true, true);
-	CW_CONVAR_ADMINESP = self.kernel:CreateClientConVar("cwAdminESP", 0, true, true);
 	CW_CONVAR_SHOWLOG = self.kernel:CreateClientConVar("cwShowLog", 1, true, true);
 	CW_CONVAR_SHOWOOC = self.kernel:CreateClientConVar("cwShowOOC", 1, true, true);
 	CW_CONVAR_SHOWIC = self.kernel:CreateClientConVar("cwShowIC", 1, true, true);
+
 	CW_CONVAR_ESPTIME = self.kernel:CreateClientConVar("cwESPTime", 1, true, true);
+	CW_CONVAR_ADMINESP = self.kernel:CreateClientConVar("cwAdminESP", 0, true, true);
+	CW_CONVAR_ESPBARS = self.kernel:CreateClientConVar("cwESPBars", 1, true, true);
 	
 	CW_CONVAR_TEXTCOLORR = self.kernel:CreateClientConVar("cwTextColorR", 255, true, true);
 	CW_CONVAR_TEXTCOLORG = self.kernel:CreateClientConVar("cwTextColorG", 200, true, true);
@@ -2211,29 +2213,37 @@ function Clockwork:GetPlayerESPInfo(player, text)
 	if (player:IsValid()) then
 		local weapon = player:GetActiveWeapon();
 		local health = player:Health();
+		local armor = player:Armor();
 		local colorWhite = Color(255, 255, 255, 255);
 		local colorRed = Color(255, 0, 0, 255);
-		local color;
+		local colorHealth = colorWhite;
+		local colorArmor = colorWhite;
+		
+		table.insert(text, {player:SteamName(), Color(170, 170, 170, 255), nil, nil, self.player:GetChatIcon(player)})
 
-		table.insert(text, {player:SteamName(), colorWhite})
+		if (player:Alive() and health > 0) then
 
-		if (player:Alive()) then			
-			table.insert(text, {"Health: ["..health.."]", self:GetValueColor(health)})
+			if (CW_CONVAR_ESPBARS:GetInt() == 0) then
+				colorHealth = self:GetValueColor(health);
+				colorArmor = self:GetValueColor(armor);
+			end;
+
+			table.insert(text, {"Health: ["..health.."]", colorHealth, health})
 			
 			if (player:Armor() > 0) then
-				table.insert(text, {"Armor: ["..player:Armor().."]", self:GetValueColor(player:Armor())});
+				table.insert(text, {"Armor: ["..armor.."]", colorArmor, armor});
 			end;
 		
 			if (weapon) then			
 				local raised = self.player:GetWeaponRaised(player);
-				
+				local color = colorWhite;
+
 				if (raised == true) then
 					color = colorRed;
-				else
-					color = colorWhite;
 				end;
 				
 				local printName = weapon:GetPrintName();
+
 				if (printName) then
 					table.insert(text, {printName, color})
 				end;

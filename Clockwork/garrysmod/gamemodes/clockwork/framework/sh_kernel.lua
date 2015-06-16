@@ -2098,8 +2098,9 @@ else
 						else
 							text = v2[1];
 							color = v2[2];
+							barValue = v2[3];
 						end;
-									
+						
 						if (k2 > 1) then
 							self:OverrideMainFont(Clockwork.option:GetFont("esp_text"));
 							height = draw.GetFontHeight(Clockwork.option:GetFont("esp_text"));
@@ -2108,7 +2109,37 @@ else
 							height = draw.GetFontHeight(Clockwork.option:GetFont("main_text"));
 						end;
 
-						self:DrawSimpleText(text, position.x, position.y, color or colorWhite, 1, 1);
+						if (v2[5]) then
+							local icon = "icon16/exclamation.png";
+							local width = surface.GetTextSize(text);
+
+							if (type(v2[5] == "string") and v2[5] != "") then
+								icon = v2[5];
+							end;
+
+							surface.SetDrawColor(255, 255, 255, 255);
+							surface.SetMaterial(Material(icon));
+							surface.DrawTexturedRect(position.x - (width * 0.40) - height, position.y - height * 0.5, height, height);
+						end;
+
+						if (barValue and CW_CONVAR_ESPBARS:GetInt() == 1) then
+							local barHeight = height * 0.80;
+							local barColor = v2[4] or Clockwork:GetValueColor(barValue);
+							local grayColor = Color( 150, 150, 150, 170);
+							local progress = 100 * (barValue / 100);
+
+							if progress < 0 then
+								progress = 0;
+							end;
+
+							draw.RoundedBox(6, position.x - 50, position.y - (barHeight * 0.45), 100, barHeight, grayColor);
+							draw.RoundedBox(6, position.x - 50, position.y - (barHeight * 0.45), math.floor(progress), barHeight, barColor);
+						end;
+
+						if (type(text) == "string") then
+							self:DrawSimpleText(text, position.x, position.y, color or colorWhite, 1, 1);
+						end;
+
 						position.y = position.y + height;
 					end;
 				end;			

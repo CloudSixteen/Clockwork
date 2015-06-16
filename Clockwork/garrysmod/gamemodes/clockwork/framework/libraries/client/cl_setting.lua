@@ -183,6 +183,10 @@ Clockwork.setting:AddCheckBox("Admin ESP", "Enable the admin ESP.", "cwAdminESP"
 	return Clockwork.player:IsAdmin(Clockwork.Client);
 end);
 
+Clockwork.setting:AddCheckBox("Admin ESP", "Draw ESP Bars.", "cwESPBars", "Whether or not to draw progress bars for certain values.", function()
+	return Clockwork.player:IsAdmin(Clockwork.Client);
+end);
+
 Clockwork.setting:AddNumberSlider("Admin ESP", "ESP Interval:", "cwESPTime", 0, 2, 0, "The amount of time between ESP checks.", function()
 	return Clockwork.player:IsAdmin(Clockwork.Client);
 end);
