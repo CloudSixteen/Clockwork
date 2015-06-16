@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -9,6 +9,7 @@
 -- A function to load the static entities.
 function cwStaticEnts:LoadStaticEnts()
 	local classTable = Clockwork.kernel:RestoreSchemaData("maps/"..game.GetMap().."/static_entities/classtable");
+	local staticEnts = {};
 	self.staticEnts = {};
 	
 	if (classTable and type(classTable) == "table") then
@@ -17,7 +18,7 @@ function cwStaticEnts:LoadStaticEnts()
 			
 			if (loadTable and #loadTable > 0) then
 				for k2, v2 in ipairs(loadTable) do
-					table.insert(self.staticEnts, v2);
+					table.insert(staticEnts, v2);
 				end;
 			end;
 		end;
@@ -27,17 +28,17 @@ function cwStaticEnts:LoadStaticEnts()
 	
 	if (#staticProps > 0) then
 		for k, v in ipairs(staticProps) do
-			table.insert(self.staticEnts, v);
+			table.insert(staticEnts, v);
 		end;
 		
 		Clockwork.kernel:SaveSchemaData("plugins/props/"..game.GetMap(), {});
 	end;
 	
-	for k, v in pairs(self.staticEnts) do
+	for k, v in pairs(staticEnts) do
 		if (!v.class) then
 			v.class = "prop_physics";
 		end;
-		
+			
 		local entity = ents.Create(v.class);
 			entity:SetMaterial(v.material);
 			entity:SetAngles(v.angles);
@@ -45,14 +46,16 @@ function cwStaticEnts:LoadStaticEnts()
 			entity:SetModel(v.model);
 			entity:SetPos(v.position);
 			entity:Spawn();
+
 			if (v.bones) then
 				for k2, v2 in ipairs(v.bones) do
-					local bone = entity:GetPhysicsObjectNum(k2-1);
+					local bone = entity:GetPhysicsObjectNum(k2 - 1);
+
 					bone:EnableMotion(v2.moveable);
 					bone:Wake();					
 					bone:SetAngles(v2.ang);
 					bone:SetPos(v2.pos);
-						
+							
 					if (v2.wake == true) then
 						bone:Sleep();
 					end;
@@ -60,7 +63,7 @@ function cwStaticEnts:LoadStaticEnts()
 			elseif (IsValid(entity:GetPhysicsObject())) then
 				entity:GetPhysicsObject():EnableMotion(v.moveable);
 			end;
-				
+					
 			if (v.texture) then
 				entity:SetFlashlightTexture(v.texture);
 				entity:SetLightFOV(v.fov);
@@ -69,13 +72,14 @@ function cwStaticEnts:LoadStaticEnts()
 				entity:SetToggle(false);
 				entity:Switch(true);
 			end;
-				
+					
 			if (v.size) then
 				entity:SetBrightness(v.brightness);
 				entity:SetLightSize(v.size);
 				entity:SetOn(true);
 			end;
-		self.staticEnts[k] = entity;
+
+		table.insert(self.staticEnts, entity)
 	end;
 end;
 
@@ -86,9 +90,11 @@ function cwStaticEnts:SaveStaticEnts()
 	if (type(self.staticEnts) == "table") then
 		for k, v in pairs(self.staticEnts) do
 			if (IsValid(v)) then
-				staticEnts[v:GetClass()] = staticEnts[v:GetClass()] or {};
 				local entTable = {};
 				local physicsObject = v:GetPhysicsObject();
+
+				staticEnts[v:GetClass()] = staticEnts[v:GetClass()] or {};
+
 				entTable.class = v:GetClass();			
 				entTable.color = v:GetColor();
 				entTable.model = v:GetModel();
@@ -131,7 +137,10 @@ function cwStaticEnts:SaveStaticEnts()
 	
 		for k, v in pairs(staticEnts) do
 			Clockwork.kernel:SaveSchemaData("maps/"..game.GetMap().."/static_entities/"..k, v);
-			table.insert(classTable, k);		
+
+			if (!classTable[k]) then
+				table.insert(classTable, k);
+			end;
 		end;
 
 		Clockwork.kernel:SaveSchemaData("maps/"..game.GetMap().."/static_entities/classtable", classTable);
@@ -148,7 +157,7 @@ function cwStaticEnts:Tick()
 			for k, v in ipairs(player.GetAll()) do
 				if (Clockwork.player:IsAdmin(v)) then
 					table.insert(sendTable, v);
-				end;	
+				end;
 			end;
 			
 			

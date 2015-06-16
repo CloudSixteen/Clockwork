@@ -16,15 +16,26 @@ function cwStaticEnts:Initialize()
 	end);
 end;
 
+local classTranslate = {
+	["gmod_light"] = "Light",
+	["prop_physics"] = "Prop",
+	["prop_ragdoll"] = "Ragdoll",
+	["gmod_lamp"] = "Lamp"
+};
+
 -- Called when the ESP info is needed.
 function cwStaticEnts:GetAdminESPInfo(info)
+	local info = info;
+
 	if (self.staticEnts) then
 		if (CW_CONVAR_STATICESP:GetInt() == 1) then
 			for k, v in ipairs(self.staticEnts) do
+				local class = classTranslate[v.class] or v.class;
+
 				table.insert(info,{
-					position = v.pos + Vector(0, 0, 64),
+					position = v.pos + Vector(0, 0, 32),
 					color = Color(0, 210, 255, 255),
-					text = "[Static "..v.class.."]"
+					text = "[Static "..class.."]"
 				});
 			end;
 		end;
