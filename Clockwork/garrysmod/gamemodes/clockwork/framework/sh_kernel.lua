@@ -2085,19 +2085,16 @@ else
 		
 		for k, v in pairs(self.ESPInfo) do
 			local position = v.position:ToScreen();
+			local text, color, height;
 			
 			if (position) then
 				if (type(v.text) == "string") then
 					self:DrawSimpleText(v.text, position.x, position.y, v.color or colorWhite, 1, 1);
 				else
-					
-					for k2, v2 in ipairs(v.text) do
-						local text, color, width, height;
-											
+					for k2, v2 in ipairs(v.text) do					
 						if (type(v2) == "string") then
 							text = v2;
 							color = v.color;
-							v2 = {text, color};
 						else
 							text = v2[1];
 							color = v2[2];
@@ -2105,12 +2102,12 @@ else
 									
 						if (k2 > 1) then
 							self:OverrideMainFont(Clockwork.option:GetFont("esp_text"));
-							width, height = surface.GetTextSize(text);							
+							height = draw.GetFontHeight(Clockwork.option:GetFont("esp_text"));
 						else
 							self:OverrideMainFont(false);
-							width, height = surface.GetTextSize(text);
+							height = draw.GetFontHeight(Clockwork.option:GetFont("main_text"));
 						end;
-						
+
 						self:DrawSimpleText(text, position.x, position.y, color or colorWhite, 1, 1);
 						position.y = position.y + height;
 					end;
