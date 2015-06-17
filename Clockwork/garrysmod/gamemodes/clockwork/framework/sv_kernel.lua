@@ -1086,6 +1086,7 @@ function Clockwork:PlayerSpawn(player)
 			player:GodDisable();
 			player:RunCommand("-duck");
 			player:SetColor(Color(255, 255, 255, 255));
+			player:SetupHands();
 			
 			player:SetCrouchedWalkSpeed(self.config:Get("crouched_speed"):Get());
 			player:SetWalkSpeed(self.config:Get("walk_speed"):Get());
@@ -1135,6 +1136,18 @@ function Clockwork:PlayerSpawn(player)
 		player.cwLightSpawn = false;
 	else
 		player:KillSilent();
+	end;
+end;
+
+-- Choose the model for hands according to their player model.
+function Clockwork:PlayerSetHandsModel(player, entity)
+	local simpleModel = player_manager.TranslateToPlayerModelName(player:GetModel())
+	local info = player_manager.TranslatePlayerHands(simpleModel)
+
+	if (info) then
+		entity:SetModel(info.model);
+		entity:SetSkin(info.skin);
+		entity:SetBodyGroups(info.body);
 	end;
 end;
 
@@ -2509,6 +2522,15 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 			end;
 			
 		end;
+	elseif (class == "cw_item" and arguments == "cwItemExamine") then
+		local itemTable = entity.cwItemTable;
+		local examineText = itemTable.description;
+			
+		if (itemTable.GetEntityExamineText) then
+			examineText = itemTable:GetEntityExamineText(entity);
+		end;
+
+		self.player:Notify(player, examineText);
 	elseif (class == "cw_item" and arguments == "cwItemAmmo") then
 		local itemTable = entity.cwItemTable;
 		

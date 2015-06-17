@@ -704,19 +704,9 @@ function Clockwork:GetEntityMenuOptions(entity, options)
 			if (itemTable.GetEntityMenuOptions) then
 				itemTable:GetEntityMenuOptions(entity, options);
 			end;
-			
-			local examineText = Clockwork.item:GetMarkupToolTip(itemTable);
-			
-			if (itemTable.GetEntityExamineText) then
-				examineText = itemTable:GetEntityExamineText(entity);
-			end;
-			
+						
 			options["Take"] = "cwItemTake";
-			options["Examine"] = {
-				isArgTable = true,
-				isOrdered = true,
-				toolTip = examineText,
-			};
+			options["Examine"] = "cwItemExamine";
 		end;
 	elseif (class == "cw_belongings") then
 		options["Open"] = "cwBelongingsOpen";
@@ -2328,6 +2318,23 @@ function Clockwork:PostDrawPlayerInfo(boxInfo, information, subInformation) end;
 
 -- Called just after the date time box is drawn.
 function Clockwork:PostDrawDateTimeBox(info) end;
+
+--[[
+	@codebase Client
+	@details Called after the view model is drawn.
+	@param Entity The viewmodel being drawn.
+	@param Player The player drawing the viewmodel.
+	@param Weapon The weapon table for the viewmodel.
+--]]
+function Clockwork:PostDrawViewModel(viewModel, player, weapon)
+   	if (weapon.UseHands or !weapon:IsScripted()) then
+    	local hands = Clockwork.Client:GetHands();
+
+      	if IsValid(hands) then 
+      		hands:DrawModel();
+      	end;
+   	end;
+end;
 
 --[[
     @codebase Client

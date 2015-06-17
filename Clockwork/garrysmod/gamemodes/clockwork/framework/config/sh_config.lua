@@ -40,3 +40,4 @@ Clockwork.config:ShareKey("enable_space_system");
 Clockwork.config:ShareKey("draw_intro_bars");
 Clockwork.config:ShareKey("show_business");
 Clockwork.config:ShareKey("chat_multiplier");
+Clockwork.config:ShareKey("enable_looc_icons");
