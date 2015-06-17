@@ -704,19 +704,9 @@ function Clockwork:GetEntityMenuOptions(entity, options)
 			if (itemTable.GetEntityMenuOptions) then
 				itemTable:GetEntityMenuOptions(entity, options);
 			end;
-			
-			local examineText = Clockwork.item:GetMarkupToolTip(itemTable);
-			
-			if (itemTable.GetEntityExamineText) then
-				examineText = itemTable:GetEntityExamineText(entity);
-			end;
-			
+						
 			options["Take"] = "cwItemTake";
-			options["Examine"] = {
-				isArgTable = true,
-				isOrdered = true,
-				toolTip = examineText,
-			};
+			options["Examine"] = "cwItemExamine";
 		end;
 	elseif (class == "cw_belongings") then
 		options["Open"] = "cwBelongingsOpen";

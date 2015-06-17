@@ -2522,6 +2522,15 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 			end;
 			
 		end;
+	elseif (class == "cw_item" and arguments == "cwItemExamine") then
+		local itemTable = entity.cwItemTable;
+		local examineText = itemTable.description;
+			
+		if (itemTable.GetEntityExamineText) then
+			examineText = itemTable:GetEntityExamineText(entity);
+		end;
+
+		self.player:Notify(player, examineText);
 	elseif (class == "cw_item" and arguments == "cwItemAmmo") then
 		local itemTable = entity.cwItemTable;
 		
