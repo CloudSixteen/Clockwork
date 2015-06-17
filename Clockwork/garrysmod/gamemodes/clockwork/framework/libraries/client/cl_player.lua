@@ -706,3 +706,35 @@ function Clockwork.player:GetDrunk()
 		return isDrunk;
 	end;
 end;
+
+-- A function to get a player's chat icon.
+function Clockwork.player:GetChatIcon(player)
+	local icon;
+	
+	for k, v in pairs(Clockwork.icon:GetAll()) do
+		if (v.callback(player)) then
+			if (!icon) then
+				icon = v.path;
+			end;
+			
+			if (v.isPlayer) then
+				icon = v.path;
+				break;
+			end;
+		end;
+	end;
+	
+	if (!icon) then
+		local faction = player:GetFaction();
+		
+		icon = "icon16/user.png";
+		
+		if (faction and Clockwork.faction.stored[faction]) then
+			if (Clockwork.faction.stored[faction].whitelist) then
+				icon = "icon16/add.png";
+			end;
+		end;
+	end;
+	
+	return icon;
+end;

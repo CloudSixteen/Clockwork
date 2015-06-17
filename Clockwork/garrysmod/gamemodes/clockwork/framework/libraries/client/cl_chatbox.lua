@@ -411,7 +411,7 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 				local classColor = cwTeam.GetColor(classIndex);
 				local focusedOn = false;
 				
-				icon = Clockwork.player:GetChatIcon(speaker);
+				icon = speaker:GetChatIcon();
 				
 				if (!Clockwork.player:DoesRecognise(speaker, RECOGNISE_TOTAL) and filter == "ic") then
 					unrecognised = true;
