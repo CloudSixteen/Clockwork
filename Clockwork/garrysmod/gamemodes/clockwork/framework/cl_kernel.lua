@@ -2221,7 +2221,7 @@ function Clockwork:GetPlayerESPInfo(player, text)
 			table.insert(text, {"Health: ["..health.."]", colorHealth, health})
 			
 			if (player:Armor() > 0) then
-				table.insert(text, {"Armor: ["..armor.."]", colorArmor, armor});
+				table.insert(text, {"Armor: ["..armor.."]", colorArmor, armor, Color(30, 65, 175, 255)});
 			end;
 		
 			if (weapon) then			
