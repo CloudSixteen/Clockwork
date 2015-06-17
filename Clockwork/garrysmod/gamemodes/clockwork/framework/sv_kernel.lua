@@ -3609,7 +3609,7 @@ function Clockwork:KeyPress(player, key)
 		local velocity = player:GetVelocity():Length();
 		
 		if (velocity > 0 and !player:KeyDown(IN_SPEED)) then
-			if (player:GetSharedVar("IsJogMode")) then
+			if (player:GetSharedVar("IsJogMode") or !Clockwork.config:Get("enable_jogging"):Get()) then
 				player:SetSharedVar("IsJogMode", false);
 			else
 				player:SetSharedVar("IsJogMode", true);
