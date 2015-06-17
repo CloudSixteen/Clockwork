@@ -440,7 +440,7 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 				};
 				
 				Clockwork.plugin:Call("ChatBoxAdjustInfo", info);
-				
+
 				if (Clockwork.config:Get("chat_multiplier"):Get()) then
 					Clockwork.chatBox:SetMultiplier(info.multiplier);
 				end;
