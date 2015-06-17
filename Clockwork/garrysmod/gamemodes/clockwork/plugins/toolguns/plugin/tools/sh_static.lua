@@ -10,22 +10,23 @@
 local TOOL = Clockwork.tool:New();
 
 TOOL.Category		= "Clockwork tools";
-TOOL.Name 			= "Static Prop/Entities";
+TOOL.Name 			= "Static Add/Remove";
 TOOL.UniqueID 		= "static";
 TOOL.Desc 			= "Allows you to save entities permanently on the map.";
 TOOL.HelpText		= "Primary: Static Entity | Secondary: Unstatic";
 
 function TOOL:LeftClick(tr)
+	if (CLIENT) then return true end
+
 	local Clockwork = Clockwork
 	local player = self:GetOwner()
 	local target = player:GetEyeTraceNoCursor().Entity;
 	
-	if not ply:IsAdmin() then 
+	if not player:IsAdmin() then 
 		return false
 	end
 
 	if (IsValid(target)) then
-		if (CLIENT) then return true end
 		local class = cwStaticEnts:CanStatic(target)
 		if (class == "nope") then
 			Clockwork.player:Notify(player, "This entity causes issues when it is static!");
@@ -51,16 +52,17 @@ end
 
 
 function TOOL:RightClick( tr )
+	if (CLIENT) then return true end
+
 	local Clockwork = Clockwork
 	local player = self:GetOwner()
 	local target = player:GetEyeTraceNoCursor().Entity;
 	
-	if not ply:IsAdmin() then 
+	if not player:IsAdmin() then 
 		return false
 	end
 	
 	if (IsValid(target)) then
-		if (CLIENT) then return true end
 		if (cwStaticEnts:CanStatic(target) != false) then
 			for k, v in pairs(cwStaticEnts.staticEnts) do
 				if (target == v) then
@@ -85,7 +87,7 @@ end
 
 
 function TOOL.BuildCPanel( CPanel )
-	CPanel:AddControl( "Header", { Text = "Static Entites", Description	= "Allows you to save entities permanently on the map." }  )
+	CPanel:AddControl( "Header", { Text = "Static Add/Remove", Description	= "Allows you to save entities permanently on the map." }  )
 	CPanel:AddControl( "Header", { Text = "", Description	= "Updated static plugin by NightAngel." }  )
 end
 

@@ -10,7 +10,7 @@
 local TOOL = Clockwork.tool:New();
 
 TOOL.Category		= "Clockwork tools";
-TOOL.Name 			= "Skeleton Key";
+TOOL.Name 			= "Door Lock/Unlock";
 TOOL.UniqueID 		= "keys";
 TOOL.Desc 			= "Lock and Unlock all those doors!";
 TOOL.HelpText		= "Primary: Lock | Secondary: Unlock";
@@ -37,7 +37,6 @@ function TOOL:LeftClick(tr)
 	end;
 end
 
-
 function TOOL:RightClick( tr )
 	local Clockwork = Clockwork
 	local ply = self:GetOwner()
@@ -60,10 +59,8 @@ function TOOL:RightClick( tr )
 	end;
 end
 
-
-
 function TOOL.BuildCPanel( CPanel )
-	CPanel:AddControl( "Header", { Text = "Skeleton Keys", Description	= "Skeleton Keys. Open or Lock doors." }  )
+	CPanel:AddControl( "Header", { Text = "Door Lock/Unlock", Description	= "Open or Lock doors." }  )
 end
 
 TOOL:Register();
