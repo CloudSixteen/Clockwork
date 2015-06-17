@@ -2330,6 +2330,23 @@ function Clockwork:PostDrawPlayerInfo(boxInfo, information, subInformation) end;
 function Clockwork:PostDrawDateTimeBox(info) end;
 
 --[[
+	@codebase Client
+	@details Called after the view model is drawn.
+	@param Entity The viewmodel being drawn.
+	@param Player The player drawing the viewmodel.
+	@param Weapon The weapon table for the viewmodel.
+--]]
+function Clockwork:PostDrawViewModel(viewModel, player, weapon)
+   	if (weapon.UseHands or !weapon:IsScripted()) then
+    	local hands = Clockwork.Client:GetHands();
+
+      	if IsValid(hands) then 
+      		hands:DrawModel();
+      	end;
+   	end;
+end;
+
+--[[
     @codebase Client
     @details This function is called when local player info text is needed and adds onto it (F1 menu).
     @class Clockwork
