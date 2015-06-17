@@ -2327,11 +2327,11 @@ end;
 function Clockwork.player:NotifyAdmins(adminLevel, text, icon)
 	for k, v in pairs(player.GetAll()) do
 		if (adminLevel == "operator" or adminLevel == "o") then
-			if (v:IsUserGroup("operator") or v:IsAdmin()) then
+			if (v:IsAdmin()) then
 				self:Notify(v, text, true, icon);
 			end;
 		elseif (adminLevel == "admin" or adminLevel == "a") then
-			if (v:IsAdmin()) then
+			if (v:IsAdmin() and !v:IsUserGroup("operator")) then
 				self:Notify(v, text, true, icon);
 			end;
 		elseif (adminLevel == "superadmin" or adminLevel == "s") then
