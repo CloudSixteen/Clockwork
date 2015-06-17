@@ -3536,5 +3536,10 @@ function playerMeta:GetFactionRank()
 	return rankName, rank;
 end;
 
+-- A function to get a player's chat icon.
+function playerMeta:GetChatIcon()
+	return Clockwork.player:GetChatIcon(self);
+end;
+
 playerMeta.GetName = playerMeta.Name;
 playerMeta.Nick = playerMeta.Name;
