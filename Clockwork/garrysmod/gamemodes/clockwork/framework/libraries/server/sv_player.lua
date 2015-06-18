@@ -3518,3 +3518,8 @@ end;
 function Clockwork.player:SetFactionRank(player, rank)
 	player:SetCharacterData("factionrank", rank);
 end;
+
+-- A function to get a player's global flags.
+function Clockwork.player:GetPlayerFlags(player)
+	player:GetData("Flags");
+end;

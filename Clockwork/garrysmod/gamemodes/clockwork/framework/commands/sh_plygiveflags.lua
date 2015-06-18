@@ -16,7 +16,7 @@ COMMAND.arguments = 2;
 
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)
-	local target = Clockwork.player:FindByID(arguments[1])
+	local target = Clockwork.player:FindByID(arguments[1]);
 	
 	if (target) then
 		if (string.find(arguments[2], "a") or string.find(arguments[2], "s")

@@ -5244,6 +5244,11 @@ function playerMeta:SetFactionRank(rank)
 	Clockwork.player:SetFactionRank(self, rank);
 end;
 
+-- A function to get a player's global flags.
+function playerMeta:GetPlayerFlags()
+	return Clockwork.player:GetPlayerFlags(self);
+end;
+
 playerMeta.GetName = playerMeta.Name;
 playerMeta.Nick = playerMeta.Name;
 
