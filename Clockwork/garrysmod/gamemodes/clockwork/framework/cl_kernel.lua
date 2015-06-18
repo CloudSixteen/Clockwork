@@ -2218,9 +2218,6 @@ function Clockwork:GetPlayerESPInfo(player, text)
 				colorArmor = self:GetValueColor(armor);
 			end;
 
-			print("maxHealth"..player:GetMaxHealth())
-			print("maxArmor"..player:GetMaxArmor())
-
 			table.insert(text, {"Health: ["..health.."]", colorHealth, {health, player:GetMaxHealth()}})
 			
 			if (player:Armor() > 0) then
