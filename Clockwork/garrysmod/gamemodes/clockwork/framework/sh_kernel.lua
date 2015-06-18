@@ -2107,7 +2107,6 @@ else
 							if (type(barNumbers) == "table") then
 								barValue = barNumbers[1];
 								maximum = barNumbers[2];
-								print("maximum: "..maximum);
 							else
 								barValue = barNumbers;
 							end;

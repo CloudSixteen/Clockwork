@@ -97,7 +97,7 @@ function cwWeaponSelect:DrawWeaponInformation(itemTable, weapon, x, y, alpha)
 		Clockwork.plugin:Call("PreDrawWeaponSelectionInfo", info);
 		
 		if (info.drawBackground) then
-			SLICED_LARGE_DEFAULT:Draw(x - 8, realY, width + 16, height + 16, 8, Color(255, 255, 255, alpha));
+			SLICED_LARGE_DEFAULT:Draw(x - 8, realY, info.width + 16, info.height + 16, 8, Color(255, 255, 255, alpha));
 		end;
 		
 		if (weapon.InfoMarkup) then
