@@ -18,23 +18,16 @@ TOOL.HelpText		= "Primary: Set Door Ownable";
 TOOL.ClientConVar[ "description" ]		= ""
 
 function TOOL:LeftClick(tr)
-
-	local Clockwork = Clockwork
-	
-	local description = self:GetClientInfo( "description" )
-
-	if (tr.Entity:GetClass() == "player") then return false end
-
 	if (CLIENT) then return true end
 
-	local ply = self:GetOwner()
-
+	local Clockwork = Clockwork;
+	local description = self:GetClientInfo("description");
+	local ply = self:GetOwner();
 	local door = ply:GetEyeTraceNoCursor().Entity;
 
-
-	if not ply:IsAdmin() then 
-		return false
-	end
+	if (!ply:IsAdmin()) then 
+		return false;
+	end;
 
 	if (IsValid(door) and Clockwork.entity:IsDoor(door)) then
 		local data = {
@@ -55,22 +48,19 @@ function TOOL:LeftClick(tr)
 	else
 		Clockwork.player:Notify(ply, "This is not a valid door!");
 	end;
-
-end
-
-
+end;
 
 function TOOL.BuildCPanel( CPanel )
 	-- HEADER
 	CPanel:AddControl( "Header", { Text = "Door Set Ownable", Description	= "Create Ownable Doors" }  )
-	
 									
 	local CVars = {"doorsetownable_description" }
-
 									 
-	CPanel:AddControl( "TextBox", { Label = "Door Text",
-									 MaxLenth = "20",
-									 Command = "doorsetownable_description" } )
+	CPanel:AddControl( "TextBox", { 
+		Label = "Door Text",
+		MaxLenth = "20",
+		Command = "doorsetownable_description"
+	})
 end
 
 TOOL:Register();

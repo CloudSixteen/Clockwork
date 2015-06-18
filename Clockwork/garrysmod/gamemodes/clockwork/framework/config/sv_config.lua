@@ -62,7 +62,7 @@ Clockwork.config:Add("default_cash", 100, nil, nil, nil, nil, nil, true);
 Clockwork.config:Add("armor_chest_only", false);
 Clockwork.config:Add("minimum_physdesc", 32, true);
 Clockwork.config:Add("wood_breaks_fall", true);
-Clockwork.config:Add("enable_crosshair", true, true, true);
+Clockwork.config:Add("enable_crosshair", false, true, true);
 Clockwork.config:Add("recognise_system", true, true);
 Clockwork.config:Add("max_chat_length", 256, true, true);
 Clockwork.config:Add("cash_enabled", true, true, nil, nil, nil, true);

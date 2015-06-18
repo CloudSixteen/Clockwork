@@ -6,4 +6,6 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
-local PLUGIN = PLUGIN;
+local PLUGIN = PLUGIN
+
+Clockwork.kernel:IncludePrefixed("cl_plugin.lua");

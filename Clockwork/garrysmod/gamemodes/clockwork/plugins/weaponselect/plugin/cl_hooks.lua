@@ -32,18 +32,7 @@ function cwWeaponSelect:HUDPaintImportant()
 	Clockwork.kernel:OverrideMainFont(Clockwork.option:GetFont("menu_text_tiny"));
 	
 	for k, v in pairs(weapons) do
-		local secondaryAmmo = Clockwork.Client:GetAmmoCount(v:GetSecondaryAmmoType());
-		local primaryAmmo = Clockwork.Client:GetAmmoCount(v:GetPrimaryAmmoType());
-		local clipOne = v:Clip1();
-		local clipTwo = v:Clip2();
-		
-		if (clipOne > 0 or clipTwo > 0 or (clipOne == -1 and clipTwo == -1)
-		or (clipOne == -1 and clipTwo > 0 and secondaryAmmo > 0)
-		or (clipTwo == -1 and clipOne > 0 and primaryAmmo > 0)
-		or (clipOne != -1 and primaryAmmo > 0)
-		or (clipTwo != -1 and secondaryAmmo > 0)) then
-			newWeapons[#newWeapons + 1] = v;
-		end;
+		newWeapons[#newWeapons + 1] = v;
 	end;
 	
 	if (self.displaySlot < 1) then
@@ -192,18 +181,7 @@ function cwWeaponSelect:TopLevelPlayerBindPress(player, bind, bPress)
 	end;
 	
 	for k, v in pairs(weapons) do
-		local secondaryAmmo = Clockwork.Client:GetAmmoCount(v:GetSecondaryAmmoType());
-		local primaryAmmo = Clockwork.Client:GetAmmoCount(v:GetPrimaryAmmoType());
-		local clipOne = v:Clip1();
-		local clipTwo = v:Clip2();
-		
-		if (clipOne > 0 or clipTwo > 0 or (clipOne == -1 and clipTwo == -1)
-		or (clipOne == -1 and clipTwo > 0 and secondaryAmmo > 0)
-		or (clipTwo == -1 and clipOne > 0 and primaryAmmo > 0)
-		or (clipOne != -1 and primaryAmmo > 0)
-		or (clipTwo != -1 and secondaryAmmo > 0)) then
-			newWeapons[#newWeapons + 1] = v;
-		end;
+		newWeapons[#newWeapons + 1] = v;
 	end;
 
 	if (#newWeapons == 1 and Clockwork.config:Get("weapon_selection_multi"):Get()) then

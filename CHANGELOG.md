@@ -62,10 +62,20 @@ The following changes have been made for each official Clockwork build.
 	* *Contributed by Alex Grist.*
 * Added icon support for NotifyAll.
 	* *Contributed by Vortix.*
-* Added easy loading for toolgun tools.
+* Added toolgun library.
 	* *Contributed by NightAngel.*
-* Added NotifyAdmins function for ease of use when notifying admins.
+* NotifyAdmins function for ease of use when notifying admins.
 	* *Contributed by NightAngel.*
+* Added toolguns plugin.
+    * *Contributed by Trurascalz & NightAngel.*
+* Fixed examine option for items.
+	* *Contributed by NightAngel.*
+* Added viewmodel hands fix for weapons.
+	* *Contributed by NightAngel.*
+* Added icon library for easy assignment of chat/ESP icons.
+	* *Contributed by Vortix.*
+* Added faction rank functions.
+	* *Contributed by Vortix.*
 
 0.92
 -------

@@ -10,7 +10,7 @@
 local TOOL = Clockwork.tool:New();
 
 TOOL.Category		= "Clockwork tools";
-TOOL.Name 			= "Text";
+TOOL.Name 			= "Text Add/Remove";
 TOOL.UniqueID 		= "text";
 TOOL.Desc 			= "Add colored text!";
 TOOL.HelpText		= "Primary: Add Secondary: Remove";
@@ -23,18 +23,14 @@ TOOL.ClientConVar[ "b" ] = 255
 TOOL.ClientConVar[ "a" ] = 255
 
 function TOOL:LeftClick(tr)
+	if (CLIENT) then return true; end;
 
-	local Clockwork = Clockwork
+	local Clockwork = Clockwork;
+	local ply = self:GetOwner();
 
-	local ply = self:GetOwner()
-
-	if not ply:IsAdmin() then 
-		return false
-	end
-	
-	if (tr.Entity:GetClass() == "player") then return false end
-
-	if (CLIENT) then return true end
+	if (!ply:IsAdmin()) then 
+		return false;
+	end;
 	
 	-- Process text
 	local r =  self:GetClientInfo( "r" )
@@ -45,7 +41,6 @@ function TOOL:LeftClick(tr)
 
 	local finishedtext = "<color="..r..","..g..","..b..","..a..">"..usertext
 	local scale = self:GetClientInfo( "scale" )
-
 
 	local traceLine = ply:GetEyeTraceNoCursor();
 	local fScale = scale
@@ -74,16 +69,14 @@ end
 
 
 function TOOL:RightClick( tr )
+	if (CLIENT) then return true; end;
 
-	local Clockwork = Clockwork
-	local ply = self:GetOwner()
+	local Clockwork = Clockwork;
+	local ply = self:GetOwner();
 
-	if not ply:IsAdmin() then 
-		return false
-	end
-
-	if (tr.Entity:GetClass() == "player") then return false end
-	if (CLIENT) then return true end
+	if (!ply:IsAdmin()) then 
+		return false;
+	end;
 
 	local position = ply:GetEyeTraceNoCursor().HitPos;
 	local iRemoved = 0;
@@ -107,42 +100,48 @@ function TOOL:RightClick( tr )
 	end;
 	
 	cwSurfaceTexts:SaveSurfaceTexts();
-end
+end;
 
 
 
 function TOOL.BuildCPanel( CPanel )
-	
-	-- HEADER
-	CPanel:AddControl( "Header", { Text = "Text Tool", Description	= "Add a string of text to the map. It can be colored and scaled." }  )
+	CPanel:AddControl( "Header", { 
+		Text = "Text Tool", 
+		Description	= "Add a string of text to the map. It can be colored and scaled." 
+	});
 
-	local CVars = {"text_text" }
-	local CVars = {"text_scale" }
-	local CVars = {"text_r" }
-	local CVars = {"text_g" }
-	local CVars = {"text_b" }
-	local CVars = {"text_a" }							 
-	CPanel:AddControl( "TextBox", { Label = "Text",
-									 MaxLenth = "50",
-									 Command = "text_text" } )
+	local CVars = {"text_text"};
+	local CVars = {"text_scale"};
+	local CVars = {"text_r"};
+	local CVars = {"text_g"};
+	local CVars = {"text_b"};
+	local CVars = {"text_a"};
 
-	CPanel:AddControl( "Slider",  { Label	= "Scale",
-			Type	= "Float",
-			Min		= 1.0,
-			Max		= 20,
-			Command = "text_scale",
-			Description = "Size of the text"}	 )
+	CPanel:AddControl( "TextBox", { 
+		Label = "Text Add/Remove",
+		MaxLenth = "50",
+		Command = "text_text" 
+	});
+
+	CPanel:AddControl( "Slider",  {
+		Label	= "Scale",
+		Type	= "Float",
+		Min		= 1.0,
+		Max		= 20,
+		Command = "text_scale",
+		Description = "Size of the text"
+	});
 
 	CPanel:AddControl("Color", {
-			Label = "Text Color",
-			Red = "text_r",
-			Green = "text_g",
-			Blue = "text_b",
-			Alpha = "text_a",
-			ShowHSV = 1,
-			ShowRGB = 1,
-			Multiplier = 255
-		})
-end
+		Label = "Text Color",
+		Red = "text_r",
+		Green = "text_g",
+		Blue = "text_b",
+		Alpha = "text_a",
+		ShowHSV = 1,
+		ShowRGB = 1,
+		Multiplier = 255
+	});
+end;
 
 TOOL:Register();

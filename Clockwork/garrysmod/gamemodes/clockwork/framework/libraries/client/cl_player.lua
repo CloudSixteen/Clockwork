@@ -96,9 +96,7 @@ function Clockwork.player:GetMaxSpace()
 	local itemsList = Clockwork.inventory:GetAsItemsList(
 		Clockwork.inventory:GetClient()
 	);
-	local space = Clockwork.Client:GetSharedVar(
-		"InvSpace", Clockwork.config:Get("default_inv_space"):Get()
-	);
+	local space = Clockwork.Client:GetSharedVar("InvSpace") or Clockwork.config:Get("default_inv_space"):Get();
 	
 	for k, v in pairs(itemsList) do
 		local addInvSpace = v("addInvVolume");

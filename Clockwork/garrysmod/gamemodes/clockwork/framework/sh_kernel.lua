@@ -2091,14 +2091,26 @@ else
 				if (type(v.text) == "string") then
 					self:DrawSimpleText(v.text, position.x, position.y, v.color or colorWhite, 1, 1);
 				else
-					for k2, v2 in ipairs(v.text) do					
+					for k2, v2 in ipairs(v.text) do	
+						local barValue;
+						local maximum = 100;
+
 						if (type(v2) == "string") then
 							text = v2;
 							color = v.color;
 						else
 							text = v2[1];
 							color = v2[2];
-							barValue = v2[3];
+
+							local barNumbers = v2[3];
+
+							if (type(barNumbers) == "table") then
+								barValue = barNumbers[1];
+								maximum = barNumbers[2];
+								print("maximum: "..maximum);
+							else
+								barValue = barNumbers;
+							end;
 						end;
 						
 						if (k2 > 1) then
@@ -2126,7 +2138,7 @@ else
 							local barHeight = height * 0.80;
 							local barColor = v2[4] or Clockwork:GetValueColor(barValue);
 							local grayColor = Color( 150, 150, 150, 170);
-							local progress = 100 * (barValue / 100);
+							local progress = 100 * (barValue / maximum);
 
 							if progress < 0 then
 								progress = 0;
