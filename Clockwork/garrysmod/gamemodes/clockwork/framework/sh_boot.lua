@@ -133,8 +133,8 @@ function Clockwork:ClockworkAddSharedVars(globalVars, playerVars)
 	
 	playerVars:Number("InvWeight", true);
 	playerVars:Number("InvSpace", true);
-	playerVars:Number("MaxHP", true);
-	playerVars:Number("MaxAP", true);
+	playerVars:Number("MaxHP");
+	playerVars:Number("MaxAP");
 	playerVars:Number("IsDrunk", true);
 	playerVars:Number("Wages", true);
 	playerVars:Number("Cash", true);
@@ -154,8 +154,10 @@ function Clockwork:ClockworkAddSharedVars(globalVars, playerVars)
 	playerVars:String("Clothes", true);
 	playerVars:String("Model", true);
 	playerVars:String("ActName");
+	playerVars:String("flags");
 	playerVars:String("Flags");
 	playerVars:String("Name");
+	playerVars:String("icon");
 	playerVars:Entity("Ragdoll");
 	playerVars:Float("StartActTime");
 	globalVars:String("NoMySQL");
