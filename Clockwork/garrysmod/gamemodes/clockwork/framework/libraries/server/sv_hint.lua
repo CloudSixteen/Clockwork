@@ -16,7 +16,7 @@ local math = math;
 	@field stored A table containing a list of stored hints.
 --]]
 Clockwork.hint = Clockwork.kernel:NewLibrary("Hint");
-Clockwork.hint.stored = {};
+Clockwork.hint.stored = Clockwork.hint.stored or {};
 
 --[[
 	@codebase Server

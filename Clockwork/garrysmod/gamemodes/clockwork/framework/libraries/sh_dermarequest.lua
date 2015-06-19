@@ -20,7 +20,7 @@ end;
 
 if (SERVER) then
 
-	Clockwork.dermaRequest.hooks = {};
+	Clockwork.dermaRequest.hooks = Clockwork.dermaRequest.hooks or {};
 
 	--[[
 		@codebase Server

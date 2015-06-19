@@ -10,7 +10,7 @@ local Clockwork = Clockwork;
 local string = string;
 
 Clockwork.currency = Clockwork.kernel:NewLibrary("Currency");
-Clockwork.currency.stored = {};
+Clockwork.currency.stored = Clockwork.currency.stored or {};
 
 --[[ Set the __index meta function of the class. --]]
 local CLASS_TABLE = {__index = CLASS_TABLE};

@@ -17,7 +17,7 @@ local math = math;
 	@field sizes A table containing a list of stored cooldown sizes.
 --]]
 Clockwork.cooldown = Clockwork.kernel:NewLibrary("Cooldown");
-Clockwork.cooldown.sizes = {};
+Clockwork.cooldown.sizes = Clockwork.cooldown.sizes or {};
 
 --[[
 	@codebase Client

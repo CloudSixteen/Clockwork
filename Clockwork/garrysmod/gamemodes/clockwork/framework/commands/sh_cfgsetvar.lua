@@ -47,9 +47,9 @@ function COMMAND:OnRun(player, arguments)
 				
 				if (configObject("isPrivate")) then
 					if (configObject("needsRestart")) then
-						Clockwork.player:NotifyAll(player:Name().." set "..keyPrefix..key.." to '"..string.rep("*", string.len(printValue)).."' for the next restart.");
+						Clockwork.player:NotifyAll(player:Name().." set "..keyPrefix..key.." to '"..string.rep("*", string.utf8len(printValue)).."' for the next restart.");
 					else
-						Clockwork.player:NotifyAll(player:Name().." set "..keyPrefix..key.." to '"..string.rep("*", string.len(printValue)).."'.");
+						Clockwork.player:NotifyAll(player:Name().." set "..keyPrefix..key.." to '"..string.rep("*", string.utf8len(printValue)).."'.");
 					end;
 				elseif (configObject("needsRestart")) then
 					Clockwork.player:NotifyAll(player:Name().." set "..keyPrefix..key.." to '"..printValue.."' for the next restart.");

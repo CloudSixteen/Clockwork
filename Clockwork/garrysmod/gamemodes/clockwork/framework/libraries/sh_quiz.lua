@@ -11,7 +11,7 @@ local IsValid = IsValid;
 local table = table;
 
 Clockwork.quiz = Clockwork.kernel:NewLibrary("Quiz");
-Clockwork.quiz.stored = {};
+Clockwork.quiz.stored = Clockwork.quiz.stored or {};
 
 -- A function to set the quiz name.
 function Clockwork.quiz:SetName(name)

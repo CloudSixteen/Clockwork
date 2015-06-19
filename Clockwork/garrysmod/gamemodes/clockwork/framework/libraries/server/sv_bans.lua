@@ -14,7 +14,7 @@ local string = string;
 local os = os;
 
 Clockwork.bans = Clockwork.kernel:NewLibrary("Bans");
-Clockwork.bans.stored = {};
+Clockwork.bans.stored = Clockwork.bans.stored or {};
 
 --[[
 	A local function to handle ban deletion.
@@ -35,7 +35,7 @@ end;
 --]]
 local function BANS_LOAD_CALLBACK(result)
 	if (Clockwork.database:IsResult(result)) then
-		Clockwork.bans.stored = {};
+		Clockwork.bans.stored = Clockwork.bans.stored or {};
 		
 		for k, v in pairs(result)do
 			Clockwork.bans.stored[v._Identifier] = {

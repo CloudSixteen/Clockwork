@@ -1671,12 +1671,12 @@ function PANEL:OnNext()
 				return false;
 			end;
 			
-			if (string.len(self.info.forename) < 2 or string.len(self.info.surname) < 2) then
+			if (string.utf8len(self.info.forename) < 2 or string.utf8len(self.info.surname) < 2) then
 				Clockwork.character:SetFault("Your forename and surname must both be at least 2 characters long!");
 				return false;
 			end;
 			
-			if (string.len(self.info.forename) > 16 or string.len(self.info.surname) > 16) then
+			if (string.utf8len(self.info.forename) > 16 or string.utf8len(self.info.surname) > 16) then
 				Clockwork.character:SetFault("Your forename and surname must not be greater than 16 characters long!");
 				return false;
 			end;
@@ -1691,7 +1691,7 @@ function PANEL:OnNext()
 	if (self.bPhysDesc) then
 		local minimumPhysDesc = Clockwork.config:Get("minimum_physdesc"):Get();
 			self.info.physDesc = self.physDescTextEntry:GetValue();
-		if (string.len(self.info.physDesc) < minimumPhysDesc) then
+		if (string.utf8len(self.info.physDesc) < minimumPhysDesc) then
 			Clockwork.character:SetFault("The physical description must be at least "..minimumPhysDesc.." characters long!");
 			return false;
 		end;

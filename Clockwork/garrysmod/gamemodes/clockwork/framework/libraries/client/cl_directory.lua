@@ -9,13 +9,15 @@
 local Clockwork = Clockwork;
 local pairs = pairs;
 
+if (Clockwork.directory) then return; end;
+
 Clockwork.directory = Clockwork.kernel:NewLibrary("Directory");
-Clockwork.directory.friendlyNames = {};
-Clockwork.directory.formatting = {};
-Clockwork.directory.sorting = {};
-Clockwork.directory.matches = {};
-Clockwork.directory.stored = {};
-Clockwork.directory.tips = {};
+Clockwork.directory.friendlyNames = Clockwork.directory.friendlyNames or {};
+Clockwork.directory.formatting = Clockwork.directory.formatting or {};
+Clockwork.directory.sorting = Clockwork.directory.sorting or {};
+Clockwork.directory.matches = Clockwork.directory.matches or {};
+Clockwork.directory.stored = Clockwork.directory.stored or {};
+Clockwork.directory.tips = Clockwork.directory.tips or {};
 
 --[[ 
 	A good idea for the master formatting, is to ensure the existance of default CSS classes.

@@ -6,25 +6,29 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
-if (Clockwork and Clockwork.config) then
-	ErrorNoHalt("[Clockwork] Clockwork does not currently support AutoRefresh but is being worked on.\n");
-	return;
+local startTime = os.clock();
+
+if (Clockwork and Clockwork.kernel) then
+	MsgC(Color(0, 255, 100, 255), "[Clockwork] Change detected! Refreshing...\n");
+else
+	MsgC(Color(0, 255, 100, 255), "[Clockwork] Framework is initializing...\n");
 end;
 
 local caxVersion = file.Read("cax.txt", "DATA");
 local requireName = "cloudauthx";
+
 if (caxVersion != "" and tonumber(caxVersion)) then
- local fileName = caxVersion;
+	local fileName = caxVersion;
  
- if (system.IsLinux()) then
- fileName = "gmsv_cloudauthx_"..fileName.."_linux.dll";
- else
- fileName = "gmsv_cloudauthx_"..fileName.."_win32.dll";
- end;
+	if (system.IsLinux()) then
+		fileName = "gmsv_cloudauthx_"..fileName.."_linux.dll";
+	else
+		fileName = "gmsv_cloudauthx_"..fileName.."_win32.dll";
+	end;
  
- if (file.Exists("lua/bin/"..fileName, "GAME")) then
- requireName = "cloudauthx_"..caxVersion;
- end;
+	if (file.Exists("lua/bin/"..fileName, "GAME")) then
+		requireName = "cloudauthx_"..caxVersion;
+	end;
 end;
 require(requireName);
 
@@ -34,13 +38,21 @@ else
 	require("tmysql4");
 end;
 
+AddCSLuaFile("external/utf8.lua");
 AddCSLuaFile("cl_init.lua");
 AddCSLuaFile("external/von.lua");
-AddCSLuaFile("external/pon.lua");
 
 --[[
 	Include Vercas's serialization library
 	and the Clockwork kernel. --]]
+include("external/utf8.lua");
 include("external/von.lua");
-include("external/pon.lua");
 include("clockwork/framework/sv_kernel.lua");
+
+if (Clockwork and cwBootComplete) then
+	MsgC(Color(0, 255, 100, 255), "[Clockwork] AutoRefresh handled serverside in "..math.Round(os.clock() - startTime, 3).. " second(s)\n");
+else
+	MsgC(Color(0, 255, 100, 255), "[Clockwork] Framework loading took "..math.Round(os.clock() - startTime, 3).. " second(s)\n");
+end;
+
+cwBootComplete = true;

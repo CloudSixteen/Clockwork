@@ -10,7 +10,7 @@ local Clockwork = Clockwork;
 local IsValid = IsValid;
 
 Clockwork.system = Clockwork.kernel:NewLibrary("System");
-Clockwork.system.stored = {};
+Clockwork.system.stored = Clockwork.system.stored or {};
 
 --[[ Set the __index meta function of the class. --]]
 local CLASS_TABLE = {__index = CLASS_TABLE};

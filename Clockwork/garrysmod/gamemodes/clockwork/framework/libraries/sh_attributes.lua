@@ -291,8 +291,8 @@ if (SERVER) then
 		end;
 	end;
 else
-	Clockwork.attributes.stored = {};
-	Clockwork.attributes.boosts = {};
+	Clockwork.attributes.stored = Clockwork.attributes.stored or {};
+	Clockwork.attributes.boosts = Clockwork.attributes.boosts or {};
 	
 	-- A function to get the attributes panel.
 	function Clockwork.attributes:GetPanel()

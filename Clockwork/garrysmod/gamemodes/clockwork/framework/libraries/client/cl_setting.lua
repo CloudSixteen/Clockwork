@@ -11,7 +11,7 @@ local pairs = pairs;
 local table = table;
 
 Clockwork.setting = Clockwork.kernel:NewLibrary("Setting");
-Clockwork.setting.stored = {};
+Clockwork.setting.stored = Clockwork.setting.stored or {};
 
 -- A function to add a number slider setting.
 function Clockwork.setting:AddNumberSlider(category, text, conVar, minimum, maximum, decimals, toolTip, Condition)

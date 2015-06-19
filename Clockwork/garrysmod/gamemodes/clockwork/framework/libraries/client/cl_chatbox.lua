@@ -31,12 +31,12 @@ if (!Clockwork.datastream) then
 end;
 
 Clockwork.chatBox = Clockwork.kernel:NewLibrary("ChatBox");
-	Clockwork.chatBox.classes = {};
-	Clockwork.chatBox.defaultClasses = {}
-	Clockwork.chatBox.messages = {};
+	Clockwork.chatBox.classes = Clockwork.chatBox.classes or {};
+	Clockwork.chatBox.defaultClasses = Clockwork.chatBox.defaultClasses or {}
+	Clockwork.chatBox.messages = Clockwork.chatBox.messages or {};
 	Clockwork.chatBox.historyPos = 0;
-	Clockwork.chatBox.historyMsgs = {};
-	Clockwork.chatBox.spaceWidths = {};
+	Clockwork.chatBox.historyMsgs = Clockwork.chatBox.historyMsgs or {};
+	Clockwork.chatBox.spaceWidths = Clockwork.chatBox.spaceWidths or {};
 chat.ClockworkAddText = chat.AddText;
 
 -- A function to add text to the chat box.
@@ -143,7 +143,7 @@ function Clockwork.chatBox:IsTypingCommand()
 	local currentText = Clockwork.chatBox:GetCurrentText();
 	local prefix = Clockwork.config:Get("command_prefix"):Get();
 	
-	if (string.sub(currentText, 1, string.len(prefix)) == prefix) then
+	if (string.utf8sub(currentText, 1, string.utf8len(prefix)) == prefix) then
 		return true;
 	else
 		return false;
@@ -181,8 +181,8 @@ function Clockwork.chatBox:CreateDermaTextEntry()
 			local maxChatLength = Clockwork.config:Get("max_chat_length"):Get();
 			local text = textEntry:GetValue();
 			
-			if (string.len(text) > maxChatLength) then
-				textEntry:SetRealValue(string.sub(text, 0, maxChatLength));
+			if (string.utf8len(text) > maxChatLength) then
+				textEntry:SetRealValue(string.utf8sub(text, 0, maxChatLength));
 				surface.PlaySound("common/talk.wav");
 			elseif (self:IsOpen()) then
 				if (text != textEntry.previousText) then
@@ -220,11 +220,11 @@ function Clockwork.chatBox:CreateDermaTextEntry()
 			textEntry:SetText(text);
 			
 			if (limit) then
-				if (textEntry:GetCaretPos() > string.len(text)) then
-					textEntry:SetCaretPos(string.len(text));
+				if (textEntry:GetCaretPos() > string.utf8len(text)) then
+					textEntry:SetCaretPos(string.utf8len(text));
 				end;
 			else
-				textEntry:SetCaretPos(string.len(text));
+				textEntry:SetCaretPos(string.utf8len(text));
 			end;
 		end;
 		
@@ -237,14 +237,14 @@ function Clockwork.chatBox:CreateDermaTextEntry()
 				local text = textEntry:GetValue();
 				local prefix = Clockwork.config:Get("command_prefix"):Get();
 				
-				if (string.sub(text, 1, string.len(prefix)) == prefix) then
+				if (string.utf8sub(text, 1, string.utf8len(prefix)) == prefix) then
 					local exploded = string.Explode(" ", text);
 					
 					if (!exploded[2]) then
 						local commands = Clockwork.kernel:GetSortedCommands();
 						local bUseNext = false;
 						local firstCmd = nil;
-						local command = string.sub(exploded[1], string.len(prefix) + 1);
+						local command = string.utf8sub(exploded[1], string.utf8len(prefix) + 1);
 						
 						command = string.lower(command);
 						
@@ -255,7 +255,7 @@ function Clockwork.chatBox:CreateDermaTextEntry()
 								firstCmd = v;
 							end;
 							
-							if ((string.len(command) < string.len(v)
+							if ((string.utf8len(command) < string.utf8len(v)
 							and string.find(v, command) == 1) or bUseNext) then
 								textEntry:SetRealValue(prefix..v);
 								return;
@@ -455,8 +455,8 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 					if (info.unrecognised) then
 						local unrecognisedName, usedPhysDesc = Clockwork.player:GetUnrecognisedName(info.speaker);
 						
-						if (usedPhysDesc and string.len(unrecognisedName) > 24) then
-							unrecognisedName = string.sub(unrecognisedName, 1, 21).."...";
+						if (usedPhysDesc and string.utf8len(unrecognisedName) > 24) then
+							unrecognisedName = string.utf8sub(unrecognisedName, 1, 21).."...";
 						end;
 						
 						info.name = "["..unrecognisedName.."]";
@@ -526,7 +526,7 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 							color = Color(175, 255, 175, 255);
 						end;
 						
-						if (string.sub(info.text, 1, 1) == "'") then
+						if (string.utf8sub(info.text, 1, 1) == "'") then
 							Clockwork.chatBox:Add(info.filtered, nil, color, "*** "..info.name..info.text);
 						else
 							Clockwork.chatBox:Add(info.filtered, nil, color, "*** "..info.name.." "..info.text);
@@ -539,7 +539,7 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 							color = Color(175, 255, 175, 255);
 						end;
 						
-						if (string.sub(info.text, 1, 1) == "'") then
+						if (string.utf8sub(info.text, 1, 1) == "'") then
 							Clockwork.chatBox:Add(info.filtered, nil, color, "* "..info.name..info.text);
 						else
 							Clockwork.chatBox:Add(info.filtered, nil, color, "* "..info.name.." "..info.text);
@@ -552,7 +552,7 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 							color = Color(175, 255, 175, 255);
 						end;
 						
-						if (string.sub(info.text, 1, 1) == "'") then
+						if (string.utf8sub(info.text, 1, 1) == "'") then
 							Clockwork.chatBox:Add(info.filtered, nil, color, "***** "..info.name..info.text);
 						else
 							Clockwork.chatBox:Add(info.filtered, nil, color, "***** "..info.name.." "..info.text);
@@ -634,7 +634,7 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 			local icon = info.data.icon or "comment";
 			local color = Color(125, 150, 175, 255);
 
-			if (string.sub(info.text, -1) == "!") then
+			if (string.utf8sub(info.text, -1) == "!") then
 				icon = info.data.icon or "error";
 				color = Color(200, 175, 200, 255);
 			end;
@@ -653,7 +653,7 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 			local icon = info.data.icon or "comment";
 			local color = Color(175, 200, 255, 255);
 
-			if (string.sub(info.text, -1) == "!") then
+			if (string.utf8sub(info.text, -1) == "!") then
 				icon = info.data.icon or "error";
 				color = Color(200, 175, 200, 255);
 			end;
@@ -688,12 +688,12 @@ function Clockwork.chatBox:WrappedText(newLine, message, color, text, OnHover)
 		local secondText = nil;
 		
 		for i = 0, #text do
-			local currentCharacter = string.sub(text, i, i);
+			local currentCharacter = string.utf8sub(text, i, i);
 			local currentSingleWidth = Clockwork.kernel:GetTextSize(chatBoxTextFont, currentCharacter);
 			
 			if ((currentWidth + currentSingleWidth) >= maximumWidth) then
-				secondText = string.sub(text, i);
-				firstText = string.sub(text, 0, (i - 1));
+				secondText = string.utf8sub(text, i);
+				firstText = string.utf8sub(text, 0, (i - 1));
 				
 				break;
 			else
@@ -847,7 +847,7 @@ function Clockwork.chatBox:Paint()
 		local colorInformation = Clockwork.option:GetColor("information");
 		local currentText = Clockwork.chatBox:GetCurrentText();
 		local colorWhite = Clockwork.option:GetColor("white");
-		local splitTable = string.Explode(" ", string.sub(currentText, 2));
+		local splitTable = string.Explode(" ", string.utf8sub(currentText, 2));
 		local commands = {};
 		local oX, oY = origX, origY;
 		local command = splitTable[1];
@@ -855,7 +855,7 @@ function Clockwork.chatBox:Paint()
 		
 		if (command) then
 			for k, v in pairs(Clockwork.command.stored) do
-				if (string.sub(k, 1, string.len(command)) == string.lower(command)
+				if (string.utf8sub(k, 1, string.utf8len(command)) == string.lower(command)
 				and (!splitTable[2] or string.lower(command) == k)) then
 					if (Clockwork.player:HasFlags(Clockwork.Client, v.access)) then
 						commands[#commands + 1] = v;
@@ -1051,10 +1051,10 @@ Clockwork.datastream:Hook("ChatBoxDeathCode", function(data)
 	if (Clockwork.chatBox:IsOpen()) then
 		local text = Clockwork.chatBox.textEntry:GetValue();
 		
-		if (text != "" and string.sub(text, 1, 2) != "//" and string.sub(text, 1, 3) != ".//"
-		and string.sub(text, 1, 2) != "[[") then
+		if (text != "" and string.utf8sub(text, 1, 2) != "//" and string.utf8sub(text, 1, 3) != ".//"
+		and string.utf8sub(text, 1, 2) != "[[") then
 			RunConsoleCommand("cwDeathCode", iDeathCode);
-				Clockwork.chatBox.textEntry:SetRealValue(string.sub(text, 0, string.len(text) - 1).."-");
+				Clockwork.chatBox.textEntry:SetRealValue(string.utf8sub(text, 0, string.utf8len(text) - 1).."-");
 			Clockwork.chatBox.textEntry:OnEnter();
 		end;
 	end;

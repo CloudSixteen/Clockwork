@@ -6,14 +6,9 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
-if (Clockwork and Clockwork.config) then
-	ErrorNoHalt("[Clockwork] Clockwork does not currently support AutoRefresh but is being worked on.\n");
-	return;
-end;
-
 --[[ Include Vercas's serialization library. --]]
+include("external/utf8.lua");
 include("external/von.lua");
-include("external/pon.lua");
 
 --[[
 	Include the shared Lua table and

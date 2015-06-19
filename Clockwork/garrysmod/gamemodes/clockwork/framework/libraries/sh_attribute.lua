@@ -11,8 +11,8 @@ local pairs = pairs;
 local string = string;
 
 Clockwork.attribute = Clockwork.kernel:NewLibrary("Attribute");
-Clockwork.attribute.stored = {};
-Clockwork.attribute.buffer = {};
+Clockwork.attribute.stored = Clockwork.attribute.stored or {};
+Clockwork.attribute.buffer = Clockwork.attribute.buffer or {};
 
 --[[ Set the __index meta function of the class. --]]
 local CLASS_TABLE = {__index = CLASS_TABLE};
@@ -74,7 +74,7 @@ function Clockwork.attribute:FindByID(identifier)
 	for k, v in pairs(self.stored) do
 		if (string.find(string.lower(v.name), string.lower(identifier))) then
 			if (tAttributeTab) then
-				if (string.len(v.name) < string.len(tAttributeTab.name)) then
+				if (string.utf8len(v.name) < string.utf8len(tAttributeTab.name)) then
 					tAttributeTab = v;
 				end;
 			else

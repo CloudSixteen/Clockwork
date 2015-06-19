@@ -542,7 +542,7 @@ function Clockwork.player:HasAnyFlags(player, flags, bByDefault)
 		end;
 		
 		for i = 1, #flags do
-			local flag = string.sub(flags, i, i);
+			local flag = string.utf8sub(flags, i, i);
 			local bSuccess = true;
 			
 			if (!bByDefault) then
@@ -590,7 +590,7 @@ function Clockwork.player:HasFlags(player, flags, bByDefault)
 		end;
 		
 		for i = 1, #flags do
-			local flag = string.sub(flags, i, i);
+			local flag = string.utf8sub(flags, i, i);
 			local bSuccess;
 			
 			if (!bByDefault) then

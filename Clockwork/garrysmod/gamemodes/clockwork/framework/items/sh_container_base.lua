@@ -34,8 +34,8 @@ function ITEM:OnLoaded()
 	local inventory = self("Inventory");
 	
 	if (inventory != nil) then
-		if (CloudAuthX.Base64Decode and string.sub(inventory, 1, 1) == "@") then
-			inventory = CloudAuthX.Base64Decode(string.sub(inventory, 2));
+		if (CloudAuthX.Base64Decode and string.utf8sub(inventory, 1, 1) == "@") then
+			inventory = CloudAuthX.Base64Decode(string.utf8sub(inventory, 2));
 		end;
 		
 		self:SetData("Inventory", Clockwork.inventory:ToLoadable(inventory));

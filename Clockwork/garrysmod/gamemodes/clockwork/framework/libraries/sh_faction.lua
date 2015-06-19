@@ -15,8 +15,8 @@ local math = math;
 local util = util;
 
 Clockwork.faction = Clockwork.kernel:NewLibrary("Faction");
-Clockwork.faction.stored = {};
-Clockwork.faction.buffer = {};
+Clockwork.faction.stored = Clockwork.faction.stored or {};
+Clockwork.faction.buffer = Clockwork.faction.buffer or {};
 
 FACTION_CITIZENS_FEMALE = {
 	"models/humans/group01/female_01.mdl",
@@ -153,8 +153,8 @@ function Clockwork.faction:FindByID(identifier)
 
 		for k, v in pairs(self:GetAll())do
 			if (string.find(string.lower(k), lowerIdentifier)
-				and string.len(k) < shortestLength) then
-				shortestLength = string.len(k);
+				and string.utf8len(k) < shortestLength) then
+				shortestLength = string.utf8len(k);
 				shortest = v;
 			end;
 		end;

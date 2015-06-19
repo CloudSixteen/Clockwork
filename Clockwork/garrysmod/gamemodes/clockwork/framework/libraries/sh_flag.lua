@@ -11,7 +11,7 @@ local pairs = pairs;
 local string = string;
 
 Clockwork.flag = Clockwork.kernel:NewLibrary("Flag");
-Clockwork.flag.stored = {};
+Clockwork.flag.stored = Clockwork.flag.stored or {};
 
 -- A function to add a new flag.
 function Clockwork.flag:Add(flag, name, details)

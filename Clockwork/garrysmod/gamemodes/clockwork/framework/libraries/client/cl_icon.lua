@@ -9,7 +9,7 @@
 local Clockwork = Clockwork;
 
 Clockwork.icon = Clockwork.kernel:NewLibrary("Icon");
-Clockwork.icon.stored = {};
+Clockwork.icon.stored = Clockwork.icon.stored or {};
 	
 -- A function to add a chat icon.
 function Clockwork.icon:Add(uniqueID, path, callback, bIsPlayer)
@@ -22,13 +22,13 @@ function Clockwork.icon:Add(uniqueID, path, callback, bIsPlayer)
 					isPlayer = bIsPlayer
 				};
 			else
-				ErrorNoHalt("Error: Attempting to add icon without providing a callback.");
+				MsgC(Color(255, 100, 0, 255), "[Clockwork:Icon] Error: Attempting to add icon without providing a callback.\n");
 			end;
 		else
-			ErrorNoHalt("Error: Attempting to add icon without providing a path..");
+			MsgC(Color(255, 100, 0, 255), "[Clockwork:Icon] Error: Attempting to add icon without providing a path..\n");
 		end;
 	else
-		ErrorNoHalt("Error: Attempting to add an icon without providing a uniqueID.");
+		MsgC(Color(255, 100, 0, 255), "[Clockwork:Icon] Error: Attempting to add an icon without providing a uniqueID.\n");
 	end;
 end;
 
@@ -37,7 +37,7 @@ function Clockwork.icon:Remove(uniqueID)
 	if (uniqueID) then
 		self.stored[uniqueID] = nil;
 	else
-		ErrorNoHalt("Error: Attempting to remove an icon without providing a uniqueID.");
+		MsgC(Color(255, 100, 0, 255), "[Clockwork:Icon] Error: Attempting to remove an icon without providing a uniqueID.\n");
 	end;
 end;
 
