@@ -23,12 +23,12 @@ local util = util;
 if (Clockwork.plugin) then return; end;
 
 Clockwork.plugin = Clockwork.kernel:NewLibrary("Plugin");
-Clockwork.plugin.stored = {};
-Clockwork.plugin.buffer = {};
-Clockwork.plugin.modules = {};
-Clockwork.plugin.unloaded = {};
-Clockwork.plugin.extras = {};
-Clockwork.plugin.hookCache = {};
+Clockwork.plugin.stored = Clockwork.plugin.stored or {};
+Clockwork.plugin.buffer = Clockwork.plugin.buffer or {};
+Clockwork.plugin.modules = Clockwork.plugin.modules or {};
+Clockwork.plugin.unloaded = Clockwork.plugin.unloaded or {};
+Clockwork.plugin.extras = Clockwork.plugin.extras or {};
+Clockwork.plugin.hookCache = Clockwork.plugin.hookCache or {};
 
 PLUGIN_META = {__index = PLUGIN_META};
 PLUGIN_META.description = "An undescribed plugin or schema.";
@@ -144,7 +144,7 @@ if (SERVER) then
 		return false;
 	end;
 else
-	Clockwork.plugin.override = {};
+	Clockwork.plugin.override = Clockwork.plugin.override or {};
 	
 	-- A function to set whether a plugin is unloaded.
 	function Clockwork.plugin:SetUnloaded(name, isUnloaded)
@@ -248,7 +248,7 @@ function Clockwork.plugin:CheckMismatches()
 		end;
 		
 		for k, v in ipairs(funcIdxMismatches) do
-			ErrorNoHalt("[Clockwork] The Schema hook '"..v.."' was overriden by a plugin, this is not good!\n");
+			MsgC(Color(255, 100, 0, 255), "[Clockwork:Plugin] The Schema hook '"..v.."' was overriden by a plugin, this is not good!\n");
 		end;
 	end;
 end;
@@ -328,14 +328,14 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 		elseif (CW_SCRIPT_SHARED.schemaData) then
 			table.Merge(Schema, CW_SCRIPT_SHARED.schemaData);
 		else
-			ErrorNoHalt("[Clockwork] The schema has no "..schemaFolder..".ini!\n");
+			MsgC(Color(255, 100, 0, 255), "[Clockwork:Plugin] The schema has no "..schemaFolder..".ini!\n");
 		end;
 		
 		if (cwFile.Exists(directory.."/sh_schema.lua", "LUA")) then
 			AddCSLuaFile(directory.."/sh_schema.lua");
 			include(directory.."/sh_schema.lua");
 		else
-			ErrorNoHalt("[Clockwork] The schema has no sh_schema.lua.\n");
+			MsgC(Color(255, 100, 0, 255), "[Clockwork:Plugin] The schema has no sh_schema.lua.\n");
 		end;
 
 		Schema:Register();
@@ -352,7 +352,7 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 					table.Merge(PLUGIN, iniTable);
 				CW_SCRIPT_SHARED.plugins[pathCRC] = iniTable;
 			else
-				ErrorNoHalt("[Clockwork] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
+				MsgC(Color(255, 100, 0, 255), "[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
 			end;
 		else
 			local iniTable = CW_SCRIPT_SHARED.plugins[pathCRC];
@@ -364,7 +364,7 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 					self.unloaded[PLUGIN_FOLDERNAME] = true;
 				end;
 			else
-				ErrorNoHalt("[Clockwork] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
+				MsgC(Color(255, 100, 0, 255), "[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
 			end;
 		end;
 		
@@ -421,7 +421,7 @@ function Clockwork.plugin:ClearHookCache(name)
 	elseif (self.hookCache[name]) then
 		self.hookCache[name] = nil;
 	else
-	    ErrorNoHalt("Attempted to clear cache for invalid hook '"..name.."'");
+	    MsgC(Color(255, 100, 0, 255), "[Clockwork:Plugin] Attempted to clear cache for invalid hook '"..name.."'");
 	end;
 end;
 
@@ -462,7 +462,7 @@ function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 		local bSuccess, value = pcall(v[1], v[2], ...);
 			
 		if (!bSuccess) then
-			ErrorNoHalt("[CW::"..v[2].name.."] The '"..name.."' hook has failed to run.\n"..value.."\n");
+			MsgC(Color(255, 100, 0, 255), "\n[Clockwork:"..v[2].name.."]\nThe '"..name.."' hook has failed to run.\n"..value.."\n");
 		elseif (value != nil) then
 			return value;
 		end;
@@ -472,7 +472,7 @@ function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 		local bSuccess, value = pcall(Clockwork[name], Clockwork, ...);
 		
 		if (!bSuccess) then
-			ErrorNoHalt("[CW::Kernel] The '"..name.."' clockwork hook has failed to run.\n"..value.."\n");
+			MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Kernel]\nThe '"..name.."' clockwork hook has failed to run.\n"..value.."\n");
 		elseif (value != nil) then
 			return value;
 		end;

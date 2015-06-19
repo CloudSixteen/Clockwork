@@ -6,11 +6,6 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
-if (Clockwork and Clockwork.config) then
-	ErrorNoHalt("[Clockwork] Clockwork does not currently support AutoRefresh but is being worked on.\n");
-	return;
-end;
-
 local AddCSLuaFile = AddCSLuaFile;
 local IsValid = IsValid;
 local pairs = pairs;
@@ -18,6 +13,18 @@ local pcall = pcall;
 local string = string;
 local table = table;
 local game = game;
+
+if (!Clockwork) then
+	Clockwork = GM;
+else
+	CurrentGM = Clockwork;
+	table.Merge(CurrentGM, GM);
+	Clockwork = nil;
+	
+	Clockwork = GM;
+	table.Merge(Clockwork, CurrentGM);
+	CurrentGM = nil;
+end;
 
 Clockwork = Clockwork or GM;
 Clockwork.ClockworkFolder = Clockwork.ClockworkFolder or GM.Folder;

@@ -337,6 +337,6 @@ function Clockwork.tool:Register(tool)
 
 		self.stored[tool.UniqueID] = tool;
 	else
-		ErrorNoHalt("[Clockwork] The "..tool.Name.." tool does not have a UniqueID, it will not function without one!\n");
+		MsgC(Color(255, 100, 0, 255), "[Clockwork:Tool] The "..tool.Name.." tool does not have a UniqueID, it will not function without one!\n");
 	end;
 end;

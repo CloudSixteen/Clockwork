@@ -16,7 +16,7 @@ local vgui = vgui;
 Clockwork.menu = Clockwork.kernel:NewLibrary("Menu");
 Clockwork.menu.width = math.min(ScrW() * 0.7, 768);
 Clockwork.menu.height = ScrH() * 0.75;
-Clockwork.menu.stored = {};
+Clockwork.menu.stored = Clockwork.menu.stored or {};
 
 -- A function to get the menu's active panel.
 function Clockwork.menu:GetActivePanel()

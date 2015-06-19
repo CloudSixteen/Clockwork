@@ -158,35 +158,35 @@ end;
 function cwDisplayTyping:ChatBoxTextChanged(previousText, newText)
 	local prefix = Clockwork.config:Get("command_prefix"):Get();
 	
-	if (string.sub(newText, 1, string.len(prefix) + 6) == prefix.."radio ") then
-		if (string.sub(previousText, 1, string.len(prefix) + 6) != prefix.."radio ") then
+	if (string.utf8sub(newText, 1, string.utf8len(prefix) + 6) == prefix.."radio ") then
+		if (string.utf8sub(previousText, 1, string.utf8len(prefix) + 6) != prefix.."radio ") then
 			RunConsoleCommand("cwTypingStart", "r");
 		end;
-	elseif (string.sub(newText, 1, string.len(prefix) + 3) == prefix.."me ") then
-		if (string.sub(previousText, 1, string.len(prefix) + 3) != prefix.."me ") then
+	elseif (string.utf8sub(newText, 1, string.utf8len(prefix) + 3) == prefix.."me ") then
+		if (string.utf8sub(previousText, 1, string.utf8len(prefix) + 3) != prefix.."me ") then
 			RunConsoleCommand("cwTypingStart", "p");
 		end;
-	elseif (string.sub(newText, 1, string.len(prefix) + 3) == prefix.."pm ") then
-		if (string.sub(previousText, 1, string.len(prefix) + 3) != prefix.."pm ") then
+	elseif (string.utf8sub(newText, 1, string.utf8len(prefix) + 3) == prefix.."pm ") then
+		if (string.utf8sub(previousText, 1, string.utf8len(prefix) + 3) != prefix.."pm ") then
 			RunConsoleCommand("cwTypingStart", "o");
 		end;
-	elseif (string.sub(newText, 1, string.len(prefix) + 2) == prefix.."w ") then
-		if (string.sub(previousText, 1, string.len(prefix) + 2) != prefix.."w ") then
+	elseif (string.utf8sub(newText, 1, string.utf8len(prefix) + 2) == prefix.."w ") then
+		if (string.utf8sub(previousText, 1, string.utf8len(prefix) + 2) != prefix.."w ") then
 			RunConsoleCommand("cwTypingStart", "w");
 		end;
-	elseif (string.sub(newText, 1, string.len(prefix) + 2) == prefix.."y ") then
-		if (string.sub(previousText, 1, string.len(prefix) + 2) != prefix.."y ") then
+	elseif (string.utf8sub(newText, 1, string.utf8len(prefix) + 2) == prefix.."y ") then
+		if (string.utf8sub(previousText, 1, string.utf8len(prefix) + 2) != prefix.."y ") then
 			RunConsoleCommand("cwTypingStart", "y");
 		end;
-	elseif (string.sub(newText, 1, 3) == "// ") then
-		if (string.sub(previousText, 1, 3) != prefix.."// ") then
+	elseif (string.utf8sub(newText, 1, 3) == "// ") then
+		if (string.utf8sub(previousText, 1, 3) != prefix.."// ") then
 			RunConsoleCommand("cwTypingStart", "o");
 		end;
-	elseif (string.sub(newText, 1, 4) == ".// ") then
-		if (string.sub(previousText, 1, 4) != prefix..".// ") then
+	elseif (string.utf8sub(newText, 1, 4) == ".// ") then
+		if (string.utf8sub(previousText, 1, 4) != prefix..".// ") then
 			RunConsoleCommand("cwTypingStart", "o");
 		end;
-	elseif (string.len(newText) >= 4 and string.len(previousText) < 4) then
+	elseif (string.utf8len(newText) >= 4 and string.utf8len(previousText) < 4) then
 		RunConsoleCommand("cwTypingStart", "n");
 	end;
 end;

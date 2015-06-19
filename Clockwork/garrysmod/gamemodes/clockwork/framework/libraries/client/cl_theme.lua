@@ -16,7 +16,7 @@ local sTabName, tPanelFactory = debug.getupvalue(vgui.Create, 1);
 if (sTabName == "PanelFactory" and type(tPanelFactory) == "table") then
 	Clockwork.theme.factory = tPanelFactory;
 else
-	Clockwork.theme.factory = {};
+	Clockwork.theme.factory = Clockwork.theme.factory or {};
 end;
 
 --[[

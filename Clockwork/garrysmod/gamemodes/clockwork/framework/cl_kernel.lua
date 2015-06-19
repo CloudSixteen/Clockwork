@@ -70,7 +70,7 @@ function hook.Call(name, gamemode, ...)
 	hook.Timings[name] = timeTook;
 	
 	if (!bStatus) then
-		ErrorNoHalt("[Clockwork] The '"..name.."' hook failed to run.\n"..value.."\n"..value.."\n");
+		MsgC(Color(255, 100, 0, 255), "[Clockwork] The '"..name.."' hook failed to run.\n"..value.."\n"..value.."\n");
 	end;
 	
 	if (value == nil) then
@@ -81,7 +81,7 @@ function hook.Call(name, gamemode, ...)
 		hook.Timings[name] = timeTook;
 		
 		if (!bStatus) then
-			ErrorNoHalt("[Clockwork] The '"..name.."' hook failed to run.\n"..a.."\n");
+			MsgC(Color(255, 100, 0, 255), "[Clockwork] The '"..name.."' hook failed to run.\n"..a.."\n");
 		else
 			return a, b, c;
 		end;
@@ -328,7 +328,7 @@ Clockwork.datastream:Hook("CfgListVars", function(data)
 			or string.find(string.lower(k), sSearchData)) and !v.isStatic) then
 				if (v.isPrivate) then
 					tConfigRes[#tConfigRes + 1] = {
-						k, string.rep("*", string.len(tostring(v.value)))
+						k, string.rep("*", string.utf8len(tostring(v.value)))
 					};
 				else
 					tConfigRes[#tConfigRes + 1] = {
@@ -2415,8 +2415,8 @@ function Clockwork:GetPlayerScoreboardText(player)
 	if (self.player:DoesRecognise(player, RECOGNISE_PARTIAL)) then
 		local physDesc = self.player:GetPhysDesc(player);
 		
-		if (string.len(physDesc) > 64) then
-			return string.sub(physDesc, 1, 61).."...";
+		if (string.utf8len(physDesc) > 64) then
+			return string.utf8sub(physDesc, 1, 61).."...";
 		else
 			return physDesc;
 		end;

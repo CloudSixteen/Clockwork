@@ -17,8 +17,8 @@ local game = game;
 local math = math;
 
 Clockwork.class = Clockwork.kernel:NewLibrary("Class");
-Clockwork.class.stored = {};
-Clockwork.class.buffer = {};
+Clockwork.class.stored = Clockwork.class.stored or {};
+Clockwork.class.buffer = Clockwork.class.buffer or {};
 
 --[[ Set the __index meta function of the class. --]]
 local CLASS_TABLE = {__index = CLASS_TABLE};
@@ -174,7 +174,7 @@ function Clockwork.class:HasAnyFlags(name, flags)
 	
 	if (sFlagString) then
 		for i = 1, #flags do
-			local flag = string.sub(flags, i, i);
+			local flag = string.utf8sub(flags, i, i);
 			
 			if (string.find(sFlagString, flag)) then
 				return true;
@@ -189,7 +189,7 @@ function Clockwork.class:HasFlags(name, flags)
 	
 	if (sFlagString) then
 		for i = 1, #flags do
-			local flag = string.sub(flags, i, i);
+			local flag = string.utf8sub(flags, i, i);
 			
 			if (!string.find(sFlagString, flag)) then
 				return false;

@@ -118,8 +118,8 @@ if (system.IsLinux()) then
 	function file.Read(fileName, pathName)
 		local contents = ClockworkFileRead(fileName, pathName);
 		
-		if (contents and string.sub(contents, -1) == "\n") then
-			contents = string.sub(contents, 1, -2);
+		if (contents and string.utf8sub(contents, -1) == "\n") then
+			contents = string.utf8sub(contents, 1, -2);
 		end;
 		
 		return contents;
@@ -131,8 +131,8 @@ end;
 	on default GMod hooks that are called.
 --]]
 hook.ClockworkCall = hook.ClockworkCall or hook.Call;
-hook.Timings = {};
-hook.Averages = {};
+hook.Timings = hook.Timings or {};
+hook.Averages = hook.Averages or {};
 
 function hook.Call(name, gamemode, ...)
 	local arguments = {...};
@@ -159,7 +159,7 @@ function hook.Call(name, gamemode, ...)
 	
 	if (!bStatus) then
 		if (!Clockwork.Unauthorized) then
-			ErrorNoHalt("[Clockwork] The '"..name.."' hook has failed to run.\n"..value.."\n");
+			MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Kernel]\nThe '"..name.."' hook has failed to run.\n"..value.."\n");
 		end;
 	end;
 	
@@ -172,7 +172,7 @@ function hook.Call(name, gamemode, ...)
 		
 		if (!bStatus) then
 			if (!Clockwork.Unauthorized) then
-				ErrorNoHalt("[Clockwork] The '"..name.."' hook failed to run.\n"..a.."\n");
+				MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Kernel]\nThe '"..name.."' hook failed to run.\n"..a.."\n");
 			end;
 		else
 			return a, b, c;
@@ -306,7 +306,7 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 		player:SetMoveType(MOVETYPE_OBSERVER);
 	end;
 	
-	if (storageTable and cwPlugin:Call("PlayerStorageShouldClose", self, player, storageTable)) then
+	if (storageTable and cwPlugin:Call("PlayerStorageShouldClose", player, storageTable)) then
 		cwStorage:Close(player);
 	end;
 	
@@ -1252,9 +1252,9 @@ end;
 
 -- Called when a player initially spawns.
 function Clockwork:PlayerInitialSpawn(player)
-	player.cwCharacterList = {};
+	player.cwCharacterList = player.cwCharacterList or {};
 	player.cwHasSpawned = true;
-	player.cwSharedVars = {};
+	player.cwSharedVars = player.cwSharedVars or {};
 	
 	if (IsValid(player)) then
 		player:KillSilent();
@@ -2875,7 +2875,7 @@ function Clockwork:PlayerCharacterInitialized(player)
 		self.class:AssignToDefault(player);
 	end;
 	
-	player.cwAttrProgress = {};
+	player.cwAttrProgress = player.cwAttrProgress or {};
 	player.cwAttrProgressTime = 0;
 	
 	for k, v in pairs(self.attribute:GetAll()) do
@@ -2953,14 +2953,14 @@ function Clockwork:PlayerCharacterLoaded(player)
 	player.cwClipTwoInfo = {weapon = NULL, ammo = 0};
 	player.cwClipOneInfo = {weapon = NULL, ammo = 0};
 	player.cwInitialized = true;
-	player.cwAttrBoosts = {};
-	player.cwRagdollTab = {};
-	player.cwSpawnWeps = {};
+	player.cwAttrBoosts = player.cwAttrBoosts or {};
+	player.cwRagdollTab = player.cwRagdollTab or {};
+	player.cwSpawnWeps = player.cwSpawnWeps or {};
 	player.cwFirstSpawn = true;
 	player.cwLightSpawn = false;
 	player.cwChangeClass = false;
-	player.cwInfoTable = {};
-	player.cwSpawnAmmo = {};
+	player.cwInfoTable = player.cwInfoTable or {};
+	player.cwSpawnAmmo = player.cwSpawnAmmo or {};
 	player.cwJumpPower = self.config:Get("jump_power"):Get();
 	player.cwWalkSpeed = self.config:Get("walk_speed"):Get();
 	player.cwRunSpeed = self.config:Get("run_speed"):Get();
@@ -3012,7 +3012,7 @@ function Clockwork:PlayerCharacterLoaded(player)
 	end;
 	
 	if (player:GetPlayerFlags()) then
-		Clockwork.player:SetFlags(player, player:GetPlayerFlags())
+		Clockwork.player:GiveFlags(player, player:GetPlayerFlags())
 	end;
 end;
 
@@ -3213,15 +3213,15 @@ function Clockwork:PlayerDeath(player, inflictor, attacker, damageInfo)
 			local itemTable = self.item:GetByWeapon(weapon);
 		
 			if (IsValid(weapon) and itemTable) then
-				self.kernel:PrintLog(LOGTYPE_CRITICAL, attacker:Name().." has killed "..player:Name().." with "..itemTable("name")..".");
+				self.kernel:PrintLog(LOGTYPE_CRITICAL, attacker:Name().." has dealt "..tostring(math.ceil(damageInfo:GetDamage())).." damage to "..player:Name().." with "..itemTable("name")..", killing them!");
 			else
-				self.kernel:PrintLog(LOGTYPE_CRITICAL, attacker:Name().." has killed "..player:Name().." with "..self.player:GetWeaponClass(attacker)..".");
+				self.kernel:PrintLog(LOGTYPE_CRITICAL, attacker:Name().." has dealt "..tostring(math.ceil(damageInfo:GetDamage())).." damage to "..player:Name().." with "..self.player:GetWeaponClass(attacker)..", killing them!");
 			end;
 		else
-			self.kernel:PrintLog(LOGTYPE_CRITICAL, attacker:Name().." has killed "..player:Name()..".");
+			self.kernel:PrintLog(LOGTYPE_CRITICAL, attacker:Name().." has dealt "..tostring(math.ceil(damageInfo:GetDamage())).." damage to "..player:Name()..", killing them!");
 		end;
 	else
-		self.kernel:PrintLog(LOGTYPE_URGENT, attacker:GetClass().." has killed "..player:Name()..".");
+		self.kernel:PrintLog(LOGTYPE_CRITICAL, attacker:GetClass().." has dealt "..tostring(math.ceil(damageInfo:GetDamage())).." damage to "..player:Name()..", killing them!");
 	end;
 end;
 
@@ -3487,11 +3487,17 @@ function Clockwork:EntityTakeDamage(entity, damageInfo)
 						if (sound and !bNoMsg) then
 							player:EmitHitSound(sound);
 						end;
+
+						local armor = "!";
+
+						if (player:Armor() > 0) then
+							armor = " and "..player:Armor().." armor!"
+						end;
 						
 						if (attacker:IsPlayer()) then
-							self.kernel:PrintLog(LOGTYPE_MAJOR, player:Name().." has taken damage from "..attacker:Name().." with "..self.player:GetWeaponClass(attacker, "an unknown weapon")..".");
+							self.kernel:PrintLog(LOGTYPE_MAJOR, player:Name().." has taken "..tostring(math.ceil(damageInfo:GetDamage())).." damage from "..attacker:Name().." with "..self.player:GetWeaponClass(attacker, "an unknown weapon")..", leaving them at "..player:Health().." health"..armor);
 						else
-							self.kernel:PrintLog(LOGTYPE_MAJOR, player:Name().." has taken damage from "..attacker:GetClass()..".");
+							self.kernel:PrintLog(LOGTYPE_MAJOR, player:Name().." has taken "..tostring(math.ceil(damageInfo:GetDamage())).." damage from "..attacker:GetClass()..", leaving them at "..player:Health().." health"..armor);
 						end;
 					end;
 				end;
@@ -3537,10 +3543,16 @@ function Clockwork:EntityTakeDamage(entity, damageInfo)
 						entity:EmitHitSound(sound);
 					end;
 					
+					local armor = "!";
+
+					if (player:Armor() > 0) then
+						armor = " and "..player:Armor().." armor!"
+					end;
+
 					if (attacker:IsPlayer()) then
-						self.kernel:PrintLog(LOGTYPE_MAJOR, player:Name().." has taken damage from "..attacker:Name().." with "..self.player:GetWeaponClass(attacker, "an unknown weapon")..".");
+						self.kernel:PrintLog(LOGTYPE_MAJOR, player:Name().." has taken "..tostring(math.ceil(damageInfo:GetDamage())).." damage from "..attacker:Name().." with "..self.player:GetWeaponClass(attacker, "an unknown weapon")..", leaving them at "..player:Health().." health"..armor);
 					else
-						self.kernel:PrintLog(LOGTYPE_MAJOR, player:Name().." has taken damage from "..attacker:GetClass()..".");
+						self.kernel:PrintLog(LOGTYPE_MAJOR, player:Name().." has taken "..tostring(math.ceil(damageInfo:GetDamage())).." damage from "..attacker:GetClass()..", leaving them at "..player:Health().." health"..armor);
 					end;
 				end;
 			end;
@@ -3872,7 +3884,7 @@ Clockwork.datastream:Hook("DoorManagement", function(player, data)
 			elseif (data[2] == "Text" and data[3] != "") then
 				if (Clockwork.player:HasDoorAccess(player, data[1], DOOR_ACCESS_COMPLETE)) then
 					if (!string.find(string.gsub(string.lower(data[3]), "%s", ""), "thisdoorcanbepurchased") and string.find(data[3], "%w")) then
-						Clockwork.entity:SetDoorText(data[1], string.sub(data[3], 1, 32));
+						Clockwork.entity:SetDoorText(data[1], string.utf8sub(data[3], 1, 32));
 					end;
 				end;
 			elseif (data[2] == "Sell") then
@@ -4004,29 +4016,31 @@ end);
 local entityMeta = FindMetaTable("Entity");
 local playerMeta = FindMetaTable("Player");
 
-playerMeta.ClockworkSetCrouchedWalkSpeed = playerMeta.SetCrouchedWalkSpeed;
-playerMeta.ClockworkLastHitGroup = playerMeta.LastHitGroup;
-playerMeta.ClockworkSetJumpPower = playerMeta.SetJumpPower;
-playerMeta.ClockworkSetWalkSpeed = playerMeta.SetWalkSpeed;
-playerMeta.ClockworkStripWeapons = playerMeta.StripWeapons;
-playerMeta.ClockworkSetRunSpeed = playerMeta.SetRunSpeed;
-entityMeta.ClockworkSetMaterial = entityMeta.SetMaterial;
-playerMeta.ClockworkStripWeapon = playerMeta.StripWeapon;
-entityMeta.ClockworkFireBullets = entityMeta.FireBullets;
-playerMeta.ClockworkGodDisable = playerMeta.GodDisable;
-entityMeta.ClockworkExtinguish = entityMeta.Extinguish;
-entityMeta.ClockworkWaterLevel = entityMeta.WaterLevel;
-playerMeta.ClockworkGodEnable = playerMeta.GodEnable;
-entityMeta.ClockworkSetHealth = entityMeta.SetHealth;
-entityMeta.ClockworkSetColor = entityMeta.SetColor;
-entityMeta.ClockworkIsOnFire = entityMeta.IsOnFire;
-entityMeta.ClockworkSetModel = entityMeta.SetModel;
-playerMeta.ClockworkSetArmor = playerMeta.SetArmor;
-entityMeta.ClockworkSetSkin = entityMeta.SetSkin;
-entityMeta.ClockworkAlive = playerMeta.Alive;
-playerMeta.ClockworkGive = playerMeta.Give;
-playerMeta.ClockworkKick = playerMeta.Kick;
-playerMeta.SteamName = playerMeta.Name;
+playerMeta.ClockworkSetCrouchedWalkSpeed = playerMeta.ClockworkSetCrouchedWalkSpeed or playerMeta.SetCrouchedWalkSpeed;
+playerMeta.ClockworkLastHitGroup = playerMeta.ClockworkLastHitGroup or playerMeta.LastHitGroup;
+playerMeta.ClockworkSetJumpPower = playerMeta.ClockworkSetJumpPower or playerMeta.SetJumpPower;
+playerMeta.ClockworkSetWalkSpeed = playerMeta.ClockworkSetWalkSpeed or playerMeta.SetWalkSpeed;
+playerMeta.ClockworkStripWeapons = playerMeta.ClockworkStripWeapons or playerMeta.StripWeapons;
+playerMeta.ClockworkSetRunSpeed = playerMeta.ClockworkSetRunSpeed or playerMeta.SetRunSpeed;
+entityMeta.ClockworkSetMaterial = entityMeta.ClockworkSetMaterial or entityMeta.SetMaterial;
+playerMeta.ClockworkStripWeapon = playerMeta.ClockworkStripWeapon or playerMeta.StripWeapon;
+entityMeta.ClockworkFireBullets = entityMeta.ClockworkFireBullets or entityMeta.FireBullets;
+playerMeta.ClockworkGodDisable = playerMeta.ClockworkGodDisable or playerMeta.GodDisable;
+entityMeta.ClockworkExtinguish = entityMeta.ClockworkExtinguish or entityMeta.Extinguish;
+entityMeta.ClockworkWaterLevel = entityMeta.ClockworkWaterLevel or entityMeta.WaterLevel;
+playerMeta.ClockworkGodEnable = playerMeta.ClockworkGodEnable or playerMeta.GodEnable;
+entityMeta.ClockworkSetHealth = entityMeta.ClockworkSetHealth or entityMeta.SetHealth;
+playerMeta.ClockworkUniqueID = playerMeta.ClockworkUniqueID or playerMeta.UniqueID;
+entityMeta.ClockworkSetColor = entityMeta.ClockworkSetColor or entityMeta.SetColor;
+entityMeta.ClockworkIsOnFire = entityMeta.ClockworkIsOnFire or entityMeta.IsOnFire;
+entityMeta.ClockworkSetModel = entityMeta.ClockworkSetModel or entityMeta.SetModel;
+playerMeta.ClockworkSetArmor = playerMeta.ClockworkSetArmor or playerMeta.SetArmor;
+entityMeta.ClockworkSetSkin = entityMeta.ClockworkSetSkin or entityMeta.SetSkin;
+entityMeta.ClockworkAlive = entityMeta.ClockworkAlive or playerMeta.Alive;
+playerMeta.ClockworkGive = playerMeta.ClockworkGive or playerMeta.Give;
+playerMeta.ClockworkKick = playerMeta.ClockworkKick or playerMeta.Kick;
+
+playerMeta.SteamName = playerMeta.SteamName or playerMeta.Name;
 
 -- A function to get a player's name.
 function playerMeta:Name()
@@ -4503,9 +4517,6 @@ end;
 
 -- A function to get a character's flags.
 function playerMeta:GetFlags() return self:QueryCharacter("Flags"); end;
-
--- A function to get a player's flags.
-function playerMeta:GetPlayerFlags() return self:GetData("Flags"); end;
 
 -- A function to get a player's faction.
 function playerMeta:GetFaction() return self:QueryCharacter("Faction"); end;
@@ -5214,40 +5225,28 @@ function playerMeta:SetClothesData(itemTable)
 	end;
 end;
 
--- A function to get whether a player's character menu is reset.
-function playerMeta:IsCharacterMenuReset()
-	return self.cwCharMenuReset;
-end;
-
 -- A function to get the entity a player is holding.
 function playerMeta:GetHoldingEntity()
 	return Clockwork.plugin:Call("PlayerGetHoldingEntity", self) or self.cwIsHoldingEnt;
 end;
 
+-- A function to get whether a player's character menu is reset.
+function playerMeta:IsCharacterMenuReset() return self.cwCharMenuReset; end;
+
 -- A function to get the player's active voice channel.
-function playerMeta:GetActiveChannel()
-	return Clockwork.voice:GetActiveChannel(self);
-end;
+function playerMeta:GetActiveChannel() return Clockwork.voice:GetActiveChannel(self); end;
 
 -- A function to check if a player can afford an amount.
-function playerMeta:CanAfford(amount)
-	return Clockwork.player:CanAfford(self, amount);
-end;
+function playerMeta:CanAfford(amount) return Clockwork.player:CanAfford(self, amount); end;
 
 -- A function to get a player's rank within their faction.
-function playerMeta:GetFactionRank()
-	return Clockwork.player:GetFactionRank(self);
-end;
+function playerMeta:GetFactionRank() return Clockwork.player:GetFactionRank(self); end;
 
 -- A function to set a player's rank within their faction.
-function playerMeta:SetFactionRank(rank)
-	Clockwork.player:SetFactionRank(self, rank);
-end;
+function playerMeta:SetFactionRank(rank) return Clockwork.player:SetFactionRank(self, rank); end;
 
 -- A function to get a player's global flags.
-function playerMeta:GetPlayerFlags()
-	return Clockwork.player:GetPlayerFlags(self);
-end;
+function playerMeta:GetPlayerFlags() return Clockwork.player:GetPlayerFlags(self); end;
 
 playerMeta.GetName = playerMeta.Name;
 playerMeta.Nick = playerMeta.Name;
@@ -5308,7 +5307,7 @@ concommand.Add("cwc", function(player, command, arguments)
 			local userGroup = arguments[3];
 			
 			if (userGroup != "superadmin" and userGroup != "admin" and userGroup != "operator") then
-				ErrorNoHalt("The user group must be superadmin, admin or operator!\n");
+				MsgC(Color(255, 100, 0, 255), "The user group must be superadmin, admin or operator!\n");
 				
 				return;
 			end;
@@ -5320,10 +5319,10 @@ concommand.Add("cwc", function(player, command, arguments)
 						target:SetClockworkUserGroup(userGroup);
 					Clockwork.player:LightSpawn(target, true, true);
 				else
-					ErrorNoHalt(target:Name().." is protected!\n");
+					MsgC(Color(255, 100, 0, 255), target:Name().." is protected!\n");
 				end;
 			else
-				ErrorNoHalt(arguments[2].." is not a valid player!\n");
+				MsgC(Color(255, 100, 0, 255), arguments[2].." is not a valid player!\n");
 			end;
 			
 			return;
@@ -5341,13 +5340,13 @@ concommand.Add("cwc", function(player, command, arguments)
 							target:SetClockworkUserGroup("user");
 						Clockwork.player:LightSpawn(target, true, true);
 					else
-						ErrorNoHalt("This player is only a user and cannot be demoted!\n");
+						MsgC(Color(255, 100, 0, 255), "This player is only a user and cannot be demoted!\n");
 					end;
 				else
-					ErrorNoHalt(target:Name().." is protected!\n");
+					MsgC(Color(255, 100, 0, 255), target:Name().." is protected!\n");
 				end;
 			else
-				ErrorNoHalt(arguments[2].." is not a valid player!\n");
+				MsgC(Color(255, 100, 0, 255), arguments[2].." is not a valid player!\n");
 			end;
 			
 			return;
@@ -5367,10 +5366,10 @@ concommand.Add("cwc", function(player, command, arguments)
 					print("Console has set "..targetName.."'s cash to "..Clockwork.kernel:FormatCash(cash, nil, true)..".");
 					Clockwork.player:Notify(target, "Your cash was set to "..Clockwork.kernel:FormatCash(cash, nil, true).." by "..playerName..".");
 				else
-					ErrorNoHalt("This is not a valid amount!\n");
+					MsgC(Color(255, 100, 0, 255), "This is not a valid amount!\n");
 				end;
 			else
-				ErrorNoHalt(arguments[2].." is not a valid player!\n");
+				MsgC(Color(255, 100, 0, 255), arguments[2].." is not a valid player!\n");
 			end;
 			
 			return;
@@ -5390,16 +5389,16 @@ concommand.Add("cwc", function(player, command, arguments)
 							print("Console has added "..target:Name().." to the "..factionTable.name.." whitelist.");
 							Clockwork.player:NotifyAll("Console has added "..target:Name().." to the "..factionTable.name.." whitelist.");
 						else
-							ErrorNoHalt(target:Name().." is already on the "..factionTable.name.." whitelist!\n");
+							MsgC(Color(255, 100, 0, 255), target:Name().." is already on the "..factionTable.name.." whitelist!\n");
 						end;
 					else
-						ErrorNoHalt(factionTable.name.." does not have a whitelist!\n");
+						MsgC(Color(255, 100, 0, 255), factionTable.name.." does not have a whitelist!\n");
 					end;
 				else
-					ErrorNoHalt(table.concat(arguments, " ", 3).." is not a valid faction!\n");
+					MsgC(Color(255, 100, 0, 255), table.concat(arguments, " ", 3).." is not a valid faction!\n");
 				end;
 			else
-				ErrorNoHalt(arguments[2].." is not a valid player!\n");
+				MsgC(Color(255, 100, 0, 255), arguments[2].." is not a valid player!\n");
 			end;
 			
 			return;
@@ -5419,16 +5418,16 @@ concommand.Add("cwc", function(player, command, arguments)
 							print("Console has removed "..target:Name().." from the "..factionTable.name.." whitelist.");
 							Clockwork.player:NotifyAll("Console has removed "..target:Name().." from the "..factionTable.name.." whitelist.");
 						else
-							ErrorNoHalt(target:Name().." is not on the "..factionTable.name.." whitelist!\n");
+							MsgC(Color(255, 100, 0, 255), target:Name().." is not on the "..factionTable.name.." whitelist!\n");
 						end;
 					else
-						ErrorNoHalt(factionTable.name.." does not have a whitelist!\n");
+						MsgC(Color(255, 100, 0, 255), factionTable.name.." does not have a whitelist!\n");
 					end;
 				else
-					ErrorNoHalt(factionTable.name.." is not a valid faction!\n");
+					MsgC(Color(255, 100, 0, 255), factionTable.name.." is not a valid faction!\n");
 				end;
 			else
-				ErrorNoHalt(arguments[2].." is not a valid player!\n");
+				MsgC(Color(255, 100, 0, 255), arguments[2].." is not a valid player!\n");
 			end;
 			
 			return;
@@ -5462,20 +5461,20 @@ concommand.Add("cwc", function(player, command, arguments)
 									Clockwork.player:NotifyAll("Console has banned '"..steamName.."' permanently ("..reason..").");
 								end;
 							else
-								ErrorNoHalt("This is not a valid identifier!\n");
+								MsgC(Color(255, 100, 0, 255), "This is not a valid identifier!\n");
 							end;
 						end;
 					end);
 				else
-					ErrorNoHalt("This is not a valid duration!\n");
+					MsgC(Color(255, 100, 0, 255), "This is not a valid duration!\n");
 				end;
 			else
 				local target = Clockwork.player:FindByID(arguments[2]);
 				
 				if (target) then
-					ErrorNoHalt(target:Name().." is protected!\n");
+					MsgC(Color(255, 100, 0, 255), target:Name().." is protected!\n");
 				else
-					ErrorNoHalt("This player is protected!\n");
+					MsgC(Color(255, 100, 0, 255), "This player is protected!\n");
 				end;
 			end;
 			
@@ -5496,10 +5495,10 @@ concommand.Add("cwc", function(player, command, arguments)
 						target:Kick(reason);
 					target.kicked = true;
 				else
-					ErrorNoHalt(target:Name().." is protected!\n");
+					MsgC(Color(255, 100, 0, 255), target:Name().." is protected!\n");
 				end;
 			else
-				ErrorNoHalt(arguments[1].." is not a valid player!\n");
+				MsgC(Color(255, 100, 0, 255), arguments[1].." is not a valid player!\n");
 			end;
 			
 			return;
@@ -5509,7 +5508,7 @@ concommand.Add("cwc", function(player, command, arguments)
 			
 			if (target) then
 				if (arguments[3] == "nil") then
-					ErrorNoHalt("You have to specify the name as the last argument, it also has to be 'quoted'.\n");
+					MsgC(Color(255, 100, 0, 255), "You have to specify the name as the last argument, it also has to be 'quoted'.\n");
 					
 					return;
 				else
@@ -5521,7 +5520,7 @@ concommand.Add("cwc", function(player, command, arguments)
 					Clockwork.player:SetName(target, name);
 				end;
 			else
-				ErrorNoHalt(arguments[2].." is not a valid character!\n");
+				MsgC(Color(255, 100, 0, 255), arguments[2].." is not a valid character!\n");
 			end;
 			
 			return;
@@ -5538,7 +5537,7 @@ concommand.Add("cwc", function(player, command, arguments)
 				print("Console has set "..target:Name().."'s model to "..model..".");
 				Clockwork.player:NotifyAll("Console has set "..target:Name().."'s model to "..model..".");
 			else
-				ErrorNoHalt(arguments[2].." is not a valid character!\n");
+				MsgC(Color(255, 100, 0, 255), arguments[2].." is not a valid character!\n");
 			end;
 			
 			return;
@@ -5564,7 +5563,7 @@ concommand.Add("cwc", function(player, command, arguments)
 			
 			if (target) then
 				if (string.find(arguments[3], "a") or string.find(arguments[3], "s") or string.find(arguments[3], "o")) then
-					ErrorNoHalt("You cannot give 'o', 'a' or 's' flags!\n");
+					MsgC(Color(255, 100, 0, 255), "You cannot give 'o', 'a' or 's' flags!\n");
 					
 					return;
 				end;
@@ -5576,7 +5575,7 @@ concommand.Add("cwc", function(player, command, arguments)
 				print("Console gave "..target:Name().." '"..arguments[3].."' flags.");
 				Clockwork.player:NotifyAll("Console gave "..target:Name().." '"..arguments[3].."' flags.");
 			else
-				ErrorNoHalt(arguments[2].." is not a valid character!\n");
+				MsgC(Color(255, 100, 0, 255), arguments[2].." is not a valid character!\n");
 			end;
 	
 			return;
@@ -5598,13 +5597,13 @@ concommand.Add("cwc", function(player, command, arguments)
 				print("Console took '"..arguments[3].."' flags from "..target:Name()..".");
 				Clockwork.player:NotifyAll("Console took '"..arguments[3].."' flags from "..target:Name()..".");
 			else
-				ErrorNoHalt(arguments[2].." is not a valid character!\n");
+				MsgC(Color(255, 100, 0, 255), arguments[2].." is not a valid character!\n");
 			end;
 	
 			return;
 		-- Everything else
 		else
-			ErrorNoHalt("'"..arguments[1].. "' command not found!\n");
+			MsgC(Color(255, 100, 0, 255), "'"..arguments[1].. "' command not found!\n");
 		end;
 	-- if not too bad, players are not allowed to use this swag
 	else

@@ -121,7 +121,7 @@ if (SERVER) then
 					if (bSuccess) then
 						Clockwork.datastream.stored[player.cwDataStreamName](player, value.data);
 					elseif (value != nil) then
-						ErrorNoHalt("[Clockwork] The '"..CW_DS_NAME.."' datastream has failed to run.\n"..value.."\nData: "..tostring(player.cwDataStreamData).."\n");
+						MsgC(Color(255, 100, 0, 255), "[Clockwork:Datastream] The '"..CW_DS_NAME.."' datastream has failed to run.\n"..value.."\nData: "..tostring(player.cwDataStreamData).."\n");
 					end;
 				end;
 				
@@ -167,7 +167,7 @@ else
 				if (bSuccess) then
 					Clockwork.datastream.stored[CW_DS_NAME](value.data);
 				elseif (value != nil) then
-					ErrorNoHalt("[Clockwork] The '"..CW_DS_NAME.."' datastream has failed to run.\n"..value.."\nData: "..tostring(CW_DS_DATA).."\n");
+					MsgC(Color(255, 100, 0, 255), "[Clockwork:Datastream] The '"..CW_DS_NAME.."' datastream has failed to run.\n"..value.."\nData: "..tostring(CW_DS_DATA).."\n");
 				end;
 			end;
 		end;

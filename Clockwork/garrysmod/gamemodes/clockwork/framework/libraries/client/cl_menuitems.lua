@@ -16,7 +16,7 @@ local table = table;
 	@field stored A table containing a list of stored menu items.
 --]]
 Clockwork.menuitems = Clockwork.kernel:NewLibrary("MenuItems");
-Clockwork.menuitems.stored = {};
+Clockwork.menuitems.stored = Clockwork.menuitems.stored or {};
 
 -- A function to get a menu item.
 function Clockwork.menuitems:Get(text)

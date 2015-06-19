@@ -21,7 +21,7 @@ function COMMAND:OnRun(player, arguments)
 	if (arguments[1]) then
 		local text = table.concat(arguments, " ");
 		
-		if (string.len(text) < minimumPhysDesc) then
+		if (string.utf8len(text) < minimumPhysDesc) then
 			Clockwork.player:Notify(player, "The physical description must be at least "..minimumPhysDesc.." characters long!");
 			return;
 		end;

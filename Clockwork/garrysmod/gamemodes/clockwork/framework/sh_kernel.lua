@@ -63,7 +63,7 @@ function Clockwork.kernel:URLEncode(url)
 	local output = "";
 	
 	for i = 1, #url do
-		local c = string.sub(url, i, i);
+		local c = string.utf8sub(url, i, i);
 		local a = string.byte(c);
 		
 		if (a < 128) then
@@ -263,9 +263,9 @@ end;
 
 -- A function to remove text from the end of a string.
 function Clockwork.kernel:RemoveTextFromEnd(text, toRemove)
-	local toRemoveLen = string.len(toRemove);
-	if (string.sub(text, -toRemoveLen) == toRemove) then
-		return (string.sub(text, 0, -(toRemoveLen + 1)));
+	local toRemoveLen = string.utf8len(toRemove);
+	if (string.utf8sub(text, -toRemoveLen) == toRemove) then
+		return (string.utf8sub(text, 0, -(toRemoveLen + 1)));
 	else
 		return text;
 	end;
@@ -273,12 +273,12 @@ end;
 
 -- A function to split a string.
 function Clockwork.kernel:SplitString(text, interval)
-	local length = string.len(text);
+	local length = string.utf8len(text);
 	local baseTable = {};
 	local i = 0;
 	
 	while (i * interval < length) do
-		baseTable[i + 1] = string.sub(text, i * interval + 1, (i + 1) * interval);
+		baseTable[i + 1] = string.utf8sub(text, i * interval + 1, (i + 1) * interval);
 		i = i + 1;
 	end;
 	
@@ -294,12 +294,12 @@ end;
 
 -- A function to pluralize some text.
 function Clockwork.kernel:Pluralize(text)
-	if (string.sub(text, -2) != "fe") then
-		local lastLetter = string.sub(text, -1);
+	if (string.utf8sub(text, -2) != "fe") then
+		local lastLetter = string.utf8sub(text, -1);
 		
 		if (lastLetter == "y") then
-			if (self:IsVowel(string.sub(text, string.len(text) - 1, 2))) then
-				return string.sub(text, 1, -2).."ies";
+			if (self:IsVowel(string.utf8sub(text, string.utf8len(text) - 1, 2))) then
+				return string.utf8sub(text, 1, -2).."ies";
 			else
 				return text.."s";
 			end;
@@ -311,7 +311,7 @@ function Clockwork.kernel:Pluralize(text)
 			return text;
 		end;
 	else
-		return string.sub(text, 1, -3).."ves";
+		return string.utf8sub(text, 1, -3).."ves";
 	end;
 end;
 
@@ -723,7 +723,7 @@ if (SERVER) then
 	-- A function to save schema data.
 	function Clockwork.kernel:SaveSchemaData(fileName, data)
 		if (type(data) != "table") then
-			ErrorNoHalt("[Clockwork] The '"..fileName.."' schema data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
+			MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] The '"..fileName.."' schema data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
 			return;
 		end;
 	
@@ -798,7 +798,7 @@ if (SERVER) then
 					if (bSuccess and value != nil) then
 						return value;
 					else
-						ErrorNoHalt("[Clockwork] '"..fileName.."' schema data has failed to restore.\n"..value.."\n");
+						MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' schema data has failed to restore.\n"..value.."\n");
 						
 						self:DeleteSchemaData(fileName);
 					end;
@@ -829,7 +829,7 @@ if (SERVER) then
 					if (bSuccess and value != nil) then
 						return value;
 					else
-						ErrorNoHalt("[Clockwork] '"..fileName.."' clockwork data has failed to restore.\n"..value.."\n");
+						MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' clockwork data has failed to restore.\n"..value.."\n");
 						
 						self:DeleteClockworkData(fileName);
 					end;
@@ -863,7 +863,7 @@ if (SERVER) then
 	-- A function to save Clockwork data.
 	function Clockwork.kernel:SaveClockworkData(fileName, data)
 		if (type(data) != "table") then
-			ErrorNoHalt("[Clockwork] The '"..fileName.."' clockwork data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
+			MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] The '"..fileName.."' clockwork data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
 			
 			return;
 		end;
@@ -1494,7 +1494,7 @@ else
 		
 		for i in string.gmatch(text, "([%z\1-\127\194-\244][\128-\191]*)") do
 			local currentCharacter = textLength + 1;
-			local textWidth, textHeight = self:GetCachedTextSize(font, string.sub(text, currentCharacter, currentCharacter));
+			local textWidth, textHeight = self:GetCachedTextSize(font, string.utf8sub(text, currentCharacter, currentCharacter));
 
 			if (textWidth == 0) then
 				textWidth = defaultWidth;
@@ -1540,12 +1540,12 @@ else
 			local secondText = nil;
 			
 			for i = 0, #text do
-				local currentCharacter = string.sub(text, i, i);
+				local currentCharacter = string.utf8sub(text, i, i);
 				local currentSingleWidth = Clockwork.kernel:GetTextSize(font, currentCharacter);
 				
 				if ((currentWidth + currentSingleWidth) >= maximumWidth) then
-					baseTable[#baseTable + 1] = string.sub(text, 0, (i - 1));
-					text = string.sub(text, i);
+					baseTable[#baseTable + 1] = string.utf8sub(text, 0, (i - 1));
+					text = string.utf8sub(text, i);
 					
 					break;
 				else
@@ -3069,7 +3069,7 @@ else
 	
 	-- A function to add a notice.
 	function Clockwork.kernel:AddNotify(text, class, length)
-		if (class != NOTIFY_HINT or string.sub(text, 1, 6) != "#Hint_") then
+		if (class != NOTIFY_HINT or string.utf8sub(text, 1, 6) != "#Hint_") then
 			if (Clockwork.BaseClass.AddNotify) then
 				Clockwork.BaseClass:AddNotify(text, class, length);
 			end;
@@ -3404,7 +3404,7 @@ else
 	-- A function to save schema data.
 	function Clockwork.kernel:SaveSchemaData(fileName, data)
 		if (type(data) != "table") then
-			ErrorNoHalt("[Clockwork] The '"..fileName.."' schema data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
+			MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] The '"..fileName.."' schema data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
 			
 			return;
 		end;	
@@ -3443,7 +3443,7 @@ else
 					if (bSuccess and value != nil) then
 						return value;
 					else
-						ErrorNoHalt("[Clockwork] '"..fileName.."' schema data has failed to restore.\n"..value.."\n");
+						MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' schema data has failed to restore.\n"..value.."\n");
 						
 						self:DeleteSchemaData(fileName);
 					end;
@@ -3474,7 +3474,7 @@ else
 					if (bSuccess and value != nil) then
 						return value;
 					else
-						ErrorNoHalt("[Clockwork] '"..fileName.."' clockwork data has failed to restore.\n"..value.."\n");
+						MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' clockwork data has failed to restore.\n"..value.."\n");
 						
 						self:DeleteClockworkData(fileName);
 					end;
@@ -3492,7 +3492,7 @@ else
 	-- A function to save Clockwork data.
 	function Clockwork.kernel:SaveClockworkData(fileName, data)
 		if (type(data) != "table") then
-			ErrorNoHalt("[Clockwork] The '"..fileName.."' clockwork data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
+			MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] The '"..fileName.."' clockwork data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
 			
 			return;
 		end;	
@@ -3541,7 +3541,7 @@ function Clockwork.kernel:ExplodeByTags(text, seperator, open, close, hide)
 	local tag = nil;
 	
 	for i = 1, #text do
-		local character = string.sub(text, i, i);
+		local character = string.utf8sub(text, i, i);
 		
 		if (!tag) then
 			if (character == open) then
@@ -3577,14 +3577,14 @@ end;
 
 -- A function to modify a physical description.
 function Clockwork.kernel:ModifyPhysDesc(description)
-	if (string.len(description) <= 128) then
-		if (!string.find(string.sub(description, -2), "%p")) then
+	if (string.utf8len(description) <= 128) then
+		if (!string.find(string.utf8sub(description, -2), "%p")) then
 			return description..".";
 		else
 			return description;
 		end;
 	else
-		return string.sub(description, 1, 125).."...";
+		return string.utf8sub(description, 1, 125).."...";
 	end;
 end;
 
@@ -3649,7 +3649,7 @@ end;
 
 -- A function to add files to the content download.
 function Clockwork.kernel:AddDirectory(directory, bRecursive)
-	if (string.sub(directory, -1) == "/") then
+	if (string.utf8sub(directory, -1) == "/") then
 		directory = directory.."*.*";
 	end;
 	
@@ -3684,7 +3684,7 @@ function Clockwork.kernel:IncludeDirectory(directory, bFromBase)
 		directory = "Clockwork/framework/"..directory;
 	end;
 	
-	if (string.sub(directory, -1) != "/") then
+	if (string.utf8sub(directory, -1) != "/") then
 		directory = directory.."/";
 	end;
 	
@@ -3723,7 +3723,7 @@ function Clockwork.kernel:IncludePlugins(directory, bFromBase)
 		directory = "Clockwork/"..directory;
 	end;
 	
-	if (string.sub(directory, -1) != "/") then
+	if (string.utf8sub(directory, -1) != "/") then
 		directory = directory.."/";
 	end;
 	
@@ -3746,7 +3746,7 @@ function Clockwork.kernel:CallTimerThink(curTime)
 				local bSuccess, value = pcall(v.Callback, unpack(v.arguments));
 				
 				if (!bSuccess) then
-					ErrorNoHalt("[Clockwork] The '"..tostring(k).."' timer has failed to run.\n"..value.."\n");
+					MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] The '"..tostring(k).."' timer has failed to run.\n"..value.."\n");
 				end;
 				
 				v.nextCall = curTime + v.delay;
@@ -3886,7 +3886,7 @@ end;
 
 -- A function to zero a number to an amount of digits.
 function Clockwork.kernel:ZeroNumberToDigits(number, digits)
-	return string.rep("0", math.Clamp(digits - string.len(tostring(number)), 0, digits))..tostring(number);
+	return string.rep("0", math.Clamp(digits - string.utf8len(tostring(number)), 0, digits))..tostring(number);
 end;
 
 -- A function to get a short CRC from a value.
@@ -3995,7 +3995,7 @@ function Clockwork.kernel:SetSharedVar(key, value, sharedTable)
 				end;
 				local success, err = pcall(_G["SetGlobal"..class], key, value);
 				if (!success) then
-					ErrorNoHalt("[Clockwork:GlobalSharedVars] Attempted to set SharedVar '"..key.."'' of type '"..class.."'' with value of type '"..type(value).."'.\n"..err.."\n");
+					MsgC(Color(255, 100, 0, 255), "[Clockwork:GlobalSharedVars] Attempted to set SharedVar '"..key.."'' of type '"..class.."'' with value of type '"..type(value).."'.\n"..err.."\n");
 				end;
 				return;
 			end;
@@ -4064,9 +4064,9 @@ function Clockwork.kernel:ParseData(text)
 			local lower = false;
 			local amount;
 			
-			if (string.sub(key, 1, 1) == "(" and string.sub(key, -1) == ")") then
+			if (string.utf8sub(key, 1, 1) == "(" and string.utf8sub(key, -1) == ")") then
 				lower = true;
-				amount = tonumber(string.sub(key, 2, -2));
+				amount = tonumber(string.utf8sub(key, 2, -2));
 			else
 				amount = tonumber(key);
 			end;

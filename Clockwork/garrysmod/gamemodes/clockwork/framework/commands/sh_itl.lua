@@ -10,7 +10,7 @@ COMMAND.arguments = 1;
 function COMMAND:OnRun(player, arguments)
 	local text = table.concat(arguments, " ");
 	
-	if (string.len(text) < 8) then
+	if (string.utf8len(text) < 8) then
 		Clockwork.player:Notify(player, "You did not specify enough text!");
 		
 		return;

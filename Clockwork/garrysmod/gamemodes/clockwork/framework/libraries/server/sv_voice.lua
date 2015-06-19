@@ -14,7 +14,7 @@ local Clockwork = Clockwork;
 	@field stored A table containing a list of voice channels.
 --]]
 Clockwork.voice = Clockwork.kernel:NewLibrary("Voice");
-Clockwork.voice.stored = {};
+Clockwork.voice.stored = Clockwork.voice.stored or {};
 
 --[[
 	@codebase Server

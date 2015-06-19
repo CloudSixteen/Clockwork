@@ -12,10 +12,10 @@ local string = string;
 local math = math;
 
 Clockwork.animation = Clockwork.kernel:NewLibrary("Animation");
-Clockwork.animation.sequences = {};
-Clockwork.animation.override = {};
-Clockwork.animation.models = {};
-Clockwork.animation.stored = {};
+Clockwork.animation.sequences = Clockwork.animation.sequences or {};
+Clockwork.animation.override = Clockwork.animation.override or {};
+Clockwork.animation.models = Clockwork.animation.models or {};
+Clockwork.animation.stored = Clockwork.animation.stored or {};
 Clockwork.animation.convert = {
 	[ACT_HL2MP_IDLE_CROSSBOW] = "smg",
 	[ACT_HL2MP_IDLE_GRENADE] = "grenade",

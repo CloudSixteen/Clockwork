@@ -166,11 +166,11 @@ function cwAreaDisplays:DrawDisplayScrolling(displayInfo, info)
 		displayInfo.scrollInfo.index = displayInfo.scrollInfo.index + 1;
 		
 		if (displayInfo.scrollInfo.isGoingBack) then
-			displayInfo.scrollInfo.text = string.sub(
+			displayInfo.scrollInfo.text = string.utf8sub(
 				areaTable.name, displayInfo.scrollInfo.index + 1
 			);
 		else
-			displayInfo.scrollInfo.text = string.sub(
+			displayInfo.scrollInfo.text = string.utf8sub(
 				areaTable.name, 0, displayInfo.scrollInfo.index
 			);
 		end;
@@ -190,7 +190,7 @@ function cwAreaDisplays:DrawDisplayScrolling(displayInfo, info)
 	local newX = info.x;
 	
 	if (displayInfo.scrollInfo.isGoingBack) then
-		sNextCharacter = string.sub(
+		sNextCharacter = string.utf8sub(
 			areaTable.name, displayInfo.scrollInfo.index, displayInfo.scrollInfo.index
 		);
 		
@@ -203,7 +203,7 @@ function cwAreaDisplays:DrawDisplayScrolling(displayInfo, info)
 		
 		newX = newX + (defaultWidth - scrollWidth);
 	else
-		sNextCharacter = string.sub(
+		sNextCharacter = string.utf8sub(
 			areaTable.name, displayInfo.scrollInfo.index + 1, displayInfo.scrollInfo.index + 1
 		);
 	end;

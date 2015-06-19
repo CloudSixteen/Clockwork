@@ -29,8 +29,8 @@ function PANEL:Setup(player)
 	if (!Clockwork.player:DoesRecognise(player, RECOGNISE_TOTAL)) then
 		local unrecognisedName, usedPhysDesc = Clockwork.player:GetUnrecognisedName(player);
 		
-		if (usedPhysDesc and string.len(unrecognisedName) > 24) then
-			unrecognisedName = string.sub(unrecognisedName, 1, 21).."...";
+		if (usedPhysDesc and string.utf8len(unrecognisedName) > 24) then
+			unrecognisedName = string.utf8sub(unrecognisedName, 1, 21).."...";
 		end;
 		
 		self.Recognises = false;

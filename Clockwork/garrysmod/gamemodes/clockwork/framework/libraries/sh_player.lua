@@ -7,8 +7,8 @@
 --]]
 
 Clockwork.player = Clockwork.kernel:NewLibrary("Player");
-Clockwork.player.playerData = {};
-Clockwork.player.characterData = {};
+Clockwork.player.playerData = Clockwork.player.playerData or {};
+Clockwork.player.characterData = Clockwork.player.characterData or {};
 
 --[[
 	@codebase Shared

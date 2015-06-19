@@ -9,8 +9,8 @@
 local Clockwork = Clockwork;
 
 Clockwork.SharedVars = Clockwork.kernel:NewLibrary("SharedVars");
-Clockwork.SharedVars.player = {vars = {}};
-Clockwork.SharedVars.global = {vars = {}};
+Clockwork.SharedVars.player = Clockwork.SharedVars.player or {vars = {}};
+Clockwork.SharedVars.global = Clockwork.SharedVars.global or {vars = {}};
 
 --[[
 	@codebase Shared

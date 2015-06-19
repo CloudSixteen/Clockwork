@@ -12,7 +12,7 @@
 	@field stored A table containing a list of stored languages.
 --]]
 Clockwork.lang = Clockwork.kernel:NewLibrary("Lang");
-Clockwork.lang.stored = {};
+Clockwork.lang.stored = Clockwork.lang.stored or {};
 
 CW_LANGUAGE_CLASS = {__index = CW_LANGUAGE_CLASS};
 

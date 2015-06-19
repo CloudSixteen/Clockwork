@@ -15,8 +15,8 @@ function surface.CreateFont(...)
 end;
 
 Clockwork.fonts = Clockwork.kernel:NewLibrary("Fonts");
-Clockwork.fonts.stored = {};
-Clockwork.fonts.sizes = {};
+Clockwork.fonts.stored = Clockwork.fonts.stored or {};
+Clockwork.fonts.sizes = Clockwork.fonts.sizes or {};
 
 -- A function to add a new font to the system.
 function Clockwork.fonts:Add(name, fontTable)

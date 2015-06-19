@@ -10,7 +10,7 @@ local Clockwork = Clockwork;
 local type = type;
 
 Clockwork.event = Clockwork.kernel:NewLibrary("Event");
-Clockwork.event.stored = {};
+Clockwork.event.stored = Clockwork.event.stored or {};
 
 -- A function to hook into an event.
 function Clockwork.event:Hook(eventClass, eventName, isAllowed)

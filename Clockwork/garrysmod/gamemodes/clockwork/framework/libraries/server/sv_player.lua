@@ -25,8 +25,8 @@ local math = math;
 local util = util;
 
 Clockwork.player = Clockwork.kernel:NewLibrary("Player");
-Clockwork.player.property = {};
-Clockwork.player.stored = {};
+Clockwork.player.property = Clockwork.player.property or {};
+Clockwork.player.stored = Clockwork.player.stored or {};
 
 -- A function to run an inventory action for a player.
 function Clockwork.player:InventoryAction(player, itemTable, action)
@@ -155,13 +155,13 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 					);
 				end;
 				
-				if (string.len(data.forename) < 2 or string.len(data.surname) < 2) then
+				if (string.utf8len(data.forename) < 2 or string.utf8len(data.surname) < 2) then
 					return Clockwork.player:SetCreateFault(
 						player, "Your forename and surname must both be at least 2 characters long!"
 					);
 				end;
 				
-				if (string.len(data.forename) > 16 or string.len(data.surname) > 16) then
+				if (string.utf8len(data.forename) > 16 or string.utf8len(data.surname) > 16) then
 					return Clockwork.player:SetCreateFault(
 						player, "Your forename and surname must not be greater than 16 characters long!"
 					);
@@ -183,7 +183,7 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 			return Clockwork.player:SetCreateFault(
 				player, "You did not enter a physical description!"
 			);
-		elseif (string.len(data.physDesc) < minimumPhysDesc) then
+		elseif (string.utf8len(data.physDesc) < minimumPhysDesc) then
 			return Clockwork.player:SetCreateFault(
 				player, "The physical description must be at least "..minimumPhysDesc.." characters long!"
 			);
@@ -1157,7 +1157,7 @@ end;
 -- A function to give flags to a character.
 function Clockwork.player:GiveFlags(player, flags)
 	for i = 1, #flags do
-		local flag = string.sub(flags, i, i);
+		local flag = string.utf8sub(flags, i, i);
 		
 		if (!string.find(player:GetFlags(), flag)) then
 			player:SetCharacterData("Flags", player:GetFlags()..flag, true);
@@ -1170,7 +1170,7 @@ end;
 -- A function to give flags to a player.
 function Clockwork.player:GivePlayerFlags(player, flags)
 	for i = 1, #flags do
-		local flag = string.sub(flags, i, i);
+		local flag = string.utf8sub(flags, i, i);
 		
 		if (!string.find(player:GetPlayerFlags(), flag)) then
 			player:SetData("Flags", player:GetPlayerFlags()..flag, true);
@@ -1370,7 +1370,7 @@ end;
 -- A function to take flags from a character.
 function Clockwork.player:TakeFlags(player, flags)
 	for i = 1, #flags do
-		local flag = string.sub(flags, i, i);
+		local flag = string.utf8sub(flags, i, i);
 		
 		if (string.find(player:GetFlags(), flag)) then
 			player:SetCharacterData("Flags", string.gsub(player:GetFlags(), flag, ""), true);
@@ -1383,7 +1383,7 @@ end;
 -- A function to take flags from a player.
 function Clockwork.player:TakePlayerFlags(player, flags)
 	for i = 1, #flags do
-		local flag = string.sub(flags, i, i);
+		local flag = string.utf8sub(flags, i, i);
 		
 		if (string.find(player:GetPlayerFlags(), flag)) then
 			player:SetData("Flags", string.gsub(player:GetFlags(), flag, ""), true);
@@ -1411,7 +1411,7 @@ function Clockwork.player:HasAnyFlags(player, flags, bByDefault)
 		end;
 		
 		for i = 1, #flags do
-			local flag = string.sub(flags, i, i);
+			local flag = string.utf8sub(flags, i, i);
 			local bSuccess = true;
 			
 			if (!bByDefault) then
@@ -1459,7 +1459,7 @@ function Clockwork.player:HasFlags(player, flags, bByDefault)
 		end;
 		
 		for i = 1, #flags do
-			local flag = string.sub(flags, i, i);
+			local flag = string.utf8sub(flags, i, i);
 			local bSuccess;
 			
 			if (!bByDefault) then
@@ -1816,8 +1816,8 @@ function Clockwork.player:GetUnrecognisedName(player, bFormatted)
 	end;
 	
 	if (bFormatted) then
-		if (string.len(unrecognisedName) > 24) then
-			unrecognisedName = string.sub(unrecognisedName, 1, 21).."...";
+		if (string.utf8len(unrecognisedName) > 24) then
+			unrecognisedName = string.utf8sub(unrecognisedName, 1, 21).."...";
 		end;
 		
 		unrecognisedName = "["..unrecognisedName.."]";
@@ -1988,10 +1988,10 @@ function Clockwork.player:SetSharedVar(player, key, value, sharedTable)
 			local sharedVars = Clockwork.kernel:GetSharedVars():Player();
 			
 			if (!sharedVars) then
-				ErrorNoHalt("[Clockwork:PlayerSharedVars] Couldn't get the sharedVars table.\n");
+				MsgC(Color(255, 100, 0, 255), "[Clockwork:PlayerSharedVars] Couldn't get the sharedVars table.\n");
 				return;
 			elseif (not sharedVars[key]) then
-				ErrorNoHalt("[Clockwork:PlayerSharedVars] Couldn't find key '"..key.."' in sharedVars table. Is it registered?\n");
+				MsgC(Color(255, 100, 0, 255), "[Clockwork:PlayerSharedVars] Couldn't find key '"..key.."' in sharedVars table. Is it registered?\n");
 				return;
 			end;
 			
@@ -2019,7 +2019,7 @@ function Clockwork.player:SetSharedVar(player, key, value, sharedTable)
 					
 					player["SetNetworked"..class](player, key, value);
 				else
-					ErrorNoHalt("[Clockwork:PlayerSharedVars] Couldn't find network class for key '"..key.."'.");
+					MsgC(Color(255, 100, 0, 255), "[Clockwork:PlayerSharedVars] Couldn't find network class for key '"..key.."'.");
 				end;
 			end;
 		else
@@ -2034,10 +2034,10 @@ function Clockwork.player:GetSharedVar(player, key)
 		local sharedVars = Clockwork.kernel:GetSharedVars():Player();
 		
 		if (!sharedVars) then
-			ErrorNoHalt("[Clockwork:PlayerSharedVars] Couldn't get the sharedVars table.\n");
+			MsgC(Color(255, 100, 0, 255), "[Clockwork:PlayerSharedVars] Couldn't get the sharedVars table.\n");
 			return;
 		elseif (not sharedVars[key]) then
-			ErrorNoHalt("[Clockwork:PlayerSharedVars] Couldn't find key '"..key.."' in sharedVars table. Is it registered?\n");
+			MsgC(Color(255, 100, 0, 255), "[Clockwork:PlayerSharedVars] Couldn't find key '"..key.."' in sharedVars table. Is it registered?\n");
 			return;
 		end;
 		
@@ -2055,7 +2055,7 @@ function Clockwork.player:GetSharedVar(player, key)
 			if (class) then
 				return player["GetNetworked"..class](player, key);
 			else
-				ErrorNoHalt("[Clockwork:PlayerSharedVars] Couldn't find network class for key '"..key.."'.");
+				MsgC(Color(255, 100, 0, 255), "[Clockwork:PlayerSharedVars] Couldn't find network class for key '"..key.."'.");
 			end;
 		end;
 	end;
@@ -3005,8 +3005,8 @@ function Clockwork.player:CharacterScreenAdd(player, character)
 	};
 	
 	if (character.data["PhysDesc"]) then
-		if (string.len(character.data["PhysDesc"]) > 64) then
-			info.details = string.sub(character.data["PhysDesc"], 1, 64).."...";
+		if (string.utf8len(character.data["PhysDesc"]) > 64) then
+			info.details = string.utf8sub(character.data["PhysDesc"], 1, 64).."...";
 		else
 			info.details = character.data["PhysDesc"];
 		end;
@@ -3521,5 +3521,5 @@ end;
 
 -- A function to get a player's global flags.
 function Clockwork.player:GetPlayerFlags(player)
-	player:GetData("Flags");
+	return player:GetData("Flags") or "";
 end;
