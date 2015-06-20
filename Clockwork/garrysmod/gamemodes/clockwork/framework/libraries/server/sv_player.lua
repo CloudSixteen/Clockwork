@@ -73,8 +73,10 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 	info.model = data.model;
 	info.data = {};
 	
-	for k, v in pairs(data.plugin) do
-		info.data[k] = v;
+	if (data.plugin) then
+		for k, v in pairs(data.plugin) do
+			info.data[k] = v;
+		end;
 	end;
 	
 	local classes = false;
