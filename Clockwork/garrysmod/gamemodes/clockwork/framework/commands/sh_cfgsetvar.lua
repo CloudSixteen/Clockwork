@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -47,9 +47,9 @@ function COMMAND:OnRun(player, arguments)
 				
 				if (configObject("isPrivate")) then
 					if (configObject("needsRestart")) then
-						Clockwork.player:NotifyAll(player:Name().." set "..keyPrefix..key.." to '"..string.rep("*", string.len(printValue)).."' for the next restart.");
+						Clockwork.player:NotifyAll(player:Name().." set "..keyPrefix..key.." to '"..string.rep("*", string.utf8len(printValue)).."' for the next restart.");
 					else
-						Clockwork.player:NotifyAll(player:Name().." set "..keyPrefix..key.." to '"..string.rep("*", string.len(printValue)).."'.");
+						Clockwork.player:NotifyAll(player:Name().." set "..keyPrefix..key.." to '"..string.rep("*", string.utf8len(printValue)).."'.");
 					end;
 				elseif (configObject("needsRestart")) then
 					Clockwork.player:NotifyAll(player:Name().." set "..keyPrefix..key.." to '"..printValue.."' for the next restart.");

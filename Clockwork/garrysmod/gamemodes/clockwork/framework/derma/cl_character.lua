@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -735,6 +735,7 @@ function PANEL:Init()
 	local colorWhite = Clockwork.option:GetColor("white");
 	local buttonX = 20;
 	local buttonY = 0;
+	local labels = {};
 	
 	if (not WOW) then
 		WOW = self;
@@ -743,6 +744,8 @@ function PANEL:Init()
 	self.customData = self:GetParent().customData;
 	self.buttonPanels = {};
 	self:SetPaintBackground(false);
+	
+	Clockwork.plugin:Call("GetCharacterPanelLabels", labels, self.customData);
 	
 	self.nameLabel = vgui.Create("cwLabelButton", self);
 	self.nameLabel:SetDisabled(true);
@@ -774,7 +777,7 @@ function PANEL:Init()
 	buttonY = self.factionLabel.y + self.factionLabel:GetTall() + 4;
 	
 	self.characterModel:SetPos(0, buttonY + 24);
-	
+		
 	local modelPanel = self.characterModel;
 	local sequence = Clockwork.plugin:Call(
 		"GetCharacterPanelSequence", modelPanel.Entity, self.customData.charTable
@@ -897,6 +900,19 @@ function PANEL:Init()
 	
 	if (self.factionLabel:GetWide() > maxWidth) then
 		maxWidth = self.factionLabel:GetWide();
+	end;
+	
+	local labelY = self.characterModel.y + self.characterModel:GetTall() + 4;
+	
+	for k, v in pairs(labels) do
+		local label = vgui.Create("cwLabelButton", self);
+		label:SetDisabled(true);
+		label:SetFont(tinyTextFont);
+		label:SetText(string.upper(v.text));
+		label:OverrideTextColor(v.color)
+		label:SizeToContents();
+		label:SetPos((maxWidth / 2) - (label:GetWide()/2), labelY);
+		labelY = labelY + label:GetTall() + 4;
 	end;
 	
 	self.characterModel.x = (maxWidth / 2) - 256;
@@ -1655,12 +1671,12 @@ function PANEL:OnNext()
 				return false;
 			end;
 			
-			if (string.len(self.info.forename) < 2 or string.len(self.info.surname) < 2) then
+			if (string.utf8len(self.info.forename) < 2 or string.utf8len(self.info.surname) < 2) then
 				Clockwork.character:SetFault("Your forename and surname must both be at least 2 characters long!");
 				return false;
 			end;
 			
-			if (string.len(self.info.forename) > 16 or string.len(self.info.surname) > 16) then
+			if (string.utf8len(self.info.forename) > 16 or string.utf8len(self.info.surname) > 16) then
 				Clockwork.character:SetFault("Your forename and surname must not be greater than 16 characters long!");
 				return false;
 			end;
@@ -1675,7 +1691,7 @@ function PANEL:OnNext()
 	if (self.bPhysDesc) then
 		local minimumPhysDesc = Clockwork.config:Get("minimum_physdesc"):Get();
 			self.info.physDesc = self.physDescTextEntry:GetValue();
-		if (string.len(self.info.physDesc) < minimumPhysDesc) then
+		if (string.utf8len(self.info.physDesc) < minimumPhysDesc) then
 			Clockwork.character:SetFault("The physical description must be at least "..minimumPhysDesc.." characters long!");
 			return false;
 		end;
@@ -1795,7 +1811,7 @@ function PANEL:Init()
  	self.categoryList:SizeToContents();
 	
 	self.settingsForm = vgui.Create("DForm");
-	self.settingsForm:SetName("Settings");
+	self.settingsForm:SetName("Persuasion");
 	self.settingsForm:SetPadding(4);
 	
 	if (#factions > 1) then
@@ -1812,7 +1828,7 @@ function PANEL:Init()
 						self.genderMultiChoice = self.settingsForm:ComboBox("Gender");
 						self.settingsForm:Rebuild();
 					end;
-					
+
 					if (v.singleGender) then
 						self.genderMultiChoice:AddChoice(v.singleGender);
 					else
@@ -1830,7 +1846,7 @@ function PANEL:Init()
 		for k, v in pairs(Clockwork.faction.stored) do
 			if (v.name == factions[1]) then
 				self.genderMultiChoice = self.settingsForm:ComboBox("Gender");
-				
+
 				if (v.singleGender) then
 					self.genderMultiChoice:AddChoice(v.singleGender);
 				else
@@ -1852,11 +1868,62 @@ function PANEL:Init()
 		end;
 	end;
 	
+	self.customChoices = {};
+	Clockwork.plugin:Call("GetPersuasionChoices", self.customChoices);
+
+	if (self.customChoices) then
+		self.customPanels = {};
+		for k2, v2 in pairs(self.customChoices) do
+			if (!v2.type or string.lower(v2.type) == "combobox") then
+				table.insert(self.customPanels, {v2, self.settingsForm:ComboBox(v2.name)});
+
+				for k3, v3 in ipairs(v2.choices) do
+					self.customPanels[#self.customPanels][2]:AddChoice(v3)
+				end;
+			elseif (string.lower(v2.type) == "textentry") then
+				table.insert(self.customPanels, {v2, self.settingsForm:TextEntry(v2.name)});
+			end;
+		end;
+	end;
+	
 	self.categoryList:AddItem(self.settingsForm);
 end;
 
 -- Called when the next button is pressed.
 function PANEL:OnNext()
+	self.info.plugin = {};
+
+	if (self.customPanels) then
+		for k, v in pairs(self.customPanels) do
+			local value = v[2]:GetValue();
+
+			if (value == "") then
+				Clockwork.character:SetFault("You did not fill out "..v[1].name.."!");
+				return false;
+			elseif (v[1].isNumber) then
+				local max = v[1].max;
+				local min = v[1].min;
+
+				if (!tonumber(value)) then
+					Clockwork.character:SetFault("You did not fill out "..v[1].name.." with a number!");
+					return false;
+				end;
+
+				if (max and max < tonumber(value)) then
+					Clockwork.character:SetFault("You cannot go higher than "..tostring(max).." in the "..v[1].name.." text entry!");
+					return false;
+				end;
+
+				if (min and min > tonumber(value)) then
+					Clockwork.character:SetFault("You cannot go lower than "..tostring(min).." in the "..v[1].name.." text entry!");
+					return false;
+				end;
+			end;
+
+			self.info.plugin[v[1].name] = value;
+		end;
+	end;
+
 	if (IsValid(self.genderMultiChoice)) then
 		local faction = self.forcedFaction;
 		local gender = self.genderMultiChoice:GetValue();

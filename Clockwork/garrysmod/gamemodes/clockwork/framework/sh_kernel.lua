@@ -1,5 +1,5 @@
---[[
-	� 2013 CloudSixteen.com do not share, re-distribute or modify
+--[[ 
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -63,7 +63,7 @@ function Clockwork.kernel:URLEncode(url)
 	local output = "";
 	
 	for i = 1, #url do
-		local c = string.sub(url, i, i);
+		local c = string.utf8sub(url, i, i);
 		local a = string.byte(c);
 		
 		if (a < 128) then
@@ -263,9 +263,9 @@ end;
 
 -- A function to remove text from the end of a string.
 function Clockwork.kernel:RemoveTextFromEnd(text, toRemove)
-	local toRemoveLen = string.len(toRemove);
-	if (string.sub(text, -toRemoveLen) == toRemove) then
-		return (string.sub(text, 0, -(toRemoveLen + 1)));
+	local toRemoveLen = string.utf8len(toRemove);
+	if (string.utf8sub(text, -toRemoveLen) == toRemove) then
+		return (string.utf8sub(text, 0, -(toRemoveLen + 1)));
 	else
 		return text;
 	end;
@@ -273,12 +273,12 @@ end;
 
 -- A function to split a string.
 function Clockwork.kernel:SplitString(text, interval)
-	local length = string.len(text);
+	local length = string.utf8len(text);
 	local baseTable = {};
 	local i = 0;
 	
 	while (i * interval < length) do
-		baseTable[i + 1] = string.sub(text, i * interval + 1, (i + 1) * interval);
+		baseTable[i + 1] = string.utf8sub(text, i * interval + 1, (i + 1) * interval);
 		i = i + 1;
 	end;
 	
@@ -294,12 +294,12 @@ end;
 
 -- A function to pluralize some text.
 function Clockwork.kernel:Pluralize(text)
-	if (string.sub(text, -2) != "fe") then
-		local lastLetter = string.sub(text, -1);
+	if (string.utf8sub(text, -2) != "fe") then
+		local lastLetter = string.utf8sub(text, -1);
 		
 		if (lastLetter == "y") then
-			if (self:IsVowel(string.sub(text, string.len(text) - 1, 2))) then
-				return string.sub(text, 1, -2).."ies";
+			if (self:IsVowel(string.utf8sub(text, string.utf8len(text) - 1, 2))) then
+				return string.utf8sub(text, 1, -2).."ies";
 			else
 				return text.."s";
 			end;
@@ -311,7 +311,7 @@ function Clockwork.kernel:Pluralize(text)
 			return text;
 		end;
 	else
-		return string.sub(text, 1, -3).."ves";
+		return string.utf8sub(text, 1, -3).."ves";
 	end;
 end;
 
@@ -480,6 +480,9 @@ end;
 
 -- Called when a player's animation is updated.
 function Clockwork:UpdateAnimation(player, velocity, maxSeqGroundSpeed)
+	local player = player;
+	local velocity = velocity;
+	local maxSeqGroundSpeed = maxSeqGroundSpeed;
 	local velLength = velocity:Length2D();
 	local rate = 1.0;
 	
@@ -505,22 +508,29 @@ end;
 
 -- Called when the main activity should be calculated.
 function Clockwork:CalcMainActivity(player, velocity)
+	local player = player;
+	local velocity = velocity;
 	local model = player:GetModel();
+	local stringFind = string.find;
+	local mathNormalize = math.NormalizeAngle;
+	local cwBaseClass = self.BaseClass;
+	local cwPlayer = self.player;
+	local cwAnim = self.animation;
 	
-	if (string.find(model, "/player/")) then
-		return self.BaseClass:CalcMainActivity(player, velocity);
+	if (stringFind(model, "/player/")) then
+		return cwBaseClass:CalcMainActivity(player, velocity);
 	end;
 	
 	ANIMATION_PLAYER = player;
 	
 	local weapon = player:GetActiveWeapon();
-	local bIsRaised = self.player:GetWeaponRaised(player, true);
+	local bIsRaised = cwPlayer:GetWeaponRaised(player, true);
 	local animationAct = "stand";
 	local weaponHoldType = "pistol";
 	local forcedAnimation = player:GetForcedAnimation();
 
 	if (IsValid(weapon)) then
-		weaponHoldType = self.animation:GetWeaponHoldType(player, weapon);
+		weaponHoldType = cwAnim:GetWeaponHoldType(player, weapon);
 	
 		if (weaponHoldType) then
 			animationAct = animationAct.."_"..weaponHoldType;
@@ -531,7 +541,7 @@ function Clockwork:CalcMainActivity(player, velocity)
 		animationAct = animationAct.."_aim";
 	end;
 	
-	player.CalcIdeal = self.animation:GetForModel(model, animationAct.."_idle");
+	player.CalcIdeal = cwAnim:GetForModel(model, animationAct.."_idle");
 	player.CalcSeqOverride = -1;
 	
 	if (!self:HandlePlayerDriving(player)
@@ -543,9 +553,9 @@ function Clockwork:CalcMainActivity(player, velocity)
 		local velLength = velocity:Length2D();
 				
 		if (player:IsRunning() or player:IsJogging()) then
-			player.CalcIdeal = self.animation:GetForModel(model, animationAct.."_run");
+			player.CalcIdeal = cwAnim:GetForModel(model, animationAct.."_run");
 		elseif (velLength > 0.5) then
-			player.CalcIdeal = self.animation:GetForModel(model, animationAct.."_walk");
+			player.CalcIdeal = cwAnim:GetForModel(model, animationAct.."_walk");
 		end;
 		
 		if (CLIENT) then
@@ -574,7 +584,7 @@ function Clockwork:CalcMainActivity(player, velocity)
 
 	local eyeAngles = player:EyeAngles();
 	local yaw = velocity:Angle().yaw;
-	local normalized = math.NormalizeAngle(yaw - eyeAngles.y);
+	local normalized = mathNormalize(yaw - eyeAngles.y);
 
 	player:SetPoseParameter("move_yaw", normalized);
 	
@@ -713,7 +723,7 @@ if (SERVER) then
 	-- A function to save schema data.
 	function Clockwork.kernel:SaveSchemaData(fileName, data)
 		if (type(data) != "table") then
-			ErrorNoHalt("[Clockwork] The '"..fileName.."' schema data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
+			MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] The '"..fileName.."' schema data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
 			return;
 		end;
 	
@@ -788,7 +798,7 @@ if (SERVER) then
 					if (bSuccess and value != nil) then
 						return value;
 					else
-						ErrorNoHalt("[Clockwork] '"..fileName.."' schema data has failed to restore.\n"..value.."\n");
+						MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' schema data has failed to restore.\n"..value.."\n");
 						
 						self:DeleteSchemaData(fileName);
 					end;
@@ -819,7 +829,7 @@ if (SERVER) then
 					if (bSuccess and value != nil) then
 						return value;
 					else
-						ErrorNoHalt("[Clockwork] '"..fileName.."' clockwork data has failed to restore.\n"..value.."\n");
+						MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' clockwork data has failed to restore.\n"..value.."\n");
 						
 						self:DeleteClockworkData(fileName);
 					end;
@@ -853,7 +863,7 @@ if (SERVER) then
 	-- A function to save Clockwork data.
 	function Clockwork.kernel:SaveClockworkData(fileName, data)
 		if (type(data) != "table") then
-			ErrorNoHalt("[Clockwork] The '"..fileName.."' clockwork data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
+			MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] The '"..fileName.."' clockwork data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
 			
 			return;
 		end;
@@ -1484,7 +1494,7 @@ else
 		
 		for i in string.gmatch(text, "([%z\1-\127\194-\244][\128-\191]*)") do
 			local currentCharacter = textLength + 1;
-			local textWidth, textHeight = self:GetCachedTextSize(font, string.sub(text, currentCharacter, currentCharacter));
+			local textWidth, textHeight = self:GetCachedTextSize(font, string.utf8sub(text, currentCharacter, currentCharacter));
 
 			if (textWidth == 0) then
 				textWidth = defaultWidth;
@@ -1530,12 +1540,12 @@ else
 			local secondText = nil;
 			
 			for i = 0, #text do
-				local currentCharacter = string.sub(text, i, i);
+				local currentCharacter = string.utf8sub(text, i, i);
 				local currentSingleWidth = Clockwork.kernel:GetTextSize(font, currentCharacter);
 				
 				if ((currentWidth + currentSingleWidth) >= maximumWidth) then
-					baseTable[#baseTable + 1] = string.sub(text, 0, (i - 1));
-					text = string.sub(text, i);
+					baseTable[#baseTable + 1] = string.utf8sub(text, 0, (i - 1));
+					text = string.utf8sub(text, i);
 					
 					break;
 				else
@@ -2075,33 +2085,72 @@ else
 		
 		for k, v in pairs(self.ESPInfo) do
 			local position = v.position:ToScreen();
+			local text, color, height;
 			
 			if (position) then
 				if (type(v.text) == "string") then
 					self:DrawSimpleText(v.text, position.x, position.y, v.color or colorWhite, 1, 1);
 				else
-					
-					for k2, v2 in ipairs(v.text) do
-						local text, color, width, height;
-											
+					for k2, v2 in ipairs(v.text) do	
+						local barValue;
+						local maximum = 100;
+
 						if (type(v2) == "string") then
 							text = v2;
 							color = v.color;
-							v2 = {text, color};
 						else
 							text = v2[1];
 							color = v2[2];
-						end;
-									
-						if (k2 > 1) then
-							self:OverrideMainFont(Clockwork.option:GetFont("esp_text"));
-							width, height = surface.GetTextSize(text);							
-						else
-							self:OverrideMainFont(false);
-							width, height = surface.GetTextSize(text);
+
+							local barNumbers = v2[3];
+
+							if (type(barNumbers) == "table") then
+								barValue = barNumbers[1];
+								maximum = barNumbers[2];
+							else
+								barValue = barNumbers;
+							end;
 						end;
 						
-						self:DrawSimpleText(text, position.x, position.y, color or colorWhite, 1, 1);
+						if (k2 > 1) then
+							self:OverrideMainFont(Clockwork.option:GetFont("esp_text"));
+							height = draw.GetFontHeight(Clockwork.option:GetFont("esp_text"));
+						else
+							self:OverrideMainFont(false);
+							height = draw.GetFontHeight(Clockwork.option:GetFont("main_text"));
+						end;
+
+						if (v2[5]) then
+							local icon = "icon16/exclamation.png";
+							local width = surface.GetTextSize(text);
+
+							if (type(v2[5] == "string") and v2[5] != "") then
+								icon = v2[5];
+							end;
+
+							surface.SetDrawColor(255, 255, 255, 255);
+							surface.SetMaterial(Material(icon));
+							surface.DrawTexturedRect(position.x - (width * 0.40) - height, position.y - height * 0.5, height, height);
+						end;
+
+						if (barValue and CW_CONVAR_ESPBARS:GetInt() == 1) then
+							local barHeight = height * 0.80;
+							local barColor = v2[4] or Clockwork:GetValueColor(barValue);
+							local grayColor = Color( 150, 150, 150, 170);
+							local progress = 100 * (barValue / maximum);
+
+							if progress < 0 then
+								progress = 0;
+							end;
+
+							draw.RoundedBox(6, position.x - 50, position.y - (barHeight * 0.45), 100, barHeight, grayColor);
+							draw.RoundedBox(6, position.x - 50, position.y - (barHeight * 0.45), math.floor(progress), barHeight, barColor);
+						end;
+
+						if (type(text) == "string") then
+							self:DrawSimpleText(text, position.x, position.y, color or colorWhite, 1, 1);
+						end;
+
 						position.y = position.y + height;
 					end;
 				end;			
@@ -3020,7 +3069,7 @@ else
 	
 	-- A function to add a notice.
 	function Clockwork.kernel:AddNotify(text, class, length)
-		if (class != NOTIFY_HINT or string.sub(text, 1, 6) != "#Hint_") then
+		if (class != NOTIFY_HINT or string.utf8sub(text, 1, 6) != "#Hint_") then
 			if (Clockwork.BaseClass.AddNotify) then
 				Clockwork.BaseClass:AddNotify(text, class, length);
 			end;
@@ -3355,7 +3404,7 @@ else
 	-- A function to save schema data.
 	function Clockwork.kernel:SaveSchemaData(fileName, data)
 		if (type(data) != "table") then
-			ErrorNoHalt("[Clockwork] The '"..fileName.."' schema data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
+			MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] The '"..fileName.."' schema data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
 			
 			return;
 		end;	
@@ -3394,7 +3443,7 @@ else
 					if (bSuccess and value != nil) then
 						return value;
 					else
-						ErrorNoHalt("[Clockwork] '"..fileName.."' schema data has failed to restore.\n"..value.."\n");
+						MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' schema data has failed to restore.\n"..value.."\n");
 						
 						self:DeleteSchemaData(fileName);
 					end;
@@ -3425,7 +3474,7 @@ else
 					if (bSuccess and value != nil) then
 						return value;
 					else
-						ErrorNoHalt("[Clockwork] '"..fileName.."' clockwork data has failed to restore.\n"..value.."\n");
+						MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' clockwork data has failed to restore.\n"..value.."\n");
 						
 						self:DeleteClockworkData(fileName);
 					end;
@@ -3443,7 +3492,7 @@ else
 	-- A function to save Clockwork data.
 	function Clockwork.kernel:SaveClockworkData(fileName, data)
 		if (type(data) != "table") then
-			ErrorNoHalt("[Clockwork] The '"..fileName.."' clockwork data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
+			MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] The '"..fileName.."' clockwork data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
 			
 			return;
 		end;	
@@ -3492,7 +3541,7 @@ function Clockwork.kernel:ExplodeByTags(text, seperator, open, close, hide)
 	local tag = nil;
 	
 	for i = 1, #text do
-		local character = string.sub(text, i, i);
+		local character = string.utf8sub(text, i, i);
 		
 		if (!tag) then
 			if (character == open) then
@@ -3528,14 +3577,14 @@ end;
 
 -- A function to modify a physical description.
 function Clockwork.kernel:ModifyPhysDesc(description)
-	if (string.len(description) <= 128) then
-		if (!string.find(string.sub(description, -2), "%p")) then
+	if (string.utf8len(description) <= 128) then
+		if (!string.find(string.utf8sub(description, -2), "%p")) then
 			return description..".";
 		else
 			return description;
 		end;
 	else
-		return string.sub(description, 1, 125).."...";
+		return string.utf8sub(description, 1, 125).."...";
 	end;
 end;
 
@@ -3600,7 +3649,7 @@ end;
 
 -- A function to add files to the content download.
 function Clockwork.kernel:AddDirectory(directory, bRecursive)
-	if (string.sub(directory, -1) == "/") then
+	if (string.utf8sub(directory, -1) == "/") then
 		directory = directory.."*.*";
 	end;
 	
@@ -3635,7 +3684,7 @@ function Clockwork.kernel:IncludeDirectory(directory, bFromBase)
 		directory = "Clockwork/framework/"..directory;
 	end;
 	
-	if (string.sub(directory, -1) != "/") then
+	if (string.utf8sub(directory, -1) != "/") then
 		directory = directory.."/";
 	end;
 	
@@ -3674,7 +3723,7 @@ function Clockwork.kernel:IncludePlugins(directory, bFromBase)
 		directory = "Clockwork/"..directory;
 	end;
 	
-	if (string.sub(directory, -1) != "/") then
+	if (string.utf8sub(directory, -1) != "/") then
 		directory = directory.."/";
 	end;
 	
@@ -3697,7 +3746,7 @@ function Clockwork.kernel:CallTimerThink(curTime)
 				local bSuccess, value = pcall(v.Callback, unpack(v.arguments));
 				
 				if (!bSuccess) then
-					ErrorNoHalt("[Clockwork] The '"..tostring(k).."' timer has failed to run.\n"..value.."\n");
+					MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] The '"..tostring(k).."' timer has failed to run.\n"..value.."\n");
 				end;
 				
 				v.nextCall = curTime + v.delay;
@@ -3837,7 +3886,7 @@ end;
 
 -- A function to zero a number to an amount of digits.
 function Clockwork.kernel:ZeroNumberToDigits(number, digits)
-	return string.rep("0", math.Clamp(digits - string.len(tostring(number)), 0, digits))..tostring(number);
+	return string.rep("0", math.Clamp(digits - string.utf8len(tostring(number)), 0, digits))..tostring(number);
 end;
 
 -- A function to get a short CRC from a value.
@@ -3918,19 +3967,19 @@ function Clockwork.kernel:ConvertNetworkedClass(class)
 	return NETWORKED_CLASS_TABLE[class];
 end;
 
+local DEFAULT_NETWORK_CLASS_VALUE = {
+	["String"] = "",
+	["Entity"] = NULL,
+	["Vector"] = Vector(0, 0, 0),
+	["Int"] = 0,
+	["Angle"] = Angle(0, 0, 0),
+	["Float"] = 0.0,
+	["Bool"] = false
+};
+
 -- A function to get the default class value.
 function Clockwork.kernel:GetDefaultClassValue(class)
-	local convertTable = {
-		["String"] = "",
-		["Entity"] = NULL,
-		["Vector"] = Vector(0, 0, 0),
-		["Int"] = 0,
-		["Angle"] = Angle(0, 0, 0),
-		["Float"] = 0.0,
-		["Bool"] = false
-	};
-	
-	return convertTable[class];
+	return DEFAULT_NETWORK_CLASS_VALUE[class];
 end;
 
 -- A function to set a shared variable.
@@ -3939,19 +3988,18 @@ function Clockwork.kernel:SetSharedVar(key, value, sharedTable)
 		local sharedVars = self:GetSharedVars():Global();
 	
 		if (sharedVars and sharedVars[key]) then
-			local class = self:ConvertNetworkedClass(sharedVars.class);
-		
+			local class = self:ConvertNetworkedClass(sharedVars[key].class);
 			if (class) then
 				if (value == nil) then
-					value = Clockwork:GetDefaultClassValue(class);
+					value = self:GetDefaultClassValue(class);
 				end;
-			
-				_G["SetGlobal"..class](key, value);
+				local success, err = pcall(_G["SetGlobal"..class], key, value);
+				if (!success) then
+					MsgC(Color(255, 100, 0, 255), "[Clockwork:GlobalSharedVars] Attempted to set SharedVar '"..key.."'' of type '"..class.."'' with value of type '"..type(value).."'.\n"..err.."\n");
+				end;
 				return;
 			end;
 		end;
-	
-		SetGlobalVar(key, value);
 	else
 		Clockwork.SharedTables[sharedTable] = Clockwork.SharedTables[sharedTable] or {};
 		Clockwork.SharedTables[sharedTable][key] = value;
@@ -3971,16 +4019,13 @@ end;
 function Clockwork.kernel:GetSharedVar(key, sharedTable)
 	if (!sharedTable) then
 		local sharedVars = self:GetSharedVars():Global();
-	
 		if (sharedVars and sharedVars[key]) then
-			local class = self:ConvertNetworkedClass(sharedVars.class);
+			local class = self:ConvertNetworkedClass(sharedVars[key].class);
 		
 			if (class) then
 				return _G["GetGlobal"..class](key);
 			end;
 		end;
-	
-		return GetGlobalVar(key);
 	else
 		sharedTable = Clockwork.SharedTables[sharedTable];
 		
@@ -4019,9 +4064,9 @@ function Clockwork.kernel:ParseData(text)
 			local lower = false;
 			local amount;
 			
-			if (string.sub(key, 1, 1) == "(" and string.sub(key, -1) == ")") then
+			if (string.utf8sub(key, 1, 1) == "(" and string.utf8sub(key, -1) == ")") then
 				lower = true;
-				amount = tonumber(string.sub(key, 2, -2));
+				amount = tonumber(string.utf8sub(key, 2, -2));
 			else
 				amount = tonumber(key);
 			end;

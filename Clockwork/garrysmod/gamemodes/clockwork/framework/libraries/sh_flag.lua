@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -11,7 +11,7 @@ local pairs = pairs;
 local string = string;
 
 Clockwork.flag = Clockwork.kernel:NewLibrary("Flag");
-Clockwork.flag.stored = {};
+Clockwork.flag.stored = Clockwork.flag.stored or {};
 
 -- A function to add a new flag.
 function Clockwork.flag:Add(flag, name, details)

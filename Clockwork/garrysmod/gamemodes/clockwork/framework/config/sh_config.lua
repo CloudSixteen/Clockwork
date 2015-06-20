@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -38,3 +38,6 @@ Clockwork.config:ShareKey("wages_name");
 Clockwork.config:ShareKey("door_cost");
 Clockwork.config:ShareKey("enable_space_system");
 Clockwork.config:ShareKey("draw_intro_bars");
+Clockwork.config:ShareKey("show_business");
+Clockwork.config:ShareKey("chat_multiplier");
+Clockwork.config:ShareKey("enable_looc_icons");

@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -10,7 +10,7 @@ local Clockwork = Clockwork;
 local string = string;
 
 Clockwork.currency = Clockwork.kernel:NewLibrary("Currency");
-Clockwork.currency.stored = {};
+Clockwork.currency.stored = Clockwork.currency.stored or {};
 
 --[[ Set the __index meta function of the class. --]]
 local CLASS_TABLE = {__index = CLASS_TABLE};

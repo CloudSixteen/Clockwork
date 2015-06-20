@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -11,7 +11,7 @@ local IsValid = IsValid;
 local table = table;
 
 Clockwork.quiz = Clockwork.kernel:NewLibrary("Quiz");
-Clockwork.quiz.stored = {};
+Clockwork.quiz.stored = Clockwork.quiz.stored or {};
 
 -- A function to set the quiz name.
 function Clockwork.quiz:SetName(name)

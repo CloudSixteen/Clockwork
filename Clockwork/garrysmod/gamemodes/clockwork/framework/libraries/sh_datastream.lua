@@ -1,5 +1,5 @@
 --[[
-	� 2013 CloudSixteen.com do not share, re-distribute or modify
+	� 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -91,6 +91,17 @@ if (SERVER) then
 			net.Send(recipients);
 		end;
 	end;
+
+	-- A function to listen for a request.
+	function Clockwork.datastream:Listen(name, Callback)
+		self:Hook(name, function(player, data)
+			local bShouldReply, reply = Callback(player, data);
+			
+			if (bShouldReply) then
+				self:Start(player, name, reply);
+			end;
+		end);
+	end;
 	
 	net.Receive("cwDataDS", function(length, player)
 		local CW_DS_NAME = net.ReadString();
@@ -110,7 +121,7 @@ if (SERVER) then
 					if (bSuccess) then
 						Clockwork.datastream.stored[player.cwDataStreamName](player, value.data);
 					elseif (value != nil) then
-						ErrorNoHalt("[Clockwork] The '"..CW_DS_NAME.."' datastream has failed to run.\n"..value.."\nData: "..tostring(player.cwDataStreamData).."\n");
+						MsgC(Color(255, 100, 0, 255), "[Clockwork:Datastream] The '"..CW_DS_NAME.."' datastream has failed to run.\n"..value.."\nData: "..tostring(player.cwDataStreamData).."\n");
 					end;
 				end;
 				
@@ -138,6 +149,12 @@ else
 		end;
 	end;
 
+	-- A function to send a request.
+	function Clockwork.datastream:Request(name, data, Callback)
+		self:Hook(name, Callback);		
+		self:Start(name, data);
+	end;
+
 	net.Receive("cwDataDS", function(length)
 		local CW_DS_NAME = net.ReadString();
 		local CW_DS_LENGTH = net.ReadUInt(32);
@@ -150,7 +167,7 @@ else
 				if (bSuccess) then
 					Clockwork.datastream.stored[CW_DS_NAME](value.data);
 				elseif (value != nil) then
-					ErrorNoHalt("[Clockwork] The '"..CW_DS_NAME.."' datastream has failed to run.\n"..value.."\nData: "..tostring(CW_DS_DATA).."\n");
+					MsgC(Color(255, 100, 0, 255), "[Clockwork:Datastream] The '"..CW_DS_NAME.."' datastream has failed to run.\n"..value.."\nData: "..tostring(CW_DS_DATA).."\n");
 				end;
 			end;
 		end;

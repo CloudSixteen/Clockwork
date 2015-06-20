@@ -1,5 +1,5 @@
---[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+--[[ 
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -18,6 +18,33 @@ local table = table;
 local util = util;
 
 Clockwork.player = Clockwork.kernel:NewLibrary("Player");
+
+function Clockwork.player:GetChatIcon(player)
+	local icon;
+	
+	if (player:IsSuperAdmin()) then
+		icon = "icon16/shield.png";
+	elseif (player:IsAdmin()) then
+		icon = "icon16/star.png";
+	elseif (player:IsUserGroup("operator")) then
+		icon = "icon16/emoticon_smile.png";
+	else
+		local faction = player:GetFaction();
+					
+		if (faction and Clockwork.faction.stored[faction]) then
+			if (Clockwork.faction.stored[faction].whitelist) then
+				icon = "icon16/add.png";
+			end;
+		end;
+					
+		if (!icon) then
+			icon = "icon16/user.png";
+		end;
+	end;
+
+	return icon;
+end;
+
 
 -- A function to get whether the local player can hold a weight.
 function Clockwork.player:CanHoldWeight(weight)
@@ -50,9 +77,8 @@ function Clockwork.player:GetMaxWeight()
 	local itemsList = Clockwork.inventory:GetAsItemsList(
 		Clockwork.inventory:GetClient()
 	);
-	local weight = Clockwork.Client:GetSharedVar(
-		"InvWeight", Clockwork.config:Get("default_inv_weight"):Get()
-	);
+	
+	local weight = Clockwork.Client:GetSharedVar("InvWeight") or Clockwork.config:Get("default_inv_weight"):Get();
 	
 	for k, v in pairs(itemsList) do
 		local addInvWeight = v("addInvSpace");
@@ -70,9 +96,7 @@ function Clockwork.player:GetMaxSpace()
 	local itemsList = Clockwork.inventory:GetAsItemsList(
 		Clockwork.inventory:GetClient()
 	);
-	local space = Clockwork.Client:GetSharedVar(
-		"InvSpace", Clockwork.config:Get("default_inv_space"):Get()
-	);
+	local space = Clockwork.Client:GetSharedVar("InvSpace") or Clockwork.config:Get("default_inv_space"):Get();
 	
 	for k, v in pairs(itemsList) do
 		local addInvSpace = v("addInvVolume");
@@ -518,7 +542,7 @@ function Clockwork.player:HasAnyFlags(player, flags, bByDefault)
 		end;
 		
 		for i = 1, #flags do
-			local flag = string.sub(flags, i, i);
+			local flag = string.utf8sub(flags, i, i);
 			local bSuccess = true;
 			
 			if (!bByDefault) then
@@ -566,7 +590,7 @@ function Clockwork.player:HasFlags(player, flags, bByDefault)
 		end;
 		
 		for i = 1, #flags do
-			local flag = string.sub(flags, i, i);
+			local flag = string.utf8sub(flags, i, i);
 			local bSuccess;
 			
 			if (!bByDefault) then
@@ -611,47 +635,44 @@ function Clockwork.player:SetSharedVar(player, key, value)
 	if (IsValid(player)) then
 		local sharedVars = Clockwork.kernel:GetSharedVars():Player();
 		
-		if (!sharedVars or not sharedVars[key]) then
-			player:SetNetworkedVar(key);
+		if (!sharedVars) then
+			return;
+		elseif (not sharedVars[key]) then
 			return;
 		end;
 		
 		local sharedVarData = sharedVars[key];
 		
-		if (sharedVarData) then
-			if (sharedVarData.bPlayerOnly) then
-				if (value == nil) then
-					sharedVarData.value = Clockwork.kernel:GetDefaultNetworkedValue(sharedVarData.class);
-				else
-					sharedVarData.value = value;
-				end;
+		if (sharedVarData.bPlayerOnly) then
+			if (value == nil) then
+				sharedVarData.value = Clockwork.kernel:GetDefaultNetworkedValue(sharedVarData.class);
 			else
-				local class = Clockwork.kernel:ConvertNetworkedClass(sharedVarData.class);
-				
-				if (class) then
-					player["SetNetworked"..class](player, key, value);
-				else
-					player:SetNetworkedVar(key, value);
-				end;
+				sharedVarData.value = value;
 			end;
 		else
-			player:SetNetworkedVar(key, value);
+			local class = Clockwork.kernel:ConvertNetworkedClass(sharedVarData.class);
+			
+			if (class) then
+				player["SetNetworked"..class](player, key, value);
+			end;
 		end;
 	end;
 end;
 
 -- A function to get a player's shared variable.
-function Clockwork.player:GetSharedVar(player, key)
+function Clockwork.player:GetSharedVar(player, key, sharedTable)
 	if (IsValid(player)) then
-		local sharedVars = Clockwork.kernel:GetSharedVars():Player();
-		
-		if (!sharedVars or not sharedVars[key]) then
-			return player:GetNetworkedVar(key);
-		end;
-		
-		local sharedVarData = sharedVars[key];
-		
-		if (sharedVarData) then
+		if (!sharedTable) then
+			local sharedVars = Clockwork.kernel:GetSharedVars():Player();
+			
+			if (!sharedVars) then
+				return;
+			elseif (not sharedVars[key]) then
+				return;
+			end;
+			
+			local sharedVarData = sharedVars[key];
+			
 			if (sharedVarData.bPlayerOnly) then
 				if (!sharedVarData.value) then
 					return Clockwork.kernel:GetDefaultNetworkedValue(sharedVarData.class);
@@ -663,12 +684,14 @@ function Clockwork.player:GetSharedVar(player, key)
 				
 				if (class) then
 					return player["GetNetworked"..class](player, key);
-				else
-					return player:GetNetworkedVar(key);
 				end;
 			end;
 		else
-			return player:GetNetworkedVar(key);
+			sharedTable = Clockwork.SharedTables[sharedTable];
+		
+			if (sharedTable) then
+				return sharedTable[key];
+			end;
 		end;
 	end;
 end;
@@ -680,4 +703,36 @@ function Clockwork.player:GetDrunk()
 	if (isDrunk and isDrunk > 0) then
 		return isDrunk;
 	end;
+end;
+
+-- A function to get a player's chat icon.
+function Clockwork.player:GetChatIcon(player)
+	local icon;
+	
+	for k, v in pairs(Clockwork.icon:GetAll()) do
+		if (v.callback(player)) then
+			if (!icon) then
+				icon = v.path;
+			end;
+			
+			if (v.isPlayer) then
+				icon = v.path;
+				break;
+			end;
+		end;
+	end;
+	
+	if (!icon) then
+		local faction = player:GetFaction();
+		
+		icon = "icon16/user.png";
+		
+		if (faction and Clockwork.faction.stored[faction]) then
+			if (Clockwork.faction.stored[faction].whitelist) then
+				icon = "icon16/add.png";
+			end;
+		end;
+	end;
+	
+	return icon;
 end;

@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -17,10 +17,10 @@ local util = util;
 local os = os;
 
 Clockwork.item = Clockwork.kernel:NewLibrary("Item");
-Clockwork.item.stored = {};
-Clockwork.item.buffer = {};
-Clockwork.item.weapons = {};
-Clockwork.item.instances = {};
+Clockwork.item.stored = Clockwork.item.stored or {};
+Clockwork.item.buffer = Clockwork.item.buffer or {};
+Clockwork.item.weapons = Clockwork.item.weapons or {};
+Clockwork.item.instances = Clockwork.item.instances or {};
 
 --[[
 	Begin defining the item class base for other item's to inherit from.
@@ -497,7 +497,7 @@ function Clockwork.item:FindByID(identifier)
 			local itemName = v("name");
 			
 			if (string.find(string.lower(itemName), lowerName)
-			and (!itemTable or string.len(itemName) < string.len(itemTable("name")))) then
+			and (!itemTable or string.utf8len(itemName) < string.utf8len(itemTable("name")))) then
 				itemTable = v;
 			end;
 		end;

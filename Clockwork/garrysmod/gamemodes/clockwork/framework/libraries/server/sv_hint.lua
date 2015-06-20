@@ -1,5 +1,5 @@
---[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+--[[ 
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -16,7 +16,7 @@ local math = math;
 	@field stored A table containing a list of stored hints.
 --]]
 Clockwork.hint = Clockwork.kernel:NewLibrary("Hint");
-Clockwork.hint.stored = {};
+Clockwork.hint.stored = Clockwork.hint.stored or {};
 
 --[[
 	@codebase Server

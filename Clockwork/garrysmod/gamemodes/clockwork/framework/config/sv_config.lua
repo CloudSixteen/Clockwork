@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -57,12 +57,12 @@ Clockwork.config:Add("unrecognised_name", "Somebody you do not recognise.", true
 Clockwork.config:Add("scale_fall_damage", 1);
 Clockwork.config:Add("limb_damage_system", true, true);
 Clockwork.config:Add("enable_vignette", true, true);
-Clockwork.config:Add("use_free_aiming", true, true);
+Clockwork.config:Add("use_free_aiming", true, true, true);
 Clockwork.config:Add("default_cash", 100, nil, nil, nil, nil, nil, true);
 Clockwork.config:Add("armor_chest_only", false);
 Clockwork.config:Add("minimum_physdesc", 32, true);
 Clockwork.config:Add("wood_breaks_fall", true);
-Clockwork.config:Add("enable_crosshair", true, true);
+Clockwork.config:Add("enable_crosshair", false, true, true);
 Clockwork.config:Add("recognise_system", true, true);
 Clockwork.config:Add("max_chat_length", 256, true, true);
 Clockwork.config:Add("cash_enabled", true, true, nil, nil, nil, true);
@@ -103,5 +103,8 @@ Clockwork.config:Add("lock_time", 2);
 Clockwork.config:Add("max_doors", 5);
 Clockwork.config:Add("enable_space_system", false, true);
 Clockwork.config:Add("draw_intro_bars", true, true);
-Clockwork.config:Add("enable_jogging", false, true);
-Clockwork.config:Add("enable_looc_icons", true, true);
+Clockwork.config:Add("enable_jogging", false, true, true);
+Clockwork.config:Add("enable_looc_icons", true, true, true);
+Clockwork.config:Add("show_business", true, true);
+Clockwork.config:Add("chat_multiplier", true, true, true);
+Clockwork.config:Add("steam_api_key", "");

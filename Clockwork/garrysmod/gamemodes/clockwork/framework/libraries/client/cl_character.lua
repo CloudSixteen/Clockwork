@@ -1,5 +1,5 @@
---[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+--[[ 
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -22,9 +22,9 @@ local vgui = vgui;
 	@field creationPanels A table containing a list of creation panels.
 --]]
 Clockwork.character = Clockwork.kernel:NewLibrary("Character");
-Clockwork.character.stored = {};
-Clockwork.character.whitelisted = {};
-Clockwork.character.creationPanels = {};
+Clockwork.character.stored = Clockwork.character.stored or {};
+Clockwork.character.whitelisted = Clockwork.character.whitelisted or {};
+Clockwork.character.creationPanels = Clockwork.character.creationPanels or {};
 
 --[[
 	@codebase Client

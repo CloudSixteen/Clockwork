@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -78,9 +78,9 @@ function cwStamina:PlayerThink(player, curTime, infoTable)
 			end;
 		elseif (playerVelocityLength == 0) then
 			if (player:Crouching()) then
-				regeneration = regenScale * 2;
+				regeneration = (regenScale + attribute) * 2;
 			else
-				regeneration = regenScale;
+				regeneration = (regenScale + attribute);
 			end;
 		else
 			regeneration = regenScale / 3;

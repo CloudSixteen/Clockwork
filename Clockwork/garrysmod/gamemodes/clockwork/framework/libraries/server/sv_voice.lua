@@ -1,5 +1,5 @@
---[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+--[[ 
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -14,7 +14,7 @@ local Clockwork = Clockwork;
 	@field stored A table containing a list of voice channels.
 --]]
 Clockwork.voice = Clockwork.kernel:NewLibrary("Voice");
-Clockwork.voice.stored = {};
+Clockwork.voice.stored = Clockwork.voice.stored or {};
 
 --[[
 	@codebase Server

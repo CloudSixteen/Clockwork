@@ -1,5 +1,5 @@
---[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+--[[ 
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -11,9 +11,9 @@ local pairs = pairs;
 local table = table;
 
 Clockwork.PlayerInfoText = Clockwork.kernel:NewLibrary("PlayerInfoText");
-Clockwork.PlayerInfoText.text = {};
-Clockwork.PlayerInfoText.width = {};
-Clockwork.PlayerInfoText.subText = {};
+Clockwork.PlayerInfoText.text = Clockwork.PlayerInfoText.text or {};
+Clockwork.PlayerInfoText.width = Clockwork.PlayerInfoText.width or {};
+Clockwork.PlayerInfoText.subText = Clockwork.PlayerInfoText.subText or {};
 
 -- A function to get whether any player info text exists.
 function Clockwork.PlayerInfoText:DoesAnyExist()

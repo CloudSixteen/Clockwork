@@ -1,15 +1,10 @@
 --[[ 
-	� 2013 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
 	http://cloudsixteen.com/license/clockwork.html
 --]]
-
-if (Clockwork and Clockwork.config) then
-	ErrorNoHalt("[Clockwork] Clockwork does not currently support AutoRefresh but is being worked on.\n");
-	return;
-end;
 
 local AddCSLuaFile = AddCSLuaFile;
 local IsValid = IsValid;
@@ -19,10 +14,23 @@ local string = string;
 local table = table;
 local game = game;
 
+if (!Clockwork) then
+	Clockwork = GM;
+else
+	CurrentGM = Clockwork;
+	table.Merge(CurrentGM, GM);
+	Clockwork = nil;
+	
+	Clockwork = GM;
+	table.Merge(Clockwork, CurrentGM);
+	CurrentGM = nil;
+end;
+
 Clockwork = Clockwork or GM;
 Clockwork.ClockworkFolder = Clockwork.ClockworkFolder or GM.Folder;
 Clockwork.SchemaFolder = Clockwork.SchemaFolder or GM.Folder;
-Clockwork.KernelVersion = "0.92";
+Clockwork.KernelVersion = "0.93";
+Clockwork.DeveloperVersion = true;
 Clockwork.Website = "http://kurozael.com";
 Clockwork.Author = "kurozael";
 Clockwork.Email = "kurozael@gmail.com";
@@ -131,8 +139,9 @@ function Clockwork:ClockworkAddSharedVars(globalVars, playerVars)
 	end;
 	
 	playerVars:Number("InvWeight", true);
-	playerVars:Number("MaxHP", true);
-	playerVars:Number("MaxAP", true);
+	playerVars:Number("InvSpace", true);
+	playerVars:Number("MaxHP");
+	playerVars:Number("MaxAP");
 	playerVars:Number("IsDrunk", true);
 	playerVars:Number("Wages", true);
 	playerVars:Number("Cash", true);
@@ -152,8 +161,10 @@ function Clockwork:ClockworkAddSharedVars(globalVars, playerVars)
 	playerVars:String("Clothes", true);
 	playerVars:String("Model", true);
 	playerVars:String("ActName");
+	playerVars:String("flags");
 	playerVars:String("Flags");
 	playerVars:String("Name");
+	playerVars:String("icon");
 	playerVars:Entity("Ragdoll");
 	playerVars:Float("StartActTime");
 	globalVars:String("NoMySQL");

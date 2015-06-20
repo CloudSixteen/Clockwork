@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 	Clockwork was created by Conna Wiles (also known as kurozael.)
 	http://cloudsixteen.com/license/clockwork.html
@@ -7,7 +7,7 @@
 
 local ITEM = Clockwork.item:New();
 
-ITEM.name = "Container";
+ITEM.name = "Container Base";
 ITEM.model = "models/props_junk/garbage_bag001a.mdl";
 ITEM.weight = 2;
 ITEM.category = "Storage";
@@ -34,8 +34,8 @@ function ITEM:OnLoaded()
 	local inventory = self("Inventory");
 	
 	if (inventory != nil) then
-		if (CloudAuthX.Base64Decode and string.sub(inventory, 1, 1) == "@") then
-			inventory = CloudAuthX.Base64Decode(string.sub(inventory, 2));
+		if (CloudAuthX.Base64Decode and string.utf8sub(inventory, 1, 1) == "@") then
+			inventory = CloudAuthX.Base64Decode(string.utf8sub(inventory, 2));
 		end;
 		
 		self:SetData("Inventory", Clockwork.inventory:ToLoadable(inventory));

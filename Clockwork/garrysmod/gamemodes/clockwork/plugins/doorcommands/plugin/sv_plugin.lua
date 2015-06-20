@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -10,7 +10,7 @@ Clockwork.config:Add("default_doors_hidden", true, nil, nil, nil, nil, true);
 
 -- A function to load the parent data.
 function cwDoorCmds:LoadParentData()
-	self.parentData = {};
+	self.parentData = self.parentData or {};
 	
 	local parentData = Clockwork.kernel:RestoreSchemaData("plugins/parents/"..game.GetMap());
 	local positions = {};
@@ -41,7 +41,7 @@ end;
 
 -- A function to load the door data.
 function cwDoorCmds:LoadDoorData()
-	self.doorData = {};
+	self.doorData = self.doorData or {};
 	
 	local positions = {};
 	local doorData = Clockwork.kernel:RestoreSchemaData("plugins/doors/"..game.GetMap());

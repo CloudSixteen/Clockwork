@@ -1,5 +1,5 @@
 --[[ 
-	� 2013 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -70,7 +70,7 @@ function hook.Call(name, gamemode, ...)
 	hook.Timings[name] = timeTook;
 	
 	if (!bStatus) then
-		ErrorNoHalt("[Clockwork] The '"..name.."' hook failed to run.\n"..value.."\n"..value.."\n");
+		MsgC(Color(255, 100, 0, 255), "[Clockwork] The '"..name.."' hook failed to run.\n"..value.."\n"..value.."\n");
 	end;
 	
 	if (value == nil) then
@@ -81,7 +81,7 @@ function hook.Call(name, gamemode, ...)
 		hook.Timings[name] = timeTook;
 		
 		if (!bStatus) then
-			ErrorNoHalt("[Clockwork] The '"..name.."' hook failed to run.\n"..a.."\n");
+			MsgC(Color(255, 100, 0, 255), "[Clockwork] The '"..name.."' hook failed to run.\n"..a.."\n");
 		else
 			return a, b, c;
 		end;
@@ -328,7 +328,7 @@ Clockwork.datastream:Hook("CfgListVars", function(data)
 			or string.find(string.lower(k), sSearchData)) and !v.isStatic) then
 				if (v.isPrivate) then
 					tConfigRes[#tConfigRes + 1] = {
-						k, string.rep("*", string.len(tostring(v.value)))
+						k, string.rep("*", string.utf8len(tostring(v.value)))
 					};
 				else
 					tConfigRes[#tConfigRes + 1] = {
@@ -437,16 +437,28 @@ Clockwork.datastream:Hook("Notification", function(data)
 	end;
 end);
 
--- Called when a weapon is picked up and added to the HUD.
+--[[
+	@codebase Client
+	@details Called to display a HUD notification when a weapon has been picked up. (Used to override GMOD function)
+--]]
 function Clockwork:HUDWeaponPickedUp(...) end;
 
--- Called when an item is picked up and added to the HUD.
+--[[
+	@codebase Client
+	@details Called to display a HUD notification when an item has been picked up. (Used to override GMOD function)
+--]]
 function Clockwork:HUDItemPickedUp(...) end;
 
--- Called when some ammo is picked up and added to the HUD.
+--[[
+	@codebase Client
+	@details Called to display a HUD notification when ammo has been picked up. (Used to override GMOD function)
+--]]
 function Clockwork:HUDAmmoPickedUp(...) end;
 
--- Called when the context menu is opened.
+--[[
+	@codebase Client
+	@details Called when the context menu is opened.
+--]]
 function Clockwork:OnContextMenuOpen()
 	if (self.kernel:IsUsingTool()) then
 		return self.BaseClass:OnContextMenuOpen(self);
@@ -455,7 +467,10 @@ function Clockwork:OnContextMenuOpen()
 	end;
 end;
 
--- Called when the context menu is closed.
+--[[
+	@codebase Client
+	@details Called when the context menu is close.
+--]]
 function Clockwork:OnContextMenuClose()
 	if (self.kernel:IsUsingTool()) then
 		return self.BaseClass:OnContextMenuClose(self);
@@ -464,7 +479,14 @@ function Clockwork:OnContextMenuClose()
 	end;
 end;
 
--- Called when a player attempts to use the property menu.
+--[[
+	@codebase Client
+	@details Called to determine if a player can use property.
+	@param Player The player that is trying to use property.
+	@param
+	@param Entity The entity that is being used.
+	@returns Bool Whether or not the player can use property.
+--]]
 function Clockwork:CanProperty(player, property, entity)
 	if (!IsValid(entity)) then
 		return false;
@@ -479,7 +501,13 @@ function Clockwork:CanProperty(player, property, entity)
 	return self.BaseClass:CanProperty(player, property, entity);
 end;
 
--- Called when a player attempts to use drive.
+--[[
+	@codebase Client
+	@details Called to determine if a player can drive.
+	@param Player The player trying to drive.
+	@param Entity The entity that the player is trying to drive.
+	@return Bool Whether or not the player can drive the entity.
+--]]
 function Clockwork:CanDrive(player, entity)
 	if (!IsValid(entity)) then
 		return false;
@@ -494,7 +522,11 @@ function Clockwork:CanDrive(player, entity)
 	return self.BaseClass:CanDrive(player, entity);
 end;
 
--- Called when the Clockwork directory is rebuilt.
+--[[
+	@codebase Client
+	@details Called when the directory is rebuilt.
+	@param <DPanel> The directory panel.
+--]]
 function Clockwork:ClockworkDirectoryRebuilt(panel)
 	for k, v in pairs(self.command.stored) do
 		if (!self.player:HasFlags(self.Client, v.access)) then
@@ -505,7 +537,11 @@ function Clockwork:ClockworkDirectoryRebuilt(panel)
 	end;
 end;
 
--- Called when a Derma skin should be forced.
+--[[
+	@codebase Client
+	@details Called when the derma skin needs to be forced.
+	@return String The name of the skin to be forced (nil if not forcing skin).
+--]]
 function Clockwork:ForceDermaSkin()
 	--[[
 		Disable the custom Derma skin as it needs updating to GWEN.
@@ -515,14 +551,22 @@ function Clockwork:ForceDermaSkin()
 	return nil;
 end;
 
--- Called when the local player is given an item.
+--[[
+	@codebase Client
+	@details Called when the local player is given an item.
+	@param Table The table of the item that was given.
+--]]
 function Clockwork:PlayerItemGiven(itemTable)
 	if (self.storage:IsStorageOpen()) then
 		self.storage:GetPanel():Rebuild();
 	end;
 end;
 
--- Called when the local player has an item taken.
+--[[
+	@codebase Client
+	@details Called when the local player has an item taken from them.
+	@param Table The table of the item that was taken.
+--]]
 function Clockwork:PlayerItemTaken(itemTable)
 	if (self.storage:IsStorageOpen()) then
 		self.storage:GetPanel():Rebuild();
@@ -532,25 +576,59 @@ end;
 -- Called when the local player's character has initialized.
 function Clockwork:PlayerCharacterInitialized(iCharacterKey) end;
 
--- Called before the local player's storage is rebuilt.
+--[[
+	@codebase Client
+	@details Called before the local player's storage is rebuilt.
+	@param <DPanel> The player's storage panel.
+--]]
 function Clockwork:PlayerPreRebuildStorage(panel) end;
 
--- Called when the local player's storage is rebuilt.
+--[[
+	@codebase Client
+	@details Called when the local player's storage is rebuilt.
+	@param <DPanel> The player's storage panel.
+	@param Table The categories for the player's storage.
+--]]
 function Clockwork:PlayerStorageRebuilt(panel, categories) end;
 
--- Called when the local player's business is rebuilt.
+--[[
+	@codebase Client
+	@details Called when the local player's business is rebuilt.
+	@param <DPanel> The player's business panel.
+	@param Table The categories for the player's business.
+--]]
 function Clockwork:PlayerBusinessRebuilt(panel, categories) end;
 
--- Called when the local player's inventory is rebuilt.
+--[[
+	@codebase Client
+	@details Called when the local player's storage is rebuilt.
+	@param <DPanel> The player's storage panel.
+	@param Table The categories for the player's inventory.
+--]]
 function Clockwork:PlayerInventoryRebuilt(panel, categories) end;
 
--- Called when an entity fires some bullets.
+--[[
+	@codebase Client
+	@details Called when an entity attempts to fire bullets.
+	@param Entity The entity trying to fire bullets.
+	@param Table The info of the bullets being fired.
+--]]
 function Clockwork:EntityFireBullets(entity, bulletInfo) end;
 
--- Called when a player's bullet info should be adjusted.
+--[[
+	@codebase Client
+	@details Called when a player's bulletInfo needs to be adjusted.
+	@param Player The player that is firing bullets.
+	@param Table The info of the bullets that need to be adjusted.
+--]]
 function Clockwork:PlayerAdjustBulletInfo(player, bulletInfo) end;
 
--- Called when Clockwork config has initialized.
+--[[
+	@codebase Client
+	@details Called when clockwork's config is initialized.
+	@param String The name of the config key.
+	@param String The value relating to the key in the table.
+--]]
 function Clockwork:ClockworkConfigInitialized(key, value)
 	if (key == "cash_enabled" and !value) then
 		for k, v in pairs(self.item:GetAll()) do
@@ -559,16 +637,50 @@ function Clockwork:ClockworkConfigInitialized(key, value)
 	end;
 end;
 
--- Called when a Clockwork ConVar has changed.
+--[[
+	@codebase Client
+	@details Called when one of the client's console variables have been changed.
+	@param String The name of the convar that was changed.
+	@param String The previous value of the convar.
+	@param String The new value of the convar.
+--]]
 function Clockwork:ClockworkConVarChanged(name, previousValue, newValue)
-	Clockwork.option:SetColor("information", Color(GetConVarNumber("cwTextColorR"), 
-		GetConVarNumber("cwTextColorG"), GetConVarNumber("cwTextColorB"), GetConVarNumber("cwTextColorA")));
+	local checkTable = {
+		["cwTextColorR"] = true,
+		["cwTextColorG"] = true,
+		["cwTextColorB"] = true,
+		["cwTextColorA"] = true
+	}
+
+	if (checkTable[name]) then
+		Clockwork.option:SetColor(
+			"information",
+			Color(
+				GetConVarNumber("cwTextColorR"), 
+				GetConVarNumber("cwTextColorG"), 
+				GetConVarNumber("cwTextColorB"), 
+				GetConVarNumber("cwTextColorA")
+			)
+		);
+	end;
 end;
 
--- Called when Clockwork config has changed.
+--[[
+	@codebase Client
+	@details Called when one of the configs have been changed.
+	@param String The config key that was changed.
+	@param String The data provided.
+	@param String The previous value of the key.
+	@param String The new value of the key.
+--]]
 function Clockwork:ClockworkConfigChanged(key, data, previousValue, newValue) end;
 
--- Called when an entity's menu options are needed.
+--[[
+	@codebase Client
+	@details Called when an entity's menu options are needed.
+	@param Entity The entity that is being checked for menu options.
+	@param Table The table of options for the entity.
+--]]
 function Clockwork:GetEntityMenuOptions(entity, options)
 	local class = entity:GetClass();
 	local generator = self.generator:FindByID(class);
@@ -592,19 +704,9 @@ function Clockwork:GetEntityMenuOptions(entity, options)
 			if (itemTable.GetEntityMenuOptions) then
 				itemTable:GetEntityMenuOptions(entity, options);
 			end;
-			
-			local examineText = Clockwork.item:GetMarkupToolTip(itemTable);
-			
-			if (itemTable.GetEntityExamineText) then
-				examineText = itemTable:GetEntityExamineText(entity);
-			end;
-			
+						
 			options["Take"] = "cwItemTake";
-			options["Examine"] = {
-				isArgTable = true,
-				isOrdered = true,
-				toolTip = examineText,
-			};
+			options["Examine"] = "cwItemExamine";
 		end;
 	elseif (class == "cw_belongings") then
 		options["Open"] = "cwBelongingsOpen";
@@ -619,7 +721,10 @@ function Clockwork:GetEntityMenuOptions(entity, options)
 	end;
 end;
 
--- Called when the GUI mouse is released.
+--[[
+	@codebase Client
+	@details Called when the GUI mouse has been released.
+--]]
 function Clockwork:GUIMouseReleased(code)
 	if (!self.config:Get("use_opens_entity_menus"):Get()
 	and vgui.CursorVisible()) then
@@ -635,7 +740,12 @@ function Clockwork:GUIMouseReleased(code)
 	end;
 end;
 
--- Called when a key is released.
+--[[
+	@codebase Client
+	@details Called when a key has been released.
+	@param Player The player releasing a key.
+	@param Key The key that is being released.
+--]]
 function Clockwork:KeyRelease(player, key)
 	if (self.config:Get("use_opens_entity_menus"):Get()) then
 		if (key == IN_USE) then
@@ -661,7 +771,10 @@ function Clockwork:KeyRelease(player, key)
 	end;
 end;
 
--- Called when the local player is created.
+--[[
+	@codebase Client
+	@details Called when the local player has been created.
+--]]
 function Clockwork:LocalPlayerCreated()
 	Clockwork.kernel:RegisterNetworkProxy(Clockwork.Client, "Clothes", function(entity, name, oldValue, newValue)
 		if (oldValue != newValue) then
@@ -679,7 +792,10 @@ function Clockwork:LocalPlayerCreated()
 	end);
 end;
 
--- Called when the client initializes.
+--[[
+	@codebase Client
+	@details Called when the client initializes.
+--]]
 function Clockwork:Initialize()
 	CW_CONVAR_TWELVEHOURCLOCK = self.kernel:CreateClientConVar("cwTwelveHourClock", 0, true, true);
 	CW_CONVAR_SHOWTIMESTAMPS = self.kernel:CreateClientConVar("cwShowTimeStamps", 0, true, true);
@@ -688,11 +804,18 @@ function Clockwork:Initialize()
 	CW_CONVAR_SHOWSERVER = self.kernel:CreateClientConVar("cwShowServer", 1, true, true);
 	CW_CONVAR_SHOWAURA = self.kernel:CreateClientConVar("cwShowClockwork", 1, true, true);
 	CW_CONVAR_SHOWHINTS = self.kernel:CreateClientConVar("cwShowHints", 1, true, true);
-	CW_CONVAR_ADMINESP = self.kernel:CreateClientConVar("cwAdminESP", 0, true, true);
 	CW_CONVAR_SHOWLOG = self.kernel:CreateClientConVar("cwShowLog", 1, true, true);
 	CW_CONVAR_SHOWOOC = self.kernel:CreateClientConVar("cwShowOOC", 1, true, true);
 	CW_CONVAR_SHOWIC = self.kernel:CreateClientConVar("cwShowIC", 1, true, true);
+
 	CW_CONVAR_ESPTIME = self.kernel:CreateClientConVar("cwESPTime", 1, true, true);
+	CW_CONVAR_ADMINESP = self.kernel:CreateClientConVar("cwAdminESP", 0, true, true);
+	CW_CONVAR_ESPBARS = self.kernel:CreateClientConVar("cwESPBars", 1, true, true);
+	CW_CONVAR_ITEMESP = self.kernel:CreateClientConVar("cwItemESP", 0, false, true);
+	CW_CONVAR_PROPESP = self.kernel:CreateClientConVar("cwPropESP", 0, false, true);
+	CW_CONVAR_SPAWNESP = self.kernel:CreateClientConVar("cwSpawnESP", 0, false, true);
+	CW_CONVAR_SALEESP = self.kernel:CreateClientConVar("cwSaleESP", 0, false, true);
+	CW_CONVAR_NPCESP = self.kernel:CreateClientConVar("cwNPCESP", 0, false, true);
 	
 	CW_CONVAR_TEXTCOLORR = self.kernel:CreateClientConVar("cwTextColorR", 255, true, true);
 	CW_CONVAR_TEXTCOLORG = self.kernel:CreateClientConVar("cwTextColorG", 200, true, true);
@@ -735,6 +858,9 @@ function Clockwork:Initialize()
 	self.theme:Initialize();
 	
 	self.plugin:CheckMismatches();
+	self.plugin:ClearHookCache();
+
+	hook.Remove("PostDrawEffects", "RenderWidgets")
 end;
 
 --[[
@@ -768,13 +894,43 @@ end;
 
 --[[
 	@codebase Client
+	@details Called when the tool menu needs to be populated.
+--]]
+function Clockwork:PopulateToolMenu()
+	local toolGun = weapons.GetStored("gmod_tool");
+
+	for k, v in pairs(self.tool:GetAll()) do
+		toolGun.Tool[v.Mode] = v;
+
+		if (v.AddToMenu != false) then		
+			spawnmenu.AddToolMenuOption( v.Tab or "Main",
+				v.Category or "New Category", 
+				k, 
+				v.Name or "#"..k, 
+				v.Command or "gmod_tool "..k, 
+				v.ConfigName or k,
+				v.BuildCPanel 
+			);			
+		end;
+
+		language.Add("tool."..v.UniqueID..".name", v.Name);
+		language.Add("tool."..v.UniqueID..".desc", v.Desc);
+		language.Add("tool."..v.UniqueID..".0", v.HelpText);
+	end;
+end;
+
+--[[
+	@codebase Client
 	@details Called when an Clockwork item has initialized.
+	@param Table The table of the item being initialized.
 --]]
 function Clockwork:ClockworkItemInitialized(itemTable) end;
 
 --[[
 	@codebase Client
 	@details Called when a player's phys desc override is needed.
+	@param Player The player whose phys desc override is needed.
+	@param String The player's physDesc.
 --]]
 function Clockwork:GetPlayerPhysDescOverride(player, physDesc) end;
 
@@ -1107,8 +1263,7 @@ function Clockwork:CalcViewModelView(weapon, viewModel, oldEyePos, oldEyeAngles,
 	eyeAngles:RotateAroundAxis(eyeAngles:Right(), viewInfo.angles.r * fraction);
 
 	client.cwRaisedFraction = Lerp(FrameTime() * 2, client.cwRaisedFraction or 100, targetValue)
-	
-	viewModel:SetAngles(eyeAngles)
+	--viewModel:SetAngles(eyeAngles)
 
 	return oldEyePos, eyeAngles;
 end;
@@ -1203,17 +1358,20 @@ function Clockwork:MenuItemsAdd(menuItems)
 	local scoreboardName = self.option:GetKey("name_scoreboard");
 	local directoryName = self.option:GetKey("name_directory");
 	local inventoryName = self.option:GetKey("name_inventory");
-	local businessName = self.option:GetKey("name_business");
 	
 	menuItems:Add("Classes", "cwClasses", "Choose from a list of available classes.");
 	menuItems:Add("Settings", "cwSettings", "Configure the way Clockwork works for you.");
 	menuItems:Add("Donations", "cwDonations", "Check your donation subscriptions.");
 	menuItems:Add(systemName, "cwSystem", self.option:GetKey("description_system"));
 	menuItems:Add(scoreboardName, "cwScoreboard", self.option:GetKey("name_scoreboard"));
-	menuItems:Add(businessName, "cwBusiness", self.option:GetKey("description_business"));
 	menuItems:Add(inventoryName, "cwInventory", self.option:GetKey("description_inventory"));
 	menuItems:Add(directoryName, "cwDirectory", self.option:GetKey("description_directory"));
 	menuItems:Add(attributesName, "cwAttributes", self.option:GetKey("description_attributes"));
+	
+	if (self.config:Get("show_business"):GetBoolean() == true) then
+		local businessName = self.option:GetKey("name_business");
+		menuItems:Add(businessName, "cwBusiness", self.option:GetKey("description_business"));
+	end;
 end;
 
 -- Called when the menu's items should be destroyed.
@@ -1223,37 +1381,50 @@ function Clockwork:MenuItemsDestroy(menuItems) end;
 function Clockwork:Tick()
 	local realCurTime = CurTime();
 	local curTime = UnPredictedCurTime();
-	local font = self.option:GetFont("player_info_text");
+	local cwChar = self.character;
+	local cwPlugin = self.plugin;
+	local cwBars = self.bars;
+	local cwPlyInfoText = self.PlayerInfoText;
+	local cwKernel = self.kernel;
+	local cwConfig = self.config;
+	local cwEntity = self.entity;
+	local cwClient = self.Client;
+	local cwOption = self.option;
+	local cwAttriBoost = self.attributes.boosts;
+	local cwMusic = self.MusicSound;
+	local mathMin = math.min;
+	local mathMax = math.max;
+	local font = cwOption:GetFont("player_info_text");
 	
-	if (self.character:IsPanelPolling()) then
-		local panel = self.character:GetPanel();
+	if (cwChar:IsPanelPolling()) then
+		local panel = cwChar:GetPanel();
 		
-		if (!panel and self.plugin:Call("ShouldCharacterMenuBeCreated")) then
-			self.character:SetPanelPolling(false);
-			self.character.isOpen = true;
-			self.character.panel = vgui.Create("cwCharacterMenu");
-			self.character.panel:MakePopup();
-			self.character.panel:ReturnToMainMenu();
+		if (!panel and cwPlugin:Call("ShouldCharacterMenuBeCreated")) then
+			cwChar:SetPanelPolling(false);
+			cwChar.isOpen = true;
+			cwChar.panel = vgui.Create("cwCharacterMenu");
+			cwChar.panel:MakePopup();
+			cwChar.panel:ReturnToMainMenu();
 
-			self.plugin:Call("PlayerCharacterScreenCreated", self.character.panel);
+			cwPlugin:Call("PlayerCharacterScreenCreated", cwChar.panel);
 		end;
 	end;
 	
-	if (IsValid(self.Client) and !self.kernel:IsChoosingCharacter()) then
-		self.bars.stored = {};
-		self.PlayerInfoText.text = {};
-		self.PlayerInfoText.width = ScrW() * 0.15;
-		self.PlayerInfoText.subText = {};
+	if (IsValid(cwClient) and !cwKernel:IsChoosingCharacter()) then
+		cwBars.stored = {};
+		cwPlyInfoText.text = {};
+		cwPlyInfoText.width = ScrW() * 0.15;
+		cwPlyInfoText.subText = {};
 		
-		self.kernel:DrawHealthBar();
-		self.kernel:DrawArmorBar();
+		cwKernel:DrawHealthBar();
+		cwKernel:DrawArmorBar();
 		
-		self.plugin:Call("GetBars", self.bars);
-		self.plugin:Call("DestroyBars", self.bars);
-		self.plugin:Call("GetPlayerInfoText", self.PlayerInfoText);
-		self.plugin:Call("DestroyPlayerInfoText", self.PlayerInfoText);
+		cwPlugin:Call("GetBars", cwBars);
+		cwPlugin:Call("DestroyBars", cwBars);
+		cwPlugin:Call("GetPlayerInfoText", cwPlyInfoText);
+		cwPlugin:Call("DestroyPlayerInfoText", cwPlyInfoText);
 		
-		table.sort(self.bars.stored, function(a, b)
+		table.sort(cwBars.stored, function(a, b)
 			if (a.text == "" and b.text == "") then
 				return a.priority > b.priority;
 			elseif (a.text == "") then
@@ -1263,37 +1434,37 @@ function Clockwork:Tick()
 			end;
 		end);
 		
-		table.sort(self.PlayerInfoText.subText, function(a, b)
+		table.sort(cwPlyInfoText.subText, function(a, b)
 			return a.priority > b.priority;
 		end);
 		
-		for k, v in pairs(self.PlayerInfoText.text) do
-			self.PlayerInfoText.width = self.kernel:AdjustMaximumWidth(font, v.text, self.PlayerInfoText.width);
+		for k, v in pairs(cwPlyInfoText.text) do
+			cwPlyInfoText.width = cwKernel:AdjustMaximumWidth(font, v.text, cwPlyInfoText.width);
 		end;
 		
-		for k, v in pairs(self.PlayerInfoText.subText) do
-			self.PlayerInfoText.width = self.kernel:AdjustMaximumWidth(font, v.text, self.PlayerInfoText.width);
+		for k, v in pairs(cwPlyInfoText.subText) do
+			cwPlyInfoText.width = cwKernel:AdjustMaximumWidth(font, v.text, cwPlyInfoText.width);
 		end;
 		
-		self.PlayerInfoText.width = self.PlayerInfoText.width + 16;
+		cwPlyInfoText.width = cwPlyInfoText.width + 16;
 		
-		if (self.config:Get("fade_dead_npcs"):Get()) then
+		if (cwConfig:Get("fade_dead_npcs"):Get()) then
 			for k, v in pairs(ents.FindByClass("class C_ClientRagdoll")) do
-				if (!self.entity:IsDecaying(v)) then
-					self.entity:Decay(v, 300);
+				if (!cwEntity:IsDecaying(v)) then
+					cwEntity:Decay(v, 300);
 				end;
 			end;
 		end;
 		
 		local playedHeartbeatSound = false;
 		
-		if (self.Client:Alive() and self.config:Get("enable_heartbeat"):Get()) then
-			local maxHealth = self.Client:GetMaxHealth();
-			local health = self.Client:Health();
+		if (cwClient:Alive() and cwConfig:Get("enable_heartbeat"):Get()) then
+			local maxHealth = cwClient:GetMaxHealth();
+			local health = cwClient:Health();
 			
 			if (health < maxHealth) then
 				if (!self.HeartbeatSound) then
-					self.HeartbeatSound = CreateSound(self.Client, "player/heartbeat1.wav");
+					self.HeartbeatSound = CreateSound(cwClient, "player/heartbeat1.wav");
 				end;
 				
 				if (!self.NextHeartbeat or curTime >= self.NextHeartbeat) then
@@ -1313,19 +1484,19 @@ function Clockwork:Tick()
 	if (!self.NextHandleAttributeBoosts or realCurTime >= self.NextHandleAttributeBoosts) then
 		self.NextHandleAttributeBoosts = realCurTime + 3;
 		
-		for k, v in pairs(self.attributes.boosts) do
+		for k, v in pairs(cwAttriBoost) do
 			for k2, v2 in pairs(v) do
 				if (v2.duration and v2.endTime) then
 					if (realCurTime > v2.endTime) then
-						self.attributes.boosts[k][k2] = nil;
+						cwAttriBoost[k][k2] = nil;
 					else
 						local timeLeft = v2.endTime - realCurTime;
 						
 						if (timeLeft >= 0) then
 							if (v2.default < 0) then
-								v2.amount = math.min((v2.default / v2.duration) * timeLeft, 0);
+								v2.amount = mathMin((v2.default / v2.duration) * timeLeft, 0);
 							else
-								v2.amount = math.max((v2.default / v2.duration) * timeLeft, 0);
+								v2.amount = mathMax((v2.default / v2.duration) * timeLeft, 0);
 							end;
 						end;
 					end;
@@ -1334,9 +1505,9 @@ function Clockwork:Tick()
 		end;
 	end;
 	
-	if (self.kernel:IsInfoMenuOpen() and !input.IsKeyDown(KEY_F1)) then
-		Clockwork.kernel:RemoveBackgroundBlur("InfoMenu");
-		Clockwork.kernel:CloseActiveDermaMenus();
+	if (cwKernel:IsInfoMenuOpen() and !input.IsKeyDown(KEY_F1)) then
+		cwKernel:RemoveBackgroundBlur("InfoMenu");
+		cwKernel:CloseActiveDermaMenus();
 		Clockwork.InfoMenuOpen = false;
 		
 		if (IsValid(Clockwork.InfoMenuPanel)) then
@@ -1344,21 +1515,21 @@ function Clockwork:Tick()
 		end;
 		
 		timer.Simple(FrameTime() * 0.5, function()
-			Clockwork.kernel:RemoveActiveToolTip();
+			cwKernel:RemoveActiveToolTip();
 		end);
 	end;
 	
-	local menuMusic = self.option:GetKey("menu_music");
+	local menuMusic = cwOption:GetKey("menu_music");
 	
 	if (menuMusic != "") then
-		if (IsValid(self.Client) and self.character:IsPanelOpen()) then
-			if (!self.MusicSound) then
-				self.MusicSound = CreateSound(self.Client, menuMusic);
-				self.MusicSound:PlayEx(0.3, 100);
+		if (IsValid(cwClient) and cwChar:IsPanelOpen()) then
+			if (!cwMusic) then
+				cwMusic = CreateSound(cwClient, menuMusic);
+				cwMusic:PlayEx(0.3, 100);
 				self.MusicFading = false;
 			end;
-		elseif (self.MusicSound and !self.MusicFading) then
-			self.MusicSound:FadeOut(8);
+		elseif (cwMusic and !self.MusicFading) then
+			cwMusic:FadeOut(8);
 			self.MusicFading = true;
 			
 			timer.Simple(8, function()
@@ -1375,7 +1546,7 @@ function Clockwork:Tick()
 				local value = nil;
 				
 				if (k == worldEntity) then
-					value = self.kernel:GetSharedVar(k2);
+					value = cwKernel:GetSharedVar(k2);
 				else
 					value = k:GetSharedVar(k2);
 				end;
@@ -1392,10 +1563,14 @@ function Clockwork:Tick()
 end;
 
 -- Called when an entity is created.
-function Clockwork:OnEntityCreated(entity)
+--[[function Clockwork:OnEntityCreated(entity)
 	if (entity == LocalPlayer() and IsValid(entity)) then
 		self.Client = entity;
 	end;
+end;]]
+
+function Clockwork:InitPostEntity()
+	self.Client = LocalPlayer();
 end;
 
 -- Called each frame.
@@ -1952,33 +2127,85 @@ function Clockwork:GetModelSelectSequence(entity, model) end;
     @param Table The current table of ESP positions/colors/names to add on to.
 --]]
 function Clockwork:GetAdminESPInfo(info)
+	local info = info;
+	local cwPlugin = self.plugin;
+	local cwPlayer = cwPlayer;
+	local cwTeam = cwTeam;
+
 	for k, v in pairs(cwPlayer.GetAll()) do
-		if (v:HasInitialized()) then
-			if (self.Client != v) then
-				local physBone = v:LookupBone("ValveBiped.Bip01_Head1");
-				local position = nil;	
-				local topText = {v:Name()}
-					
-				if (physBone) then
-					local bonePosition = v:GetBonePosition(physBone);
+		if (v:HasInitialized()) then			
+			local physBone = v:LookupBone("ValveBiped.Bip01_Head1");
+			local position = nil;
+								
+			if (physBone) then
+				local bonePosition = v:GetBonePosition(physBone);
 						
-					if (bonePosition) then
-						position = bonePosition + Vector(0, 0, 16);
-					end;
-				else
-					position = v:GetPos() + Vector(0, 0, 80);
+				if (bonePosition) then
+					position = bonePosition + Vector(0, 0, 16);
 				end;
-					
-				Clockwork.plugin:Call("GetStatusInfo", v, topText)			
-					
-				info[#info + 1] = {
-					position = position,
-					text = {
-						{table.concat(topText, " "), cwTeam.GetColor(v:Team())}				
-					}
-				};
-					
-				Clockwork.plugin:Call("GetPlayerESPInfo", v, info[#info]["text"]);	
+			else
+				position = v:GetPos() + Vector(0, 0, 80);
+			end;
+
+			local topText =  {v:Name()};
+
+			cwPlugin:Call("GetStatusInfo", v, topText);	
+
+			local text = {
+				{table.concat(topText, " "), cwTeam.GetColor(v:Team())}
+			};
+
+			cwPlugin:Call("GetPlayerESPInfo", v, text);
+
+			table.insert(info, {
+				position = position,
+				text = text
+			});
+		end;
+	end;
+
+	if (CW_CONVAR_SALEESP:GetInt() == 1) then
+		for k, v in pairs (ents.GetAll()) do 
+			if (v:GetClass() == "cw_salesman") then
+				if (v:IsValid()) then
+					local position = v:GetPos()
+					local saleName = v:GetNetworkedString("Name");
+					local color = Color(255, 150, 0, 255);
+
+					table.insert(info, {
+						position = position,
+						color = color,
+						text = {
+							{"[Salesman]", color},
+							{saleName, color}
+						}
+					});
+				end;
+			end;
+		end;
+	end;
+
+	if (CW_CONVAR_ITEMESP:GetInt() == 1) then
+		for k, v in pairs (ents.GetAll()) do 
+			if (v:GetClass() == "cw_item") then
+				if (v:IsValid()) then
+					local position = v:GetPos()
+					local itemTable = Clockwork.entity:FetchItemTable(v)
+
+					if (itemTable) then
+						local itemName = itemTable("name")
+						local color = Color(0, 255, 255, 255);
+
+						table.insert(info, {
+							position = position,
+							color = color,
+							text = {
+								{"[Item]", color},
+								{itemName, color}
+							}
+						});
+					end;
+				end;
 			end;
 		end;
 	end;
@@ -2019,27 +2246,43 @@ end;
 
 -- Called when extra player info is needed.
 function Clockwork:GetPlayerESPInfo(player, text)
+	local player = player;
+	local text = text;
+
 	if (player:IsValid()) then
 		local weapon = player:GetActiveWeapon();
 		local health = player:Health();
-		local color;
-		if (player:Alive()) then			
-			table.insert(text, {"Health: ["..health.."]", self:GetValueColor(health)})
+		local armor = player:Armor();
+		local colorWhite = Color(255, 255, 255, 255);
+		local colorRed = Color(255, 0, 0, 255);
+		local colorHealth = colorWhite;
+		local colorArmor = colorWhite;
+		
+		table.insert(text, {player:SteamName(), Color(170, 170, 170, 255), nil, nil, self.player:GetChatIcon(player)})
+
+		if (player:Alive() and health > 0) then
+
+			if (CW_CONVAR_ESPBARS:GetInt() == 0) then
+				colorHealth = self:GetValueColor(health);
+				colorArmor = self:GetValueColor(armor);
+			end;
+
+			table.insert(text, {"Health: ["..health.."]", colorHealth, {health, player:GetMaxHealth()}})
 			
 			if (player:Armor() > 0) then
-				table.insert(text, {"Armor: ["..player:Armor().."]", self:GetValueColor(player:Armor())});
+				table.insert(text, {"Armor: ["..armor.."]", colorArmor, {armor, player:GetMaxArmor()}, Color(30, 65, 175, 255)});
 			end;
 		
 			if (weapon) then			
 				local raised = self.player:GetWeaponRaised(player);
-				
+				local color = colorWhite;
+
 				if (raised == true) then
-					color = Color(255, 0, 0, 255);
-				else
-					color = Color(255, 255, 255, 255);
+					color = colorRed;
 				end;
 				
 				local printName = weapon:GetPrintName();
+
 				if (printName) then
 					table.insert(text, {printName, color})
 				end;
@@ -2126,6 +2369,23 @@ function Clockwork:PostDrawPlayerInfo(boxInfo, information, subInformation) end;
 function Clockwork:PostDrawDateTimeBox(info) end;
 
 --[[
+	@codebase Client
+	@details Called after the view model is drawn.
+	@param Entity The viewmodel being drawn.
+	@param Player The player drawing the viewmodel.
+	@param Weapon The weapon table for the viewmodel.
+--]]
+function Clockwork:PostDrawViewModel(viewModel, player, weapon)
+   	if (weapon.UseHands or !weapon:IsScripted()) then
+    	local hands = Clockwork.Client:GetHands();
+
+      	if IsValid(hands) then 
+      		hands:DrawModel();
+      	end;
+   	end;
+end;
+
+--[[
     @codebase Client
     @details This function is called when local player info text is needed and adds onto it (F1 menu).
     @class Clockwork
@@ -2204,8 +2464,8 @@ function Clockwork:GetPlayerScoreboardText(player)
 	if (self.player:DoesRecognise(player, RECOGNISE_PARTIAL)) then
 		local physDesc = self.player:GetPhysDesc(player);
 		
-		if (string.len(physDesc) > 64) then
-			return string.sub(physDesc, 1, 61).."...";
+		if (string.utf8len(physDesc) > 64) then
+			return string.utf8sub(physDesc, 1, 61).."...";
 		else
 			return physDesc;
 		end;
@@ -2845,7 +3105,7 @@ function Clockwork:HUDDrawScoreBoard()
 		drawPendingScreenBlack = nil;
 	end;
 	
-	if (self.kernel:GetSharedVar("NoMySQL")) then
+	if (self.kernel:GetSharedVar("NoMySQL") and self.kernel:GetSharedVar("NoMySQL") != "") then
 		self.kernel:DrawSimpleGradientBox(0, 0, 0, scrW, scrH, Color(0, 0, 0, 255));
 		draw.SimpleText(self.kernel:GetSharedVar("NoMySQL"), introTextSmallFont, scrW / 2, scrH / 2, Color(179, 46, 49, 255), 1, 1);
 	elseif (self.DataStreamedAlpha and self.DataStreamedAlpha > 0) then
@@ -3122,6 +3382,10 @@ end;
 -- Overriding Garry's "grab ear" animation.
 function Clockwork:GrabEarAnimation(player) end;
 
+concommand.Add("cwSay", function(player, command, arguments)
+	return Clockwork.datastream:Start("PlayerSay", table.concat(arguments, " "));
+end);
+
 concommand.Add("cwLua", function(player, command, arguments)
 	if (player:IsSuperAdmin()) then
 		RunString(table.concat(arguments, " "));
@@ -3229,8 +3493,8 @@ function playerMeta:SetSharedVar(key, value)
 end;
 
 -- A function to get a player's shared variable.
-function playerMeta:GetSharedVar(key)
-	return Clockwork.player:GetSharedVar(self, key);
+function playerMeta:GetSharedVar(key, sharedTable)
+	return Clockwork.player:GetSharedVar(self, key, sharedTable);
 end;
 
 -- A function to get whether a player has initialized.
@@ -3319,6 +3583,18 @@ end;
 -- A function to get a player's ragdoll entity.
 function playerMeta:GetRagdollEntity()
 	return Clockwork.player:GetRagdollEntity(self);
+end;
+
+-- A function to get a player's rank within their faction.
+function playerMeta:GetFactionRank()
+	local rankName, rank = Clockwork.player:GetFactionRank(self);
+	
+	return rankName, rank;
+end;
+
+-- A function to get a player's chat icon.
+function playerMeta:GetChatIcon()
+	return Clockwork.player:GetChatIcon(self);
 end;
 
 playerMeta.GetName = playerMeta.Name;
