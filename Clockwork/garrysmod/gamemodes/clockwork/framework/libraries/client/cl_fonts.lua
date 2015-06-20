@@ -8,7 +8,8 @@
 
 local surface = surface;
 local Clockwork = Clockwork;
-local CreateFont = surface.CreateFont;
+
+CreateFont = CreateFont or surface.CreateFont;
 
 function surface.CreateFont(...)
 	Clockwork.fonts:Add(...);

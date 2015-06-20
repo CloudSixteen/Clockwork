@@ -12,7 +12,7 @@ TOOL.Category		= "Clockwork tools";
 TOOL.Name 			= "Door Tool";
 TOOL.UniqueID 		= "doortool";
 TOOL.Desc 			= "Do various things with doors.";
-TOOL.HelpText		= "Primary: Do Action";
+TOOL.HelpText		= "Primary: Do Action | Secondary: Do Action (If Applicable)";
 
 TOOL.ClientConVar[ "mode" ]	 			= "1";
 TOOL.ClientConVar[ "doorname" ]	= "A Door";
@@ -143,32 +143,51 @@ function TOOL:UnlockDoor(entity)
 	end;
 end
 
-function TOOL:LeftClick( trace )
+function TOOL:LeftClick(trace)
+	if (CLIENT) then return true; end;
 	
-	local mode = self:GetClientNumber( "mode" );
+	local mode = self:GetClientNumber("mode");
 	local player = self:GetOwner();
 	local entity = player:GetEyeTraceNoCursor();
 
-	if (!player:IsAdmin()) then 
+	if (!player:IsAdmin()) then
+		Clockwork.player:Notify(player, "You are not an admin!");
+
 		return false;
 	end
 	
 	if (IsValid(entity.Entity)) then
 		if(mode == 1) then
 			self:LockDoor(entity);
-		end
-		if(mode == 2) then
-			self:UnlockDoor(entity);
-		end
-		if(mode == 3) then
+		elseif(mode == 2) then
 			self:AddOwnable(entity);
-		end
-		if(mode == 4) then
+		elseif(mode == 3) then
 			self:AddUnownable(entity);
 		end
 	end
 end
 
+function TOOL:RightClick(trace)
+	if (CLIENT) then return true; end;
+	
+	local mode = self:GetClientNumber("mode");
+	local player = self:GetOwner();
+	local entity = player:GetEyeTraceNoCursor();
+
+	if (!player:IsAdmin()) then
+		Clockwork.player:Notify(player, "You are not an admin!");
+
+		return false;
+	end
+	
+	if (IsValid(entity.Entity)) then
+		if(mode == 1) then
+			self:UnlockDoor(entity);
+		else
+			return false;
+		end
+	end
+end
 
 if CLIENT then
 	
@@ -196,25 +215,20 @@ if CLIENT then
 			end
 		end
 
-		if ( mode == 1 ) then
-			list:AddLine(" 1 **Lock Door**");
+		if (mode == 1) then
+			list:AddLine(" 1 **Lock/Unlock Door**");
 		else
-			list:AddLine(" 1   Lock Door");
+			list:AddLine(" 1   Lock/Unlock Door");
 		end
-		if ( mode == 2 ) then
-			list:AddLine(" 2 **Unlock Door**");
+		if (mode == 2) then
+			list:AddLine(" 2 **Door Set Ownable**");
 		else
-			list:AddLine(" 2   Unlock Door");
+			list:AddLine(" 2   Door Set Ownable  ");
 		end
-		if ( mode == 3 ) then
-			list:AddLine(" 3 **Door Set Ownable**");
+		if (mode == 3) then
+			list:AddLine(" 3 **Door Set Unownable**");
 		else
-			list:AddLine(" 3   Door Set Ownable  ");
-		end
-		if ( mode == 4 ) then
-			list:AddLine(" 4 **Door Set Unownable**");
-		else
-			list:AddLine(" 4   Door Set Unownable  ");
+			list:AddLine(" 3   Door Set Unownable  ");
 		end
 		
 		list:SortByColumn(1);
@@ -224,19 +238,15 @@ if CLIENT then
 		
 
 		if ( mode == 1 ) then 
-			Panel:AddControl( "Header", { Text = "Lock Door", Description	= "There's not much you can do with this." }  );
+			Panel:AddControl( "Header", { Text = "Lock/Unlook Door", Description	= "Lock and unlock doors!" }  );
 		end
-		if ( mode == 2 ) then 
-			Panel:AddControl( "Header", { Text = "Unlock Door", Description	= "There's not much you can do with this." }  );
-		
-		end
-		if ( mode == 3) then 
+		if ( mode == 2) then 
 			Panel:AddControl( "TextBox", { 
 						Label = "Door Name",
 						MaxLenth = "20",
 						Command = "doortool_doorname" } );
 		end
-		if ( mode == 4) then 
+		if ( mode == 3) then 
 			Panel:AddControl( "TextBox", { 
 						Label = "Door name",
 						MaxLenth = "20",
@@ -249,7 +259,7 @@ if CLIENT then
 	end
 	
 	function door_setmode( player, tool, args )
-		if LocalPlayer():GetInfoNum( "doortool_mode", 3 ) != args[1] then
+		if LocalPlayer():GetInfoNum( "doortool_mode", 2 ) != args[1] then
 			RunConsoleCommand("doortool_mode", args[1]);
 			timer.Simple(0.05, function() door_updatepanel(); end );
 		end
