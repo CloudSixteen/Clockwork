@@ -811,6 +811,11 @@ function Clockwork:Initialize()
 	CW_CONVAR_ESPTIME = self.kernel:CreateClientConVar("cwESPTime", 1, true, true);
 	CW_CONVAR_ADMINESP = self.kernel:CreateClientConVar("cwAdminESP", 0, true, true);
 	CW_CONVAR_ESPBARS = self.kernel:CreateClientConVar("cwESPBars", 1, true, true);
+	CW_CONVAR_ITEMESP = self.kernel:CreateClientConVar("cwItemESP", 0, false, true);
+	CW_CONVAR_PROPESP = self.kernel:CreateClientConVar("cwPropESP", 0, false, true);
+	CW_CONVAR_SPAWNESP = self.kernel:CreateClientConVar("cwSpawnESP", 0, false, true);
+	CW_CONVAR_SALEESP = self.kernel:CreateClientConVar("cwSaleESP", 0, false, true);
+	CW_CONVAR_NPCESP = self.kernel:CreateClientConVar("cwNPCESP", 0, false, true);
 	
 	CW_CONVAR_TEXTCOLORR = self.kernel:CreateClientConVar("cwTextColorR", 255, true, true);
 	CW_CONVAR_TEXTCOLORG = self.kernel:CreateClientConVar("cwTextColorG", 200, true, true);
@@ -2147,9 +2152,7 @@ function Clockwork:GetAdminESPInfo(info)
 			cwPlugin:Call("GetStatusInfo", v, topText);	
 
 			local text = {
-				{
-					table.concat(topText, " "), cwTeam.GetColor(v:Team())
-				}
+				{table.concat(topText, " "), cwTeam.GetColor(v:Team())}
 			};
 
 			cwPlugin:Call("GetPlayerESPInfo", v, text);
@@ -2158,6 +2161,52 @@ function Clockwork:GetAdminESPInfo(info)
 				position = position,
 				text = text
 			});
+		end;
+	end;
+
+	if (CW_CONVAR_SALEESP:GetInt() == 1) then
+		for k, v in pairs (ents.GetAll()) do 
+			if (v:GetClass() == "cw_salesman") then
+				if (v:IsValid()) then
+					local position = v:GetPos()
+					local saleName = v:GetNetworkedString("Name");
+					local color = Color(255, 150, 0, 255);
+
+					table.insert(info, {
+						position = position,
+						color = color,
+						text = {
+							{"[Salesman]", color},
+							{saleName, color}
+						}
+					});
+				end;
+			end;
+		end;
+	end;
+
+	if (CW_CONVAR_ITEMESP:GetInt() == 1) then
+		for k, v in pairs (ents.GetAll()) do 
+			if (v:GetClass() == "cw_item") then
+				if (v:IsValid()) then
+					local position = v:GetPos()
+					local itemTable = Clockwork.entity:FetchItemTable(v)
+
+					if (itemTable) then
+						local itemName = itemTable("name")
+						local color = Color(0, 255, 255, 255);
+
+						table.insert(info, {
+							position = position,
+							color = color,
+							text = {
+								{"[Item]", color},
+								{itemName, color}
+							}
+						});
+					end;
+				end;
+			end;
 		end;
 	end;
 end;
