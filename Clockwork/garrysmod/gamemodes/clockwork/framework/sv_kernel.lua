@@ -3085,6 +3085,42 @@ function Clockwork:ChatBoxAdjustInfo(info)
 	elseif (info.class == "looc") then
 		Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, "[LOOC] "..info.speaker:Name()..": "..info.text);
 	end;
+	
+	if (info.class == "ic" or info.class == "yell" or info.class == "whisper") then
+		if (IsValid(info.speaker) and info.speaker:HasInitialized()) then
+			info.text = string.upper(string.sub(info.text, 1, 1))..string.sub(info.text, 2);
+			
+			for k, v in pairs(self.voices.groups) do
+				if (v.IsPlayerMember(info.speaker)) then
+					for k2, v2 in pairs(v.voices) do
+						if (string.lower(info.text) == string.lower(v2.command)) then
+							local voice = {
+								global = false,
+								volume = 80,
+								sound = v2.sound
+							};
+							
+							if (v.bGender) then
+								if (v2.female and info.speaker:QueryCharacter("gender") == GENDER_FEMALE) then
+									voice.sound = string.Replace(voice.sound, "/male", "/female");
+								end;
+							end
+							
+							if (info.class == "whisper") then
+								voice.volume = 60;
+							elseif (info.class == "yell") then
+								voice.volume = 100;
+							end;
+							
+							info.voice = voice;
+							
+							return true;
+						end;
+					end;
+				end;
+			end;
+		end;
+	end;
 end;
 
 -- Called when a chat box message has been added.
