@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -50,6 +50,7 @@ function ENT:MakeChatBubble()
 	self.cwChatBubble = ents.Create("cw_chatbubble");
 	self.cwChatBubble:SetParent(self);
 	self.cwChatBubble:SetPos(self:GetPos() + Vector(0, 0, 90));
+	self.cwChatBubble:SetNWEntity("salesman", self);
 	self.cwChatBubble:Spawn();
 end;
 

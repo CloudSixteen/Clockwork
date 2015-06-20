@@ -5,6 +5,84 @@ The following changes have been made for each official Clockwork build.
 0.93
 -------
 
+* Added Entity Library documentation.
+    * *Contributed by RJ.*
+* Fixed copyright logos.
+    * *Contributed by NightAngel.*
+* Added Developer Version option to disable auto updating via CAX.
+* Added documentation to cl_kernel.lua
+    * *Contributed by NightAngel.*
+* Added amount argument to CharGiveItem.
+	* *Contributed by duck.*
+* Added player flags and related commands.
+	* *Contributed by NightAngel.*
+* Added a config option to disable and/or enable the chat size for yelling and whispers.
+	* *Contributed by NightAngel.*
+* Removed the allowedprops plugin.
+* Added family sharing protection plugin.
+	* *Contributed by duck.*
+* Added quantity to Clockwork.inventory:AddInstance()
+	* *Contributed by Vortix.*
+* Fixed multiple issues to different core systems.
+* Added config option to disable business menu.
+* Fixed issue where chat bubble wouldn't stick with salesmen when moved.
+* Replaced static prop plugin with static entity plugin.
+	* *Contributed by NightAngel.*
+* Rewritten ESP system with more information to display and plug in to, clientside option added for update rate.
+	* *Contributed by NightAngel.*
+* Added Vortigaunt model animations.
+	* *Contributed by NightAngel.*
+* Added functionality to share tables.
+	* *Contributed by duck.*
+* Banned clients will be immediately rejected instead of going through the connection process.
+	* *Contributed by duck.*
+* Raised the cap for stamina regen, and made stamina attribute affect regen as it affects drain.
+	* *Contributed by NightAngel.*
+* Added function to add extra options for data in the persuasion creation panel.
+	* *Contributed by NightAngel.*
+* Added function to add labels to character screen to show extra information.
+	* *Contributed by NightAngel.*
+* Added cwSay concommand.
+	* *Contributed by duck.*
+* Rewrote hooks to run faster.
+	* *Contributed by Gr4Ss.*
+* Added error message on attempting to clear cache for invalid hooks for easier debugging.
+	* *Contributed by Vortix.*
+* Added individual table sharing.
+	* *Contributed by duck.*
+* Rewrote config menu to sort options for easier navigation.
+	* *Contributed by duck.*
+* Added datastream requests.
+	* *Contributed by duck.*
+* Fixed broken cwLabelButton hovering.
+	* *Contributed by duck.*
+* Fixed CanSeeEntity/Player/NPC always returning true. (Fixes flashbangs being horribly broken.)
+	* *Contributed by Gr4Ss.*
+* Fixed CW initializing bug.
+	* *Contributed by Alex Grist.*
+* Added icon support for NotifyAll.
+	* *Contributed by Vortix.*
+* Added toolgun library.
+	* *Contributed by NightAngel.*
+* NotifyAdmins function for ease of use when notifying admins.
+	* *Contributed by NightAngel.*
+* Added toolguns plugin.
+    * *Contributed by Trurascalz & NightAngel.*
+* Fixed examine option for items.
+	* *Contributed by NightAngel.*
+* Added viewmodel hands fix for weapons.
+	* *Contributed by NightAngel.*
+* Added icon library for easy assignment of chat/ESP icons.
+	* *Contributed by Vortix.*
+* Added faction rank functions.
+	* *Contributed by Vortix.*
+* Added partial auto-refresh support.
+* Added UTF8 support.
+* Replaced ErrorNoHalts with MsgC for errors.
+* Added more detail to damage and death logs.
+* Reworked storage derma.
+* Added ESP entries for item entities and salesmen.
+
 0.92
 -------
 

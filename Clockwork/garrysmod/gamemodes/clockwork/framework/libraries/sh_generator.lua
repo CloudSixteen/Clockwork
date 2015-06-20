@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -11,7 +11,7 @@ local pairs = pairs;
 local string = string;
 
 Clockwork.generator = Clockwork.kernel:NewLibrary("Generator");
-Clockwork.generator.stored = {};
+Clockwork.generator.stored = Clockwork.generator.stored or {};
 
 -- A function to register a new generator.
 function Clockwork.generator:Register(name, power, health, maximum, cash, uniqueID, powerName, powerPlural)
@@ -39,7 +39,7 @@ function Clockwork.generator:FindByID(identifier)
 		
 		for k, v in pairs(self.stored) do
 			if (string.find(string.lower(v.name), string.lower(identifier))) then
-				if (!tGeneratorTab or string.len(v.name) < string.len(tGeneratorTab.name)) then
+				if (!tGeneratorTab or string.utf8len(v.name) < string.utf8len(tGeneratorTab.name)) then
 					tGeneratorTab = v;
 				end;
 			end;

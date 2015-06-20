@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -139,7 +139,7 @@ if (SERVER) then
 	end;
 else
 	Clockwork.limb.bodyTexture = Material("clockwork/limbs/body.png");
-	Clockwork.limb.stored = {};
+	Clockwork.limb.stored = Clockwork.limb.stored or {};
 	Clockwork.limb.hitGroups = {
 		[HITGROUP_RIGHTARM] = Material("clockwork/limbs/rarm.png"),
 		[HITGROUP_RIGHTLEG] = Material("clockwork/limbs/rleg.png"),
@@ -221,7 +221,7 @@ else
 	end);
 
 	Clockwork.datastream:Hook("ResetLimbDamage", function(data)
-		Clockwork.limb.stored = {};
+		Clockwork.limb.stored = Clockwork.limb.stored or {};
 		Clockwork.plugin:Call("PlayerLimbDamageReset");
 	end);
 	

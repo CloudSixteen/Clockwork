@@ -1,5 +1,5 @@
---[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+--[[ 
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -9,8 +9,8 @@
 local Clockwork = Clockwork;
 
 Clockwork.quickmenu = Clockwork.kernel:NewLibrary("QuickMenu");
-Clockwork.quickmenu.stored = {};
-Clockwork.quickmenu.categories = {};
+Clockwork.quickmenu.stored = Clockwork.quickmenu.stored or {};
+Clockwork.quickmenu.categories = Clockwork.quickmenu.categories or {};
 
 -- A function to add a quick menu callback.
 function Clockwork.quickmenu:AddCallback(name, category, GetInfo, OnCreateMenu)

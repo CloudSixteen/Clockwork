@@ -1,5 +1,5 @@
---[[
-	� 2013 CloudSixteen.com do not share, re-distribute or modify
+--[[ 
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -25,8 +25,8 @@ local math = math;
 local util = util;
 
 Clockwork.player = Clockwork.kernel:NewLibrary("Player");
-Clockwork.player.property = {};
-Clockwork.player.stored = {};
+Clockwork.player.property = Clockwork.player.property or {};
+Clockwork.player.stored = Clockwork.player.stored or {};
 
 -- A function to run an inventory action for a player.
 function Clockwork.player:InventoryAction(player, itemTable, action)
@@ -45,7 +45,7 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 	if (player.cwIsCreatingChar) then
 		return;
 	end;
-	
+
 	local minimumPhysDesc = Clockwork.config:Get("minimum_physdesc"):Get();
 	local attributesTable = Clockwork.attribute:GetAll();
 	local factionTable = Clockwork.faction:FindByID(data.faction);
@@ -72,6 +72,10 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 	info.gender = data.gender;
 	info.model = data.model;
 	info.data = {};
+	
+	for k, v in pairs(data.plugin) do
+		info.data[k] = v;
+	end;
 	
 	local classes = false;
 	
@@ -151,13 +155,13 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 					);
 				end;
 				
-				if (string.len(data.forename) < 2 or string.len(data.surname) < 2) then
+				if (string.utf8len(data.forename) < 2 or string.utf8len(data.surname) < 2) then
 					return Clockwork.player:SetCreateFault(
 						player, "Your forename and surname must both be at least 2 characters long!"
 					);
 				end;
 				
-				if (string.len(data.forename) > 16 or string.len(data.surname) > 16) then
+				if (string.utf8len(data.forename) > 16 or string.utf8len(data.surname) > 16) then
 					return Clockwork.player:SetCreateFault(
 						player, "Your forename and surname must not be greater than 16 characters long!"
 					);
@@ -179,7 +183,7 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 			return Clockwork.player:SetCreateFault(
 				player, "You did not enter a physical description!"
 			);
-		elseif (string.len(data.physDesc) < minimumPhysDesc) then
+		elseif (string.utf8len(data.physDesc) < minimumPhysDesc) then
 			return Clockwork.player:SetCreateFault(
 				player, "The physical description must be at least "..minimumPhysDesc.." characters long!"
 			);
@@ -533,7 +537,7 @@ end;
 
 -- A function to get whether a player can see an NPC.
 function Clockwork.player:CanSeeNPC(player, target, iAllowance, tIgnoreEnts)
-	if (!player:GetEyeTraceNoCursor().Entity == target) then
+	if (player:GetEyeTraceNoCursor().Entity != target) then
 		local trace = {};
 		
 		trace.mask = CONTENTS_SOLID + CONTENTS_MOVEABLE + CONTENTS_OPAQUE + CONTENTS_DEBRIS + CONTENTS_HITBOX + CONTENTS_MONSTER;
@@ -561,8 +565,8 @@ end;
 
 -- A function to get whether a player can see a player.
 function Clockwork.player:CanSeePlayer(player, target, iAllowance, tIgnoreEnts)
-	if (!player:GetEyeTraceNoCursor().Entity == target
-	and !target:GetEyeTraceNoCursor().Entity == player) then
+	if (player:GetEyeTraceNoCursor().Entity != target
+	and target:GetEyeTraceNoCursor().Entity != player) then
 		local trace = {};
 		
 		trace.mask = CONTENTS_SOLID + CONTENTS_MOVEABLE + CONTENTS_OPAQUE + CONTENTS_DEBRIS + CONTENTS_HITBOX + CONTENTS_MONSTER;
@@ -590,7 +594,7 @@ end;
 
 -- A function to get whether a player can see an entity.
 function Clockwork.player:CanSeeEntity(player, target, iAllowance, tIgnoreEnts)
-	if (!player:GetEyeTraceNoCursor().Entity == target) then
+	if (player:GetEyeTraceNoCursor().Entity != target) then
 		local trace = {};
 		
 		trace.mask = CONTENTS_SOLID + CONTENTS_MOVEABLE + CONTENTS_OPAQUE + CONTENTS_DEBRIS + CONTENTS_HITBOX + CONTENTS_MONSTER;
@@ -1150,15 +1154,26 @@ function Clockwork.player:GiveSpawnItemWeapon(player, itemTable)
 	end;
 end;
 
--- A function to give flags to a player.
+-- A function to give flags to a character.
 function Clockwork.player:GiveFlags(player, flags)
 	for i = 1, #flags do
-		local flag = string.sub(flags, i, i);
+		local flag = string.utf8sub(flags, i, i);
 		
 		if (!string.find(player:GetFlags(), flag)) then
 			player:SetCharacterData("Flags", player:GetFlags()..flag, true);
 			
 			Clockwork.plugin:Call("PlayerFlagsGiven", player, flag);
+		end;
+	end;
+end;
+
+-- A function to give flags to a player.
+function Clockwork.player:GivePlayerFlags(player, flags)
+	for i = 1, #flags do
+		local flag = string.utf8sub(flags, i, i);
+		
+		if (!string.find(player:GetPlayerFlags(), flag)) then
+			player:SetData("Flags", player:GetPlayerFlags()..flag, true);
 		end;
 	end;
 end;
@@ -1352,15 +1367,26 @@ function Clockwork.player:ReturnProperty(player)
 	Clockwork.plugin:Call("PlayerReturnProperty", player);
 end;
 
--- A function to take flags from a player.
+-- A function to take flags from a character.
 function Clockwork.player:TakeFlags(player, flags)
 	for i = 1, #flags do
-		local flag = string.sub(flags, i, i);
+		local flag = string.utf8sub(flags, i, i);
 		
 		if (string.find(player:GetFlags(), flag)) then
 			player:SetCharacterData("Flags", string.gsub(player:GetFlags(), flag, ""), true);
 			
 			Clockwork.plugin:Call("PlayerFlagsTaken", player, flag);
+		end;
+	end;
+end;
+
+-- A function to take flags from a player.
+function Clockwork.player:TakePlayerFlags(player, flags)
+	for i = 1, #flags do
+		local flag = string.utf8sub(flags, i, i);
+		
+		if (string.find(player:GetPlayerFlags(), flag)) then
+			player:SetData("Flags", string.gsub(player:GetFlags(), flag, ""), true);
 		end;
 	end;
 end;
@@ -1385,7 +1411,7 @@ function Clockwork.player:HasAnyFlags(player, flags, bByDefault)
 		end;
 		
 		for i = 1, #flags do
-			local flag = string.sub(flags, i, i);
+			local flag = string.utf8sub(flags, i, i);
 			local bSuccess = true;
 			
 			if (!bByDefault) then
@@ -1433,7 +1459,7 @@ function Clockwork.player:HasFlags(player, flags, bByDefault)
 		end;
 		
 		for i = 1, #flags do
-			local flag = string.sub(flags, i, i);
+			local flag = string.utf8sub(flags, i, i);
 			local bSuccess;
 			
 			if (!bByDefault) then
@@ -1790,8 +1816,8 @@ function Clockwork.player:GetUnrecognisedName(player, bFormatted)
 	end;
 	
 	if (bFormatted) then
-		if (string.len(unrecognisedName) > 24) then
-			unrecognisedName = string.sub(unrecognisedName, 1, 21).."...";
+		if (string.utf8len(unrecognisedName) > 24) then
+			unrecognisedName = string.utf8sub(unrecognisedName, 1, 21).."...";
 		end;
 		
 		unrecognisedName = "["..unrecognisedName.."]";
@@ -1956,41 +1982,48 @@ function Clockwork.player:HolsterAll(player)
 end;
 
 -- A function to set a shared variable for a player.
-function Clockwork.player:SetSharedVar(player, key, value)
+function Clockwork.player:SetSharedVar(player, key, value, sharedTable)
 	if (IsValid(player)) then
-		local sharedVars = Clockwork.kernel:GetSharedVars():Player();
-		
-		if (!sharedVars or not sharedVars[key]) then
-			player:SetNetworkedVar(key, value);
-			return;
-		end;
-		
-		local sharedVarData = sharedVars[key];
-		
-		if (sharedVarData.bPlayerOnly) then
-			local realValue = value;
+		if (!sharedTable) then
+			local sharedVars = Clockwork.kernel:GetSharedVars():Player();
 			
-			if (value == nil) then
-				realValue = Clockwork.kernel:GetDefaultNetworkedValue(sharedVarData.class);
+			if (!sharedVars) then
+				MsgC(Color(255, 100, 0, 255), "[Clockwork:PlayerSharedVars] Couldn't get the sharedVars table.\n");
+				return;
+			elseif (not sharedVars[key]) then
+				MsgC(Color(255, 100, 0, 255), "[Clockwork:PlayerSharedVars] Couldn't find key '"..key.."' in sharedVars table. Is it registered?\n");
+				return;
 			end;
 			
-			if (player.cwSharedVars[key] != realValue) then
-				player.cwSharedVars[key] = realValue;
+			local sharedVarData = sharedVars[key];
+			
+			if (sharedVarData.bPlayerOnly) then
+				local realValue = value;
 				
-				Clockwork.datastream:Start(player, "SharedVar", {key = key, value = realValue});
-			end;
-		else
-			local class = Clockwork.kernel:ConvertNetworkedClass(sharedVarData.class);
-			
-			if (class) then
 				if (value == nil) then
-					value = Clockwork.kernel:GetDefaultClassValue(class);
+					realValue = Clockwork.kernel:GetDefaultNetworkedValue(sharedVarData.class);
 				end;
 				
-				player["SetNetworked"..class](player, key, value);
+				if (player.cwSharedVars[key] != realValue) then
+					player.cwSharedVars[key] = realValue;
+					
+					Clockwork.datastream:Start(player, "SharedVar", {key = key, value = realValue});
+				end;
 			else
-				player:SetNetworkedVar(key, value);
+				local class = Clockwork.kernel:ConvertNetworkedClass(sharedVarData.class);
+				
+				if (class) then
+					if (value == nil) then
+						value = Clockwork.kernel:GetDefaultClassValue(class);
+					end;
+					
+					player["SetNetworked"..class](player, key, value);
+				else
+					MsgC(Color(255, 100, 0, 255), "[Clockwork:PlayerSharedVars] Couldn't find network class for key '"..key.."'.");
+				end;
 			end;
+		else
+			Clockwork.datastream:Start(player, "SetSharedTableVar", {sharedTable = sharedTable, key = key, value = value})
 		end;
 	end;
 end;
@@ -2000,8 +2033,12 @@ function Clockwork.player:GetSharedVar(player, key)
 	if (IsValid(player)) then
 		local sharedVars = Clockwork.kernel:GetSharedVars():Player();
 		
-		if (!sharedVars or not sharedVars[key]) then
-			return player:GetNetworkedVar(key);
+		if (!sharedVars) then
+			MsgC(Color(255, 100, 0, 255), "[Clockwork:PlayerSharedVars] Couldn't get the sharedVars table.\n");
+			return;
+		elseif (not sharedVars[key]) then
+			MsgC(Color(255, 100, 0, 255), "[Clockwork:PlayerSharedVars] Couldn't find key '"..key.."' in sharedVars table. Is it registered?\n");
+			return;
 		end;
 		
 		local sharedVarData = sharedVars[key];
@@ -2013,14 +2050,12 @@ function Clockwork.player:GetSharedVar(player, key)
 				return player.cwSharedVars[key];
 			end;
 		else
-			local class = Clockwork.kernel:ConvertNetworkedClass(
-				sharedVarData.class
-			);
+			local class = Clockwork.kernel:ConvertNetworkedClass(sharedVarData.class);
 			
 			if (class) then
 				return player["GetNetworked"..class](player, key);
 			else
-				return player:GetNetworkedVar(key);
+				MsgC(Color(255, 100, 0, 255), "[Clockwork:PlayerSharedVars] Couldn't find network class for key '"..key.."'.");
 			end;
 		end;
 	end;
@@ -2279,7 +2314,32 @@ end;
 
 -- A function to notify each player.
 function Clockwork.player:NotifyAll(text, icon)
-	self:Notify(nil, text, true);
+	self:Notify(nil, text, true, icon);
+end;
+
+--[[
+	@codebase Server
+	@details A function to notify admins by rank.
+	@param String The rank and up that will be notified.
+	@param String The text that will be sent to each admin.
+	@param String The name of the icon that will be used in the message, can be nil.
+--]]
+function Clockwork.player:NotifyAdmins(adminLevel, text, icon)
+	for k, v in pairs(player.GetAll()) do
+		if (adminLevel == "operator" or adminLevel == "o") then
+			if (v:IsAdmin()) then
+				self:Notify(v, text, true, icon);
+			end;
+		elseif (adminLevel == "admin" or adminLevel == "a") then
+			if (v:IsAdmin() and !v:IsUserGroup("operator")) then
+				self:Notify(v, text, true, icon);
+			end;
+		elseif (adminLevel == "superadmin" or adminLevel == "s") then
+			if (v:IsSuperAdmin()) then
+				self:Notify(v, text, true, icon);
+			end;
+		end;
+	end;
 end;
 
 -- A function to notify a player.
@@ -2945,8 +3005,8 @@ function Clockwork.player:CharacterScreenAdd(player, character)
 	};
 	
 	if (character.data["PhysDesc"]) then
-		if (string.len(character.data["PhysDesc"]) > 64) then
-			info.details = string.sub(character.data["PhysDesc"], 1, 64).."...";
+		if (string.utf8len(character.data["PhysDesc"]) > 64) then
+			info.details = string.utf8sub(character.data["PhysDesc"], 1, 64).."...";
 		else
 			info.details = character.data["PhysDesc"];
 		end;
@@ -3405,27 +3465,35 @@ end;
 
 -- A function to call a player's think hook.
 function Clockwork.player:CallThinkHook(player, setSharedVars, curTime)
-	player.cwInfoTable.inventoryWeight = Clockwork.config:Get("default_inv_weight"):Get();
-	player.cwInfoTable.inventorySpace = Clockwork.config:Get("default_inv_space"):Get();
-	player.cwInfoTable.crouchedSpeed = player.cwCrouchedSpeed;
-	player.cwInfoTable.jumpPower = player.cwJumpPower;
-	player.cwInfoTable.walkSpeed = player.cwWalkSpeed;
-	player.cwInfoTable.isRunning = player:IsRunning();
-	player.cwInfoTable.isJogging = player:IsJogging();
-	player.cwInfoTable.runSpeed = player.cwRunSpeed;
-	player.cwInfoTable.wages = Clockwork.class:Query(player:Team(), "wages", 0);
+	local player = player;
+	local infoTable = player.cwInfoTable;
+	local setSharedVars = setSharedVars;
+	local curTime = curTime;
+	local cwConfig = Clockwork.config;
+	local cwClass = Clockwork.class;
+	local cwPlugin = Clockwork.plugin;
+
+	infoTable.inventoryWeight = cwConfig:Get("default_inv_weight"):Get();
+	infoTable.inventorySpace = cwConfig:Get("default_inv_space"):Get();
+	infoTable.crouchedSpeed = player.cwCrouchedSpeed;
+	infoTable.jumpPower = player.cwJumpPower;
+	infoTable.walkSpeed = player.cwWalkSpeed;
+	infoTable.isRunning = player:IsRunning();
+	infoTable.isJogging = player:IsJogging();
+	infoTable.runSpeed = player.cwRunSpeed;
+	infoTable.wages = cwClass:Query(player:Team(), "wages", 0);
 	
 	if (!player:IsJogging(true)) then
-		player.cwInfoTable.isJogging = nil;
+		infoTable.isJogging = nil;
 		player:SetSharedVar("IsJogMode", false);
 	end;
 	
 	if (setSharedVars) then
-		Clockwork.plugin:Call("PlayerSetSharedVars", player, curTime);
+		cwPlugin:Call("PlayerSetSharedVars", player, curTime);
 		player.cwNextSetSharedVars = nil;
 	end;
 	
-	Clockwork.plugin:Call("PlayerThink", player, curTime, player.cwInfoTable);
+	cwPlugin:Call("PlayerThink", player, curTime, infoTable);
 	player.cwNextThink = nil;
 end;
 
@@ -3434,8 +3502,24 @@ function Clockwork.player:GetWages(player)
 	return player:GetSharedVar("Wages");
 end;
 
--- A function to set a player's flags.
+-- A function to set a character's flags.
 function Clockwork.player:SetFlags(player, flags)
 	Clockwork.player:TakeFlags(player, player:GetFlags());
 	Clockwork.player:GiveFlags(player, flags);
+end;
+
+-- A function to set a player's flags.
+function Clockwork.player:SetPlayerFlags(player, flags)
+	Clockwork.player:TakePlayerFlags(player, player:GetPlayerFlags());
+	Clockwork.player:GivePlayerFlags(player, flags);
+end;
+
+-- A function to set a player's rank within their faction.
+function Clockwork.player:SetFactionRank(player, rank)
+	player:SetCharacterData("factionrank", rank);
+end;
+
+-- A function to get a player's global flags.
+function Clockwork.player:GetPlayerFlags(player)
+	return player:GetData("Flags") or "";
 end;

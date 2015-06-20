@@ -1,5 +1,5 @@
---[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+--[[ 
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -11,7 +11,7 @@ local pairs = pairs;
 local table = table;
 
 Clockwork.TargetPlayerText = Clockwork.kernel:NewLibrary("TargetPlayerText");
-Clockwork.TargetPlayerText.stored = {};
+Clockwork.TargetPlayerText.stored = Clockwork.TargetPlayerText.stored or {};
 
 -- A function to add some target player text.
 function Clockwork.TargetPlayerText:Add(uniqueID, text, color)

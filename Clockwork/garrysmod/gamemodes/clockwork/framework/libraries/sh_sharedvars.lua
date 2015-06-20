@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -9,8 +9,8 @@
 local Clockwork = Clockwork;
 
 Clockwork.SharedVars = Clockwork.kernel:NewLibrary("SharedVars");
-Clockwork.SharedVars.player = {vars = {}};
-Clockwork.SharedVars.global = {vars = {}};
+Clockwork.SharedVars.player = Clockwork.SharedVars.player or {vars = {}};
+Clockwork.SharedVars.global = Clockwork.SharedVars.global or {vars = {}};
 
 --[[
 	@codebase Shared

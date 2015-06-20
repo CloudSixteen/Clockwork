@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -89,3 +89,6 @@ Clockwork.config:AddToSystem("Enable space system", "enable_space_system", "Whet
 Clockwork.config:AddToSystem("Draw intro bars", "draw_intro_bars", "Whether or not to draw cinematic intro black bars on top and bottom of the screen.");
 Clockwork.config:AddToSystem("Enable jogging", "enable_jogging", "Whether or not to enable jogging.");
 Clockwork.config:AddToSystem("Enable LOOC icons", "enable_looc_icons", "Whether or not to enable LOOC chat icons.");
+Clockwork.config:AddToSystem("Show Business Menu", "show_business", "Whether or not to show the business menu.");
+Clockwork.config:AddToSystem("Enable Chat Multiplier", "chat_multiplier", "Whether or not to change text size based on types of chat.");
+Clockwork.config:AddToSystem("Steam API Key", "steam_api_key", "Some non-essential features may require the usage of the Steam API.\nhttp://steamcommunity.com/dev/apikey");

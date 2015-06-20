@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -10,7 +10,7 @@ local Clockwork = Clockwork;
 local type = type;
 
 Clockwork.event = Clockwork.kernel:NewLibrary("Event");
-Clockwork.event.stored = {};
+Clockwork.event.stored = Clockwork.event.stored or {};
 
 -- A function to hook into an event.
 function Clockwork.event:Hook(eventClass, eventName, isAllowed)

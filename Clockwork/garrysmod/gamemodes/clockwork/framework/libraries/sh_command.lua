@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -16,8 +16,8 @@ local table = table;
 local hook = hook;
 
 Clockwork.command = Clockwork.kernel:NewLibrary("Command");
-Clockwork.command.stored = {};
-Clockwork.command.hidden = {};
+Clockwork.command.stored = Clockwork.command.stored or {};
+Clockwork.command.hidden = Clockwork.command.hidden or {};
 
 CMD_KNOCKEDOUT = 2;
 CMD_FALLENOVER = 4;
@@ -151,7 +151,7 @@ if (SERVER) then
 									local bSuccess, value = pcall(commandTable.OnRun, commandTable, player, arguments);
 
 									if (!bSuccess) then
-										ErrorNoHalt("[Clockwork] The '"..commandTable.name.."' command has failed to run.\n"..value.."\n");
+										MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Command]\nThe '"..commandTable.name.."' command has failed to run.\n"..value.."\n");
 									elseif (Clockwork.player:GetDeathCode(player, true)) then
 										Clockwork.player:UseDeathCode(player, commandTable.name, arguments);
 									end;

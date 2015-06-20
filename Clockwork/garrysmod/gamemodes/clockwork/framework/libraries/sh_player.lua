@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -7,8 +7,8 @@
 --]]
 
 Clockwork.player = Clockwork.kernel:NewLibrary("Player");
-Clockwork.player.playerData = {};
-Clockwork.player.characterData = {};
+Clockwork.player.playerData = Clockwork.player.playerData or {};
+Clockwork.player.characterData = Clockwork.player.characterData or {};
 
 --[[
 	@codebase Shared
@@ -44,4 +44,25 @@ function Clockwork.player:AddPlayerData(name, nwType, default, playerOnly, callb
 		callback = callback,
 		playerOnly = playerOnly
 	};
+end;
+
+--[[
+	@codebase Shared
+	@details A function to get a player's rank within their faction.
+	@param Userdata The player whose faction rank you are trying to obtain.
+--]]
+function Clockwork.player:GetFactionRank(player)
+	local faction = Clockwork.faction:FindByID(player:GetFaction());
+	
+	if (faction and istable(faction.ranks)) then
+		local rank;
+		
+		for k, v in pairs(faction.ranks) do
+			if (k == player:GetCharacterData("factionrank")) then
+				rank = v;
+			end;
+		end;
+		
+		return player:GetCharacterData("factionrank"), rank;
+	end;
 end;

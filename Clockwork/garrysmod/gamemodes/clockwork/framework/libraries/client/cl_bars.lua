@@ -1,5 +1,5 @@
---[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+--[[ 
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -15,7 +15,7 @@ Clockwork.bars.x = 0;
 Clockwork.bars.y = 0;
 Clockwork.bars.width = 0;
 Clockwork.bars.height = 0;
-Clockwork.bars.stored = {};
+Clockwork.bars.stored = Clockwork.bars.stored or {};
 
 -- A function to get a top bar.
 function Clockwork.bars:FindByID(uniqueID)

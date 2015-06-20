@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -54,6 +54,64 @@ local function AddVersion(version, changeLog)
 		]];
 	end;
 end;
+
+AddVersion("0.92", [[
+	A|Added support for intro sound configuration and reduced line count.
+	A|Now using PON + made datastreams faster.
+	A|Added new ESP system for extra information on players and entities.
+	A|Added Clockwork.player:AddCharacterData and Clockwork.player:AddPlayerData.
+	A|Added Linux binaries. This is a big deal. You can now run Clockwork on your Linux server.
+	A|Added a config option to disable black intro bars.
+	A|Added two config options to use different types of server rates.
+	A|Added console versions of common admin commands (such as "setgroup", "demote" etc). Use "cwc COMMAND ARGUMENTS" in console.
+	A|Added a way to allow icons to be set for notifications.
+	A|Added CharSetFlags and CharCheckFlags commands, as well as a SetFlags function.
+	A|Added the ending to the vocoder speech for MPF and Overwatch (::>)
+	A|Added a config option to disable/enable alt jogging.
+	A|Clockwork will try to use SQLLite if the default SQL file is not touched.
+	A|Clockwork will try to use MySQLOO if it is installed and loaded.
+	A|Added MeC, MeL, ItC and ItL commands to account for distances when using the Me and It commands.
+	A|Added a config option to the stamina plugin which allows you to change the stamina regeneration rate.
+	A|Added a built-in crafting / recipe system.
+	F|Fixed bug where weapons didn't raise correctly.
+	F|Changed Clockwork intro music to old OpenAura one.
+	F|Fixed the config option for crosshairs.
+	F|Changed log files so they are named in order of year-month-day so they sort correctly.	
+	F|Fixed the file.Exists function.
+	F|Fixed the CharSetDesc command.	
+	F|Fixed issue preventing salesmen and storage from working.
+]]);
+
+
+AddVersion("0.91", [[
+	A|Added GiveCash from the player library to the player meta table.
+	A|Added \n to a few ErrorNoHalt calls that were missing it.
+	A|Extended item options capabilities.
+	A|Added cl_imagebutton.lua
+	A|Added material computation to DrawScreenBlurs().
+	F|Headbob has been clamped from 0 to 1.
+	F|Changed schema hook override warning to be clearer.
+]]);
+
+AddVersion("0.90", [[
+	A|A new config option (observer_reset) was added to prevent a player's position being reset when exiting observer mode.
+	A|Added the Derma Request library which can be used to prompt a client.		
+	A|Added two functions to give and take a table of item instances from a player object.
+	A|Added sh_charsetdesc.lua for operators to set a character's physical description.
+	A|Added itemTable:EntityHandleMenuOption for cw_item entities (allows more code to be moved into item files).
+	A|Added a 'space' system similiar to the 'weight' system, miscellaneous fixes and changes.
+	A|Added a check to inventory:AddInstance to prevent erroring.
+	A|A player's targetname is now set to their faction (for use with mapping.)
+	A|Added size multiplier options to the chatbox to allow different sized messages. Whispering and yelling uses this feature.
+	A|Added the Clockwork.fonts library for ease in creation and grabbing of different sized fonts that use the same settings.
+	F|Optimized client-side vignette drawing. Only performing raycast once every second.
+	F|Loading and unloading of plugins is now fully functional.
+	F|Progress bars will now use ScissorRect for an improved graphical aesthetic.
+	F|Change /Roll to allow the player to specify the range of values.
+	F|Stamina will no longer deplete if you are not on the ground.
+	F|Fixed a bug where hook errors would not be reported correctly.
+	F|Fixed the PluginLoad/PluginUnload commands.		
+]]);
 
 AddVersion("0.88", [[
 	A|Clockwork now checks for Schema function overrides and warns against it.

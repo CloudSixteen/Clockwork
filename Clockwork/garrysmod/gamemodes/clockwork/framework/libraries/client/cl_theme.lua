@@ -1,5 +1,5 @@
---[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+--[[ 
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -16,7 +16,7 @@ local sTabName, tPanelFactory = debug.getupvalue(vgui.Create, 1);
 if (sTabName == "PanelFactory" and type(tPanelFactory) == "table") then
 	Clockwork.theme.factory = tPanelFactory;
 else
-	Clockwork.theme.factory = {};
+	Clockwork.theme.factory = Clockwork.theme.factory or {};
 end;
 
 --[[

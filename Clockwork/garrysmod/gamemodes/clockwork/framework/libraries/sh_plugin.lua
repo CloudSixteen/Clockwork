@@ -1,5 +1,5 @@
 --[[
-	© 2014 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -23,10 +23,12 @@ local util = util;
 if (Clockwork.plugin) then return; end;
 
 Clockwork.plugin = Clockwork.kernel:NewLibrary("Plugin");
-Clockwork.plugin.stored = {};
-Clockwork.plugin.buffer = {};
-Clockwork.plugin.modules = {};
-Clockwork.plugin.unloaded = {};
+Clockwork.plugin.stored = Clockwork.plugin.stored or {};
+Clockwork.plugin.buffer = Clockwork.plugin.buffer or {};
+Clockwork.plugin.modules = Clockwork.plugin.modules or {};
+Clockwork.plugin.unloaded = Clockwork.plugin.unloaded or {};
+Clockwork.plugin.extras = Clockwork.plugin.extras or {};
+Clockwork.plugin.hookCache = Clockwork.plugin.hookCache or {};
 
 PLUGIN_META = {__index = PLUGIN_META};
 PLUGIN_META.description = "An undescribed plugin or schema.";
@@ -66,6 +68,8 @@ end;
 PLUGIN_META.Register = function(PLUGIN_META)
 	Clockwork.plugin:Register(PLUGIN_META);
 end;
+
+debug.getregistry().Plugin = PLUGIN_META;
 
 --[[
 	CloudScript
@@ -140,7 +144,7 @@ if (SERVER) then
 		return false;
 	end;
 else
-	Clockwork.plugin.override = {};
+	Clockwork.plugin.override = Clockwork.plugin.override or {};
 	
 	-- A function to set whether a plugin is unloaded.
 	function Clockwork.plugin:SetUnloaded(name, isUnloaded)
@@ -244,7 +248,7 @@ function Clockwork.plugin:CheckMismatches()
 		end;
 		
 		for k, v in ipairs(funcIdxMismatches) do
-			ErrorNoHalt("[Clockwork] The Schema hook '"..v.."' was overriden by a plugin, this is not good!\n");
+			MsgC(Color(255, 100, 0, 255), "[Clockwork:Plugin] The Schema hook '"..v.."' was overriden by a plugin, this is not good!\n");
 		end;
 	end;
 end;
@@ -324,14 +328,14 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 		elseif (CW_SCRIPT_SHARED.schemaData) then
 			table.Merge(Schema, CW_SCRIPT_SHARED.schemaData);
 		else
-			ErrorNoHalt("[Clockwork] The schema has no "..schemaFolder..".ini!\n");
+			MsgC(Color(255, 100, 0, 255), "[Clockwork:Plugin] The schema has no "..schemaFolder..".ini!\n");
 		end;
 		
 		if (cwFile.Exists(directory.."/sh_schema.lua", "LUA")) then
 			AddCSLuaFile(directory.."/sh_schema.lua");
 			include(directory.."/sh_schema.lua");
 		else
-			ErrorNoHalt("[Clockwork] The schema has no sh_schema.lua.\n");
+			MsgC(Color(255, 100, 0, 255), "[Clockwork:Plugin] The schema has no sh_schema.lua.\n");
 		end;
 
 		Schema:Register();
@@ -348,7 +352,7 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 					table.Merge(PLUGIN, iniTable);
 				CW_SCRIPT_SHARED.plugins[pathCRC] = iniTable;
 			else
-				ErrorNoHalt("[Clockwork] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
+				MsgC(Color(255, 100, 0, 255), "[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
 			end;
 		else
 			local iniTable = CW_SCRIPT_SHARED.plugins[pathCRC];
@@ -360,7 +364,7 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 					self.unloaded[PLUGIN_FOLDERNAME] = true;
 				end;
 			else
-				ErrorNoHalt("[Clockwork] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
+				MsgC(Color(255, 100, 0, 255), "[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
 			end;
 		end;
 		
@@ -410,6 +414,17 @@ function Clockwork.plugin:SortList(pluginList)
 	return sortedTable;
 end;
 
+-- A function to clear the hook cache for all hooks or a specific one.
+function Clockwork.plugin:ClearHookCache(name)
+	if (!name) then
+		self.hookCache = {};
+	elseif (self.hookCache[name]) then
+		self.hookCache[name] = nil;
+	else
+	    MsgC(Color(255, 100, 0, 255), "[Clockwork:Plugin] Attempted to clear cache for invalid hook '"..name.."'");
+	end;
+end;
+
 -- A function to run the plugin hooks.
 function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 	if (not self.sortedModules) then
@@ -420,45 +435,44 @@ function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 		self.sortedPlugins = self:SortList(self.stored);
 	end;
 
-	for k, v in ipairs(self.sortedModules) do
-		if (self.modules[v.name] and v[name]) then
-			local bSuccess, value = pcall(v[name], v, ...);
-			
-			if (!bSuccess) then
-				ErrorNoHalt("[CW::Module::"..v.name.."] The '"..name.."' plugin hook has failed to run.\n"..value.."\n");
-			elseif (value != nil) then
-				return value;
+	local cache = self.hookCache[name];
+	
+	if (not cache) then
+		cache = {};
+		for k, v in ipairs(self.sortedModules) do
+			if (self.modules[v.name] and v[name]) then
+				table.insert(cache, {v[name], v});
 			end;
 		end;
-	end;
-	
-	for k, v in ipairs(self.sortedPlugins) do
-		if (self.stored[v.name] and Schema != v and v[name]) then
-			local bSuccess, value = pcall(v[name], v, ...);
-			
-			if (!bSuccess) then
-				ErrorNoHalt("[CW::Plugin::"..v:GetName().."] The '"..name.."' plugin hook has failed to run.\n"..value.."\n");
-			elseif (value != nil) then
-				return value;
+
+		for k, v in ipairs(self.sortedPlugins) do
+			if (self.stored[v.name] and Schema != v and v[name]) then
+				table.insert(cache, {v[name], v});
 			end;
 		end;
+
+		if (Schema and Schema[name]) then
+			table.insert(cache, {Schema[name], Schema});
+		end;
+
+		self.hookCache[name] = cache;
 	end;
-	
-	if (Schema and Schema[name]) then
-		local bSuccess, value = pcall(Schema[name], Schema, ...);
-		
+
+	for k, v in ipairs(cache) do
+		local bSuccess, value = pcall(v[1], v[2], ...);
+			
 		if (!bSuccess) then
-			ErrorNoHalt("[CW::Schema::"..Schema:GetName().."] The '"..name.."' schema hook has failed to run.\n"..value.."\n");
+			MsgC(Color(255, 100, 0, 255), "\n[Clockwork:"..v[2].name.."]\nThe '"..name.."' hook has failed to run.\n"..value.."\n");
 		elseif (value != nil) then
 			return value;
 		end;
 	end;
-	
+
 	if (bGamemode and Clockwork[name]) then
 		local bSuccess, value = pcall(Clockwork[name], Clockwork, ...);
 		
 		if (!bSuccess) then
-			ErrorNoHalt("[CW::Kernel] The '"..name.."' clockwork hook has failed to run.\n"..value.."\n");
+			MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Kernel]\nThe '"..name.."' clockwork hook has failed to run.\n"..value.."\n");
 		elseif (value != nil) then
 			return value;
 		end;
@@ -582,52 +596,36 @@ function Clockwork.plugin:IncludePlugins(directory)
 	end;
 end;
 
+-- A function to add an extra folder to include for plugins.
+function Clockwork.plugin:AddExtra(folderName)
+	if (!table.HasValue(self.extras, folderName)) then
+		self.extras[#self.extras + 1] = folderName;
+	end;
+end;
+
 -- A function to include a plugin's extras.
 function Clockwork.plugin:IncludeExtras(directory)
 	self:IncludeEffects(directory);
 	self:IncludeWeapons(directory);
 	self:IncludeEntities(directory);
-	
-	for k, v in pairs(cwFile.Find(directory.."/libraries/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/libraries/"..v);
-	end;
 
-	for k, v in pairs(cwFile.Find(directory.."/directory/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/directory/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/system/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/system/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/factions/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/factions/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/classes/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/classes/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/attributes/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/attributes/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/items/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/items/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/derma/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/derma/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/commands/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/commands/"..v);
-	end;
-	
-	for k, v in pairs(cwFile.Find(directory.."/language/*.lua", "LUA", "namedesc")) do
-		Clockwork.kernel:IncludePrefixed(directory.."/language/"..v);
+	for k, v in ipairs(self.extras) do
+		Clockwork.kernel:IncludeDirectory(directory..v);
 	end;
 end;
+
+Clockwork.plugin:AddExtra("/libraries/");
+Clockwork.plugin:AddExtra("/directory/");
+Clockwork.plugin:AddExtra("/system/");
+Clockwork.plugin:AddExtra("/factions/");
+Clockwork.plugin:AddExtra("/classes/");
+Clockwork.plugin:AddExtra("/attributes/");
+Clockwork.plugin:AddExtra("/items/");
+Clockwork.plugin:AddExtra("/derma/");
+Clockwork.plugin:AddExtra("/commands/");
+Clockwork.plugin:AddExtra("/language/");
+Clockwork.plugin:AddExtra("/config/");
+Clockwork.plugin:AddExtra("/tools/");
 
 --[[ This table will hold the plugin info, if it doesn't already exist. --]]
 if (!CW_SCRIPT_SHARED.plugins) then
