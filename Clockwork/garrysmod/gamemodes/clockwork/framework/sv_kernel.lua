@@ -699,7 +699,17 @@ function Clockwork:GetPlayerDefaultModel(player)
 end;
 
 -- Called when a player's default inventory is needed.
-function Clockwork:GetPlayerDefaultInventory(player, character, inventory) end;
+function Clockwork:GetPlayerDefaultInventory(player, character, inventory)
+	local startingInv = Clockwork.faction:FindByID(character.faction).startingInv;
+	
+	if (istable(startingInv)) then
+		for k, v in pairs(startingInv) do
+			Clockwork.inventory:AddInstance(
+				inventory, Clockwork.item:CreateInstance(k), v
+			);
+		end;
+	end;
+end;
 
 -- Called to get whether a player's weapon is raised.
 function Clockwork:GetPlayerWeaponRaised(player, class, weapon)
