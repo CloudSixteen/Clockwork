@@ -1391,7 +1391,6 @@ function Clockwork:Tick()
 	local cwClient = self.Client;
 	local cwOption = self.option;
 	local cwAttriBoost = self.attributes.boosts;
-	local cwMusic = self.MusicSound;
 	local mathMin = math.min;
 	local mathMax = math.max;
 	local font = cwOption:GetFont("player_info_text");
@@ -1523,13 +1522,13 @@ function Clockwork:Tick()
 	
 	if (menuMusic != "") then
 		if (IsValid(cwClient) and cwChar:IsPanelOpen()) then
-			if (!cwMusic) then
-				cwMusic = CreateSound(cwClient, menuMusic);
-				cwMusic:PlayEx(0.3, 100);
+			if (!self.MusicSound) then
+				self.MusicSound = CreateSound(cwClient, menuMusic);
+				self.MusicSound:PlayEx(0.3, 100);
 				self.MusicFading = false;
 			end;
-		elseif (cwMusic and !self.MusicFading) then
-			cwMusic:FadeOut(8);
+		elseif (self.MusicSound and !self.MusicFading) then
+			self.MusicSound:FadeOut(8);
 			self.MusicFading = true;
 			
 			timer.Simple(8, function()
