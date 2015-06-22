@@ -1835,6 +1835,33 @@ function Clockwork:PlayerCanUseCharacter(player, character)
 	if (character.data["CharBanned"]) then
 		return character.name.." is banned and cannot be used!";
 	end;
+	
+	local faction = Clockwork.faction:FindByID(character.faction);
+	local playerRank, rank = player:GetFactionRank(character);
+	local factionCount = 0;
+	local rankCount = 0;
+	
+	for k, v in ipairs(cwPlayer.GetAll()) do
+		if (v:HasInitialized()) then
+			if (v:GetFaction() == character.faction) then
+				if (player != v) then
+					if (rank and v:GetFactionRank() == playerRank) then
+						rankCount = rankCount + 1;
+					end;
+					
+					factionCount = factionCount + 1;
+				end;
+			end;
+		end;
+	end;
+	
+	if (faction.playerLimit and factionCount >= faction.playerLimit) then
+		return "There are too many characters of this faction online!";
+	end;
+	
+	if (rank and rank.playerLimit and rankCount >= rank.playerLimit) then
+		return "There are too many characters of this rank online!";
+	end;
 end;
 
 -- Called when a player's weapons should be given.
@@ -2937,6 +2964,27 @@ function Clockwork:PlayerCharacterInitialized(player)
 	end);
 	
 	Clockwork.datastream:Start(player, "CharacterInit", player:GetCharacterKey());
+	
+	local faction = Clockwork.faction:FindByID(player:GetFaction());
+	local lowestRank = Clockwork.faction:GetLowestRank(player:GetFaction());
+	
+	player:SetFactionRank(player:GetFactionRank() or lowestRank);
+	
+	if (string.find(player:Name(), "SCN")) then
+		player:SetFactionRank("SCN");
+	end;
+	
+	local playerRank, rank = player:GetFactionRank();
+
+	if (rank) then
+		if (rank.class and Clockwork.class.stored[rank.class]) then
+			Clockwork.class:Set(player, rank.class);
+		end;
+		
+		if (rank.model) then
+			player:SetModel(rank.model);
+		end;
+	end;
 end;
 
 -- Called when a player has used their death code.
@@ -3080,7 +3128,13 @@ function Clockwork:PlayerAdjustCharacterTable(player, character)
 end;
 
 -- Called when a player's character screen info should be adjusted.
-function Clockwork:PlayerAdjustCharacterScreenInfo(player, character, info) end;
+function Clockwork:PlayerAdjustCharacterScreenInfo(player, character, info)
+	local playerRank, rank = player:GetFactionRank();
+
+	if (rank and rank.model) then
+		info.model = rank.model;
+	end;
+end;
 
 -- Called when a player's prop cost info should be adjusted.
 function Clockwork:PlayerAdjustPropCostInfo(player, entity, info) end;
@@ -3168,6 +3222,79 @@ function Clockwork:PostPlayerSpawn(player, lightSpawn, changeClass, firstSpawn)
 		player:SetCharacterData("AttrBoosts", nil);
 		player:SetCharacterData("Health", nil);
 		player:SetCharacterData("Armor", nil);
+	end;
+	
+	if (!lightSpawn) then
+		local FACTION = Clockwork.faction:FindByID(player:GetFaction());
+		local relation = FACTION.entRelationship;
+		local playerRank, rank = player:GetFactionRank();
+		
+		player:SetMaxHealth(FACTION.maxHealth or 100);
+		player:SetMaxArmor(FACTION.maxArmor or 0);
+		player:SetHealth(FACTION.maxHealth or 100);
+		player:SetArmor(FACTION.maxArmor or 0);
+		
+		if (rank) then
+			player:SetMaxHealth(rank.maxHealth or player:GetMaxHealth());
+			player:SetMaxArmor(rank.maxArmor or player:GetMaxArmor());
+			player:SetHealth(rank.maxHealth or player:GetMaxHealth());
+			player:SetArmor(rank.maxArmor or player:GetMaxArmor());
+		end;
+		
+		if (istable(FACTION.respawnInv)) then
+			local inventory = player:GetInventory();
+			local itemQuantity;
+			
+			for k, v in pairs(FACTION.respawnInv) do
+				for i = 1, (v or 1) do
+					itemQuantity = table.Count(inventory[k]);
+					
+					if (itemQuantity < v) then
+						player:GiveItem(Clockwork.item:CreateInstance(k), true);
+					end;
+				end;
+			end;
+		end;
+		
+		if (prevRelation) then
+			for k, v in pairs(ents.GetAll()) do
+				if (v:IsNPC()) then
+					local prevRelationVal = prevRelation[player:SteamID()][v:GetClass()];
+					
+					if (prevRelationVal) then
+						v:AddEntityRelationship(player, prevRelationVal, 1);
+					end;
+				end;
+			end;
+		end;
+		
+		if (istable(relation)) then
+			local relationEnts;
+			
+			prevRelation = prevRelation or {};
+			prevRelation[player:SteamID()] = prevRelation[player:SteamID()] or {};
+			
+			for k, v in pairs(relation) do
+				relationEnts = ents.FindByClass(k);
+				
+				if (relationEnts) then
+					for k2, v2 in pairs(relationEnts) do
+						if (string.lower(v) == "like") then
+							prevRelation[player:SteamID()][k] = v2:Disposition(player);
+							v2:AddEntityRelationship(player, D_LI, 1);
+						elseif (string.lower(v) == "fear") then
+							prevRelation[player:SteamID()][k] = v2:Disposition(player);
+							v2:AddEntityRelationship(player, D_FR, 1);
+						elseif (string.lower(v) == "hate") then
+							prevRelation[player:SteamID()][k] = v2:Disposition(player);
+							v2:AddEntityRelationship(player, D_HT, 1);
+						else
+							ErrorNoHalt("Attempting to add relationship using invalid relation '"..v.."' towards faction '"..FACTION.name.."'.\r\n");
+						end;
+					end;
+				end;
+			end;
+		end;
 	end;
 	
 	player:Fire("Targetname", player:GetFaction(), 0);
@@ -3724,6 +3851,39 @@ function Clockwork:SetupPlayerVisibility(player)
 	
 	if (ragdollEntity) then
 		AddOriginToPVS(ragdollEntity:GetPos());
+	end;
+end;
+
+-- Called after a player has spawned an NPC.
+function Clockwork:PlayerSpawnedNPC(player, npc)
+	local faction;
+	local relation;
+	
+	prevRelation = prevRelation or {};
+	prevRelation[player:SteamID()] = prevRelation[player:SteamID()] or {};
+	
+	for k, v in pairs(cwPlayer.GetAll()) do
+		faction = Clockwork.faction:FindByID(player:GetFaction());
+		relation = faction.entRelationship;
+		
+		if (istable(relation)) then
+			for k2, v2 in pairs(relation) do
+				if (k2 == npc:GetClass()) then
+					if (string.lower(v2) == "like") then
+						prevRelation[player:SteamID()][k2] = prevRelation[player:SteamID()][k2] or npc:Disposition(v);
+						npc:AddEntityRelationship(v, D_LI, 1);
+					elseif (string.lower(v2) == "fear") then
+						prevRelation[player:SteamID()][k2] = prevRelation[player:SteamID()][k2] or npc:Disposition(v);
+						npc:AddEntityRelationship(v, D_FR, 1);
+					elseif (string.lower(v2) == "hate") then
+						prevRelation[player:SteamID()][k2] = prevRelation[player:SteamID()][k2] or npc:Disposition(v);
+						npc:AddEntityRelationship(v, D_HT, 1);
+					else
+						ErrorNoHalt("Attempting to add relationship using invalid relation '"..v2.."' towards faction '"..faction.name.."'.\r\n");
+					end;
+				end;
+			end;
+		end;
 	end;
 end;
 
@@ -5286,7 +5446,7 @@ function playerMeta:GetActiveChannel() return Clockwork.voice:GetActiveChannel(s
 function playerMeta:CanAfford(amount) return Clockwork.player:CanAfford(self, amount); end;
 
 -- A function to get a player's rank within their faction.
-function playerMeta:GetFactionRank() return Clockwork.player:GetFactionRank(self); end;
+function playerMeta:GetFactionRank(character) return Clockwork.player:GetFactionRank(self, character); end;
 
 -- A function to set a player's rank within their faction.
 function playerMeta:SetFactionRank(rank) return Clockwork.player:SetFactionRank(self, rank); end;
