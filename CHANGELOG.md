@@ -2,8 +2,21 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.94
+-------
+
+* Added entity relationships, to make NPCs hostile/friendly/fearful towards players of certain factions.
+    * *Contributed by Vortix.*
+* Added a rank system to Clockwork.
+    * *Contributed by Vortix.*
+* Added starting inventory and respawn inventory for factions.
+    * *Contributed by Vortix.*
+* Moved and improved voice library from HL2RP to Clockwork
+    * *Contributed by Gr4Ss and Vortix.*
+
 0.93
 -------
+
 
 * Added Entity Library documentation.
     * *Contributed by RJ.*
