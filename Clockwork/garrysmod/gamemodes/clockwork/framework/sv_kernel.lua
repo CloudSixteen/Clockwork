@@ -3863,7 +3863,7 @@ function Clockwork:PlayerSpawnedNPC(player, npc)
 	prevRelation[player:SteamID()] = prevRelation[player:SteamID()] or {};
 	
 	for k, v in pairs(cwPlayer.GetAll()) do
-		faction = Clockwork.faction:FindByID(player:GetFaction());
+		faction = Clockwork.faction:FindByID(v:GetFaction());
 		relation = faction.entRelationship;
 		
 		if (istable(relation)) then
