@@ -2172,9 +2172,6 @@ end;
 
 -- Called when extra player info is needed.
 function Clockwork:GetPlayerESPInfo(player, text)
-	local player = player;
-	local text = text;
-
 	if (player:IsValid()) then
 		local weapon = player:GetActiveWeapon();
 		local health = player:Health();
@@ -2199,7 +2196,7 @@ function Clockwork:GetPlayerESPInfo(player, text)
 				table.insert(text, {"Armor: ["..armor.."]", colorArmor, {armor, player:GetMaxArmor()}, Color(30, 65, 175, 255)});
 			end;
 		
-			if (weapon) then			
+			if (weapon and IsValid(weapon)) then			
 				local raised = self.player:GetWeaponRaised(player);
 				local color = colorWhite;
 
@@ -2207,10 +2204,12 @@ function Clockwork:GetPlayerESPInfo(player, text)
 					color = colorRed;
 				end;
 				
-				local printName = weapon:GetPrintName();
+				if (weapon.GetPrintName) then
+					local printName = weapon:GetPrintName();
 
-				if (printName) then
-					table.insert(text, {printName, color})
+					if (printName) then
+						table.insert(text, {printName, color})
+					end;
 				end;
 			end;
 		end;
