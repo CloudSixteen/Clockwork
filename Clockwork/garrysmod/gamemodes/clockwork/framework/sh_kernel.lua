@@ -48,6 +48,9 @@ local hook = hook;
 local math = math;
 local util = util;
 
+local stringFind = string.find;
+local mathNormalize = math.NormalizeAngle;
+
 Clockwork.kernel = Clockwork.kernel or {};
 Clockwork.Timers = Clockwork.Timers or {};
 Clockwork.Libraries = Clockwork.Libraries or {};
@@ -480,9 +483,6 @@ end;
 
 -- Called when a player's animation is updated.
 function Clockwork:UpdateAnimation(player, velocity, maxSeqGroundSpeed)
-	local player = player;
-	local velocity = velocity;
-	local maxSeqGroundSpeed = maxSeqGroundSpeed;
 	local velLength = velocity:Length2D();
 	local rate = 1.0;
 	
@@ -508,14 +508,7 @@ end;
 
 -- Called when the main activity should be calculated.
 function Clockwork:CalcMainActivity(player, velocity)
-	local player = player;
-	local velocity = velocity;
 	local model = player:GetModel();
-	local stringFind = string.find;
-	local mathNormalize = math.NormalizeAngle;
-	local cwBaseClass = self.BaseClass;
-	local cwPlayer = self.player;
-	local cwAnim = self.animation;
 	
 	if (stringFind(model, "/player/")) then
 		return cwBaseClass:CalcMainActivity(player, velocity);
@@ -524,13 +517,13 @@ function Clockwork:CalcMainActivity(player, velocity)
 	ANIMATION_PLAYER = player;
 	
 	local weapon = player:GetActiveWeapon();
-	local bIsRaised = cwPlayer:GetWeaponRaised(player, true);
+	local bIsRaised = self.player:GetWeaponRaised(player, true);
 	local animationAct = "stand";
 	local weaponHoldType = "pistol";
 	local forcedAnimation = player:GetForcedAnimation();
 
 	if (IsValid(weapon)) then
-		weaponHoldType = cwAnim:GetWeaponHoldType(player, weapon);
+		weaponHoldType = self.animation:GetWeaponHoldType(player, weapon);
 	
 		if (weaponHoldType) then
 			animationAct = animationAct.."_"..weaponHoldType;
@@ -541,7 +534,7 @@ function Clockwork:CalcMainActivity(player, velocity)
 		animationAct = animationAct.."_aim";
 	end;
 	
-	player.CalcIdeal = cwAnim:GetForModel(model, animationAct.."_idle");
+	player.CalcIdeal = self.animation:GetForModel(model, animationAct.."_idle");
 	player.CalcSeqOverride = -1;
 	
 	if (!self:HandlePlayerDriving(player)
@@ -553,9 +546,9 @@ function Clockwork:CalcMainActivity(player, velocity)
 		local velLength = velocity:Length2D();
 				
 		if (player:IsRunning() or player:IsJogging()) then
-			player.CalcIdeal = cwAnim:GetForModel(model, animationAct.."_run");
+			player.CalcIdeal = self.animation:GetForModel(model, animationAct.."_run");
 		elseif (velLength > 0.5) then
-			player.CalcIdeal = cwAnim:GetForModel(model, animationAct.."_walk");
+			player.CalcIdeal = self.animation:GetForModel(model, animationAct.."_walk");
 		end;
 		
 		if (CLIENT) then
@@ -1289,7 +1282,9 @@ if (SERVER) then
 	
 	-- A function to distribute wages cash.
 	function Clockwork.kernel:DistributeWagesCash()
-		for k, v in pairs(cwPlayer.GetAll()) do
+		local plyTable = cwPlayer.GetAll();
+
+		for k, v in pairs(plyTable) do
 			if (v:HasInitialized() and v:Alive()) then
 				local wages = v:GetWages();
 				
@@ -1361,8 +1356,9 @@ if (SERVER) then
 	-- A function to print a log message.
 	function Clockwork.kernel:PrintLog(logType, text)
 		local listeners = {};
-		
-		for k, v in pairs(cwPlayer.GetAll()) do
+		local plyTable = cwPlayer.GetAll();
+
+		for k, v in pairs(plyTable) do
 			if (v:HasInitialized() and v:GetInfoNum("cwShowLog", 0) == 1) then
 				if (Clockwork.player:IsAdmin(v)) then
 					listeners[#listeners + 1] = v;
