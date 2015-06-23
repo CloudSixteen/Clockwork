@@ -42,3 +42,30 @@ http://cloudsixteen.com/license/clockwork.html
 
 #### CloudAuthX
 http://cloudsixteen.com/license/cloudauthx.html
+
+Credits
+-------
+
+#### kurozael
+* Cider/Blueprint/kuroScript/OpenAura/Clockwork creator and long-term developer.
+
+#### SomeSortOfDuck
+* Former lead developer.
+* Maintaining the framework and associated schemas.
+
+#### alexanderk
+* Various Clockwork contributions in many forms, including web applications.
+* Helped establish secure community back-end.
+* Project lead for Cloud Sixteen 2015-present.
+
+#### Gr4ss + Vortix
+* Maintaining the framework and associated schemas
+* Contracted work on HL2 RP 2015.
+
+#### RJ + NightAngel
+* Maintaining the framework and associated schemas.
+* Contracted work on Severance.
+
+#### Other Contributors
+* Alex Grist and Impulse for fixing Clockwork and schemas to work with GMod 13 API.
+* Assorted contributors that have sent pull requests and fixes through the years.
