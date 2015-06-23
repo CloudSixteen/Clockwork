@@ -116,7 +116,6 @@ if (CLIENT) then
 
 	Clockwork.option:SetColor("positive_hint", Color(100, 175, 100, 255));
 	Clockwork.option:SetColor("negative_hint", Color(175, 100, 100, 255));
-	Clockwork.option:SetColor("information", Color(100, 50, 50, 255));
 	Clockwork.option:SetColor("background", Color(0, 0, 0, 125));
 	Clockwork.option:SetColor("foreground", Color(50, 50, 50, 125));
 	Clockwork.option:SetColor("target_id", Color(50, 75, 100, 255));

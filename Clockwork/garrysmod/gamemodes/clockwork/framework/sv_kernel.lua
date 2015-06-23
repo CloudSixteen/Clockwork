@@ -39,6 +39,26 @@ local math = math;
 local game = game;
 local os = os;
 
+--local sysTime = SysTime();
+--local curTime = CurTime();
+--local plyTable = player.GetAll();
+local cwHint = Clockwork.hint;
+local cwKernel = Clockwork.kernel;
+local cwPlugin = Clockwork.plugin;
+local cwConfig = Clockwork.config;
+local cwPly = Clockwork.player;
+local cwStorage = Clockwork.storage;
+local cwEvent = Clockwork.event;
+local cwLimb = Clockwork.limb;
+local cwItem = Clockwork.item;
+local cwEntity = Clockwork.entity;
+local mathCeil = math.ceil;
+local mathMax = math.max;
+local mathMin = math.min;
+local mathClamp = math.Clamp;
+local mathCos = math.cos;
+local mathApproach = math.Approach;
+
 Clockwork.kernel:AddDirectory("materials/clockwork/sliced/");
 Clockwork.kernel:AddDirectory("materials/clockwork/limbs/");
 Clockwork.kernel:AddDirectory("materials/clockwork/donations/");
@@ -274,22 +294,6 @@ end;
 function Clockwork:PlayerThink(player, curTime, infoTable)
 	local bPlayerBreathSnd = false;
 	local storageTable = player:GetStorageTable();
-	local player = player;
-	local curTime = curTime;
-	local infoTable = infoTable;
-	local cwConfig = self.config;
-	local cwPlayer = self.player;
-	local cwStorage = self.storage;
-	local cwEvent = self.event;
-	local cwPlugin = self.plugin;
-	local cwLimb = self.limb;
-	local cwItem = self.item;
-	local cwEntity = self.entity;
-	local mathCeil = math.ceil;
-	local mathMax = math.max;
-	local mathMin = math.min;
-	local mathApproach = math.Approach;
-
 	
 	if (!cwConfig:Get("cash_enabled"):Get()) then
 		player:SetCharacterData("Cash", 0, true);
@@ -297,7 +301,7 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 	end;
 	
 	if (player.cwReloadHoldTime and curTime >= player.cwReloadHoldTime) then
-		cwPlayer:ToggleWeaponRaised(player);
+		cwPly:ToggleWeaponRaised(player);
 		player.cwReloadHoldTime = nil;
 		player.cwNextShootTime = curTime + cwConfig:Get("shoot_after_raise_time"):Get();
 	end;
@@ -400,7 +404,7 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 		return;
 	end;
 	
-	if (entity:GetClass() != "prop_door_rotating" or cwPlayer:IsNoClipping(player)) then
+	if (entity:GetClass() != "prop_door_rotating" or cwPly:IsNoClipping(player)) then
 		return;
 	end;
 	
@@ -871,8 +875,10 @@ end;
 
 -- Called when Clockwork config has changed.
 function Clockwork:ClockworkConfigChanged(key, data, previousValue, newValue)
+	local plyTable = player.GetAll();
+
 	if (key == "default_flags") then
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(plyTable) do
 			if (v:HasInitialized() and v:Alive()) then
 				if (string.find(previousValue, "p")) then
 					if (!string.find(newValue, "p")) then
@@ -908,23 +914,23 @@ function Clockwork:ClockworkConfigChanged(key, data, previousValue, newValue)
 			self.command:SetHidden("PlyDemote", false);
 		end;
 	elseif (key == "crouched_speed") then
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(plyTable) do
 			v:SetCrouchedWalkSpeed(newValue);
 		end;
 	elseif (key == "ooc_interval") then
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(plyTable) do
 			v.cwNextTalkOOC = nil;
 		end;
 	elseif (key == "jump_power") then
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(plyTable) do
 			v:SetJumpPower(newValue);
 		end;
 	elseif (key == "walk_speed") then
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(plyTable) do
 			v:SetWalkSpeed(newValue);
 		end;
 	elseif (key == "run_speed") then
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(plyTable) do
 			v:SetRunSpeed(newValue);
 		end;
 	end;
@@ -957,14 +963,8 @@ function Clockwork:SetupMove(player, moveData)
 	local moveData = moveData;
 
 	if (player:Alive() and !player:IsRagdolled()) then
-		local cwPlayer = self.player;
 		local frameTime = FrameTime();
-		local curTime = CurTime();
-		local isDrunk = cwPlayer:GetDrunk(player);
-		local mathClamp = math.Clamp;
-		local mathMin = math.min;
-		local mathCos = math.cos;
-		local mathMax = math.max;
+		local isDrunk = cwPly:GetDrunk(player);
 		
 		if (isDrunk and player.cwDrunkSwerve) then
 			player.cwDrunkSwerve = mathClamp(player.cwDrunkSwerve + frameTime, 0, mathMin(isDrunk * 2, 16));
@@ -1565,13 +1565,8 @@ end;
 function Clockwork:Tick()
 	local sysTime = SysTime();
 	local curTime = CurTime();
-	local players = player.GetAll();
-	local cwHint = self.hint;
-	local cwKernel = self.kernel;
-	local cwPlugin = self.plugin;
-	local cwConfig = self.config;
-	local cwPlayer = self.player;
-	
+	local plyTable = player.GetAll();
+
 	if (!self.NextHint or curTime >= self.NextHint) then
 		cwHint:Distribute();
 		self.NextHint = curTime + cwConfig:Get("hint_interval"):Get();
@@ -1607,12 +1602,12 @@ function Clockwork:Tick()
 	if (sysTime >= self.NextCheckEmpty) then
 		self.NextCheckEmpty = nil;
 		
-		if (#players == 0) then
+		if (#plyTable == 0) then
 			RunConsoleCommand("changelevel", game.GetMap());
 		end;
 	end;
 	
-	for k, v in pairs(players) do
+	for k, v in pairs(plyTable) do
 		if (v:HasInitialized()) then
 			if (!v.cwNextThink) then
 				v.cwNextThink = curTime + 0.1;
@@ -1623,7 +1618,7 @@ function Clockwork:Tick()
 			end;
 			
 			if (curTime >= v.cwNextThink) then
-				cwPlayer:CallThinkHook(
+				cwPly:CallThinkHook(
 					v, (curTime >= v.cwNextSetSharedVars), curTime
 				);
 			end;
@@ -1835,7 +1830,7 @@ function Clockwork:PlayerCanUseCharacter(player, character)
 	if (character.data["CharBanned"]) then
 		return character.name.." is banned and cannot be used!";
 	end;
-	
+
 	local faction = Clockwork.faction:FindByID(character.faction);
 	local playerRank, rank = player:GetFactionRank(character);
 	local factionCount = 0;
@@ -2101,7 +2096,9 @@ end;
 
 -- Called when a player attempts to exit a vehicle.
 function Clockwork:CanExitVehicle(vehicle, player)
-	if (player.cwNextExitVehicle and player.cwNextExitVehicle > CurTime()) then
+	local curTime = CurTime();
+
+	if (player.cwNextExitVehicle and player.cwNextExitVehicle > curTime) then
 		return false;
 	end;
 	
@@ -2964,7 +2961,7 @@ function Clockwork:PlayerCharacterInitialized(player)
 	end);
 	
 	Clockwork.datastream:Start(player, "CharacterInit", player:GetCharacterKey());
-	
+
 	local faction = Clockwork.faction:FindByID(player:GetFaction());
 	local lowestRank = Clockwork.faction:GetLowestRank(player:GetFaction());
 	
@@ -3149,7 +3146,7 @@ function Clockwork:ChatBoxAdjustInfo(info)
 	elseif (info.class == "looc") then
 		Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, "[LOOC] "..info.speaker:Name()..": "..info.text);
 	end;
-	
+
 	if (info.class == "ic" or info.class == "yell" or info.class == "whisper") then
 		if (IsValid(info.speaker) and info.speaker:HasInitialized()) then
 			info.text = string.upper(string.sub(info.text, 1, 1))..string.sub(info.text, 2);
@@ -3223,7 +3220,7 @@ function Clockwork:PostPlayerSpawn(player, lightSpawn, changeClass, firstSpawn)
 		player:SetCharacterData("Health", nil);
 		player:SetCharacterData("Armor", nil);
 	end;
-	
+
 	if (!lightSpawn) then
 		local FACTION = Clockwork.faction:FindByID(player:GetFaction());
 		local relation = FACTION.entRelationship;
@@ -3503,6 +3500,7 @@ function Clockwork:ShowTeam(player)
 	if (!self.player:IsNoClipping(player)) then
 		local doRecogniseMenu = true;
 		local entity = player:GetEyeTraceNoCursor().Entity;
+		local plyTable = player.GetAll();
 		
 		if (IsValid(entity) and self.entity:IsDoor(entity)) then
 			if (entity:GetPos():Distance(player:GetShootPos()) <= 192) then
@@ -3522,7 +3520,7 @@ function Clockwork:ShowTeam(player)
 									owner = owner
 								};
 								
-								for k, v in pairs(cwPlayer.GetAll()) do
+								for k, v in pairs(plyTable) do
 									if (v != player and v != owner) then
 										if (self.player:HasDoorAccess(v, entity, DOOR_ACCESS_COMPLETE)) then
 											data.accessList[v] = DOOR_ACCESS_COMPLETE;
@@ -4118,8 +4116,9 @@ Clockwork.datastream:Hook("RecogniseOption", function(player, data)
 			local talkRadius = Clockwork.config:Get("talk_radius"):Get();
 			local playSound = false;
 			local position = player:GetPos();
+			local plyTable = player.GetAll();
 			
-			for k, v in pairs(cwPlayer.GetAll()) do
+			for k, v in pairs(plyTable) do
 				if (v:HasInitialized() and player != v) then
 					if (!Clockwork.player:IsNoClipping(v)) then
 						local distance = v:GetPos():Distance(position);
@@ -5458,11 +5457,13 @@ playerMeta.GetName = playerMeta.Name;
 playerMeta.Nick = playerMeta.Name;
 
 concommand.Add("cwStatus", function(player, command, arguments)
+	local plyTable = player.GetAll();
+
 	if (IsValid(player)) then
 		if (Clockwork.player:IsAdmin(player)) then
 			player:PrintMessage(2, "# User ID | Name | Steam Name | Steam ID | IP Address");
-			
-			for k, v in pairs(cwPlayer.GetAll()) do
+
+			for k, v in pairs(plyTable) do
 				if (v:HasInitialized()) then
 					local status = Clockwork.plugin:Call("PlayerCanSeeStatus", player, v);
 					
@@ -5477,7 +5478,7 @@ concommand.Add("cwStatus", function(player, command, arguments)
 	else
 		print("# User ID | Name | Steam Name | Steam ID | IP Address");
 		
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(plyTable) do
 			if (v:HasInitialized()) then
 				print("# "..v:UserID().." | "..v:Name().." | "..v:SteamName().." | "..v:SteamID().." | "..v:IPAddress());
 			end;
