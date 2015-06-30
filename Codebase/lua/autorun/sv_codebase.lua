@@ -1,5 +1,5 @@
 --[[
-	© 2013 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2013 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -230,7 +230,7 @@ local function ProcessFile(fileName)
 	local countString = table.concat(countTab, ", ");
 	
 	if (countString != "") then
-		MsgC(Color(150, 225, 150), "@codebase "..(string.gsub(fileName, "gamemodes/Clockwork/framework/", "")).."\n");
+		MsgC(Color(150, 225, 150), "@codebase "..(string.gsub(fileName, "gamemodes/clockwork/framework/", "")).."\n");
 		MsgC(Color(150, 150, 150), "\t"..countString.."\n");
 	end;
 end;
@@ -239,7 +239,7 @@ concommand.Add("codebase", function(player, command, arguments)
 	FILE_MANIFEST = {};
 	OUTPUT_TABLE = {functions = {}, classes = {}, libraries = {}, hooks = {}};
 
-	AddFilesToManifest("gamemodes/Clockwork/framework");
+	AddFilesToManifest("gamemodes/clockwork/framework");
 
 	local delay = 0;
 	for k, v in ipairs(FILE_MANIFEST) do
