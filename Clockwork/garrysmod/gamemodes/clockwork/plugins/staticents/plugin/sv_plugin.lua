@@ -26,7 +26,7 @@ function cwStaticEnts:LoadStaticEnts()
 	
 	local staticProps = Clockwork.kernel:RestoreSchemaData("plugins/props/"..game.GetMap());
 	
-	if (#staticProps > 0) then
+	if (staticProps and #staticProps > 0) then
 		for k, v in ipairs(staticProps) do
 			table.insert(staticEnts, v);
 		end;
@@ -147,33 +147,19 @@ function cwStaticEnts:SaveStaticEnts()
 	end;
 end;
 
--- Called every tick.
-function cwStaticEnts:Tick()
-	if (#self.staticEnts > 0) then
-		if (!self.nextSync or self.nextSync < CurTime()) then
-			local sendTable = {};
-			local filter = {};
-			
-			for k, v in ipairs(player.GetAll()) do
-				if (Clockwork.player:IsAdmin(v)) then
-					table.insert(sendTable, v);
-				end;
+Clockwork.datastream:Listen("staticESPSync", function()
+	local data = {};
+
+	for k, v in ipairs(cwStaticEnts.staticEnts) do
+		if (IsValid(v)) then
+			if (v:IsValid()) then
+				table.insert(data, {
+					pos = v:GetPos(),
+					class = v:GetClass()
+				});
 			end;
-			
-			
-			for k, v in ipairs(self.staticEnts) do
-				if (IsValid(v)) then
-					if (v:IsValid()) then
-						table.insert(filter, {
-							pos = v:GetPos(),
-							class = v:GetClass()
-						});
-					end;
-				end;
-			end;
-				
-			Clockwork.datastream:Start(sendTable, "staticESPSync", filter);
-			self.nextSync = CurTime() + 2;
 		end;
 	end;
-end;
+
+	return true, data;
+end);

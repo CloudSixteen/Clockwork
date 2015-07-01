@@ -15,22 +15,18 @@ function COMMAND:OnRun(player, arguments)
 	local target = player:GetEyeTraceNoCursor().Entity;
 	
 	if (IsValid(target)) then
-		if (cwStaticEnts:CanStatic(target) != false) then
-			for k, v in pairs(cwStaticEnts.staticEnts) do
-				if (target == v) then
-					table.remove(cwStaticEnts.staticEnts, k);
-					cwStaticEnts:SaveStaticEnts();
+		for k, v in pairs(cwStaticEnts.staticEnts) do
+			if (target == v) then
+				table.remove(cwStaticEnts.staticEnts, k);
+				cwStaticEnts:SaveStaticEnts();
 					
-					Clockwork.player:Notify(player, "You have removed a static entity.");
+				Clockwork.player:Notify(player, "You have removed a static entity.");
 
-					return;
-				end;
+				return;
 			end;
-
-			Clockwork.player:Notify(player, "This entity is not static.");
-		else
-			Clockwork.player:Notify(player, "This entity is not able to be a static entity!");
 		end;
+
+		Clockwork.player:Notify(player, "This entity is not static.");
 	else
 		Clockwork.player:Notify(player, "You must look at a valid entity!");
 	end;
