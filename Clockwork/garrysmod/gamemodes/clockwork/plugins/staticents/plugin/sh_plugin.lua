@@ -21,9 +21,21 @@ Clockwork.kernel:IncludePrefixed("sv_hooks.lua");
 function cwStaticEnts:CanStatic(entity)
 	if (entity:IsValid()) then
 		local class = entity:GetClass();
-		
-		if (class == "prop_vehicle_airboat" or class == "prop_vehicle_jeep" or class == "Jeep" or class == "Airboat") then
+		local classCheck = {
+			"prop_vehicle_",
+			"cw_",
+			"func_",
+			"prop_dynamic"
+		};
+
+		if (class == "player" or entity:MapCreationID() != -1) then
 			return "nope";
+		end;
+
+		for k, v in ipairs(classCheck) do
+			if (string.find(class, v)) then
+				return "nope";
+			end;
 		end;
 		
 		return class;
