@@ -3677,7 +3677,7 @@ end;
 -- A function to include files in a directory.
 function Clockwork.kernel:IncludeDirectory(directory, bFromBase)
 	if (bFromBase) then
-		directory = "Clockwork/framework/"..directory;
+		directory = "clockwork/framework/"..directory;
 	end;
 	
 	if (string.utf8sub(directory, -1) != "/") then
