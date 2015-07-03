@@ -39,9 +39,6 @@ local math = math;
 local game = game;
 local os = os;
 
---local sysTime = SysTime();
---local curTime = CurTime();
---local plyTable = player.GetAll();
 local cwHint = Clockwork.hint;
 local cwKernel = Clockwork.kernel;
 local cwPlugin = Clockwork.plugin;
@@ -59,63 +56,8 @@ local mathClamp = math.Clamp;
 local mathCos = math.cos;
 local mathApproach = math.Approach;
 
-Clockwork.kernel:AddDirectory("materials/clockwork/sliced/");
-Clockwork.kernel:AddDirectory("materials/clockwork/limbs/");
-Clockwork.kernel:AddDirectory("materials/clockwork/donations/");
-Clockwork.kernel:AddDirectory("materials/clockwork/logo/");
-Clockwork.kernel:AddDirectory("materials/clockwork/");
-Clockwork.kernel:AddDirectory("materials/decals/flesh/blood*");
-Clockwork.kernel:AddDirectory("materials/decals/blood*");
-Clockwork.kernel:AddDirectory("materials/effects/blood*");
-Clockwork.kernel:AddDirectory("materials/sprites/blood*");
-
-Clockwork.kernel:AddFile("materials/models/items/ammorounds.vtf");
-Clockwork.kernel:AddFile("materials/models/items/ammorounds.vmt");
-Clockwork.kernel:AddFile("materials/models/items/ammobox.vmt");
-Clockwork.kernel:AddFile("materials/models/items/ammobox.vtf");
-Clockwork.kernel:AddFile("models/items/ammorounds.mdl");
-Clockwork.kernel:AddFile("models/items/ammobox.mdl");
-Clockwork.kernel:AddFile("materials/models/items/boxred1.vmt");
-Clockwork.kernel:AddFile("materials/models/items/boxred1.vtf");
-Clockwork.kernel:AddFile("materials/models/items/boxzrounds.vtf");
-Clockwork.kernel:AddFile("materials/models/items/boxzrounds.vmt");
-Clockwork.kernel:AddFile("models/items/boxzrounds.mdl");
-Clockwork.kernel:AddFile("models/items/redammo.mdl");
-
-local SILKICON_MATERIAL_TABLE = {
-	"tick", "cross", "add", "exclamation", "user", "wrench", 
-	"comment", "error", "box", "shield", "application_view_tile", 
-	"star", "emoticon_smile", "user_add", "user_delete"
-};
-
-for k, v in pairs(SILKICON_MATERIAL_TABLE)do
-	Clockwork.kernel:AddFile("materials/icon16/"..v..".png");
-end;
-
-Clockwork.kernel:AddFile("materials/SliceTest.png");
-Clockwork.kernel:AddFile("models/humans/female_gestures.ani");
-Clockwork.kernel:AddFile("models/humans/female_gestures.mdl");
-Clockwork.kernel:AddFile("models/humans/female_postures.ani");
-Clockwork.kernel:AddFile("models/humans/female_postures.mdl");
-Clockwork.kernel:AddFile("models/combine_soldier_anims.ani");
-Clockwork.kernel:AddFile("models/combine_soldier_anims.mdl");
-Clockwork.kernel:AddFile("models/humans/female_shared.ani");
-Clockwork.kernel:AddFile("models/humans/female_shared.mdl");
-Clockwork.kernel:AddFile("models/humans/male_gestures.ani");
-Clockwork.kernel:AddFile("models/humans/male_gestures.mdl");
-Clockwork.kernel:AddFile("models/humans/male_postures.ani");
-Clockwork.kernel:AddFile("models/humans/male_postures.mdl");
-Clockwork.kernel:AddFile("models/humans/male_shared.ani");
-Clockwork.kernel:AddFile("models/humans/male_shared.mdl");
-Clockwork.kernel:AddFile("models/humans/female_ss.ani");
-Clockwork.kernel:AddFile("models/humans/female_ss.mdl");
-Clockwork.kernel:AddFile("models/humans/male_ss.ani");
-Clockwork.kernel:AddFile("models/humans/male_ss.mdl");
-Clockwork.kernel:AddFile("models/police_animations.ani");
-Clockwork.kernel:AddFile("models/police_animations.mdl");
-Clockwork.kernel:AddFile("models/police_ss.ani");
-Clockwork.kernel:AddFile("models/police_ss.mdl");
-Clockwork.kernel:AddFile("sound/common/talk.wav");
+--[[ Downloads the content addon for clients. --]]
+resource.AddWorkshop("474315121")
 
 --[[ Do this internally, because it's one less step for schemas. --]]
 AddCSLuaFile(

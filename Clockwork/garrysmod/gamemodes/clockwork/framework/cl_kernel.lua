@@ -888,17 +888,12 @@ end;
 	@details Called when Clockwork has initialized.
 --]]
 function Clockwork:ClockworkInitialized()
-	local newLogoFile = "clockwork/logo/001.png";
-	local oldLogoFile = "clockwork/clockwork_logo.png";
-	
-	if (!file.Exists("materials/"..newLogoFile, "GAME")) then
-		newLogoFile = oldLogoFile;
-	end;
-	
+	local logoFile = "clockwork/logo/002.png";
+
 	self.SpawnIconMaterial = Clockwork.kernel:GetMaterial("vgui/spawnmenu/hover");
 	self.DefaultGradient = surface.GetTextureID("gui/gradient_down");
 	self.GradientTexture = Clockwork.kernel:GetMaterial(cwOption:GetKey("gradient")..".png");
-	self.ClockworkSplash = Clockwork.kernel:GetMaterial(newLogoFile);
+	self.ClockworkSplash = Clockwork.kernel:GetMaterial(logoFile);
 	self.FishEyeTexture = Clockwork.kernel:GetMaterial("models/props_c17/fisheyelens");
 	self.GradientCenter = surface.GetTextureID("gui/center_gradient");
 	self.GradientRight = surface.GetTextureID("gui/gradient");
