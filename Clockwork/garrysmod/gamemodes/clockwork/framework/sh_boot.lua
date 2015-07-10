@@ -26,7 +26,6 @@ else
 	CurrentGM = nil;
 end;
 
-Clockwork = Clockwork or GM;
 Clockwork.ClockworkFolder = Clockwork.ClockworkFolder or GM.Folder;
 Clockwork.SchemaFolder = Clockwork.SchemaFolder or GM.Folder;
 Clockwork.KernelVersion = "0.93";
