@@ -89,6 +89,8 @@ The following changes have been made for each official Clockwork build.
 	* *Contributed by Vortix.*
 * Added faction rank functions.
 	* *Contributed by Vortix.*
+* Added auto-refresh support.
+  * *Contributed by Alex Grist.*
 
 0.92
 -------
