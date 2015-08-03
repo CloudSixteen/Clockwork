@@ -3127,7 +3127,21 @@ function Clockwork:ChatBoxAdjustInfo(info)
 end;
 
 -- Called when a chat box message has been added.
-function Clockwork:ChatBoxMessageAdded(info) end;
+function Clockwork:ChatBoxMessageAdded(info)
+	if (info.voice) then
+		if (IsValid(info.speaker) and info.speaker:HasInitialized()) then
+			info.speaker:EmitSound(info.voice.sound, info.voice.volume);
+		end;
+		
+		if (info.voice.global) then
+			for k, v in pairs(info.listeners) do
+				if (v != info.speaker) then
+					Clockwork.player:PlaySound(v, info.voice.sound);
+				end;
+			end;
+		end;
+	end;
+end;
 
 -- Called when a player's radio text should be adjusted.
 function Clockwork:PlayerAdjustRadioInfo(player, info) end;
