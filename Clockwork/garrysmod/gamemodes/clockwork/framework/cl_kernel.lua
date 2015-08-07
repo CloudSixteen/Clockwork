@@ -3284,9 +3284,11 @@ function Clockwork:CreateScoreboard() end;
 -- Called when the scoreboard should be shown.
 function Clockwork:ScoreboardShow()
 	if (self.Client:HasInitialized()) then
-		self.menu:Create();
-		self.menu:SetOpen(true);
-		self.menu.holdTime = UnPredictedCurTime() + 0.5;
+		if (self.plugin:Call("CanShowTabMenu")) then
+			self.menu:Create();
+			self.menu:SetOpen(true);
+			self.menu.holdTime = UnPredictedCurTime() + 0.5;
+		end;
 	end;
 end;
 
@@ -3294,10 +3296,15 @@ end;
 function Clockwork:ScoreboardHide()
 	if (self.Client:HasInitialized() and self.menu.holdTime) then
 		if (UnPredictedCurTime() >= self.menu.holdTime) then
-			self.menu:SetOpen(false);
+			if (self.plugin:Call("CanShowTabMenu")) then
+				self.menu:SetOpen(false);
+			end;
 		end;
 	end;
 end;
+
+-- Called before the tab menu is shown.
+function Clockwork:CanShowTabMenu() return true; end;
 
 -- Overriding Garry's "grab ear" animation.
 function Clockwork:GrabEarAnimation(player) end;
