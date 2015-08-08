@@ -82,8 +82,12 @@ function Clockwork.entity:IsDoor(entity)
 			class = string.lower(class);
 			model = string.lower(model);
 			
-			if (class == "func_door" or class == "func_door_rotating" or class == "prop_door_rotating"
-			or (class == "prop_dynamic" and string.find(model, "door")) or class == "func_movelinear") then
+			if (class == "func_door" 
+    			    or class == "func_door_rotating" 
+    			    or class == "prop_door_rotating"
+    			    or (class == "prop_dynamic" and string.find(model, "door")) 
+    			    or class == "func_movelinear") then
+    			
 				return true;
 			end;
 		end;
