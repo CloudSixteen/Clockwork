@@ -689,6 +689,8 @@ function Clockwork:ClockworkConVarChanged(name, previousValue, newValue)
 				GetConVarNumber("cwTextColorA")
 			)
 		);
+	elseif (name == "cwLang") then
+		Clockwork.Client:SetData("Language", newValue);
 	end;
 end;
 
@@ -834,6 +836,7 @@ function Clockwork:Initialize()
 	CW_CONVAR_SHOWLOG = cwKernel:CreateClientConVar("cwShowLog", 1, true, true);
 	CW_CONVAR_SHOWOOC = cwKernel:CreateClientConVar("cwShowOOC", 1, true, true);
 	CW_CONVAR_SHOWIC = cwKernel:CreateClientConVar("cwShowIC", 1, true, true);
+	CW_CONVAR_LANG = cwKernel:CreateClientConVar("cwLang", "English", true, true);
 
 	CW_CONVAR_ESPTIME = cwKernel:CreateClientConVar("cwESPTime", 1, true, true);
 	CW_CONVAR_ADMINESP = cwKernel:CreateClientConVar("cwAdminESP", 0, true, true);
@@ -886,6 +889,8 @@ function Clockwork:Initialize()
 	
 	cwPlugin:CheckMismatches();
 	cwPlugin:ClearHookCache();
+
+	Clockwork.Client:SetData("Language", CW_CONVAR_LANG:GetString());
 
 	Clockwork.option:SetColor(
 		"information",
