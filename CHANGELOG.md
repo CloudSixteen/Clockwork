@@ -13,6 +13,24 @@ The following changes have been made for each official Clockwork build.
     * *Contributed by Vortix.*
 * Moved and improved voice library from HL2RP to Clockwork
     * *Contributed by Gr4Ss and Vortix.*
+* Fixed GetPrintName bug relating to AdminESP.
+	* *Contributed by NightAngel
+* Created Clockwork workshop addon and linked it to the framework for clients to auto-download.
+	* *Contributed by NightAngel
+* Added function to toggle allow (or disallow) tab menu activation.
+	* *Contributed by NightAngel
+* Cleaned up and added ThirdPerson plugin native to Clockwork.
+	* *Contributed by NightAngel and RJ
+* Organized sh_kernel code into sv_ and cl_kernel.
+	* Contributed by NightAngel
+* Organized Clockwork.entity:IsDoor function for clarity.
+	* Contributed by RJ
+* Moved code that broadcasts voice commands from HL2RP to Clockwork.
+	* Contributed by Vortix
+* Optimized and added checks for the Static Entities plugin.
+	* Contributed by NightAngel
+* Fixed 'Clockwork' typo in codebase and IncludeDirectory.
+	* Contributed by RJ
 
 0.93
 -------

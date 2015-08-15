@@ -56,15 +56,22 @@ Credits
 #### alexanderk
 * Various Clockwork contributions in many forms, including web applications.
 * Helped establish secure community back-end.
-* Project lead for Cloud Sixteen 2015-present.
 
 #### Gr4ss + Vortix
 * Maintaining the framework and associated schemas
 * Contracted work on HL2 RP 2015.
 
-#### RJ + NightAngel
+#### RJ
 * Maintaining the framework and associated schemas.
 * Contracted work on Severance.
+
+#### NightAngel
+* Maintaining the framework and associated schemas.
+* Contracted work on Severance and Atomic.
+
+#### trurascalz
+* Developing the plugin center.
+* Various contributions to Clockwork.
 
 #### Other Contributors
 * Alex Grist and Impulse for fixing Clockwork and schemas to work with GMod 13 API.
