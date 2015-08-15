@@ -38,6 +38,15 @@ end;
 
 --[[
 	@codebase Shared
+	@details Get the table of all the languages.
+	@returns The table containing all the languages.
+--]]
+function Clockwork.lang:GetAll()
+	return self.stored;
+end;
+
+--[[
+	@codebase Shared
 	@details Get the language string for the given identifier.
 	@param String The language which table to search.
 	@param String The identifier to search for.

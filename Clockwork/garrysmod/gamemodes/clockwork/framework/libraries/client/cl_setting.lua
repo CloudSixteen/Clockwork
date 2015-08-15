@@ -148,37 +148,49 @@ function Clockwork.setting:Remove(category, text, class, conVar)
 	end;
 end;
 
-if (!Clockwork.setting.SettingsAdded) then
-	Clockwork.setting:AddNumberSlider("Framework", "Headbob Amount:", "cwHeadbobScale", 0, 1, 1, "The amount to scale the headbob by.");
-	Clockwork.setting:AddNumberSlider("Chat Box", "Chat Lines:", "cwMaxChatLines", 1, 10, 0, "The amount of chat lines shown at once.");
+local langTable = {};
 
-	Clockwork.setting:AddCheckBox("Framework", "Enable the admin console log.", "cwShowLog", "Whether or not to show the admin console log.", function()
+for k, v in pairs(Clockwork.lang:GetAll()) do
+	table.insert(langTable, k);
+end;
+
+if (!Clockwork.setting.SettingsAdded) then
+	local frameworkStr = L("Framework");
+	local chatBoxStr = L("Chat Box");
+	local themeStr = L("Theme");
+
+	Clockwork.setting:AddNumberSlider(frameworkStr, "Headbob Amount:", "cwHeadbobScale", 0, 1, 1, "The amount to scale the headbob by.");
+	Clockwork.setting:AddNumberSlider(chatBoxStr, "Chat Lines:", "cwMaxChatLines", 1, 10, 0, "The amount of chat lines shown at once.");
+
+	Clockwork.setting:AddCheckBox(frameworkStr, "Enable the admin console log.", "cwShowLog", "Whether or not to show the admin console log.", function()
 		return Clockwork.player:IsAdmin(Clockwork.Client);
 	end);
 
-	Clockwork.setting:AddCheckBox("Framework", "Enable the twelve hour clock.", "cwTwelveHourClock", "Whether or not to show a twelve hour clock.");
-	Clockwork.setting:AddCheckBox("Framework", "Show bars at the top of the screen.", "cwTopBars", "Whether or not to show bars at the top of the screen.");
-	Clockwork.setting:AddCheckBox("Framework", "Enable the hints system.", "cwShowHints", "Whether or not to show you any hints.");
-	Clockwork.setting:AddCheckBox("Chat Box", "Show timestamps on messages.", "cwShowTimeStamps", "Whether or not to show you timestamps on messages.");
-	Clockwork.setting:AddCheckBox("Chat Box", "Show messages related to Clockwork.", "cwShowClockwork", "Whether or not to show you any Clockwork messages.");
-	Clockwork.setting:AddCheckBox("Chat Box", "Show messages from the server.", "cwShowServer", "Whether or not to show you any server messages.");
-	Clockwork.setting:AddCheckBox("Chat Box", "Show out-of-character messages.", "cwShowOOC", "Whether or not to show you any out-of-character messages.");
-	Clockwork.setting:AddCheckBox("Chat Box", "Show in-character messages.", "cwShowIC", "Whether or not to show you any in-character messages.");
+	Clockwork.setting:AddCheckBox(frameworkStr, "Enable the twelve hour clock.", "cwTwelveHourClock", "Whether or not to show a twelve hour clock.");
+	Clockwork.setting:AddCheckBox(frameworkStr, "Show bars at the top of the screen.", "cwTopBars", "Whether or not to show bars at the top of the screen.");
+	Clockwork.setting:AddCheckBox(frameworkStr, "Enable the hints system.", "cwShowHints", "Whether or not to show you any hints.");
+	Clockwork.setting:AddMultiChoice(frameworkStr, L("Language")..":", "cwLang", langTable, L("langDesc"));
 
-	Clockwork.setting:AddColorMixer("Theme", "Text Color:", "cwTextColor", "The Text Color");
-	Clockwork.setting:AddColorMixer("Theme", "Background Color:", "cwBackColor", "The Background Color");
-	Clockwork.setting:AddNumberSlider("Theme", "TabMenu X-Axis:", "cwTabPosX", 0, ScrW(), 0, "The position of the tab menu on the X axis.");
-	Clockwork.setting:AddNumberSlider("Theme", "TabMenu Y-Axis:", "cwTabPosY", 0, ScrH(), 0, "The position of the tab menu on the Y axis.");
-	Clockwork.setting:AddNumberSlider("Theme", "BackMenu X-Axis:", "cwBackX", 0, ScrW(), 0, "The position of the background on the X axis.");
-	Clockwork.setting:AddNumberSlider("Theme", "BackMenu Y-Axis:", "cwBackY", 0, ScrH(), 0, "The position of the background on the Y axis.");
-	Clockwork.setting:AddNumberSlider("Theme", "BackMenu Width:", "cwBackW", 0, ScrW(), 0, "The width of the background.");
-	Clockwork.setting:AddNumberSlider("Theme", "BackMenu Height:", "cwBackH", 0, ScrH(), 0, "The height of the background.");
-	Clockwork.setting:AddCheckBox("Theme", "Fade Panels:", "cwFadePanels", "Whether or not to fade in and out menu panels.");
-	Clockwork.setting:AddCheckBox("Theme", "Show Material:", "cwShowMaterial", "Whether or not to show a material background.");
-	Clockwork.setting:AddCheckBox("Theme", "Show Gradient:", "cwShowGradient", "Whether or not to show a gradient background.");
-	Clockwork.setting:AddTextEntry("Theme", "Character Text:", "cwCharString", "The word(s) to be displayed on the character button.");
-	Clockwork.setting:AddTextEntry("Theme", "Close Text:", "cwCloseString", "The word(s) to be displayed on the close menu button.");
-	Clockwork.setting:AddTextEntry("Theme", "Material:", "cwMaterial", "The material to be used for the tab menu.");
+	Clockwork.setting:AddCheckBox(chatBoxStr, "Show timestamps on messages.", "cwShowTimeStamps", "Whether or not to show you timestamps on messages.");
+	Clockwork.setting:AddCheckBox(chatBoxStr, "Show messages related to Clockwork.", "cwShowClockwork", "Whether or not to show you any Clockwork messages.");
+	Clockwork.setting:AddCheckBox(chatBoxStr, "Show messages from the server.", "cwShowServer", "Whether or not to show you any server messages.");
+	Clockwork.setting:AddCheckBox(chatBoxStr, "Show out-of-character messages.", "cwShowOOC", "Whether or not to show you any out-of-character messages.");
+	Clockwork.setting:AddCheckBox(chatBoxStr, "Show in-character messages.", "cwShowIC", "Whether or not to show you any in-character messages.");
+
+	Clockwork.setting:AddColorMixer(themeStr, "Text Color:", "cwTextColor", "The Text Color");
+	Clockwork.setting:AddColorMixer(themeStr, "Background Color:", "cwBackColor", "The Background Color");
+	Clockwork.setting:AddNumberSlider(themeStr, "TabMenu X-Axis:", "cwTabPosX", 0, ScrW(), 0, "The position of the tab menu on the X axis.");
+	Clockwork.setting:AddNumberSlider(themeStr, "TabMenu Y-Axis:", "cwTabPosY", 0, ScrH(), 0, "The position of the tab menu on the Y axis.");
+	Clockwork.setting:AddNumberSlider(themeStr, "BackMenu X-Axis:", "cwBackX", 0, ScrW(), 0, "The position of the background on the X axis.");
+	Clockwork.setting:AddNumberSlider(themeStr, "BackMenu Y-Axis:", "cwBackY", 0, ScrH(), 0, "The position of the background on the Y axis.");
+	Clockwork.setting:AddNumberSlider(themeStr, "BackMenu Width:", "cwBackW", 0, ScrW(), 0, "The width of the background.");
+	Clockwork.setting:AddNumberSlider(themeStr, "BackMenu Height:", "cwBackH", 0, ScrH(), 0, "The height of the background.");
+	Clockwork.setting:AddCheckBox(themeStr, "Fade Panels:", "cwFadePanels", "Whether or not to fade in and out menu panels.");
+	Clockwork.setting:AddCheckBox(themeStr, "Show Material:", "cwShowMaterial", "Whether or not to show a material background.");
+	Clockwork.setting:AddCheckBox(themeStr, "Show Gradient:", "cwShowGradient", "Whether or not to show a gradient background.");
+	Clockwork.setting:AddTextEntry(themeStr, "Character Text:", "cwCharString", "The word(s) to be displayed on the character button.");
+	Clockwork.setting:AddTextEntry(themeStr, "Close Text:", "cwCloseString", "The word(s) to be displayed on the close menu button.");
+	Clockwork.setting:AddTextEntry(themeStr, "Material:", "cwMaterial", "The material to be used for the tab menu.");
 
 	Clockwork.setting:AddCheckBox("Admin ESP", "Enable the admin ESP.", "cwAdminESP", "Whether or not to show the admin ESP.", function()
 		return Clockwork.player:IsAdmin(Clockwork.Client);
