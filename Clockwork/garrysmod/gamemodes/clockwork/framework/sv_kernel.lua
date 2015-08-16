@@ -901,9 +901,6 @@ end;
 
 -- Called when a player's move data is set up.
 function Clockwork:SetupMove(player, moveData)
-	local player = player;
-	local moveData = moveData;
-
 	if (player:Alive() and !player:IsRagdolled()) then
 		local frameTime = FrameTime();
 		local isDrunk = cwPly:GetDrunk(player);
@@ -2287,6 +2284,12 @@ end;
 function Clockwork:PhysgunPickup(player, entity)
 	local bCanPickup = nil;
 	local bIsAdmin = self.player:IsAdmin(player);
+
+	if (!self.config:Get("enable_map_props_physgrab"):Get()) then
+		if (entity:GetClass() == "prop_dynamic" or self.entity:IsDoor(entity)) then
+			bCanPickup = false;
+		end;
+	end;
 	
 	if (!bIsAdmin and !self.entity:IsInteractable(entity)) then
 		return false;
@@ -4090,6 +4093,10 @@ Clockwork.datastream:Hook("RecogniseOption", function(player, data)
 							end;
 						elseif (recogniseData == "talk") then
 							if (distance <= talkRadius) then
+								recognise = true;
+							end;
+						elseif (recogniseData == "look") then
+							if (v == player:GetEyeTraceNoCursor().entity) then
 								recognise = true;
 							end;
 						end;
