@@ -2286,7 +2286,7 @@ function Clockwork:PhysgunPickup(player, entity)
 	local bIsAdmin = self.player:IsAdmin(player);
 
 	if (!self.config:Get("enable_map_props_physgrab"):Get()) then
-		if (entity:GetClass() == "prop_dynamic" or self.entity:IsDoor(entity)) then
+		if (self.entity:IsMapEntity(entity) or self.entity:IsDoor(entity)) then
 			bCanPickup = false;
 		end;
 	end;
