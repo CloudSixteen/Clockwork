@@ -92,3 +92,4 @@ Clockwork.config:AddToSystem("Enable LOOC icons", "enable_looc_icons", "Whether 
 Clockwork.config:AddToSystem("Show Business Menu", "show_business", "Whether or not to show the business menu.");
 Clockwork.config:AddToSystem("Enable Chat Multiplier", "chat_multiplier", "Whether or not to change text size based on types of chat.");
 Clockwork.config:AddToSystem("Steam API Key", "steam_api_key", "Some non-essential features may require the usage of the Steam API.\nhttp://steamcommunity.com/dev/apikey");
+Clockwork.config:AddToSystem("Enable Map Props Physgrab", "enable_map_props_physgrab", "Whether or not players will be able to grab map props and doors with physguns.");

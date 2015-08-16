@@ -262,6 +262,9 @@ Clockwork.datastream:Hook("RecogniseMenu", function(data)
 		end,
 		["All characters within talking range"] = function()
 			Clockwork.datastream:Start("RecogniseOption", "talk");
+		end,
+		["The character you are looking at."] = function()
+			Clockwork.datastream:Start("RecogniseOption", "look");
 		end
 	});
 	
@@ -3129,7 +3132,7 @@ function Clockwork:DestroyBars(bars) end;
 -- Called when the chat box position is needed.
 function Clockwork:GetChatBoxPosition()
 	local x, y = self.chatBox:GetPosition();
-	
+
 	return {x, y};
 end;
 

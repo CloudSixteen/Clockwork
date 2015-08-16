@@ -108,3 +108,4 @@ Clockwork.config:Add("enable_looc_icons", true, true, true);
 Clockwork.config:Add("show_business", true, true);
 Clockwork.config:Add("chat_multiplier", true, true, true);
 Clockwork.config:Add("steam_api_key", "");
+Clockwork.config:Add("enable_map_props_physgrab", false);
