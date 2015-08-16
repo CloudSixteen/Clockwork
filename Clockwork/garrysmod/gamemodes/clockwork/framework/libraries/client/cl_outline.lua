@@ -1,5 +1,5 @@
 --[[ 
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -25,7 +25,7 @@ function Clockwork.outline:Add(entity, glowColor, glowSize, bIgnoreZ)
 		entity = {entity};
 	end;
 	
-	effects.halo.Add(
+	halo.Add(
 		entity, glowColor, glowSize, glowSize, 1, true, bIgnoreZ
 	);
 end;
