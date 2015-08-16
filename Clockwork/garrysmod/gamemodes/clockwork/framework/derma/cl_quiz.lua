@@ -31,7 +31,10 @@ function PANEL:Init()
 	self:SetMouseInputEnabled(true);
 	self:SetKeyboardInputEnabled(true);
 	
-	self.panelList = vgui.Create("cwPanelList", self);
+	self.scrollList = vgui.Create("DScrollPanel", self);
+ 	self.scrollList:SizeToContents();
+
+	self.panelList = vgui.Create("cwPanelList", self.scrollList);
  	self.panelList:SetPadding(2);
  	self.panelList:SetSpacing(3);
  	self.panelList:SizeToContents();
@@ -119,6 +122,23 @@ function PANEL:Populate()
 		
 		self.questionsForm:AddItem(panel);
 	end;
+
+	local langText = vgui.Create("DLabel", self.questionsForm);
+	local panel = vgui.Create("DComboBox", self.questionsForm);
+
+	question:SetText(L("Language")..":");
+	question:SetDark(true);
+	question:SizeToContents();
+
+	function panel:OnSelect(index, value, data)
+		Clockwork.Client:SetData("Language", index);
+	end;
+
+	for k, v in pairs(Clockwork.lang:GetAll()) do
+		panel;AddChoice(k);
+	end;
+
+	self.questionsForm:AddItem(panel);
 end;
 
 -- Called when the layout should be performed.
@@ -128,6 +148,8 @@ function PANEL:PerformLayout(w, h)
 	
 	self.panelList:SetSize(scrW * 0.5, math.min(self.panelList.pnlCanvas:GetTall() + 32, ScrH() * 0.75));
 	self.panelList:SetPos((scrW / 2) - (self.panelList:GetWide() / 2), (scrH / 2) - (self.panelList:GetTall() / 2));
+	self.scrollList:SetPos((scrW / 2) - (self.panelList:GetWide() / 2), (scrH / 2) - (self.panelList:GetTall() / 2));
+	self.scrollList:SetSize(scrW * 0.5, math.min(self.panelList.pnlCanvas:GetTall() + 32, ScrH() * 0.75));
 	
 	derma.SkinHook("Layout", "Panel", self);
 end;
