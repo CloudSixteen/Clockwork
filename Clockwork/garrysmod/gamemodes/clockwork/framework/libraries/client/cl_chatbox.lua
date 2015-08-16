@@ -98,7 +98,7 @@ end;
 -- A function to get the position of the chat area.
 function Clockwork.chatBox:GetPosition(addX, addY)
 	local customPosition = Clockwork.chatBox:GetCustomPosition();
-	local x, y = 8, ScrH() * 0.75;
+	local x, y = 8, ScrH() - 40;
 	
 	if (customPosition) then
 		x = customPosition.x;

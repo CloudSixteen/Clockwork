@@ -3128,7 +3128,9 @@ function Clockwork:DestroyBars(bars) end;
 
 -- Called when the chat box position is needed.
 function Clockwork:GetChatBoxPosition()
-	return {x = 8, y = ScrH() - 40};
+	local x, y = self.chatBox:GetPosition();
+	
+	return {x, y};
 end;
 
 -- Called when the cinematic intro info is needed.
