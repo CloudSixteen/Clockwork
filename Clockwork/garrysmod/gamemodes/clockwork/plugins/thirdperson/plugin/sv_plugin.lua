@@ -1,12 +1,16 @@
 local cwThirdPerson = cwThirdPerson;
 
+Clockwork.config:Add("enable_third_person", true);
+
 function cwThirdPerson:Disable(player)
 	local entity = player:GetViewEntity();
 
 	player:SetNWBool("thirdperson", false);
 	player:SetViewEntity(player);
-
-	entity:Remove();
+	
+	if (IsValid(entity) and entity:IsValid()) then
+		entity:Remove();
+	end;
 end;
 
 function cwThirdPerson:Enable(player)
@@ -29,6 +33,8 @@ function cwThirdPerson:Enable(player)
 end;
 
 function cwThirdPerson:SetThirdPerson(player, value)
+	if (!Clockwork.config:Get("enable_third_person"):GetBoolean()) then return; end;
+
 	if (!value) then
 		value = !player:GetThirdPerson();
 	end;
@@ -46,6 +52,20 @@ function cwThirdPerson:SetThirdPerson(player, value)
 			self:Disable();
 		end;
 	end;	
+end;
+
+function cwThirdPerson:ClockworkConfigChanged(key, data, previousValue, newValue)
+	if (key == "enable_third_person") then
+		for k, v in pairs(player.GetAll()) do
+			if (v:GetThirdPerson()) then
+				self:Disable(v);
+			end;
+		end;
+	end;
+end;
+
+function cwThirdPerson:PlayerCharacterUnloaded(player)
+	player:SetThirdPerson(false);
 end;
 
 local PLAYER_META = FindMetaTable("Player");
