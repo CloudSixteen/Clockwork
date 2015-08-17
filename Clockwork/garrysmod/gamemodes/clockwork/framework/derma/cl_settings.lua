@@ -82,7 +82,10 @@ function PANEL:Rebuild()
 					panel = form:NumSlider(v2.text, v2.conVar, v2.minimum, v2.maximum, v2.decimals);
 				elseif (v2.class == "multiChoice") then
 					panel = form:ComboBox(v2.text, v2.conVar);
-					panel:SetEditable(false);
+			--		panel:SetEditable(false);
+					local conVar = GetConVar(v2.conVar);
+
+					panel:SetValue(conVar:GetString());
 					
 					for k3, v3 in pairs(v2.options) do
 						panel:AddChoice(v3);

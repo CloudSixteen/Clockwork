@@ -230,6 +230,10 @@ function Clockwork:Initialize()
 	self.plugin:ClearHookCache();
 
 	hook.Remove("PlayerTick", "TickWidgets")
+
+	--[[ Hotfix to allow downloads ]]--
+	hook.Remove("Think", "exploit.fix");
+	RunConsoleCommand("sv_allowdownload", "1");
 end;
 
 -- Called at an interval while a player is connected.
@@ -3455,20 +3459,20 @@ function Clockwork:ShowHelp(player)
 end;
 
 -- Called when a player presses F2.
-function Clockwork:ShowTeam(player)
-	if (!self.player:IsNoClipping(player)) then
+function Clockwork:ShowTeam(ply)
+	if (!self.player:IsNoClipping(ply)) then
 		local doRecogniseMenu = true;
-		local entity = player:GetEyeTraceNoCursor().Entity;
+		local entity = ply:GetEyeTraceNoCursor().Entity;
 		local plyTable = player.GetAll();
 		
 		if (IsValid(entity) and self.entity:IsDoor(entity)) then
-			if (entity:GetPos():Distance(player:GetShootPos()) <= 192) then
-				if (self.plugin:Call("PlayerCanViewDoor", player, entity)) then
-					if (self.plugin:Call("PlayerUse", player, entity)) then
+			if (entity:GetPos():Distance(ply:GetShootPos()) <= 192) then
+				if (self.plugin:Call("PlayerCanViewDoor", ply, entity)) then
+					if (self.plugin:Call("PlayerUse", ply, entity)) then
 						local owner = self.entity:GetOwner(entity);
 						
 						if (IsValid(owner)) then
-							if (self.player:HasDoorAccess(player, entity, DOOR_ACCESS_COMPLETE)) then
+							if (self.player:HasDoorAccess(ply, entity, DOOR_ACCESS_COMPLETE)) then
 								local data = {
 									sharedAccess = self.entity:DoorHasSharedAccess(entity),
 									sharedText = self.entity:DoorHasSharedText(entity),
@@ -3480,7 +3484,7 @@ function Clockwork:ShowTeam(player)
 								};
 								
 								for k, v in pairs(plyTable) do
-									if (v != player and v != owner) then
+									if (v != ply and v != owner) then
 										if (self.player:HasDoorAccess(v, entity, DOOR_ACCESS_COMPLETE)) then
 											data.accessList[v] = DOOR_ACCESS_COMPLETE;
 										elseif (self.player:HasDoorAccess(v, entity, DOOR_ACCESS_BASIC)) then
@@ -3489,10 +3493,10 @@ function Clockwork:ShowTeam(player)
 									end;
 								end;
 								
-								self.datastream:Start(player, "DoorManagement", data);
+								self.datastream:Start(ply, "DoorManagement", data);
 							end;
 						else
-							self.datastream:Start(player, "PurchaseDoor", entity);
+							self.datastream:Start(ply, "PurchaseDoor", entity);
 						end;
 					end;
 				end;
@@ -3503,7 +3507,7 @@ function Clockwork:ShowTeam(player)
 		
 		if (self.config:Get("recognise_system"):Get()) then
 			if (doRecogniseMenu) then
-				Clockwork.datastream:Start(player, "RecogniseMenu", true);
+				Clockwork.datastream:Start(ply, "RecogniseMenu", true);
 			end;
 		end;
 	end;

@@ -676,7 +676,7 @@ function Clockwork:ClockworkConVarChanged(name, previousValue, newValue)
 			)
 		);
 	elseif (name == "cwLang") then
-		Clockwork.Client:SetData("Language", newValue);
+		Clockwork.Client:SetNWString("Language", newValue);
 	end;
 end;
 
@@ -876,7 +876,9 @@ function Clockwork:Initialize()
 	cwPlugin:CheckMismatches();
 	cwPlugin:ClearHookCache();
 
-	Clockwork.Client:SetData("Language", CW_CONVAR_LANG:GetString());
+	Clockwork.setting:AddSettings();
+
+	Clockwork.Client:SetNWString("Language", CW_CONVAR_LANG:GetString());
 
 	Clockwork.option:SetColor(
 		"information",
@@ -913,6 +915,8 @@ function Clockwork:ClockworkInitialized()
 		[GRADIENT_DOWN] = self.DefaultGradient;
 		[GRADIENT_UP] = self.GradientUp;
 	};
+
+	self.setting:AddSettings();
 end;
 
 --[[

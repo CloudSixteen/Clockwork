@@ -70,12 +70,12 @@ end;
 
 if (CLIENT) then
 	function L(identifier, ...)
-		local language = Clockwork.Client:GetData("Language");
+		local language = CW_CONVAR_LANG:GetString();
 		return Clockwork.lang:GetString(language, identifier, ...);
 	end;
 else
 	function L(player, identifier, ...)
-		local language = player:GetData("Language");
+		local language = player:GetNWString("Language");
 		return Clockwork.lang:GetString(language, identifier, ...);
 	end;
 end;

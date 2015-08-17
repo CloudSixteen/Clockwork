@@ -43,13 +43,13 @@ function cwThirdPerson:SetThirdPerson(player, value)
 		if (player:GetThirdPerson()) then
 			return;
 		else
-			self:Enable();
+			self:Enable(player);
 		end;
 	else
 		if (!player:GetThirdPerson()) then
 			return;
 		else
-			self:Disable();
+			self:Disable(player);
 		end;
 	end;	
 end;

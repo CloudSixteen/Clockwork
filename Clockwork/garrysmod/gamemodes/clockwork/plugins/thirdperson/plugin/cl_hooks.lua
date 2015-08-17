@@ -15,11 +15,7 @@ end;
 
 -- Called when a PLUGIN ConVar has changed.
 function cwThirdPerson:ClockworkConVarChanged()
-	if (CW_CONVAR_THIRDPERSON:GetInt() == 1) then
-		RunConsoleCommand("chasecam", "1");
-	else
-		RunConsoleCommand("chasecam", "0");
-	end;
+	RunConsoleCommand("chasecam", tostring(CW_CONVAR_THIRDPERSON:GetInt()));
 end;
 
 -- All credit for third person script goes to cringerpants and his/her affiliates.
