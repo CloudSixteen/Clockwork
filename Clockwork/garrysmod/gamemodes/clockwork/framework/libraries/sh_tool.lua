@@ -308,16 +308,17 @@ end;
 function CLASS_TABLE:Create()
 	local tool = Clockwork.kernel:NewMetaTable(CLASS_TABLE);
 		
-	tool.Mode				= nil
-	tool.SWEP				= nil
-	tool.Owner				= nil
-	tool.ClientConVar		= {}
-	tool.ServerConVar		= {}
-	tool.Objects			= {}
-	tool.Stage				= 0
-	tool.Message			= "start"
-	tool.LastMessage		= 0
-	tool.AllowedCVar		= 0
+	tool.Mode				= nil;
+	tool.SWEP				= nil;
+	tool.Owner				= nil;
+	tool.Category			= "Clockwork";
+	tool.ClientConVar		= {};
+	tool.ServerConVar		= {};
+	tool.Objects			= {};
+	tool.Stage				= 0;
+	tool.Message			= "start";
+	tool.LastMessage		= 0;
+	tool.AllowedCVar		= 0;
 		
 	return tool;		
 end
