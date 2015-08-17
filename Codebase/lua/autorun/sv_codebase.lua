@@ -1,5 +1,5 @@
 --[[
-	© 2013 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2013 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -90,7 +90,7 @@ local function ProcessFile(fileName)
 			
 			if (paramType and paramNote) then
 				if (!codebase.params) then codebase.params = {}; end;
-				if (string.find(optionType, ":")) then
+				if (string.find(paramType, ":")) then
 					paramType = string.Explode(paramType, ":");
 				end;
 				
@@ -199,7 +199,7 @@ local function ProcessFile(fileName)
 			
 			if (string.find(v, "%-%-%]%]")) then
 				bInComment = false;
-			elseif (!bIsValidField) then
+			elseif (!bIsValidField and codebase) then
 				if (!codebase.details) then
 					codebase.details = "";
 				end;
@@ -243,10 +243,17 @@ concommand.Add("codebase", function(player, command, arguments)
 
 	local delay = 0;
 	for k, v in ipairs(FILE_MANIFEST) do
-		timer.Simple(delay, ProcessFile, v);
+		if (delay > 0) then
+			timer.Simple(delay, function()
+				ProcessFile(v);
+			end);
+		else
+			ProcessFile(v);
+		end;
+
 		delay = delay + 0.005;
 	end;
-
+	
 	if (delay > 0) then
 		timer.Simple(delay, function()
 			file.Write("codebase.txt", Clockwork.json:Encode(OUTPUT_TABLE));
