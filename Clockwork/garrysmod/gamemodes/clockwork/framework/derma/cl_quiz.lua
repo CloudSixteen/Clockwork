@@ -90,6 +90,27 @@ function PANEL:Populate()
 		label:SetInfoColor("orange");
 	self.panelList:AddItem(label);
 
+	local langTable = Clockwork.lang:GetAll();
+
+	self.languageForm = vgui.Create("DForm");
+	self.languageForm:SetName(L("Language"));
+	self.languageForm:SetPadding(4);
+
+	local panel = vgui.Create("DComboBox", self.languageForm);
+
+	function panel:OnSelect(index, value, data)
+		Clockwork.Client:SetNWString("Language", index);
+	end;
+
+	for k, v in pairs(langTable) do
+		panel:AddChoice(k);
+	end;
+
+	panel:SetConVar("cwLang");
+	panel:SetValue(CW_CONVAR_LANG:GetString());
+		
+	self.languageForm:AddItem(panel);
+	self.panelList:AddItem(self.languageForm);
 	self.panelList:AddItem(self.questionsForm);
 	
 	for k, v in pairs(quizQuestions) do
@@ -122,23 +143,6 @@ function PANEL:Populate()
 		
 		self.questionsForm:AddItem(panel);
 	end;
-
-	local langText = vgui.Create("DLabel", self.questionsForm);
-	local panel = vgui.Create("DComboBox", self.questionsForm);
-
-	question:SetText(L("Language")..":");
-	question:SetDark(true);
-	question:SizeToContents();
-
-	function panel:OnSelect(index, value, data)
-		Clockwork.Client:SetData("Language", index);
-	end;
-
-	for k, v in pairs(Clockwork.lang:GetAll()) do
-		panel;AddChoice(k);
-	end;
-
-	self.questionsForm:AddItem(panel);
 end;
 
 -- Called when the layout should be performed.
@@ -147,9 +151,10 @@ function PANEL:PerformLayout(w, h)
 	local scrH = ScrH();
 	
 	self.panelList:SetSize(scrW * 0.5, math.min(self.panelList.pnlCanvas:GetTall() + 32, ScrH() * 0.75));
-	self.panelList:SetPos((scrW / 2) - (self.panelList:GetWide() / 2), (scrH / 2) - (self.panelList:GetTall() / 2));
+--	self.panelList:SetPos((scrW / 2) - (self.panelList:GetWide() / 2), (scrH / 2) - (self.panelList:GetTall() / 2))
+	self.panelList:SetPos(0, 0)
+	self.scrollList:SetSize(scrW * 0.5, ScrH() * 0.75);
 	self.scrollList:SetPos((scrW / 2) - (self.panelList:GetWide() / 2), (scrH / 2) - (self.panelList:GetTall() / 2));
-	self.scrollList:SetSize(scrW * 0.5, math.min(self.panelList.pnlCanvas:GetTall() + 32, ScrH() * 0.75));
 	
 	derma.SkinHook("Layout", "Panel", self);
 end;
