@@ -10,6 +10,7 @@ local PLUGIN = PLUGIN;
 
 local TOOL = Clockwork.tool:New();
 
+TOOL.Category		= "Clockwork tools";
 TOOL.Name 			= "Door Parenting Manager";
 TOOL.UniqueID 		= "doorparent";
 TOOL.Desc 			= "Manage parent doors.";
