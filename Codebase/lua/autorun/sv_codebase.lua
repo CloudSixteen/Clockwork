@@ -90,7 +90,7 @@ local function ProcessFile(fileName)
 			
 			if (paramType and paramNote) then
 				if (!codebase.params) then codebase.params = {}; end;
-				if (string.find(paramType, ":")) then
+				if (string.find(optionType, ":")) then
 					paramType = string.Explode(paramType, ":");
 				end;
 				
@@ -199,7 +199,7 @@ local function ProcessFile(fileName)
 			
 			if (string.find(v, "%-%-%]%]")) then
 				bInComment = false;
-			elseif (!bIsValidField and codebase) then
+			elseif (!bIsValidField) then
 				if (!codebase.details) then
 					codebase.details = "";
 				end;
@@ -243,17 +243,10 @@ concommand.Add("codebase", function(player, command, arguments)
 
 	local delay = 0;
 	for k, v in ipairs(FILE_MANIFEST) do
-		if (delay > 0) then
-			timer.Simple(delay, function()
-				ProcessFile(v);
-			end);
-		else
-			ProcessFile(v);
-		end;
-
+		timer.Simple(delay, ProcessFile, v);
 		delay = delay + 0.005;
 	end;
-	
+
 	if (delay > 0) then
 		timer.Simple(delay, function()
 			file.Write("codebase.txt", Clockwork.json:Encode(OUTPUT_TABLE));
