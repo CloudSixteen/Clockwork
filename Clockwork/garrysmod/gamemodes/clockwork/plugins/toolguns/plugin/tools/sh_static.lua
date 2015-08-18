@@ -9,7 +9,6 @@
 
 local TOOL = Clockwork.tool:New();
 
-TOOL.Category		= "Clockwork tools";
 TOOL.Name 			= "Static Add/Remove";
 TOOL.UniqueID 		= "static";
 TOOL.Desc 			= "Allows you to save entities permanently on the map.";
