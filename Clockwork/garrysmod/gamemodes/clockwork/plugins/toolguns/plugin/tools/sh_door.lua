@@ -8,7 +8,6 @@
 
 local TOOL = Clockwork.tool:New();
 
-TOOL.Category		= "Clockwork tools";
 TOOL.Name 			= "Door Tool";
 TOOL.UniqueID 		= "doortool";
 TOOL.Desc 			= "Do various things with doors.";

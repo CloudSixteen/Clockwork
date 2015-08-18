@@ -9,7 +9,6 @@
 
 local TOOL = Clockwork.tool:New();
 
-TOOL.Category		= "Clockwork tools";
 TOOL.Name 			= "Text Add/Remove";
 TOOL.UniqueID 		= "text";
 TOOL.Desc 			= "Add colored text!";
