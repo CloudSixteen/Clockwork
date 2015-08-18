@@ -8,7 +8,6 @@
 
 local TOOL = Clockwork.tool:New();
 
-TOOL.Category		= "Clockwork tools";
 TOOL.Name 			= "Container Tool";
 TOOL.UniqueID 		= "containertool";
 TOOL.Desc 			= "Do various things with containers.";
