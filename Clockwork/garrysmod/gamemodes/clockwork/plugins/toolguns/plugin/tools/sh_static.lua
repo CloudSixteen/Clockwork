@@ -11,6 +11,7 @@ local TOOL = Clockwork.tool:New();
 
 TOOL.Name 			= "Static Add/Remove";
 TOOL.UniqueID 		= "static";
+TOOL.Category			= "Clockwork";
 TOOL.Desc 			= "Allows you to save entities permanently on the map.";
 TOOL.HelpText		= "Primary: Static Entity | Secondary: Unstatic";
 
@@ -90,4 +91,14 @@ function TOOL.BuildCPanel( CPanel )
 	CPanel:AddControl( "Header", { Text = "", Description	= "Updated static plugin by NightAngel." }  )
 end
 
-TOOL:Register();
+
+local plugin = Clockwork.plugin:FindByID("Static Entities");
+
+if (plugin) then
+	if (Clockwork.plugin:IsDisabled(plugin.name) or Clockwork.plugin:IsUnloaded(plugin.name)) then
+		
+	else
+		TOOL:Register();
+	end	
+end
+
