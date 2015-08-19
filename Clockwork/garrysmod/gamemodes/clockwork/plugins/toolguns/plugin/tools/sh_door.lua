@@ -277,4 +277,12 @@ if CLIENT then
 	end
 end
 	
-TOOL:Register();
+local plugin = Clockwork.plugin:FindByID("Door Commands");
+	
+if (plugin) then
+	if (Clockwork.plugin:IsDisabled(plugin.name) or Clockwork.plugin:IsUnloaded(plugin.name)) then
+		
+	else
+		TOOL:Register();
+	end	
+end

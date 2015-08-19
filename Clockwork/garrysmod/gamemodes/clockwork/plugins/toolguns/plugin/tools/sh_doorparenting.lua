@@ -5,6 +5,7 @@
 	Clockwork was created by Conna Wiles (also known as kurozael.)
 	http://cloudsixteen.com/license/clockwork.html
 --]]
+	
 
 local PLUGIN = PLUGIN;
 
@@ -12,6 +13,7 @@ local TOOL = Clockwork.tool:New();
 
 TOOL.Name 			= "Door Parenting Manager";
 TOOL.UniqueID 		= "doorparent";
+TOOL.Category			= "Clockwork";
 TOOL.Desc 			= "Manage parent doors.";
 TOOL.HelpText		= "Primary: Set Parent/Child | Reload: Clear Active Parent | Secondary: Remove Door Parent";
 
@@ -138,4 +140,13 @@ function TOOL.BuildCPanel( CPanel )
 	});
 end
 
-TOOL:Register();
+
+local plugin = Clockwork.plugin:FindByID("Door Commands");
+	
+if (plugin) then
+	if (Clockwork.plugin:IsDisabled(plugin.name) or Clockwork.plugin:IsUnloaded(plugin.name)) then
+		
+	else
+		TOOL:Register();
+	end	
+end
