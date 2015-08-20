@@ -3075,13 +3075,7 @@ end;
 
 -- Called just after the background blurs have been drawn.
 function Clockwork:PostDrawBackgroundBlurs()
-	local introTextSmallFont = cwOption:GetFont("intro_text_small");
-	local position = cwPlugin:Call("GetChatBoxPosition");
-	
-	if (position) then
-		self.chatBox:SetCustomPosition(position.x, position.y);
-	end;
-	
+	local introTextSmallFont = cwOption:GetFont("intro_text_small");	
 	local backgroundColor = cwOption:GetColor("background");
 	local colorWhite = cwOption:GetColor("white");
 	local panelInfo = self.CurrentFactionSelected;
@@ -3132,13 +3126,6 @@ function Clockwork:GetBars(bars) end;
 
 -- Called when the top bars should be destroyed.
 function Clockwork:DestroyBars(bars) end;
-
--- Called when the chat box position is needed.
-function Clockwork:GetChatBoxPosition()
-	local x, y = self.chatBox:GetPosition();
-
-	return {x, y};
-end;
 
 -- Called when the cinematic intro info is needed.
 function Clockwork:GetCinematicIntroInfo()

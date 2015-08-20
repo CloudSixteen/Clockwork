@@ -119,7 +119,7 @@ end;
 function cwThirdPerson:HUDPaint()
 	local player = Clockwork.Client;
 
-	if (player:GetThirdPerson()) then
+	if (!player:GetThirdPerson()) then
 		return;
 	end;
 

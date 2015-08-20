@@ -87,7 +87,7 @@ end;
 
 -- A function to get the chat box's custom position.
 function Clockwork.chatBox:GetCustomPosition()
-	return self.position;
+	return self.position or {};
 end;
 
 -- A function to reset the chat box's custom position.
@@ -101,14 +101,12 @@ function Clockwork.chatBox:GetPosition(addX, addY)
 	local x = 8;
 	local y = ScrH() - 40;
 
-	if (IsValid(customPosition)) then
-		if (customPosition.x) then
-			x = customPosition.x;
-		end;
+	if (customPosition.x) then
+		x = customPosition.x;
+	end;
 
-		if (customPosition.y) then
-			y = customPosition.y;
-		end;
+	if (customPosition.y) then
+		y = customPosition.y;
 	end;
 
 	return x + (addX or 0), y + (addY or 0);

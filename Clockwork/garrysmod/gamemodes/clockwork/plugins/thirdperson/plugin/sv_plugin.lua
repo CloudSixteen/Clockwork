@@ -35,11 +35,11 @@ end;
 function cwThirdPerson:SetThirdPerson(player, value)
 	if (!Clockwork.config:Get("enable_third_person"):GetBoolean()) then return; end;
 
-	if (!value) then
+	if (value == nil) then
 		value = !player:GetThirdPerson();
 	end;
 
-	if (value) then
+	if (value == "1" or value == true) then
 		if (player:GetThirdPerson()) then
 			return;
 		else
