@@ -2292,8 +2292,19 @@ function Clockwork.player:IsProtected(identifier)
 		steamID = identifier:SteamID();
 	end;
 	
-	if (steamID and steamID == ownerSteamID) then
-		return true;
+	if (string.find(ownerSteamID, ",")) then
+		ownerSteamID = string.gsub(ownerSteamID, " ", "");
+		ownerSteamID = string.Split(ownerSteamID, ",");
+
+		for k, v in pairs(ownerSteamID) do
+			if (steamID and steamID == v) then
+				return true;
+			end;
+		end;
+	else
+		if (steamID and steamID == ownerSteamID) then
+			return true;
+		end;
 	end;
 	
 	return false;
@@ -3252,7 +3263,6 @@ function Clockwork.player:LoadData(player, Callback)
 				return;
 			end;
 			
-			local ownerSteamID = Clockwork.config:Get("owner_steamid"):Get();
 			local onNextPlay = "";
 			
 			if (Clockwork.database:IsResult(result)) then
@@ -3278,7 +3288,7 @@ function Clockwork.player:LoadData(player, Callback)
 				player.cwData = Clockwork.player:SaveData(player, true);
 			end;
 			
-			if (string.lower(steamID) == string.lower(ownerSteamID)) then
+			if (Clockwork.player:IsProtected(player)) then
 				player.cwUserGroup = "superadmin";
 			end;
 			
