@@ -116,7 +116,7 @@ if (SERVER) then
 					
 					if (Clockwork.plugin:Call("PlayerCanUseCommand", player, commandTable, arguments)) then
 						if (#arguments >= commandTable.arguments) then
-							if (Clockwork.player:HasFlags(player, commandTable.access)) then
+							if (Clockwork.player:HasFlags(player, commandTable.access) and ((!commandTable.faction) or (commandTable.faction and commandTable.faction == player:GetFaction()))) then
 								local flags = commandTable.flags;
 								
 								if (Clockwork.player:GetDeathCode(player, true)) then
