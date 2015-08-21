@@ -3514,10 +3514,8 @@ function playerMeta:GetRagdollEntity()
 end;
 
 -- A function to get a player's rank within their faction.
-function playerMeta:GetFactionRank()
-	local rankName, rank = Clockwork.player:GetFactionRank(self);
-	
-	return rankName, rank;
+function playerMeta:GetFactionRank(character)
+	return Clockwork.player:GetFactionRank(self, character);
 end;
 
 -- A function to get a player's chat icon.

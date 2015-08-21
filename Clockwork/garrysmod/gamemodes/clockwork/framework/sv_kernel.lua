@@ -1803,7 +1803,22 @@ function Clockwork:PlayerCanUseCharacter(player, character)
 end;
 
 -- Called when a player's weapons should be given.
-function Clockwork:PlayerGiveWeapons(player) end;
+function Clockwork:PlayerGiveWeapons(player)
+	local rankName, rank = player:GetFactionRank();
+	local faction = Clockwork.faction:FindByID(player:GetFaction());
+
+	if (rank and rank.weapons) then
+		for k, v in pairs(rank.weapons) do
+			Clockwork.player:GiveSpawnWeapon(player, v);
+		end;
+	end;
+
+	if (faction and faction.weapons) then
+		for k, v in pairs(faction.weapons) do
+			Clockwork.player:GiveSpawnWeapon(player, v);
+		end;
+	end;
+end;
 
 -- Called when a player deletes a character.
 function Clockwork:PlayerDeleteCharacter(player, character) end;
@@ -5403,22 +5418,34 @@ function playerMeta:GetHoldingEntity()
 end;
 
 -- A function to get whether a player's character menu is reset.
-function playerMeta:IsCharacterMenuReset() return self.cwCharMenuReset; end;
+function playerMeta:IsCharacterMenuReset()
+	return self.cwCharMenuReset;
+end;
 
 -- A function to get the player's active voice channel.
-function playerMeta:GetActiveChannel() return Clockwork.voice:GetActiveChannel(self); end;
+function playerMeta:GetActiveChannel()
+	return Clockwork.voice:GetActiveChannel(self);
+end;
 
 -- A function to check if a player can afford an amount.
-function playerMeta:CanAfford(amount) return Clockwork.player:CanAfford(self, amount); end;
+function playerMeta:CanAfford(amount)
+	return Clockwork.player:CanAfford(self, amount);
+end;
 
 -- A function to get a player's rank within their faction.
-function playerMeta:GetFactionRank(character) return Clockwork.player:GetFactionRank(self, character); end;
+function playerMeta:GetFactionRank(character)
+	return Clockwork.player:GetFactionRank(self, character);
+end;
 
 -- A function to set a player's rank within their faction.
-function playerMeta:SetFactionRank(rank) return Clockwork.player:SetFactionRank(self, rank); end;
+function playerMeta:SetFactionRank(rank)
+	return Clockwork.player:SetFactionRank(self, rank);
+end;
 
 -- A function to get a player's global flags.
-function playerMeta:GetPlayerFlags() return Clockwork.player:GetPlayerFlags(self); end;
+function playerMeta:GetPlayerFlags()
+	return Clockwork.player:GetPlayerFlags(self);
+end;
 
 playerMeta.GetName = playerMeta.Name;
 playerMeta.Nick = playerMeta.Name;
