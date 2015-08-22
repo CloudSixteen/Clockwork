@@ -235,6 +235,22 @@ function Clockwork.faction:GetLowestRank(faction)
 	end;
 end;
 
+-- A function to get the rank with the lowest 'position' (highest rank) in this faction.
+function Clockwork.faction:GetDefaultRank(faction)
+	local faction = Clockwork.faction:FindByID(faction);
+	
+	if (istable(faction.ranks)) then
+		local lowestPos;
+		local highestRank;
+		
+		for k, v in pairs(faction.ranks) do
+			if (v.default) then
+				return k, v;
+			end
+		end;
+	end;
+end;
+
 if (SERVER) then
 	function Clockwork.faction:HasReachedMaximum(player, faction)
 		local factionTable = self:FindByID(faction);

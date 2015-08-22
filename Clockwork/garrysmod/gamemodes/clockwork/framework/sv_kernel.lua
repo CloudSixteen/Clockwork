@@ -2927,23 +2927,24 @@ function Clockwork:PlayerCharacterInitialized(player)
 	Clockwork.datastream:Start(player, "CharacterInit", player:GetCharacterKey());
 
 	local faction = Clockwork.faction:FindByID(player:GetFaction());
-	local lowestRank = Clockwork.faction:GetLowestRank(player:GetFaction());
+	local spawnRank = Clockwork.faction:GetDefaultRank(player:GetFaction()) or Clockwork.faction:GetLowestRank(player:GetFaction());
 	
-	player:SetFactionRank(player:GetFactionRank() or lowestRank);
+	player:SetFactionRank(player:GetFactionRank() or spawnRank);
 	
 	if (string.find(player:Name(), "SCN")) then
 		player:SetFactionRank("SCN");
 	end;
 	
-	local playerRank, rank = player:GetFactionRank();
+	local rankName, rankTable = player:GetFactionRank();
+	
+	if (rankTable) then
+		if (rankTable.class and Clockwork.class.stored[rankTable.class]) then
 
-	if (rank) then
-		if (rank.class and Clockwork.class.stored[rank.class]) then
-			Clockwork.class:Set(player, rank.class);
+			Clockwork.class:Set(player, rankTable.class);
 		end;
 		
 		if (rank.model) then
-			player:SetModel(rank.model);
+			player:SetModel(rankTable.model);
 		end;
 	end;
 end;
@@ -3138,6 +3139,7 @@ function Clockwork:ChatBoxAdjustInfo(info)
 							end;
 							
 							info.voice = voice;
+							info.text = info.phrase;
 							
 							return true;
 						end;
@@ -3928,7 +3930,7 @@ end);
 -- LocalPlayerCreated datastream callback.
 Clockwork.datastream:Hook("LocalPlayerCreated", function(player, data)
 	if (IsValid(player) and !player:HasConfigInitialized()) then
-		Clockwork.kernel:CreateTimer("SendCfg"..player:UniqueID(), FrameTime() * 64, 1, function()
+		Clockwork.kernel:CreateTimer("SendCfg"..player:UniqueID(), FrameTime(), 1, function()
 			if (IsValid(player)) then
 				Clockwork.config:Send(player);
 			end;
