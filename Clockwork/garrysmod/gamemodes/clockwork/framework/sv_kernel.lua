@@ -2943,7 +2943,7 @@ function Clockwork:PlayerCharacterInitialized(player)
 			Clockwork.class:Set(player, rankTable.class);
 		end;
 		
-		if (rank.model) then
+		if (rankTable.model) then
 			player:SetModel(rankTable.model);
 		end;
 	end;
@@ -3139,7 +3139,7 @@ function Clockwork:ChatBoxAdjustInfo(info)
 							end;
 							
 							info.voice = voice;
-							info.text = info.phrase;
+							info.text = v2.phrase;
 							
 							return true;
 						end;
@@ -3930,7 +3930,7 @@ end);
 -- LocalPlayerCreated datastream callback.
 Clockwork.datastream:Hook("LocalPlayerCreated", function(player, data)
 	if (IsValid(player) and !player:HasConfigInitialized()) then
-		Clockwork.kernel:CreateTimer("SendCfg"..player:UniqueID(), FrameTime(), 1, function()
+		Clockwork.kernel:CreateTimer("SendCfg"..player:UniqueID(), FrameTime() * 64, 1, function()
 			if (IsValid(player)) then
 				Clockwork.config:Send(player);
 			end;
