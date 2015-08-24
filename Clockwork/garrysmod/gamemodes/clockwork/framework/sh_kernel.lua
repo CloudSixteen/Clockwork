@@ -381,6 +381,35 @@ function Clockwork.kernel:GetAmmoInformation(weapon)
 	end;
 end;
 
+-- Called when a player's footstep sound should be played.
+function Clockwork:PlayerFootstep(player, position, foot, sound, volume, recipientFilter)
+	if (CLIENT) then return true; end;
+
+	local itemTable = player:GetClothesItem();
+		
+	if (itemTable) then
+		if ( player:IsRunning() or player:IsJogging() ) then
+			if (itemTable.runSound) then
+				if (type(itemTable.runSound) == "table") then
+					sound = itemTable.runSound[ math.random(1, #itemTable.runSound) ];
+				else
+					sound = itemTable.runSound;
+				end;
+			end;
+		elseif (itemTable.walkSound) then
+			if (type(itemTable.walkSound) == "table") then
+				sound = itemTable.walkSound[ math.random(1, #itemTable.walkSound) ];
+			else
+				sound = itemTable.walkSound;
+			end;
+		end;
+	end;
+
+	player:EmitSound(sound);
+	
+	return true;
+end;
+
 -- Called when the player's jumping animation should be handled.
 function Clockwork:HandlePlayerJumping(player)
 	if (!player.m_bJumping and !player:OnGround() and player:WaterLevel() <= 0) then

@@ -2474,8 +2474,6 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 			return;
 		end;
 		
-		player:EmitSound("physics/body/body_medium_impact_soft"..math.random(1, 7)..".wav");
-		
 		local itemTable = entity.cwItemTable;
 		local bQuickUse = (arguments == "cwItemUse");
 		
@@ -2515,6 +2513,14 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 						entity:Remove();
 					end;
 				end;
+
+				local pickupSound = itemTable.pickupSound or "physics/body/body_medium_impact_soft"..math.random(1, 7)..".wav"
+
+				if (type(pickupSound) == "table") then
+					pickupSound = pickupSound[math.random(1, #pickupSound)];
+				end;
+
+				player:EmitSound(pickupSound);
 				
 				player:SetItemEntity(nil);
 			end;

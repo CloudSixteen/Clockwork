@@ -994,9 +994,6 @@ function Clockwork:PlayerCanZoom() return true; end;
 -- Called when the local player attempts to see a business item.
 function Clockwork:PlayerCanSeeBusinessItem(itemTable) return true; end;
 
--- Called when a player's footstep sound should be played.
-function Clockwork:PlayerFootstep(player, position, foot, sound, volume, recipientFilter) end;
-
 -- Called when a player presses a bind.
 function Clockwork:PlayerBindPress(player, bind, bPress)
 	if (player:GetRagdollState() == RAGDOLL_FALLENOVER and string.find(bind, "+jump")) then
