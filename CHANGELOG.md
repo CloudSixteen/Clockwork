@@ -31,6 +31,15 @@ The following changes have been made for each official Clockwork build.
 	* Contributed by NightAngel
 * Fixed 'Clockwork' typo in codebase and IncludeDirectory.
 	* Contributed by RJ
+* Added Plugin Compatibility value to plugin.ini
+    * Contributed by Trurascalz
+* Added GetDefaultRank function
+    * Contributed by Vortix
+* Updated Faction Specific Commands for multiple access
+    * Contributed by Vortix
+* Updated to allow multiple owners
+    * Contributed by Vortix
+    
 
 0.93
 -------
