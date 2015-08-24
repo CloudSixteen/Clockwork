@@ -354,6 +354,19 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 			else
 				MsgC(Color(255, 100, 0, 255), "[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
 			end;
+
+			if(iniTable["compatibility"]) then
+				local compatibility = tonumber(iniTable["compatibility"]);
+				local Name = iniTable["name"];
+				local ClockworkVersion = tonumber(Clockwork.kernel:GetVersion());
+
+				if (compatibility >= ClockworkVersion) then 
+					
+				else
+					ErrorNoHalt("[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin is not compatible with Clockwork "..ClockworkVersion.."! It has been unloaded.\n");
+					self.unloaded[PLUGIN_FOLDERNAME] = true;
+				end
+			end
 		else
 			local iniTable = CW_SCRIPT_SHARED.plugins[pathCRC];
 			
