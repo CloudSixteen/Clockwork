@@ -65,8 +65,7 @@ end;
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
 	Clockwork.kernel:RegisterBackgroundBlur(self, self.createTime);
-	
-	DERMA_SLICED_BG:Draw(0, 0, w, h, 8, COLOR_WHITE);
+	Clockwork.kernel:DrawSimpleGradientBox(0, 0, 0, ScrW(), ScrH(), Color(0, 0, 0, 255));
 	
 	return true;
 end;
