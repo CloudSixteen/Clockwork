@@ -2072,7 +2072,8 @@ else
 			local barTextFont = Clockwork.option:GetFont("bar_text");
 			
 			Clockwork.bars.width = info.width;
-			Clockwork.bars.height = 12;
+			Clockwork.bars.height = (Clockwork.bars.height or 12);
+			Clockwork.bars.padding = (Clockwork.bars.padding or (Clockwork.bars.height + 2));
 			Clockwork.bars.y = info.y;
 			
 			if (class == "tab") then
@@ -2083,7 +2084,7 @@ else
 			
 			Clockwork.option:SetFont("bar_text", Clockwork.option:GetFont("auto_bar_text"));
 				for k, v in pairs(Clockwork.bars.stored) do
-					Clockwork.bars.y = self:DrawBar(Clockwork.bars.x, Clockwork.bars.y, Clockwork.bars.width, Clockwork.bars.height, v.color, v.text, v.value, v.maximum, v.flash) + (Clockwork.bars.height + 2);
+					Clockwork.bars.y = self:DrawBar(Clockwork.bars.x, Clockwork.bars.y, Clockwork.bars.width, Clockwork.bars.height, v.color, v.text, v.value, v.maximum, v.flash) + (Clockwork.bars.padding + 2);
 				end;
 			Clockwork.option:SetFont("bar_text", barTextFont);
 			
