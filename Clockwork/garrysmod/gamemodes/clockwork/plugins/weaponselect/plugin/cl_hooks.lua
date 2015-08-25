@@ -114,12 +114,8 @@ function cwWeaponSelect:HUDPaintImportant()
 		local weaponInfoX = x + 196;
 		
 		y = Clockwork.kernel:DrawInfo(
-			currentWeaponName, x, y, colorWhite, self.displayAlpha, true,
+			currentWeaponName, x, y, informationColor, self.displayAlpha, true,
 			function(x, y, width, height)
-				SLICED_SMALL_TINT:Draw(x - 8, y - 8, width + 16, height + 16, 4, Color(
-					informationColor.r, informationColor.g, informationColor.b, self.displayAlpha
-				));
-				
 				return x, y;
 			end
 		) + 3;
