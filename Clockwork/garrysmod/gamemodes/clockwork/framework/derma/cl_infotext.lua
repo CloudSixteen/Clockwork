@@ -34,17 +34,17 @@ end;
 
 -- Called when the layout should be performed.
 function PANEL:PerformLayout(w, h)
-	self.icon:SetPos(4, 4);
-	
 	if (self.textToLeft) then
 		if (self.icon:IsVisible()) then
-			self.label:SetPos(self.icon.x + 8, h / 2 - self.label:GetTall() / 2);
+			self.label:SetPos(self.icon.x + self.icon:GetWide() + 12, h / 2 - self.label:GetTall() / 2);
 		else
 			self.label:SetPos(8, h / 2 - self.label:GetTall() / 2);
 		end;
 	else
 		self.label:SetPos(w / 2 - self.label:GetWide() / 2, h / 2 - self.label:GetTall() / 2);
 	end;
+	
+	self:UpdateIconPosition();
 	
 	derma.SkinHook("Layout", "Panel", self);
 end;
@@ -82,6 +82,8 @@ end;
 function PANEL:SetText(text)
 	self.label:SetText(text);
 	self.label:SizeToContents();
+	
+	self:UpdateIconPosition();
 end;
 
 -- A function to set whether the panel is a button.
@@ -158,15 +160,21 @@ end;
 
 -- A function to set the icon.
 function PANEL:SetIcon(icon)
-	local size = Clockwork.option:GetKey("info_text_icon_size");
-	
 	self.icon:SetImage(icon);
 	self.icon:SetVisible(true);
 	self.icon:SetSize(size, size);
+	self:UpdateIconPosition();
+end;
+
+-- Update the icon position to align with the text.
+function PANEL:UpdateIconPosition()
+	local size = Clockwork.option:GetKey("info_text_icon_size");
 	
-	local yPos = 16 - (size / 2);
-	
-	self.icon:SetPos(yPos, yPos);
+	if (self.textToLeft) then
+		self.icon:SetPos(self.label.x - self.icon:GetWide() - 12, 16 - (size / 2));
+	else
+		self.icon:SetPos(8, 16 - (size / 2));
+	end;
 end;
 
 -- A function to set the panel's info color.
