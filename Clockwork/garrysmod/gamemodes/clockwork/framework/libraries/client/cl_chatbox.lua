@@ -187,7 +187,7 @@ function Clockwork.chatBox:CreateDermaTextEntry()
 			
 			if (string.utf8len(text) > maxChatLength) then
 				textEntry:SetRealValue(string.utf8sub(text, 0, maxChatLength));
-				surface.PlaySound("common/talk.wav");
+				Clockwork.option:PlaySound("tick");
 			elseif (self:IsOpen()) then
 				if (text != textEntry.previousText) then
 					Clockwork.plugin:Call("ChatBoxTextChanged", textEntry.previousText or "", text);
@@ -1016,7 +1016,7 @@ function Clockwork.chatBox:Add(filtered, icon, ...)
 		
 		table.insert(self.messages, 1, message);
 		
-		surface.PlaySound("common/talk.wav");
+		Clockwork.option:PlaySound("tick");
 		Clockwork.kernel:PrintColoredText(...);
 	end;
 end;

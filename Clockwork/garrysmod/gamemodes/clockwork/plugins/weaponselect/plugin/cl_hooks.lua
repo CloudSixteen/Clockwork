@@ -187,7 +187,7 @@ function cwWeaponSelect:TopLevelPlayerBindPress(player, bind, bPress)
 	if (string.find(bind, "invnext") or string.find(bind, "slot2")) then
 		if (curTime >= self.displayDelay and !bPress) then
 			if (#newWeapons > 1) then
-				surface.PlaySound("common/talk.wav");
+				Clockwork.option:PlaySound("tick");
 			end;
 			
 			self.displayDelay = curTime + 0.05;
@@ -204,7 +204,7 @@ function cwWeaponSelect:TopLevelPlayerBindPress(player, bind, bPress)
 	elseif (string.find(bind, "invprev") or string.find(bind, "slot1")) then
 		if (curTime >= self.displayDelay and !bPress) then
 			if (#newWeapons > 1) then
-				surface.PlaySound("common/talk.wav");
+				Clockwork.option:PlaySound("tick");
 			end;
 			
 			self.displayDelay = curTime + 0.05;

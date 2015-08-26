@@ -89,6 +89,7 @@ Clockwork.option:SetKey("gradient", "gui/gradient_up");
 Clockwork.option:SetSound("click_release", "ui/buttonclickrelease.wav");
 Clockwork.option:SetSound("rollover", "ui/buttonrollover.wav");
 Clockwork.option:SetSound("click", "ui/buttonclick.wav");
+Clockwork.option:SetSound("tick", "common/talk.wav");
 
 if (CLIENT) then
 	Clockwork.option.fonts = Clockwork.option.fonts or {};

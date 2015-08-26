@@ -85,3 +85,11 @@ end);
 concommand.Add("chasecam", function(player, command, arguments)
 	player:SetThirdPerson(arguments[1]);
 end);
+
+concommand.Add("chasecaminvert", function(player, command, arguments)
+	if (player:GetNWBool("ChaseCamInvert") == nil) then
+		return player:SetNWBool("ChaseCamInvert", true);
+	end;
+
+	player:SetNWBool("ChaseCamInvert", !player:GetNWBool("ChaseCamInvert"));
+end);
