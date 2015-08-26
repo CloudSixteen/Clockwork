@@ -2084,7 +2084,7 @@ else
 			
 			Clockwork.option:SetFont("bar_text", Clockwork.option:GetFont("auto_bar_text"));
 				for k, v in pairs(Clockwork.bars.stored) do
-					Clockwork.bars.y = self:DrawBar(Clockwork.bars.x, Clockwork.bars.y, Clockwork.bars.width, Clockwork.bars.height, v.color, v.text, v.value, v.maximum, v.flash) + (Clockwork.bars.padding + 2);
+					Clockwork.bars.y = self:DrawBar(Clockwork.bars.x, Clockwork.bars.y, Clockwork.bars.width, Clockwork.bars.height, v.color, v.text, v.value, v.maximum, v.flash, {uniqueID = v.uniqueID}) + (Clockwork.bars.padding + 2);
 				end;
 			Clockwork.option:SetFont("bar_text", barTextFont);
 			
