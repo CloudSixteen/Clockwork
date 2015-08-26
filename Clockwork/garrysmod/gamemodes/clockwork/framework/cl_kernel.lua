@@ -1302,18 +1302,18 @@ function Clockwork:MenuItemsAdd(menuItems)
 	local directoryName = cwOption:GetKey("name_directory");
 	local inventoryName = cwOption:GetKey("name_inventory");
 	
-	menuItems:Add("Classes", "cwClasses", "Choose from a list of available classes.");
-	menuItems:Add("Settings", "cwSettings", "Configure the way Clockwork works for you.");
-	menuItems:Add("Donations", "cwDonations", "Check your donation subscriptions.");
-	menuItems:Add(systemName, "cwSystem", cwOption:GetKey("description_system"));
-	menuItems:Add(scoreboardName, "cwScoreboard", cwOption:GetKey("name_scoreboard"));
-	menuItems:Add(inventoryName, "cwInventory", cwOption:GetKey("description_inventory"));
-	menuItems:Add(directoryName, "cwDirectory", cwOption:GetKey("description_directory"));
-	menuItems:Add(attributesName, "cwAttributes", cwOption:GetKey("description_attributes"));
+	menuItems:Add("Classes", "cwClasses", "Choose from a list of available classes.", cwOption:GetKey("icon_data_classes"));
+	menuItems:Add("Settings", "cwSettings", "Configure the way Clockwork works for you.", cwOption:GetKey("icon_data_settings"));
+	menuItems:Add("Donations", "cwDonations", "Check your donation subscriptions.", cwOption:GetKey("icon_data_donations"));
+	menuItems:Add(systemName, "cwSystem", cwOption:GetKey("description_system"), cwOption:GetKey("icon_data_system"));
+	menuItems:Add(scoreboardName, "cwScoreboard", cwOption:GetKey("name_scoreboard"), cwOption:GetKey("icon_data_scoreboard"));
+	menuItems:Add(inventoryName, "cwInventory", cwOption:GetKey("description_inventory"), cwOption:GetKey("icon_data_inventory"));
+	menuItems:Add(directoryName, "cwDirectory", cwOption:GetKey("description_directory"), cwOption:GetKey("icon_data_directory"));
+	menuItems:Add(attributesName, "cwAttributes", cwOption:GetKey("description_attributes"), cwOption:GetKey("icon_data_attributes"));
 	
 	if (cwConfig:Get("show_business"):GetBoolean() == true) then
 		local businessName = cwOption:GetKey("name_business");
-		menuItems:Add(businessName, "cwBusiness", cwOption:GetKey("description_business"));
+		menuItems:Add(businessName, "cwBusiness", cwOption:GetKey("description_business"), cwOption:GetKey("icon_data_business"));
 	end;
 end;
 

@@ -121,6 +121,16 @@ if (CLIENT) then
 	Clockwork.option:SetColor("columnsheet_text_active", Color(50, 50, 50, 255));
 	Clockwork.option:SetColor("basic_form_color", Color(255, 255, 255, 255));
 	
+	Clockwork.option:SetKey("icon_data_classes", {path = "", size = nil});
+	Clockwork.option:SetKey("icon_data_settings", {path = "", size = nil});
+	Clockwork.option:SetKey("icon_data_donations", {path = "", size = nil});
+	Clockwork.option:SetKey("icon_data_system", {path = "", size = nil});
+	Clockwork.option:SetKey("icon_data_scoreboard", {path = "", size = nil});
+	Clockwork.option:SetKey("icon_data_inventory", {path = "", size = nil});
+	Clockwork.option:SetKey("icon_data_directory", {path = "", size = nil});
+	Clockwork.option:SetKey("icon_data_attributes", {path = "", size = nil});
+	Clockwork.option:SetKey("icon_data_business", {path = "", size = nil});
+	
 	Clockwork.option:SetKey("info_text_icon_size", 24);
 	Clockwork.option:SetKey("info_text_red_icon", "icon16/exclamation.png");
 	Clockwork.option:SetKey("info_text_green_icon", "icon16/tick.png");
