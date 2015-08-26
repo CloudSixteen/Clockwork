@@ -665,7 +665,7 @@ function Clockwork:ClockworkConVarChanged(name, previousValue, newValue)
 		["cwTextColorA"] = true
 	}
 
-	if (checkTable[name]) then
+	if (checkTable[name] and not Clockwork.theme:IsFixed()) then
 		Clockwork.option:SetColor(
 			"information",
 			Color(
@@ -880,15 +880,17 @@ function Clockwork:Initialize()
 
 	Clockwork.Client:SetNWString("Language", CW_CONVAR_LANG:GetString());
 
-	Clockwork.option:SetColor(
-		"information",
-		Color(
-			GetConVarNumber("cwTextColorR"), 
-			GetConVarNumber("cwTextColorG"), 
-			GetConVarNumber("cwTextColorB"), 
-			GetConVarNumber("cwTextColorA")
-		)
-	);
+	if (not Clockwork.theme:IsFixed()) then
+		Clockwork.option:SetColor(
+			"information",
+			Color(
+				GetConVarNumber("cwTextColorR"), 
+				GetConVarNumber("cwTextColorG"), 
+				GetConVarNumber("cwTextColorB"), 
+				GetConVarNumber("cwTextColorA")
+			)
+		);
+	end;
 
 	hook.Remove("PostDrawEffects", "RenderWidgets")
 end;
