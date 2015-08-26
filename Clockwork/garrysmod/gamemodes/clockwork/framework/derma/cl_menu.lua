@@ -162,7 +162,7 @@ function PANEL:Rebuild(change)
 				button:SetupLabel(v, panel, x, y);
 				button:SetPos(x, y);
 				
-				y = y + button:GetTall() + 2;
+				y = y + button:GetTall();
 				
 				bIsVisible = true;
 				
