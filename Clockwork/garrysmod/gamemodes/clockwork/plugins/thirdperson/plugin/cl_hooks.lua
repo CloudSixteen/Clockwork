@@ -77,7 +77,15 @@ function cwThirdPerson:CalcView(player, pos, angles, fov)
 
 		if (player:GetVar("thirdperson_zoom") != 1) then
 			offset.x = CW_CONVAR_CHASECAM_BACK:GetFloat();
-			offset.y = CW_CONVAR_CHASECAM_RIGHT:GetFloat();
+			
+			if (player:GetNWBool("ChaseCamInvert")) then
+				local right = CW_CONVAR_CHASECAM_RIGHT:GetFloat();
+
+				offset.y = right - (right * 2);
+			else
+				offset.y = CW_CONVAR_CHASECAM_RIGHT:GetFloat();
+			end;
+
 			offset.z = CW_CONVAR_CHASECAM_UP:GetFloat();
 		end;
 
