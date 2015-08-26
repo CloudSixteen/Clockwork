@@ -131,6 +131,8 @@ if (CLIENT) then
 	Clockwork.option:SetKey("icon_data_attributes", {path = "", size = nil});
 	Clockwork.option:SetKey("icon_data_business", {path = "", size = nil});
 	
+	Clockwork.option:SetKey("top_bar_width_scale", 0.3);
+	
 	Clockwork.option:SetKey("info_text_icon_size", 24);
 	Clockwork.option:SetKey("info_text_red_icon", "icon16/exclamation.png");
 	Clockwork.option:SetKey("info_text_green_icon", "icon16/tick.png");

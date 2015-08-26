@@ -1672,7 +1672,7 @@ function Clockwork:HUDPaintForeground()
 	
 	self.chatBox:Paint();
 	
-	local info = {width = ScrW() * 0.3, x = 8, y = 8};
+	local info = {width = ScrW() * Clockwork.option:GetKey("top_bar_width_scale"), x = 8, y = 8};
 		cwKernel:DrawBars(info, "top");
 	cwPlugin:Call("HUDPaintTopScreen", info);
 end;
