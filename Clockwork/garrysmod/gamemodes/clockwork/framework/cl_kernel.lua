@@ -2062,8 +2062,6 @@ function Clockwork:GetModelSelectSequence(entity, model) end;
     @param Table The current table of ESP positions/colors/names to add on to.
 --]]
 function Clockwork:GetAdminESPInfo(info)
-	local info = info;
-
 	for k, v in pairs(cwPlayer.GetAll()) do
 		if (v:HasInitialized()) then			
 			local physBone = v:LookupBone("ValveBiped.Bip01_Head1");
