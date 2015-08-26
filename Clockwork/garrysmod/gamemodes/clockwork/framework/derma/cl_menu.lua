@@ -27,7 +27,7 @@ function PANEL:Init()
 		self:SetPaintBackground(false);
 		self:SetMouseInputEnabled(true);
 		self:SetKeyboardInputEnabled(true);
-				
+		
 		Clockwork.kernel:SetNoticePanel(self);
 		
 		self.CreateTime = SysTime();
@@ -154,31 +154,15 @@ function PANEL:Rebuild(change)
 			end;
 			
 			if (!panel.IsButtonVisible or panel:IsButtonVisible()) then
-				button = vgui.Create("cwLabelButton", self);
+				button = vgui.Create("cwMenuButton", self);
 			end;
 		
 			if (button) then
-				button:SetFont(Clockwork.option:GetFont("menu_text_tiny"));
-				button:SetText(string.upper(v.text));
-				
-				if (CW_CONVAR_FADEPANEL:GetInt() == 1) then
-					button:SetAlpha(0);
-					button:FadeIn(0.5);
-				else
-					button:SetAlpha(255);
-				end;
-				
-				button:SetToolTip(v.tip);
-				button:SetCallback(function(button)
-					if (Clockwork.menu:GetActivePanel() != panel) then
-						self:OpenPanel(panel);
-					end;
-				end);
-				button:SizeToContents();
-				button:SetMouseInputEnabled(true);
+				button:SetupLabel(v, panel, x, y);
 				button:SetPos(x, y);
 				
 				y = y + button:GetTall() + 8;
+				
 				bIsVisible = true;
 				
 				if (button:GetWide() > width) then
