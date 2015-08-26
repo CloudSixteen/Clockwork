@@ -1622,7 +1622,7 @@ function Clockwork:HUDPaintForeground()
 		
 		cwKernel:DrawBar(
 			x, y, width, height, info.color or Clockwork.option:GetColor("information"),
-			info.text or "Progress Bar", info.percentage or 100, 100, info.flash
+			info.text or "Progress Bar", info.percentage or 100, 100, info.flash, {uniqueID = info.uniqueID}
 		);
 	else
 		info = cwPlugin:Call("GetPostProgressBarInfo");
@@ -1637,7 +1637,7 @@ function Clockwork:HUDPaintForeground()
 			
 			cwKernel:DrawBar(
 				x, y, width, height, info.color or Clockwork.option:GetColor("information"),
-				info.text or "Progress Bar", info.percentage or 100, 100, info.flash
+				info.text or "Progress Bar", info.percentage or 100, 100, info.flash, {uniqueID = info.uniqueID}
 			);
 		end;
 	end;
@@ -1965,7 +1965,7 @@ function Clockwork:HUDDrawTargetID()
 							y = cwKernel:DrawInfo(name, x, y, Color(150, 150, 100, 255), alpha);
 							y = cwKernel:DrawBar(
 								x - 80, y, 160, 16, Clockwork.option:GetColor("information"), generator.powerPlural,
-								power, generator.power, power < (generator.power / 5)
+								power, generator.power, power < (generator.power / 5), {uniqueID = class}
 							);
 						end;
 					elseif (trace.Entity:IsWeapon()) then
