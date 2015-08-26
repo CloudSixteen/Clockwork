@@ -28,7 +28,7 @@ function PANEL:AddSheet(label, panel, material)
 	else
 		newSheet.Button = vgui.Create("cwIconButton", self.Navigation);
 		
-		local size = Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 18);
+		local size = Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 20);
 	
 		newSheet.Button:SetTall(32);
 		newSheet.Button:Dock(TOP);
@@ -36,7 +36,7 @@ function PANEL:AddSheet(label, panel, material)
 		newSheet.Button:SetFont(size);
 		
 		function newSheet.Button:Paint(width, height)
-			INFOTEXT_SLICED:Draw(0, 0, width, height, 8, Color(255, 255, 255, 150));
+			SLICED_COLUMNSHEET_BUTTON:Draw(0, 0, width, height, 8, Color(255, 255, 255, 150));
 		end;
 	end;
 	
@@ -55,8 +55,8 @@ function PANEL:AddSheet(label, panel, material)
 		newSheet.Button:SizeToContents();
 	end;
 	
-	newSheet.Button:SetColor(Color(255, 255, 255, 255));
-	newSheet.Button:SetExpensiveShadow(1, Color(0, 0, 0, 150));
+	newSheet.Button:SetColor(Clockwork.option:GetColor("columnsheet_text_normal"));
+	newSheet.Button:SetExpensiveShadow(1, Clockwork.option:GetColor("columnsheet_shadow_normal"));
 	
 	table.insert(self.Items, newSheet)
 	
@@ -74,16 +74,16 @@ function PANEL:SetActiveButton(active)
 	if (self.ActiveButton && self.ActiveButton.Target) then	
 		self.ActiveButton.Target:SetVisible(false)
 		self.ActiveButton:SetSelected(false)
-		self.ActiveButton:SetColor(Color(255, 255, 255, 255));
-		self.ActiveButton:SetExpensiveShadow(1, Color(0, 0, 0, 150));
+		self.ActiveButton:SetColor(Clockwork.option:GetColor("columnsheet_text_normal"));
+		self.ActiveButton:SetExpensiveShadow(1, Clockwork.option:GetColor("columnsheet_shadow_normal"));
 	end
 
 	self.ActiveButton = active;
 	
 	active.Target:SetVisible(true);
 	active:SetSelected(true);
-	active:SetColor(Color(100, 100, 100, 255));
-	active:SetExpensiveShadow(1, Color(255, 255, 255, 255));
+	active:SetColor(Clockwork.option:GetColor("columnsheet_text_active"));
+	active:SetExpensiveShadow(1, Clockwork.option:GetColor("columnsheet_shadow_active"));
 	
 	self.Content:InvalidateLayout();
 end

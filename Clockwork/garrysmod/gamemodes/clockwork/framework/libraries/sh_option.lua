@@ -114,6 +114,18 @@ if (CLIENT) then
 		return self.fonts[name];
 	end;
 
+	Clockwork.option:SetColor("columnsheet_shadow_normal", Color(0, 0, 0, 255));
+	Clockwork.option:SetColor("columnsheet_text_normal", Color(255, 255, 255, 255));
+	Clockwork.option:SetColor("columnsheet_shadow_active", Color(255, 255, 255, 255));
+	Clockwork.option:SetColor("columnsheet_text_active", Color(50, 50, 50, 255));
+	Clockwork.option:SetColor("basic_form_color", Color(255, 255, 255, 255));
+	
+	Clockwork.option:SetKey("info_text_icon_size", 24);
+	Clockwork.option:SetKey("info_text_red_icon", "icon16/exclamation.png");
+	Clockwork.option:SetKey("info_text_green_icon", "icon16/tick.png");
+	Clockwork.option:SetKey("info_text_orange_icon", "icon16/error.png");
+	Clockwork.option:SetKey("info_text_blue_icon", "icon16/information.png");
+	
 	Clockwork.option:SetColor("positive_hint", Color(100, 175, 100, 255));
 	Clockwork.option:SetColor("negative_hint", Color(175, 100, 100, 255));
 	Clockwork.option:SetColor("background", Color(0, 0, 0, 125));

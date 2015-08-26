@@ -148,3 +148,4 @@ SLICED_LARGE_DEFAULT = Clockwork.render:AddSlice9("SimpleRed", "clockwork/sliced
 SLICED_PROGRESS_BAR = Clockwork.render:AddSlice9("SimpleRed", "clockwork/sliced/simplered", 28);
 SLICED_PLAYER_INFO = Clockwork.render:AddSlice9("SimpleRed", "clockwork/sliced/simplered", 28);
 SLICED_INFO_MENU_BG = Clockwork.render:AddSlice9("SimpleRed", "clockwork/sliced/simplered", 28);
+SLICED_COLUMNSHEET_BUTTON = Clockwork.render:AddSlice9("SimpleTint", "clockwork/sliced/simpletint", 6);

@@ -16,15 +16,18 @@ local PANEL = {};
 -- Called when the panel is initialized.
 function PANEL:Init()
 	self:SetPos(4, 4);
-	self:SetSize(self:GetWide() - 8, 24);
+	self:SetSize(self:GetWide() - 8, 32);
 	self:SetBackgroundColor(Color(139, 174, 179, 255));
 	
 	self.icon = vgui.Create("DImage", self);
 	self.icon:SetImage("icon16/comment.png");
 	self.icon:SizeToContents();
 	
+	local font = Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16);
+	
 	self.label = vgui.Create("DLabel", self);
 	self.label:SetText("");
+	self.label:SetFont(font);
 	self.label:SetTextColor(Clockwork.option:GetColor("white"));
 	self.label:SetExpensiveShadow(1, Color(0, 0, 0, 150));
 end;
@@ -155,25 +158,31 @@ end;
 
 -- A function to set the icon.
 function PANEL:SetIcon(icon)
+	local size = Clockwork.option:GetKey("info_text_icon_size");
+	
 	self.icon:SetImage(icon);
-	self.icon:SizeToContents();
 	self.icon:SetVisible(true);
+	self.icon:SetSize(size, size);
+	
+	local yPos = 16 - (size / 2);
+	
+	self.icon:SetPos(yPos, yPos);
 end;
 
 -- A function to set the panel's info color.
 function PANEL:SetInfoColor(color)
 	if (color == "red") then
 		self:SetBackgroundColor(Color(179, 46, 49, 255));
-		self:SetIcon("icon16/exclamation.png");
+		self:SetIcon(Clockwork.option:GetKey("info_text_red_icon"));
 	elseif (color == "orange") then
 		self:SetBackgroundColor(Color(223, 154, 72, 255));
-		self:SetIcon("icon16/error.png");
+		self:SetIcon(Clockwork.option:GetKey("info_text_orange_icon"));
 	elseif (color == "green") then
 		self:SetBackgroundColor(Color(139, 215, 113, 255));
-		self:SetIcon("icon16/tick.png");
+		self:SetIcon(Clockwork.option:GetKey("info_text_green_icon"));
 	elseif (color == "blue") then
 		self:SetBackgroundColor(Color(139, 174, 179, 255));
-		self:SetIcon("icon16/information.png");
+		self:SetIcon(Clockwork.option:GetKey("info_text_blue_icon"));
 	else
 		self:SetShowIcon(false);
 		self:SetBackgroundColor(color);

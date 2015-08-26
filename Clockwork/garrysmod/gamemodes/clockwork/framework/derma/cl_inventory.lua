@@ -21,12 +21,12 @@ function PANEL:Init()
 	self:SetSize(Clockwork.menu:GetWidth(), Clockwork.menu:GetHeight());
 	
 	self.inventoryList = vgui.Create("cwPanelList", self);
- 	self.inventoryList:SetPadding(2);
- 	self.inventoryList:SetSpacing(2);
+ 	self.inventoryList:SetPadding(8);
+ 	self.inventoryList:SetSpacing(8);
 	
 	self.equipmentList = vgui.Create("cwPanelList", self);
- 	self.equipmentList:SetPadding(2);
- 	self.equipmentList:SetSpacing(2);
+ 	self.equipmentList:SetPadding(8);
+ 	self.equipmentList:SetSpacing(8);
 	
 	self.columnSheet = vgui.Create("cwColumnSheet", self);
 	self.columnSheet.Navigation:SetWidth(150);
@@ -69,20 +69,25 @@ function PANEL:Rebuild()
 	self.equipmentList:Clear();
 	self.inventoryList:Clear();
 	
+	local formFont = Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 20);
 	local label = vgui.Create("cwInfoText", self);
 		label:SetText("To view an item's options, click on its spawn icon.");
 		label:SetInfoColor("blue");
 	self.inventoryList:AddItem(label);
 	
-	self.weightForm = vgui.Create("DForm", self);
-	self.weightForm:SetPadding(4);
-	self.weightForm:SetName("Weight");
+	self.weightForm = vgui.Create("cwBasicForm", self);
+	self.weightForm:SetPadding(8);
+	self.weightForm:SetSpacing(8);
+	self.weightForm:SetAutoSize(true);
+	self.weightForm:SetText("Weight", formFont);
 	self.weightForm:AddItem(vgui.Create("cwInventoryWeight", self));
 	
 	if (Clockwork.inventory:UseSpaceSystem()) then
-		self.spaceForm = vgui.Create("DForm", self);
-		self.spaceForm:SetPadding(4);
-		self.spaceForm:SetName("Space");
+		self.spaceForm = vgui.Create("cwBasicForm", self);
+		self.spaceForm:SetPadding(8);
+		self.spaceForm:SetSpacing(8);
+		self.spaceForm:SetAutoSize(true);
+		self.spaceForm:SetText("Space", formFont);
 		self.spaceForm:AddItem(vgui.Create("cwInventorySpace", self));
 	end
 
@@ -149,16 +154,26 @@ function PANEL:Rebuild()
 
 	if (#categories.equipment > 0) then
 		for k, v in pairs(categories.equipment) do
+			--[[
 			local collapsibleCategory = Clockwork.kernel:CreateCustomCategoryPanel(v.category, self.equipmentList);
 				collapsibleCategory:SetCookieName("Equipment"..v.category);
 			self.equipmentList:AddItem(collapsibleCategory);
+			--]]
 			
-			local categoryList = vgui.Create("DPanelList", collapsibleCategory);
+			local categoryForm = vgui.Create("cwBasicForm", self);
+			categoryForm:SetPadding(8);
+			categoryForm:SetSpacing(8);
+			categoryForm:SetAutoSize(true);
+			categoryForm:SetText(v.category, formFont)
+			
+			local categoryList = vgui.Create("DPanelList", categoryForm);
 				categoryList:EnableHorizontal(true);
 				categoryList:SetAutoSize(true);
 				categoryList:SetPadding(4);
 				categoryList:SetSpacing(4);
-			collapsibleCategory:SetContents(categoryList);
+			categoryForm:AddItem(categoryList);
+			
+			--collapsibleCategory:SetContents(categoryList);
 			
 			table.sort(v.itemsList, function(a, b)
 				return a("itemID") < b("itemID");
@@ -172,25 +187,36 @@ function PANEL:Rebuild()
 				};
 				
 				self.itemData = itemData;
+				
 				categoryList:AddItem(
 					vgui.Create("cwInventoryItem", self)
 				);
 			end;
+			
+			self.equipmentList:AddItem(categoryForm);
 		end;
 	end;
 	
 	if (#categories.inventory > 0) then
 		for k, v in pairs(categories.inventory) do
+			--[[
 			local collapsibleCategory = Clockwork.kernel:CreateCustomCategoryPanel(v.category, self.inventoryList);
 				collapsibleCategory:SetCookieName("Inventory"..v.category);
 			self.inventoryList:AddItem(collapsibleCategory);
+			--]]
 			
-			local categoryList = vgui.Create("DPanelList", collapsibleCategory);
+			local categoryForm = vgui.Create("cwBasicForm", self);
+			categoryForm:SetPadding(8);
+			categoryForm:SetSpacing(8);
+			categoryForm:SetAutoSize(true);
+			categoryForm:SetText(v.category, formFont)
+			
+			local categoryList = vgui.Create("DPanelList", categoryForm);
 				categoryList:EnableHorizontal(true);
 				categoryList:SetAutoSize(true);
 				categoryList:SetPadding(4);
 				categoryList:SetSpacing(4);
-			collapsibleCategory:SetContents(categoryList);
+			categoryForm:AddItem(categoryList);
 			
 			table.sort(v.itemsList, function(a, b)
 				return a("itemID") < b("itemID");
@@ -206,11 +232,14 @@ function PANEL:Rebuild()
 					vgui.Create("cwInventoryItem", self)
 				);
 			end;
+			
+			self.inventoryList:AddItem(categoryForm);
 		end;
 	end;
 
 	self.inventoryList:InvalidateLayout(true);
 	self.equipmentList:InvalidateLayout(true);
+	self:InvalidateLayout(true);
 end;
 
 -- Called when the menu is opened.
@@ -246,8 +275,6 @@ function PANEL:Think()
 			v.cwIsWeaponItem = true;
 		end;
 	end;
-	
-	self:InvalidateLayout(true);
 end;
 
 vgui.Register("cwInventory", PANEL, "EditablePanel");
