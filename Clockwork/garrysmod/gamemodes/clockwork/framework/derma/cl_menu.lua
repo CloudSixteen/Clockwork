@@ -137,7 +137,7 @@ function PANEL:Rebuild(change)
 		Clockwork.plugin:Call("MenuItemsDestroy", Clockwork.menuitems);
 		
 		table.sort(Clockwork.menuitems.stored, function(a, b)
-			return a.text < b.text;
+			return a.iconData or (a.text < b.text);
 		end);
 		
 		for k, v in pairs(Clockwork.menuitems.stored) do
@@ -155,13 +155,14 @@ function PANEL:Rebuild(change)
 			
 			if (!panel.IsButtonVisible or panel:IsButtonVisible()) then
 				button = vgui.Create("cwMenuButton", self);
+				button:NoClipping(true);
 			end;
 		
 			if (button) then
 				button:SetupLabel(v, panel, x, y);
 				button:SetPos(x, y);
 				
-				y = y + button:GetTall() + 8;
+				y = y + button:GetTall() + 2;
 				
 				bIsVisible = true;
 				
@@ -394,9 +395,9 @@ function PANEL:Think()
 		for k, v in pairs(Clockwork.menu:GetItems()) do
 			if (IsValid(v.button)) then
 				if (v.panel == activePanel) then
-					v.button:OverrideTextColor(informationColor);
+					v.button.LabelButton:OverrideTextColor(informationColor);
 				else
-					v.button:OverrideTextColor(false);
+					v.button.LabelButton:OverrideTextColor(false);
 				end;
 			end;
 		end;

@@ -29,7 +29,7 @@ end;
 
 -- A function to add a menu item.
 function Clockwork.menuitems:Add(text, panel, tip, iconData)
-	self.stored[#self.stored + 1] = {text = text, panel = panel, tip = tip, iconData = iconData}};
+	self.stored[#self.stored + 1] = {text = text, panel = panel, tip = tip, iconData = iconData};
 end;
 
 -- A function to destroy a menu item.

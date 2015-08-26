@@ -21,6 +21,8 @@ function PANEL:SetIcon(iconPath, size)
 	self.Icon = vgui.Create("DImage", self);
 	self.Icon:SetImage(iconPath);
 	self.Icon:SetSize(size, size);
+	self.Icon:NoClipping(true);
+	
 	self:UpdatePositioning();
 end;
 
@@ -52,17 +54,24 @@ function PANEL:SetupLabel(menuItem, panel)
 	self:UpdatePositioning();
 end;
 
+-- A function to update the positioning of child items.
 function PANEL:UpdatePositioning()
 	if (not self.LabelButton) then
 		return;
 	end;
 	
 	if (self.Icon) then
-		--self:SetSize(200, self.LabelButton:GetTall() + math.max(16, self.Icon:GetTall() / 2));
-		self.Icon:SetPos(0, (self.LabelButton.y + self.LabelButton.h) - (self.Icon:GetTall() / 2));
+		self:SetSize(200, self.LabelButton:GetTall() + math.max(16, self.Icon:GetTall() / 2));
+		self.Icon:SetPos(0, (self.LabelButton.y + (self.LabelButton:GetTall() / 2)) - (self.Icon:GetTall() / 2));
+		self.LabelButton:SetPos(self.Icon:GetWide() + 8, self.LabelButton.y);
 	else
-		--self:SetSize(200, self.LabelButton:GetTall() + 16);
+		self:SetSize(200, self.LabelButton:GetTall() + 16);
 	end;
+end;
+
+-- Called when the panel is painted.
+function PANEL:Paint(x, y)
+	return true;
 end;
 
 vgui.Register("cwMenuButton", PANEL, "DPanel");
