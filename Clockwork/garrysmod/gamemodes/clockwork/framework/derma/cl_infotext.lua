@@ -23,7 +23,7 @@ function PANEL:Init()
 	self.icon:SetImage("icon16/comment.png");
 	self.icon:SizeToContents();
 	
-	local font = Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16);
+	local font = Clockwork.fonts:GetSize(Clockwork.option:GetFont("info_text_font"), 16);
 	
 	self.label = vgui.Create("DLabel", self);
 	self.label:SetText("");
@@ -159,19 +159,24 @@ function PANEL:SetShowIcon(showIcon)
 end;
 
 -- A function to set the icon.
-function PANEL:SetIcon(icon)
+function PANEL:SetIcon(icon, size)
+	if (not size) then
+		size = Clockwork.option:GetKey("info_text_icon_size");
+	end;
+	
 	self.icon:SetImage(icon);
 	self.icon:SetVisible(true);
 	self.icon:SetSize(size, size);
+	
 	self:UpdateIconPosition();
 end;
 
 -- Update the icon position to align with the text.
 function PANEL:UpdateIconPosition()
-	local size = Clockwork.option:GetKey("info_text_icon_size");
+	local size = self.icon:GetWide();
 	
-	if (self.textToLeft) then
-		self.icon:SetPos(self.label.x - self.icon:GetWide() - 12, 16 - (size / 2));
+	if (not self.textToLeft) then
+		self.icon:SetPos(self.label.x - size - 12, 16 - (size / 2));
 	else
 		self.icon:SetPos(8, 16 - (size / 2));
 	end;

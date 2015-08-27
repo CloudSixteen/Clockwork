@@ -150,7 +150,6 @@ function PANEL:PerformLayout(w, h)
 	local scrH = ScrH();
 	
 	self.panelList:SetSize(scrW * 0.5, math.min(self.panelList.pnlCanvas:GetTall() + 32, ScrH() * 0.75));
---	self.panelList:SetPos((scrW / 2) - (self.panelList:GetWide() / 2), (scrH / 2) - (self.panelList:GetTall() / 2))
 	self.panelList:SetPos(0, 0)
 	self.scrollList:SetSize(scrW * 0.5, ScrH() * 0.75);
 	self.scrollList:SetPos((scrW / 2) - (self.panelList:GetWide() / 2), (scrH / 2) - (self.panelList:GetTall() / 2));
