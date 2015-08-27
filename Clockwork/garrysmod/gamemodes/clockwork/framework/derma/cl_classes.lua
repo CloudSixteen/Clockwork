@@ -22,9 +22,10 @@ function PANEL:Init()
 	self:SetSize(Clockwork.menu:GetWidth(), Clockwork.menu:GetHeight());
 	
 	self.panelList = vgui.Create("cwPanelList", self);
- 	self.panelList:SetPadding(4);
- 	self.panelList:SetSpacing(4);
- 	self.panelList:StretchToParent(4, 4, 4, 4);
+ 	self.panelList:SetPadding(8);
+ 	self.panelList:SetSpacing(8);
+	self.panelList:StretchToParent(4, 4, 4, 4);
+	self.panelList:HideBackground();
 	
 	self:Rebuild();
 end;
@@ -100,14 +101,12 @@ end;
 function PANEL:OnSelected() self:Rebuild(); end;
 
 -- Called when the layout should be performed.
-function PANEL:PerformLayout(w, h)
-	--self.panelList:StretchToParent(4, 4, 4, 4);
-	--self:SetSize(w, math.min(self.panelList.pnlCanvas:GetTall() + 32, ScrH() * 0.75));
-end;
+function PANEL:PerformLayout(w, h) end;
 
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
 	DERMA_SLICED_BG:Draw(0, 0, w, h, 8, COLOR_WHITE);
+	
 	return true;
 end;
 

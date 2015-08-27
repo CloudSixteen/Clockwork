@@ -45,6 +45,10 @@ function Clockwork.attribute:Register(attribute)
 	attribute.index = Clockwork.kernel:GetShortCRC(attribute.name);
 	attribute.cache = {};
 	
+	if (not attribute.category) then
+		attribute.category = "Attributes";
+	end;
+	
 	for i = -attribute.maximum, attribute.maximum do
 		attribute.cache[i] = {};
 	end;

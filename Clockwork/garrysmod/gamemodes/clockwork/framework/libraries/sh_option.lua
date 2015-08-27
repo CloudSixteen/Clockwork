@@ -119,6 +119,8 @@ if (CLIENT) then
 	Clockwork.option:SetColor("columnsheet_text_normal", Color(255, 255, 255, 255));
 	Clockwork.option:SetColor("columnsheet_shadow_active", Color(255, 255, 255, 255));
 	Clockwork.option:SetColor("columnsheet_text_active", Color(50, 50, 50, 255));
+	
+	Clockwork.option:SetColor("basic_form_highlight", Color(255, 255, 255, 255));
 	Clockwork.option:SetColor("basic_form_color", Color(255, 255, 255, 255));
 	
 	Clockwork.option:SetKey("icon_data_classes", {path = "", size = nil});
@@ -133,11 +135,14 @@ if (CLIENT) then
 	
 	Clockwork.option:SetKey("top_bar_width_scale", 0.3);
 	
-	Clockwork.option:SetKey("info_text_icon_size", 24);
+	Clockwork.option:SetKey("info_text_icon_size", 20);
 	Clockwork.option:SetKey("info_text_red_icon", "icon16/exclamation.png");
 	Clockwork.option:SetKey("info_text_green_icon", "icon16/tick.png");
 	Clockwork.option:SetKey("info_text_orange_icon", "icon16/error.png");
 	Clockwork.option:SetKey("info_text_blue_icon", "icon16/information.png");
+	
+	Clockwork.option:SetColor("scoreboard_name", Color(255, 255, 255, 255));
+	Clockwork.option:SetColor("scoreboard_desc", Color(255, 255, 255, 255));
 	
 	Clockwork.option:SetColor("positive_hint", Color(100, 175, 100, 255));
 	Clockwork.option:SetColor("negative_hint", Color(175, 100, 100, 255));
@@ -147,6 +152,8 @@ if (CLIENT) then
 	Clockwork.option:SetColor("white", Color(255, 255, 255, 255));
 
 	Clockwork.option:SetFont("schema_description", "cwMainText");
+	Clockwork.option:SetFont("scoreboard_desc", "cwScoreboardDesc");
+	Clockwork.option:SetFont("scoreboard_name", "cwScoreboardName");
 	Clockwork.option:SetFont("player_info_text", "cwMainText");
 	Clockwork.option:SetFont("intro_text_small", "cwIntroTextSmall");
 	Clockwork.option:SetFont("intro_text_tiny", "cwIntroTextTiny");
@@ -154,6 +161,7 @@ if (CLIENT) then
 	Clockwork.option:SetFont("chat_box_syntax", "cwChatSyntax");
 	Clockwork.option:SetFont("menu_text_huge", "cwMenuTextHuge");
 	Clockwork.option:SetFont("intro_text_big", "cwIntroTextBig");
+	Clockwork.option:SetFont("info_text_font", "cwInfoTextFont");
 	Clockwork.option:SetFont("menu_text_tiny", "cwMenuTextTiny");
 	Clockwork.option:SetFont("date_time_text", "cwMenuTextSmall");
 	Clockwork.option:SetFont("cinematic_text", "cwCinematicText");

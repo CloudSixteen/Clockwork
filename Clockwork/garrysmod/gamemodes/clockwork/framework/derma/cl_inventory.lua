@@ -69,17 +69,18 @@ function PANEL:Rebuild()
 	self.equipmentList:Clear();
 	self.inventoryList:Clear();
 	
-	local formFont = Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 20);
+	--[[
 	local label = vgui.Create("cwInfoText", self);
 		label:SetText("To view an item's options, click on its spawn icon.");
 		label:SetInfoColor("blue");
 	self.inventoryList:AddItem(label);
+	--]]
 	
 	self.weightForm = vgui.Create("cwBasicForm", self);
 	self.weightForm:SetPadding(8);
 	self.weightForm:SetSpacing(8);
 	self.weightForm:SetAutoSize(true);
-	self.weightForm:SetText("Weight", formFont);
+	self.weightForm:SetText("Weight", nil, "basic_form_highlight");
 	self.weightForm:AddItem(vgui.Create("cwInventoryWeight", self));
 	
 	if (Clockwork.inventory:UseSpaceSystem()) then
@@ -87,7 +88,7 @@ function PANEL:Rebuild()
 		self.spaceForm:SetPadding(8);
 		self.spaceForm:SetSpacing(8);
 		self.spaceForm:SetAutoSize(true);
-		self.spaceForm:SetText("Space", formFont);
+		self.spaceForm:SetText("Space", nil, "basic_form_highlight");
 		self.spaceForm:AddItem(vgui.Create("cwInventorySpace", self));
 	end
 
@@ -164,7 +165,7 @@ function PANEL:Rebuild()
 			categoryForm:SetPadding(8);
 			categoryForm:SetSpacing(8);
 			categoryForm:SetAutoSize(true);
-			categoryForm:SetText(v.category, formFont)
+			categoryForm:SetText(v.category, nil, "basic_form_highlight")
 			
 			local categoryList = vgui.Create("DPanelList", categoryForm);
 				categoryList:EnableHorizontal(true);
@@ -209,7 +210,7 @@ function PANEL:Rebuild()
 			categoryForm:SetPadding(8);
 			categoryForm:SetSpacing(8);
 			categoryForm:SetAutoSize(true);
-			categoryForm:SetText(v.category, formFont)
+			categoryForm:SetText(v.category, nil, "basic_form_highlight")
 			
 			local categoryList = vgui.Create("DPanelList", categoryForm);
 				categoryList:EnableHorizontal(true);
