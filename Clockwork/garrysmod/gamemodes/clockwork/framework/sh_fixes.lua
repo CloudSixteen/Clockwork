@@ -1,4 +1,4 @@
---[[ 
+--[[
 	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
@@ -42,7 +42,7 @@ end;
 local ClockworkFileFind = file.Find;
 function file.Find(directory, path, orderBy)
 	if (!directory or !path) then return {}, {}; end;
-	
+
 	local files, folders = ClockworkFileFind(
 		directory, path, orderBy
 	);
@@ -96,12 +96,12 @@ function file.Exists(filePath, searchPath)
 		return true;
 	else
 		local files, folders = file.Find(filePath, searchPath);
-		
+
 		if (files and #files > 0) then
 			return true;
 		end;
 	end;
-	
+
 	return false;
 end;
 
@@ -113,12 +113,12 @@ function IsValid(object)
 	if (!object) then
 		return false;
 	end;
-	
+
 	local bSuccess, value = pcall(ClockworkIsValid, object);
-  
-	if (!bSuccess) then	  	
-		return false;  	
+
+	if (!bSuccess) then
+		return false;
 	end;
-  
+
 	return value;
 end;
