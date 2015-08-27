@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -21,7 +21,7 @@ function COMMAND:OnRun(player, arguments)
 	if (target) then
 		Clockwork.player:Notify(player, "This player has "..target:GetFlags().." flags.");
 	else
-		Clockwork.player:Notify(player, arguments[1].." is not a valid character!");
+		Clockwork.player:Notify(player, L(player, "NotValidCharacter", arguments[1]));
 	end;
 end;
 

@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -62,7 +62,7 @@ function COMMAND:OnRun(player, arguments)
 				Clockwork.player:Notify(player, "You must specify an amount between 1 and 10!");
 			end;
 		else
-			Clockwork.player:Notify(player, arguments[1].." is not a valid character!");
+			Clockwork.player:Notify(player, L(player, "NotValidCharacter", arguments[1]));
 		end;
 	else
 		Clockwork.player:Notify(player, "I'm sorry, it seems like you cannot be trusted with this command!");

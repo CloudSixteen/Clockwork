@@ -1,5 +1,5 @@
---[[ 
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+--[[
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -16,7 +16,7 @@ Clockwork.setting.stored = Clockwork.setting.stored or {};
 -- A function to add a number slider setting.
 function Clockwork.setting:AddNumberSlider(category, text, conVar, minimum, maximum, decimals, toolTip, Condition)
 	local index = #self.stored + 1;
-	
+
 	self.stored[index] = {
 		Condition = Condition,
 		category = category,
@@ -28,20 +28,20 @@ function Clockwork.setting:AddNumberSlider(category, text, conVar, minimum, maxi
 		class = "numberSlider",
 		text = text
 	};
-	
+
 	return index;
 end;
 
 -- A function to add a multi-choice setting.
 function Clockwork.setting:AddMultiChoice(category, text, conVar, options, toolTip, Condition)
 	local index = #self.stored + 1;
-	
+
 	if (options) then
 		table.sort(options, function(a, b) return a < b; end);
 	else
 		options = {};
 	end;
-	
+
 	self.stored[index] = {
 		Condition = Condition,
 		category = category,
@@ -51,14 +51,14 @@ function Clockwork.setting:AddMultiChoice(category, text, conVar, options, toolT
 		class = "multiChoice",
 		text = text
 	};
-	
+
 	return index;
 end;
 
 -- A function to add a number wang setting.
 function Clockwork.setting:AddNumberWang(category, text, conVar, minimum, maximum, decimals, toolTip, Condition)
 	local index = #self.stored + 1;
-	
+
 	self.stored[index] = {
 		Condition = Condition,
 		category = category,
@@ -70,14 +70,14 @@ function Clockwork.setting:AddNumberWang(category, text, conVar, minimum, maximu
 		class = "numberWang",
 		text = text
 	};
-	
+
 	return index;
 end;
 
 -- A function to add a text entry setting.
 function Clockwork.setting:AddTextEntry(category, text, conVar, toolTip, Condition)
 	local index = #self.stored + 1;
-	
+
 	self.stored[index] = {
 		Condition = Condition,
 		category = category,
@@ -86,14 +86,14 @@ function Clockwork.setting:AddTextEntry(category, text, conVar, toolTip, Conditi
 		class = "textEntry",
 		text = text
 	};
-	
+
 	return index;
 end;
 
 -- A function to add a check box setting.
 function Clockwork.setting:AddCheckBox(category, text, conVar, toolTip, Condition)
 	local index = #self.stored + 1;
-	
+
 	self.stored[index] = {
 		Condition = Condition,
 		category = category,
@@ -102,14 +102,14 @@ function Clockwork.setting:AddCheckBox(category, text, conVar, toolTip, Conditio
 		class = "checkBox",
 		text = text
 	};
-	
+
 	return index;
 end;
 
 -- A function to add a color mixer setting.
 function Clockwork.setting:AddColorMixer(category, text, conVar, toolTip, Condition)
 	local index = #self.stored + 1;
-	
+
 	self.stored[index] = {
 		Condition = Condition,
 		category = category,
@@ -118,7 +118,7 @@ function Clockwork.setting:AddColorMixer(category, text, conVar, toolTip, Condit
 		class = "colorMixer",
 		text = text
 	};
-	
+
 	return index;
 end;
 
@@ -157,7 +157,7 @@ function Clockwork.setting:AddSettings()
 
 	if (!Clockwork.setting.SettingsAdded) then
 		local frameworkStr = L("Framework");
-		local chatBoxStr = L("Chat Box");
+		local chatBoxStr = L("ChatBox");
 		local themeStr = L("Theme");
 
 		Clockwork.setting:AddNumberSlider(frameworkStr, "Headbob Amount:", "cwHeadbobScale", 0, 1, 1, "The amount to scale the headbob by.");
@@ -170,7 +170,7 @@ function Clockwork.setting:AddSettings()
 		Clockwork.setting:AddCheckBox(frameworkStr, "Enable the twelve hour clock.", "cwTwelveHourClock", "Whether or not to show a twelve hour clock.");
 		Clockwork.setting:AddCheckBox(frameworkStr, "Show bars at the top of the screen.", "cwTopBars", "Whether or not to show bars at the top of the screen.");
 		Clockwork.setting:AddCheckBox(frameworkStr, "Enable the hints system.", "cwShowHints", "Whether or not to show you any hints.");
-		Clockwork.setting:AddMultiChoice(frameworkStr, L("Language")..":", "cwLang", langTable, L("langDesc"));
+		Clockwork.setting:AddMultiChoice(frameworkStr, L("Language")..":", "cwLang", langTable, L("LangDesc"));
 --		Clockwork.setting:AddMultiChoice("Framework", "Language:", "cwLang", langTable, "The player's current language.");
 
 		Clockwork.setting:AddCheckBox(chatBoxStr, "Show timestamps on messages.", "cwShowTimeStamps", "Whether or not to show you timestamps on messages.");
