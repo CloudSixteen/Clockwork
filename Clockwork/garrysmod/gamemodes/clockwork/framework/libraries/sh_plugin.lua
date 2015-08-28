@@ -360,8 +360,8 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 				local Name = iniTable["name"];
 				local ClockworkVersion = tonumber(Clockwork.kernel:GetVersion());
 
-				if (compatibility <= ClockworkVersion) then 
-					ErrorNoHalt("[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin is not compatible with Clockwork "..ClockworkVersion.."!\n");
+				if (compatibility < ClockworkVersion) then 
+					MsgC(Color(255, 0, 0), "[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin (version "..compatibility..") may not be compatible with Clockwork "..ClockworkVersion.."!\n");
 				end
 			else
 				MsgC(Color(255,165,0),"[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no compatibility value set!\n");
