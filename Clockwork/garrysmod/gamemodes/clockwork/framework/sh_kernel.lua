@@ -3292,7 +3292,8 @@ else
 		if (cinematicInfo) then
 			local screenHeight = ScrH();
 			local screenWidth = ScrW();
-			local textPosY = screenHeight * 0.3;
+			local textPosScale = 1 - (Clockwork.CinematicInfoAlpha / 255);
+			local textPosY = (screenHeight * 0.35) - ((screenHeight * 0.15) * textPosScale);
 			local textPosX = screenWidth * 0.3;
 			
 			if (cinematicInfo.title) then
@@ -3305,27 +3306,28 @@ else
 				
 				if (cinematicInfo.text) then
 					local smallTextWidth, smallTextHeight = self:GetCachedTextSize(introTextSmallFont, cinematicIntroText);
+					
 					self:DrawGradient(
-						GRADIENT_RIGHT, 0, textPosY - 32, screenWidth, textHeight + smallTextHeight + 64, Color(100, 100, 100, boxAlpha)
+						GRADIENT_RIGHT, 0, textPosY - 80, screenWidth, textHeight + smallTextHeight + 160, Color(100, 100, 100, boxAlpha)
 					);
 				else
 					self:DrawGradient(
-						GRADIENT_RIGHT, 0, textPosY - 32, screenWidth, textHeight + 64, Color(100, 100, 100, boxAlpha)
+						GRADIENT_RIGHT, 0, textPosY - 80, screenWidth, textHeight + 160, Color(100, 100, 100, boxAlpha)
 					);
 				end;
 				
 				self:OverrideMainFont(introTextBigFont);
-					self:DrawSimpleText(cinematicInfoTitle, textPosX, textPosY, Color(colorInfo.r, colorInfo.g, colorInfo.b, Clockwork.CinematicInfoAlpha));
+					self:DrawSimpleText(cinematicInfoTitle, textPosX, textPosY, Color(colorInfo.r, colorInfo.g, colorInfo.b, Clockwork.CinematicInfoAlpha), nil, nil, true);
 				self:OverrideMainFont(false);
 				
 				if (cinematicInfo.text) then
 					self:OverrideMainFont(introTextSmallFont);
-						self:DrawSimpleText(cinematicIntroText, textPosX, textPosY + textHeight + 8, Color(colorWhite.r, colorWhite.g, colorWhite.b, Clockwork.CinematicInfoAlpha));
+						self:DrawSimpleText(cinematicIntroText, textPosX, textPosY + textHeight + 8, Color(colorWhite.r, colorWhite.g, colorWhite.b, Clockwork.CinematicInfoAlpha), nil, nil, true);
 					self:OverrideMainFont(false);
 				end;
 			elseif (cinematicInfo.text) then
 				self:OverrideMainFont(introTextSmallFont);
-					self:DrawSimpleText(cinematicIntroText, textPosX, textPosY, Color(colorWhite.r, colorWhite.g, colorWhite.b, Clockwork.CinematicInfoAlpha));
+					self:DrawSimpleText(cinematicIntroText, textPosX, textPosY, Color(colorWhite.r, colorWhite.g, colorWhite.b, Clockwork.CinematicInfoAlpha), nil, nil, true);
 				self:OverrideMainFont(false);
 			end;
 		end;
