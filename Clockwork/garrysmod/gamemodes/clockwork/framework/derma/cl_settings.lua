@@ -22,9 +22,10 @@ function PANEL:Init()
 	self:SetSize(Clockwork.menu:GetWidth(), Clockwork.menu:GetHeight());
 	
 	self.panelList = vgui.Create("cwPanelList", self);
- 	self.panelList:SetPadding(4);
- 	self.panelList:SetSpacing(4);
- 	self.panelList:StretchToParent(4, 4, 4, 4);
+ 	self.panelList:SetPadding(8);
+ 	self.panelList:SetSpacing(8);
+	self.panelList:StretchToParent(4, 4, 4, 4);
+	self.panelList:HideBackground();
 	self.panelList:EnableVerticalScrollbar();
 	
 	self:Rebuild();
@@ -72,19 +73,19 @@ function PANEL:Rebuild()
 		self.panelList:AddItem(label);
 		
 		for k, v in pairs(categories) do
-			local form = vgui.Create("DForm");
-				self.panelList:AddItem(form);
-			form:SetName(v.category);
-			form:SetPadding(4);
+			local form = vgui.Create("cwBasicForm", self);
+			form:SetPadding(8);
+			form:SetSpacing(8);
+			form:SetAutoSize(true);
+			form:SetText(v.category, nil, "basic_form_highlight");
 			
 			for k2, v2 in pairs(v.settings) do
 				if (v2.class == "numberSlider") then
 					panel = form:NumSlider(v2.text, v2.conVar, v2.minimum, v2.maximum, v2.decimals);
 				elseif (v2.class == "multiChoice") then
-					panel = form:ComboBox(v2.text, v2.conVar);
-			--		panel:SetEditable(false);
 					local conVar = GetConVar(v2.conVar);
-
+					
+					panel = form:ComboBox(v2.text, v2.conVar);
 					panel:SetValue(conVar:GetString());
 					
 					for k3, v3 in pairs(v2.options) do
@@ -97,19 +98,23 @@ function PANEL:Rebuild()
 				elseif (v2.class == "checkBox") then
 					panel = form:CheckBox(v2.text, v2.conVar);
 				elseif (v2.class == "colorMixer") then
-					local Mixer = vgui.Create("DColorMixer");
+					--[[
+					local mixer = vgui.Create("DColorMixer");
 					local label = vgui.Create("DLabel");
+					
 					label:SetText(v2.text);
-					Mixer:Dock(FILL);
-					Mixer:SetPalette(true);
-					Mixer:SetAlphaBar(true);
-					Mixer:SetWangs(true);
-					Mixer:SetConVarR(v2.conVar.."R")
-					Mixer:SetConVarG(v2.conVar.."G")
-					Mixer:SetConVarB(v2.conVar.."B")
-					Mixer:SetConVarA(v2.conVar.."A")
-					form:AddItem(label);
-					form:AddItem(Mixer);
+					mixer:Dock(FILL);
+					mixer:SetPalette(true);
+					mixer:SetAlphaBar(true);
+					mixer:SetWangs(true);
+					mixer:SetConVarR(v2.conVar.."R");
+					mixer:SetConVarG(v2.conVar.."G");
+					mixer:SetConVarB(v2.conVar.."B");
+					mixer:SetConVarA(v2.conVar.."A");
+					
+					form:AddLeftRight(label);
+					form:AddLeftRight(mixer);
+					--]]
 				end;
 				
 				if (IsValid(panel)) then
@@ -120,6 +125,8 @@ function PANEL:Rebuild()
 					end;
 				end;
 			end;
+			
+			self.panelList:AddItem(form);
 		end;
 	else
 		local label = vgui.Create("cwInfoText", self);
@@ -142,14 +149,12 @@ end;
 function PANEL:OnSelected() self:Rebuild(); end;
 
 -- Called when the layout should be performed.
-function PANEL:PerformLayout(w, h)
-	--self.panelList:StretchToParent(4, 4, 4, 4);
-	--self:SetSize(w, math.min(self.panelList.pnlCanvas:GetTall() + 32, ScrH() * 0.75));
-end;
+function PANEL:PerformLayout(w, h) end;
 
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
 	DERMA_SLICED_BG:Draw(0, 0, w, h, 8, COLOR_WHITE);
+	
 	return true;
 end;
 
