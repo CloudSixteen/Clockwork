@@ -125,7 +125,7 @@ function PANEL:NumberWang(strLabel, strConVar, numMin, numMax, numDecimals)
 	end;
 	
 	right:SetConVar(strConVar);
-	right:SizeToContents();
+	right:Dock(TOP);
 	
 	self:AddLeftRight(left, right);
 	
