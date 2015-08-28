@@ -58,8 +58,10 @@ function cwStamina:PlayerThink(player, curTime, infoTable)
 	local drainScale = Clockwork.config:Get("stam_drain_scale"):Get();
 	local attribute = Clockwork.attributes:Fraction(player, ATB_STAMINA, 1, 0.25);
 	local regeneration = 0;
-	local decrease = (drainScale + (drainScale - (math.min(player:Health(), 500) / 500))) / (drainScale + attribute);
-	
+	local maxHealth = player:GetMaxHealth();
+	local healthScale = drainScale * (math.Clamp(player:Health(), maxHealth * 0.1, maxHealth) / maxHealth);
+	local decrease = (drainScale + (drainScale - healthScale)) / (drainScale + attribute);
+	)
 	if (!player:IsNoClipping() and player:IsOnGround()) then
 		local playerVelocityLength = player:GetVelocity():Length();
 		if ((infoTable.isRunning or infoTable.isJogging) and playerVelocityLength != 0) then
