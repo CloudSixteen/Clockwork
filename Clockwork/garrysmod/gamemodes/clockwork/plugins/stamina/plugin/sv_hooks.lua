@@ -61,7 +61,7 @@ function cwStamina:PlayerThink(player, curTime, infoTable)
 	local maxHealth = player:GetMaxHealth();
 	local healthScale = drainScale * (math.Clamp(player:Health(), maxHealth * 0.1, maxHealth) / maxHealth);
 	local decrease = (drainScale + (drainScale - healthScale)) / (drainScale + attribute);
-	)
+	
 	if (!player:IsNoClipping() and player:IsOnGround()) then
 		local playerVelocityLength = player:GetVelocity():Length();
 		if ((infoTable.isRunning or infoTable.isJogging) and playerVelocityLength != 0) then
