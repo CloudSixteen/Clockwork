@@ -54,8 +54,12 @@ end;
 	@returns The final string for the given identifier.
 --]]
 function Clockwork.lang:GetString(language, identifier, ...)
-	local langString = self.stored[language][identifier];
+	local langString = nil;
 	local arguments = {...};
+	
+	if (self.stored[language]) then
+		langString = self.stored[language][identifier];
+	end;
 	
 	if (!langString) then
 		langString = self.stored["English"][identifier] or identifier;

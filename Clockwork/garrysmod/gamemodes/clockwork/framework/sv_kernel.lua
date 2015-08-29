@@ -908,6 +908,7 @@ function Clockwork:SetupMove(player, moveData)
 	if (player:Alive() and !player:IsRagdolled()) then
 		local frameTime = FrameTime();
 		local isDrunk = cwPly:GetDrunk(player);
+		local curTime = CurTime();
 		
 		if (isDrunk and player.cwDrunkSwerve) then
 			player.cwDrunkSwerve = mathClamp(player.cwDrunkSwerve + frameTime, 0, mathMin(isDrunk * 2, 16));
@@ -3133,7 +3134,7 @@ function Clockwork:ChatBoxAdjustInfo(info)
 							};
 							
 							if (v.bGender) then
-								if (v2.female and info.speaker:QueryCharacter("gender") == GENDER_FEMALE) then
+								if (v2.female and info.speaker:QueryCharacter("Gender") == GENDER_FEMALE) then
 									voice.sound = string.Replace(voice.sound, "/male", "/female");
 								end;
 							end

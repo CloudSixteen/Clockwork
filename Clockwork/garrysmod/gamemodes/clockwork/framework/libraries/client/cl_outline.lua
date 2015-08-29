@@ -21,6 +21,7 @@ Clockwork.outline = Clockwork.kernel:NewLibrary("Outline");
 -- A function to add an entity outline.
 function Clockwork.outline:Add(entity, glowColor, glowSize, bIgnoreZ)
 	if (not glowSize) then glowSize = 2; end;
+	
 	if (type(entity) ~= "table") then
 		entity = {entity};
 	end;

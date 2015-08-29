@@ -44,7 +44,7 @@ end;
 
 -- Called when a player's shared variables should be set.
 function cwStamina:PlayerSetSharedVars(player, curTime)
-	player:SetSharedVar("Stamina", math.Round(player:GetCharacterData("Stamina")));
+	player:SetSharedVar("Stamina", math.floor(player:GetCharacterData("Stamina")));
 end;
 
 -- Called when a player's stamina should regenerate.
