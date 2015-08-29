@@ -1965,10 +1965,15 @@ function Clockwork:HUDDrawTargetID()
 							local x, y = toScreen.x, toScreen.y;
 							
 							y = cwKernel:DrawInfo(name, x, y, Color(150, 150, 100, 255), alpha);
-							y = cwKernel:DrawBar(
-								x - 80, y, 160, 16, Clockwork.option:GetColor("information"), generator.powerPlural,
-								power, generator.power, power < (generator.power / 5), {uniqueID = class}
-							);
+							
+							if (power == 0) then
+								y = cwKernel:DrawInfo("Press Use to re-supply", x, y, Color(255, 255, 255, 255), alpha);
+							else
+								y = cwKernel:DrawBar(
+									x - 80, y, 160, 16, Clockwork.option:GetColor("information"), generator.powerPlural,
+									power, generator.power, power < (generator.power / 5), {uniqueID = class}
+								);
+							end;
 						end;
 					elseif (trace.Entity:IsWeapon()) then
 						if (self.Client:GetShootPos():Distance(trace.HitPos) <= fadeDistance) then
