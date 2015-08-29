@@ -1,5 +1,5 @@
 --[[ 
-	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -3936,7 +3936,7 @@ end);
 -- LocalPlayerCreated datastream callback.
 Clockwork.datastream:Hook("LocalPlayerCreated", function(player, data)
 	if (IsValid(player) and !player:HasConfigInitialized()) then
-		Clockwork.kernel:CreateTimer("SendCfg"..player:UniqueID(), FrameTime() * 64, 1, function()
+		Clockwork.kernel:CreateTimer("SendCfg"..player:UniqueID(), FrameTime(), 1, function()
 			if (IsValid(player)) then
 				Clockwork.config:Send(player);
 			end;
@@ -4102,7 +4102,7 @@ Clockwork.datastream:Hook("RecogniseOption", function(player, data)
 			local talkRadius = Clockwork.config:Get("talk_radius"):Get();
 			local playSound = false;
 			local position = player:GetPos();
-			local plyTable = player.GetAll();
+			local plyTable = _player.GetAll();
 			
 			for k, v in pairs(plyTable) do
 				if (v:HasInitialized() and player != v) then
