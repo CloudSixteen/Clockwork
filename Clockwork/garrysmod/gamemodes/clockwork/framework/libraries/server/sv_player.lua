@@ -797,7 +797,10 @@ function Clockwork.player:GiveProperty(player, entity, networked, removeDelay)
 	
 	entity:SetOwnerKey(player:GetCharacterKey());
 	entity:SetNetworkedBool("Owned", true);
-	entity:SetNetworkedInt("Key", entity.cwPropertyTab.key);
+	
+	if (tonumber(entity.cwPropertyTab.key)) then
+		entity:SetNetworkedInt("Key", entity.cwPropertyTab.key);
+	end;
 	
 	self.property[entity:EntIndex()] = entity;
 	Clockwork.plugin:Call("PlayerPropertyGiven", player, entity, networked, removeDelay);
