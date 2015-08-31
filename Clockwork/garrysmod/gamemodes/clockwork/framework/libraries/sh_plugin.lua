@@ -308,6 +308,28 @@ function Clockwork.plugin:FindByID(identifier)
 	return self.stored[identifier] or self.buffer[identifier];
 end;
 
+-- A function to determine whether a plugin's version is higher than the framework's.
+function Clockwork.plugin:CompareVersion(version, name, cwVersion)
+	if (version == cwVersion) then return; end;
+
+	local pluginStrings = string.Explode("-", version) or {version};
+	local clockworkStrings = string.Explode("-", cwVersion) or {cwVersion};
+
+	if (pluginStrings and clockworkStrings) then
+		if (pluginStrings[1] > clockworkStrings[1]) then
+			return true;
+		elseif (pluginStrings[1] == clockworkStrings[1] and (pluginStrings[2] and clockworkStrings[2])) then
+			if (pluginStrings[2] > clockworkStrings[2]) then
+				return true;
+			end;
+		elseif (!pluginStrings[2]) then
+			return true;
+		end;
+	end;
+
+	return false;
+end;
+
 -- A function to include a plugin.
 function Clockwork.plugin:Include(directory, bIsSchema)
 	local schemaFolder = string.lower(Clockwork.kernel:GetSchemaFolder());
@@ -328,14 +350,14 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 		elseif (CW_SCRIPT_SHARED.schemaData) then
 			table.Merge(Schema, CW_SCRIPT_SHARED.schemaData);
 		else
-			MsgC(Color(255, 100, 0, 255), "[Clockwork:Plugin] The schema has no "..schemaFolder..".ini!\n");
+			MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Plugin] The schema has no "..schemaFolder..".ini!\n");
 		end;
 		
 		if (cwFile.Exists(directory.."/sh_schema.lua", "LUA")) then
 			AddCSLuaFile(directory.."/sh_schema.lua");
 			include(directory.."/sh_schema.lua");
 		else
-			MsgC(Color(255, 100, 0, 255), "[Clockwork:Plugin] The schema has no sh_schema.lua.\n");
+			MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Plugin] The schema has no sh_schema.lua.\n");
 		end;
 
 		Schema:Register();
@@ -352,19 +374,19 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 					table.Merge(PLUGIN, iniTable);
 				CW_SCRIPT_SHARED.plugins[pathCRC] = iniTable;
 			else
-				MsgC(Color(255, 100, 0, 255), "[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
+				MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
 			end;
 
 			if(iniTable["compatibility"]) then
-				local compatibility = tonumber(iniTable["compatibility"]);
-				local Name = iniTable["name"];
-				local ClockworkVersion = tonumber(Clockwork.kernel:GetVersion());
-
-				if (compatibility < ClockworkVersion) then 
-					MsgC(Color(255, 0, 0), "[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin (version "..compatibility..") may not be compatible with Clockwork "..ClockworkVersion.."!\n");
-				end
+				local compatibility = iniTable["compatibility"];
+				local Name = iniTable["name"] or PLUGIN_FOLDERNAME;
+				local cwVersion = Clockwork.kernel:GetVersion();
+				
+				if (self:CompareVersion(compatibility, Name, cwVersion)) then
+					MsgC(Color(255, 165, 0), "\n[Clockwork:Plugin] The "..Name.." plugin ["..compatibility.."] may not be compatible with Clockwork "..cwVersion.."!\nYou might need to update your framework!\n");
+				end;
 			else
-				MsgC(Color(255,165,0),"[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no compatibility value set!\n");
+				MsgC(Color(255,165,0),"\n[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no compatibility value set!\n");
 			end
 		else
 			local iniTable = CW_SCRIPT_SHARED.plugins[pathCRC];
@@ -376,7 +398,7 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 					self.unloaded[PLUGIN_FOLDERNAME] = true;
 				end;
 			else
-				MsgC(Color(255, 100, 0, 255), "[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
+				MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
 			end;
 		end;
 		
