@@ -212,6 +212,28 @@ end;
 
 --[[
 	@codebase Shared
+	@details A function to get the kernel build.
+	@returns String The kernel build.
+--]]
+function Clockwork.kernel:GetBuild()
+	return Clockwork.KernelBuild;
+end;
+
+--[[
+	@codebase Shared
+	@details A function to get the kernel version and build.
+	@returns String The kernel version and build concatenated.
+--]]
+function Clockwork.kernel:GetVersionBuild()
+	if (Clockwork.KernelBuild) then
+		return Clockwork.KernelVersion.."-"..Clockwork.KernelBuild;
+	else
+		return Clockwork.KernelVersion;
+	end;
+end;
+
+--[[
+	@codebase Shared
 	@details A function to get the schema folder.
 	@returns String The schema folder.
 --]]

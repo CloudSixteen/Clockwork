@@ -309,20 +309,20 @@ function Clockwork.plugin:FindByID(identifier)
 end;
 
 -- A function to determine whether a plugin's version is higher than the framework's.
-function Clockwork.plugin:CompareVersion(version, name, cwVersion)
-	if (version == cwVersion) then return; end;
+function Clockwork.plugin:CompareVersion(version, name, cwVersion, cwBuild)
+	if (tostring(version) == Clockwork.kernel:GetVersionBuild()) then return false; end;
 
-	local pluginStrings = string.Explode("-", version) or {version};
-	local clockworkStrings = string.Explode("-", cwVersion) or {cwVersion};
+	local pluginVersion = string.Explode("-", version)[1] or {version};
+	local pluginBuild = string.Explode("-", version)[2];
 
-	if (pluginStrings and clockworkStrings) then
-		if (pluginStrings[1] > clockworkStrings[1]) then
-			return true;
-		elseif (pluginStrings[1] == clockworkStrings[1] and (pluginStrings[2] and clockworkStrings[2])) then
-			if (pluginStrings[2] > clockworkStrings[2]) then
+	if (pluginVersion > cwVersion) then
+		return true;
+	elseif (pluginVersion == cwVersion) then
+		if (pluginBuild and cwBuild) then
+			if (pluginBuild > cwBuild) then
 				return true;
 			end;
-		elseif (!pluginStrings[2]) then
+		elseif (!pluginBuild) then
 			return true;
 		end;
 	end;
@@ -381,12 +381,14 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 				local compatibility = iniTable["compatibility"];
 				local Name = iniTable["name"] or PLUGIN_FOLDERNAME;
 				local cwVersion = Clockwork.kernel:GetVersion();
+				local cwBuild = Clockwork.kernel:GetBuild();
+				local cwVersBuild = Clockwork.kernel:GetVersionBuild();
 				
-				if (self:CompareVersion(compatibility, Name, cwVersion)) then
-					MsgC(Color(255, 165, 0), "\n[Clockwork:Plugin] The "..Name.." plugin ["..compatibility.."] may not be compatible with Clockwork "..cwVersion.."!\nYou might need to update your framework!\n");
+				if (self:CompareVersion(compatibility, Name, cwVersion, cwBuild)) then
+					MsgC(Color(255, 165, 0), "\n[Clockwork:Plugin] The "..Name.." plugin ["..compatibility.."] may not be compatible with Clockwork "..cwVersBuild.."!\nYou might need to update your framework!\n");
 				end;
 			else
-				MsgC(Color(255,165,0),"\n[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no compatibility value set!\n");
+				MsgC(Color(255,165,0),"\n[Clockwork:Plugin] The "..Name.." plugin has no compatibility value set!\n");
 			end
 		else
 			local iniTable = CW_SCRIPT_SHARED.plugins[pathCRC];

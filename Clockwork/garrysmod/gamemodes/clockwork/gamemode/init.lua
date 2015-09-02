@@ -52,6 +52,8 @@ include("clockwork/framework/sv_kernel.lua");
 if (Clockwork and cwBootComplete) then
 	MsgC(Color(0, 255, 100, 255), "[Clockwork] AutoRefresh handled serverside in "..math.Round(os.clock() - startTime, 3).. " second(s)\n");
 else
+	local version = Clockwork.kernel:GetVersionBuild();
+	
 	MsgC(Color(0, 255, 100, 255), "[Clockwork] Framework version ["..version.."] loading took "..math.Round(os.clock() - startTime, 3).. " second(s)\n");
 end;
 
