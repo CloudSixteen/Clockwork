@@ -2116,7 +2116,7 @@ end);
 Clockwork.character:RegisterCreationPanel("Persuasion", "cwCharacterStageOne");
 Clockwork.character:RegisterCreationPanel("Description", "cwCharacterStageTwo");
 
-Clockwork.character:RegisterCreationPanel("Default Class", "cwCharacterStageThree",
+Clockwork.character:RegisterCreationPanel("Default Class", "cwCharacterStageThree", nil,
 	function(info)
 		local classTable = Clockwork.class:GetAll();
 		
@@ -2134,7 +2134,7 @@ Clockwork.character:RegisterCreationPanel("Default Class", "cwCharacterStageThre
 );
 
 Clockwork.character:RegisterCreationPanel(
-	Clockwork.option:GetKey("name_attributes"), "cwCharacterStageFour",
+	Clockwork.option:GetKey("name_attributes"), "cwCharacterStageFour", nil,
 	function(info)
 		local attributeTable = Clockwork.attribute:GetAll();
 		
