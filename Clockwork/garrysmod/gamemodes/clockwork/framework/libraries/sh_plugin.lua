@@ -388,7 +388,7 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 					MsgC(Color(255, 165, 0), "\n[Clockwork:Plugin] The "..Name.." plugin ["..compatibility.."] may not be compatible with Clockwork "..cwVersBuild.."!\nYou might need to update your framework!\n");
 				end;
 			else
-				MsgC(Color(255,165,0),"\n[Clockwork:Plugin] The "..Name.." plugin has no compatibility value set!\n");
+				MsgC(Color(255,165,0),"\n[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no compatibility value set!\n");
 			end
 		else
 			local iniTable = CW_SCRIPT_SHARED.plugins[pathCRC];

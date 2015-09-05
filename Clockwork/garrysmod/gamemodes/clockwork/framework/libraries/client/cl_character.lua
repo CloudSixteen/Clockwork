@@ -33,14 +33,26 @@ Clockwork.character.creationPanels = Clockwork.character.creationPanels or {};
 	@param String The name of the VGUI panel to use.
 	@param Function A callback to get the visibility of the process. Return false to hide.
 --]]
-function Clockwork.character:RegisterCreationPanel(friendlyName, vguiName, Condition)
-	local newIndex = #Clockwork.character.creationPanels + 1;
-	
-	Clockwork.character.creationPanels[newIndex] = {};
-	Clockwork.character.creationPanels[newIndex].index = newIndex;
-	Clockwork.character.creationPanels[newIndex].vguiName = vguiName;
-	Clockwork.character.creationPanels[newIndex].Condition = Condition;
-	Clockwork.character.creationPanels[newIndex].friendlyName = friendlyName;
+function Clockwork.character:RegisterCreationPanel(friendlyName, vguiName, index, Condition)	
+--	Clockwork.character.creationPanels[newIndex] = {};
+--	Clockwork.character.creationPanels[newIndex].index = newIndex;
+--	Clockwork.character.creationPanels[newIndex].vguiName = vguiName;
+--	Clockwork.character.creationPanels[newIndex].Condition = Condition;
+--	Clockwork.character.creationPanels[newIndex].friendlyName = friendlyName;
+	if (index) then
+		for k, v in pairs(Clockwork.character.creationPanels) do
+			if (v.index >= index) then
+				v.index = v.index + 1;
+			end;
+		end;
+	end;
+
+	table.insert(Clockwork.character.creationPanels, index or #Clockwork.character.creationPanels + 1, {
+		index = index or #Clockwork.character.creationPanels + 1,
+		vguiName = vguiName,
+		Condition = Condition,
+		friendlyName = friendlyName
+	});
 end;
 
 --[[
