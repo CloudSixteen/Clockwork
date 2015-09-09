@@ -93,21 +93,25 @@ function cwWeaponSelect:HUDPaintImportant()
 		while (#afterWeapons > weaponLimit) do
 			afterWeapons[#afterWeapons] = nil;
 		end;
-		
+	end;
+
+	Clockwork.plugin:Call("PreDrawWeaponList", x, y, weaponLimit, self.displayAlpha);
+
+	if (#beforeWeapons > 1) then
 		for k, v in pairs(beforeWeapons) do
 			local weaponAlpha = math.min((255 / weaponLimit) * k, self.displayAlpha);
-			
+				
 			y = Clockwork.kernel:DrawInfo(
 				string.upper(self:GetWeaponPrintName(v)), x, y, colorWhite, weaponAlpha, true,
 				function(x, y, width, height)
-					--SLICED_SMALL_TINT:Draw(x - 2, y - 2, 128, height + 2, 4, Color(255, 255, 255, weaponAlpha));
-					
+					Clockwork.plugin:Call("DrawWeaponList", x, y, width, height, weaponAlpha, "before");
+
 					return x, y;
 				end
 			) + 3;
 		end;
 	end;
-	
+		
 	if (IsValid(currentWeapon)) then
 		local currentWeaponName = string.upper(self:GetWeaponPrintName(currentWeapon));
 		local weaponInfoY = y;
@@ -116,6 +120,8 @@ function cwWeaponSelect:HUDPaintImportant()
 		y = Clockwork.kernel:DrawInfo(
 			currentWeaponName, x, y, informationColor, self.displayAlpha, true,
 			function(x, y, width, height)
+				Clockwork.plugin:Call("DrawWeaponList", x, y, width, height, self.displayAlpha, "current");
+
 				return x, y;
 			end
 		) + 3;
@@ -129,7 +135,7 @@ function cwWeaponSelect:HUDPaintImportant()
 				y = Clockwork.kernel:DrawInfo(
 					"There are no other weapons.", x, y, colorWhite, self.displayAlpha, true,
 					function(x, y, width, height)
-						--SLICED_SMALL_TINT:Draw(x - 2, y - 2, 128, height + 2, 4, Color(255, 255,255, self.displayAlpha));
+						Clockwork.plugin:Call("DrawWeaponList", x, y, width, height, self.displayAlpha, "current");
 						
 						return x, y;
 					end
@@ -145,7 +151,7 @@ function cwWeaponSelect:HUDPaintImportant()
 			y = Clockwork.kernel:DrawInfo(
 				string.upper(self:GetWeaponPrintName(v)), x, y, colorWhite, weaponAlpha, true,
 				function(x, y, width, height)
-					--SLICED_SMALL_TINT:Draw(x - 2, y - 2, 128, height + 2, 4, Color(255, 255,255, weaponAlpha));
+					Clockwork.plugin:Call("DrawWeaponList", x, y, width, height, weaponAlpha, "after");
 					
 					return x, y;
 				end
@@ -159,6 +165,12 @@ function cwWeaponSelect:HUDPaintImportant()
 		self.displayAlpha = math.max(self.displayAlpha - (frameTime * 64), 0);
 	end;
 end;
+
+-- Called to paint behind the weapon list.
+function cwWeaponSelect:PreDrawWeaponList(x, y, weaponLimit, alpha) end;
+
+-- Called when the weapon list is drawn.
+function cwWeaponSelect:DrawWeaponList(x, y, w, h, alpha, type) end;
 
 -- Called when a player presses a bind at the top level.
 function cwWeaponSelect:TopLevelPlayerBindPress(player, bind, bPress)
