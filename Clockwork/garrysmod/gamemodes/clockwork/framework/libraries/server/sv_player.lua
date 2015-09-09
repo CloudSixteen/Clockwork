@@ -300,6 +300,12 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 								Clockwork.datastream:Start(player, "CharacterFinish", {bSuccess = true});
 								
 								player.cwIsCreatingChar = nil;
+								
+								local characters = player:GetCharacters();
+								
+								if (table.Count(characters) == 1) then
+									Clockwork.player:UseCharacter(player, characterID);
+								end;
 							end
 						);
 					end;

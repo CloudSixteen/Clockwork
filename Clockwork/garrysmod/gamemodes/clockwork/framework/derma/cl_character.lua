@@ -2087,6 +2087,13 @@ Clockwork.datastream:Hook("CharacterMenu", function(data)
 		if (Clockwork.character:GetPanel()) then
 			Clockwork.character:SetPanelLoading(false);
 			Clockwork.character:RefreshPanelList();
+			
+			local numCharacters = table.Count(Clockwork.character:GetAll());
+			
+			if (numCharacters < Clockwork.player:GetMaximumCharacters()) then
+				Clockwork.character:ResetCreationInfo();
+				Clockwork.character:OpenNextCreationPanel();
+			end;
 		end;
 	elseif (menuState == CHARACTER_MENU_CLOSE) then
 		Clockwork.character:SetPanelOpen(false);
