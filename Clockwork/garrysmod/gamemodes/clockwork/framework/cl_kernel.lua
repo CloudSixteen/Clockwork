@@ -1320,6 +1320,9 @@ end;
 -- Called when the menu's items should be destroyed.
 function Clockwork:MenuItemsDestroy(menuItems) end;
 
+-- Called when a generator's target ID is drawn.
+function Clockwork:DrawGeneratorTargetID(entity, info) end;
+
 -- Called each tick.
 function Clockwork:Tick()
 	local realCurTime = CurTime();
@@ -1966,13 +1969,24 @@ function Clockwork:HUDDrawTargetID()
 							
 							y = cwKernel:DrawInfo(name, x, y, Color(150, 150, 100, 255), alpha);
 							
-							if (power == 0) then
-								y = cwKernel:DrawInfo("Press Use to re-supply", x, y, Color(255, 255, 255, 255), alpha);
-							else
-								y = cwKernel:DrawBar(
-									x - 80, y, 160, 16, Clockwork.option:GetColor("information"), generator.powerPlural,
-									power, generator.power, power < (generator.power / 5), {uniqueID = class}
-								);
+							local info = {
+								showPower = true,
+								generator = generator,
+								x = x,
+								y = y
+							};
+							
+							cwPlugin:Call("DrawGeneratorTargetID", trace.Entity, info);
+							
+							if (info.showPower) then
+								if (power == 0) then
+									info.y = cwKernel:DrawInfo("Press Use to re-supply", info.x, info.y, Color(255, 255, 255, 255), alpha);
+								else
+									info.y = cwKernel:DrawBar(
+										info.x - 80, info.y, 160, 16, Clockwork.option:GetColor("information"), generator.powerPlural,
+										power, generator.power, power < (generator.power / 5), {uniqueID = class}
+									);
+								end;
 							end;
 						end;
 					elseif (trace.Entity:IsWeapon()) then
