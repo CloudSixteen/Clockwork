@@ -2387,6 +2387,20 @@ else
 		return Clockwork.CachedTextSizes[font][text][1], Clockwork.CachedTextSizes[font][text][2];
 	end;
 	
+	-- A function to draw scaled information at a position.
+	function Clockwork.kernel:DrawInfoScaled(scale, text, x, y, color, alpha, bAlignLeft, Callback, shadowDepth)
+		local newFont = Clockwork.fonts:GetMultiplied("main_text", scale);
+		local returnY = 0;
+		
+		self:OverrideMainFont(newFont);
+		
+		returnY = self:DrawInfo(text, x, y, color, alpha, bAlignLeft, Callback, shadowDepth);
+		
+		self:OverrideMainFont(false);
+		
+		return returnY;
+	end;
+	
 	-- A function to draw information at a position.
 	function Clockwork.kernel:DrawInfo(text, x, y, color, alpha, bAlignLeft, Callback, shadowDepth)
 		local mainTextFont = Clockwork.option:GetFont("main_text");
