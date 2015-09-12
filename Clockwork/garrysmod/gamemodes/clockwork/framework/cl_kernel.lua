@@ -3326,6 +3326,9 @@ function Clockwork:CanShowTabMenu() return true; end;
 -- Overriding Garry's "grab ear" animation.
 function Clockwork:GrabEarAnimation(player) end;
 
+-- Called before the item entity's target ID is drawn. Return false to stop default draw.
+function Clockwork:PaintItemTargetID(x, y, alpha, itemTable) return true; end;
+
 concommand.Add("cwSay", function(player, command, arguments)
 	return Clockwork.datastream:Start("PlayerSay", table.concat(arguments, " "));
 end);
