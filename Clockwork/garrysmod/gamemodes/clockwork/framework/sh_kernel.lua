@@ -2786,11 +2786,21 @@ else
 				subMenu:AddOption("No", function() end);
 			elseif (type(v) == "table") then
 				itemMenu:AddOption(v.title, function()
+					local defaultAction = true;
+					
 					if (itemTable.HandleOptions) then
 						local transmit, data = itemTable:HandleOptions(v.name);
+						
 						if (transmit) then
 							Clockwork.datastream:Start("MenuOption", {option = v.name, data = data, item = itemTable("itemID")});
+							defaultAction = false;
 						end;
+					end;
+					
+					if (defaultAction) then
+						self:RunCommand(
+							"InvAction", v.name, itemTable("uniqueID"), itemTable("itemID")
+						);
 					end;
 				end);
 			else
