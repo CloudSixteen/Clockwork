@@ -122,51 +122,6 @@ function cwThirdPerson:CalcView(player, pos, angles, fov)
 	end;
 end;
 
--- thanks to termy58's crosshair example
--- ... and thanks to termy58 for finding my stupid bug :P
-function cwThirdPerson:HUDPaint()
-	local player = Clockwork.Client;
-
-	if (!player:GetThirdPerson()) then
-		return;
-	end;
-
-	-- trace from muzzle to hit pos
-	local t = {};
-
-	t.start = player:GetShootPos();
-	t.endpos = t.start + player:GetAimVector() * 9000;
-	t.filter = player;
-
-	local tr = util.TraceLine(t);
-	local pos = tr.HitPos:ToScreen();
-	local fraction = math.min((tr.HitPos - t.start):Length(), 1024) / 1024;
-	local size = 10 + 20 * (1.0 - fraction);
-	local offset = size * 0.5;
-	local offset2 = offset - (size * 0.1);
-
-	-- trace from camera to hit pos, if blocked, red cursor
-	t = {};
-	t.start = player:GetVar("thirdperson_viewpos") or player:GetPos();
-	t.endpos = tr.HitPos + tr.HitNormal * 5;
-	t.filter = player;
-
-	local tr = util.TraceLine(t);
-
-	if (tr.Fraction != 1.0) then
-		surface.SetDrawColor(255, 48, 0, 255);
-	else
-		surface.SetDrawColor(255, 208, 64, 255);
-	end;
-
-	surface.DrawLine(pos.x - offset, pos.y, pos.x - offset2, pos.y);
-	surface.DrawLine(pos.x + offset, pos.y, pos.x + offset2, pos.y);
-	surface.DrawLine(pos.x, pos.y - offset, pos.x, pos.y - offset2);
-	surface.DrawLine(pos.x, pos.y + offset, pos.x, pos.y + offset2);
-	surface.DrawLine(pos.x - 1, pos.y, pos.x + 1, pos.y);
-	surface.DrawLine(pos.x, pos.y - 1, pos.x, pos.y + 1);
-end;
-
 function cwThirdPerson:HUDShouldDraw(name)
 	if (name == "CHudCrosshair" and Clockwork.Client:GetThirdPerson()) then
 		return false;
