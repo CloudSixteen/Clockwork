@@ -3182,32 +3182,6 @@ function Clockwork:PlayerCanGainFrag(player, victim) return true; end;
 
 -- Called just after a player spawns.
 function Clockwork:PostPlayerSpawn(player, lightSpawn, changeClass, firstSpawn)
-	if (firstSpawn) then
-		local attrBoosts = player:GetCharacterData("AttrBoosts");
-		local health = player:GetCharacterData("Health");
-		local armor = player:GetCharacterData("Armor");
-		
-		if (health and health > 1) then
-			player:SetHealth(health);
-		end;
-		
-		if (armor and armor > 1) then
-			player:SetArmor(armor);
-		end;
-		
-		if (attrBoosts) then
-			for k, v in pairs(attrBoosts) do
-				for k2, v2 in pairs(v) do
-					self.attributes:Boost(player, k2, k, v2.amount, v2.duration);
-				end;
-			end;
-		end;
-	else
-		player:SetCharacterData("AttrBoosts", nil);
-		player:SetCharacterData("Health", nil);
-		player:SetCharacterData("Armor", nil);
-	end;
-
 	if (!lightSpawn) then
 		local FACTION = Clockwork.faction:FindByID(player:GetFaction());
 		local relation = FACTION.entRelationship;
@@ -3279,6 +3253,32 @@ function Clockwork:PostPlayerSpawn(player, lightSpawn, changeClass, firstSpawn)
 				end;
 			end;
 		end;
+	end;
+	
+	if (firstSpawn) then
+		local attrBoosts = player:GetCharacterData("AttrBoosts");
+		local health = player:GetCharacterData("Health");
+		local armor = player:GetCharacterData("Armor");
+		
+		if (health and health > 1) then
+			player:SetHealth(health);
+		end;
+		
+		if (armor and armor > 1) then
+			player:SetArmor(armor);
+		end;
+		
+		if (attrBoosts) then
+			for k, v in pairs(attrBoosts) do
+				for k2, v2 in pairs(v) do
+					self.attributes:Boost(player, k2, k, v2.amount, v2.duration);
+				end;
+			end;
+		end;
+	else
+		player:SetCharacterData("AttrBoosts", nil);
+		player:SetCharacterData("Health", nil);
+		player:SetCharacterData("Armor", nil);
 	end;
 	
 	player:Fire("Targetname", player:GetFaction(), 0);

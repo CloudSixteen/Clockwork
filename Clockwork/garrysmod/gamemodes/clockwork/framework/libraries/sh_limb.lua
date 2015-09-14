@@ -221,7 +221,7 @@ else
 	end);
 
 	Clockwork.datastream:Hook("ResetLimbDamage", function(data)
-		Clockwork.limb.stored = Clockwork.limb.stored or {};
+		Clockwork.limb.stored = {};
 		Clockwork.plugin:Call("PlayerLimbDamageReset");
 	end);
 	
