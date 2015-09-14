@@ -1512,7 +1512,7 @@ if (SERVER) then
 				Clockwork.player:GivePropertyOffline(ownerObj.key, ownerObj.uniqueID, entity, true);
 			end;
 		elseif (IsValid(ownerObj) and ownerObj:IsPlayer()) then
-			Clockwork.player:GiveProperty(ownerObj, entity);
+			Clockwork.player:GiveProperty(ownerObj, entity, true);
 		end;
 		
 		entity:SetAngles(angles);

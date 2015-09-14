@@ -2090,7 +2090,7 @@ Clockwork.datastream:Hook("CharacterMenu", function(data)
 			
 			local numCharacters = table.Count(Clockwork.character:GetAll());
 			
-			if (numCharacters < Clockwork.player:GetMaximumCharacters()) then
+			if (numCharacters == 0) then
 				Clockwork.character:ResetCreationInfo();
 				Clockwork.character:OpenNextCreationPanel();
 			end;
