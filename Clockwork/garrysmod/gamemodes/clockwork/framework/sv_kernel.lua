@@ -3284,6 +3284,9 @@ function Clockwork:PostPlayerSpawn(player, lightSpawn, changeClass, firstSpawn)
 	player:Fire("Targetname", player:GetFaction(), 0);
 end;
 
+-- Called just before a player would take damage.
+function Clockwork:PrePlayerTakeDamage(player, attacker, inflictor, damageInfo) end;
+
 -- Called when a player should take damage.
 function Clockwork:PlayerShouldTakeDamage(player, attacker, inflictor, damageInfo)
 	if (self.player:IsNoClipping(player)) then
