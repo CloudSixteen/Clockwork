@@ -1209,6 +1209,8 @@ if (SERVER) then
 		if (player) then
 			local ragdoll = player:GetRagdollEntity();
 			
+			hook.Call("PrePlayerTakeDamage", Clockwork, player, attacker, inflictor, damageInfo);
+			
 			if (!hook.Call("PlayerShouldTakeDamage", Clockwork, player, attacker, inflictor, damageInfo)
 			or player:IsInGodMode()) then
 				damageInfo:SetDamage(0);
