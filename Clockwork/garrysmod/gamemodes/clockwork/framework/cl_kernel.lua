@@ -957,6 +957,13 @@ function Clockwork:ClockworkItemInitialized(itemTable) end;
 
 --[[
 	@codebase Client
+	@details Called after Clockwork items have been initialized.
+	@param Table The table of items that have been initialized.
+--]]
+function Clockwork:ClockworkPostItemsInitialized(itemsTable) end;
+
+--[[
+	@codebase Client
 	@details Called when a player's phys desc override is needed.
 	@param Player The player whose phys desc override is needed.
 	@param String The player's physDesc.

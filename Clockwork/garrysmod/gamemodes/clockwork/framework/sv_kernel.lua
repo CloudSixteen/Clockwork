@@ -504,6 +504,13 @@ end;
 -- Called when an Clockwork item has initialized.
 function Clockwork:ClockworkItemInitialized(itemTable) end;
 
+--[[
+	@codebase Server
+	@details Called after Clockwork items have been initialized.
+	@param Table The table of items that have been initialized.
+--]]
+function Clockwork:ClockworkPostItemsInitialized(itemsTable) end;
+
 -- Called when a player's lock info is needed.
 function Clockwork:PlayerGetLockInfo(player, entity)
 	if (self.entity:IsDoor(entity)) then

@@ -556,6 +556,8 @@ function Clockwork.item:Initialize()
 		
 		Clockwork.plugin:Call("ClockworkItemInitialized", v);
 	end;
+	
+	Clockwork.plugin:Call("ClockworkPostItemsInitialized", itemsTable);
 end;
 
 if (SERVER) then
