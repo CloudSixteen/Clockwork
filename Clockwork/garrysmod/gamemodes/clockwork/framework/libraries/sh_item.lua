@@ -789,7 +789,7 @@ else
 		end;
 		
 		if (bBusinessStyle and itemTable("batch") > 1) then
-			name = itemTable("batch").." "..Clockwork.kernel:Pluralize(name);
+			name = itemTable("batch").." x "..Clockwork.kernel:Pluralize(name);
 		end;
 		
 		local toolTipTitle = ""
@@ -872,7 +872,7 @@ else
 									itemName = Clockwork.kernel:Pluralize(itemName);
 								end;
 								
-								local nameString = v2.."x "..itemName;
+								local nameString = v2.." x "..itemName;
 								
 								markupObject:Add(nameString, colorToUse, 0.95);
 							end;
