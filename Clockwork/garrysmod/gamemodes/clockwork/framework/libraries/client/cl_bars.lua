@@ -14,7 +14,8 @@ Clockwork.bars = Clockwork.kernel:NewLibrary("Bars");
 Clockwork.bars.x = 0; 
 Clockwork.bars.y = 0;
 Clockwork.bars.width = 0;
-Clockwork.bars.height = 0;
+Clockwork.bars.height = 12;
+Clockwork.bars.padding = 14;
 Clockwork.bars.stored = Clockwork.bars.stored or {};
 
 -- A function to get a top bar.
