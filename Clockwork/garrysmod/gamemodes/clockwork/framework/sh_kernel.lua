@@ -2096,8 +2096,8 @@ else
 			local barTextFont = Clockwork.option:GetFont("bar_text");
 			
 			Clockwork.bars.width = info.width;
-			Clockwork.bars.height = (Clockwork.bars.height or 12);
-			Clockwork.bars.padding = (Clockwork.bars.padding or (Clockwork.bars.height + 2));
+			Clockwork.bars.height = Clockwork.bars.height or 12;
+			Clockwork.bars.padding = Clockwork.bars.padding or 14;
 			Clockwork.bars.y = info.y;
 			
 			if (class == "tab") then
