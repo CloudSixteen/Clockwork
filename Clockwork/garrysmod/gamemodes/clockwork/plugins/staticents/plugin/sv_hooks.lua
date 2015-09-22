@@ -13,5 +13,7 @@ end;
 
 -- Called just after data should be saved.
 function cwStaticEnts:PostSaveData()
-	self:SaveStaticEnts();
+	if (#player.GetAll() > 0) then
+		self:SaveStaticEnts();
+	end;
 end;

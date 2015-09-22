@@ -832,20 +832,14 @@ if (SERVER) then
 			local data = Clockwork.file:Read("settings/clockwork/schemas/"..self:GetSchemaFolder().."/"..fileName..".cw", "namedesc");
 			
 			if (data) then
-				local bSuccess, value = pcall(util.JSONToTable, data);
-				
+				local bSuccess, value = pcall(self.Deserialize, self, data);
+
 				if (bSuccess and value != nil) then
 					return value;
 				else
-					local bSuccess, value = pcall(self.Deserialize, self, data);
+					MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' schema data has failed to restore.\n"..value.."\n");
 					
-					if (bSuccess and value != nil) then
-						return value;
-					else
-						MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' schema data has failed to restore.\n"..value.."\n");
-						
-						self:DeleteSchemaData(fileName);
-					end;
+					self:DeleteSchemaData(fileName);
 				end;
 			end;
 		end;
