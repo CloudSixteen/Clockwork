@@ -1965,7 +1965,11 @@ function Clockwork:HUDDrawTargetID()
 									y = cwPlugin:Call("DrawTargetPlayerStatus", entity, alpha, x, y) or y;
 									
 									for k, v in pairs(self.TargetPlayerText.stored) do
-										y = cwKernel:DrawInfo(v.text, x, y, v.color or colorWhite, alpha);
+										if (v.scale) then
+											y = cwKernel:DrawInfoScaled(v.scale, v.text, x, y, v.color or colorWhite, alpha);
+										else
+											y = cwKernel:DrawInfo(v.text, x, y, v.color or colorWhite, alpha);
+										end;
 									end;
 									
 									if (!self.nextCheckRecognises or curTime >= self.nextCheckRecognises[1]

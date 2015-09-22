@@ -14,10 +14,11 @@ Clockwork.TargetPlayerText = Clockwork.kernel:NewLibrary("TargetPlayerText");
 Clockwork.TargetPlayerText.stored = Clockwork.TargetPlayerText.stored or {};
 
 -- A function to add some target player text.
-function Clockwork.TargetPlayerText:Add(uniqueID, text, color)
+function Clockwork.TargetPlayerText:Add(uniqueID, text, color, scale)
 	self.stored[#self.stored + 1] = {
 		uniqueID = uniqueID,
 		color = color,
+		scale = scale,
 		text = text
 	};
 end;
