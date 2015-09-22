@@ -18,7 +18,7 @@ Clockwork.kernel:IncludePrefixed("sv_plugin.lua");
 Clockwork.kernel:IncludePrefixed("sv_hooks.lua");
 
 -- A function to check if an entity can be static.
-function cwStaticEnts:CanStatic(entity)
+function cwStaticEnts:CanEntityStatic(entity)
 	if (entity:IsValid()) then
 		local class = entity:GetClass();
 		local classCheck = {
@@ -29,17 +29,15 @@ function cwStaticEnts:CanStatic(entity)
 		};
 
 		if (class == "player" or entity:MapCreationID() != -1) then
-			return "nope";
+			return false;
 		end;
 
 		for k, v in ipairs(classCheck) do
 			if (string.find(class, v)) then
-				return "nope";
+				return false;
 			end;
 		end;
 		
 		return class;
 	end;
-	
-	return false;
 end;
