@@ -1339,16 +1339,20 @@ if (SERVER) then
 
 		for k, v in pairs(plyTable) do
 			if (v:HasInitialized() and v:Alive()) then
-				local wages = v:GetWages();
+				local info = {
+					wages = v:GetWages();
+				};
 				
-				if (Clockwork.plugin:Call("PlayerCanEarnWagesCash", v, wages)) then
+				Clockwork.plugin:Call("PlayerModifyWagesInfo", v, info);
+				
+				if (Clockwork.plugin:Call("PlayerCanEarnWagesCash", v, info.wages)) then
 					if (wages > 0) then
-						if (Clockwork.plugin:Call("PlayerGiveWagesCash", v, wages, v:GetWagesName())) then
-							Clockwork.player:GiveCash(v, wages, v:GetWagesName());
+						if (Clockwork.plugin:Call("PlayerGiveWagesCash", v, info.wages, v:GetWagesName())) then
+							Clockwork.player:GiveCash(v, info.wages, v:GetWagesName());
 						end;
 					end;
 					
-					Clockwork.plugin:Call("PlayerEarnWagesCash", v, wages);
+					Clockwork.plugin:Call("PlayerEarnWagesCash", v, info.wages);
 				end;
 			end;
 		end;
