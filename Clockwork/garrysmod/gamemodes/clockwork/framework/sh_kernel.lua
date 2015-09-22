@@ -1812,7 +1812,7 @@ else
 			alpha = 0,
 			text = text,
 			y = ScrH() * 0.6,
-			x = ScrW() * 0.6
+			x = ScrW() * 0.5
 		};
 	end;
 	
@@ -1911,8 +1911,8 @@ else
 			delay = delay,
 			alpha = 0,
 			text = text,
-			y = ScrH() * 0.15,
-			x = ScrW() + 100
+			y = ScrH() * 0.2,
+			x = ScrW()
 		};
 	end;
 	
@@ -1927,8 +1927,8 @@ else
 		local x = hintInfo.x;
 		local y = hintInfo.y;
 		
-		local idealY = 8 + (height * (index - 1));
-		local idealX = ScrW() - width - 32;
+		local idealY = 24 + (height * (index - 1));
+		local idealX = ScrW() - width - 48;
 		local timeLeft = (hintInfo.startTime - (SysTime() - hintInfo.delay) + 2);
 		
 		if (timeLeft < 0.7) then
