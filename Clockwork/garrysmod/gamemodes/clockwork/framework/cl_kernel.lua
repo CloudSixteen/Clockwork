@@ -384,9 +384,15 @@ end);
 
 Clockwork.datastream:Hook("Hint", function(data)
 	if (data and type(data) == "table") then
-		Clockwork.kernel:AddTopHint(
-			Clockwork.kernel:ParseData(data.text), data.delay, data.color, data.noSound, data.showDuplicates
-		);
+		if (data.center) then
+			Clockwork.kernel:AddCenterHint(
+				Clockwork.kernel:ParseData(data.text), data.delay, data.color, data.noSound, data.showDuplicates
+			);
+		else
+			Clockwork.kernel:AddTopHint(
+				Clockwork.kernel:ParseData(data.text), data.delay, data.color, data.noSound, data.showDuplicates
+			);
+		end;
 	end;
 end);
 
@@ -1789,6 +1795,11 @@ function Clockwork:GetPlayerLimbInfo(info) end;
 
 -- Called when the local player attempts to see the top hints.
 function Clockwork:PlayerCanSeeHints()
+	return true;
+end;
+
+-- Called when the local player attempts to see the center hints.
+function Clockwork:PlayerCanSeeCenterHints()
 	return true;
 end;
 
