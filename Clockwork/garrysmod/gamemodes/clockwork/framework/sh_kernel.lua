@@ -1340,7 +1340,7 @@ if (SERVER) then
 				Clockwork.plugin:Call("PlayerModifyWagesInfo", v, info);
 				
 				if (Clockwork.plugin:Call("PlayerCanEarnWagesCash", v, info.wages)) then
-					if (wages > 0) then
+					if (info.wages > 0) then
 						if (Clockwork.plugin:Call("PlayerGiveWagesCash", v, info.wages, v:GetWagesName())) then
 							Clockwork.player:GiveCash(v, info.wages, v:GetWagesName());
 						end;
