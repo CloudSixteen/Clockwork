@@ -336,6 +336,22 @@ function Clockwork.tool:Register(tool)
 		tool.Mode = tool.UniqueID;
 		tool:CreateConVars();
 
+		if (tool.leftClickCMD) then
+			function tool:LeftClick(tr)
+				if (CLIENT) then return true; end;
+
+				self:GetOwner():RunClockworkCmd(tool.leftClickCMD);
+			end;
+		end;
+
+		if (tool.rightClickCMD) then
+			function tool:RightClick(tr)
+				if (CLIENT) then return true; end;
+
+				self:GetOwner():RunClockworkCmd(tool.rightClickCMD);
+			end;
+		end;
+
 		self.stored[tool.UniqueID] = tool;
 	else
 		MsgC(Color(255, 100, 0, 255), "[Clockwork:Tool] The "..tool.Name.." tool does not have a UniqueID, it will not function without one!\n");

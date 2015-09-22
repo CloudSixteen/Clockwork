@@ -832,20 +832,14 @@ if (SERVER) then
 			local data = Clockwork.file:Read("settings/clockwork/schemas/"..self:GetSchemaFolder().."/"..fileName..".cw", "namedesc");
 			
 			if (data) then
-				local bSuccess, value = pcall(util.JSONToTable, data);
-				
+				local bSuccess, value = pcall(self.Deserialize, self, data);
+
 				if (bSuccess and value != nil) then
 					return value;
 				else
-					local bSuccess, value = pcall(self.Deserialize, self, data);
+					MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' schema data has failed to restore.\n"..value.."\n");
 					
-					if (bSuccess and value != nil) then
-						return value;
-					else
-						MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' schema data has failed to restore.\n"..value.."\n");
-						
-						self:DeleteSchemaData(fileName);
-					end;
+					self:DeleteSchemaData(fileName);
 				end;
 			end;
 		end;
@@ -2100,8 +2094,8 @@ else
 			local barTextFont = Clockwork.option:GetFont("bar_text");
 			
 			Clockwork.bars.width = info.width;
-			Clockwork.bars.height = (Clockwork.bars.height or 12);
-			Clockwork.bars.padding = (Clockwork.bars.padding or (Clockwork.bars.height + 2));
+			Clockwork.bars.height = Clockwork.bars.height or 12;
+			Clockwork.bars.padding = Clockwork.bars.padding or 14;
 			Clockwork.bars.y = info.y;
 			
 			if (class == "tab") then
