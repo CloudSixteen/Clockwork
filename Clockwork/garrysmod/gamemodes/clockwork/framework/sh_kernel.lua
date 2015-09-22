@@ -1471,6 +1471,8 @@ else
 	Clockwork.ColorModify = Clockwork.ColorModify or {};
 	Clockwork.ClothesData = Clockwork.ClothesData or {};
 	Clockwork.Cinematics = Clockwork.Cinematics or {};
+	
+	Clockwork.kernel.CenterHints = Clockwork.kernel.CenterHints or {};
 	Clockwork.kernel.ESPInfo = Clockwork.kernel.ESPInfo or {};
 	Clockwork.kernel.Hints = Clockwork.kernel.Hints or {};
 
@@ -1766,11 +1768,11 @@ else
 	end;
 	
 	--[[
-		A function to add a top hint. If bNoSound is false then no
+		A function to add a center hint. If bNoSound is false then no
 		sound will play, otherwise if it is a string then it will
 		play that sound.
 	--]]
-	function Clockwork.kernel:AddTopHint(text, delay, color, bNoSound, bShowDuplicates)
+	function Clockwork.kernel:AddCenterHint(text, delay, color, bNoSound, showDuplicated)
 		local colorWhite = Clockwork.option:GetColor("white");
 		
 		if (color) then
@@ -1781,7 +1783,107 @@ else
 			color = colorWhite;
 		end;
 		
-		if (!bShowDuplicates) then
+		if (!showDuplicated) then
+			for k, v in pairs(self.CenterHints) do
+				if (v.text == text) then
+					return;
+				end;
+			end;
+		end;
+		
+		if (table.Count(self.CenterHints) == 10) then
+			table.remove(self.CenterHints, 10);
+		end;
+		
+		if (type(bNoSound) == "string") then
+			surface.PlaySound(bNoSound);
+		elseif (bNoSound == nil) then
+			surface.PlaySound("hl1/fvox/blip.wav");
+		end;
+		
+		self.CenterHints[#self.CenterHints + 1] = {
+			startTime = SysTime(),
+			velocityX = -5,
+			velocityY = 0,
+			targetAlpha = 255,
+			alphaSpeed = 64,
+			color = color,
+			delay = delay,
+			alpha = 0,
+			text = text,
+			y = ScrH() * 0.6,
+			x = ScrW() * 0.6
+		};
+	end;
+	
+	local function UpdateCenterHint(index, hintInfo, iCount)
+		local hintsFont = Clockwork.option:GetFont("hints_text");
+		local fontWidth, fontHeight = Clockwork.kernel:GetCachedTextSize(
+			hintsFont, hintInfo.text
+		);
+		local height = fontHeight;
+		local width = fontWidth;
+		local alpha = 255;
+		local x = hintInfo.x;
+		local y = hintInfo.y;
+		
+		local idealY = (ScrH() * 0.4) + (height * (index - 1));
+		local idealX = (ScrW() * 0.5) - (width * 0.5);
+		local timeLeft = (hintInfo.startTime - (SysTime() - hintInfo.delay) + 2);
+		
+		if (timeLeft < 0.7) then
+			idealX = idealX - 50;
+			alpha = 0;
+		end;
+		
+		if (timeLeft < 0.2) then
+			idealX = idealX + width * 2;
+		end;
+		
+		local fSpeed = FrameTime() * 15;
+			y = y + hintInfo.velocityY * fSpeed;
+			x = x + hintInfo.velocityX * fSpeed;
+		local distanceY = idealY - y;
+		local distanceX = idealX - x;
+		local distanceA = (alpha - hintInfo.alpha);
+		
+		hintInfo.velocityY = hintInfo.velocityY + distanceY * fSpeed * 1;
+		hintInfo.velocityX = hintInfo.velocityX + distanceX * fSpeed * 1;
+		
+		if (math.abs(distanceY) < 2 and math.abs(hintInfo.velocityY) < 0.1) then
+			hintInfo.velocityY = 0;
+		end;
+		
+		if (math.abs(distanceX) < 2 and math.abs(hintInfo.velocityX) < 0.1) then
+			hintInfo.velocityX = 0;
+		end;
+		
+		hintInfo.velocityX = hintInfo.velocityX * (0.95 - FrameTime() * 8);
+		hintInfo.velocityY = hintInfo.velocityY * (0.95 - FrameTime() * 8);
+		hintInfo.alpha = hintInfo.alpha + distanceA * fSpeed * 0.1;
+		hintInfo.x = x;
+		hintInfo.y = y;
+		
+		return (timeLeft < 0.1);
+	end;
+	
+	--[[
+		A function to add a top hint. If bNoSound is false then no
+		sound will play, otherwise if it is a string then it will
+		play that sound.
+	--]]
+	function Clockwork.kernel:AddTopHint(text, delay, color, bNoSound, showDuplicated)
+		local colorWhite = Clockwork.option:GetColor("white");
+		
+		if (color) then
+			if (type(color) == "string") then
+				color = Clockwork.option:GetColor(color);
+			end;
+		else
+			color = colorWhite;
+		end;
+		
+		if (!showDuplicated) then
 			for k, v in pairs(self.Hints) do
 				if (v.text == text) then
 					return;
@@ -1825,7 +1927,6 @@ else
 		local x = hintInfo.x;
 		local y = hintInfo.y;
 		
-		--[[ Work out the ideal X and Y position for the hint. --]]
 		local idealY = 8 + (height * (index - 1));
 		local idealX = ScrW() - width - 32;
 		local timeLeft = (hintInfo.startTime - (SysTime() - hintInfo.delay) + 2);
@@ -1863,7 +1964,6 @@ else
 		hintInfo.x = x;
 		hintInfo.y = y;
 		
-		--[[ Remove it if we're finished. --]]
 		return (timeLeft < 0.1);
 	end;
 	
@@ -1872,6 +1972,12 @@ else
 		for k, v in pairs(self.Hints) do
 			if (UpdateHint(k, v, #self.Hints)) then
 				table.remove(self.Hints, k);
+			end;
+		end;
+		
+		for k, v in pairs(self.CenterHints) do
+			if (UpdateCenterHint(k, v, #self.CenterHints)) then
+				table.remove(self.CenterHints, k);
 			end;
 		end;
 	end;
@@ -2081,6 +2187,14 @@ else
 			local hintsFont = Clockwork.option:GetFont("hints_text");
 			
 			for k, v in pairs(self.Hints) do
+				self:OverrideMainFont(hintsFont);
+					self:DrawInfo(v.text, v.x, v.y, v.color, v.alpha, true);
+				self:OverrideMainFont(false);
+			end;
+		end;
+		
+		if (Clockwork.plugin:Call("PlayerCanSeeCenterHints") and #self.CenterHints > 0) then
+			for k, v in pairs(self.CenterHints) do
 				self:OverrideMainFont(hintsFont);
 					self:DrawInfo(v.text, v.x, v.y, v.color, v.alpha, true);
 				self:OverrideMainFont(false);
