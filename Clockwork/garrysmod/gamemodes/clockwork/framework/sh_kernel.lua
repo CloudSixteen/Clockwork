@@ -1911,8 +1911,8 @@ else
 			delay = delay,
 			alpha = 0,
 			text = text,
-			y = ScrH() * 0.3,
-			x = ScrW() + 200
+			y = ScrH() * 0.15,
+			x = ScrW() + 100
 		};
 	end;
 	
