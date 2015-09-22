@@ -1512,6 +1512,15 @@ function Clockwork:PlayerCanPickupWeapon(player, weapon)
 	end;
 end;
 
+-- Called to modify the generator interval.
+function Clockwork:ModifyGeneratorInterval(info) end;
+
+-- Called to modify the wages interval.
+function Clockwork:ModifyWagesInterval(info) end;
+
+-- Called to modify a player's wages info.
+function Clockwork:PlayerModifyWagesInfo(player, info) end;
+
 -- Called each tick.
 function Clockwork:Tick()
 	local sysTime = SysTime();
@@ -1525,12 +1534,26 @@ function Clockwork:Tick()
 	
 	if (!self.NextWagesTime or curTime >= self.NextWagesTime) then
 		cwKernel:DistributeWagesCash();
-		self.NextWagesTime = curTime + cwConfig:Get("wages_interval"):Get();
+		
+		local info = {
+			interval = cwConfig:Get("wages_interval"):Get();
+		};
+		
+		self.plugin:Call("ModifyWagesInterval", info);
+		
+		self.NextWagesTime = curTime + info.interval;
 	end;
 	
 	if (!self.NextGeneratorTime or curTime >= self.NextGeneratorTime) then
 		cwKernel:DistributeGeneratorCash();
-		self.NextGeneratorTime = curTime + cwConfig:Get("generator_interval"):Get();
+		
+		local info = {
+			interval = cwConfig:Get("generator_interval"):Get();
+		};
+		
+		self.plugin:Call("ModifyGeneratorInterval", info);
+		
+		self.NextGeneratorTime = curTime + info.interval;
 	end;
 	
 	if (!self.NextDateTimeThink or sysTime >= self.NextDateTimeThink) then
