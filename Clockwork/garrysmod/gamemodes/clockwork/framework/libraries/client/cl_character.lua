@@ -34,11 +34,6 @@ Clockwork.character.creationPanels = Clockwork.character.creationPanels or {};
 	@param Function A callback to get the visibility of the process. Return false to hide.
 --]]
 function Clockwork.character:RegisterCreationPanel(friendlyName, vguiName, index, Condition)	
---	Clockwork.character.creationPanels[newIndex] = {};
---	Clockwork.character.creationPanels[newIndex].index = newIndex;
---	Clockwork.character.creationPanels[newIndex].vguiName = vguiName;
---	Clockwork.character.creationPanels[newIndex].Condition = Condition;
---	Clockwork.character.creationPanels[newIndex].friendlyName = friendlyName;
 	if (index) then
 		for k, v in pairs(Clockwork.character.creationPanels) do
 			if (v.index >= index) then
@@ -53,6 +48,32 @@ function Clockwork.character:RegisterCreationPanel(friendlyName, vguiName, index
 		Condition = Condition,
 		friendlyName = friendlyName
 	});
+end;
+
+--[[
+	@codebase Client
+	@details Used to remove a character creation panel from use.
+--]]
+function Clockwork.character:RemoveCreationPanel(name)
+	local removed = false;
+	local index;
+
+	for k, v in pairs(self.creationPanels) do
+		if (name == v.vguiName or name == v.friendlyName) then
+			index = v.index;
+			removed = true;
+
+			table.remove(self.creationPanels, k);
+		end;
+	end;
+
+	if (removed == true) then
+		for k, v in pairs(Clockwork.character.creationPanels) do
+			if (v.index >= index) then
+				v.index = v.index - 1;
+			end;
+		end;
+	end;
 end;
 
 --[[
