@@ -684,7 +684,7 @@ end;
 function Clockwork.chatBox:WrappedText(newLine, message, color, text, OnHover)
 	local chatBoxTextFont = Clockwork.option:GetFont("chat_box_text");
 	local width, height = Clockwork.kernel:GetTextSize(chatBoxTextFont, text);
-	local maximumWidth = ScrW() * 0.75;
+	local maximumWidth = ScrW() * 0.6;
 	
 	if (width > maximumWidth) then
 		local currentWidth = 0;
