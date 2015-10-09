@@ -31,6 +31,8 @@ HL2 RP is the most popular Clockwork schema and has made Clockwork what it is to
 
 Cloud Sixteen also offer other official schemas, so feel free to check them out or [join the Cloud Sixteen community forums](http://forums.cloudsixteen.com) for more information.
 
+You can also reach the [official GMod HL2RP](http://gmodhl2rp.com/) website at http://gmodhl2rp.com/ for a direct link to the page.
+
 Contributing
 ------------
 If you wish to contribute to the development of Clockwork, you may issue a pull request using GitHub. You can find the Clockwork GitHub repository here https://github.com/CloudSixteen/Clockwork/
@@ -57,3 +59,5 @@ See Also
 --------
 
 https://github.com/CloudSixteen/HL2RP
+http://cloudsixteen.com
+http://gmodhl2rp.com/
