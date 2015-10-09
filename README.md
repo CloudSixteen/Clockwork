@@ -58,6 +58,6 @@ http://cloudsixteen.com/license/cloudauthx.html
 See Also
 --------
 
-https://github.com/CloudSixteen/HL2RP
-http://cloudsixteen.com
-http://gmodhl2rp.com/
+* https://github.com/CloudSixteen/HL2RP 
+* http://cloudsixteen.com 
+* http://gmodhl2rp.com/
