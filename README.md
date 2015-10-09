@@ -52,3 +52,8 @@ http://cloudsixteen.com/license/clockwork.html
 
 #### CloudAuthX
 http://cloudsixteen.com/license/cloudauthx.html
+
+See Also
+--------
+
+https://github.com/CloudSixteen/HL2RP
