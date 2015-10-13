@@ -1,5 +1,5 @@
 --[[ 
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -131,8 +131,6 @@ end;
 	on default GMod hooks that are called.
 --]]
 hook.ClockworkCall = hook.ClockworkCall or hook.Call;
-hook.Timings = hook.Timings or {};
-hook.Averages = hook.Averages or {};
 
 function hook.Call(name, gamemode, ...)
 	local arguments = {...};
@@ -146,34 +144,18 @@ function hook.Call(name, gamemode, ...)
 			return;
 		end;
 	end;
-	
-	local startTime = SysTime();
-		local bStatus, value = pcall(Clockwork.plugin.RunHooks, Clockwork.plugin, name, nil, unpack(arguments));
-	local timeTook = SysTime() - startTime;
-	
-	hook.Timings[name] = timeTook;
-	--[[hook.Averages[name] = hook.Averages[name] or {0, 0};
-	local avg = hook.Averages[name][1];
-	local n = hook.Averages[name][2];
-	hook.Averages[name] = {((avg * n) + timeTook) / (n + 1), n + 1};]]
-	
-	if (!bStatus) then
-		if (!Clockwork.Unauthorized) then
-			MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Kernel]\nThe '"..name.."' hook has failed to run.\n"..value.."\n");
-		end;
+
+	local bStatus, value = pcall(Clockwork.plugin.RunHooks, Clockwork.plugin, name, nil, unpack(arguments));
+
+	if (!bStatus and !Clockwork.Unauthorized) then
+		MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Kernel]\nThe '"..name.."' hook has failed to run.\n"..value.."\n");
 	end;
 	
 	if (value == nil or name == THINK_NAME) then
-		local startTime = SysTime();
 			local bStatus, a, b, c = pcall(hook.ClockworkCall, name, gamemode or Clockwork, unpack(arguments));
-		local timeTook = SysTime() - startTime;
 		
-		hook.Timings[name] = timeTook;
-		
-		if (!bStatus) then
-			if (!Clockwork.Unauthorized) then
-				MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Kernel]\nThe '"..name.."' hook failed to run.\n"..a.."\n");
-			end;
+		if (!bStatus and !Clockwork.Unauthorized) then
+			MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Kernel]\nThe '"..name.."' hook failed to run.\n"..a.."\n");
 		else
 			return a, b, c;
 		end;
@@ -290,7 +272,6 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 	local mathMin = math.min;
 	local mathApproach = math.Approach;
 
-	
 	if (!cwConfig:Get("cash_enabled"):Get()) then
 		player:SetCharacterData("Cash", 0, true);
 		infoTable.wages = 0;
@@ -418,7 +399,6 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 	end;
 end;
 
-
 -- Called when a player should smooth sprint.
 function Clockwork:PlayerShouldSmoothSprint(player, infoTable)
 	return true;
@@ -439,7 +419,7 @@ function Clockwork:PlayerDisconnected(player)
 		if (tempData) then
 			self.plugin:Call("PlayerSaveTempData", player, tempData);
 		end;
-		
+	
 		self.kernel:PrintLog(LOGTYPE_MINOR, player:Name().." ("..player:SteamID()..") has disconnected.");
 		self.chatBox:Add(nil, nil, "disconnect", player:SteamName().." has disconnected from the server.");
 	end;
@@ -822,29 +802,12 @@ function Clockwork:ClockworkConfigInitialized(key, value)
 		if (value) then
 			RunConsoleCommand("sv_alltalk", "0");
 		end;
-	elseif (key == "use_smooth_rates") then
+	elseif (key == "use_optimised_rates") then
 		if (value) then
+			RunConsoleCommand("rate", "8000000");
 			RunConsoleCommand("sv_maxupdaterate", "66");
 			RunConsoleCommand("sv_minupdaterate", "0");
 			RunConsoleCommand("sv_maxcmdrate", "66");
-			RunConsoleCommand("sv_mincmdrate", "0");
-			RunConsoleCommand("sv_maxrate", "25000");
-			RunConsoleCommand("sv_minrate", "0");
-		end;
-	elseif (key == "use_mid_performance_rates") then
-		if (value) then
-			RunConsoleCommand("sv_maxupdaterate", "40");
-			RunConsoleCommand("sv_minupdaterate", "0");
-			RunConsoleCommand("sv_maxcmdrate", "40");
-			RunConsoleCommand("sv_mincmdrate", "0");
-			RunConsoleCommand("sv_maxrate", "25000");
-			RunConsoleCommand("sv_minrate", "0");
-		end;
-	elseif (key == "use_lag_free_rates") then
-		if (value) then
-			RunConsoleCommand("sv_maxupdaterate", "24");
-			RunConsoleCommand("sv_minupdaterate", "0");
-			RunConsoleCommand("sv_maxcmdrate", "24");
 			RunConsoleCommand("sv_mincmdrate", "0");
 			RunConsoleCommand("sv_maxrate", "25000");
 			RunConsoleCommand("sv_minrate", "0");
@@ -862,13 +825,11 @@ end;
 -- Called when Clockwork config has changed.
 function Clockwork:ClockworkConfigChanged(key, data, previousValue, newValue)
 	if (key == "default_flags") then
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(_player.GetAll()) do
 			if (v:HasInitialized() and v:Alive()) then
 				if (string.find(previousValue, "p")) then
-					if (!string.find(newValue, "p")) then
-						if (!self.player:HasFlags(v, "p")) then
-							self.player:TakeSpawnWeapon(v, "weapon_physgun");
-						end;
+					if (!self.player:HasFlags(v, "p")) then
+						self.player:TakeSpawnWeapon(v, "weapon_physgun");
 					end;
 				elseif (!string.find(previousValue, "p")) then
 					if (string.find(newValue, "p")) then
@@ -877,10 +838,8 @@ function Clockwork:ClockworkConfigChanged(key, data, previousValue, newValue)
 				end;
 				
 				if (string.find(previousValue, "t")) then
-					if (!string.find(newValue, "t")) then
-						if (!self.player:HasFlags(v, "t")) then
-							self.player:TakeSpawnWeapon(v, "gmod_tool");
-						end;
+					if (!self.player:HasFlags(v, "t")) then
+						self.player:TakeSpawnWeapon(v, "gmod_tool");
 					end;
 				elseif (!string.find(previousValue, "t")) then
 					if (string.find(newValue, "t")) then
@@ -898,23 +857,23 @@ function Clockwork:ClockworkConfigChanged(key, data, previousValue, newValue)
 			self.command:SetHidden("PlyDemote", false);
 		end;
 	elseif (key == "crouched_speed") then
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(_player.GetAll()) do
 			v:SetCrouchedWalkSpeed(newValue);
 		end;
 	elseif (key == "ooc_interval") then
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(_player.GetAll()) do
 			v.cwNextTalkOOC = nil;
 		end;
 	elseif (key == "jump_power") then
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(_player.GetAll()) do
 			v:SetJumpPower(newValue);
 		end;
 	elseif (key == "walk_speed") then
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(_player.GetAll()) do
 			v:SetWalkSpeed(newValue);
 		end;
 	elseif (key == "run_speed") then
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(_player.GetAll()) do
 			v:SetRunSpeed(newValue);
 		end;
 	end;
@@ -947,10 +906,10 @@ function Clockwork:SetupMove(player, moveData)
 	local moveData = moveData;
 
 	if (player:Alive() and !player:IsRagdolled()) then
-		local cwPlayer = self.player;
+		local _player = self.player;
 		local frameTime = FrameTime();
 		local curTime = CurTime();
-		local isDrunk = cwPlayer:GetDrunk(player);
+		local isDrunk = _player:GetDrunk(player);
 		local mathClamp = math.Clamp;
 		local mathMin = math.min;
 		local mathCos = math.cos;
@@ -1242,19 +1201,15 @@ function Clockwork:InitPostEntity()
 		end;
 	end;
 	
-	if (!Clockwork.NoMySQL) then
-		self.kernel:SetSharedVar("NoMySQL");
-	else
-		self.kernel:SetSharedVar("NoMySQL", Clockwork.NoMySQL);
-	end;
+	self.kernel:SetSharedVar("NoMySQL", Clockwork.NoMySQL);
 	self.plugin:Call("ClockworkInitPostEntity");
 end;
 
 -- Called when a player initially spawns.
 function Clockwork:PlayerInitialSpawn(player)
-	player.cwCharacterList = player.cwCharacterList or {};
+	player.cwCharacterList = {};
 	player.cwHasSpawned = true;
-	player.cwSharedVars = player.cwSharedVars or {};
+	player.cwSharedVars = {};
 	
 	if (IsValid(player)) then
 		player:KillSilent();
@@ -1285,7 +1240,6 @@ function Clockwork:PlayerDeathThink(player)
 	if (action == "spawn") then
 		return true;
 	else
-	
 		player:Spawn();
 	end;
 end;
@@ -1478,17 +1432,9 @@ function Clockwork:PlayerRestoreCharacterData(player, data)
 		data["PhysDesc"] = self.kernel:ModifyPhysDesc(data["PhysDesc"]);
 	end;
 	
-	if (!data["LimbData"]) then
-		data["LimbData"] = {};
-	end;
-	
-	if (!data["Clothes"]) then
-		data["Clothes"] = {};
-	end;
-	
-	if (!data["Accessories"]) then
-		data["Accessories"] = {};
-	end;
+	data["LimbData"] = data["LimbData"] or {};
+	data["Clothes"] = data["Clothes"] or {};
+	data["Accessories"] = data["Accessories"] or {};
 	
 	Clockwork.player:RestoreCharacterData(player, data);
 end;
@@ -1556,43 +1502,41 @@ function Clockwork:Tick()
 	local sysTime = SysTime();
 	local curTime = CurTime();
 	local players = player.GetAll();
-	local cwHint = self.hint;
-	local cwKernel = self.kernel;
-	local cwPlugin = self.plugin;
-	local cwConfig = self.config;
-	local cwPlayer = self.player;
+	local _hint = self.hint;
+	local _kernel = self.kernel;
+	local _plugin = self.plugin;
+	local _config = self.config;
+	local _player = self.player;
 	
 	if (!self.NextHint or curTime >= self.NextHint) then
-		cwHint:Distribute();
-		self.NextHint = curTime + cwConfig:Get("hint_interval"):Get();
+		_hint:Distribute();
+		self.NextHint = curTime + _config:Get("hint_interval"):Get();
 	end;
 	
 	if (!self.NextWagesTime or curTime >= self.NextWagesTime) then
-		cwKernel:DistributeWagesCash();
-		self.NextWagesTime = curTime + cwConfig:Get("wages_interval"):Get();
+		_kernel:DistributeWagesCash();
+		self.NextWagesTime = curTime + _config:Get("wages_interval"):Get();
 	end;
 	
 	if (!self.NextGeneratorTime or curTime >= self.NextGeneratorTime) then
-		cwKernel:DistributeGeneratorCash();
-		self.NextGeneratorTime = curTime + cwConfig:Get("generator_interval"):Get();
+		_kernel:DistributeGeneratorCash();
+		self.NextGeneratorTime = curTime + _config:Get("generator_interval"):Get();
 	end;
 	
 	if (!self.NextDateTimeThink or sysTime >= self.NextDateTimeThink) then
-		cwKernel:PerformDateTimeThink();
-		self.NextDateTimeThink = sysTime + cwConfig:Get("minute_time"):Get();
+		_kernel:PerformDateTimeThink();
+		self.NextDateTimeThink = sysTime + _config:Get("minute_time"):Get();
 	end;
 	
 	if (!self.NextSaveData or sysTime >= self.NextSaveData) then
-		cwPlugin:Call("PreSaveData");
-			cwPlugin:Call("SaveData");
-		cwPlugin:Call("PostSaveData");
+		_plugin:Call("PreSaveData");
+		_plugin:Call("SaveData");
+		_plugin:Call("PostSaveData");
 		
-		self.NextSaveData = sysTime + cwConfig:Get("save_data_interval"):Get();
+		self.NextSaveData = sysTime + _config:Get("save_data_interval"):Get();
 	end;
 	
-	if (!self.NextCheckEmpty) then
-		self.NextCheckEmpty = sysTime + 1200;
-	end;
+	self.NextCheckEmpty = self.NextCheckEmpty or sysTime + 1200;
 	
 	if (sysTime >= self.NextCheckEmpty) then
 		self.NextCheckEmpty = nil;
@@ -1613,7 +1557,7 @@ function Clockwork:Tick()
 			end;
 			
 			if (curTime >= v.cwNextThink) then
-				cwPlayer:CallThinkHook(
+				_player:CallThinkHook(
 					v, (curTime >= v.cwNextSetSharedVars), curTime
 				);
 			end;
@@ -1742,9 +1686,7 @@ function Clockwork:PlayerDestroyGenerator(player, entity, generator) end;
 
 -- Called when a player's data should be restored.
 function Clockwork:PlayerRestoreData(player, data)
-	if (!data["Whitelisted"]) then
-		data["Whitelisted"] = {};
-	end;
+	data["Whitelisted"] = data["Whitelisted"] or {};
 end;
 
 -- Called to get whether a player can pickup an entity.
@@ -1802,10 +1744,9 @@ end;
 
 -- Called when a player attempts to delete a character.
 function Clockwork:PlayerCanDeleteCharacter(player, character)
-	if (self.config:Get("cash_enabled"):Get() and character.cash < self.config:Get("default_cash"):Get()) then
-		if (!character.data["CharBanned"]) then
-			return "You cannot delete characters with less than "..Clockwork.kernel:FormatCash(self.config:Get("default_cash"):Get(), nil, true)..".";
-		end;
+	if (self.config:Get("cash_enabled"):Get() and character.cash < self.config:Get("default_cash"):Get()
+	and !character.data["CharBanned"]) then
+		return "You cannot delete characters with less than "..Clockwork.kernel:FormatCash(self.config:Get("default_cash"):Get(), nil, true)..".";
 	end;
 end;
 
@@ -2410,11 +2351,7 @@ function Clockwork:PlayerSpawnNPC(player, model)
 		return false;
 	end;
 	
-	if (!self.player:IsAdmin(player)) then
-		return false;
-	else
-		return true;
-	end;
+	return self.player:IsAdmin(player);
 end;
 
 -- Called when an NPC has been killed.
@@ -2705,11 +2642,7 @@ function Clockwork:PlayerSpawnRagdoll(player, model)
 		return false;
 	end;
 	
-	if (!self.player:IsAdmin(player)) then
-		return false;
-	else
-		return true;
-	end;
+	return self.player:IsAdmin(player);
 end;
 
 -- Called when a player attempts to spawn an effect.
@@ -2720,11 +2653,7 @@ function Clockwork:PlayerSpawnEffect(player, model)
 		return false;
 	end;
 	
-	if (!self.player:IsAdmin(player)) then
-		return false;
-	else
-		return true;
-	end;
+	return self.player:IsAdmin(player);
 end;
 
 -- Called when a player attempts to spawn a vehicle.
@@ -2834,9 +2763,7 @@ end;
 
 -- Called when a player attempts to use the property menu.
 function Clockwork:CanProperty(player, property, entity)
-	local bIsAdmin = self.player:IsAdmin(player);
-	
-	if (!player:Alive() or player:IsRagdolled() or !bIsAdmin) then
+	if (!player:Alive() or player:IsRagdolled() or !self.player:IsAdmin(player)) then
 		return false;
 	end;
 	
@@ -2845,9 +2772,7 @@ end;
 
 -- Called when a player attempts to use drive.
 function Clockwork:CanDrive(player, entity)
-	local bIsAdmin = self.player:IsAdmin(player);
-	
-	if (!player:Alive() or player:IsRagdolled() or !bIsAdmin) then
+	if (!player:Alive() or player:IsRagdolled() or !self.player:IsAdmin(player)) then
 		return false;
 	end;
 
@@ -2858,11 +2783,9 @@ end;
 function Clockwork:PlayerNoClip(player)
 	if (player:IsRagdolled()) then
 		return false;
-	elseif (player:IsSuperAdmin()) then
-		return true;
-	else
-		return false;
 	end;
+	
+	return player:IsSuperAdmin();
 end;
 
 -- Called when a player's character has initialized.
@@ -2953,14 +2876,14 @@ function Clockwork:PlayerCharacterLoaded(player)
 	player.cwClipTwoInfo = {weapon = NULL, ammo = 0};
 	player.cwClipOneInfo = {weapon = NULL, ammo = 0};
 	player.cwInitialized = true;
-	player.cwAttrBoosts = player.cwAttrBoosts or {};
-	player.cwRagdollTab = player.cwRagdollTab or {};
-	player.cwSpawnWeps = player.cwSpawnWeps or {};
+	player.cwAttrBoosts = {};
+	player.cwRagdollTab = {};
+	player.cwSpawnWeps = {};
 	player.cwFirstSpawn = true;
 	player.cwLightSpawn = false;
 	player.cwChangeClass = false;
-	player.cwInfoTable = player.cwInfoTable or {};
-	player.cwSpawnAmmo = player.cwSpawnAmmo or {};
+	player.cwInfoTable = {};
+	player.cwSpawnAmmo = {};
 	player.cwJumpPower = self.config:Get("jump_power"):Get();
 	player.cwWalkSpeed = self.config:Get("walk_speed"):Get();
 	player.cwRunSpeed = self.config:Get("run_speed"):Get();
@@ -3349,7 +3272,7 @@ function Clockwork:ShowTeam(player)
 									owner = owner
 								};
 								
-								for k, v in pairs(cwPlayer.GetAll()) do
+								for k, v in pairs(_player.GetAll()) do
 									if (v != player and v != owner) then
 										if (self.player:HasDoorAccess(v, entity, DOOR_ACCESS_COMPLETE)) then
 											data.accessList[v] = DOOR_ACCESS_COMPLETE;
@@ -3590,29 +3513,17 @@ function Clockwork:PlayerDeathSound(player) return true; end;
 
 -- Called when a player attempts to spawn a SWEP.
 function Clockwork:PlayerSpawnSWEP(player, class, weapon)
-	if (!player:IsSuperAdmin()) then
-		return false;
-	else
-		return true;
-	end;
+	return player:IsSuperAdmin();
 end;
 
 -- Called when a player is given a SWEP.
 function Clockwork:PlayerGiveSWEP(player, class, weapon)
-	if (!player:IsSuperAdmin()) then
-		return false;
-	else
-		return true;
-	end;
+	return player:IsSuperAdmin();
 end;
 
 -- Called when attempts to spawn a SENT.
 function Clockwork:PlayerSpawnSENT(player, class)
-	if (!player:IsSuperAdmin()) then
-		return false;
-	else
-		return true;
-	end;
+	return player:IsSuperAdmin();
 end;
 
 -- Called when a player presses a key.
@@ -3913,7 +3824,7 @@ Clockwork.datastream:Hook("RecogniseOption", function(player, data)
 			local playSound = false;
 			local position = player:GetPos();
 			
-			for k, v in pairs(cwPlayer.GetAll()) do
+			for k, v in pairs(_player.GetAll()) do
 				if (v:HasInitialized() and player != v) then
 					if (!Clockwork.player:IsNoClipping(v)) then
 						local distance = v:GetPos():Distance(position);
@@ -4242,6 +4153,10 @@ end;
 
 -- A function to set a player's armor.
 function playerMeta:SetArmor(armor)
+	if (!armor) then
+		return;
+	end;
+
 	local oldArmor = self:Armor();
 		self:ClockworkSetArmor(armor);
 	Clockwork.plugin:Call("PlayerArmorSet", self, armor, oldArmor);
@@ -4249,6 +4164,10 @@ end;
 
 -- A function to set a player's health.
 function playerMeta:SetHealth(health)
+	if (!health) then 
+		return;
+	end;
+
 	local oldHealth = self:Health();
 		self:ClockworkSetHealth(health);
 	Clockwork.plugin:Call("PlayerHealthSet", self, health, oldHealth);
@@ -4494,11 +4413,7 @@ function playerMeta:Kick(reason)
 		end);
 	end;
 	
-	if (!reason) then
-		self.isKicked = "You have been kicked.";
-	else
-		self.isKicked = reason;
-	end;
+	self.isKicked = reason or "You have been kicked.";
 end;
 
 -- A function to ban a player.
@@ -5256,7 +5171,7 @@ concommand.Add("cwStatus", function(player, command, arguments)
 		if (Clockwork.player:IsAdmin(player)) then
 			player:PrintMessage(2, "# User ID | Name | Steam Name | Steam ID | IP Address");
 			
-			for k, v in pairs(cwPlayer.GetAll()) do
+			for k, v in pairs(_player.GetAll()) do
 				if (v:HasInitialized()) then
 					local status = Clockwork.plugin:Call("PlayerCanSeeStatus", player, v);
 					
@@ -5271,7 +5186,7 @@ concommand.Add("cwStatus", function(player, command, arguments)
 	else
 		print("# User ID | Name | Steam Name | Steam ID | IP Address");
 		
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(_player.GetAll()) do
 			if (v:HasInitialized()) then
 				print("# "..v:UserID().." | "..v:Name().." | "..v:SteamName().." | "..v:SteamID().." | "..v:IPAddress());
 			end;
