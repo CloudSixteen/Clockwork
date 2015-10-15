@@ -32,6 +32,8 @@ if (SERVER) then
 			end;
 			
 			amount = amount * Clockwork.config:Get("scale_attribute_progress"):Get();
+
+			Clockwork.plugin:Call("OnAttributeProgress", player, attribute, amount);
 			
 			if (attributes[attribute]) then
 				if (attributes[attribute].amount == attributeTable.maximum) then
