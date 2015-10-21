@@ -120,8 +120,8 @@ if (CLIENT) then
 	Clockwork.option:SetColor("columnsheet_shadow_active", Color(255, 255, 255, 255));
 	Clockwork.option:SetColor("columnsheet_text_active", Color(50, 50, 50, 255));
 	
-	Clockwork.option:SetColor("basic_form_highlight", Color(255, 255, 255, 255));
-	Clockwork.option:SetColor("basic_form_color", Color(255, 255, 255, 255));
+	Clockwork.option:SetColor("basic_form_highlight", Color(0, 0, 0, 255));
+	Clockwork.option:SetColor("basic_form_color", Color(0, 0, 0, 255));
 	
 	Clockwork.option:SetKey("icon_data_classes", {path = "", size = nil});
 	Clockwork.option:SetKey("icon_data_settings", {path = "", size = nil});
@@ -141,8 +141,8 @@ if (CLIENT) then
 	Clockwork.option:SetKey("info_text_orange_icon", "icon16/error.png");
 	Clockwork.option:SetKey("info_text_blue_icon", "icon16/information.png");
 	
-	Clockwork.option:SetColor("scoreboard_name", Color(255, 255, 255, 255));
-	Clockwork.option:SetColor("scoreboard_desc", Color(255, 255, 255, 255));
+	Clockwork.option:SetColor("scoreboard_name", Color(0, 0, 0, 255));
+	Clockwork.option:SetColor("scoreboard_desc", Color(0, 0, 0, 255));
 	
 	Clockwork.option:SetColor("positive_hint", Color(100, 175, 100, 255));
 	Clockwork.option:SetColor("negative_hint", Color(175, 100, 100, 255));
