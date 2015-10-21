@@ -3905,6 +3905,17 @@ function Clockwork:PlayerSpawnedNPC(player, npc)
 	end;
 end;
 
+--[[
+	@codebase Server
+	@details Called when an attribute is progressed to edit the amount it is progressed by.
+	@param Player The player that has progressed the attribute.
+	@param Table The attribute table of the attribute being progressed.
+	@param Number The amount that is being progressed for editing purposes.
+--]]
+function Clockwork:OnAttributeProgress(player, attribute, amount)
+	amount = amount * Clockwork.config:Get("scale_attribute_progress"):Get();
+end;
+
 -- GetTargetRecognises datastream callback.
 Clockwork.datastream:Hook("GetTargetRecognises", function(player, data)
 	if (IsValid(data) and data:IsPlayer()) then

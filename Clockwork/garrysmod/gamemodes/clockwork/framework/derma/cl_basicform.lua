@@ -60,7 +60,7 @@ function PANEL:AddLeftRight(left, right)
 		left:SetParent(panel);
 		left:Dock(LEFT);
 		left:InvalidateLayout(true);
-		left:SetSize(100, 20)
+	--	left:SetSize(100, 20)
 		
 		right:SetParent(panel);
 		right:SetPos(110, 0);
