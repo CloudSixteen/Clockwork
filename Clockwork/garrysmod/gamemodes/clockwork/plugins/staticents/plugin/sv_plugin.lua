@@ -20,6 +20,11 @@ function cwStaticEnts:LoadStaticEnts()
 				for k2, v2 in ipairs(loadTable) do
 					table.insert(staticEnts, v2);
 				end;
+
+				if (v == "prop_physics") then
+					Clockwork.kernel:SaveSchemaData("maps/"..game.GetMap().."/static_entities/backup/"..v, loadTable);
+					Clockwork.kernel:DeleteSchemaData("maps/"..game.GetMap().."/static_entities/"..v);
+				end;
 			end;
 		end;
 	end;
