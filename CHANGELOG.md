@@ -2,8 +2,69 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.94
+-------
+
+* Added entity relationships, to make NPCs hostile/friendly/fearful towards players of certain factions.
+    * *Contributed by Vortix.*
+* Added a rank system to Clockwork.
+    * *Contributed by Vortix.*
+* Added starting inventory and respawn inventory for factions.
+    * *Contributed by Vortix.*
+* Moved and improved voice library from HL2RP to Clockwork
+    * *Contributed by Gr4Ss and Vortix.*
+* Fixed GetPrintName bug relating to AdminESP.
+	* *Contributed by NightAngel.*
+* Created Clockwork workshop addon and linked it to the framework for clients to auto-download.
+	* *Contributed by NightAngel.*
+* Added function to toggle allow (or disallow) tab menu activation.
+	* *Contributed by NightAngel.*
+* Cleaned up and added ThirdPerson plugin native to Clockwork.
+	* *Contributed by NightAngel and RJ.*
+* Organized sh_kernel code into sv_ and cl_kernel.
+	* *Contributed by NightAngel.*
+* Organized Clockwork.entity:IsDoor function for clarity.
+	* *Contributed by RJ.*
+* Moved code that broadcasts voice commands from HL2RP to Clockwork.
+	* *Contributed by Vortix.*
+* Overhauled the Static Entities plugin, compatible with Static Props and backs up prop file from old static ents.
+	* *Contributed by NightAngel.*
+* Fixed 'Clockwork' typo in codebase and IncludeDirectory.
+	* *Contributed by RJ.*
+* Added Plugin Compatibility value to plugin.ini
+    * *Contributed by Trurascalz.*
+* Added GetDefaultRank function
+    * *Contributed by Vortix.*
+* Updated Faction Specific Commands for multiple access
+    * *Contributed by Vortix.*
+* Updated to allow multiple owners
+    * *Contributed by Vortix.*
+* Added disease library
+	* *Contributed by Vortix.*
+* Added WIP language selector
+	* *Contributed by NightAngel.*
+* Added scrollbar to quiz
+	* *Contributed by NightAngel.*
+* Added recognize option for the character the player is looking at
+	* *Contributed by NightAngel.*
+* Added extra checks to chatbubble to fix NULL error
+	* *Contributed by NightAngel.*
+* Fixed issues with chatbox custom position
+	* *Contributed by NightAngel.*
+* Added runSound, walkSound and pickupSound to item metaTable
+	* *Contributed by NightAngel.*
+* Changed ShowGradient to be off by default to make default tab menu tidier
+	* *Contributed by NightAngel.*
+* Added OnAttributeProgress hook
+	* *Contributed by NightAngel.*
+* Framework now prints schema name, author and version on boot.
+	* *Contributed by NightAngel.*
+* Major GUI update and multiple small fixes
+	* *Contributed by kurozael.*
+    
 0.93
 -------
+
 
 * Added Entity Library documentation.
     * *Contributed by RJ.*
@@ -76,12 +137,8 @@ The following changes have been made for each official Clockwork build.
 	* *Contributed by Vortix.*
 * Added faction rank functions.
 	* *Contributed by Vortix.*
-* Added partial auto-refresh support.
-* Added UTF8 support.
-* Replaced ErrorNoHalts with MsgC for errors.
-* Added more detail to damage and death logs.
-* Reworked storage derma.
-* Added ESP entries for item entities and salesmen.
+* Added auto-refresh support.
+  * *Contributed by Alex Grist.*
 
 0.92
 -------
