@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -11,31 +11,34 @@ include("shared.lua")
 -- Called when the target ID HUD should be painted.
 function ENT:HUDPaintTargetID(x, y, alpha)
 	if (Clockwork.entity:HasFetchedItemData(self)) then
-		local colorTargetID = Clockwork.option:GetColor("target_id");
-		local colorWhite = Clockwork.option:GetColor("white");
 		local itemTable = Clockwork.entity:FetchItemTable(self);
-		local color = itemTable("color") or colorTargetID;
-		
-		y = Clockwork.kernel:DrawInfo(itemTable("name"), x, y, color, alpha);
-		
-		if (itemTable.OnHUDPaintTargetID) then
-			local newY = itemTable:OnHUDPaintTargetID(self, x, y, alpha);
+
+		if (Clockwork.plugin:Call("PaintItemTargetID", x, y, alpha, itemTable)) then
+			local colorTargetID = Clockwork.option:GetColor("target_id");
+			local colorWhite = Clockwork.option:GetColor("white");
+			local color = itemTable("color") or colorTargetID;
 			
-			if (newY == false) then
-				return;
+			y = Clockwork.kernel:DrawInfo(itemTable("name"), x, y, color, alpha);
+			
+			if (itemTable.OnHUDPaintTargetID) then
+				local newY = itemTable:OnHUDPaintTargetID(self, x, y, alpha);
+				
+				if (newY == false) then
+					return;
+				end;
+				
+				if (type(newY) == "number") then
+					y = newY;
+				end;
 			end;
 			
-			if (type(newY) == "number") then
-				y = newY;
-			end;
+			y = Clockwork.kernel:DrawInfo(itemTable("weightText", itemTable("weight").."kg"), x, y, colorWhite, alpha);
+			
+			local spaceUsed = itemTable("space");
+			if (Clockwork.inventory:UseSpaceSystem() and spaceUsed > 0) then
+				y = Clockwork.kernel:DrawInfo(itemTable("spaceText", spaceUsed.."l"), x, y, colorWhite, alpha);
+			end
 		end;
-		
-		y = Clockwork.kernel:DrawInfo(itemTable("weightText", itemTable("weight").."kg"), x, y, colorWhite, alpha);
-		
-		local spaceUsed = itemTable("space");
-		if (Clockwork.inventory:UseSpaceSystem() and spaceUsed > 0) then
-			y = Clockwork.kernel:DrawInfo(itemTable("spaceText", spaceUsed.."l"), x, y, colorWhite, alpha);
-		end
 	end;
 end;
 

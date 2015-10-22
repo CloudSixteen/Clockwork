@@ -1,5 +1,5 @@
 --[[ 
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -44,6 +44,10 @@ function Clockwork.attribute:Register(attribute)
 	attribute.uniqueID = attribute.uniqueID or string.lower(string.gsub(attribute.name, "%s", "_"));
 	attribute.index = Clockwork.kernel:GetShortCRC(attribute.name);
 	attribute.cache = {};
+	
+	if (not attribute.category) then
+		attribute.category = "Attributes";
+	end;
 	
 	for i = -attribute.maximum, attribute.maximum do
 		attribute.cache[i] = {};

@@ -6,6 +6,7 @@
 	{
 	}
 	"version"		"0.93"
-	"author"		"kurozael"
+	"author"		"Cloud Sixteen"
 	"description"	"A roleplaying framework developed by Cloud Sixteen for the people."
+	"workshopid"	"474315121"
 }

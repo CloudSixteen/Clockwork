@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -38,6 +38,15 @@ end;
 
 --[[
 	@codebase Shared
+	@details Get the table of all the languages.
+	@returns The table containing all the languages.
+--]]
+function Clockwork.lang:GetAll()
+	return self.stored;
+end;
+
+--[[
+	@codebase Shared
 	@details Get the language string for the given identifier.
 	@param String The language which table to search.
 	@param String The identifier to search for.
@@ -45,8 +54,12 @@ end;
 	@returns The final string for the given identifier.
 --]]
 function Clockwork.lang:GetString(language, identifier, ...)
-	local langString = self.stored[language][identifier];
+	local langString = nil;
 	local arguments = {...};
+	
+	if (self.stored[language]) then
+		langString = self.stored[language][identifier];
+	end;
 	
 	if (!langString) then
 		langString = self.stored["English"][identifier] or identifier;
@@ -61,12 +74,12 @@ end;
 
 if (CLIENT) then
 	function L(identifier, ...)
-		local language = Clockwork.Client:GetData("Language");
+		local language = CW_CONVAR_LANG:GetString();
 		return Clockwork.lang:GetString(language, identifier, ...);
 	end;
 else
 	function L(player, identifier, ...)
-		local language = player:GetData("Language");
+		local language = player:GetNWString("Language");
 		return Clockwork.lang:GetString(language, identifier, ...);
 	end;
 end;

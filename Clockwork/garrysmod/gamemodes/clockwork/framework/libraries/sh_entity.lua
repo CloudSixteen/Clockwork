@@ -1,5 +1,5 @@
 --[[
-	� 2015 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -82,8 +82,12 @@ function Clockwork.entity:IsDoor(entity)
 			class = string.lower(class);
 			model = string.lower(model);
 			
-			if (class == "func_door" or class == "func_door_rotating" or class == "prop_door_rotating"
-			or (class == "prop_dynamic" and string.find(model, "door")) or class == "func_movelinear") then
+			if (class == "func_door" 
+    			    or class == "func_door_rotating" 
+    			    or class == "prop_door_rotating"
+    			    or (class == "prop_dynamic" and string.find(model, "door")) 
+    			    or class == "func_movelinear") then
+    			
 				return true;
 			end;
 		end;
@@ -1508,7 +1512,7 @@ if (SERVER) then
 				Clockwork.player:GivePropertyOffline(ownerObj.key, ownerObj.uniqueID, entity, true);
 			end;
 		elseif (IsValid(ownerObj) and ownerObj:IsPlayer()) then
-			Clockwork.player:GiveProperty(ownerObj, entity);
+			Clockwork.player:GiveProperty(ownerObj, entity, true);
 		end;
 		
 		entity:SetAngles(angles);

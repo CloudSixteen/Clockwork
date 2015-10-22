@@ -6,12 +6,13 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
+	
 
 local TOOL = Clockwork.tool:New();
 
-TOOL.Category		= "Clockwork tools";
 TOOL.Name 			= "Text Add/Remove";
 TOOL.UniqueID 		= "text";
+TOOL.Category			= "Clockwork";
 TOOL.Desc 			= "Add colored text!";
 TOOL.HelpText		= "Primary: Add Secondary: Remove";
 
@@ -144,4 +145,12 @@ function TOOL.BuildCPanel( CPanel )
 	});
 end;
 
-TOOL:Register();
+local plugin = Clockwork.plugin:FindByID("Surface Texts");
+	
+if (plugin) then
+	if (Clockwork.plugin:IsDisabled(plugin.name) or Clockwork.plugin:IsUnloaded(plugin.name)) then
+		
+	else
+		TOOL:Register();
+	end	
+end

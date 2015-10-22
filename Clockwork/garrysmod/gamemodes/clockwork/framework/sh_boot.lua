@@ -26,10 +26,10 @@ else
 	CurrentGM = nil;
 end;
 
-Clockwork = Clockwork or GM;
 Clockwork.ClockworkFolder = Clockwork.ClockworkFolder or GM.Folder;
 Clockwork.SchemaFolder = Clockwork.SchemaFolder or GM.Folder;
-Clockwork.KernelVersion = "0.93";
+Clockwork.KernelVersion = "0.94";
+Clockwork.KernelBuild = "beta"
 Clockwork.DeveloperVersion = true;
 Clockwork.Website = "http://kurozael.com";
 Clockwork.Author = "kurozael";
@@ -114,10 +114,12 @@ end;
 Clockwork.kernel:IncludeSchema();
 Clockwork.plugin:Call("ClockworkSchemaLoaded");
 
+MsgC(Color(0, 255, 100, 255), "[Clockwork] Schema \""..Schema:GetName().."\" ["..Schema:GetVersion().."] by "..Schema:GetAuthor().." loaded!\n");
+
 --[[ The following code is loaded over-the-Cloud. --]]
 if (SERVER and Clockwork.LoadPostSchemaExternals) then
 	Clockwork:LoadPostSchemaExternals();
-end;
+end;	
 
 if (CLIENT) then
 	Clockwork.plugin:Call("ClockworkLoadShared", CW_SCRIPT_SHARED);

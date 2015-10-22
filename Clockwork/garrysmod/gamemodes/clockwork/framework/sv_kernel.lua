@@ -39,63 +39,25 @@ local math = math;
 local game = game;
 local os = os;
 
-Clockwork.kernel:AddDirectory("materials/clockwork/sliced/");
-Clockwork.kernel:AddDirectory("materials/clockwork/limbs/");
-Clockwork.kernel:AddDirectory("materials/clockwork/donations/");
-Clockwork.kernel:AddDirectory("materials/clockwork/logo/");
-Clockwork.kernel:AddDirectory("materials/clockwork/");
-Clockwork.kernel:AddDirectory("materials/decals/flesh/blood*");
-Clockwork.kernel:AddDirectory("materials/decals/blood*");
-Clockwork.kernel:AddDirectory("materials/effects/blood*");
-Clockwork.kernel:AddDirectory("materials/sprites/blood*");
+local cwHint = Clockwork.hint;
+local cwKernel = Clockwork.kernel;
+local cwPlugin = Clockwork.plugin;
+local cwConfig = Clockwork.config;
+local cwPly = Clockwork.player;
+local cwStorage = Clockwork.storage;
+local cwEvent = Clockwork.event;
+local cwLimb = Clockwork.limb;
+local cwItem = Clockwork.item;
+local cwEntity = Clockwork.entity;
+local mathCeil = math.ceil;
+local mathMax = math.max;
+local mathMin = math.min;
+local mathClamp = math.Clamp;
+local mathCos = math.cos;
+local mathApproach = math.Approach;
 
-Clockwork.kernel:AddFile("materials/models/items/ammorounds.vtf");
-Clockwork.kernel:AddFile("materials/models/items/ammorounds.vmt");
-Clockwork.kernel:AddFile("materials/models/items/ammobox.vmt");
-Clockwork.kernel:AddFile("materials/models/items/ammobox.vtf");
-Clockwork.kernel:AddFile("models/items/ammorounds.mdl");
-Clockwork.kernel:AddFile("models/items/ammobox.mdl");
-Clockwork.kernel:AddFile("materials/models/items/boxred1.vmt");
-Clockwork.kernel:AddFile("materials/models/items/boxred1.vtf");
-Clockwork.kernel:AddFile("materials/models/items/boxzrounds.vtf");
-Clockwork.kernel:AddFile("materials/models/items/boxzrounds.vmt");
-Clockwork.kernel:AddFile("models/items/boxzrounds.mdl");
-Clockwork.kernel:AddFile("models/items/redammo.mdl");
-
-local SILKICON_MATERIAL_TABLE = {
-	"tick", "cross", "add", "exclamation", "user", "wrench", 
-	"comment", "error", "box", "shield", "application_view_tile", 
-	"star", "emoticon_smile", "user_add", "user_delete"
-};
-
-for k, v in pairs(SILKICON_MATERIAL_TABLE)do
-	Clockwork.kernel:AddFile("materials/icon16/"..v..".png");
-end;
-
-Clockwork.kernel:AddFile("materials/SliceTest.png");
-Clockwork.kernel:AddFile("models/humans/female_gestures.ani");
-Clockwork.kernel:AddFile("models/humans/female_gestures.mdl");
-Clockwork.kernel:AddFile("models/humans/female_postures.ani");
-Clockwork.kernel:AddFile("models/humans/female_postures.mdl");
-Clockwork.kernel:AddFile("models/combine_soldier_anims.ani");
-Clockwork.kernel:AddFile("models/combine_soldier_anims.mdl");
-Clockwork.kernel:AddFile("models/humans/female_shared.ani");
-Clockwork.kernel:AddFile("models/humans/female_shared.mdl");
-Clockwork.kernel:AddFile("models/humans/male_gestures.ani");
-Clockwork.kernel:AddFile("models/humans/male_gestures.mdl");
-Clockwork.kernel:AddFile("models/humans/male_postures.ani");
-Clockwork.kernel:AddFile("models/humans/male_postures.mdl");
-Clockwork.kernel:AddFile("models/humans/male_shared.ani");
-Clockwork.kernel:AddFile("models/humans/male_shared.mdl");
-Clockwork.kernel:AddFile("models/humans/female_ss.ani");
-Clockwork.kernel:AddFile("models/humans/female_ss.mdl");
-Clockwork.kernel:AddFile("models/humans/male_ss.ani");
-Clockwork.kernel:AddFile("models/humans/male_ss.mdl");
-Clockwork.kernel:AddFile("models/police_animations.ani");
-Clockwork.kernel:AddFile("models/police_animations.mdl");
-Clockwork.kernel:AddFile("models/police_ss.ani");
-Clockwork.kernel:AddFile("models/police_ss.mdl");
-Clockwork.kernel:AddFile("sound/common/talk.wav");
+--[[ Downloads the content addon for clients. --]]
+resource.AddWorkshop("474315121")
 
 --[[ Do this internally, because it's one less step for schemas. --]]
 AddCSLuaFile(
@@ -268,28 +230,16 @@ function Clockwork:Initialize()
 	self.plugin:ClearHookCache();
 
 	hook.Remove("PlayerTick", "TickWidgets")
+
+	--[[ Hotfix to allow downloads ]]--
+	hook.Remove("Think", "exploit.fix");
+	RunConsoleCommand("sv_allowdownload", "1");
 end;
 
 -- Called at an interval while a player is connected.
 function Clockwork:PlayerThink(player, curTime, infoTable)
 	local bPlayerBreathSnd = false;
 	local storageTable = player:GetStorageTable();
-	local player = player;
-	local curTime = curTime;
-	local infoTable = infoTable;
-	local cwConfig = self.config;
-	local cwPlayer = self.player;
-	local cwStorage = self.storage;
-	local cwEvent = self.event;
-	local cwPlugin = self.plugin;
-	local cwLimb = self.limb;
-	local cwItem = self.item;
-	local cwEntity = self.entity;
-	local mathCeil = math.ceil;
-	local mathMax = math.max;
-	local mathMin = math.min;
-	local mathApproach = math.Approach;
-
 	
 	if (!cwConfig:Get("cash_enabled"):Get()) then
 		player:SetCharacterData("Cash", 0, true);
@@ -297,7 +247,7 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 	end;
 	
 	if (player.cwReloadHoldTime and curTime >= player.cwReloadHoldTime) then
-		cwPlayer:ToggleWeaponRaised(player);
+		cwPly:ToggleWeaponRaised(player);
 		player.cwReloadHoldTime = nil;
 		player.cwNextShootTime = curTime + cwConfig:Get("shoot_after_raise_time"):Get();
 	end;
@@ -400,7 +350,7 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 		return;
 	end;
 	
-	if (entity:GetClass() != "prop_door_rotating" or cwPlayer:IsNoClipping(player)) then
+	if (entity:GetClass() != "prop_door_rotating" or cwPly:IsNoClipping(player)) then
 		return;
 	end;
 	
@@ -554,6 +504,13 @@ end;
 -- Called when an Clockwork item has initialized.
 function Clockwork:ClockworkItemInitialized(itemTable) end;
 
+--[[
+	@codebase Server
+	@details Called after Clockwork items have been initialized.
+	@param Table The table of items that have been initialized.
+--]]
+function Clockwork:ClockworkPostItemsInitialized(itemsTable) end;
+
 -- Called when a player's lock info is needed.
 function Clockwork:PlayerGetLockInfo(player, entity)
 	if (self.entity:IsDoor(entity)) then
@@ -699,7 +656,17 @@ function Clockwork:GetPlayerDefaultModel(player)
 end;
 
 -- Called when a player's default inventory is needed.
-function Clockwork:GetPlayerDefaultInventory(player, character, inventory) end;
+function Clockwork:GetPlayerDefaultInventory(player, character, inventory)
+	local startingInv = Clockwork.faction:FindByID(character.faction).startingInv;
+	
+	if (istable(startingInv)) then
+		for k, v in pairs(startingInv) do
+			Clockwork.inventory:AddInstance(
+				inventory, Clockwork.item:CreateInstance(k), v
+			);
+		end;
+	end;
+end;
 
 -- Called to get whether a player's weapon is raised.
 function Clockwork:GetPlayerWeaponRaised(player, class, weapon)
@@ -861,8 +828,10 @@ end;
 
 -- Called when Clockwork config has changed.
 function Clockwork:ClockworkConfigChanged(key, data, previousValue, newValue)
+	local plyTable = player.GetAll();
+
 	if (key == "default_flags") then
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(plyTable) do
 			if (v:HasInitialized() and v:Alive()) then
 				if (string.find(previousValue, "p")) then
 					if (!string.find(newValue, "p")) then
@@ -898,23 +867,23 @@ function Clockwork:ClockworkConfigChanged(key, data, previousValue, newValue)
 			self.command:SetHidden("PlyDemote", false);
 		end;
 	elseif (key == "crouched_speed") then
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(plyTable) do
 			v:SetCrouchedWalkSpeed(newValue);
 		end;
 	elseif (key == "ooc_interval") then
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(plyTable) do
 			v.cwNextTalkOOC = nil;
 		end;
 	elseif (key == "jump_power") then
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(plyTable) do
 			v:SetJumpPower(newValue);
 		end;
 	elseif (key == "walk_speed") then
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(plyTable) do
 			v:SetWalkSpeed(newValue);
 		end;
 	elseif (key == "run_speed") then
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(plyTable) do
 			v:SetRunSpeed(newValue);
 		end;
 	end;
@@ -943,18 +912,10 @@ end;
 
 -- Called when a player's move data is set up.
 function Clockwork:SetupMove(player, moveData)
-	local player = player;
-	local moveData = moveData;
-
 	if (player:Alive() and !player:IsRagdolled()) then
-		local cwPlayer = self.player;
 		local frameTime = FrameTime();
+		local isDrunk = cwPly:GetDrunk(player);
 		local curTime = CurTime();
-		local isDrunk = cwPlayer:GetDrunk(player);
-		local mathClamp = math.Clamp;
-		local mathMin = math.min;
-		local mathCos = math.cos;
-		local mathMax = math.max;
 		
 		if (isDrunk and player.cwDrunkSwerve) then
 			player.cwDrunkSwerve = mathClamp(player.cwDrunkSwerve + frameTime, 0, mathMin(isDrunk * 2, 16));
@@ -1551,17 +1512,21 @@ function Clockwork:PlayerCanPickupWeapon(player, weapon)
 	end;
 end;
 
+-- Called to modify the generator interval.
+function Clockwork:ModifyGeneratorInterval(info) end;
+
+-- Called to modify the wages interval.
+function Clockwork:ModifyWagesInterval(info) end;
+
+-- Called to modify a player's wages info.
+function Clockwork:PlayerModifyWagesInfo(player, info) end;
+
 -- Called each tick.
 function Clockwork:Tick()
 	local sysTime = SysTime();
 	local curTime = CurTime();
-	local players = player.GetAll();
-	local cwHint = self.hint;
-	local cwKernel = self.kernel;
-	local cwPlugin = self.plugin;
-	local cwConfig = self.config;
-	local cwPlayer = self.player;
-	
+	local plyTable = player.GetAll();
+
 	if (!self.NextHint or curTime >= self.NextHint) then
 		cwHint:Distribute();
 		self.NextHint = curTime + cwConfig:Get("hint_interval"):Get();
@@ -1569,12 +1534,26 @@ function Clockwork:Tick()
 	
 	if (!self.NextWagesTime or curTime >= self.NextWagesTime) then
 		cwKernel:DistributeWagesCash();
-		self.NextWagesTime = curTime + cwConfig:Get("wages_interval"):Get();
+		
+		local info = {
+			interval = cwConfig:Get("wages_interval"):Get();
+		};
+		
+		self.plugin:Call("ModifyWagesInterval", info);
+		
+		self.NextWagesTime = curTime + info.interval;
 	end;
 	
 	if (!self.NextGeneratorTime or curTime >= self.NextGeneratorTime) then
 		cwKernel:DistributeGeneratorCash();
-		self.NextGeneratorTime = curTime + cwConfig:Get("generator_interval"):Get();
+		
+		local info = {
+			interval = cwConfig:Get("generator_interval"):Get();
+		};
+		
+		self.plugin:Call("ModifyGeneratorInterval", info);
+		
+		self.NextGeneratorTime = curTime + info.interval;
 	end;
 	
 	if (!self.NextDateTimeThink or sysTime >= self.NextDateTimeThink) then
@@ -1597,12 +1576,12 @@ function Clockwork:Tick()
 	if (sysTime >= self.NextCheckEmpty) then
 		self.NextCheckEmpty = nil;
 		
-		if (#players == 0) then
+		if (#plyTable == 0) then
 			RunConsoleCommand("changelevel", game.GetMap());
 		end;
 	end;
 	
-	for k, v in pairs(players) do
+	for k, v in pairs(plyTable) do
 		if (v:HasInitialized()) then
 			if (!v.cwNextThink) then
 				v.cwNextThink = curTime + 0.1;
@@ -1613,7 +1592,7 @@ function Clockwork:Tick()
 			end;
 			
 			if (curTime >= v.cwNextThink) then
-				cwPlayer:CallThinkHook(
+				cwPly:CallThinkHook(
 					v, (curTime >= v.cwNextSetSharedVars), curTime
 				);
 			end;
@@ -1825,10 +1804,52 @@ function Clockwork:PlayerCanUseCharacter(player, character)
 	if (character.data["CharBanned"]) then
 		return character.name.." is banned and cannot be used!";
 	end;
+
+	local faction = Clockwork.faction:FindByID(character.faction);
+	local playerRank, rank = player:GetFactionRank(character);
+	local factionCount = 0;
+	local rankCount = 0;
+	
+	for k, v in ipairs(cwPlayer.GetAll()) do
+		if (v:HasInitialized()) then
+			if (v:GetFaction() == character.faction) then
+				if (player != v) then
+					if (rank and v:GetFactionRank() == playerRank) then
+						rankCount = rankCount + 1;
+					end;
+					
+					factionCount = factionCount + 1;
+				end;
+			end;
+		end;
+	end;
+	
+	if (faction.playerLimit and factionCount >= faction.playerLimit) then
+		return "There are too many characters of this faction online!";
+	end;
+	
+	if (rank and rank.playerLimit and rankCount >= rank.playerLimit) then
+		return "There are too many characters of this rank online!";
+	end;
 end;
 
 -- Called when a player's weapons should be given.
-function Clockwork:PlayerGiveWeapons(player) end;
+function Clockwork:PlayerGiveWeapons(player)
+	local rankName, rank = player:GetFactionRank();
+	local faction = Clockwork.faction:FindByID(player:GetFaction());
+
+	if (rank and rank.weapons) then
+		for k, v in pairs(rank.weapons) do
+			Clockwork.player:GiveSpawnWeapon(player, v);
+		end;
+	end;
+
+	if (faction and faction.weapons) then
+		for k, v in pairs(faction.weapons) do
+			Clockwork.player:GiveSpawnWeapon(player, v);
+		end;
+	end;
+end;
 
 -- Called when a player deletes a character.
 function Clockwork:PlayerDeleteCharacter(player, character) end;
@@ -2064,7 +2085,9 @@ end;
 
 -- Called when a player attempts to exit a vehicle.
 function Clockwork:CanExitVehicle(vehicle, player)
-	if (player.cwNextExitVehicle and player.cwNextExitVehicle > CurTime()) then
+	local curTime = CurTime();
+
+	if (player.cwNextExitVehicle and player.cwNextExitVehicle > curTime) then
 		return false;
 	end;
 	
@@ -2311,6 +2334,12 @@ end;
 function Clockwork:PhysgunPickup(player, entity)
 	local bCanPickup = nil;
 	local bIsAdmin = self.player:IsAdmin(player);
+
+	if (!self.config:Get("enable_map_props_physgrab"):Get()) then
+		if (self.entity:IsMapEntity(entity)) then
+			bCanPickup = false;
+		end;
+	end;
 	
 	if (!bIsAdmin and !self.entity:IsInteractable(entity)) then
 		return false;
@@ -2476,8 +2505,6 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 			return;
 		end;
 		
-		player:EmitSound("physics/body/body_medium_impact_soft"..math.random(1, 7)..".wav");
-		
 		local itemTable = entity.cwItemTable;
 		local bQuickUse = (arguments == "cwItemUse");
 		
@@ -2517,6 +2544,14 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 						entity:Remove();
 					end;
 				end;
+
+				local pickupSound = itemTable.pickupSound or "physics/body/body_medium_impact_soft"..math.random(1, 7)..".wav"
+
+				if (type(pickupSound) == "table") then
+					pickupSound = pickupSound[math.random(1, #pickupSound)];
+				end;
+
+				player:EmitSound(pickupSound);
 				
 				player:SetItemEntity(nil);
 			end;
@@ -2927,6 +2962,28 @@ function Clockwork:PlayerCharacterInitialized(player)
 	end);
 	
 	Clockwork.datastream:Start(player, "CharacterInit", player:GetCharacterKey());
+
+	local faction = Clockwork.faction:FindByID(player:GetFaction());
+	local spawnRank = Clockwork.faction:GetDefaultRank(player:GetFaction()) or Clockwork.faction:GetLowestRank(player:GetFaction());
+	
+	player:SetFactionRank(player:GetFactionRank() or spawnRank);
+	
+	if (string.find(player:Name(), "SCN")) then
+		player:SetFactionRank("SCN");
+	end;
+	
+	local rankName, rankTable = player:GetFactionRank();
+	
+	if (rankTable) then
+		if (rankTable.class and Clockwork.class.stored[rankTable.class]) then
+
+			Clockwork.class:Set(player, rankTable.class);
+		end;
+		
+		if (rankTable.model) then
+			player:SetModel(rankTable.model);
+		end;
+	end;
 end;
 
 -- Called when a player has used their death code.
@@ -3070,7 +3127,13 @@ function Clockwork:PlayerAdjustCharacterTable(player, character)
 end;
 
 -- Called when a player's character screen info should be adjusted.
-function Clockwork:PlayerAdjustCharacterScreenInfo(player, character, info) end;
+function Clockwork:PlayerAdjustCharacterScreenInfo(player, character, info)
+	local playerRank, rank = player:GetFactionRank();
+
+	if (rank and rank.model) then
+		info.model = rank.model;
+	end;
+end;
 
 -- Called when a player's prop cost info should be adjusted.
 function Clockwork:PlayerAdjustPropCostInfo(player, entity, info) end;
@@ -3085,10 +3148,61 @@ function Clockwork:ChatBoxAdjustInfo(info)
 	elseif (info.class == "looc") then
 		Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, "[LOOC] "..info.speaker:Name()..": "..info.text);
 	end;
+
+	if (info.class == "ic" or info.class == "yell" or info.class == "whisper") then
+		if (IsValid(info.speaker) and info.speaker:HasInitialized()) then
+			info.text = string.upper(string.sub(info.text, 1, 1))..string.sub(info.text, 2);
+			
+			for k, v in pairs(self.voices.groups) do
+				if (v.IsPlayerMember(info.speaker)) then
+					for k2, v2 in pairs(v.voices) do
+						if (string.lower(info.text) == string.lower(v2.command)) then
+							local voice = {
+								global = false,
+								volume = 80,
+								sound = v2.sound
+							};
+							
+							if (v.bGender) then
+								if (v2.female and info.speaker:QueryCharacter("Gender") == GENDER_FEMALE) then
+									voice.sound = string.Replace(voice.sound, "/male", "/female");
+								end;
+							end
+							
+							if (info.class == "whisper") then
+								voice.volume = 60;
+							elseif (info.class == "yell") then
+								voice.volume = 100;
+							end;
+							
+							info.voice = voice;
+							info.text = v2.phrase;
+							
+							return true;
+						end;
+					end;
+				end;
+			end;
+		end;
+	end;
 end;
 
 -- Called when a chat box message has been added.
-function Clockwork:ChatBoxMessageAdded(info) end;
+function Clockwork:ChatBoxMessageAdded(info)
+	if (info.voice) then
+		if (IsValid(info.speaker) and info.speaker:HasInitialized()) then
+			info.speaker:EmitSound(info.voice.sound, info.voice.volume);
+		end;
+		
+		if (info.voice.global) then
+			for k, v in pairs(info.listeners) do
+				if (v != info.speaker) then
+					Clockwork.player:PlaySound(v, info.voice.sound);
+				end;
+			end;
+		end;
+	end;
+end;
 
 -- Called when a player's radio text should be adjusted.
 function Clockwork:PlayerAdjustRadioInfo(player, info) end;
@@ -3098,6 +3212,79 @@ function Clockwork:PlayerCanGainFrag(player, victim) return true; end;
 
 -- Called just after a player spawns.
 function Clockwork:PostPlayerSpawn(player, lightSpawn, changeClass, firstSpawn)
+	if (!lightSpawn) then
+		local FACTION = Clockwork.faction:FindByID(player:GetFaction());
+		local relation = FACTION.entRelationship;
+		local playerRank, rank = player:GetFactionRank();
+		
+		player:SetMaxHealth(FACTION.maxHealth or 100);
+		player:SetMaxArmor(FACTION.maxArmor or 0);
+		player:SetHealth(FACTION.maxHealth or 100);
+		player:SetArmor(FACTION.maxArmor or 0);
+		
+		if (rank) then
+			player:SetMaxHealth(rank.maxHealth or player:GetMaxHealth());
+			player:SetMaxArmor(rank.maxArmor or player:GetMaxArmor());
+			player:SetHealth(rank.maxHealth or player:GetMaxHealth());
+			player:SetArmor(rank.maxArmor or player:GetMaxArmor());
+		end;
+		
+		if (istable(FACTION.respawnInv)) then
+			local inventory = player:GetInventory();
+			local itemQuantity;
+			
+			for k, v in pairs(FACTION.respawnInv) do
+				for i = 1, (v or 1) do
+					itemQuantity = table.Count(inventory[k]);
+					
+					if (itemQuantity < v) then
+						player:GiveItem(Clockwork.item:CreateInstance(k), true);
+					end;
+				end;
+			end;
+		end;
+		
+		if (prevRelation) then
+			for k, v in pairs(ents.GetAll()) do
+				if (v:IsNPC()) then
+					local prevRelationVal = prevRelation[player:SteamID()][v:GetClass()];
+					
+					if (prevRelationVal) then
+						v:AddEntityRelationship(player, prevRelationVal, 1);
+					end;
+				end;
+			end;
+		end;
+		
+		if (istable(relation)) then
+			local relationEnts;
+			
+			prevRelation = prevRelation or {};
+			prevRelation[player:SteamID()] = prevRelation[player:SteamID()] or {};
+			
+			for k, v in pairs(relation) do
+				relationEnts = ents.FindByClass(k);
+				
+				if (relationEnts) then
+					for k2, v2 in pairs(relationEnts) do
+						if (string.lower(v) == "like") then
+							prevRelation[player:SteamID()][k] = v2:Disposition(player);
+							v2:AddEntityRelationship(player, D_LI, 1);
+						elseif (string.lower(v) == "fear") then
+							prevRelation[player:SteamID()][k] = v2:Disposition(player);
+							v2:AddEntityRelationship(player, D_FR, 1);
+						elseif (string.lower(v) == "hate") then
+							prevRelation[player:SteamID()][k] = v2:Disposition(player);
+							v2:AddEntityRelationship(player, D_HT, 1);
+						else
+							ErrorNoHalt("Attempting to add relationship using invalid relation '"..v.."' towards faction '"..FACTION.name.."'.\r\n");
+						end;
+					end;
+				end;
+			end;
+		end;
+	end;
+	
 	if (firstSpawn) then
 		local attrBoosts = player:GetCharacterData("AttrBoosts");
 		local health = player:GetCharacterData("Health");
@@ -3126,6 +3313,9 @@ function Clockwork:PostPlayerSpawn(player, lightSpawn, changeClass, firstSpawn)
 	
 	player:Fire("Targetname", player:GetFaction(), 0);
 end;
+
+-- Called just before a player would take damage.
+function Clockwork:PrePlayerTakeDamage(player, attacker, inflictor, damageInfo) end;
 
 -- Called when a player should take damage.
 function Clockwork:PlayerShouldTakeDamage(player, attacker, inflictor, damageInfo)
@@ -3326,19 +3516,20 @@ function Clockwork:ShowHelp(player)
 end;
 
 -- Called when a player presses F2.
-function Clockwork:ShowTeam(player)
-	if (!self.player:IsNoClipping(player)) then
+function Clockwork:ShowTeam(ply)
+	if (!self.player:IsNoClipping(ply)) then
 		local doRecogniseMenu = true;
-		local entity = player:GetEyeTraceNoCursor().Entity;
+		local entity = ply:GetEyeTraceNoCursor().Entity;
+		local plyTable = player.GetAll();
 		
 		if (IsValid(entity) and self.entity:IsDoor(entity)) then
-			if (entity:GetPos():Distance(player:GetShootPos()) <= 192) then
-				if (self.plugin:Call("PlayerCanViewDoor", player, entity)) then
-					if (self.plugin:Call("PlayerUse", player, entity)) then
+			if (entity:GetPos():Distance(ply:GetShootPos()) <= 192) then
+				if (self.plugin:Call("PlayerCanViewDoor", ply, entity)) then
+					if (self.plugin:Call("PlayerUse", ply, entity)) then
 						local owner = self.entity:GetOwner(entity);
 						
 						if (IsValid(owner)) then
-							if (self.player:HasDoorAccess(player, entity, DOOR_ACCESS_COMPLETE)) then
+							if (self.player:HasDoorAccess(ply, entity, DOOR_ACCESS_COMPLETE)) then
 								local data = {
 									sharedAccess = self.entity:DoorHasSharedAccess(entity),
 									sharedText = self.entity:DoorHasSharedText(entity),
@@ -3349,8 +3540,8 @@ function Clockwork:ShowTeam(player)
 									owner = owner
 								};
 								
-								for k, v in pairs(cwPlayer.GetAll()) do
-									if (v != player and v != owner) then
+								for k, v in pairs(plyTable) do
+									if (v != ply and v != owner) then
 										if (self.player:HasDoorAccess(v, entity, DOOR_ACCESS_COMPLETE)) then
 											data.accessList[v] = DOOR_ACCESS_COMPLETE;
 										elseif (self.player:HasDoorAccess(v, entity, DOOR_ACCESS_BASIC)) then
@@ -3359,10 +3550,10 @@ function Clockwork:ShowTeam(player)
 									end;
 								end;
 								
-								self.datastream:Start(player, "DoorManagement", data);
+								self.datastream:Start(ply, "DoorManagement", data);
 							end;
 						else
-							self.datastream:Start(player, "PurchaseDoor", entity);
+							self.datastream:Start(ply, "PurchaseDoor", entity);
 						end;
 					end;
 				end;
@@ -3373,7 +3564,7 @@ function Clockwork:ShowTeam(player)
 		
 		if (self.config:Get("recognise_system"):Get()) then
 			if (doRecogniseMenu) then
-				Clockwork.datastream:Start(player, "RecogniseMenu", true);
+				Clockwork.datastream:Start(ply, "RecogniseMenu", true);
 			end;
 		end;
 	end;
@@ -3681,6 +3872,50 @@ function Clockwork:SetupPlayerVisibility(player)
 	end;
 end;
 
+-- Called after a player has spawned an NPC.
+function Clockwork:PlayerSpawnedNPC(player, npc)
+	local faction;
+	local relation;
+	
+	prevRelation = prevRelation or {};
+	prevRelation[player:SteamID()] = prevRelation[player:SteamID()] or {};
+	
+	for k, v in pairs(cwPlayer.GetAll()) do
+		faction = Clockwork.faction:FindByID(v:GetFaction());
+		relation = faction.entRelationship;
+		
+		if (istable(relation)) then
+			for k2, v2 in pairs(relation) do
+				if (k2 == npc:GetClass()) then
+					if (string.lower(v2) == "like") then
+						prevRelation[player:SteamID()][k2] = prevRelation[player:SteamID()][k2] or npc:Disposition(v);
+						npc:AddEntityRelationship(v, D_LI, 1);
+					elseif (string.lower(v2) == "fear") then
+						prevRelation[player:SteamID()][k2] = prevRelation[player:SteamID()][k2] or npc:Disposition(v);
+						npc:AddEntityRelationship(v, D_FR, 1);
+					elseif (string.lower(v2) == "hate") then
+						prevRelation[player:SteamID()][k2] = prevRelation[player:SteamID()][k2] or npc:Disposition(v);
+						npc:AddEntityRelationship(v, D_HT, 1);
+					else
+						ErrorNoHalt("Attempting to add relationship using invalid relation '"..v2.."' towards faction '"..faction.name.."'.\r\n");
+					end;
+				end;
+			end;
+		end;
+	end;
+end;
+
+--[[
+	@codebase Server
+	@details Called when an attribute is progressed to edit the amount it is progressed by.
+	@param Player The player that has progressed the attribute.
+	@param Table The attribute table of the attribute being progressed.
+	@param Number The amount that is being progressed for editing purposes.
+--]]
+function Clockwork:OnAttributeProgress(player, attribute, amount)
+	amount = amount * Clockwork.config:Get("scale_attribute_progress"):Get();
+end;
+
 -- GetTargetRecognises datastream callback.
 Clockwork.datastream:Hook("GetTargetRecognises", function(player, data)
 	if (IsValid(data) and data:IsPlayer()) then
@@ -3746,7 +3981,7 @@ end);
 -- LocalPlayerCreated datastream callback.
 Clockwork.datastream:Hook("LocalPlayerCreated", function(player, data)
 	if (IsValid(player) and !player:HasConfigInitialized()) then
-		Clockwork.kernel:CreateTimer("SendCfg"..player:UniqueID(), FrameTime() * 64, 1, function()
+		Clockwork.kernel:CreateTimer("SendCfg"..player:UniqueID(), FrameTime(), 1, function()
 			if (IsValid(player)) then
 				Clockwork.config:Send(player);
 			end;
@@ -3912,8 +4147,9 @@ Clockwork.datastream:Hook("RecogniseOption", function(player, data)
 			local talkRadius = Clockwork.config:Get("talk_radius"):Get();
 			local playSound = false;
 			local position = player:GetPos();
+			local plyTable = _player.GetAll();
 			
-			for k, v in pairs(cwPlayer.GetAll()) do
+			for k, v in pairs(plyTable) do
 				if (v:HasInitialized() and player != v) then
 					if (!Clockwork.player:IsNoClipping(v)) then
 						local distance = v:GetPos():Distance(position);
@@ -3929,6 +4165,10 @@ Clockwork.datastream:Hook("RecogniseOption", function(player, data)
 							end;
 						elseif (recogniseData == "talk") then
 							if (distance <= talkRadius) then
+								recognise = true;
+							end;
+						elseif (recogniseData == "look") then
+							if (v == player:GetEyeTraceNoCursor().entity) then
 								recognise = true;
 							end;
 						end;
@@ -5231,32 +5471,46 @@ function playerMeta:GetHoldingEntity()
 end;
 
 -- A function to get whether a player's character menu is reset.
-function playerMeta:IsCharacterMenuReset() return self.cwCharMenuReset; end;
+function playerMeta:IsCharacterMenuReset()
+	return self.cwCharMenuReset;
+end;
 
 -- A function to get the player's active voice channel.
-function playerMeta:GetActiveChannel() return Clockwork.voice:GetActiveChannel(self); end;
+function playerMeta:GetActiveChannel()
+	return Clockwork.voice:GetActiveChannel(self);
+end;
 
 -- A function to check if a player can afford an amount.
-function playerMeta:CanAfford(amount) return Clockwork.player:CanAfford(self, amount); end;
+function playerMeta:CanAfford(amount)
+	return Clockwork.player:CanAfford(self, amount);
+end;
 
 -- A function to get a player's rank within their faction.
-function playerMeta:GetFactionRank() return Clockwork.player:GetFactionRank(self); end;
+function playerMeta:GetFactionRank(character)
+	return Clockwork.player:GetFactionRank(self, character);
+end;
 
 -- A function to set a player's rank within their faction.
-function playerMeta:SetFactionRank(rank) return Clockwork.player:SetFactionRank(self, rank); end;
+function playerMeta:SetFactionRank(rank)
+	return Clockwork.player:SetFactionRank(self, rank);
+end;
 
 -- A function to get a player's global flags.
-function playerMeta:GetPlayerFlags() return Clockwork.player:GetPlayerFlags(self); end;
+function playerMeta:GetPlayerFlags()
+	return Clockwork.player:GetPlayerFlags(self);
+end;
 
 playerMeta.GetName = playerMeta.Name;
 playerMeta.Nick = playerMeta.Name;
 
 concommand.Add("cwStatus", function(player, command, arguments)
+	local plyTable = player.GetAll();
+
 	if (IsValid(player)) then
 		if (Clockwork.player:IsAdmin(player)) then
 			player:PrintMessage(2, "# User ID | Name | Steam Name | Steam ID | IP Address");
-			
-			for k, v in pairs(cwPlayer.GetAll()) do
+
+			for k, v in pairs(plyTable) do
 				if (v:HasInitialized()) then
 					local status = Clockwork.plugin:Call("PlayerCanSeeStatus", player, v);
 					
@@ -5271,7 +5525,7 @@ concommand.Add("cwStatus", function(player, command, arguments)
 	else
 		print("# User ID | Name | Steam Name | Steam ID | IP Address");
 		
-		for k, v in pairs(cwPlayer.GetAll()) do
+		for k, v in pairs(plyTable) do
 			if (v:HasInitialized()) then
 				print("# "..v:UserID().." | "..v:Name().." | "..v:SteamName().." | "..v:SteamID().." | "..v:IPAddress());
 			end;

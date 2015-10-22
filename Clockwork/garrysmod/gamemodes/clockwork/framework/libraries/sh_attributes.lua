@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -30,8 +30,8 @@ if (SERVER) then
 					amount = math.min((amount / attributeTable.maximum) * attributes[attribute].amount, amount / attributeTable.maximum);
 				end;
 			end;
-			
-			amount = amount * Clockwork.config:Get("scale_attribute_progress"):Get();
+		
+			Clockwork.plugin:Call("OnAttributeProgress", player, attribute, amount);
 			
 			if (attributes[attribute]) then
 				if (attributes[attribute].amount == attributeTable.maximum) then

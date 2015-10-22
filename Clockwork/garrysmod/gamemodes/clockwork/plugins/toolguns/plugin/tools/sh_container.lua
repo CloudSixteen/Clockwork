@@ -8,7 +8,6 @@
 
 local TOOL = Clockwork.tool:New();
 
-TOOL.Category		= "Clockwork tools";
 TOOL.Name 			= "Container Tool";
 TOOL.UniqueID 		= "containertool";
 TOOL.Desc 			= "Do various things with containers.";
@@ -297,4 +296,12 @@ if CLIENT then
 	end
 end
 	
-TOOL:Register();
+local plugin = Clockwork.plugin:FindByID("Storage");
+	
+if (plugin) then
+	if (Clockwork.plugin:IsDisabled(plugin.name) or Clockwork.plugin:IsUnloaded(plugin.name)) then
+		
+	else
+		TOOL:Register();
+	end	
+end

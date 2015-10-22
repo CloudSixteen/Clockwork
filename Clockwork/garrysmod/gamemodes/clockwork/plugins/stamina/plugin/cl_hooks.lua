@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -16,7 +16,7 @@ function cwStamina:GetBars(bars)
 		self.stamina = math.Approach(self.stamina, stamina, 1);
 	end;
 	
-	if (self.stamina < 75) then
+	if (self.stamina < 95) then
 		bars:Add("STAMINA", Color(100, 175, 100, 255), "", self.stamina, 100, self.stamina < 10);
 	end;
 end;

@@ -1,5 +1,5 @@
 --[[ 
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -28,8 +28,8 @@ function Clockwork.menuitems:Get(text)
 end;
 
 -- A function to add a menu item.
-function Clockwork.menuitems:Add(text, panel, tip)
-	self.stored[#self.stored + 1] = {text = text, panel = panel, tip = tip};
+function Clockwork.menuitems:Add(text, panel, tip, iconData)
+	self.stored[#self.stored + 1] = {text = text, panel = panel, tip = tip, iconData = iconData};
 end;
 
 -- A function to destroy a menu item.

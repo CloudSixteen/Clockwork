@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -20,9 +20,10 @@ function PANEL:Init()
 	self:SetSize(Clockwork.menu:GetWidth(), Clockwork.menu:GetHeight());
 	
 	self.panelList = vgui.Create("cwPanelList", self);
- 	self.panelList:SetPadding(4);
- 	self.panelList:SetSpacing(4);
+ 	self.panelList:SetPadding(8);
+ 	self.panelList:SetSpacing(8);
 	self.panelList:StretchToParent(4, 4, 4, 4);
+	self.panelList:HideBackground();
 	
 	Clockwork.attributes.panel = self;
 	Clockwork.attributes.panel.boosts = {};
@@ -44,6 +45,7 @@ function PANEL:Rebuild()
 		if (Clockwork.kernel:HasObjectAccess(Clockwork.Client, v)) then
 			if (v.category) then
 				local category = v.category;
+				
 				attributes[category] = attributes[category] or {};
 				attributes[category][#attributes[category] + 1] = {k, v.name};
 			else
@@ -70,6 +72,7 @@ function PANEL:Rebuild()
 	if (#categories > 0 or #miscellaneous > 0) then
 		local attributeName = string.lower(Clockwork.option:GetKey("name_attribute"));
 		
+		--[[
 		local label = vgui.Create("cwInfoText", self);
 			label:SetText("The top bar represents the points and the bottom represents progress.");
 			label:SetInfoColor("blue");
@@ -86,20 +89,31 @@ function PANEL:Rebuild()
 			label:SetInfoColor("red");
 			label:SetShowIcon(false);
 		self.panelList:AddItem(label);
+		--]]
 		
 		for k, v in pairs(miscellaneous) do
-			local form = vgui.Create("DForm", self);
-			form:SetName(v[2]);
-
+			local categoryForm = vgui.Create("cwBasicForm", self);
+			categoryForm:SetPadding(0);
+			categoryForm:SetSpacing(0);
+			categoryForm:SetAutoSize(true);
+			categoryForm:SetText(v[2], nil, nil, 18);
+			
 			self.currentAttribute = v[1];
-				form:AddItem(
-					vgui.Create("cwAttributesItem", self)
-				);
-			self.panelList:AddItem(form);
+			
+			categoryForm:AddItem(
+				vgui.Create("cwAttributesItem", self)
+			);
+			
+			self.panelList:AddItem(categoryForm);
 		end;
 		
 		for k, v in pairs(categories) do
-			local categoryForm = vgui.Create("DForm", self);
+			local categoryForm = vgui.Create("cwBasicForm", self);
+			categoryForm:SetPadding(0);
+			categoryForm:SetSpacing(8);
+			categoryForm:SetAutoSize(true);
+			categoryForm:SetText(v.category, nil, "basic_form_highlight");
+			
 			local panelList = vgui.Create("DPanelList", self);
 			
 			table.sort(v.attributes, function(a, b)
@@ -107,27 +121,26 @@ function PANEL:Rebuild()
 			end);
 			
 			for k2, v2 in pairs(v.attributes) do
-				local form = vgui.Create("DForm", self);
-				form:SetName(v2[2]);
-				form.Paint = function(panel)
-					surface.SetDrawColor(Color(180, 180, 180, 255));
-					surface.DrawRect(0, 0, panel:GetWide(), panel:GetTall());
-				end;
-
+				local attributeForm = vgui.Create("cwBasicForm", self);
+				attributeForm:SetPadding(0);
+				attributeForm:SetSpacing(4);
+				attributeForm:SetAutoSize(true);
+				attributeForm:SetText(v2[2], nil, nil, 18);
+				
 				self.currentAttribute = v2[1];
-					form:AddItem(
-						vgui.Create("cwAttributesItem", self)
-					);
-				panelList:AddItem(form);
+				
+				attributeForm:AddItem(
+					vgui.Create("cwAttributesItem", self)
+				);
+				
+				panelList:AddItem(attributeForm);
 			end;
 			
 			panelList:SetAutoSize(true);
 			panelList:SetPadding(4);
 			panelList:SetSpacing(8);
 			
-			categoryForm:SetName(v.category);
 			categoryForm:AddItem(panelList);
-			categoryForm:SetPadding(4);
 			
 			self.panelList:AddItem(categoryForm);
 		end;
@@ -160,6 +173,7 @@ end;
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
 	DERMA_SLICED_BG:Draw(0, 0, w, h, 8, COLOR_WHITE);
+	
 	return true;
 end;
 
@@ -340,6 +354,7 @@ function PANEL:Init()
 		self.spawnIcon:SetToolTip(self.attribute.description);
 		self.spawnIcon:SetImage(self.attribute.image..".png");
 		self.spawnIcon:SetSize(32, 32);
+		
 		self.baseBar:SetPos(32, 2);
 		self.progressBar:SetPos(32, 22);
 	else
@@ -351,6 +366,7 @@ end;
 -- A function to set the panel's percentage text.
 function PANEL:SetPercentageText(maximum, default, boost)
 	local percentage = math.Clamp(math.Round((100 / maximum) * (default + boost)), -100, 100);
+	
 	self.percentageText:SetText(percentage.."%");
 	self.percentageText:SizeToContents();
 	self.percentageText:SetPos(
@@ -364,6 +380,7 @@ function PANEL:Paint(w, h)
 	local x, y = 0, 0;
 	
 	Clockwork.kernel:DrawSimpleGradientBox(4, x, y, w, h, self:GetBackgroundColor());
+	
 	return true;
 end;
 

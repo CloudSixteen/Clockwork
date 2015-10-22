@@ -48,6 +48,9 @@ local hook = hook;
 local math = math;
 local util = util;
 
+local stringFind = string.find;
+local mathNormalize = math.NormalizeAngle;
+
 Clockwork.kernel = Clockwork.kernel or {};
 Clockwork.Timers = Clockwork.Timers or {};
 Clockwork.Libraries = Clockwork.Libraries or {};
@@ -205,6 +208,28 @@ end;
 --]]
 function Clockwork.kernel:GetVersion()
 	return Clockwork.KernelVersion;
+end;
+
+--[[
+	@codebase Shared
+	@details A function to get the kernel build.
+	@returns String The kernel build.
+--]]
+function Clockwork.kernel:GetBuild()
+	return Clockwork.KernelBuild;
+end;
+
+--[[
+	@codebase Shared
+	@details A function to get the kernel version and build.
+	@returns String The kernel version and build concatenated.
+--]]
+function Clockwork.kernel:GetVersionBuild()
+	if (Clockwork.KernelBuild) then
+		return Clockwork.KernelVersion.."-"..Clockwork.KernelBuild;
+	else
+		return Clockwork.KernelVersion;
+	end;
 end;
 
 --[[
@@ -378,6 +403,35 @@ function Clockwork.kernel:GetAmmoInformation(weapon)
 	end;
 end;
 
+-- Called when a player's footstep sound should be played.
+function Clockwork:PlayerFootstep(player, position, foot, sound, volume, recipientFilter)
+	if (CLIENT) then return true; end;
+
+	local itemTable = player:GetClothesItem();
+		
+	if (itemTable) then
+		if ( player:IsRunning() or player:IsJogging() ) then
+			if (itemTable.runSound) then
+				if (type(itemTable.runSound) == "table") then
+					sound = itemTable.runSound[ math.random(1, #itemTable.runSound) ];
+				else
+					sound = itemTable.runSound;
+				end;
+			end;
+		elseif (itemTable.walkSound) then
+			if (type(itemTable.walkSound) == "table") then
+				sound = itemTable.walkSound[ math.random(1, #itemTable.walkSound) ];
+			else
+				sound = itemTable.walkSound;
+			end;
+		end;
+	end;
+
+	player:EmitSound(sound);
+	
+	return true;
+end;
+
 -- Called when the player's jumping animation should be handled.
 function Clockwork:HandlePlayerJumping(player)
 	if (!player.m_bJumping and !player:OnGround() and player:WaterLevel() <= 0) then
@@ -480,9 +534,6 @@ end;
 
 -- Called when a player's animation is updated.
 function Clockwork:UpdateAnimation(player, velocity, maxSeqGroundSpeed)
-	local player = player;
-	local velocity = velocity;
-	local maxSeqGroundSpeed = maxSeqGroundSpeed;
 	local velLength = velocity:Length2D();
 	local rate = 1.0;
 	
@@ -508,14 +559,7 @@ end;
 
 -- Called when the main activity should be calculated.
 function Clockwork:CalcMainActivity(player, velocity)
-	local player = player;
-	local velocity = velocity;
 	local model = player:GetModel();
-	local stringFind = string.find;
-	local mathNormalize = math.NormalizeAngle;
-	local cwBaseClass = self.BaseClass;
-	local cwPlayer = self.player;
-	local cwAnim = self.animation;
 	
 	if (stringFind(model, "/player/")) then
 		return cwBaseClass:CalcMainActivity(player, velocity);
@@ -524,13 +568,13 @@ function Clockwork:CalcMainActivity(player, velocity)
 	ANIMATION_PLAYER = player;
 	
 	local weapon = player:GetActiveWeapon();
-	local bIsRaised = cwPlayer:GetWeaponRaised(player, true);
+	local bIsRaised = self.player:GetWeaponRaised(player, true);
 	local animationAct = "stand";
 	local weaponHoldType = "pistol";
 	local forcedAnimation = player:GetForcedAnimation();
 
 	if (IsValid(weapon)) then
-		weaponHoldType = cwAnim:GetWeaponHoldType(player, weapon);
+		weaponHoldType = self.animation:GetWeaponHoldType(player, weapon);
 	
 		if (weaponHoldType) then
 			animationAct = animationAct.."_"..weaponHoldType;
@@ -541,7 +585,7 @@ function Clockwork:CalcMainActivity(player, velocity)
 		animationAct = animationAct.."_aim";
 	end;
 	
-	player.CalcIdeal = cwAnim:GetForModel(model, animationAct.."_idle");
+	player.CalcIdeal = self.animation:GetForModel(model, animationAct.."_idle");
 	player.CalcSeqOverride = -1;
 	
 	if (!self:HandlePlayerDriving(player)
@@ -553,9 +597,9 @@ function Clockwork:CalcMainActivity(player, velocity)
 		local velLength = velocity:Length2D();
 				
 		if (player:IsRunning() or player:IsJogging()) then
-			player.CalcIdeal = cwAnim:GetForModel(model, animationAct.."_run");
+			player.CalcIdeal = self.animation:GetForModel(model, animationAct.."_run");
 		elseif (velLength > 0.5) then
-			player.CalcIdeal = cwAnim:GetForModel(model, animationAct.."_walk");
+			player.CalcIdeal = self.animation:GetForModel(model, animationAct.."_walk");
 		end;
 		
 		if (CLIENT) then
@@ -788,20 +832,14 @@ if (SERVER) then
 			local data = Clockwork.file:Read("settings/clockwork/schemas/"..self:GetSchemaFolder().."/"..fileName..".cw", "namedesc");
 			
 			if (data) then
-				local bSuccess, value = pcall(util.JSONToTable, data);
-				
+				local bSuccess, value = pcall(self.Deserialize, self, data);
+
 				if (bSuccess and value != nil) then
 					return value;
 				else
-					local bSuccess, value = pcall(self.Deserialize, self, data);
+					MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' schema data has failed to restore.\n"..value.."\n");
 					
-					if (bSuccess and value != nil) then
-						return value;
-					else
-						MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' schema data has failed to restore.\n"..value.."\n");
-						
-						self:DeleteSchemaData(fileName);
-					end;
+					self:DeleteSchemaData(fileName);
 				end;
 			end;
 		end;
@@ -1165,6 +1203,8 @@ if (SERVER) then
 		if (player) then
 			local ragdoll = player:GetRagdollEntity();
 			
+			hook.Call("PrePlayerTakeDamage", Clockwork, player, attacker, inflictor, damageInfo);
+			
 			if (!hook.Call("PlayerShouldTakeDamage", Clockwork, player, attacker, inflictor, damageInfo)
 			or player:IsInGodMode()) then
 				damageInfo:SetDamage(0);
@@ -1289,18 +1329,24 @@ if (SERVER) then
 	
 	-- A function to distribute wages cash.
 	function Clockwork.kernel:DistributeWagesCash()
-		for k, v in pairs(cwPlayer.GetAll()) do
+		local plyTable = cwPlayer.GetAll();
+
+		for k, v in pairs(plyTable) do
 			if (v:HasInitialized() and v:Alive()) then
-				local wages = v:GetWages();
+				local info = {
+					wages = v:GetWages();
+				};
 				
-				if (Clockwork.plugin:Call("PlayerCanEarnWagesCash", v, wages)) then
-					if (wages > 0) then
-						if (Clockwork.plugin:Call("PlayerGiveWagesCash", v, wages, v:GetWagesName())) then
-							Clockwork.player:GiveCash(v, wages, v:GetWagesName());
+				Clockwork.plugin:Call("PlayerModifyWagesInfo", v, info);
+				
+				if (Clockwork.plugin:Call("PlayerCanEarnWagesCash", v, info.wages)) then
+					if (info.wages > 0) then
+						if (Clockwork.plugin:Call("PlayerGiveWagesCash", v, info.wages, v:GetWagesName())) then
+							Clockwork.player:GiveCash(v, info.wages, v:GetWagesName());
 						end;
 					end;
 					
-					Clockwork.plugin:Call("PlayerEarnWagesCash", v, wages);
+					Clockwork.plugin:Call("PlayerEarnWagesCash", v, info.wages);
 				end;
 			end;
 		end;
@@ -1361,8 +1407,9 @@ if (SERVER) then
 	-- A function to print a log message.
 	function Clockwork.kernel:PrintLog(logType, text)
 		local listeners = {};
-		
-		for k, v in pairs(cwPlayer.GetAll()) do
+		local plyTable = cwPlayer.GetAll();
+
+		for k, v in pairs(plyTable) do
 			if (v:HasInitialized() and v:GetInfoNum("cwShowLog", 0) == 1) then
 				if (Clockwork.player:IsAdmin(v)) then
 					listeners[#listeners + 1] = v;
@@ -1424,6 +1471,8 @@ else
 	Clockwork.ColorModify = Clockwork.ColorModify or {};
 	Clockwork.ClothesData = Clockwork.ClothesData or {};
 	Clockwork.Cinematics = Clockwork.Cinematics or {};
+	
+	Clockwork.kernel.CenterHints = Clockwork.kernel.CenterHints or {};
 	Clockwork.kernel.ESPInfo = Clockwork.kernel.ESPInfo or {};
 	Clockwork.kernel.Hints = Clockwork.kernel.Hints or {};
 
@@ -1719,11 +1768,11 @@ else
 	end;
 	
 	--[[
-		A function to add a top hint. If bNoSound is false then no
+		A function to add a center hint. If bNoSound is false then no
 		sound will play, otherwise if it is a string then it will
 		play that sound.
 	--]]
-	function Clockwork.kernel:AddTopHint(text, delay, color, bNoSound, bShowDuplicates)
+	function Clockwork.kernel:AddCenterHint(text, delay, color, bNoSound, showDuplicated)
 		local colorWhite = Clockwork.option:GetColor("white");
 		
 		if (color) then
@@ -1734,16 +1783,16 @@ else
 			color = colorWhite;
 		end;
 		
-		if (!bShowDuplicates) then
-			for k, v in pairs(self.Hints) do
+		if (!showDuplicated) then
+			for k, v in pairs(self.CenterHints) do
 				if (v.text == text) then
 					return;
 				end;
 			end;
 		end;
 		
-		if (table.Count(self.Hints) == 10) then
-			table.remove(self.Hints, 10);
+		if (table.Count(self.CenterHints) == 10) then
+			table.remove(self.CenterHints, 10);
 		end;
 		
 		if (type(bNoSound) == "string") then
@@ -1752,7 +1801,7 @@ else
 			surface.PlaySound("hl1/fvox/blip.wav");
 		end;
 		
-		self.Hints[#self.Hints + 1] = {
+		self.CenterHints[#self.CenterHints + 1] = {
 			startTime = SysTime(),
 			velocityX = -5,
 			velocityY = 0,
@@ -1762,12 +1811,12 @@ else
 			delay = delay,
 			alpha = 0,
 			text = text,
-			y = ScrH() * 0.3,
-			x = ScrW() + 200
+			y = ScrH() * 0.6,
+			x = ScrW() * 0.5
 		};
 	end;
 	
-	local function UpdateHint(index, hintInfo, iCount)
+	local function UpdateCenterHint(index, hintInfo, iCount)
 		local hintsFont = Clockwork.option:GetFont("hints_text");
 		local fontWidth, fontHeight = Clockwork.kernel:GetCachedTextSize(
 			hintsFont, hintInfo.text
@@ -1778,9 +1827,8 @@ else
 		local x = hintInfo.x;
 		local y = hintInfo.y;
 		
-		--[[ Work out the ideal X and Y position for the hint. --]]
-		local idealY = 8 + (height * (index - 1));
-		local idealX = ScrW() - width - 32;
+		local idealY = (ScrH() * 0.4) + (height * (index - 1));
+		local idealX = (ScrW() * 0.5) - (width * 0.5);
 		local timeLeft = (hintInfo.startTime - (SysTime() - hintInfo.delay) + 2);
 		
 		if (timeLeft < 0.7) then
@@ -1816,7 +1864,106 @@ else
 		hintInfo.x = x;
 		hintInfo.y = y;
 		
-		--[[ Remove it if we're finished. --]]
+		return (timeLeft < 0.1);
+	end;
+	
+	--[[
+		A function to add a top hint. If bNoSound is false then no
+		sound will play, otherwise if it is a string then it will
+		play that sound.
+	--]]
+	function Clockwork.kernel:AddTopHint(text, delay, color, bNoSound, showDuplicated)
+		local colorWhite = Clockwork.option:GetColor("white");
+		
+		if (color) then
+			if (type(color) == "string") then
+				color = Clockwork.option:GetColor(color);
+			end;
+		else
+			color = colorWhite;
+		end;
+		
+		if (!showDuplicated) then
+			for k, v in pairs(self.Hints) do
+				if (v.text == text) then
+					return;
+				end;
+			end;
+		end;
+		
+		if (table.Count(self.Hints) == 10) then
+			table.remove(self.Hints, 10);
+		end;
+		
+		if (type(bNoSound) == "string") then
+			surface.PlaySound(bNoSound);
+		elseif (bNoSound == nil) then
+			surface.PlaySound("hl1/fvox/blip.wav");
+		end;
+		
+		self.Hints[#self.Hints + 1] = {
+			startTime = SysTime(),
+			velocityX = -5,
+			velocityY = 0,
+			targetAlpha = 255,
+			alphaSpeed = 64,
+			color = color,
+			delay = delay,
+			alpha = 0,
+			text = text,
+			y = ScrH() * 0.2,
+			x = ScrW()
+		};
+	end;
+	
+	local function UpdateHint(index, hintInfo, iCount)
+		local hintsFont = Clockwork.option:GetFont("hints_text");
+		local fontWidth, fontHeight = Clockwork.kernel:GetCachedTextSize(
+			hintsFont, hintInfo.text
+		);
+		local height = fontHeight;
+		local width = fontWidth;
+		local alpha = 255;
+		local x = hintInfo.x;
+		local y = hintInfo.y;
+		
+		local idealY = 24 + (height * (index - 1));
+		local idealX = ScrW() - width - 48;
+		local timeLeft = (hintInfo.startTime - (SysTime() - hintInfo.delay) + 2);
+		
+		if (timeLeft < 0.7) then
+			idealX = idealX - 50;
+			alpha = 0;
+		end;
+		
+		if (timeLeft < 0.2) then
+			idealX = idealX + width * 2;
+		end;
+		
+		local fSpeed = FrameTime() * 15;
+			y = y + hintInfo.velocityY * fSpeed;
+			x = x + hintInfo.velocityX * fSpeed;
+		local distanceY = idealY - y;
+		local distanceX = idealX - x;
+		local distanceA = (alpha - hintInfo.alpha);
+		
+		hintInfo.velocityY = hintInfo.velocityY + distanceY * fSpeed * 1;
+		hintInfo.velocityX = hintInfo.velocityX + distanceX * fSpeed * 1;
+		
+		if (math.abs(distanceY) < 2 and math.abs(hintInfo.velocityY) < 0.1) then
+			hintInfo.velocityY = 0;
+		end;
+		
+		if (math.abs(distanceX) < 2 and math.abs(hintInfo.velocityX) < 0.1) then
+			hintInfo.velocityX = 0;
+		end;
+		
+		hintInfo.velocityX = hintInfo.velocityX * (0.95 - FrameTime() * 8);
+		hintInfo.velocityY = hintInfo.velocityY * (0.95 - FrameTime() * 8);
+		hintInfo.alpha = hintInfo.alpha + distanceA * fSpeed * 0.1;
+		hintInfo.x = x;
+		hintInfo.y = y;
+		
 		return (timeLeft < 0.1);
 	end;
 	
@@ -1825,6 +1972,12 @@ else
 		for k, v in pairs(self.Hints) do
 			if (UpdateHint(k, v, #self.Hints)) then
 				table.remove(self.Hints, k);
+			end;
+		end;
+		
+		for k, v in pairs(self.CenterHints) do
+			if (UpdateCenterHint(k, v, #self.CenterHints)) then
+				table.remove(self.CenterHints, k);
 			end;
 		end;
 	end;
@@ -2039,6 +2192,14 @@ else
 				self:OverrideMainFont(false);
 			end;
 		end;
+		
+		if (Clockwork.plugin:Call("PlayerCanSeeCenterHints") and #self.CenterHints > 0) then
+			for k, v in pairs(self.CenterHints) do
+				self:OverrideMainFont(hintsFont);
+					self:DrawInfo(v.text, v.x, v.y, v.color, v.alpha, true);
+				self:OverrideMainFont(false);
+			end;
+		end;
 	end;
 
 	-- A function to draw the top bars.
@@ -2047,7 +2208,8 @@ else
 			local barTextFont = Clockwork.option:GetFont("bar_text");
 			
 			Clockwork.bars.width = info.width;
-			Clockwork.bars.height = 12;
+			Clockwork.bars.height = Clockwork.bars.height or 12;
+			Clockwork.bars.padding = Clockwork.bars.padding or 14;
 			Clockwork.bars.y = info.y;
 			
 			if (class == "tab") then
@@ -2058,7 +2220,7 @@ else
 			
 			Clockwork.option:SetFont("bar_text", Clockwork.option:GetFont("auto_bar_text"));
 				for k, v in pairs(Clockwork.bars.stored) do
-					Clockwork.bars.y = self:DrawBar(Clockwork.bars.x, Clockwork.bars.y, Clockwork.bars.width, Clockwork.bars.height, v.color, v.text, v.value, v.maximum, v.flash) + (Clockwork.bars.height + 2);
+					Clockwork.bars.y = self:DrawBar(Clockwork.bars.x, Clockwork.bars.y, Clockwork.bars.width, Clockwork.bars.height, v.color, v.text, v.value, v.maximum, v.flash, {uniqueID = v.uniqueID}) + (Clockwork.bars.padding + 2);
 				end;
 			Clockwork.option:SetFont("bar_text", barTextFont);
 			
@@ -2337,6 +2499,20 @@ else
 		end;
 		
 		return Clockwork.CachedTextSizes[font][text][1], Clockwork.CachedTextSizes[font][text][2];
+	end;
+	
+	-- A function to draw scaled information at a position.
+	function Clockwork.kernel:DrawInfoScaled(scale, text, x, y, color, alpha, bAlignLeft, Callback, shadowDepth)
+		local newFont = Clockwork.fonts:GetMultiplied("cwMainText", scale);
+		local returnY = 0;
+		
+		self:OverrideMainFont(newFont);
+		
+		returnY = self:DrawInfo(text, x, y, color, alpha, bAlignLeft, Callback, shadowDepth);
+		
+		self:OverrideMainFont(false);
+		
+		return returnY;
 	end;
 	
 	-- A function to draw information at a position.
@@ -2724,11 +2900,21 @@ else
 				subMenu:AddOption("No", function() end);
 			elseif (type(v) == "table") then
 				itemMenu:AddOption(v.title, function()
+					local defaultAction = true;
+					
 					if (itemTable.HandleOptions) then
 						local transmit, data = itemTable:HandleOptions(v.name);
+						
 						if (transmit) then
 							Clockwork.datastream:Start("MenuOption", {option = v.name, data = data, item = itemTable("itemID")});
+							defaultAction = false;
 						end;
+					end;
+					
+					if (defaultAction) then
+						self:RunCommand(
+							"InvAction", v.name, itemTable("uniqueID"), itemTable("itemID")
+						);
 					end;
 				end);
 			else
@@ -3266,7 +3452,8 @@ else
 		if (cinematicInfo) then
 			local screenHeight = ScrH();
 			local screenWidth = ScrW();
-			local textPosY = screenHeight * 0.3;
+			local textPosScale = 1 - (Clockwork.CinematicInfoAlpha / 255);
+			local textPosY = (screenHeight * 0.35) - ((screenHeight * 0.15) * textPosScale);
 			local textPosX = screenWidth * 0.3;
 			
 			if (cinematicInfo.title) then
@@ -3279,27 +3466,28 @@ else
 				
 				if (cinematicInfo.text) then
 					local smallTextWidth, smallTextHeight = self:GetCachedTextSize(introTextSmallFont, cinematicIntroText);
+					
 					self:DrawGradient(
-						GRADIENT_RIGHT, 0, textPosY - 32, screenWidth, textHeight + smallTextHeight + 64, Color(100, 100, 100, boxAlpha)
+						GRADIENT_RIGHT, 0, textPosY - 80, screenWidth, textHeight + smallTextHeight + 160, Color(100, 100, 100, boxAlpha)
 					);
 				else
 					self:DrawGradient(
-						GRADIENT_RIGHT, 0, textPosY - 32, screenWidth, textHeight + 64, Color(100, 100, 100, boxAlpha)
+						GRADIENT_RIGHT, 0, textPosY - 80, screenWidth, textHeight + 160, Color(100, 100, 100, boxAlpha)
 					);
 				end;
 				
 				self:OverrideMainFont(introTextBigFont);
-					self:DrawSimpleText(cinematicInfoTitle, textPosX, textPosY, Color(colorInfo.r, colorInfo.g, colorInfo.b, Clockwork.CinematicInfoAlpha));
+					self:DrawSimpleText(cinematicInfoTitle, textPosX, textPosY, Color(colorInfo.r, colorInfo.g, colorInfo.b, Clockwork.CinematicInfoAlpha), nil, nil, true);
 				self:OverrideMainFont(false);
 				
 				if (cinematicInfo.text) then
 					self:OverrideMainFont(introTextSmallFont);
-						self:DrawSimpleText(cinematicIntroText, textPosX, textPosY + textHeight + 8, Color(colorWhite.r, colorWhite.g, colorWhite.b, Clockwork.CinematicInfoAlpha));
+						self:DrawSimpleText(cinematicIntroText, textPosX, textPosY + textHeight + 8, Color(colorWhite.r, colorWhite.g, colorWhite.b, Clockwork.CinematicInfoAlpha), nil, nil, true);
 					self:OverrideMainFont(false);
 				end;
 			elseif (cinematicInfo.text) then
 				self:OverrideMainFont(introTextSmallFont);
-					self:DrawSimpleText(cinematicIntroText, textPosX, textPosY, Color(colorWhite.r, colorWhite.g, colorWhite.b, Clockwork.CinematicInfoAlpha));
+					self:DrawSimpleText(cinematicIntroText, textPosX, textPosY, Color(colorWhite.r, colorWhite.g, colorWhite.b, Clockwork.CinematicInfoAlpha), nil, nil, true);
 				self:OverrideMainFont(false);
 			end;
 		end;
@@ -3681,7 +3869,7 @@ end;
 -- A function to include files in a directory.
 function Clockwork.kernel:IncludeDirectory(directory, bFromBase)
 	if (bFromBase) then
-		directory = "Clockwork/framework/"..directory;
+		directory = "clockwork/framework/"..directory;
 	end;
 	
 	if (string.utf8sub(directory, -1) != "/") then

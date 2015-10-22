@@ -300,6 +300,12 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 								Clockwork.datastream:Start(player, "CharacterFinish", {bSuccess = true});
 								
 								player.cwIsCreatingChar = nil;
+								
+								local characters = player:GetCharacters();
+								
+								if (table.Count(characters) == 1) then
+									Clockwork.player:UseCharacter(player, characterID);
+								end;
 							end
 						);
 					end;
@@ -797,7 +803,10 @@ function Clockwork.player:GiveProperty(player, entity, networked, removeDelay)
 	
 	entity:SetOwnerKey(player:GetCharacterKey());
 	entity:SetNetworkedBool("Owned", true);
-	entity:SetNetworkedInt("Key", entity.cwPropertyTab.key);
+	
+	if (tonumber(entity.cwPropertyTab.key)) then
+		entity:SetNetworkedInt("Key", entity.cwPropertyTab.key);
+	end;
 	
 	self.property[entity:EntIndex()] = entity;
 	Clockwork.plugin:Call("PlayerPropertyGiven", player, entity, networked, removeDelay);
@@ -2292,8 +2301,19 @@ function Clockwork.player:IsProtected(identifier)
 		steamID = identifier:SteamID();
 	end;
 	
-	if (steamID and steamID == ownerSteamID) then
-		return true;
+	if (string.find(ownerSteamID, ",")) then
+		ownerSteamID = string.gsub(ownerSteamID, " ", "");
+		ownerSteamID = string.Split(ownerSteamID, ",");
+
+		for k, v in pairs(ownerSteamID) do
+			if (steamID and steamID == v) then
+				return true;
+			end;
+		end;
+	else
+		if (steamID and steamID == ownerSteamID) then
+			return true;
+		end;
 	end;
 	
 	return false;
@@ -3252,7 +3272,6 @@ function Clockwork.player:LoadData(player, Callback)
 				return;
 			end;
 			
-			local ownerSteamID = Clockwork.config:Get("owner_steamid"):Get();
 			local onNextPlay = "";
 			
 			if (Clockwork.database:IsResult(result)) then
@@ -3278,7 +3297,7 @@ function Clockwork.player:LoadData(player, Callback)
 				player.cwData = Clockwork.player:SaveData(player, true);
 			end;
 			
-			if (string.lower(steamID) == string.lower(ownerSteamID)) then
+			if (Clockwork.player:IsProtected(player)) then
 				player.cwUserGroup = "superadmin";
 			end;
 			

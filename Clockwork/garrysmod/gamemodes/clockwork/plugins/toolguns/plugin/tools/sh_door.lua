@@ -8,7 +8,6 @@
 
 local TOOL = Clockwork.tool:New();
 
-TOOL.Category		= "Clockwork tools";
 TOOL.Name 			= "Door Tool";
 TOOL.UniqueID 		= "doortool";
 TOOL.Desc 			= "Do various things with doors.";
@@ -278,4 +277,12 @@ if CLIENT then
 	end
 end
 	
-TOOL:Register();
+local plugin = Clockwork.plugin:FindByID("Door Commands");
+	
+if (plugin) then
+	if (Clockwork.plugin:IsDisabled(plugin.name) or Clockwork.plugin:IsUnloaded(plugin.name)) then
+		
+	else
+		TOOL:Register();
+	end	
+end

@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -20,31 +20,31 @@ function COMMAND:OnRun(player, arguments)
 	local key = arguments[1];
 	local value = arguments[2] or "";
 	local configObject = Clockwork.config:Get(key);
-	
+
 	if (configObject:IsValid()) then
 		local keyPrefix = "";
 		local useMap = arguments[3];
-		
+
 		if (useMap == "") then
 			useMap = nil;
 		end;
-		
+
 		if (useMap) then
 			useMap = string.lower(Clockwork.kernel:Replace(useMap, ".bsp", ""));
 			keyPrefix = useMap.."'s ";
-			
+
 			if (!file.Exists("maps/"..useMap..".bsp", "GAME")) then
-				Clockwork.player:Notify(player, useMap.." is not a valid map!");
+				Clockwork.player:Notify(player, L(player, "NotValidMap", useMap));
 				return;
 			end;
 		end;
-		
+
 		if (!configObject("isStatic")) then
 			value = configObject:Set(value, useMap);
-			
+
 			if (value != nil) then
 				local printValue = tostring(value);
-				
+
 				if (configObject("isPrivate")) then
 					if (configObject("needsRestart")) then
 						Clockwork.player:NotifyAll(player:Name().." set "..keyPrefix..key.." to '"..string.rep("*", string.utf8len(printValue)).."' for the next restart.");
@@ -57,13 +57,13 @@ function COMMAND:OnRun(player, arguments)
 					Clockwork.player:NotifyAll(player:Name().." set "..keyPrefix..key.." to '"..printValue.."'.");
 				end;
 			else
-				Clockwork.player:Notify(player, key.." was unable to be set!");
+				Clockwork.player:Notify(player, L(player, "ConfigUnableToSet", key));
 			end;
 		else
-			Clockwork.player:Notify(player, key.." is a static config key!");
+			Clockwork.player:Notify(player, L(player, "ConfigIsStaticKey", key));
 		end;
 	else
-		Clockwork.player:Notify(player, key.." is not a valid config key!");
+		Clockwork.player:Notify(player, L(player, "ConfigKeyNotValid", key));
 	end;
 end;
 

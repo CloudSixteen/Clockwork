@@ -19,9 +19,10 @@ function PANEL:Init()
 	self:SetSize(Clockwork.menu:GetWidth(), Clockwork.menu:GetHeight());
 	
 	self.panelList = vgui.Create("cwPanelList", self);
- 	self.panelList:SetPadding(4);
+ 	self.panelList:SetPadding(8);
  	self.panelList:SetSpacing(4);
  	self.panelList:StretchToParent(4, 4, 4, 4);
+ 	self.panelList:HideBackground();
 	
 	self:Rebuild();
 end;
@@ -65,15 +66,18 @@ function PANEL:Rebuild()
 		Clockwork.plugin:Call("PlayerBusinessRebuilt", self, categories);
 		
 		for k, v in pairs(categories) do
-			local collapsibleCategory = Clockwork.kernel:CreateCustomCategoryPanel(v.category, self.panelList);
-				self.panelList:AddItem(collapsibleCategory);
+			local categoryForm = vgui.Create("cwBasicForm", self);
+			categoryForm:SetPadding(8);
+			categoryForm:SetSpacing(8);
+			categoryForm:SetAutoSize(true);
+			categoryForm:SetText(v.category, nil, "basic_form_highlight")
 			
-			local categoryList = vgui.Create("DPanelList", collapsibleCategory);
+			local categoryList = vgui.Create("DPanelList", categoryForm);
 				categoryList:EnableHorizontal(true);
 				categoryList:SetAutoSize(true);
 				categoryList:SetPadding(4);
 				categoryList:SetSpacing(4);
-			collapsibleCategory:SetContents(categoryList);
+			categoryForm:AddItem(categoryList);
 			
 			table.sort(v.itemsList, function(a, b)
 				local itemTableA = a;
@@ -93,6 +97,8 @@ function PANEL:Rebuild()
 				
 				categoryList:AddItem(vgui.Create("cwBusinessItem", self));
 			end;
+			
+			self.panelList:AddItem(categoryForm);
 		end;
 	end;
 	
@@ -110,14 +116,12 @@ end;
 function PANEL:OnSelected() self:Rebuild(); end;
 
 -- Called when the layout should be performed.
-function PANEL:PerformLayout(w, h)
-	--self.panelList:StretchToParent(4, 4, 4, 4);
-	--self:SetSize(w, math.min(self.panelList.pnlCanvas:GetTall() + 32, ScrH() * 0.75));
-end;
+function PANEL:PerformLayout(w, h) end;
 
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
 	DERMA_SLICED_BG:Draw(0, 0, w, h, 8, COLOR_WHITE);
+	
 	return true;
 end;
 
@@ -183,6 +187,7 @@ end;
 
 function PANEL:Paint(width, height)
 	INFOTEXT_SLICED:Draw(0, 0, width, height, 8, Color(255, 255, 255, 150));
+	
 	return true;
 end;
 

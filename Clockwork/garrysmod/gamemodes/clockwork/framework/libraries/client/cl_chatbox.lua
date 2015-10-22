@@ -1,5 +1,5 @@
 --[[ 
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -87,7 +87,7 @@ end;
 
 -- A function to get the chat box's custom position.
 function Clockwork.chatBox:GetCustomPosition()
-	return self.position;
+	return self.position or {};
 end;
 
 -- A function to reset the chat box's custom position.
@@ -97,14 +97,18 @@ end;
 
 -- A function to get the position of the chat area.
 function Clockwork.chatBox:GetPosition(addX, addY)
-	local customPosition = Clockwork.chatBox:GetCustomPosition();
-	local x, y = 8, ScrH() * 0.75;
-	
-	if (customPosition) then
+	local customPosition = self:GetCustomPosition();
+	local x = 8;
+	local y = ScrH() - 40;
+
+	if (customPosition.x) then
 		x = customPosition.x;
+	end;
+
+	if (customPosition.y) then
 		y = customPosition.y;
 	end;
-	
+
 	return x + (addX or 0), y + (addY or 0);
 end;
 
@@ -183,7 +187,7 @@ function Clockwork.chatBox:CreateDermaTextEntry()
 			
 			if (string.utf8len(text) > maxChatLength) then
 				textEntry:SetRealValue(string.utf8sub(text, 0, maxChatLength));
-				surface.PlaySound("common/talk.wav");
+				Clockwork.option:PlaySound("tick");
 			elseif (self:IsOpen()) then
 				if (text != textEntry.previousText) then
 					Clockwork.plugin:Call("ChatBoxTextChanged", textEntry.previousText or "", text);
@@ -680,7 +684,7 @@ end;
 function Clockwork.chatBox:WrappedText(newLine, message, color, text, OnHover)
 	local chatBoxTextFont = Clockwork.option:GetFont("chat_box_text");
 	local width, height = Clockwork.kernel:GetTextSize(chatBoxTextFont, text);
-	local maximumWidth = ScrW() * 0.75;
+	local maximumWidth = ScrW() * 0.6;
 	
 	if (width > maximumWidth) then
 		local currentWidth = 0;
@@ -1012,7 +1016,7 @@ function Clockwork.chatBox:Add(filtered, icon, ...)
 		
 		table.insert(self.messages, 1, message);
 		
-		surface.PlaySound("common/talk.wav");
+		Clockwork.option:PlaySound("tick");
 		Clockwork.kernel:PrintColoredText(...);
 	end;
 end;

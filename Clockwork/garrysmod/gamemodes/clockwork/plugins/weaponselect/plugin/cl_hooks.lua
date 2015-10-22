@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -93,33 +93,35 @@ function cwWeaponSelect:HUDPaintImportant()
 		while (#afterWeapons > weaponLimit) do
 			afterWeapons[#afterWeapons] = nil;
 		end;
-		
+	end;
+
+	Clockwork.plugin:Call("PreDrawWeaponList", x, y, weaponLimit, self.displayAlpha);
+
+	if (#beforeWeapons > 1) then
 		for k, v in pairs(beforeWeapons) do
 			local weaponAlpha = math.min((255 / weaponLimit) * k, self.displayAlpha);
-			
+				
 			y = Clockwork.kernel:DrawInfo(
 				string.upper(self:GetWeaponPrintName(v)), x, y, colorWhite, weaponAlpha, true,
 				function(x, y, width, height)
-					--SLICED_SMALL_TINT:Draw(x - 2, y - 2, 128, height + 2, 4, Color(255, 255, 255, weaponAlpha));
-					
+					Clockwork.plugin:Call("DrawWeaponList", x, y, width, height, weaponAlpha, "before");
+
 					return x, y;
 				end
 			) + 3;
 		end;
 	end;
-	
+		
 	if (IsValid(currentWeapon)) then
 		local currentWeaponName = string.upper(self:GetWeaponPrintName(currentWeapon));
 		local weaponInfoY = y;
 		local weaponInfoX = x + 196;
 		
 		y = Clockwork.kernel:DrawInfo(
-			currentWeaponName, x, y, colorWhite, self.displayAlpha, true,
+			currentWeaponName, x, y, informationColor, self.displayAlpha, true,
 			function(x, y, width, height)
-				SLICED_SMALL_TINT:Draw(x - 8, y - 8, width + 16, height + 16, 4, Color(
-					informationColor.r, informationColor.g, informationColor.b, self.displayAlpha
-				));
-				
+				Clockwork.plugin:Call("DrawWeaponList", x, y, width, height, self.displayAlpha, "current");
+
 				return x, y;
 			end
 		) + 3;
@@ -133,7 +135,7 @@ function cwWeaponSelect:HUDPaintImportant()
 				y = Clockwork.kernel:DrawInfo(
 					"There are no other weapons.", x, y, colorWhite, self.displayAlpha, true,
 					function(x, y, width, height)
-						--SLICED_SMALL_TINT:Draw(x - 2, y - 2, 128, height + 2, 4, Color(255, 255,255, self.displayAlpha));
+						Clockwork.plugin:Call("DrawWeaponList", x, y, width, height, self.displayAlpha, "current");
 						
 						return x, y;
 					end
@@ -149,7 +151,7 @@ function cwWeaponSelect:HUDPaintImportant()
 			y = Clockwork.kernel:DrawInfo(
 				string.upper(self:GetWeaponPrintName(v)), x, y, colorWhite, weaponAlpha, true,
 				function(x, y, width, height)
-					--SLICED_SMALL_TINT:Draw(x - 2, y - 2, 128, height + 2, 4, Color(255, 255,255, weaponAlpha));
+					Clockwork.plugin:Call("DrawWeaponList", x, y, width, height, weaponAlpha, "after");
 					
 					return x, y;
 				end
@@ -163,6 +165,12 @@ function cwWeaponSelect:HUDPaintImportant()
 		self.displayAlpha = math.max(self.displayAlpha - (frameTime * 64), 0);
 	end;
 end;
+
+-- Called to paint behind the weapon list.
+function cwWeaponSelect:PreDrawWeaponList(x, y, weaponLimit, alpha) end;
+
+-- Called when the weapon list is drawn.
+function cwWeaponSelect:DrawWeaponList(x, y, w, h, alpha, type) end;
 
 -- Called when a player presses a bind at the top level.
 function cwWeaponSelect:TopLevelPlayerBindPress(player, bind, bPress)
@@ -191,7 +199,7 @@ function cwWeaponSelect:TopLevelPlayerBindPress(player, bind, bPress)
 	if (string.find(bind, "invnext") or string.find(bind, "slot2")) then
 		if (curTime >= self.displayDelay and !bPress) then
 			if (#newWeapons > 1) then
-				surface.PlaySound("common/talk.wav");
+				Clockwork.option:PlaySound("tick");
 			end;
 			
 			self.displayDelay = curTime + 0.05;
@@ -208,7 +216,7 @@ function cwWeaponSelect:TopLevelPlayerBindPress(player, bind, bPress)
 	elseif (string.find(bind, "invprev") or string.find(bind, "slot1")) then
 		if (curTime >= self.displayDelay and !bPress) then
 			if (#newWeapons > 1) then
-				surface.PlaySound("common/talk.wav");
+				Clockwork.option:PlaySound("tick");
 			end;
 			
 			self.displayDelay = curTime + 0.05;

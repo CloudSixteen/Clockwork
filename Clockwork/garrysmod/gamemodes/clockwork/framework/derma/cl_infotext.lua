@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -16,32 +16,35 @@ local PANEL = {};
 -- Called when the panel is initialized.
 function PANEL:Init()
 	self:SetPos(4, 4);
-	self:SetSize(self:GetWide() - 8, 24);
+	self:SetSize(self:GetWide() - 8, 32);
 	self:SetBackgroundColor(Color(139, 174, 179, 255));
 	
 	self.icon = vgui.Create("DImage", self);
 	self.icon:SetImage("icon16/comment.png");
 	self.icon:SizeToContents();
 	
+	local font = Clockwork.fonts:GetSize(Clockwork.option:GetFont("info_text_font"), 16);
+	
 	self.label = vgui.Create("DLabel", self);
 	self.label:SetText("");
+	self.label:SetFont(font);
 	self.label:SetTextColor(Clockwork.option:GetColor("white"));
 	self.label:SetExpensiveShadow(1, Color(0, 0, 0, 150));
 end;
 
 -- Called when the layout should be performed.
 function PANEL:PerformLayout(w, h)
-	self.icon:SetPos(4, 4);
-	
 	if (self.textToLeft) then
 		if (self.icon:IsVisible()) then
-			self.label:SetPos(self.icon.x + 8, h / 2 - self.label:GetTall() / 2);
+			self.label:SetPos(self.icon.x + self.icon:GetWide() + 12, h / 2 - self.label:GetTall() / 2);
 		else
 			self.label:SetPos(8, h / 2 - self.label:GetTall() / 2);
 		end;
 	else
 		self.label:SetPos(w / 2 - self.label:GetWide() / 2, h / 2 - self.label:GetTall() / 2);
 	end;
+	
+	self:UpdateIconPosition();
 	
 	derma.SkinHook("Layout", "Panel", self);
 end;
@@ -79,6 +82,8 @@ end;
 function PANEL:SetText(text)
 	self.label:SetText(text);
 	self.label:SizeToContents();
+	
+	self:UpdateIconPosition();
 end;
 
 -- A function to set whether the panel is a button.
@@ -154,26 +159,43 @@ function PANEL:SetShowIcon(showIcon)
 end;
 
 -- A function to set the icon.
-function PANEL:SetIcon(icon)
+function PANEL:SetIcon(icon, size)
+	if (not size) then
+		size = Clockwork.option:GetKey("info_text_icon_size");
+	end;
+	
 	self.icon:SetImage(icon);
-	self.icon:SizeToContents();
 	self.icon:SetVisible(true);
+	self.icon:SetSize(size, size);
+	
+	self:UpdateIconPosition();
+end;
+
+-- Update the icon position to align with the text.
+function PANEL:UpdateIconPosition()
+	local size = self.icon:GetWide();
+	
+	if (not self.textToLeft) then
+		self.icon:SetPos(self.label.x - size - 12, 16 - (size / 2));
+	else
+		self.icon:SetPos(8, 16 - (size / 2));
+	end;
 end;
 
 -- A function to set the panel's info color.
 function PANEL:SetInfoColor(color)
 	if (color == "red") then
 		self:SetBackgroundColor(Color(179, 46, 49, 255));
-		self:SetIcon("icon16/exclamation.png");
+		self:SetIcon(Clockwork.option:GetKey("info_text_red_icon"));
 	elseif (color == "orange") then
 		self:SetBackgroundColor(Color(223, 154, 72, 255));
-		self:SetIcon("icon16/error.png");
+		self:SetIcon(Clockwork.option:GetKey("info_text_orange_icon"));
 	elseif (color == "green") then
 		self:SetBackgroundColor(Color(139, 215, 113, 255));
-		self:SetIcon("icon16/tick.png");
+		self:SetIcon(Clockwork.option:GetKey("info_text_green_icon"));
 	elseif (color == "blue") then
 		self:SetBackgroundColor(Color(139, 174, 179, 255));
-		self:SetIcon("icon16/information.png");
+		self:SetIcon(Clockwork.option:GetKey("info_text_blue_icon"));
 	else
 		self:SetShowIcon(false);
 		self:SetBackgroundColor(color);

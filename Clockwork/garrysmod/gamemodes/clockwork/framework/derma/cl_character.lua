@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -2087,6 +2087,13 @@ Clockwork.datastream:Hook("CharacterMenu", function(data)
 		if (Clockwork.character:GetPanel()) then
 			Clockwork.character:SetPanelLoading(false);
 			Clockwork.character:RefreshPanelList();
+			
+			local numCharacters = table.Count(Clockwork.character:GetAll());
+			
+			if (numCharacters == 0) then
+				Clockwork.character:ResetCreationInfo();
+				Clockwork.character:OpenNextCreationPanel();
+			end;
 		end;
 	elseif (menuState == CHARACTER_MENU_CLOSE) then
 		Clockwork.character:SetPanelOpen(false);
@@ -2116,7 +2123,7 @@ end);
 Clockwork.character:RegisterCreationPanel("Persuasion", "cwCharacterStageOne");
 Clockwork.character:RegisterCreationPanel("Description", "cwCharacterStageTwo");
 
-Clockwork.character:RegisterCreationPanel("Default Class", "cwCharacterStageThree",
+Clockwork.character:RegisterCreationPanel("Default Class", "cwCharacterStageThree", nil,
 	function(info)
 		local classTable = Clockwork.class:GetAll();
 		
@@ -2134,7 +2141,7 @@ Clockwork.character:RegisterCreationPanel("Default Class", "cwCharacterStageThre
 );
 
 Clockwork.character:RegisterCreationPanel(
-	Clockwork.option:GetKey("name_attributes"), "cwCharacterStageFour",
+	Clockwork.option:GetKey("name_attributes"), "cwCharacterStageFour", nil,
 	function(info)
 		local attributeTable = Clockwork.attribute:GetAll();
 		
