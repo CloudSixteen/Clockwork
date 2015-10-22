@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -27,7 +27,7 @@ function PANEL:Init()
 		self:SetPaintBackground(false);
 		self:SetMouseInputEnabled(true);
 		self:SetKeyboardInputEnabled(true);
-				
+		
 		Clockwork.kernel:SetNoticePanel(self);
 		
 		self.CreateTime = SysTime();
@@ -137,7 +137,7 @@ function PANEL:Rebuild(change)
 		Clockwork.plugin:Call("MenuItemsDestroy", Clockwork.menuitems);
 		
 		table.sort(Clockwork.menuitems.stored, function(a, b)
-			return a.text < b.text;
+			return (a.iconData and not b.iconData) or (a.text < b.text);
 		end);
 		
 		for k, v in pairs(Clockwork.menuitems.stored) do
@@ -154,31 +154,16 @@ function PANEL:Rebuild(change)
 			end;
 			
 			if (!panel.IsButtonVisible or panel:IsButtonVisible()) then
-				button = vgui.Create("cwLabelButton", self);
+				button = vgui.Create("cwMenuButton", self);
+				button:NoClipping(true);
 			end;
 		
 			if (button) then
-				button:SetFont(Clockwork.option:GetFont("menu_text_tiny"));
-				button:SetText(string.upper(v.text));
-				
-				if (CW_CONVAR_FADEPANEL:GetInt() == 1) then
-					button:SetAlpha(0);
-					button:FadeIn(0.5);
-				else
-					button:SetAlpha(255);
-				end;
-				
-				button:SetToolTip(v.tip);
-				button:SetCallback(function(button)
-					if (Clockwork.menu:GetActivePanel() != panel) then
-						self:OpenPanel(panel);
-					end;
-				end);
-				button:SizeToContents();
-				button:SetMouseInputEnabled(true);
+				button:SetupLabel(v, panel, x, y);
 				button:SetPos(x, y);
 				
-				y = y + button:GetTall() + 8;
+				y = y + button:GetTall();
+				
 				bIsVisible = true;
 				
 				if (button:GetWide() > width) then
@@ -410,9 +395,9 @@ function PANEL:Think()
 		for k, v in pairs(Clockwork.menu:GetItems()) do
 			if (IsValid(v.button)) then
 				if (v.panel == activePanel) then
-					v.button:OverrideTextColor(informationColor);
+					v.button.LabelButton:OverrideTextColor(informationColor);
 				else
-					v.button:OverrideTextColor(false);
+					v.button.LabelButton:OverrideTextColor(false);
 				end;
 			end;
 		end;

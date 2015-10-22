@@ -1,5 +1,5 @@
 --[[ 
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -21,11 +21,12 @@ Clockwork.outline = Clockwork.kernel:NewLibrary("Outline");
 -- A function to add an entity outline.
 function Clockwork.outline:Add(entity, glowColor, glowSize, bIgnoreZ)
 	if (not glowSize) then glowSize = 2; end;
+	
 	if (type(entity) ~= "table") then
 		entity = {entity};
 	end;
 	
-	effects.halo.Add(
+	halo.Add(
 		entity, glowColor, glowSize, glowSize, 1, true, bIgnoreZ
 	);
 end;

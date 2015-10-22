@@ -1,5 +1,5 @@
 --[[ 
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -73,6 +73,42 @@ end;
 
 --[[
 	@codebase Server
+	@details Send customized and centered hint text to a player.
+	@param Player The recipient(s).
+	@param String The hint text to send.
+	@param Float The delay before it fades.
+	@param Color The color of the hint text.
+	@option Bool:String Specify a custom sound or false for no sound.
+	@option Bool Specify wether to display duplicates of this hint.
+--]]
+function Clockwork.hint:SendCenter(player, text, delay, color, bNoSound, showDuplicated)
+	Clockwork.datastream:Start(player, "Hint", {
+		text = Clockwork.kernel:ParseData(text),
+		delay = delay,
+		color = color,
+		center = true,
+		noSound = bNoSound,
+		showDuplicates = showDuplicated
+	});
+end;
+
+--[[
+	@codebase Server
+	@details Send customized and centered hint text to all players.
+	@param String The hint text to send.
+	@param Float The delay before it fades.
+	@param Color The color of the hint text.
+--]]
+function Clockwork.hint:SendCenterAll(text, delay, color)
+	for k, v in pairs(cwPlayer.GetAll()) do
+		if (v:HasInitialized()) then
+			self:SendCenter(v, text, delay, color);
+		end;
+	end;
+end;
+
+--[[
+	@codebase Server
 	@details Send customized hint text to a player.
 	@param Player The recipient(s).
 	@param String The hint text to send.
@@ -81,15 +117,15 @@ end;
 	@option Bool:String Specify a custom sound or false for no sound.
 	@option Bool Specify wether to display duplicates of this hint.
 --]]
-function Clockwork.hint:Send(player, text, delay, color, bNoSound, bShowDuplicates)
+function Clockwork.hint:Send(player, text, delay, color, bNoSound, showDuplicated)
 	Clockwork.datastream:Start(player, "Hint", {
-		text = Clockwork.kernel:ParseData(text), delay = delay, color = color, noSound = bNoSound, showDuplicates = bShowDuplicates
+		text = Clockwork.kernel:ParseData(text), delay = delay, color = color, noSound = bNoSound, showDuplicates = showDuplicated
 	});
 end;
 
 --[[
 	@codebase Server
-	@details Send cutomized hint text to all players.
+	@details Send customized hint text to all players.
 	@param String The hint text to send.
 	@param Float The delay before it fades.
 	@param Color The color of the hint text.

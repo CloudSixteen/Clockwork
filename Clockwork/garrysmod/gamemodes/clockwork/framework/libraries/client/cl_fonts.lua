@@ -97,6 +97,14 @@ Clockwork.fonts:Add("cwMenuTextTiny",
 	antialiase	= true,
 	additive 	= false
 });
+Clockwork.fonts:Add("cwInfoTextFont",
+{
+	font		= "Arial",
+	size		= Clockwork.kernel:FontScreenScale(6),
+	weight		= 700,
+	antialiase	= true,
+	additive 	= false
+});
 Clockwork.fonts:Add("cwMenuTextHuge",
 {
 	font		= "Arial",
@@ -142,6 +150,22 @@ Clockwork.fonts:Add("cwLarge3D2D",
 	font		= "Arial",
 	size		= Clockwork.kernel:GetFontSize3D(),
 	weight		= 700,
+	antialiase	= true,
+	additive 	= false
+});
+Clockwork.fonts:Add("cwScoreboardName",
+{
+	font		= "Arial",
+	size		= Clockwork.kernel:FontScreenScale(7),
+	weight		= 600,
+	antialiase	= true,
+	additive 	= false
+});
+Clockwork.fonts:Add("cwScoreboardDesc",
+{
+	font		= "Arial",
+	size		= Clockwork.kernel:FontScreenScale(5),
+	weight		= 600,
 	antialiase	= true,
 	additive 	= false
 });

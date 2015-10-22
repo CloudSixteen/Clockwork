@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -18,16 +18,26 @@ Clockwork.kernel:IncludePrefixed("sv_plugin.lua");
 Clockwork.kernel:IncludePrefixed("sv_hooks.lua");
 
 -- A function to check if an entity can be static.
-function cwStaticEnts:CanStatic(entity)
+function cwStaticEnts:CanEntityStatic(entity)
 	if (entity:IsValid()) then
 		local class = entity:GetClass();
-		
-		if (class == "prop_vehicle_airboat" or class == "prop_vehicle_jeep" or class == "Jeep" or class == "Airboat") then
-			return "nope";
+		local classCheck = {
+			"prop_vehicle_",
+			"cw_",
+			"func_",
+			"prop_dynamic"
+		};
+
+		if (class == "player" or entity:MapCreationID() != -1) then
+			return false;
+		end;
+
+		for k, v in ipairs(classCheck) do
+			if (string.find(class, v)) then
+				return false;
+			end;
 		end;
 		
 		return class;
 	end;
-	
-	return false;
 end;

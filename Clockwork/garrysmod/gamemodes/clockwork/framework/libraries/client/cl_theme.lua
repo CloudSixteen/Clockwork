@@ -75,9 +75,10 @@ function Clockwork.theme:HookAfter(vguiName, functionName, callback)
 end;
 
 -- A function to begin the theme.
-function Clockwork.theme:Begin()
+function Clockwork.theme:Begin(isFixed)
 	return {
 		factory = self.factory,
+		isFixed = isFixed,
 		module = {},
 		hooks = {},
 		skin = {}
@@ -87,6 +88,11 @@ end;
 -- A function to get the theme.
 function Clockwork.theme:Get()
 	return self.active;
+end;
+
+-- A function to get whether a theme is fixed.
+function Clockwork.theme:IsFixed()
+	return (self.active and self.active.isFixed);
 end;
 
 -- A function to copy the theme to the Derma skin.

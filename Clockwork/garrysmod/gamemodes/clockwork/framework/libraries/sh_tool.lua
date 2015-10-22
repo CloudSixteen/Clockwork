@@ -308,16 +308,17 @@ end;
 function CLASS_TABLE:Create()
 	local tool = Clockwork.kernel:NewMetaTable(CLASS_TABLE);
 		
-	tool.Mode				= nil
-	tool.SWEP				= nil
-	tool.Owner				= nil
-	tool.ClientConVar		= {}
-	tool.ServerConVar		= {}
-	tool.Objects			= {}
-	tool.Stage				= 0
-	tool.Message			= "start"
-	tool.LastMessage		= 0
-	tool.AllowedCVar		= 0
+	tool.Mode				= nil;
+	tool.SWEP				= nil;
+	tool.Owner				= nil;
+	tool.Category			= "Clockwork";
+	tool.ClientConVar		= {};
+	tool.ServerConVar		= {};
+	tool.Objects			= {};
+	tool.Stage				= 0;
+	tool.Message			= "start";
+	tool.LastMessage		= 0;
+	tool.AllowedCVar		= 0;
 		
 	return tool;		
 end
@@ -334,6 +335,22 @@ function Clockwork.tool:Register(tool)
 	if (tool.UniqueID) then
 		tool.Mode = tool.UniqueID;
 		tool:CreateConVars();
+
+		if (tool.leftClickCMD) then
+			function tool:LeftClick(tr)
+				if (CLIENT) then return true; end;
+
+				self:GetOwner():RunClockworkCmd(tool.leftClickCMD);
+			end;
+		end;
+
+		if (tool.rightClickCMD) then
+			function tool:RightClick(tr)
+				if (CLIENT) then return true; end;
+
+				self:GetOwner():RunClockworkCmd(tool.rightClickCMD);
+			end;
+		end;
 
 		self.stored[tool.UniqueID] = tool;
 	else

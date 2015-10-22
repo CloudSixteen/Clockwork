@@ -31,7 +31,10 @@ function PANEL:Init()
 	self:SetMouseInputEnabled(true);
 	self:SetKeyboardInputEnabled(true);
 	
-	self.panelList = vgui.Create("cwPanelList", self);
+	self.scrollList = vgui.Create("DScrollPanel", self);
+ 	self.scrollList:SizeToContents();
+
+	self.panelList = vgui.Create("cwPanelList", self.scrollList);
  	self.panelList:SetPadding(2);
  	self.panelList:SetSpacing(3);
  	self.panelList:SizeToContents();
@@ -62,8 +65,7 @@ end;
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
 	Clockwork.kernel:RegisterBackgroundBlur(self, self.createTime);
-	
-	DERMA_SLICED_BG:Draw(0, 0, w, h, 8, COLOR_WHITE);
+	Clockwork.kernel:DrawSimpleGradientBox(0, 0, 0, ScrW(), ScrH(), Color(0, 0, 0, 255));
 	
 	return true;
 end;
@@ -87,6 +89,27 @@ function PANEL:Populate()
 		label:SetInfoColor("orange");
 	self.panelList:AddItem(label);
 
+	local langTable = Clockwork.lang:GetAll();
+
+	self.languageForm = vgui.Create("DForm");
+	self.languageForm:SetName(L("Language"));
+	self.languageForm:SetPadding(4);
+
+	local panel = vgui.Create("DComboBox", self.languageForm);
+
+	function panel:OnSelect(index, value, data)
+		Clockwork.Client:SetNWString("Language", index);
+	end;
+
+	for k, v in pairs(langTable) do
+		panel:AddChoice(k);
+	end;
+
+	panel:SetConVar("cwLang");
+	panel:SetValue(CW_CONVAR_LANG:GetString());
+		
+	self.languageForm:AddItem(panel);
+	self.panelList:AddItem(self.languageForm);
 	self.panelList:AddItem(self.questionsForm);
 	
 	for k, v in pairs(quizQuestions) do
@@ -127,7 +150,9 @@ function PANEL:PerformLayout(w, h)
 	local scrH = ScrH();
 	
 	self.panelList:SetSize(scrW * 0.5, math.min(self.panelList.pnlCanvas:GetTall() + 32, ScrH() * 0.75));
-	self.panelList:SetPos((scrW / 2) - (self.panelList:GetWide() / 2), (scrH / 2) - (self.panelList:GetTall() / 2));
+	self.panelList:SetPos(0, 0)
+	self.scrollList:SetSize(scrW * 0.5, ScrH() * 0.75);
+	self.scrollList:SetPos((scrW / 2) - (self.panelList:GetWide() / 2), (scrH / 2) - (self.panelList:GetTall() / 2));
 	
 	derma.SkinHook("Layout", "Panel", self);
 end;

@@ -27,7 +27,7 @@ function COMMAND:OnRun(player, arguments)
 			target:SetCharacterData("PhysDesc", Clockwork.kernel:ModifyPhysDesc(text));
 		end;
 	else
-		Clockwork.player:Notify(player, arguments[1].." is not a valid character!");
+		Clockwork.player:Notify(player, L(player, "NotValidCharacter", arguments[1]));
 	end;
 end;
 

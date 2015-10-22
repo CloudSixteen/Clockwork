@@ -1,5 +1,5 @@
 --[[ 
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -18,33 +18,6 @@ local table = table;
 local util = util;
 
 Clockwork.player = Clockwork.kernel:NewLibrary("Player");
-
-function Clockwork.player:GetChatIcon(player)
-	local icon;
-	
-	if (player:IsSuperAdmin()) then
-		icon = "icon16/shield.png";
-	elseif (player:IsAdmin()) then
-		icon = "icon16/star.png";
-	elseif (player:IsUserGroup("operator")) then
-		icon = "icon16/emoticon_smile.png";
-	else
-		local faction = player:GetFaction();
-					
-		if (faction and Clockwork.faction.stored[faction]) then
-			if (Clockwork.faction.stored[faction].whitelist) then
-				icon = "icon16/add.png";
-			end;
-		end;
-					
-		if (!icon) then
-			icon = "icon16/user.png";
-		end;
-	end;
-
-	return icon;
-end;
-
 
 -- A function to get whether the local player can hold a weight.
 function Clockwork.player:CanHoldWeight(weight)

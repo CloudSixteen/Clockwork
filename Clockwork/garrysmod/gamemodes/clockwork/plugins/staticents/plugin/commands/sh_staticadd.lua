@@ -15,13 +15,13 @@ function COMMAND:OnRun(player, arguments)
 	local target = player:GetEyeTraceNoCursor().Entity;
 	
 	if (IsValid(target)) then
-		local class = cwStaticEnts:CanStatic(target)
-		if (class == "nope") then
-			Clockwork.player:Notify(player, "This entity causes issues when it is static!");
-		elseif (class != false) then
+		local class = Clockwork.plugin:Call("CanEntityStatic", target);
+
+		if (class != false) then
 			for k, v in pairs(cwStaticEnts.staticEnts) do
 				if (target == v) then
-					Clockwork.player:Notify(player, "This entity is already static!");				
+					Clockwork.player:Notify(player, "This entity is already static!");
+
 					return;
 				end;
 			end;

@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -78,7 +78,9 @@ function COMMAND:OnRun(player, arguments)
 				
 				Clockwork.plugin:Call("PlayerOrderShipment", player, itemTable, entity, itemTables);
 			else
-				itemTable = entity:GetItemTable();
+				if (entity.GetItemTable) then
+					itemTable = entity:GetItemTable();
+				end;
 				
 				Clockwork.plugin:Call("PlayerOrderShipment", player, itemTable, entity);
 				

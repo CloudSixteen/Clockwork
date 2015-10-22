@@ -44,6 +44,16 @@ local draw = draw;
 local vgui = vgui;
 local gui = gui;
 
+local cwChar = Clockwork.character;
+local cwPlugin = Clockwork.plugin;
+local cwBars = Clockwork.bars;
+local cwKernel = Clockwork.kernel;
+local cwConfig = Clockwork.config;
+local cwEntity = Clockwork.entity;
+local cwOption = Clockwork.option;
+local cwPlayer = cwPlayer;
+local cwTeam = cwTeam;
+
 --[[
 	Derive from Sandbox, because we want the spawn menu and such!
 	We also want the base Sandbox entities and weapons.
@@ -252,6 +262,9 @@ Clockwork.datastream:Hook("RecogniseMenu", function(data)
 		end,
 		["All characters within talking range"] = function()
 			Clockwork.datastream:Start("RecogniseOption", "talk");
+		end,
+		["The character you are looking at."] = function()
+			Clockwork.datastream:Start("RecogniseOption", "look");
 		end
 	});
 	
@@ -371,9 +384,15 @@ end);
 
 Clockwork.datastream:Hook("Hint", function(data)
 	if (data and type(data) == "table") then
-		Clockwork.kernel:AddTopHint(
-			Clockwork.kernel:ParseData(data.text), data.delay, data.color, data.noSound, data.showDuplicates
-		);
+		if (data.center) then
+			Clockwork.kernel:AddCenterHint(
+				Clockwork.kernel:ParseData(data.text), data.delay, data.color, data.noSound, data.showDuplicates
+			);
+		else
+			Clockwork.kernel:AddTopHint(
+				Clockwork.kernel:ParseData(data.text), data.delay, data.color, data.noSound, data.showDuplicates
+			);
+		end;
 	end;
 end);
 
@@ -460,7 +479,7 @@ function Clockwork:HUDAmmoPickedUp(...) end;
 	@details Called when the context menu is opened.
 --]]
 function Clockwork:OnContextMenuOpen()
-	if (self.kernel:IsUsingTool()) then
+	if (cwKernel:IsUsingTool()) then
 		return self.BaseClass:OnContextMenuOpen(self);
 	else
 		gui.EnableScreenClicker(true);
@@ -472,7 +491,7 @@ end;
 	@details Called when the context menu is close.
 --]]
 function Clockwork:OnContextMenuClose()
-	if (self.kernel:IsUsingTool()) then
+	if (cwKernel:IsUsingTool()) then
 		return self.BaseClass:OnContextMenuClose(self);
 	else
 		gui.EnableScreenClicker(false);
@@ -652,7 +671,7 @@ function Clockwork:ClockworkConVarChanged(name, previousValue, newValue)
 		["cwTextColorA"] = true
 	}
 
-	if (checkTable[name]) then
+	if (checkTable[name] and not Clockwork.theme:IsFixed()) then
 		Clockwork.option:SetColor(
 			"information",
 			Color(
@@ -662,6 +681,8 @@ function Clockwork:ClockworkConVarChanged(name, previousValue, newValue)
 				GetConVarNumber("cwTextColorA")
 			)
 		);
+	elseif (name == "cwLang") then
+		Clockwork.Client:SetNWString("Language", newValue);
 	end;
 end;
 
@@ -726,12 +747,12 @@ end;
 	@details Called when the GUI mouse has been released.
 --]]
 function Clockwork:GUIMouseReleased(code)
-	if (!self.config:Get("use_opens_entity_menus"):Get()
+	if (!cwConfig:Get("use_opens_entity_menus"):Get()
 	and vgui.CursorVisible()) then
 		local trace = self.Client:GetEyeTrace();
 		
 		if (IsValid(trace.Entity) and trace.HitPos:Distance(self.Client:GetShootPos()) <= 80) then
-			self.EntityMenu = self.kernel:HandleEntityMenu(trace.Entity);
+			self.EntityMenu = cwKernel:HandleEntityMenu(trace.Entity);
 			
 			if (IsValid(self.EntityMenu)) then
 				self.EntityMenu:SetPos(gui.MouseX() - (self.EntityMenu:GetWide() / 2), gui.MouseY() - (self.EntityMenu:GetTall() / 2));
@@ -747,7 +768,7 @@ end;
 	@param Key The key that is being released.
 --]]
 function Clockwork:KeyRelease(player, key)
-	if (self.config:Get("use_opens_entity_menus"):Get()) then
+	if (cwConfig:Get("use_opens_entity_menus"):Get()) then
 		if (key == IN_USE) then
 			local activeWeapon = player:GetActiveWeapon();
 			local trace = self.Client:GetEyeTraceNoCursor();
@@ -759,7 +780,7 @@ function Clockwork:KeyRelease(player, key)
 			end;
 			
 			if (IsValid(trace.Entity) and trace.HitPos:Distance(self.Client:GetShootPos()) <= 80) then
-				self.EntityMenu = self.kernel:HandleEntityMenu(trace.Entity);
+				self.EntityMenu = cwKernel:HandleEntityMenu(trace.Entity);
 				
 				if (IsValid(self.EntityMenu)) then
 					self.EntityMenu:SetPos(
@@ -797,46 +818,47 @@ end;
 	@details Called when the client initializes.
 --]]
 function Clockwork:Initialize()
-	CW_CONVAR_TWELVEHOURCLOCK = self.kernel:CreateClientConVar("cwTwelveHourClock", 0, true, true);
-	CW_CONVAR_SHOWTIMESTAMPS = self.kernel:CreateClientConVar("cwShowTimeStamps", 0, true, true);
-	CW_CONVAR_MAXCHATLINES = self.kernel:CreateClientConVar("cwMaxChatLines", 10, true, true);
-	CW_CONVAR_HEADBOBSCALE = self.kernel:CreateClientConVar("cwHeadbobScale", 1, true, true);
-	CW_CONVAR_SHOWSERVER = self.kernel:CreateClientConVar("cwShowServer", 1, true, true);
-	CW_CONVAR_SHOWAURA = self.kernel:CreateClientConVar("cwShowClockwork", 1, true, true);
-	CW_CONVAR_SHOWHINTS = self.kernel:CreateClientConVar("cwShowHints", 1, true, true);
-	CW_CONVAR_SHOWLOG = self.kernel:CreateClientConVar("cwShowLog", 1, true, true);
-	CW_CONVAR_SHOWOOC = self.kernel:CreateClientConVar("cwShowOOC", 1, true, true);
-	CW_CONVAR_SHOWIC = self.kernel:CreateClientConVar("cwShowIC", 1, true, true);
+	CW_CONVAR_TWELVEHOURCLOCK = cwKernel:CreateClientConVar("cwTwelveHourClock", 0, true, true);
+	CW_CONVAR_SHOWTIMESTAMPS = cwKernel:CreateClientConVar("cwShowTimeStamps", 0, true, true);
+	CW_CONVAR_MAXCHATLINES = cwKernel:CreateClientConVar("cwMaxChatLines", 10, true, true);
+	CW_CONVAR_HEADBOBSCALE = cwKernel:CreateClientConVar("cwHeadbobScale", 1, true, true);
+	CW_CONVAR_SHOWSERVER = cwKernel:CreateClientConVar("cwShowServer", 1, true, true);
+	CW_CONVAR_SHOWAURA = cwKernel:CreateClientConVar("cwShowClockwork", 1, true, true);
+	CW_CONVAR_SHOWHINTS = cwKernel:CreateClientConVar("cwShowHints", 1, true, true);
+	CW_CONVAR_SHOWLOG = cwKernel:CreateClientConVar("cwShowLog", 1, true, true);
+	CW_CONVAR_SHOWOOC = cwKernel:CreateClientConVar("cwShowOOC", 1, true, true);
+	CW_CONVAR_SHOWIC = cwKernel:CreateClientConVar("cwShowIC", 1, true, true);
+	CW_CONVAR_LANG = cwKernel:CreateClientConVar("cwLang", "English", true, true);
 
-	CW_CONVAR_ESPTIME = self.kernel:CreateClientConVar("cwESPTime", 1, true, true);
-	CW_CONVAR_ADMINESP = self.kernel:CreateClientConVar("cwAdminESP", 0, true, true);
-	CW_CONVAR_ESPBARS = self.kernel:CreateClientConVar("cwESPBars", 1, true, true);
-	CW_CONVAR_ITEMESP = self.kernel:CreateClientConVar("cwItemESP", 0, false, true);
-	CW_CONVAR_PROPESP = self.kernel:CreateClientConVar("cwPropESP", 0, false, true);
-	CW_CONVAR_SPAWNESP = self.kernel:CreateClientConVar("cwSpawnESP", 0, false, true);
-	CW_CONVAR_SALEESP = self.kernel:CreateClientConVar("cwSaleESP", 0, false, true);
-	CW_CONVAR_NPCESP = self.kernel:CreateClientConVar("cwNPCESP", 0, false, true);
+	CW_CONVAR_ESPTIME = cwKernel:CreateClientConVar("cwESPTime", 1, true, true);
+	CW_CONVAR_ADMINESP = cwKernel:CreateClientConVar("cwAdminESP", 0, true, true);
+	CW_CONVAR_ESPBARS = cwKernel:CreateClientConVar("cwESPBars", 1, true, true);
+	CW_CONVAR_ITEMESP = cwKernel:CreateClientConVar("cwItemESP", 0, false, true);
+	CW_CONVAR_PROPESP = cwKernel:CreateClientConVar("cwPropESP", 0, false, true);
+	CW_CONVAR_SPAWNESP = cwKernel:CreateClientConVar("cwSpawnESP", 0, false, true);
+	CW_CONVAR_SALEESP = cwKernel:CreateClientConVar("cwSaleESP", 0, false, true);
+	CW_CONVAR_NPCESP = cwKernel:CreateClientConVar("cwNPCESP", 0, false, true);
 	
-	CW_CONVAR_TEXTCOLORR = self.kernel:CreateClientConVar("cwTextColorR", 255, true, true);
-	CW_CONVAR_TEXTCOLORG = self.kernel:CreateClientConVar("cwTextColorG", 200, true, true);
-	CW_CONVAR_TEXTCOLORB = self.kernel:CreateClientConVar("cwTextColorB", 0, true, true);
-	CW_CONVAR_TEXTCOLORA = self.kernel:CreateClientConVar("cwTextColorA", 255, true, true);
-	CW_CONVAR_BACKCOLORR = self.kernel:CreateClientConVar("cwBackColorR", 40, true, true);
-	CW_CONVAR_BACKCOLORG = self.kernel:CreateClientConVar("cwBackColorG", 40, true, true);
-	CW_CONVAR_BACKCOLORB = self.kernel:CreateClientConVar("cwBackColorB", 40, true, true);
-	CW_CONVAR_BACKCOLORA = self.kernel:CreateClientConVar("cwBackColorA", 255, true, true);
-	CW_CONVAR_TABX = self.kernel:CreateClientConVar("cwTabPosX", 56, true, true);
-	CW_CONVAR_TABY = self.kernel:CreateClientConVar("cwTabPosY", 112, true, true);
-	CW_CONVAR_FADEPANEL = self.kernel:CreateClientConVar("cwFadePanels", 1, true, true);
-	CW_CONVAR_CHARSTRING = self.kernel:CreateClientConVar("cwCharString", "CHARACTERS", true, true);
-	CW_CONVAR_CLOSESTRING = self.kernel:CreateClientConVar("cwCloseString", "CLOSE MENU", true, true);
-	CW_CONVAR_MATERIAL = self.kernel:CreateClientConVar("cwMaterial", "hunter/myplastic", true, true);
-	CW_CONVAR_BACKX = self.kernel:CreateClientConVar("cwBackX", 61, true, true);
-	CW_CONVAR_BACKY = self.kernel:CreateClientConVar("cwBackY", 109, true, true);
-	CW_CONVAR_BACKW = self.kernel:CreateClientConVar("cwBackW", 321, true, true);
-	CW_CONVAR_BACKH = self.kernel:CreateClientConVar("cwBackH", 109, true, true);
-	CW_CONVAR_SHOWMATERIAL = self.kernel:CreateClientConVar("cwShowMaterial", 0, true, true);
-	CW_CONVAR_SHOWGRADIENT = self.kernel:CreateClientConVar("cwShowGradient", 1, true, true);
+	CW_CONVAR_TEXTCOLORR = cwKernel:CreateClientConVar("cwTextColorR", 255, true, true);
+	CW_CONVAR_TEXTCOLORG = cwKernel:CreateClientConVar("cwTextColorG", 200, true, true);
+	CW_CONVAR_TEXTCOLORB = cwKernel:CreateClientConVar("cwTextColorB", 0, true, true);
+	CW_CONVAR_TEXTCOLORA = cwKernel:CreateClientConVar("cwTextColorA", 255, true, true);
+	CW_CONVAR_BACKCOLORR = cwKernel:CreateClientConVar("cwBackColorR", 40, true, true);
+	CW_CONVAR_BACKCOLORG = cwKernel:CreateClientConVar("cwBackColorG", 40, true, true);
+	CW_CONVAR_BACKCOLORB = cwKernel:CreateClientConVar("cwBackColorB", 40, true, true);
+	CW_CONVAR_BACKCOLORA = cwKernel:CreateClientConVar("cwBackColorA", 255, true, true);
+	CW_CONVAR_TABX = cwKernel:CreateClientConVar("cwTabPosX", 56, true, true);
+	CW_CONVAR_TABY = cwKernel:CreateClientConVar("cwTabPosY", 112, true, true);
+	CW_CONVAR_FADEPANEL = cwKernel:CreateClientConVar("cwFadePanels", 1, true, true);
+	CW_CONVAR_CHARSTRING = cwKernel:CreateClientConVar("cwCharString", "CHARACTERS", true, true);
+	CW_CONVAR_CLOSESTRING = cwKernel:CreateClientConVar("cwCloseString", "CLOSE MENU", true, true);
+	CW_CONVAR_MATERIAL = cwKernel:CreateClientConVar("cwMaterial", "hunter/myplastic", true, true);
+	CW_CONVAR_BACKX = cwKernel:CreateClientConVar("cwBackX", 61, true, true);
+	CW_CONVAR_BACKY = cwKernel:CreateClientConVar("cwBackY", 109, true, true);
+	CW_CONVAR_BACKW = cwKernel:CreateClientConVar("cwBackW", 321, true, true);
+	CW_CONVAR_BACKH = cwKernel:CreateClientConVar("cwBackH", 109, true, true);
+	CW_CONVAR_SHOWMATERIAL = cwKernel:CreateClientConVar("cwShowMaterial", 0, true, true);
+	CW_CONVAR_SHOWGRADIENT = cwKernel:CreateClientConVar("cwShowGradient", 0, true, true);
 	
 	if (!self.chatBox.panel) then
 		self.chatBox:CreateDermaAll();
@@ -844,21 +866,37 @@ function Clockwork:Initialize()
 	
 	self.item:Initialize();
 	
-	if (!self.option:GetKey("top_bars")) then
-		CW_CONVAR_TOPBARS = self.kernel:CreateClientConVar("cwTopBars", 0, true, true);
+	if (!cwOption:GetKey("top_bars")) then
+		CW_CONVAR_TOPBARS = cwKernel:CreateClientConVar("cwTopBars", 0, true, true);
 	else
 		self.setting:RemoveByConVar("cwTopBars");
 	end;
 	
-	self.plugin:Call("ClockworkKernelLoaded");
-	self.plugin:Call("ClockworkInitialized");
+	cwPlugin:Call("ClockworkKernelLoaded");
+	cwPlugin:Call("ClockworkInitialized");
 	
 	self.theme:CreateFonts();
 		-- self.theme:CopySkin();
 	self.theme:Initialize();
 	
-	self.plugin:CheckMismatches();
-	self.plugin:ClearHookCache();
+	cwPlugin:CheckMismatches();
+	cwPlugin:ClearHookCache();
+
+	Clockwork.setting:AddSettings();
+
+	Clockwork.Client:SetNWString("Language", CW_CONVAR_LANG:GetString());
+
+	if (not Clockwork.theme:IsFixed()) then
+		Clockwork.option:SetColor(
+			"information",
+			Color(
+				GetConVarNumber("cwTextColorR"), 
+				GetConVarNumber("cwTextColorG"), 
+				GetConVarNumber("cwTextColorB"), 
+				GetConVarNumber("cwTextColorA")
+			)
+		);
+	end;
 
 	hook.Remove("PostDrawEffects", "RenderWidgets")
 end;
@@ -868,17 +906,12 @@ end;
 	@details Called when Clockwork has initialized.
 --]]
 function Clockwork:ClockworkInitialized()
-	local newLogoFile = "clockwork/logo/001.png";
-	local oldLogoFile = "clockwork/clockwork_logo.png";
-	
-	if (!file.Exists("materials/"..newLogoFile, "GAME")) then
-		newLogoFile = oldLogoFile;
-	end;
-	
+	local logoFile = "clockwork/logo/002.png";
+
 	self.SpawnIconMaterial = Clockwork.kernel:GetMaterial("vgui/spawnmenu/hover");
 	self.DefaultGradient = surface.GetTextureID("gui/gradient_down");
-	self.GradientTexture = Clockwork.kernel:GetMaterial(self.option:GetKey("gradient")..".png");
-	self.ClockworkSplash = Clockwork.kernel:GetMaterial(newLogoFile);
+	self.GradientTexture = Clockwork.kernel:GetMaterial(cwOption:GetKey("gradient")..".png");
+	self.ClockworkSplash = Clockwork.kernel:GetMaterial(logoFile);
 	self.FishEyeTexture = Clockwork.kernel:GetMaterial("models/props_c17/fisheyelens");
 	self.GradientCenter = surface.GetTextureID("gui/center_gradient");
 	self.GradientRight = surface.GetTextureID("gui/gradient");
@@ -890,6 +923,8 @@ function Clockwork:ClockworkInitialized()
 		[GRADIENT_DOWN] = self.DefaultGradient;
 		[GRADIENT_UP] = self.GradientUp;
 	};
+
+	self.setting:AddSettings();
 end;
 
 --[[
@@ -925,6 +960,13 @@ end;
 	@param Table The table of the item being initialized.
 --]]
 function Clockwork:ClockworkItemInitialized(itemTable) end;
+
+--[[
+	@codebase Client
+	@details Called after Clockwork items have been initialized.
+	@param Table The table of items that have been initialized.
+--]]
+function Clockwork:ClockworkPostItemsInitialized(itemsTable) end;
 
 --[[
 	@codebase Client
@@ -967,9 +1009,6 @@ function Clockwork:PlayerCanZoom() return true; end;
 -- Called when the local player attempts to see a business item.
 function Clockwork:PlayerCanSeeBusinessItem(itemTable) return true; end;
 
--- Called when a player's footstep sound should be played.
-function Clockwork:PlayerFootstep(player, position, foot, sound, volume, recipientFilter) end;
-
 -- Called when a player presses a bind.
 function Clockwork:PlayerBindPress(player, bind, bPress)
 	if (player:GetRagdollState() == RAGDOLL_FALLENOVER and string.find(bind, "+jump")) then
@@ -977,7 +1016,7 @@ function Clockwork:PlayerBindPress(player, bind, bPress)
 	elseif (string.find(bind, "toggle_zoom")) then
 		return true;
 	elseif (string.find(bind, "+zoom")) then
-		if (!self.plugin:Call("PlayerCanZoom")) then
+		if (!cwPlugin:Call("PlayerCanZoom")) then
 			return true;
 		end;
 	end;
@@ -988,14 +1027,14 @@ function Clockwork:PlayerBindPress(player, bind, bPress)
 		end;
 	end;
 	
-	if (self.config:Get("block_inv_binds"):Get()) then
-		if (string.find(string.lower(bind), self.config:Get("command_prefix"):Get().."invaction")
+	if (cwConfig:Get("block_inv_binds"):Get()) then
+		if (string.find(string.lower(bind), cwConfig:Get("command_prefix"):Get().."invaction")
 		or string.find(string.lower(bind), "cwcmd invaction")) then
 			return true;
 		end;
 	end;
 	
-	return self.plugin:Call("TopLevelPlayerBindPress", player, bind, bPress);
+	return cwPlugin:Call("TopLevelPlayerBindPress", player, bind, bPress);
 end;
 
 -- Called when a player presses a bind at the top level.
@@ -1010,11 +1049,11 @@ end;
 
 -- Called when the local player's move data is created.
 function Clockwork:CreateMove(userCmd)
-	local ragdollEyeAngles = self.kernel:GetRagdollEyeAngles();
+	local ragdollEyeAngles = cwKernel:GetRagdollEyeAngles();
 	
 	if (ragdollEyeAngles and IsValid(self.Client)) then
 		local defaultSensitivity = 0.05;
-		local sensitivity = defaultSensitivity * (self.plugin:Call("AdjustMouseSensitivity", defaultSensitivity) or defaultSensitivity);
+		local sensitivity = defaultSensitivity * (cwPlugin:Call("AdjustMouseSensitivity", defaultSensitivity) or defaultSensitivity);
 		
 		if (sensitivity <= 0) then
 			sensitivity = defaultSensitivity;
@@ -1046,7 +1085,7 @@ function Clockwork:CalcView(player, origin, angles, fov)
 			local eyes = ragdollEntity:GetAttachment(ragdollEntity:LookupAttachment("eyes"));
 			
 			if (eyes) then
-				local ragdollEyeAngles = eyes.Ang + self.kernel:GetRagdollEyeAngles();
+				local ragdollEyeAngles = eyes.Ang + cwKernel:GetRagdollEyeAngles();
 				local physicsObject = ragdollEntity:GetPhysicsObject();
 				
 				if (IsValid(physicsObject)) then
@@ -1064,7 +1103,7 @@ function Clockwork:CalcView(player, origin, angles, fov)
 		end;
 	elseif (!self.Client:Alive()) then
 		return {origin = Vector(20000, 0, 0), angles = Angle(0, 0, 0), fov = fov};
-	elseif (self.config:Get("enable_headbob"):Get() and scale > 0) then
+	elseif (cwConfig:Get("enable_headbob"):Get() and scale > 0) then
 		if (player:IsOnGround()) then
 			local frameTime = FrameTime();
 			
@@ -1081,7 +1120,7 @@ function Clockwork:CalcView(player, origin, angles, fov)
 					self.HeadbobInfo = info;
 				end;
 				
-				self.plugin:Call("PlayerAdjustHeadbobInfo", info);
+				cwPlugin:Call("PlayerAdjustHeadbobInfo", info);
 				
 				self.HeadbobInfo.yaw = math.Approach(self.HeadbobInfo.yaw, info.yaw, approachTime);
 				self.HeadbobInfo.roll = math.Approach(self.HeadbobInfo.roll, info.roll, approachTime);
@@ -1125,90 +1164,7 @@ function Clockwork:CalcView(player, origin, angles, fov)
 	
 	local view = self.BaseClass:CalcView(player, origin, angles, fov);
 	
-	--[[
-	local weapon = self.Client:GetActiveWeapon();
-	local changedAngles = (view.vm_angles != nil);
-	local changedOrigin = (view.vm_origin != nil);
-	
-	if (IsValid(weapon)) then
-		local weaponRaised = self.player:GetWeaponRaised(self.Client);
-		
-		if (!self.Client:HasInitialized() or !self.config:HasInitialized()
-		or self.Client:GetMoveType() == MOVETYPE_OBSERVER) then
-			weaponRaised = nil;
-		end;
-		
-		local targetValue = 0;
-		
-		if (weaponRaised) then
-			targetValue = 100;
-		end;
-		
-		if (LAST_RAISED_TARGET < 100) then
-			local originalOrigin = Vector(origin.x, origin.y, origin.z);
-			local originalAngles = Angle(angles.p, angles.y, angles.r);
-			local itemTable = self.item:GetByWeapon(weapon);
-			local originMod = Vector(-3.0451, -1.6419, -0.5771);
-			local fraction = LAST_RAISED_TARGET / 100;
-			local anglesMod = Angle(30, -3, -25); --Angle(-12.9015, -47.2118, 5.1173);
-			
-			if (itemTable and itemTable("loweredAngles")) then
-				anglesMod = itemTable("loweredAngles");
-			elseif (weapon.LoweredAngles) then
-				anglesMod = weapon.LoweredAngles;
-			end;
-			
-			if (itemTable and itemTable("loweredOrigin")) then
-				originMod = itemTable("loweredOrigin");
-			elseif (weapon.LoweredOrigin) then
-				originMod = weapon.LoweredOrigin;
-			end;
-			
-			anglesMod.x = anglesMod.x * fraction;
-			anglesMod.y = anglesMod.y * fraction;
-			anglesMod.z = anglesMod.z * fraction;
-			
-			LAST_RAISED_TARGET = Lerp(FrameTime() * 2, LAST_RAISED_TARGET, targetValue);
-			
-			local viewInfo = {
-				origin = originMod,
-				angles = anglesMod
-			};
-			
-			self.plugin:Call("GetWeaponLoweredViewInfo", itemTable, weapon, viewInfo);
-			
-			originalAngles:RotateAroundAxis(originalAngles:Right(), viewInfo.angles.p);
-			originalAngles:RotateAroundAxis(originalAngles:Up(), viewInfo.angles.y);
-			originalAngles:RotateAroundAxis(originalAngles:Forward(), viewInfo.angles.r);
-			
-			originalOrigin = originalOrigin + viewInfo.origin.x * originalAngles:Right();
-			originalOrigin = originalOrigin + viewInfo.origin.y * originalAngles:Forward();
-			originalOrigin = originalOrigin + viewInfo.origin.z * originalAngles:Up();
-			
-			view.vm_origin = originalOrigin;
-			view.vm_angles = originalAngles;
-			
-		elseif (self.config:Get("use_free_aiming"):Get()) then
-			if (!self.kernel:IsDefaultWeapon(weapon) and !changedAngles) then
-				-- Thanks to BlackOps7799 for this open source example.
-				
-				if (!self.SmoothViewAngle) then
-					self.SmoothViewAngle = angles;
-				else
-					self.SmoothViewAngle = LerpAngle(RealFrameTime() * 16, self.SmoothViewAngle, angles);
-				end;
-				
-				self.SmoothViewAngle.r = 0;
-				
-				view.angles = self.SmoothViewAngle;
-				view.vm_origin = origin;
-				view.vm_angles = angles;
-			end;
-		end;
-	end;
-	--]]
-	
-	self.plugin:Call("CalcViewAdjustTable", view);
+	cwPlugin:Call("CalcViewAdjustTable", view);
 	
 	return view;
 end;
@@ -1221,7 +1177,7 @@ function Clockwork:CalcViewModelView(weapon, viewModel, oldEyePos, oldEyeAngles,
 	local client = self.Client;
 	local weaponRaised = self.player:GetWeaponRaised(client);
 	
-	if (!self.Client:HasInitialized() or !self.config:HasInitialized()
+	if (!self.Client:HasInitialized() or !cwConfig:HasInitialized()
 	or self.Client:GetMoveType() == MOVETYPE_OBSERVER) then
 		weaponRaised = nil;
 	end;
@@ -1248,7 +1204,7 @@ function Clockwork:CalcViewModelView(weapon, viewModel, oldEyePos, oldEyeAngles,
 		angles = anglesMod
 	};
 	
-	self.plugin:Call("GetWeaponLoweredViewInfo", itemTable, weapon, viewInfo);
+	cwPlugin:Call("GetWeaponLoweredViewInfo", itemTable, weapon, viewInfo);
 	
 	--[[
 	if (itemTable and itemTable("loweredOrigin")) then
@@ -1295,7 +1251,7 @@ function Clockwork:HUDShouldDraw(name)
 		"CHudChat"
 	};
 	
-	if (!IsValid(self.Client) or !self.Client:HasInitialized() or self.kernel:IsChoosingCharacter()) then
+	if (!IsValid(self.Client) or !self.Client:HasInitialized() or cwKernel:IsChoosingCharacter()) then
 		if (name != "CHudGMod") then
 			return false;
 		end;
@@ -1325,8 +1281,8 @@ function Clockwork:MenuClosed()
 		end;
 	end;
 	
-	self.kernel:RemoveActiveToolTip();
-	self.kernel:CloseActiveDermaMenus();
+	cwKernel:RemoveActiveToolTip();
+	cwKernel:CloseActiveDermaMenus();
 end;
 
 -- Called when the character screen's faction characters should be sorted.
@@ -1353,44 +1309,40 @@ function Clockwork:ScoreboardAdjustPlayerInfo(info) end;
 
 -- Called when the menu's items should be adjusted.
 function Clockwork:MenuItemsAdd(menuItems)
-	local attributesName = self.option:GetKey("name_attributes");
-	local systemName = self.option:GetKey("name_system");
-	local scoreboardName = self.option:GetKey("name_scoreboard");
-	local directoryName = self.option:GetKey("name_directory");
-	local inventoryName = self.option:GetKey("name_inventory");
+	local attributesName = cwOption:GetKey("name_attributes");
+	local systemName = cwOption:GetKey("name_system");
+	local scoreboardName = cwOption:GetKey("name_scoreboard");
+	local directoryName = cwOption:GetKey("name_directory");
+	local inventoryName = cwOption:GetKey("name_inventory");
 	
-	menuItems:Add("Classes", "cwClasses", "Choose from a list of available classes.");
-	menuItems:Add("Settings", "cwSettings", "Configure the way Clockwork works for you.");
-	menuItems:Add("Donations", "cwDonations", "Check your donation subscriptions.");
-	menuItems:Add(systemName, "cwSystem", self.option:GetKey("description_system"));
-	menuItems:Add(scoreboardName, "cwScoreboard", self.option:GetKey("name_scoreboard"));
-	menuItems:Add(inventoryName, "cwInventory", self.option:GetKey("description_inventory"));
-	menuItems:Add(directoryName, "cwDirectory", self.option:GetKey("description_directory"));
-	menuItems:Add(attributesName, "cwAttributes", self.option:GetKey("description_attributes"));
+	menuItems:Add("Classes", "cwClasses", "Choose from a list of available classes.", cwOption:GetKey("icon_data_classes"));
+	menuItems:Add("Settings", "cwSettings", "Configure the way Clockwork works for you.", cwOption:GetKey("icon_data_settings"));
+	menuItems:Add("Donations", "cwDonations", "Check your donation subscriptions.", cwOption:GetKey("icon_data_donations"));
+	menuItems:Add(systemName, "cwSystem", cwOption:GetKey("description_system"), cwOption:GetKey("icon_data_system"));
+	menuItems:Add(scoreboardName, "cwScoreboard", cwOption:GetKey("name_scoreboard"), cwOption:GetKey("icon_data_scoreboard"));
+	menuItems:Add(inventoryName, "cwInventory", cwOption:GetKey("description_inventory"), cwOption:GetKey("icon_data_inventory"));
+	menuItems:Add(directoryName, "cwDirectory", cwOption:GetKey("description_directory"), cwOption:GetKey("icon_data_directory"));
+	menuItems:Add(attributesName, "cwAttributes", cwOption:GetKey("description_attributes"), cwOption:GetKey("icon_data_attributes"));
 	
-	if (self.config:Get("show_business"):GetBoolean() == true) then
-		local businessName = self.option:GetKey("name_business");
-		menuItems:Add(businessName, "cwBusiness", self.option:GetKey("description_business"));
+	if (cwConfig:Get("show_business"):GetBoolean() == true) then
+		local businessName = cwOption:GetKey("name_business");
+		menuItems:Add(businessName, "cwBusiness", cwOption:GetKey("description_business"), cwOption:GetKey("icon_data_business"));
 	end;
 end;
 
 -- Called when the menu's items should be destroyed.
 function Clockwork:MenuItemsDestroy(menuItems) end;
 
+-- Called when a generator's target ID is drawn.
+function Clockwork:DrawGeneratorTargetID(entity, info) end;
+
 -- Called each tick.
 function Clockwork:Tick()
 	local realCurTime = CurTime();
 	local curTime = UnPredictedCurTime();
-	local cwChar = self.character;
-	local cwPlugin = self.plugin;
-	local cwBars = self.bars;
 	local cwPlyInfoText = self.PlayerInfoText;
-	local cwKernel = self.kernel;
-	local cwConfig = self.config;
-	local cwEntity = self.entity;
-	local cwClient = self.Client;
-	local cwOption = self.option;
 	local cwAttriBoost = self.attributes.boosts;
+	local cwClient = self.Client;
 	local mathMin = math.min;
 	local mathMax = math.max;
 	local font = cwOption:GetFont("player_info_text");
@@ -1576,20 +1528,20 @@ end;
 function Clockwork:Think()
 	if (!self.CreatedLocalPlayer) then
 		if (IsValid(self.Client)) then
-			self.plugin:Call("LocalPlayerCreated");
+			cwPlugin:Call("LocalPlayerCreated");
 				self.datastream:Start("LocalPlayerCreated", true);
 			self.CreatedLocalPlayer = true;
 		end;
 	end;
 	
-	self.kernel:CallTimerThink(CurTime());
-	self.kernel:CalculateHints();
+	cwKernel:CallTimerThink(CurTime());
+	cwKernel:CalculateHints();
 	
-	if (self.kernel:IsCharacterScreenOpen()) then
-		local panel = self.character:GetPanel();
+	if (cwKernel:IsCharacterScreenOpen()) then
+		local panel = cwChar:GetPanel();
 		
 		if (panel) then
-			panel:SetVisible(self.plugin:Call("GetPlayerCharacterScreenVisible", panel));
+			panel:SetVisible(cwPlugin:Call("GetPlayerCharacterScreenVisible", panel));
 			
 			if (panel:IsVisible()) then
 				self.HasCharacterMenuBeenVisible = true;
@@ -1674,9 +1626,9 @@ end;
 
 -- Called when the foreground HUD should be painted.
 function Clockwork:HUDPaintForeground()
-	local backgroundColor = self.option:GetColor("background");
-	local colorWhite = self.option:GetColor("white");
-	local info = self.plugin:Call("GetProgressBarInfo");
+	local backgroundColor = cwOption:GetColor("background");
+	local colorWhite = cwOption:GetColor("white");
+	local info = cwPlugin:Call("GetProgressBarInfo");
 	
 	if (info) then
 		local height = 32;
@@ -1686,12 +1638,12 @@ function Clockwork:HUDPaintForeground()
 		
 		SLICED_PROGRESS_BAR:Draw(x - 16, y - 16, width + 32, height + 32, 8);
 		
-		self.kernel:DrawBar(
+		cwKernel:DrawBar(
 			x, y, width, height, info.color or Clockwork.option:GetColor("information"),
-			info.text or "Progress Bar", info.percentage or 100, 100, info.flash
+			info.text or "Progress Bar", info.percentage or 100, 100, info.flash, {uniqueID = info.uniqueID}
 		);
 	else
-		info = self.plugin:Call("GetPostProgressBarInfo");
+		info = cwPlugin:Call("GetPostProgressBarInfo");
 		
 		if (info) then
 			local height = 32;
@@ -1701,20 +1653,20 @@ function Clockwork:HUDPaintForeground()
 			
 			SLICED_PROGRESS_BAR:Draw(x - 16, y - 16, width + 32, height + 32, 8);
 			
-			self.kernel:DrawBar(
+			cwKernel:DrawBar(
 				x, y, width, height, info.color or Clockwork.option:GetColor("information"),
-				info.text or "Progress Bar", info.percentage or 100, 100, info.flash
+				info.text or "Progress Bar", info.percentage or 100, 100, info.flash, {uniqueID = info.uniqueID}
 			);
 		end;
 	end;
 	
 	if (self.player:IsAdmin(self.Client)) then
-		if (self.plugin:Call("PlayerCanSeeAdminESP")) then
-			self.kernel:DrawAdminESP();
+		if (cwPlugin:Call("PlayerCanSeeAdminESP")) then
+			cwKernel:DrawAdminESP();
 		end;
 	end;
 	
-	local screenTextInfo = self.plugin:Call("GetScreenTextInfo");
+	local screenTextInfo = cwPlugin:Call("GetScreenTextInfo");
 	
 	if (screenTextInfo) then
 		local alpha = screenTextInfo.alpha or 255;
@@ -1722,23 +1674,23 @@ function Clockwork:HUDPaintForeground()
 		local x = ScrW() / 2;
 		
 		if (screenTextInfo.title) then
-			self.kernel:OverrideMainFont(self.option:GetFont("menu_text_small"));
-				y = self.kernel:DrawInfo(screenTextInfo.title, x, y, colorWhite, alpha);
-			self.kernel:OverrideMainFont(false);
+			cwKernel:OverrideMainFont(cwOption:GetFont("menu_text_small"));
+				y = cwKernel:DrawInfo(screenTextInfo.title, x, y, colorWhite, alpha);
+			cwKernel:OverrideMainFont(false);
 		end;
 		
 		if (screenTextInfo.text) then
-			self.kernel:OverrideMainFont(self.option:GetFont("menu_text_tiny"));
-				y = self.kernel:DrawInfo(screenTextInfo.text, x, y, colorWhite, alpha);
-			self.kernel:OverrideMainFont(false);
+			cwKernel:OverrideMainFont(cwOption:GetFont("menu_text_tiny"));
+				y = cwKernel:DrawInfo(screenTextInfo.text, x, y, colorWhite, alpha);
+			cwKernel:OverrideMainFont(false);
 		end;
 	end;
 	
 	self.chatBox:Paint();
 	
-	local info = {width = ScrW() * 0.3, x = 8, y = 8};
-		self.kernel:DrawBars(info, "top");
-	self.plugin:Call("HUDPaintTopScreen", info);
+	local info = {width = ScrW() * Clockwork.option:GetKey("top_bar_width_scale"), x = 8, y = 8};
+		cwKernel:DrawBars(info, "top");
+	cwPlugin:Call("HUDPaintTopScreen", info);
 end;
 
 -- Called each frame that an item entity exists.
@@ -1774,7 +1726,7 @@ function Clockwork:ClockworkKernelLoaded() end;
 
 -- Called to get the screen text info.
 function Clockwork:GetScreenTextInfo()
-	local blackFadeAlpha = self.kernel:GetBlackFadeAlpha();
+	local blackFadeAlpha = cwKernel:GetBlackFadeAlpha();
 	
 	if (self.Client:GetSharedVar("CharBanned")) then
 		return {
@@ -1791,7 +1743,7 @@ function Clockwork:PostRenderVGUI()
 	local cinematic = self.Cinematics[1];
 	
 	if (cinematic) then
-		self.kernel:DrawCinematic(cinematic, CurTime());
+		cwKernel:DrawCinematic(cinematic, CurTime());
 	end;
 
 	local activeMarkupToolTip = Clockwork.kernel:GetActiveMarkupToolTip();
@@ -1802,7 +1754,7 @@ function Clockwork:PostRenderVGUI()
 		local x, y = gui.MouseX(), gui.MouseY() + 24;
 		
 		if (markupToolTip) then
-			self.kernel:DrawMarkupToolTip(markupToolTip.object, x, y, alpha);
+			cwKernel:DrawMarkupToolTip(markupToolTip.object, x, y, alpha);
 		end;
 	end;
 end;
@@ -1823,9 +1775,9 @@ function Clockwork:PlayerCanGetUp() return true; end;
 function Clockwork:PlayerCanSeeBars(class)
 	if (class == "tab") then
 		if (CW_CONVAR_TOPBARS) then
-			return (CW_CONVAR_TOPBARS:GetInt() == 0 and self.kernel:IsInfoMenuOpen());
+			return (CW_CONVAR_TOPBARS:GetInt() == 0 and cwKernel:IsInfoMenuOpen());
 		else
-			return self.kernel:IsInfoMenuOpen();
+			return cwKernel:IsInfoMenuOpen();
 		end;
 	elseif (class == "top") then
 		if (CW_CONVAR_TOPBARS) then
@@ -1846,9 +1798,14 @@ function Clockwork:PlayerCanSeeHints()
 	return true;
 end;
 
+-- Called when the local player attempts to see the center hints.
+function Clockwork:PlayerCanSeeCenterHints()
+	return true;
+end;
+
 -- Called when the local player attempts to see their limb damage.
 function Clockwork:PlayerCanSeeLimbDamage()
-	if (self.kernel:IsInfoMenuOpen() and self.config:Get("limb_damage_system"):Get()) then
+	if (cwKernel:IsInfoMenuOpen() and cwConfig:Get("limb_damage_system"):Get()) then
 		return true;
 	else
 		return false;
@@ -1857,7 +1814,7 @@ end;
 
 -- Called when the local player attempts to see the date and time.
 function Clockwork:PlayerCanSeeDateTime()
-	return self.kernel:IsInfoMenuOpen();
+	return cwKernel:IsInfoMenuOpen();
 end;
 
 -- Called when the local player attempts to see a class.
@@ -1867,30 +1824,30 @@ end;
 
 -- Called when the local player attempts to see the player info.
 function Clockwork:PlayerCanSeePlayerInfo()
-	return self.kernel:IsInfoMenuOpen();
+	return cwKernel:IsInfoMenuOpen();
 end;
 
 --
 function Clockwork:AddHint(name, delay)
 	if (IsValid(self.Client) and self.Client:HasInitialized()) then
-		self.kernel:AddTopHint(
-			self.kernel:ParseData("#Hint_"..name), delay
+		cwKernel:AddTopHint(
+			cwKernel:ParseData("#Hint_"..name), delay
 		);
 	end;
 end;
 
 --
 function Clockwork:AddNotify(text, class, length)
-	return self.kernel:AddNotify(text, class, length);
+	return cwKernel:AddNotify(text, class, length);
 end;
 
 -- Called when the target ID HUD should be drawn.
 function Clockwork:HUDDrawTargetID()
-	local targetIDTextFont = self.option:GetFont("target_id_text");
+	local targetIDTextFont = cwOption:GetFont("target_id_text");
 	local traceEntity = NULL;
-	local colorWhite = self.option:GetColor("white");
+	local colorWhite = cwOption:GetColor("white");
 	
-	self.kernel:OverrideMainFont(targetIDTextFont);
+	cwKernel:OverrideMainFont(targetIDTextFont);
 	
 	if (IsValid(self.Client) and self.Client:Alive() and !IsValid(self.EntityMenu)) then
 		if (!self.Client:IsRagdolled(RAGDOLL_FALLENOVER)) then
@@ -1920,13 +1877,13 @@ function Clockwork:HUDDrawTargetID()
 					end;
 					
 					local class = trace.Entity:GetClass();
-					local entity = self.entity:GetPlayer(trace.Entity);
+					local entity = cwEntity:GetPlayer(trace.Entity);
 					
 					if (entity) then
-						fadeDistance = self.plugin:Call("GetTargetPlayerFadeDistance", entity);
+						fadeDistance = cwPlugin:Call("GetTargetPlayerFadeDistance", entity);
 					end;
 					
-					local alpha = math.Clamp(self.kernel:CalculateAlphaFromDistance(fadeDistance, self.Client, trace.HitPos) * 1.5, 0, 255);
+					local alpha = math.Clamp(cwKernel:CalculateAlphaFromDistance(fadeDistance, self.Client, trace.HitPos) * 1.5, 0, 255);
 					
 					if (alpha > 0) then
 						alpha = math.min(alpha, math.Clamp(1 - ((self.TargetIDData.fadeTime - curTime) / 3), 0, 1) * 255);
@@ -1938,7 +1895,7 @@ function Clockwork:HUDDrawTargetID()
 					self.TargetIDData.class = class;
 					
 					if (entity and self.Client != entity) then
-						if (self.plugin:Call("ShouldDrawPlayerTargetID", entity)) then
+						if (cwPlugin:Call("ShouldDrawPlayerTargetID", entity)) then
 							if (!self.player:IsNoClipping(entity)) then
 								if (self.Client:GetShootPos():Distance(trace.HitPos) <= fadeDistance) then
 									if (self.nextCheckRecognises and self.nextCheckRecognises[2] != entity) then
@@ -1954,14 +1911,14 @@ function Clockwork:HUDDrawTargetID()
 									end;
 									
 									if (self.player:DoesRecognise(entity, RECOGNISE_PARTIAL)) then
-										local text = string.Explode("\n", self.plugin:Call("GetTargetPlayerName", entity));
+										local text = string.Explode("\n", cwPlugin:Call("GetTargetPlayerName", entity));
 										local newY;
 										
 										for k, v in pairs(text) do
-											newY = self.kernel:DrawInfo(v, x, y, cwTeam.GetColor(entity:Team()), alpha);
+											newY = cwKernel:DrawInfo(v, x, y, cwTeam.GetColor(entity:Team()), alpha);
 											
 											if (flashAlpha) then
-												self.kernel:DrawInfo(v, x, y, colorWhite, flashAlpha);
+												cwKernel:DrawInfo(v, x, y, colorWhite, flashAlpha);
 											end;
 											
 											if (newY) then
@@ -1972,23 +1929,23 @@ function Clockwork:HUDDrawTargetID()
 										local unrecognisedName, usedPhysDesc = self.player:GetUnrecognisedName(entity);
 										local wrappedTable = {unrecognisedName};
 										local teamColor = cwTeam.GetColor(entity:Team());
-										local result = self.plugin:Call("PlayerCanShowUnrecognised", entity, x, y, unrecognisedName, teamColor, alpha, flashAlpha);
+										local result = cwPlugin:Call("PlayerCanShowUnrecognised", entity, x, y, unrecognisedName, teamColor, alpha, flashAlpha);
 										local newY;
 										
 										if (type(result) == "string") then
 											wrappedTable = {};
-											self.kernel:WrapText(result, targetIDTextFont, math.max(ScrW() / 9, 384), wrappedTable);
+											cwKernel:WrapText(result, targetIDTextFont, math.max(ScrW() / 9, 384), wrappedTable);
 										elseif (usedPhysDesc) then
 											wrappedTable = {};
-											self.kernel:WrapText(unrecognisedName, targetIDTextFont, math.max(ScrW() / 9, 384), wrappedTable);
+											cwKernel:WrapText(unrecognisedName, targetIDTextFont, math.max(ScrW() / 9, 384), wrappedTable);
 										end;
 										
 										if (result == true or type(result) == "string") then
 											for k, v in pairs(wrappedTable) do
-												newY = self.kernel:DrawInfo(v, x, y, teamColor, alpha);
+												newY = cwKernel:DrawInfo(v, x, y, teamColor, alpha);
 													
 												if (flashAlpha) then
-													self.kernel:DrawInfo(v, x, y, colorWhite, flashAlpha);
+													cwKernel:DrawInfo(v, x, y, colorWhite, flashAlpha);
 												end;
 												
 												if (newY) then
@@ -2002,13 +1959,17 @@ function Clockwork:HUDDrawTargetID()
 									
 									self.TargetPlayerText.stored = {};
 									
-									self.plugin:Call("GetTargetPlayerText", entity, self.TargetPlayerText);
-									self.plugin:Call("DestroyTargetPlayerText", entity, self.TargetPlayerText);
+									cwPlugin:Call("GetTargetPlayerText", entity, self.TargetPlayerText);
+									cwPlugin:Call("DestroyTargetPlayerText", entity, self.TargetPlayerText);
 									
-									y = self.plugin:Call("DrawTargetPlayerStatus", entity, alpha, x, y) or y;
+									y = cwPlugin:Call("DrawTargetPlayerStatus", entity, alpha, x, y) or y;
 									
 									for k, v in pairs(self.TargetPlayerText.stored) do
-										y = self.kernel:DrawInfo(v.text, x, y, v.color or colorWhite, alpha);
+										if (v.scale) then
+											y = cwKernel:DrawInfoScaled(v.scale, v.text, x, y, v.color or colorWhite, alpha);
+										else
+											y = cwKernel:DrawInfo(v.text, x, y, v.color or colorWhite, alpha);
+										end;
 									end;
 									
 									if (!self.nextCheckRecognises or curTime >= self.nextCheckRecognises[1]
@@ -2028,11 +1989,27 @@ function Clockwork:HUDDrawTargetID()
 							local name = generator.name;
 							local x, y = toScreen.x, toScreen.y;
 							
-							y = self.kernel:DrawInfo(name, x, y, Color(150, 150, 100, 255), alpha);
-							y = self.kernel:DrawBar(
-								x - 80, y, 160, 16, Clockwork.option:GetColor("information"), generator.powerPlural,
-								power, generator.power, power < (generator.power / 5)
-							);
+							y = cwKernel:DrawInfo(name, x, y, Color(150, 150, 100, 255), alpha);
+							
+							local info = {
+								showPower = true,
+								generator = generator,
+								x = x,
+								y = y
+							};
+							
+							cwPlugin:Call("DrawGeneratorTargetID", trace.Entity, info);
+							
+							if (info.showPower) then
+								if (power == 0) then
+									info.y = cwKernel:DrawInfo("Press Use to re-supply", info.x, info.y, Color(255, 255, 255, 255), alpha);
+								else
+									info.y = cwKernel:DrawBar(
+										info.x - 80, info.y, 160, 16, Clockwork.option:GetColor("information"), generator.powerPlural,
+										power, generator.power, power < (generator.power / 5), {uniqueID = class}
+									);
+								end;
+							end;
 						end;
 					elseif (trace.Entity:IsWeapon()) then
 						if (self.Client:GetShootPos():Distance(trace.HitPos) <= fadeDistance) then
@@ -2047,8 +2024,8 @@ function Clockwork:HUDDrawTargetID()
 								local toScreen = (trace.HitPos + Vector(0, 0, 16)):ToScreen();
 								local x, y = toScreen.x, toScreen.y;
 								
-								y = self.kernel:DrawInfo("An unknown weapon", x, y, Color(200, 100, 50, 255), alpha);
-								y = self.kernel:DrawInfo("Press use to equip.", x, y, colorWhite, alpha);
+								y = cwKernel:DrawInfo("An unknown weapon", x, y, Color(200, 100, 50, 255), alpha);
+								y = cwKernel:DrawInfo("Press use to equip.", x, y, colorWhite, alpha);
 							end;
 						end;
 					elseif (trace.Entity.HUDPaintTargetID) then
@@ -2070,7 +2047,7 @@ function Clockwork:HUDDrawTargetID()
 		end;
 	end;
 	
-	self.kernel:OverrideMainFont(false);
+	cwKernel:OverrideMainFont(false);
 	
 	if (!IsValid(traceEntity)) then
 		if (self.TargetIDData) then
@@ -2081,7 +2058,7 @@ end;
 
 -- Called when the target's status should be drawn.
 function Clockwork:DrawTargetPlayerStatus(target, alpha, x, y)
-	local informationColor = self.option:GetColor("information");
+	local informationColor = cwOption:GetColor("information");
 	local gender = "He";
 	
 	if (target:GetGender() == GENDER_FEMALE) then
@@ -2089,7 +2066,7 @@ function Clockwork:DrawTargetPlayerStatus(target, alpha, x, y)
 	end;
 	
 	if (!target:Alive()) then
-		return self.kernel:DrawInfo(gender.." is clearly deceased.", x, y, informationColor, alpha);
+		return cwKernel:DrawInfo(gender.." is clearly deceased.", x, y, informationColor, alpha);
 	else
 		return y;
 	end;
@@ -2126,11 +2103,6 @@ function Clockwork:GetModelSelectSequence(entity, model) end;
     @param Table The current table of ESP positions/colors/names to add on to.
 --]]
 function Clockwork:GetAdminESPInfo(info)
-	local info = info;
-	local cwPlugin = self.plugin;
-	local cwPlayer = cwPlayer;
-	local cwTeam = cwTeam;
-
 	for k, v in pairs(cwPlayer.GetAll()) do
 		if (v:HasInitialized()) then			
 			local physBone = v:LookupBone("ValveBiped.Bip01_Head1");
@@ -2245,9 +2217,6 @@ end;
 
 -- Called when extra player info is needed.
 function Clockwork:GetPlayerESPInfo(player, text)
-	local player = player;
-	local text = text;
-
 	if (player:IsValid()) then
 		local weapon = player:GetActiveWeapon();
 		local health = player:Health();
@@ -2272,7 +2241,7 @@ function Clockwork:GetPlayerESPInfo(player, text)
 				table.insert(text, {"Armor: ["..armor.."]", colorArmor, {armor, player:GetMaxArmor()}, Color(30, 65, 175, 255)});
 			end;
 		
-			if (weapon) then			
+			if (weapon and IsValid(weapon)) then			
 				local raised = self.player:GetWeaponRaised(player);
 				local color = colorWhite;
 
@@ -2280,10 +2249,12 @@ function Clockwork:GetPlayerESPInfo(player, text)
 					color = colorRed;
 				end;
 				
-				local printName = weapon:GetPrintName();
+				if (weapon.GetPrintName) then
+					local printName = weapon:GetPrintName();
 
-				if (printName) then
-					table.insert(text, {printName, color})
+					if (printName) then
+						table.insert(text, {printName, color})
+					end;
 				end;
 			end;
 		end;
@@ -2352,7 +2323,7 @@ function Clockwork:GetProgressBarInfo()
 	elseif (self.Client:GetRagdollState() == RAGDOLL_FALLENOVER) then
 		local fallenOver = self.Client:GetSharedVar("FallenOver");
 		
-		if (fallenOver and self.plugin:Call("PlayerCanGetUp")) then
+		if (fallenOver and cwPlugin:Call("PlayerCanGetUp")) then
 			return {text = "Press 'jump' to get up.", percentage = 100};
 		end;
 	end;
@@ -2394,9 +2365,9 @@ function Clockwork:GetPlayerInfoText(playerInfoText)
 	local cash = self.player:GetCash();
 	local wages = self.player:GetWages();
 	
-	if (self.config:Get("cash_enabled"):Get()) then
+	if (cwConfig:Get("cash_enabled"):Get()) then
 		if (cash > 0) then
-			playerInfoText:Add("CASH", self.option:GetKey("name_cash")..": "..Clockwork.kernel:FormatCash(cash, true));
+			playerInfoText:Add("CASH", cwOption:GetKey("name_cash")..": "..Clockwork.kernel:FormatCash(cash, true));
 		end;
 		
 		if (wages > 0) then
@@ -2430,7 +2401,7 @@ function Clockwork:DestroyPlayerInfoText(playerInfoText) end;
     @param Table The player's current target text.
 --]]
 function Clockwork:GetTargetPlayerText(player, targetPlayerText)
-	local targetIDTextFont = self.option:GetFont("target_id_text");
+	local targetIDTextFont = cwOption:GetFont("target_id_text");
 	local physDescTable = {};
 	local thirdPerson = "him";
 	
@@ -2439,7 +2410,7 @@ function Clockwork:GetTargetPlayerText(player, targetPlayerText)
 	end;
 	
 	if (self.player:DoesRecognise(player, RECOGNISE_PARTIAL)) then
-		self.kernel:WrapText(self.player:GetPhysDesc(player), targetIDTextFont, math.max(ScrW() / 9, 384), physDescTable);
+		cwKernel:WrapText(self.player:GetPhysDesc(player), targetIDTextFont, math.max(ScrW() / 9, 384), physDescTable);
 		
 		for k, v in pairs(physDescTable) do
 			targetPlayerText:Add("PHYSDESC_"..k, v);
@@ -2647,14 +2618,14 @@ end;
 
 -- Called when information about a door is needed.
 function Clockwork:GetDoorInfo(door, information)
-	local doorCost = self.config:Get("door_cost"):Get();
-	local owner = self.entity:GetOwner(door);
-	local text = self.entity:GetDoorText(door);
-	local name = self.entity:GetDoorName(door);
+	local doorCost = cwConfig:Get("door_cost"):Get();
+	local owner = cwEntity:GetOwner(door);
+	local text = cwEntity:GetDoorText(door);
+	local name = cwEntity:GetDoorName(door);
 	
 	if (information == DOOR_INFO_NAME) then
-		if (self.entity:IsDoorHidden(door)
-		or self.entity:IsDoorFalse(door)) then
+		if (cwEntity:IsDoorHidden(door)
+		or cwEntity:IsDoorFalse(door)) then
 			return false;
 		elseif (name == "") then
 			return "Door";
@@ -2662,9 +2633,9 @@ function Clockwork:GetDoorInfo(door, information)
 			return name;
 		end;
 	elseif (information == DOOR_INFO_TEXT) then
-		if (self.entity:IsDoorUnownable(door)) then
-			if (!self.entity:IsDoorHidden(door)
-			and !self.entity:IsDoorFalse(door)) then
+		if (cwEntity:IsDoorUnownable(door)) then
+			if (!cwEntity:IsDoorHidden(door)
+			and !cwEntity:IsDoorFalse(door)) then
 				if (text == "") then
 					return "This door is unownable.";
 				else
@@ -2706,19 +2677,19 @@ end;
 function Clockwork:PostDrawTranslucentRenderables(bDrawingDepth, bDrawingSkybox)
 	if (bDrawingSkybox or bDrawingDepth) then return; end;
 	
-	local colorWhite = self.option:GetColor("white");
-	local colorInfo = self.option:GetColor("information");
-	local doorFont = self.option:GetFont("large_3d_2d");
+	local colorWhite = cwOption:GetColor("white");
+	local colorInfo = cwOption:GetColor("information");
+	local doorFont = cwOption:GetFont("large_3d_2d");
 	local eyeAngles = EyeAngles();
 	local eyePos = EyePos();
 	
-	if (!self.kernel:IsChoosingCharacter()) then
+	if (!cwKernel:IsChoosingCharacter()) then
 		cam.Start3D(eyePos, eyeAngles);
 			local entities = ents.FindInSphere(eyePos, 256);
 			
 			for k, v in pairs(entities) do
-				if (IsValid(v) and self.entity:IsDoor(v)) then
-					self.kernel:DrawDoorText(v, eyePos, eyeAngles, doorFont, colorInfo, colorWhite);
+				if (IsValid(v) and cwEntity:IsDoor(v)) then
+					cwKernel:DrawDoorText(v, eyePos, eyeAngles, doorFont, colorInfo, colorWhite);
 				end;
 			end;
 		cam.End3D();
@@ -2736,7 +2707,7 @@ function Clockwork:RenderScreenspaceEffects()
 		local color = 1;
 		local isDrunk = self.player:GetDrunk();
 		
-		if (!self.kernel:IsChoosingCharacter()) then
+		if (!cwKernel:IsChoosingCharacter()) then
 			if (self.limb:IsActive() and self.event:CanRun("blur", "limb_damage")) then
 				local headDamage = self.limb:GetDamage(HITGROUP_HEAD);
 				motionBlurs.blurTable["health"] = math.Clamp(1 - (headDamage * 0.01), 0, 1);
@@ -2801,11 +2772,11 @@ function Clockwork:RenderScreenspaceEffects()
 			self.ColorModify["$pp_colour_mulg"] = overrideColorMod.mulg * 0.1;
 			self.ColorModify["$pp_colour_mulb"] = overrideColorMod.mulb * 0.1;
 		else
-			self.plugin:Call("PlayerSetDefaultColorModify", self.ColorModify);
+			cwPlugin:Call("PlayerSetDefaultColorModify", self.ColorModify);
 		end;
 		
-		self.plugin:Call("PlayerAdjustColorModify", self.ColorModify);
-		self.plugin:Call("PlayerAdjustMotionBlurs", motionBlurs);
+		cwPlugin:Call("PlayerAdjustColorModify", self.ColorModify);
+		cwPlugin:Call("PlayerAdjustMotionBlurs", motionBlurs);
 		
 		if (motionBlurs.enabled) then
 			local addAlpha = nil;
@@ -2952,7 +2923,7 @@ end;
 -- Called to get whether the local player's screen should fade black.
 function Clockwork:ShouldPlayerScreenFadeBlack()
 	if (!self.Client:Alive() or self.Client:IsRagdolled(RAGDOLL_FALLENOVER)) then
-		if (!self.plugin:Call("PlayerCanSeeUnconscious")) then
+		if (!cwPlugin:Call("PlayerCanSeeUnconscious")) then
 			return true;
 		end;
 	end;
@@ -2987,52 +2958,52 @@ function Clockwork:HUDDrawScoreBoard()
 	local drawPendingScreenBlack = nil;
 	local drawCharacterLoading = nil;
 	local hasClientInitialized = self.Client:HasInitialized();
-	local introTextSmallFont = self.option:GetFont("intro_text_small");
-	local colorWhite = self.option:GetColor("white");
+	local introTextSmallFont = cwOption:GetFont("intro_text_small");
+	local colorWhite = cwOption:GetColor("white");
 	local curTime = UnPredictedCurTime();
 	local scrH = ScrH();
 	local scrW = ScrW();
 	
-	if (self.kernel:IsChoosingCharacter()) then
-		if (self.plugin:Call("ShouldDrawCharacterBackground")) then
-			self.kernel:DrawSimpleGradientBox(0, 0, 0, ScrW(), ScrH(), Color(0, 0, 0, 255));
+	if (cwKernel:IsChoosingCharacter()) then
+		if (cwPlugin:Call("ShouldDrawCharacterBackground")) then
+			cwKernel:DrawSimpleGradientBox(0, 0, 0, ScrW(), ScrH(), Color(0, 0, 0, 255));
 		end;
 		
-		self.plugin:Call("HUDPaintCharacterSelection");
+		cwPlugin:Call("HUDPaintCharacterSelection");
 	elseif (!hasClientInitialized) then
 		if (!self.HasCharacterMenuBeenVisible
-		and self.plugin:Call("ShouldDrawCharacterBackground")) then
+		and cwPlugin:Call("ShouldDrawCharacterBackground")) then
 			drawPendingScreenBlack = true;
 		end;
 	end;
 	
 	if (hasClientInitialized) then
 		if (!self.CharacterLoadingFinishTime) then
-			local loadingTime = self.plugin:Call("GetCharacterLoadingTime");
+			local loadingTime = cwPlugin:Call("GetCharacterLoadingTime");
 			self.CharacterLoadingDelay = loadingTime;
 			self.CharacterLoadingFinishTime = curTime + loadingTime;
 		end;
 		
-		if (!self.kernel:IsChoosingCharacter()) then
-			self.kernel:CalculateScreenFading();
+		if (!cwKernel:IsChoosingCharacter()) then
+			cwKernel:CalculateScreenFading();
 			
-			if (!self.kernel:IsUsingCamera()) then
-				self.plugin:Call("HUDPaintForeground");
+			if (!cwKernel:IsUsingCamera()) then
+				cwPlugin:Call("HUDPaintForeground");
 			end;
 			
-			self.plugin:Call("HUDPaintImportant");
+			cwPlugin:Call("HUDPaintImportant");
 		end;
 		
 		if (self.CharacterLoadingFinishTime > curTime) then
 			drawCharacterLoading = true;
 		elseif (!self.CinematicScreenDone) then
-			self.kernel:DrawCinematicIntro(curTime);
-			self.kernel:DrawCinematicIntroBars();
+			cwKernel:DrawCinematicIntro(curTime);
+			cwKernel:DrawCinematicIntroBars();
 		end;
 	end;
 	
-	if (self.plugin:Call("ShouldDrawBackgroundBlurs")) then
-		self.kernel:DrawBackgroundBlurs();
+	if (cwPlugin:Call("ShouldDrawBackgroundBlurs")) then
+		cwKernel:DrawBackgroundBlurs();
 	end;
 
 	if (!self.player:HasDataStreamed()) then
@@ -3049,7 +3020,7 @@ function Clockwork:HUDDrawScoreBoard()
 	
 	if (self.ClockworkIntroFadeOut) then
 		local duration = 8;
-		local introImage = self.option:GetKey("intro_image");
+		local introImage = cwOption:GetKey("intro_image");
 		
 		if (introImage != "") then
 			duration = 16;
@@ -3059,7 +3030,7 @@ function Clockwork:HUDDrawScoreBoard()
 		local material = self.ClockworkIntroOverrideImage or self.ClockworkSplash;
 		local sineWave = math.sin(curTime);
 		local height = 256;
-		local width = 768;
+		local width = 512; --Patched
 		local alpha = 384;
 		
 		if (!self.ClockworkIntroOverrideImage) then
@@ -3085,12 +3056,12 @@ function Clockwork:HUDDrawScoreBoard()
 		end;
 		
 		if (curTime <= self.ClockworkIntroWhiteScreen) then
-			self.kernel:DrawSimpleGradientBox(0, 0, 0, scrW, scrH, Color(255, 255, 255, alpha));
+			cwKernel:DrawSimpleGradientBox(0, 0, 0, scrW, scrH, Color(255, 255, 255, alpha));
 		else
 			local x, y = (scrW / 2) - (width / 2), (scrH * 0.3) - (height / 2);
 			
-			self.kernel:DrawSimpleGradientBox(0, 0, 0, scrW, scrH, Color(0, 0, 0, alpha));
-			self.kernel:DrawGradient(
+			cwKernel:DrawSimpleGradientBox(0, 0, 0, scrW, scrH, Color(0, 0, 0, alpha));
+			cwKernel:DrawGradient(
 				GRADIENT_CENTER, 0, y - 8, scrW, height + 16, Color(100, 100, 100, math.min(alpha, 150))
 			);
 			
@@ -3104,35 +3075,35 @@ function Clockwork:HUDDrawScoreBoard()
 		drawPendingScreenBlack = nil;
 	end;
 	
-	if (self.kernel:GetSharedVar("NoMySQL") and self.kernel:GetSharedVar("NoMySQL") != "") then
-		self.kernel:DrawSimpleGradientBox(0, 0, 0, scrW, scrH, Color(0, 0, 0, 255));
-		draw.SimpleText(self.kernel:GetSharedVar("NoMySQL"), introTextSmallFont, scrW / 2, scrH / 2, Color(179, 46, 49, 255), 1, 1);
+	if (cwKernel:GetSharedVar("NoMySQL") and cwKernel:GetSharedVar("NoMySQL") != "") then
+		cwKernel:DrawSimpleGradientBox(0, 0, 0, scrW, scrH, Color(0, 0, 0, 255));
+		draw.SimpleText(cwKernel:GetSharedVar("NoMySQL"), introTextSmallFont, scrW / 2, scrH / 2, Color(179, 46, 49, 255), 1, 1);
 	elseif (self.DataStreamedAlpha and self.DataStreamedAlpha > 0) then
 		local textString = "LOADING...";
 		
-		self.kernel:DrawSimpleGradientBox(0, 0, 0, scrW, scrH, Color(0, 0, 0, self.DataStreamedAlpha));
+		cwKernel:DrawSimpleGradientBox(0, 0, 0, scrW, scrH, Color(0, 0, 0, self.DataStreamedAlpha));
 		draw.SimpleText(textString, introTextSmallFont, scrW / 2, scrH * 0.75, Color(colorWhite.r, colorWhite.g, colorWhite.b, self.DataStreamedAlpha), 1, 1);
 		
 		drawPendingScreenBlack = nil;
 	end;
 	
 	if (drawCharacterLoading) then
-		self.plugin:Call("HUDPaintCharacterLoading", math.Clamp((255 / self.CharacterLoadingDelay) * (self.CharacterLoadingFinishTime - curTime), 0, 255));
+		cwPlugin:Call("HUDPaintCharacterLoading", math.Clamp((255 / self.CharacterLoadingDelay) * (self.CharacterLoadingFinishTime - curTime), 0, 255));
 	elseif (drawPendingScreenBlack) then
-		self.kernel:DrawSimpleGradientBox(0, 0, 0, ScrW(), ScrH(), Color(0, 0, 0, 255));
+		cwKernel:DrawSimpleGradientBox(0, 0, 0, ScrW(), ScrH(), Color(0, 0, 0, 255));
 	end;
 	
 	if (self.CharacterLoadingFinishTime) then
 		if (!self.CinematicInfoDrawn) then
-			self.kernel:DrawCinematicInfo();
+			cwKernel:DrawCinematicInfo();
 		end;
 		
 		if (!self.CinematicBarsDrawn) then
-			self.kernel:DrawCinematicIntroBars();
+			cwKernel:DrawCinematicIntroBars();
 		end;
 	end;
 	
-	self.plugin:Call("PostDrawBackgroundBlurs");
+	cwPlugin:Call("PostDrawBackgroundBlurs");
 end;
 
 -- Called when the background blurs should be drawn.
@@ -3142,17 +3113,11 @@ end;
 
 -- Called just after the background blurs have been drawn.
 function Clockwork:PostDrawBackgroundBlurs()
-	local introTextSmallFont = self.option:GetFont("intro_text_small");
-	local position = self.plugin:Call("GetChatBoxPosition");
-	
-	if (position) then
-		self.chatBox:SetCustomPosition(position.x, position.y);
-	end;
-	
-	local backgroundColor = self.option:GetColor("background");
-	local colorWhite = self.option:GetColor("white");
+	local introTextSmallFont = cwOption:GetFont("intro_text_small");	
+	local backgroundColor = cwOption:GetColor("background");
+	local colorWhite = cwOption:GetColor("white");
 	local panelInfo = self.CurrentFactionSelected;
-	local menuPanel = self.kernel:GetRecogniseMenu();
+	local menuPanel = cwKernel:GetRecogniseMenu();
 	
 	if (panelInfo and IsValid(panelInfo[1]) and panelInfo[1]:IsVisible()) then
 		local factionTable = self.faction:FindByID(panelInfo[2]);
@@ -3163,7 +3128,7 @@ function Clockwork:PostDrawBackgroundBlurs()
 					panelInfo[3] = Clockwork.kernel:GetMaterial(factionTable.material..".png");
 				end;
 				
-				if (self.kernel:IsCharacterScreenOpen(true)) then
+				if (cwKernel:IsCharacterScreenOpen(true)) then
 					surface.SetDrawColor(255, 255, 255, panelInfo[1]:GetAlpha());
 					surface.SetMaterial(panelInfo[3]);
 					surface.DrawTexturedRect(panelInfo[1].x, panelInfo[1].y + panelInfo[1]:GetTall() + 16, 512, 256);
@@ -3173,19 +3138,19 @@ function Clockwork:PostDrawBackgroundBlurs()
 	end;
 	
 	if (self.TitledMenu and IsValid(self.TitledMenu.menuPanel)) then
-		local menuTextTiny = self.option:GetFont("menu_text_tiny");
+		local menuTextTiny = cwOption:GetFont("menu_text_tiny");
 		local menuPanel = self.TitledMenu.menuPanel;
 		local menuTitle = self.TitledMenu.title;
 		
-		self.kernel:DrawSimpleGradientBox(2, menuPanel.x - 4, menuPanel.y - 4, menuPanel:GetWide() + 8, menuPanel:GetTall() + 8, backgroundColor);
-		self.kernel:OverrideMainFont(menuTextTiny);
-			self.kernel:DrawInfo(menuTitle, menuPanel.x, menuPanel.y, colorWhite, 255, true, function(x, y, width, height)
+		cwKernel:DrawSimpleGradientBox(2, menuPanel.x - 4, menuPanel.y - 4, menuPanel:GetWide() + 8, menuPanel:GetTall() + 8, backgroundColor);
+		cwKernel:OverrideMainFont(menuTextTiny);
+			cwKernel:DrawInfo(menuTitle, menuPanel.x, menuPanel.y, colorWhite, 255, true, function(x, y, width, height)
 				return x, y - height - 4;
 			end);
-		self.kernel:OverrideMainFont(false);
+		cwKernel:OverrideMainFont(false);
 	end;
 	
-	self.kernel:DrawDateTime();
+	cwKernel:DrawDateTime();
 end;
 
 -- Called just before a bar is drawn.
@@ -3199,11 +3164,6 @@ function Clockwork:GetBars(bars) end;
 
 -- Called when the top bars should be destroyed.
 function Clockwork:DestroyBars(bars) end;
-
--- Called when the chat box position is needed.
-function Clockwork:GetChatBoxPosition()
-	return {x = 8, y = ScrH() - 40};
-end;
 
 -- Called when the cinematic intro info is needed.
 function Clockwork:GetCinematicIntroInfo()
@@ -3222,36 +3182,36 @@ function Clockwork:HUDPaintPlayer(player) end;
 
 -- Called when the HUD should be painted.
 function Clockwork:HUDPaint()
-	if (!self.kernel:IsChoosingCharacter() and !self.kernel:IsUsingCamera()) then
+	if (!cwKernel:IsChoosingCharacter() and !cwKernel:IsUsingCamera()) then
 		if (self.event:CanRun("view", "damage") and self.Client:Alive()) then
 			local maxHealth = self.Client:GetMaxHealth();
 			local health = self.Client:Health();
 			
 			if (health < maxHealth) then
-				self.plugin:Call("DrawPlayerScreenDamage", 1 - ((1 / maxHealth) * health));
+				cwPlugin:Call("DrawPlayerScreenDamage", 1 - ((1 / maxHealth) * health));
 			end;
 		end;
 		
-		if (self.event:CanRun("view", "vignette") and self.config:Get("enable_vignette"):Get()) then
-			self.plugin:Call("DrawPlayerVignette");
+		if (self.event:CanRun("view", "vignette") and cwConfig:Get("enable_vignette"):Get()) then
+			cwPlugin:Call("DrawPlayerVignette");
 		end;
 		
 		local weapon = self.Client:GetActiveWeapon();
 		self.BaseClass:HUDPaint();
 		
-		if (!self.kernel:IsScreenFadedBlack()) then
+		if (!cwKernel:IsScreenFadedBlack()) then
 			for k, v in pairs(cwPlayer.GetAll()) do
 				if (v:HasInitialized() and v != self.Client) then
-					self.plugin:Call("HUDPaintPlayer", v);
+					cwPlugin:Call("HUDPaintPlayer", v);
 				end;
 			end;
 		end;
 		
-		if (!self.kernel:IsUsingTool()) then
-			self.kernel:DrawHints();
+		if (!cwKernel:IsUsingTool()) then
+			cwKernel:DrawHints();
 		end;
 		
-		if ((self.config:Get("enable_crosshair"):Get() or self.kernel:IsDefaultWeapon(weapon))
+		if ((cwConfig:Get("enable_crosshair"):Get() or cwKernel:IsDefaultWeapon(weapon))
 		and (IsValid(weapon) and weapon.DrawCrosshair != false)) then
 			local info = {
 				color = Color(255, 255, 255, 255),
@@ -3259,8 +3219,8 @@ function Clockwork:HUDPaint()
 				y = ScrH() / 2
 			};
 			
-			self.plugin:Call("GetPlayerCrosshairInfo", info);
-			self.CustomCrosshair = self.plugin:Call("DrawPlayerCrosshair", info.x, info.y, info.color);
+			cwPlugin:Call("GetPlayerCrosshairInfo", info);
+			self.CustomCrosshair = cwPlugin:Call("DrawPlayerCrosshair", info.x, info.y, info.color);
 		else
 			self.CustomCrosshair = false;
 		end;
@@ -3269,7 +3229,7 @@ end;
 
 -- Called when the local player's crosshair info is needed.
 function Clockwork:GetPlayerCrosshairInfo(info)
-	if (self.config:Get("use_free_aiming"):Get()) then
+	if (cwConfig:Get("use_free_aiming"):Get()) then
 		-- Thanks to BlackOps7799 for this open source example.
 		
 		local traceLine = util.TraceLine({
@@ -3299,7 +3259,7 @@ end;
 
 -- Called when a player starts using voice.
 function Clockwork:PlayerStartVoice(player)
-	if (self.config:Get("local_voice"):Get()) then
+	if (cwConfig:Get("local_voice"):Get()) then
 		if (player:IsRagdolled(RAGDOLL_FALLENOVER) or !player:Alive()) then
 			return;
 		end;
@@ -3312,7 +3272,7 @@ end;
 
 -- Called to check if a player does have an flag.
 function Clockwork:PlayerDoesHaveFlag(player, flag)
-	if (string.find(self.config:Get("default_flags"):Get(), flag)) then
+	if (string.find(cwConfig:Get("default_flags"):Get(), flag)) then
 		return true;
 	end;
 end;
@@ -3363,9 +3323,11 @@ function Clockwork:CreateScoreboard() end;
 -- Called when the scoreboard should be shown.
 function Clockwork:ScoreboardShow()
 	if (self.Client:HasInitialized()) then
-		self.menu:Create();
-		self.menu:SetOpen(true);
-		self.menu.holdTime = UnPredictedCurTime() + 0.5;
+		if (self.plugin:Call("CanShowTabMenu")) then
+			self.menu:Create();
+			self.menu:SetOpen(true);
+			self.menu.holdTime = UnPredictedCurTime() + 0.5;
+		end;
 	end;
 end;
 
@@ -3373,13 +3335,21 @@ end;
 function Clockwork:ScoreboardHide()
 	if (self.Client:HasInitialized() and self.menu.holdTime) then
 		if (UnPredictedCurTime() >= self.menu.holdTime) then
-			self.menu:SetOpen(false);
+			if (self.plugin:Call("CanShowTabMenu")) then
+				self.menu:SetOpen(false);
+			end;
 		end;
 	end;
 end;
 
+-- Called before the tab menu is shown.
+function Clockwork:CanShowTabMenu() return true; end;
+
 -- Overriding Garry's "grab ear" animation.
 function Clockwork:GrabEarAnimation(player) end;
+
+-- Called before the item entity's target ID is drawn. Return false to stop default draw.
+function Clockwork:PaintItemTargetID(x, y, alpha, itemTable) return true; end;
 
 concommand.Add("cwSay", function(player, command, arguments)
 	return Clockwork.datastream:Start("PlayerSay", table.concat(arguments, " "));
@@ -3585,10 +3555,8 @@ function playerMeta:GetRagdollEntity()
 end;
 
 -- A function to get a player's rank within their faction.
-function playerMeta:GetFactionRank()
-	local rankName, rank = Clockwork.player:GetFactionRank(self);
-	
-	return rankName, rank;
+function playerMeta:GetFactionRank(character)
+	return Clockwork.player:GetFactionRank(self, character);
 end;
 
 -- A function to get a player's chat icon.
