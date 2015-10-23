@@ -89,8 +89,6 @@ The following changes have been made for each official Clockwork build.
     * *Contributed by kurozael.*
 * Added system to add icons to menu items in the TAB menu.
     * *Contributed by kurozael.*
-* Added system to add icons to menu items in the TAB menu.
-    * *Contributed by kurozael.*
 
 0.93
 -------
