@@ -59,8 +59,38 @@ The following changes have been made for each official Clockwork build.
 	* *Contributed by NightAngel.*
 * Framework now prints schema name, author and version on boot.
 	* *Contributed by NightAngel.*
-* Major GUI update and multiple small fixes
-	* *Contributed by kurozael.*
+* Added "Center Hints", like the hints in the top-right but appear in the center of the screen.
+    * *Contributed by kurozael.*
+* Updated the entire UI and derma panels for better customizable themes.
+    * *Contributed by kurozael.*
+* Fixed some issues with wages and implemented new Wage hooks.
+    * *Contributed by kurozael.*
+* Added shared post-hook for when items have initialized.
+    * *Contributed by kurozael.*
+* Added pre-hook for when players have taken damage.
+    * *Contributed by kurozael.*
+* Fixed Limb Damage not resetting properly.
+    * *Contributed by kurozael.*
+* Added Clockwork.kernel:DrawInfoScaled for drawing a scaled font.
+    * *Contributed by kurozael.*
+* The character creation screen will open automatically when no characters exist.
+    * *Contributed by kurozael.*
+* Added DrawGeneratorTargetID hook and ability to customize generator target ID.
+    * *Contributed by kurozael.*
+* Added hint to press 'Use' to resupply a generator, some people didn't realize.
+    * *Contributed by kurozael.*
+* General fixes for Player Property entities not networking properly.
+    * *Contributed by kurozael.*
+* Fixed Stamina not draining and regenerating properly using customized settings.
+    * *Contributed by kurozael.*
+* Added some new language strings to the general codebase.
+    * *Contributed by kurozael.*
+* Added option to scale the width of the top bars.
+    * *Contributed by kurozael.*
+* Added system to add icons to menu items in the TAB menu.
+    * *Contributed by kurozael.*
+* Added system to add icons to menu items in the TAB menu.
+    * *Contributed by kurozael.*
     
 0.93
 -------
