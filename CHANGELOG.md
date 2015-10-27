@@ -2,6 +2,15 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.94.1
+-------
+* Added plugin call for drawing salesman targetID.
+    * *Contributed by NightAngel.*
+* Added custom ammo type saving and AdjustAmmoTypes hook.
+    * *Contributed by NightAngel.*
+* Shifted faction/rank derived stat setting from PostPlayerSpawn to PlayerSpawn.
+    * *Contributed by NightAngel.*
+
 0.94
 -------
 
