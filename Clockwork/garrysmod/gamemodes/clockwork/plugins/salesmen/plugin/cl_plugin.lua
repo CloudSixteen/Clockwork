@@ -6,6 +6,9 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
+-- Called when the salesman's target ID is painted.
+function cwSalesmen:SalesmanTargetID(entity, x, y, alpha) end;
+
 Clockwork.datastream:Hook("Salesmenu", function(data)
 	Clockwork.salesmenu.buyInShipments = data.buyInShipments;
 	Clockwork.salesmenu.priceScale = data.priceScale;
