@@ -10,15 +10,17 @@ Clockwork.kernel:IncludePrefixed("shared.lua")
 
 -- Called when the target ID HUD should be painted.
 function ENT:HUDPaintTargetID(x, y, alpha)
-	local colorTargetID = Clockwork.option:GetColor("target_id");
-	local colorWhite = Clockwork.option:GetColor("white");
-	local physDesc = self:GetNetworkedString("PhysDesc");
-	local name = self:GetNetworkedString("Name");
-	
-	y = Clockwork.kernel:DrawInfo(name, x, y, colorTargetID, alpha);
-	
-	if (physDesc != "") then
-		y = Clockwork.kernel:DrawInfo(physDesc, x, y, colorWhite, alpha);
+	if (Clockwork.plugin:Call("SalesmanTargetID", self, x, y, alpha)) then
+		local colorTargetID = Clockwork.option:GetColor("target_id");
+		local colorWhite = Clockwork.option:GetColor("white");
+		local physDesc = self:GetNetworkedString("PhysDesc");
+		local name = self:GetNetworkedString("Name");
+		
+		y = Clockwork.kernel:DrawInfo(name, x, y, colorTargetID, alpha);
+		
+		if (physDesc != "") then
+			y = Clockwork.kernel:DrawInfo(physDesc, x, y, colorWhite, alpha);
+		end;
 	end;
 end;
 

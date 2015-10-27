@@ -3912,6 +3912,35 @@ function Clockwork:OnAttributeProgress(player, attribute, amount)
 	amount = amount * Clockwork.config:Get("scale_attribute_progress"):Get();
 end;
 
+--[[
+	@codebase Server
+	@details Called to add ammo types to be checked for and saved.
+	@param Table The table filled with the current ammo types.
+--]]
+function Clockwork:AdjustAmmoTypes(ammoTable)
+	ammoTable["sniperpenetratedround"] = true;
+	ammoTable["striderminigun"] = true;
+	ammoTable["helicoptergun"] = true;
+	ammoTable["combinecannon"] = true;
+	ammoTable["smg1_grenade"] = true;
+	ammoTable["gaussenergy"] = true;
+	ammoTable["sniperround"] = true;
+	ammoTable["ar2altfire"] = true;
+	ammoTable["rpg_round"] = true;
+	ammoTable["xbowbolt"] = true;
+	ammoTable["buckshot"] = true;
+	ammoTable["alyxgun"] = true;
+	ammoTable["grenade"] = true;
+	ammoTable["thumper"] = true;
+	ammoTable["gravity"] = true;
+	ammoTable["battery"] = true;
+	ammoTable["pistol"] = true;
+	ammoTable["slam"] = true;
+	ammoTable["smg1"] = true;
+	ammoTable["357"] = true;
+	ammoTable["ar2"] = true;
+end;
+
 -- GetTargetRecognises datastream callback.
 Clockwork.datastream:Hook("GetTargetRecognises", function(player, data)
 	if (IsValid(data) and data:IsPlayer()) then
