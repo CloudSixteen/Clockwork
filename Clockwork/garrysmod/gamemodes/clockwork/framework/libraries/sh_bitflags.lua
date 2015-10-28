@@ -18,7 +18,7 @@ Clockwork.bitFlags.stored = {};
 function Clockwork.bitFlags:Add(field, ...)
 	local flags = {...};
 
-	for k, v in pairs(flags) do
+	for k, v in ipairs(flags) do
 		field = bit.bor(field, 2 ^ (v - 1));
 	end;
 
@@ -29,7 +29,7 @@ end;
 function Clockwork.bitFlags:Remove(field, ...)
 	local flags = {...};
 
-	for k, v in pairs(flags) do
+	for k, v in ipairs(flags) do
 		field = bit.band(field, bit.bnot(2 ^ (v - 1)));
 	end;
 
@@ -40,7 +40,7 @@ end;
 function Clockwork.bitFlags:Has(field, ...)
 	local flags = {...};
 
-	for k, v in pairs(flags) do
+	for k, v in ipairs(flags) do
 		if (bit.band(field, 2 ^ (v - 1)) == 0) then
 			return false;
 		end;
@@ -53,7 +53,7 @@ end;
 function Clockwork.bitFlags:HasAny(field, ...)
 	local flags = {...};
 
-	for k, v in pairs(flags) do
+	for k, v in ipairs(flags) do
 		if (bit.band(field, 2 ^ (v - 1)) != 0) then
 			return true;
 		end;
