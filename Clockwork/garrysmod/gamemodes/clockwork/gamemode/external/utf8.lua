@@ -2205,3 +2205,12 @@ function utf8.gensub(str, sub_len)
 		return sub, start, last
 	end
 end
+
+string.utf8len       = utf8.len
+string.utf8sub       = utf8.sub
+string.utf8reverse   = utf8.reverse
+string.utf8char      = utf8.char
+string.utf8unicode   = utf8.unicode
+string.utf8gensub    = utf8.gensub
+string.utf8upper	= utf8.upper
+string.utf8lower	 = utf8.lower
