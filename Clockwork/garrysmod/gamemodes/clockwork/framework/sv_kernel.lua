@@ -1,5 +1,5 @@
 --[[ 
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -174,7 +174,7 @@ function Clockwork:Initialize()
 	local password = self.config:Get("mysql_password"):Get();
 	local database = self.config:Get("mysql_database"):Get();
 	local dateInfo = os.date("*t");
-	local host = self.config:Get("mysql_host"):Get();
+	local host = string.Replace(self.config:Get("mysql_host"):Get(), "http://", "");
 	local port = self.config:Get("mysql_port"):Get();
 	
 	self.database:Connect(host, username, password, database, port);
