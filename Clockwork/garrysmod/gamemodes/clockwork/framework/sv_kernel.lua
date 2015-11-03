@@ -174,7 +174,7 @@ function Clockwork:Initialize()
 	local password = self.config:Get("mysql_password"):Get();
 	local database = self.config:Get("mysql_database"):Get();
 	local dateInfo = os.date("*t");
-	local host = string.Replace(self.config:Get("mysql_host"):Get(), "http://", "");
+	local host = string.gsub(self.config:Get("mysql_host"):Get(), "^http[s]?://", "", 1); -- Matches at beginning of string, matches http:// or https://, no need to check twice
 	local port = self.config:Get("mysql_port"):Get();
 	
 	self.database:Connect(host, username, password, database, port);
