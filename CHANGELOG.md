@@ -2,6 +2,38 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.94.17
+-------
+
+* Added bitflag library.
+    * *Contributed by duck.*
+* Linked utf-8 library with GMod utf-8 module.
+    * *Contributed by Kefta.*
+* Added DoorSetAllUnownable/DoorSetAllOwnable commands.
+    * *Contributed by Trurascalz.*
+* Allow SQL host urls with/without http:// or https:// to be used.
+    * *Contributed by RJ.*
+* Added check for iniTable so that the framework doesn't crash if a plugin doesn't have an ini file.
+    * *Contributed by NightAngel.*
+* Added checks to chatbox that solve len bug from utf8 commit.
+    * *Contributed by NightAngel.*
+
+0.94.13
+-------
+
+* Added bitflag library.
+    * *Contributed by duck.*
+* Linked utf-8 library with GMod utf-8 module.
+    * *Contributed by Kefta.*
+
+0.94.1
+-------
+
+* Added plugin call for drawing salesman targetID.
+    * *Contributed by NightAngel.*
+* Added custom ammo type saving based on ammo items, as well as AdjustAmmoTypes(ammoTable) hook for adding/removing ammo types to save.
+    * *Contributed by NightAngel.*
+
 0.94
 -------
 
