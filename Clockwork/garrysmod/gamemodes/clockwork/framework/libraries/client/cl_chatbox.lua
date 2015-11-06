@@ -185,12 +185,14 @@ function Clockwork.chatBox:CreateDermaTextEntry()
 			local maxChatLength = Clockwork.config:Get("max_chat_length"):Get();
 			local text = textEntry:GetValue();
 			
-			if (string.utf8len(text) > maxChatLength) then
-				textEntry:SetRealValue(string.utf8sub(text, 0, maxChatLength));
-				Clockwork.option:PlaySound("tick");
-			elseif (self:IsOpen()) then
-				if (text != textEntry.previousText) then
-					Clockwork.plugin:Call("ChatBoxTextChanged", textEntry.previousText or "", text);
+			if (text and text != "") then
+				if (string.utf8len(text) > maxChatLength) then
+					textEntry:SetRealValue(string.utf8sub(text, 0, maxChatLength));
+					Clockwork.option:PlaySound("tick");
+				elseif (self:IsOpen()) then
+					if (text != textEntry.previousText) then
+						Clockwork.plugin:Call("ChatBoxTextChanged", textEntry.previousText or "", text);
+					end;
 				end;
 			end;
 			
@@ -223,12 +225,14 @@ function Clockwork.chatBox:CreateDermaTextEntry()
 		self.textEntry.SetRealValue = function(textEntry, text, limit)
 			textEntry:SetText(text);
 			
-			if (limit) then
-				if (textEntry:GetCaretPos() > string.utf8len(text)) then
+			if (text and text != "") then
+				if (limit) then
+					if (textEntry:GetCaretPos() > string.utf8len(text)) then
+						textEntry:SetCaretPos(string.utf8len(text));
+					end;
+				else
 					textEntry:SetCaretPos(string.utf8len(text));
 				end;
-			else
-				textEntry:SetCaretPos(string.utf8len(text));
 			end;
 		end;
 		
@@ -857,7 +861,7 @@ function Clockwork.chatBox:Paint()
 		local command = splitTable[1];
 		local prefix = Clockwork.config:Get("command_prefix"):Get();
 		
-		if (command) then
+		if (command and command != "") then
 			for k, v in pairs(Clockwork.command.stored) do
 				if (string.utf8sub(k, 1, string.utf8len(command)) == string.lower(command)
 				and (!splitTable[2] or string.lower(command) == k)) then
