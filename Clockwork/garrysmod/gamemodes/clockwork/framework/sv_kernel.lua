@@ -3941,6 +3941,15 @@ function Clockwork:AdjustAmmoTypes(ammoTable)
 	ammoTable["ar2"] = true;
 end;
 
+--[[
+	@codebase Server
+	@details Called after a player uses a command.
+	@param Player The player that used the commmand.
+	@param Table The table of the command that is being used.
+	@param Table The arguments that have been given with the command, if any.
+--]]
+function Clockwork:PostCommandUsed(player, command, arguments) end;
+
 -- GetTargetRecognises datastream callback.
 Clockwork.datastream:Hook("GetTargetRecognises", function(player, data)
 	if (IsValid(data) and data:IsPlayer()) then
