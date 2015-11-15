@@ -3531,7 +3531,33 @@ end;
 
 -- A function to set a player's rank within their faction.
 function Clockwork.player:SetFactionRank(player, rank)
-	player:SetCharacterData("factionrank", rank);
+	if (rank) then
+		local faction = Clockwork.faction:FindByID(player:GetFaction());
+
+		if (faction and istable(faction.ranks)) then
+			for k, v in pairs(faction.ranks) do
+				if (k == rank) then
+					player:SetCharacterData("factionrank", k);
+
+					if (v.class and Clockwork.class.stored[v.class]) then
+						Clockwork.class:Set(player, v.class);
+					end;
+
+					if (v.model) then
+						player:SetModel(v.model);
+					end;
+
+					if (istable(v.weapons)) then
+						for k, v in pairs(v.weapons) do
+							self:GiveSpawnWeapon(player, v);
+						end;
+					end;
+
+					break;
+				end;
+			end;
+		end;
+	end;
 end;
 
 -- A function to get a player's global flags.
