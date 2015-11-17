@@ -20,7 +20,7 @@ function COMMAND:OnRun(player, arguments)
 	if (radius) then
 		local radiusEnts = ents.FindInSphere(player:GetPos(), radius);
 		local staticCount = 0;
-		local propsOnly = Clockwork.kernel:ToBool(arguments[2]);
+		local propsOnly = Clockwork.kernel:ToBool(arguments[2]) or false;
 
 		for k, entity in pairs(radiusEnts) do
 			if (!propsOnly or propsOnly and entity.class == "prop_physics") then
