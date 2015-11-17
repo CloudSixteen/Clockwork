@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 Clockwork.config:ShareKey("use_opens_entity_menus");
+Clockwork.config:ShareKey("target_id_delay");
 Clockwork.config:ShareKey("additional_characters");
 Clockwork.config:ShareKey("raised_weapon_system");
 Clockwork.config:ShareKey("use_own_group_system");
