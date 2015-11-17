@@ -311,8 +311,6 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 					end;
 				end);
 			queryObj:Pull();
-			
-			player.cwIsCreatingChar = true;
 		else
 			return Clockwork.player:SetCreateFault(player, "You cannot create any more characters!");
 		end;
