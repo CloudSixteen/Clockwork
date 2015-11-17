@@ -186,7 +186,7 @@ function cwDisplayTyping:ChatBoxTextChanged(previousText, newText)
 		if (string.utf8sub(previousText, 1, 4) != prefix..".// ") then
 			RunConsoleCommand("cwTypingStart", "o");
 		end;
-	elseif (string.utf8len(newText) >= 4 and string.utf8len(previousText) < 4) then
+	elseif (newText != "" and string.utf8len(newText) >= 4 and previousText != "" and string.utf8len(previousText) < 4) then
 		RunConsoleCommand("cwTypingStart", "n");
 	end;
 end;
