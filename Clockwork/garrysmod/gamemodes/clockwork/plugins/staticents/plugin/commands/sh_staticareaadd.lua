@@ -20,10 +20,10 @@ function COMMAND:OnRun(player, arguments)
 	if (radius) then
 		local radiusEnts = ents.FindInSphere(player:GetPos(), radius);
 		local staticCount = 0;
-		local propsOnly = Clockwork.kernel:ToBool(arguments[2]);
+		local propsOnly = Clockwork.kernel:ToBool(arguments[2]) or false;
 
 		for k, entity in pairs(radiusEnts) do
-			local class = Clockwork.plugin:Call("CanEntityStatic", target);
+			local class = Clockwork.plugin:Call("CanEntityStatic", entity);
 			local canStatic = true;
 			
 			if (!propsOnly and class != false or propsOnly and class == "props_physics") then
@@ -31,11 +31,11 @@ function COMMAND:OnRun(player, arguments)
 					if (entity == v2) then
 						canStatic = false;
 					end;
+				end;
 
-					if (canStatic) then
-						table.insert(cwStaticEnts.staticEnts, entity);
-						staticCount = staticCount + 1;
-					end;
+				if (canStatic) then
+					table.insert(cwStaticEnts.staticEnts, entity);
+					staticCount = staticCount + 1;
 				end;
 			end;
 		end;
