@@ -1858,7 +1858,7 @@ function Clockwork:HUDDrawTargetID()
 			if (IsValid(trace.Entity) and !trace.Entity:IsEffectActive(EF_NODRAW)) then
 				if (!self.TargetIDData or self.TargetIDData.entity != trace.Entity) then
 					self.TargetIDData = {
-						showTime = curTime + 0.5,
+						showTime = curTime + Clockwork.config:Get("target_id_delay"):Get(),
 						entity = trace.Entity
 					};
 				end;
