@@ -84,3 +84,45 @@ function Clockwork.player:GetFactionRank(player, character)
 		end;
 	end;
 end;
+
+--[[
+	@codebase Shared
+	@details A function to check if a player can promote the target.
+	@param Userdata The player whose permissions you are trying to check.
+	@param Userdata The player who may be promoted.
+--]]
+function Clockwork.player:CanPromote(player, target)
+	local stringRank, rank = Clockwork.player:GetFactionRank(player);
+
+	if (rank) then
+		if (rank.canPromote) then
+			local stringTargetRank, targetRank = Clockwork.player:GetFactionRank(target);
+			local highestRank, rankTable = Clockwork.faction:GetHighestRank(player:Faction()).position;
+
+			if (targetRank.position and targetRank.position != rankTable.position) then
+				return (rank.canPromote <= targetRank.position);
+			end;
+		end;
+	end;
+end;
+
+--[[
+	@codebase Shared
+	@details A function to check if a player can demote the target.
+	@param Userdata The player whose permissions you are trying to check.
+	@param Userdata The player who may be demoted.
+--]]
+function Clockwork.player:CanDemote(player, target)
+	local stringRank, rank = Clockwork.player:GetFactionRank(player);
+
+	if (rank) then
+		if (rank.canDemote) then
+			local stringTargetRank, targetRank = Clockwork.player:GetFactionRank(target);
+			local lowestRank, rankTable = Clockwork.faction:GetLowestRank(player:Faction()).position;
+
+			if (targetRank.position and targetRank.position != rankTable.position) then
+				return (rank.canDemote <= targetRank.position);
+			end;
+		end;
+	end;
+end;

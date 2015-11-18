@@ -30,8 +30,8 @@ if (SERVER) then
 					amount = math.min((amount / attributeTable.maximum) * attributes[attribute].amount, amount / attributeTable.maximum);
 				end;
 			end;
-			
-			amount = amount * Clockwork.config:Get("scale_attribute_progress"):Get();
+		
+			Clockwork.plugin:Call("OnAttributeProgress", player, attribute, amount);
 			
 			if (attributes[attribute]) then
 				if (attributes[attribute].amount == attributeTable.maximum) then

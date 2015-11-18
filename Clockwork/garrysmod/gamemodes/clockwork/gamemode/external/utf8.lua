@@ -1,17 +1,14 @@
 -- $Id: utf8.lua 179 2009-04-03 18:10:03Z pasta $
 --
--- Provides UTF-8 aware string functions implemented in pure lua:
--- * string.utf8len(s)
--- * string.utf8sub(s, i, j)
--- * string.utf8reverse(s)
--- * string.utf8char(unicode)
--- * string.utf8unicode(s, i, j)
--- * string.utf8gensub(s, sub_len)
---
--- If utf8data.lua (containing the lower<->upper case mappings) is loaded, these
--- additional functions are available:
--- * string.utf8upper(s)
--- * string.utf8lower(s)
+-- Provides UTF-8 aware string functions extended from Garry's Mod's utf8 module:
+-- * utf8.clen
+-- * utf8.sub(s, i, j)
+-- * utf8.upper(s)
+-- * utf8.lower(s)
+-- * utf8.reverse(s)
+-- * utf8.uchar(unicode)
+-- * utf8.unicode(s, i, j)
+-- * utf8.gensub(s, sub_len)
 --
 -- All functions behave as their non UTF-8 aware counterparts with the exception
 -- that UTF-8 characters are used instead of bytes for all units.
@@ -56,6 +53,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --               %xF4 %x80-8F 2( UTF8-tail )
 -- UTF8-tail   = %x80-BF
 -- 
+
+utf8 = utf8 or {} -- Module sanity check
 
 utf8_lc_uc = {
 	["a"] = "A",
@@ -991,7 +990,6 @@ utf8_lc_uc = {
 	["𐑏"] = "𐐧",
 }
 
-
 utf8_uc_lc = {
 	["A"] = "a",
 	["B"] = "b",
@@ -1919,17 +1917,9 @@ utf8_uc_lc = {
 
 -- returns the number of bytes used by the UTF-8 character at byte i in s
 -- also doubles as a UTF-8 character validator
-local function utf8charbytes (s, i)
+function utf8.clen (s, i)
 	-- argument defaults
 	i = i or 1
-
-	-- argument checking
-	if type(s) ~= "string" then
-		error("bad argument #1 to 'utf8charbytes' (string expected, got ".. type(s).. ")")
-	end
-	if type(i) ~= "number" then
-		error("bad argument #2 to 'utf8charbytes' (number expected, got ".. type(i).. ")")
-	end
 
 	local c = s:byte(i)
 
@@ -2015,28 +2005,9 @@ local function utf8charbytes (s, i)
 	end
 end
 
--- returns the number of characters in a UTF-8 string
-local function utf8len (s)
-	-- argument checking
-	if type(s) ~= "string" then
-		error("bad argument #1 to 'utf8len' (string expected, got ".. type(s).. ")")
-	end
-
-	local pos = 1
-	local bytes = s:len()
-	local len = 0
-
-	while pos <= bytes do
-		len = len + 1
-		pos = pos + utf8charbytes(s, pos)
-	end
-
-	return len
-end
-
--- functions identically to string.utf8sub except that i and j are UTF-8 characters
+-- functions identically to string.sub except that i and j are UTF-8 characters
 -- instead of bytes
-local function utf8sub (s, i, j)
+function utf8.sub (s, i, j)
 	-- argument defaults
 	j = j or -1
 
@@ -2045,7 +2016,7 @@ local function utf8sub (s, i, j)
 	local len = 0
 
 	-- only set l if i or j is negative
-	local l = (i >= 0 and j >= 0) or s:utf8len()
+	local l = (i >= 0 and j >= 0) or utf8.len(s)
 	local startChar = (i >= 0) and i or l + i + 1
 	local endChar   = (j >= 0) and j or l + j + 1
 
@@ -2054,7 +2025,7 @@ local function utf8sub (s, i, j)
 		return ""
 	end
 
-	-- byte offsets to pass to string.utf8sub
+	-- byte offsets to pass to string.sub
 	local startByte,endByte = 1,bytes
 	
 	while pos <= bytes do
@@ -2064,7 +2035,7 @@ local function utf8sub (s, i, j)
 			startByte = pos
 		end
 
-		pos = pos + utf8charbytes(s, pos)
+		pos = pos + utf8.clen(s, pos)
 
 		if len == endChar then
 			endByte = pos - 1
@@ -2080,27 +2051,21 @@ end
 
 
 -- replace UTF-8 characters based on a mapping table
-local function utf8replace (s, mapping)
+function utf8.replace (s, mapping)
 	-- argument checking
-	if type(s) ~= "string" then
-		error("bad argument #1 to 'utf8replace' (string expected, got ".. type(s).. ")")
-	end
-	if type(mapping) ~= "table" then
-		error("bad argument #2 to 'utf8replace' (table expected, got ".. type(mapping).. ")")
-	end
 
 	local pos = 1
 	local bytes = s:len()
-	local charbytes
+	local clen
 	local newstr = ""
 
 	while pos <= bytes do
-		charbytes = utf8charbytes(s, pos)
-		local c = s:sub(pos, pos + charbytes - 1)
+		clen = utf8.clen(s, pos)
+		local c = s:sub(pos, pos + clen - 1)
 
 		newstr = newstr .. (mapping[c] or c)
 
-		pos = pos + charbytes
+		pos = pos + clen
 	end
 
 	return newstr
@@ -2108,25 +2073,22 @@ end
 
 
 -- identical to string.upper except it knows about unicode simple case conversions
-local function utf8upper (s)
-	return utf8replace(s, utf8_lc_uc)
+function utf8.upper (s)
+	return utf8.replace(s, utf8_lc_uc)
 end
 
 -- identical to string.lower except it knows about unicode simple case conversions
-local function utf8lower (s)
-	return utf8replace(s, utf8_uc_lc)
+function utf8.lower (s)
+	return utf8.replace(s, utf8_uc_lc)
 end
 
 -- identical to string.reverse except that it supports UTF-8
-local function utf8reverse (s)
+function utf8.reverse (s)
 	-- argument checking
-	if type(s) ~= "string" then
-		error("bad argument #1 to 'utf8reverse' (string expected, got ".. type(s).. ")")
-	end
 
 	local bytes = s:len()
 	local pos = bytes
-	local charbytes
+	local clen
 	local newstr = ""
 
 	while pos > 0 do
@@ -2136,9 +2098,9 @@ local function utf8reverse (s)
 			c = s:byte(pos)
 		end
 
-		charbytes = utf8charbytes(s, pos)
+		clen = utf8.clen(s, pos)
 
-		newstr = newstr .. s:sub(pos, pos + charbytes - 1)
+		newstr = newstr .. s:sub(pos, pos + clen - 1)
 
 		pos = pos - 1
 	end
@@ -2148,7 +2110,7 @@ end
 
 -- http://en.wikipedia.org/wiki/Utf8
 -- http://developer.coronalabs.com/code/utf-8-conversion-utility
-local function utf8char(unicode)
+function utf8.uchar(unicode)
 	if unicode <= 0x7F then return string.char(unicode) end
 	
 	if (unicode <= 0x7FF) then
@@ -2177,15 +2139,14 @@ local function utf8char(unicode)
 		return string.char(Byte0, Byte1, Byte2, Byte3);
 	end;
 	
-	error 'Unicode cannot be greater than U+10FFFF!'
+	error('Unicode cannot be greater than U+10FFFF!')
 end
 
 local shift_6  = 2^6
 local shift_12 = 2^12
 local shift_18 = 2^18
 
-local utf8unicode
-utf8unicode = function(str, i, j, byte_pos)
+function utf8.unicode (str, i, j, byte_pos)
 	i = i or 1
 	j = j or i
 	
@@ -2194,10 +2155,10 @@ utf8unicode = function(str, i, j, byte_pos)
 	local char,bytes
 	
 	if byte_pos then 
-		bytes = utf8charbytes(str,byte_pos)
+		bytes = utf8.clen(str,byte_pos)
 		char  = str:sub(byte_pos,byte_pos-1+bytes)
 	else
-		char,byte_pos = utf8sub(str,i,i)
+		char,byte_pos = utf8.sub(str,i,i)
 		bytes         = #char
 	end
 	
@@ -2220,11 +2181,11 @@ utf8unicode = function(str, i, j, byte_pos)
 		unicode = code0*shift_18 + code1*shift_12 + code2*shift_6 + code3
 	end
 	
-	return unicode,utf8unicode(str, i+1, j, byte_pos+bytes)
+	return unicode,utf8.unicode(str, i+1, j, byte_pos+bytes)
 end
 
 -- Returns an iterator which returns the next substring and its byte interval
-local function utf8gensub(str, sub_len)
+function utf8.gensub(str, sub_len)
 	sub_len        = sub_len or 1
 	local byte_pos = 1
 	local len      = #str
@@ -2234,7 +2195,7 @@ local function utf8gensub(str, sub_len)
 		repeat
 			if byte_pos > len then return end
 			char_count  = char_count + 1
-			local bytes = utf8charbytes(str,byte_pos)
+			local bytes = utf8.clen(str,byte_pos)
 			byte_pos    = byte_pos+bytes
 			
 		until char_count == sub_len
@@ -2245,11 +2206,11 @@ local function utf8gensub(str, sub_len)
 	end
 end
 
-string.utf8len       = utf8len
-string.utf8sub       = utf8sub
-string.utf8reverse   = utf8reverse
-string.utf8char      = utf8char
-string.utf8unicode   = utf8unicode
-string.utf8gensub    = utf8gensub
-string.utf8upper	 = utf8upper
-string.utf8lower	 = utf8lower
+string.utf8len       = utf8.len
+string.utf8sub       = utf8.sub
+string.utf8reverse   = utf8.reverse
+string.utf8char      = utf8.char
+string.utf8unicode   = utf8.unicode
+string.utf8gensub    = utf8.gensub
+string.utf8upper	= utf8.upper
+string.utf8lower	 = utf8.lower
