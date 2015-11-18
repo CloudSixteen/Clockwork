@@ -311,8 +311,6 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 					end;
 				end);
 			queryObj:Pull();
-			
-			player.cwIsCreatingChar = true;
 		else
 			return Clockwork.player:SetCreateFault(player, "You cannot create any more characters!");
 		end;
@@ -2417,30 +2415,24 @@ end;
 -- A function to get a player's ammo list as a table.
 function Clockwork.player:GetAmmo(player, bDoStrip)
 	local spawnAmmo = self:GetSpawnAmmo(player);
-	local ammo = {
-		["sniperpenetratedround"] = player:GetAmmoCount("sniperpenetratedround"),
-		["striderminigun"] = player:GetAmmoCount("striderminigun"),
-		["helicoptergun"] = player:GetAmmoCount("helicoptergun"),
-		["combinecannon"] = player:GetAmmoCount("combinecannon"),
-		["smg1_grenade"] = player:GetAmmoCount("smg1_grenade"),
-		["gaussenergy"] = player:GetAmmoCount("gaussenergy"),
-		["sniperround"] = player:GetAmmoCount("sniperround"),
-		["airboatgun"] = player:GetAmmoCount("airboatgun"),
-		["ar2altfire"] = player:GetAmmoCount("ar2altfire"),
-		["rpg_round"] = player:GetAmmoCount("rpg_round"),
-		["xbowbolt"] = player:GetAmmoCount("xbowbolt"),
-		["buckshot"] = player:GetAmmoCount("buckshot"),
-		["alyxgun"] = player:GetAmmoCount("alyxgun"),
-		["grenade"] = player:GetAmmoCount("grenade"),
-		["thumper"] = player:GetAmmoCount("thumper"),
-		["gravity"] = player:GetAmmoCount("gravity"),
-		["battery"] = player:GetAmmoCount("battery"),
-		["pistol"] = player:GetAmmoCount("pistol"),
-		["slam"] = player:GetAmmoCount("slam"),
-		["smg1"] = player:GetAmmoCount("smg1"),
-		["357"] = player:GetAmmoCount("357"),
-		["ar2"] = player:GetAmmoCount("ar2")
-	};
+	local ammoTypes = {};
+	local ammo = {};
+
+	for k, v in pairs(Clockwork.item:GetAll()) do
+		if (v.ammoClass) then
+			ammoTypes[v.ammoClass] = true;
+		end;
+	end;
+
+	Clockwork.plugin:Call("AdjustAmmoTypes", ammoTypes);
+
+	if (ammoTypes) then
+		for k, v in pairs(ammoTypes) do
+			if (v) then
+				ammo[k] = player:GetAmmoCount(k);
+			end;
+		end;
+	end;
 	
 	if (spawnAmmo) then
 		for k, v in pairs(spawnAmmo) do
@@ -2453,7 +2445,7 @@ function Clockwork.player:GetAmmo(player, bDoStrip)
 	if (bDoStrip) then
 		player:RemoveAllAmmo();
 	end;
-	
+
 	return ammo;
 end;
 
@@ -3537,7 +3529,33 @@ end;
 
 -- A function to set a player's rank within their faction.
 function Clockwork.player:SetFactionRank(player, rank)
-	player:SetCharacterData("factionrank", rank);
+	if (rank) then
+		local faction = Clockwork.faction:FindByID(player:GetFaction());
+
+		if (faction and istable(faction.ranks)) then
+			for k, v in pairs(faction.ranks) do
+				if (k == rank) then
+					player:SetCharacterData("factionrank", k);
+
+					if (v.class and Clockwork.class.stored[v.class]) then
+						Clockwork.class:Set(player, v.class);
+					end;
+
+					if (v.model) then
+						player:SetModel(v.model);
+					end;
+
+					if (istable(v.weapons)) then
+						for k, v in pairs(v.weapons) do
+							self:GiveSpawnWeapon(player, v);
+						end;
+					end;
+
+					break;
+				end;
+			end;
+		end;
+	end;
 end;
 
 -- A function to get a player's global flags.

@@ -137,7 +137,7 @@ function PANEL:Rebuild(change)
 		Clockwork.plugin:Call("MenuItemsDestroy", Clockwork.menuitems);
 		
 		table.sort(Clockwork.menuitems.stored, function(a, b)
-			return (a.iconData and not b.iconData) or (a.text < b.text);
+			return (a.text < b.text);
 		end);
 		
 		for k, v in pairs(Clockwork.menuitems.stored) do

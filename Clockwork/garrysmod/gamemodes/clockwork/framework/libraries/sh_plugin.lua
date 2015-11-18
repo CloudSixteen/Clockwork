@@ -367,29 +367,31 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 		if (SERVER) then
 			local iniDir = "gamemodes/"..Clockwork.kernel:RemoveTextFromEnd(directory, "/plugin"); 
 			local iniTable = Clockwork.config:LoadINI(iniDir.."/plugin.ini", true, true);
-			
-			if (iniTable and iniTable["Plugin"]) then
-				iniTable = iniTable["Plugin"];
-				iniTable.isUnloaded = self:IsUnloaded(PLUGIN_FOLDERNAME, true);
-					table.Merge(PLUGIN, iniTable);
-				CW_SCRIPT_SHARED.plugins[pathCRC] = iniTable;
-			else
-				MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
-			end;
 
-			if(iniTable["compatibility"]) then
-				local compatibility = iniTable["compatibility"];
-				local Name = iniTable["name"] or PLUGIN_FOLDERNAME;
-				local cwVersion = Clockwork.kernel:GetVersion();
-				local cwBuild = Clockwork.kernel:GetBuild();
-				local cwVersBuild = Clockwork.kernel:GetVersionBuild();
-				
-				if (self:CompareVersion(compatibility, Name, cwVersion, cwBuild)) then
-					MsgC(Color(255, 165, 0), "\n[Clockwork:Plugin] The "..Name.." plugin ["..compatibility.."] may not be compatible with Clockwork "..cwVersBuild.."!\nYou might need to update your framework!\n");
+			if (iniTable) then
+				if (iniTable["Plugin"]) then
+					iniTable = iniTable["Plugin"];
+					iniTable.isUnloaded = self:IsUnloaded(PLUGIN_FOLDERNAME, true);
+						table.Merge(PLUGIN, iniTable);
+					CW_SCRIPT_SHARED.plugins[pathCRC] = iniTable;
+				else
+					MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
 				end;
-			else
-				MsgC(Color(255,165,0),"\n[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no compatibility value set!\n");
-			end
+
+				if (iniTable["compatibility"]) then
+					local compatibility = iniTable["compatibility"];
+					local Name = iniTable["name"] or PLUGIN_FOLDERNAME;
+					local cwVersion = Clockwork.kernel:GetVersion();
+					local cwBuild = Clockwork.kernel:GetBuild();
+					local cwVersBuild = Clockwork.kernel:GetVersionBuild();
+					
+					if (self:CompareVersion(compatibility, Name, cwVersion, cwBuild)) then
+						MsgC(Color(255, 165, 0), "\n[Clockwork:Plugin] The "..Name.." plugin ["..compatibility.."] may not be compatible with Clockwork "..cwVersBuild.."!\nYou might need to update your framework!\n");
+					end;
+				else
+					MsgC(Color(255,165,0),"\n[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no compatibility value set!\n");
+				end
+			end;
 		else
 			local iniTable = CW_SCRIPT_SHARED.plugins[pathCRC];
 			

@@ -1,5 +1,5 @@
 --[[ 
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	Â© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -174,7 +174,7 @@ function Clockwork:Initialize()
 	local password = self.config:Get("mysql_password"):Get();
 	local database = self.config:Get("mysql_database"):Get();
 	local dateInfo = os.date("*t");
-	local host = self.config:Get("mysql_host"):Get();
+	local host = string.gsub(self.config:Get("mysql_host"):Get(), "^http[s]?://", "", 1); -- Matches at beginning of string, matches http:// or https://, no need to check twice
 	local port = self.config:Get("mysql_port"):Get();
 	
 	self.database:Connect(host, username, password, database, port);
@@ -1021,6 +1021,10 @@ function Clockwork:PlayerSpawn(player)
 		player:ShouldDropWeapon(false);
 		
 		if (!player.cwLightSpawn) then
+			local FACTION = Clockwork.faction:FindByID(player:GetFaction());
+			local relation = FACTION.entRelationship;
+			local playerRank, rank = player:GetFactionRank();
+
 			self.player:SetWeaponRaised(player, false);
 			self.player:SetRagdollState(player, RAGDOLL_RESET);
 			self.player:SetAction(player, false);
@@ -1038,8 +1042,6 @@ function Clockwork:PlayerSpawn(player)
 			
 			player:SetForcedAnimation(false);
 			player:SetCollisionGroup(COLLISION_GROUP_PLAYER);
-			player:SetMaxHealth(100);
-			player:SetMaxArmor(100);
 			player:SetMaterial("");
 			player:SetMoveType(MOVETYPE_WALK);
 			player:Extinguish();
@@ -1054,7 +1056,74 @@ function Clockwork:PlayerSpawn(player)
 			player:SetJumpPower(self.config:Get("jump_power"):Get());
 			player:SetRunSpeed(self.config:Get("run_speed"):Get());
 			player:CrosshairDisable();
+
+			player:SetMaxHealth(FACTION.maxHealth or 100);
+			player:SetMaxArmor(FACTION.maxArmor or 0);
+			player:SetHealth(FACTION.maxHealth or 100);
+			player:SetArmor(FACTION.maxArmor or 0);
+		
+			if (rank) then
+				player:SetMaxHealth(rank.maxHealth or player:GetMaxHealth());
+				player:SetMaxArmor(rank.maxArmor or player:GetMaxArmor());
+				player:SetHealth(rank.maxHealth or player:GetMaxHealth());
+				player:SetArmor(rank.maxArmor or player:GetMaxArmor());
+			end;
+		
+			if (istable(FACTION.respawnInv)) then
+				local inventory = player:GetInventory();
+				local itemQuantity;
 			
+				for k, v in pairs(FACTION.respawnInv) do
+					for i = 1, (v or 1) do
+						itemQuantity = table.Count(inventory[k]);
+						
+						if (itemQuantity < v) then
+							player:GiveItem(Clockwork.item:CreateInstance(k), true);
+						end;
+					end;
+				end;
+			end;
+		
+			if (prevRelation) then
+				for k, v in pairs(ents.GetAll()) do
+					if (v:IsNPC()) then
+						local prevRelationVal = prevRelation[player:SteamID()][v:GetClass()];
+					
+						if (prevRelationVal) then
+							v:AddEntityRelationship(player, prevRelationVal, 1);
+						end;
+					end;
+				end;
+			end;
+			
+			if (istable(relation)) then
+				local relationEnts;
+			
+				prevRelation = prevRelation or {};
+				prevRelation[player:SteamID()] = prevRelation[player:SteamID()] or {};
+			
+				for k, v in pairs(relation) do
+					relationEnts = ents.FindByClass(k);
+				
+					if (relationEnts) then
+						for k2, v2 in pairs(relationEnts) do
+							if (string.lower(v) == "like") then
+								prevRelation[player:SteamID()][k] = v2:Disposition(player);
+								v2:AddEntityRelationship(player, D_LI, 1);
+							elseif (string.lower(v) == "fear") then
+								prevRelation[player:SteamID()][k] = v2:Disposition(player);
+								v2:AddEntityRelationship(player, D_FR, 1);
+							elseif (string.lower(v) == "hate") then
+								prevRelation[player:SteamID()][k] = v2:Disposition(player);
+								v2:AddEntityRelationship(player, D_HT, 1);
+							else
+								ErrorNoHalt("Attempting to add relationship using invalid relation '"..v.."' towards faction '"..FACTION.name.."'.\r\n");
+							end;
+						end;
+					end;
+				end;
+			end;
+
 			if (player.cwFirstSpawn) then
 				local ammo = player:GetSavedAmmo();
 				
@@ -3211,80 +3280,7 @@ function Clockwork:PlayerAdjustRadioInfo(player, info) end;
 function Clockwork:PlayerCanGainFrag(player, victim) return true; end;
 
 -- Called just after a player spawns.
-function Clockwork:PostPlayerSpawn(player, lightSpawn, changeClass, firstSpawn)
-	if (!lightSpawn) then
-		local FACTION = Clockwork.faction:FindByID(player:GetFaction());
-		local relation = FACTION.entRelationship;
-		local playerRank, rank = player:GetFactionRank();
-		
-		player:SetMaxHealth(FACTION.maxHealth or 100);
-		player:SetMaxArmor(FACTION.maxArmor or 0);
-		player:SetHealth(FACTION.maxHealth or 100);
-		player:SetArmor(FACTION.maxArmor or 0);
-		
-		if (rank) then
-			player:SetMaxHealth(rank.maxHealth or player:GetMaxHealth());
-			player:SetMaxArmor(rank.maxArmor or player:GetMaxArmor());
-			player:SetHealth(rank.maxHealth or player:GetMaxHealth());
-			player:SetArmor(rank.maxArmor or player:GetMaxArmor());
-		end;
-		
-		if (istable(FACTION.respawnInv)) then
-			local inventory = player:GetInventory();
-			local itemQuantity;
-			
-			for k, v in pairs(FACTION.respawnInv) do
-				for i = 1, (v or 1) do
-					itemQuantity = table.Count(inventory[k]);
-					
-					if (itemQuantity < v) then
-						player:GiveItem(Clockwork.item:CreateInstance(k), true);
-					end;
-				end;
-			end;
-		end;
-		
-		if (prevRelation) then
-			for k, v in pairs(ents.GetAll()) do
-				if (v:IsNPC()) then
-					local prevRelationVal = prevRelation[player:SteamID()][v:GetClass()];
-					
-					if (prevRelationVal) then
-						v:AddEntityRelationship(player, prevRelationVal, 1);
-					end;
-				end;
-			end;
-		end;
-		
-		if (istable(relation)) then
-			local relationEnts;
-			
-			prevRelation = prevRelation or {};
-			prevRelation[player:SteamID()] = prevRelation[player:SteamID()] or {};
-			
-			for k, v in pairs(relation) do
-				relationEnts = ents.FindByClass(k);
-				
-				if (relationEnts) then
-					for k2, v2 in pairs(relationEnts) do
-						if (string.lower(v) == "like") then
-							prevRelation[player:SteamID()][k] = v2:Disposition(player);
-							v2:AddEntityRelationship(player, D_LI, 1);
-						elseif (string.lower(v) == "fear") then
-							prevRelation[player:SteamID()][k] = v2:Disposition(player);
-							v2:AddEntityRelationship(player, D_FR, 1);
-						elseif (string.lower(v) == "hate") then
-							prevRelation[player:SteamID()][k] = v2:Disposition(player);
-							v2:AddEntityRelationship(player, D_HT, 1);
-						else
-							ErrorNoHalt("Attempting to add relationship using invalid relation '"..v.."' towards faction '"..FACTION.name.."'.\r\n");
-						end;
-					end;
-				end;
-			end;
-		end;
-	end;
-	
+function Clockwork:PostPlayerSpawn(player, lightSpawn, changeClass, firstSpawn)	
 	if (firstSpawn) then
 		local attrBoosts = player:GetCharacterData("AttrBoosts");
 		local health = player:GetCharacterData("Health");
@@ -3904,6 +3900,55 @@ function Clockwork:PlayerSpawnedNPC(player, npc)
 		end;
 	end;
 end;
+
+--[[
+	@codebase Server
+	@details Called when an attribute is progressed to edit the amount it is progressed by.
+	@param Player The player that has progressed the attribute.
+	@param Table The attribute table of the attribute being progressed.
+	@param Number The amount that is being progressed for editing purposes.
+--]]
+function Clockwork:OnAttributeProgress(player, attribute, amount)
+	amount = amount * Clockwork.config:Get("scale_attribute_progress"):Get();
+end;
+
+--[[
+	@codebase Server
+	@details Called to add ammo types to be checked for and saved.
+	@param Table The table filled with the current ammo types.
+--]]
+function Clockwork:AdjustAmmoTypes(ammoTable)
+	ammoTable["sniperpenetratedround"] = true;
+	ammoTable["striderminigun"] = true;
+	ammoTable["helicoptergun"] = true;
+	ammoTable["combinecannon"] = true;
+	ammoTable["smg1_grenade"] = true;
+	ammoTable["gaussenergy"] = true;
+	ammoTable["sniperround"] = true;
+	ammoTable["ar2altfire"] = true;
+	ammoTable["rpg_round"] = true;
+	ammoTable["xbowbolt"] = true;
+	ammoTable["buckshot"] = true;
+	ammoTable["alyxgun"] = true;
+	ammoTable["grenade"] = true;
+	ammoTable["thumper"] = true;
+	ammoTable["gravity"] = true;
+	ammoTable["battery"] = true;
+	ammoTable["pistol"] = true;
+	ammoTable["slam"] = true;
+	ammoTable["smg1"] = true;
+	ammoTable["357"] = true;
+	ammoTable["ar2"] = true;
+end;
+
+--[[
+	@codebase Server
+	@details Called after a player uses a command.
+	@param Player The player that used the commmand.
+	@param Table The table of the command that is being used.
+	@param Table The arguments that have been given with the command, if any.
+--]]
+function Clockwork:PostCommandUsed(player, command, arguments) end;
 
 -- GetTargetRecognises datastream callback.
 Clockwork.datastream:Hook("GetTargetRecognises", function(player, data)

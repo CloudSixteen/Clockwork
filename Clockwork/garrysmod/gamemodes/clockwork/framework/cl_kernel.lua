@@ -858,7 +858,7 @@ function Clockwork:Initialize()
 	CW_CONVAR_BACKW = cwKernel:CreateClientConVar("cwBackW", 321, true, true);
 	CW_CONVAR_BACKH = cwKernel:CreateClientConVar("cwBackH", 109, true, true);
 	CW_CONVAR_SHOWMATERIAL = cwKernel:CreateClientConVar("cwShowMaterial", 0, true, true);
-	CW_CONVAR_SHOWGRADIENT = cwKernel:CreateClientConVar("cwShowGradient", 1, true, true);
+	CW_CONVAR_SHOWGRADIENT = cwKernel:CreateClientConVar("cwShowGradient", 0, true, true);
 	
 	if (!self.chatBox.panel) then
 		self.chatBox:CreateDermaAll();
@@ -1858,7 +1858,7 @@ function Clockwork:HUDDrawTargetID()
 			if (IsValid(trace.Entity) and !trace.Entity:IsEffectActive(EF_NODRAW)) then
 				if (!self.TargetIDData or self.TargetIDData.entity != trace.Entity) then
 					self.TargetIDData = {
-						showTime = curTime + 0.5,
+						showTime = curTime + Clockwork.config:Get("target_id_delay"):Get(),
 						entity = trace.Entity
 					};
 				end;

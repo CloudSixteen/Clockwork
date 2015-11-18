@@ -167,6 +167,8 @@ if (SERVER) then
 
 										return value;
 									end;
+
+									Clockwork.plugin:Call("PostCommandUsed", player, commandTable, arguments);
 								end;
 							else
 								Clockwork.player:Notify(player, "You do not have access to this command, "..player:Name()..".");
