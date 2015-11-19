@@ -110,3 +110,4 @@ Clockwork.config:Add("show_business", true, true);
 Clockwork.config:Add("chat_multiplier", true, true, true);
 Clockwork.config:Add("steam_api_key", "");
 Clockwork.config:Add("enable_map_props_physgrab", false);
+Clockwork.config:Add("translate_api_key", "");
