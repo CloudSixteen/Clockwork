@@ -61,6 +61,7 @@ Clockwork.config:AddToSystem("Cash space", "cash_space", "The amount of space ca
 Clockwork.config:AddToSystem("Head damage scale", "scale_head_dmg", "The amount to scale head damage by.");
 Clockwork.config:AddToSystem("Block inventory binds", "block_inv_binds", "Whether or not inventory binds should be blocked for players.");
 Clockwork.config:AddToSystem("Limb damage scale", "scale_limb_dmg", "The amount to scale limb damage by.");
+Clockwork.config:AddToSystem("Target ID delay", "target_id_delay", "The delay before the Target ID is displayed when looking at an entity.");
 Clockwork.config:AddToSystem("Headbob enabled", "enable_headbob", "Whether or not to enable headbob.");
 Clockwork.config:AddToSystem("Chat command prefix", "command_prefix", "The prefix that is used for chat commands.");
 Clockwork.config:AddToSystem("Crouch walk speed", "crouched_speed", "The speed that characters walk at when crouched.", 0, 1024);

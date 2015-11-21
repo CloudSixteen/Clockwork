@@ -10,7 +10,7 @@ local Clockwork = Clockwork;
 
 --[[ 
 	Never edit this file! All config editing should be done
-	either through the .cfg files provides or through the
+	either through the .cfg files provided or through the
 	in-game config editing systems.
 --]]
 
@@ -77,6 +77,7 @@ Clockwork.config:Add("cash_weight", 0.001, true);
 Clockwork.config:Add("cash_space", 0.001, true);
 Clockwork.config:Add("scale_head_dmg", 3);
 Clockwork.config:Add("block_inv_binds", true, true);
+Clockwork.config:Add("target_id_delay", 0.5, true);
 Clockwork.config:Add("scale_limb_dmg", 0.5);
 Clockwork.config:Add("enable_headbob", true, true);
 Clockwork.config:Add("command_prefix", "/", true);
@@ -109,3 +110,4 @@ Clockwork.config:Add("show_business", true, true);
 Clockwork.config:Add("chat_multiplier", true, true, true);
 Clockwork.config:Add("steam_api_key", "");
 Clockwork.config:Add("enable_map_props_physgrab", false);
+Clockwork.config:Add("translate_api_key", "");
