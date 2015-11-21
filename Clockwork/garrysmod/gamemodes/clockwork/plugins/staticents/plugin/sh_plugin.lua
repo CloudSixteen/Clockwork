@@ -21,23 +21,31 @@ Clockwork.kernel:IncludePrefixed("sv_hooks.lua");
 function cwStaticEnts:CanEntityStatic(entity)
 	if (entity:IsValid()) then
 		local class = entity:GetClass();
-		local classCheck = {
-			"prop_vehicle_",
-			"cw_",
-			"func_",
-			"prop_dynamic"
+		local whitelist = {
+			"prop_physics",
+			"gmod_",
+			"prop_ragdoll",
+			"edit_"
+		};
+		local blacklist = {
+			"gmod_tool"
 		};
 
-		if (class == "player" or entity:MapCreationID() != -1) then
-			return false;
-		end;
+		Clockwork.plugin:Call("EditStaticWhitelist", whitelist);
+		Clockwork.plugin:Call("EditStaticBlacklist", blacklist);
 
-		for k, v in ipairs(classCheck) do
+		for k, v in ipairs(blacklist) do
 			if (string.find(class, v)) then
 				return false;
 			end;
 		end;
+
+		for k, v in ipairs(whitelist) do
+			if (string.find(class, v)) then
+				return class;
+			end;
+		end;
 		
-		return class;
+		return false;
 	end;
 end;

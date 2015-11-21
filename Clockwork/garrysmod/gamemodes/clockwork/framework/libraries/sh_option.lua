@@ -64,6 +64,8 @@ Clockwork.option:SetKey("description_directory", "A directory of various topics 
 Clockwork.option:SetKey("description_system", "Access a variety of server-side options.");
 Clockwork.option:SetKey("description_scoreboard", "See which players are on the server.");
 Clockwork.option:SetKey("description_attributes", "Check the status of your attributes.");
+Clockwork.option:SetKey("intro_background_url", "");
+Clockwork.option:SetKey("intro_logo_url", "");
 Clockwork.option:SetKey("model_shipment", "models/items/item_item_crate.mdl");
 Clockwork.option:SetKey("model_cash", "models/props_c17/briefcase001a.mdl");
 Clockwork.option:SetKey("format_singular_cash", "$%a");

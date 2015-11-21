@@ -249,30 +249,38 @@ end;
 
 -- A function to fade out the navigation.
 function PANEL:FadeOutNavigation()
-	self.previousButton:FadeOut(0.5);
-	self.cancelButton:FadeOut(0.5);
-	self.nextButton:FadeOut(0.5);
+	if (!Clockwork.theme:Call("PreCharacterFadeOutNavigation", self)) then
+		self.previousButton:FadeOut(0.5);
+		self.cancelButton:FadeOut(0.5);
+		self.nextButton:FadeOut(0.5);
+	end;
 end;
 
 -- A function to fade in the navigation.
 function PANEL:FadeInNavigation()
-	self.previousButton:FadeIn(0.5);
-	self.cancelButton:FadeIn(0.5);
-	self.nextButton:FadeIn(0.5);
+	if (!Clockwork.theme:Call("PreCharacterFadeInNavigation", self)) then
+		self.previousButton:FadeIn(0.5);
+		self.cancelButton:FadeIn(0.5);
+		self.nextButton:FadeIn(0.5);
+	end;
 end;
 
 -- A function to fade out the title.
 function PANEL:FadeOutTitle()
-	self.subLabel:FadeOut(0.5);
-	self.titleLabel:FadeOut(0.5);
-	self.authorLabel:FadeOut(0.5);
+	if (!Clockwork.theme:Call("PreCharacterFadeOutTitle", self)) then
+		self.subLabel:FadeOut(0.5);
+		self.titleLabel:FadeOut(0.5);
+		self.authorLabel:FadeOut(0.5);
+	end;
 end;
 
 -- A function to fade in the title.
 function PANEL:FadeInTitle()
-	self.subLabel:FadeIn(0.5);
-	self.titleLabel:FadeIn(0.5);
-	self.authorLabel:FadeIn(0.5);
+	if (!Clockwork.theme:Call("PreCharacterFadeInTitle", self)) then
+		self.subLabel:FadeIn(0.5);
+		self.titleLabel:FadeIn(0.5);
+		self.authorLabel:FadeIn(0.5);
+	end;
 end;
 
 -- A function to open a panel.
@@ -344,76 +352,76 @@ function PANEL:Paint(w, h)
 			surface.DrawTexturedRect(self.titleLabel.x, self.titleLabel.y - 64, 512, 256);
 		end;
 		
-		Clockwork.theme:Call("PostCharacterMenuPaint", self)
-	end;
-	
-	local backgroundColor = Clockwork.option:GetColor("background");
-	local foregroundColor = Clockwork.option:GetColor("foreground");
-	local colorTargetID = Clockwork.option:GetColor("target_id");
-	local tinyTextFont = Clockwork.option:GetFont("menu_text_tiny");
-	local colorWhite = Clockwork.option:GetColor("white");
-	local scrW, scrH = ScrW(), ScrH();
-	local height = (self.createButton.y * 2) + self.createButton:GetTall();
-	local x, y = x, 0;
-	
-	Clockwork.kernel:DrawSimpleGradientBox(0, 0, y, scrW, height, Color(
-		backgroundColor.r, backgroundColor.g, backgroundColor.b, 100
-	));
-	
-	surface.SetDrawColor(
-		foregroundColor.r, foregroundColor.g, foregroundColor.b, 200
-	);
-	surface.DrawRect(0, y + height, scrW, 1);
-	
-	if (Clockwork.character:IsCreationProcessActive()) then
-		local creationPanels = Clockwork.character:GetCreationPanels();
-		local numCreationPanels = #creationPanels;
-		local creationProgress = Clockwork.character:GetCreationProgress();
-		local progressHeight = 20;
-		local creationInfo = Clockwork.character:GetCreationInfo();
-		local progressY = y + height + 1;
-		local boxColor = Color(
-			math.min(backgroundColor.r + 50, 255),
-			math.min(backgroundColor.g + 50, 255),
-			math.min(backgroundColor.b + 50, 255),
-			100
-		);
+		local backgroundColor = Clockwork.option:GetColor("background");
+		local foregroundColor = Clockwork.option:GetColor("foreground");
+		local colorTargetID = Clockwork.option:GetColor("target_id");
+		local tinyTextFont = Clockwork.option:GetFont("menu_text_tiny");
+		local colorWhite = Clockwork.option:GetColor("white");
+		local scrW, scrH = ScrW(), ScrH();
+		local height = (self.createButton.y * 2) + self.createButton:GetTall();
+		local x, y = x, 0;
 		
-		Clockwork.kernel:DrawSimpleGradientBox(0, 0, progressY, scrW, progressHeight, boxColor);
-			for i = 1, numCreationPanels do
-				surface.SetDrawColor(
-					foregroundColor.r, foregroundColor.g, foregroundColor.b, 150
-				);
-				surface.DrawRect((scrW / numCreationPanels) * i, progressY, 1, progressHeight);
-			end;
-		Clockwork.kernel:DrawSimpleGradientBox(
-			0, 0, progressY, (scrW / 100) * creationProgress, progressHeight, colorTargetID
-		);
-		
-		if (creationProgress > 0 and creationProgress < 100) then
-			surface.SetDrawColor(
-				foregroundColor.r, foregroundColor.g, foregroundColor.b, 200
-			);
-			surface.DrawRect((scrW / 100) * creationProgress, progressY, 1, progressHeight);
-		end;
-		
-		for i = 1, numCreationPanels do
-			local Condition = creationPanels[i].Condition;
-			local textX = (scrW / numCreationPanels) * (i - 0.5);
-			local textY = progressY + (progressHeight / 2);
-			local color = Color(colorWhite.r, colorWhite.g, colorWhite.b, 200);
-			
-			if (Condition and !Condition(creationInfo)) then
-				color = Color(colorWhite.r, colorWhite.g, colorWhite.b, 100);
-			end;
-			
-			Clockwork.kernel:DrawSimpleText(creationPanels[i].friendlyName, textX, textY - 1, color, 1, 1);
-		end;
+		Clockwork.kernel:DrawSimpleGradientBox(0, 0, y, scrW, height, Color(
+			backgroundColor.r, backgroundColor.g, backgroundColor.b, 100
+		));
 		
 		surface.SetDrawColor(
 			foregroundColor.r, foregroundColor.g, foregroundColor.b, 200
 		);
-		surface.DrawRect(0, progressY + progressHeight, scrW, 1);
+		surface.DrawRect(0, y + height, scrW, 1);
+		
+		if (Clockwork.character:IsCreationProcessActive()) then
+			local creationPanels = Clockwork.character:GetCreationPanels();
+			local numCreationPanels = #creationPanels;
+			local creationProgress = Clockwork.character:GetCreationProgress();
+			local progressHeight = 20;
+			local creationInfo = Clockwork.character:GetCreationInfo();
+			local progressY = y + height + 1;
+			local boxColor = Color(
+				math.min(backgroundColor.r + 50, 255),
+				math.min(backgroundColor.g + 50, 255),
+				math.min(backgroundColor.b + 50, 255),
+				100
+			);
+			
+			Clockwork.kernel:DrawSimpleGradientBox(0, 0, progressY, scrW, progressHeight, boxColor);
+				for i = 1, numCreationPanels do
+					surface.SetDrawColor(
+						foregroundColor.r, foregroundColor.g, foregroundColor.b, 150
+					);
+					surface.DrawRect((scrW / numCreationPanels) * i, progressY, 1, progressHeight);
+				end;
+			Clockwork.kernel:DrawSimpleGradientBox(
+				0, 0, progressY, (scrW / 100) * creationProgress, progressHeight, colorTargetID
+			);
+			
+			if (creationProgress > 0 and creationProgress < 100) then
+				surface.SetDrawColor(
+					foregroundColor.r, foregroundColor.g, foregroundColor.b, 200
+				);
+				surface.DrawRect((scrW / 100) * creationProgress, progressY, 1, progressHeight);
+			end;
+			
+			for i = 1, numCreationPanels do
+				local Condition = creationPanels[i].Condition;
+				local textX = (scrW / numCreationPanels) * (i - 0.5);
+				local textY = progressY + (progressHeight / 2);
+				local color = Color(colorWhite.r, colorWhite.g, colorWhite.b, 200);
+				
+				if (Condition and !Condition(creationInfo)) then
+					color = Color(colorWhite.r, colorWhite.g, colorWhite.b, 100);
+				end;
+				
+				Clockwork.kernel:DrawSimpleText(creationPanels[i].friendlyName, textX, textY - 1, color, 1, 1);
+			end;
+			
+			surface.SetDrawColor(
+				foregroundColor.r, foregroundColor.g, foregroundColor.b, 200
+			);
+			surface.DrawRect(0, progressY + progressHeight, scrW, 1);
+		end;
+
+		Clockwork.theme:Call("PostCharacterMenuPaint", self);
 	end;
 	
 	return true;

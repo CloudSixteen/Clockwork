@@ -2,6 +2,42 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.94.4
+-------
+
+* Added 'PostCommandUsed' hook called after a command succeeds in running.
+	* *Contributed by NightAngel.*
+* Added 'StaticAreaAdd' and 'StaticAreaRemove' commands for adding static entities in a certain radius around you.
+	* *Contributed by NightAngel.*
+* Added two new functions in the player library, CanPromote and CanDemote (focussed on rank promotions/demotions).
+	* *Contributed by Vortix.*
+* Added two new commands, RankPromote and RankDemote.
+	* *Contributed by Vortix.*
+* GetLowestRank and GetHighestRank functions now return rank table as well as name.
+	* *Contributed by Vortix.*
+* SetFactionRank now checks if the rank is valid and, if it is, sets the player's rank to the provided rank and provides the new rank's model, class and weapons.
+	* *Contributed by Vortix.*
+* Fixed sorting for tab menu items that don't have icons.
+	* *Contributed by kurozael.*
+* Fixed issue with players being unable to make another character without having to rejoin.
+	* *Contributed by NightAngel.*
+* Added theme hooks 'PreCharacterFadeOutNavigation', 'PreCharacterFadeInNavigation', 'PreCharacterFadeOutTitle' and 'PreCharacterFadeInTitle'.
+	* *Contributed by NightAngel.*
+* Shifted PreCharacterMenuPaint to include everything inside the paint function.
+	* *Contributed by NightAngel.*
+* Fixed errors that occured from the display typing plugin with utf8 len function.
+	* *Contributed by NightAngel.*
+* Added whitelist/blacklist system for classes that can be staticed
+	* *Contributed by NightAngel.*
+* Added EditStaticWhitelist and EditStaticBlacklist hooks to modify what can and cannot be staticed
+	* *Contributed by NightAngel.*
+* Added 'target_id_delay' config to modify the delay for when a target ID appears on a player's screen.
+	* *Contributed by kurozael.*
+* Added config options for intro background and logo. ('intro_background_url', 'intro_logo_url')
+	* *Contributed by kurozael.*
+* Added work in progress translate command along with 'translate_api_key' config option.
+	* *Contributed by Vortix.*
+
 0.94.17
 -------
 
@@ -18,20 +54,13 @@ The following changes have been made for each official Clockwork build.
 * Added checks to chatbox that solve len bug from utf8 commit.
     * *Contributed by NightAngel.*
 
-0.94.13
--------
-
-* Added bitflag library.
-    * *Contributed by duck.*
-* Linked utf-8 library with GMod utf-8 module.
-    * *Contributed by Kefta.*
-
 0.94.1
 -------
-
 * Added plugin call for drawing salesman targetID.
     * *Contributed by NightAngel.*
-* Added custom ammo type saving based on ammo items, as well as AdjustAmmoTypes(ammoTable) hook for adding/removing ammo types to save.
+* Added custom ammo type saving and AdjustAmmoTypes hook.
+    * *Contributed by NightAngel.*
+* Shifted faction/rank derived stat setting from PostPlayerSpawn to PlayerSpawn.
     * *Contributed by NightAngel.*
 
 0.94
@@ -121,7 +150,7 @@ The following changes have been made for each official Clockwork build.
     * *Contributed by kurozael.*
 * Added system to add icons to menu items in the TAB menu.
     * *Contributed by kurozael.*
-    
+
 0.93
 -------
 

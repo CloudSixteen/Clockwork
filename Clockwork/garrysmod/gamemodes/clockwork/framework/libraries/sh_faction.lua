@@ -190,22 +190,25 @@ function Clockwork.faction:GetHighestRank(faction)
 	if (istable(faction.ranks)) then
 		local lowestPos;
 		local highestRank;
+		local rankTable;
 		
 		for k, v in pairs(faction.ranks) do
 			if (!lowestPos) then
 				lowestPos = v.position;
+				rankTable = v;
 				highestRank = k;
 			else
 				if (v.position) then
 					if (math.min(lowestPos, v.position) == v.position) then
 						highestRank = k;
+						rankTable = v;
 						lowestPos = v.position;
 					end;
 				end;
 			end;
 		end;
 		
-		return highestRank;
+		return highestRank, rankTable;
 	end;
 end;
 
@@ -216,26 +219,59 @@ function Clockwork.faction:GetLowestRank(faction)
 	if (istable(faction.ranks)) then
 		local highestPos;
 		local lowestRank;
+		local rankTable;
 		
 		for k, v in pairs(faction.ranks) do
 			if (!highestPos) then
 				highestPos = v.position;
 				lowestRank = k;
+				rankTable = v;
 			else
 				if (v.position) then
 					if (math.max(highestPos, v.position) == v.position) then
 						lowestRank = k;
+						rankTable = v;
 						highestPos = v.position;
 					end;
 				end;
 			end;
 		end;
 		
-		return lowestRank;
+		return lowestRank, rankTable;
 	end;
 end;
 
--- A function to get the rank with the lowest 'position' (highest rank) in this faction.
+-- A function to get the rank with the next lowest 'position' (next highest rank).
+function Clockwork.faction:GetHigherRank(faction, rank)
+	local highestRank, rankTable = self:GetHighestRank(faction);
+	
+	faction = Clockwork.faction:FindByID(faction);
+
+	if (istable(faction.ranks) and istable(rank) and rank.position and rank.position != rankTable.position) then
+		for k, v in pairs(faction.ranks) do
+			if (v.position == (rank.position - 1)) then
+				return k, v;
+			end;
+		end;
+	end;
+end;
+
+-- A function to get the rank with the next highest 'position' (next lowest rank).
+function Clockwork.faction:GetLowerRank(faction, rank)
+	local lowestRank, rankTable = self:GetLowestRank(faction);
+
+	faction = Clockwork.faction:FindByID(faction);
+
+	if (istable(faction.ranks) and istable(rank) and rank.position and rank.position != rankTable.position) then
+		for k, v in pairs(faction.ranks) do
+			if (v.position == (rank.position + 1)) then
+				return k, v;
+			end;
+		end;
+	end;
+end;
+
+-- A function to get the default rank of a faction.
 function Clockwork.faction:GetDefaultRank(faction)
 	local faction = Clockwork.faction:FindByID(faction);
 	
