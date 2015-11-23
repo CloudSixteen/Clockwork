@@ -46,7 +46,7 @@ function Clockwork.voices:ClockworkInitialized()
 		
 		if (IsValid(FACTION.models.female and FACTION.models.male)) then
 			Clockwork.voices:RegisterGroup(v.name, true, function(ply)
-				if (ply:GetFaction() == v) then
+				if (ply:GetFaction() == v.name) then
 					return true;
 				else
 					return false;
@@ -54,7 +54,7 @@ function Clockwork.voices:ClockworkInitialized()
 			end);
 		else
 			Clockwork.voices:RegisterGroup(k, false, function(ply)
-				if (ply:GetFaction() == v) then
+				if (ply:GetFaction() == v.name) then
 					return true;
 				else
 					return false;
