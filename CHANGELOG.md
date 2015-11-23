@@ -2,6 +2,12 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.94.41
+-------
+
+* Fixed a small bug with voice commands that stopped them from working correctly.
+	* *Contributed by NightAngel.*
+
 0.94.4
 -------
 
