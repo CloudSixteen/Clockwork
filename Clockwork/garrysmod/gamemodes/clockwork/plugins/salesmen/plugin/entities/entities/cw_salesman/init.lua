@@ -33,7 +33,17 @@ end;
 
 -- A function to talk to a player.
 function ENT:TalkToPlayer(player, text, default)
-	Clockwork.player:Notify(player, self:GetNetworkedString("Name").." says \""..(text or default).."\"");
+	local sayString = text.text or default;
+
+	if (text.bHideName != true) then
+		sayString = self:GetNetworkedString("Name").." says \""..sayString.."\"";
+	end;
+
+	Clockwork.player:Notify(player, sayString);
+
+	if (text.sound and text.sound != "") then
+		Clockwork.datastream:Start(player, "SalesmanPlaySound", {text.sound, self});
+	end;
 end;
 
 -- Called to setup the animation.
