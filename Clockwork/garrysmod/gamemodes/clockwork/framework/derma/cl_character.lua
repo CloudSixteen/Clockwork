@@ -291,7 +291,7 @@ function PANEL:OpenPanel(vguiName, childData, Callback)
 		local y  = ScrH() * 0.275;
 
 		if (ScrH() < 768) then
-			y = ScrH() * 0.1;
+			y = ScrH() * 0.11;
 		end;
 		
 		if (panel) then

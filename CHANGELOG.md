@@ -2,6 +2,20 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.94.51
+-------
+
+* Fixes problem with some menus overlapping next buttons for lower resolutions in char creation
+	* *Contributed by NightAngel.*
+
+0.94.5
+-------
+
+* Fixed animations not saving for salesmen
+* Added sounds for phrases and whether or not a phrase will display the salesman's name
+* Added phrase for when a player starts trading with a salesman
+	* *Contributed by NightAngel.*
+
 0.94.42
 -------
 
