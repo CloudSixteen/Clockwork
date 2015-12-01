@@ -287,6 +287,12 @@ end;
 function PANEL:OpenPanel(vguiName, childData, Callback)
 	if (!Clockwork.theme:Call("PreCharacterMenuOpenPanel", self, vguiName, childData, Callback)) then
 		local panel = Clockwork.character:GetActivePanel();
+
+		local y  = ScrH() * 0.275;
+
+		if (ScrH() < 768) then
+			y = ScrH() * 0.1;
+		end;
 		
 		if (panel) then
 			panel:FadeOut(0.5, function()
@@ -296,7 +302,10 @@ function PANEL:OpenPanel(vguiName, childData, Callback)
 				Clockwork.character.activePanel:SetAlpha(0);
 				Clockwork.character.activePanel:FadeIn(0.5);
 				Clockwork.character.activePanel:MakePopup();
-				Clockwork.character.activePanel:SetPos(ScrW() * 0.2, ScrH() * 0.275);
+
+				
+
+				Clockwork.character.activePanel:SetPos(ScrW() * 0.2, y);
 				
 				if (Callback) then
 					Callback(Clockwork.character.activePanel);
@@ -315,7 +324,7 @@ function PANEL:OpenPanel(vguiName, childData, Callback)
 			Clockwork.character.activePanel:SetAlpha(0);
 			Clockwork.character.activePanel:FadeIn(0.5);
 			Clockwork.character.activePanel:MakePopup();
-			Clockwork.character.activePanel:SetPos(ScrW() * 0.2, ScrH() * 0.275);
+			Clockwork.character.activePanel:SetPos(ScrW() * 0.2, y);
 			
 			if (Callback) then
 				Callback(Clockwork.character.activePanel);
