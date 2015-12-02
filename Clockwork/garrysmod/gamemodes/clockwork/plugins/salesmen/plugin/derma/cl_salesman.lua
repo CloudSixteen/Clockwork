@@ -111,43 +111,61 @@ function PANEL:Init()
 	self.responsesForm:SetPadding(4);
 	self.responsesForm:SetName("Responses");
 	self.settingsForm:AddItem(self.responsesForm);
+
+	self.startText = self.responsesForm:TextEntry("When the player starts trading.");
+	self.startSound = self.responsesForm:TextEntry("The sound to play for the above phrase.");
+	self.startHideName = self.responsesForm:CheckBox("Hide the salesman's name for the above phrase.");
 	
 	self.noSaleText = self.responsesForm:TextEntry("When the player cannot trade with them.");
+	self.noSaleSound = self.responsesForm:TextEntry("The sound to play for the above phrase.");
+	self.noSaleHideName = self.responsesForm:CheckBox("Hide the salesman's name for the above phrase.");
+
 	self.noStockText = self.responsesForm:TextEntry("When the salesman does not have an item in stock.");
+	self.noStockSound = self.responsesForm:TextEntry("The sound to play for the above phrase.");
+	self.noStockHideName = self.responsesForm:CheckBox("Hide the salesman's name for the above phrase.");
+
 	self.needMoreText = self.responsesForm:TextEntry("When the player cannot afford the item.");
+	self.needMoreSound = self.responsesForm:TextEntry("The sound to play for the above phrase.");
+	self.needMoreHideName = self.responsesForm:CheckBox("Hide the salesman's name for the above phrase.");
+
 	self.cannotAffordText = self.responsesForm:TextEntry("When the salesman cannot afford the item.");
+	self.cannotAffordSound = self.responsesForm:TextEntry("The sound to play for the above phrase.");
+	self.cannotAffordHideName = self.responsesForm:CheckBox("Hide the salesman's name for the above phrase.")
+
 	self.doneBusinessText = self.responsesForm:TextEntry("When the player is done doing trading.");
+	self.doneBusinessSound = self.responsesForm:TextEntry("The sound to play for the above phrase.");
+	self.doneBusinessHideName = self.responsesForm:CheckBox("Hide the salesman's name for the above phrase.")
 	
-	if (!Clockwork.salesman.text.noSale) then
-		self.noSaleText:SetValue("I cannot trade my inventory with you!");
-	else
-		self.noSaleText:SetValue(Clockwork.salesman.text.noSale);
-	end;
+	self.startText:SetValue(Clockwork.salesman.text.start.text or "How can I help you today?");
+	self.startSound:SetValue(Clockwork.salesman.text.start.sound or "");
+
+	self.startHideName:SetValue(Clockwork.salesman.text.start.bHideName == true);
+
+	self.noSaleText:SetValue(Clockwork.salesman.text.noSale.text or "I cannot trade my inventory with you!");
+	self.noSaleSound:SetValue(Clockwork.salesman.text.noSale.sound or "");
+
+	self.noSaleHideName:SetValue(Clockwork.salesman.text.noSale.bHideName == true);
+
+	self.noStockText:SetValue(Clockwork.salesman.text.noStock.text or "I do not have that item in stock!");
+	self.noStockSound:SetValue(Clockwork.salesman.text.noStock.sound or "");
+
+	self.noStockHideName:SetValue(Clockwork.salesman.text.noStock.bHideName == true);
 	
-	if (!Clockwork.salesman.text.noStock) then
-		self.noStockText:SetValue("I do not have that item in stock!");
-	else
-		self.noStockText:SetValue(Clockwork.salesman.text.noStock);
-	end;
-	
-	if (!Clockwork.salesman.text.needMore) then
-		self.needMoreText:SetValue("You cannot afford to buy that from me!");
-	else
-		self.needMoreText:SetValue(Clockwork.salesman.text.needMore);
-	end;
-	
-	if (!Clockwork.salesman.text.cannotAfford) then
-		self.cannotAffordText:SetValue("I cannot afford to buy that item from you!");
-	else
-		self.cannotAffordText:SetValue(Clockwork.salesman.text.cannotAfford);
-	end;
-	
-	if (!Clockwork.salesman.text.doneBusiness) then
-		self.doneBusinessText:SetValue("Thanks for doing business, see you soon!");
-	else
-		self.doneBusinessText:SetValue(Clockwork.salesman.text.doneBusiness);
-	end;
-	
+	self.needMoreText:SetValue(Clockwork.salesman.text.needMore.text or "You cannot afford to buy that from me!");
+	self.needMoreSound:SetValue(Clockwork.salesman.text.needMore.sound or "");
+
+	self.needMoreHideName:SetValue(Clockwork.salesman.text.needMore.bHideName == true);
+
+	self.cannotAffordText:SetValue(Clockwork.salesman.text.cannotAfford.text or "I cannot afford to buy that item from you!");
+	self.cannotAffordSound:SetValue(Clockwork.salesman.text.cannotAfford.sound or "");
+
+	self.cannotAffordHideName:SetValue(Clockwork.salesman.text.cannotAfford.bHideName == true);
+
+	self.doneBusinessText:SetValue(Clockwork.salesman.text.doneBusiness.text or "Thanks for doing business, see you soon!");
+	self.doneBusinessSound:SetValue(Clockwork.salesman.text.doneBusiness.sound or "");
+
+	self.doneBusinessHideName:SetValue(Clockwork.salesman.text.doneBusiness.bHideName == true);
+
 	self.factionsForm = vgui.Create("DForm");
 	self.factionsForm:SetPadding(4);
 	self.factionsForm:SetName("Factions");
@@ -285,11 +303,36 @@ function PANEL:Think()
 	self:SetSize(ScrW() * 0.5, ScrH() * 0.75);
 	self:SetPos((ScrW() / 2) - (self:GetWide() / 2), (ScrH() / 2) - (self:GetTall() / 2));
 	
-	Clockwork.salesman.text.doneBusiness = self.doneBusinessText:GetValue();
-	Clockwork.salesman.text.cannotAfford = self.cannotAffordText:GetValue();
-	Clockwork.salesman.text.needMore = self.needMoreText:GetValue();
-	Clockwork.salesman.text.noStock = self.noStockText:GetValue();
-	Clockwork.salesman.text.noSale = self.noSaleText:GetValue();
+	Clockwork.salesman.text.doneBusiness = {
+		text = self.doneBusinessText:GetValue(),
+		bHideName = (self.doneBusinessHideName:GetChecked() == true),
+		sound = self.doneBusinessSound:GetValue()
+	};
+	Clockwork.salesman.text.cannotAfford = {
+		text = self.cannotAffordText:GetValue(),
+		bHideName = (self.cannotAffordHideName:GetChecked() == true),
+		sound = self.cannotAffordSound:GetValue()
+	};
+	Clockwork.salesman.text.needMore = {
+		text = self.needMoreText:GetValue(),
+		bHideName = (self.needMoreHideName:GetChecked() == true),
+		sound = self.needMoreSound:GetValue()
+	};
+	Clockwork.salesman.text.noStock = {
+		text = self.noStockText:GetValue(),
+		bHideName = (self.noStockHideName:GetChecked() == true),
+		sound = self.noStockSound:GetValue()
+	};
+	Clockwork.salesman.text.noSale = {
+		text = self.noSaleText:GetValue(),
+		bHideName = (self.noSaleHideName:GetChecked() == true),
+		sound = self.noSaleSound:GetValue()
+	};
+	Clockwork.salesman.text.start = {
+		text = self.startText:GetValue(),
+		bHideName = (self.startHideName:GetChecked() == true),
+		sound = self.startSound:GetValue()
+	};
 	Clockwork.salesman.showChatBubble = (self.showChatBubble:GetChecked() == true);
 	Clockwork.salesman.buyInShipments = (self.buyInShipments:GetChecked() == true);
 	Clockwork.salesman.physDesc = self.physDesc:GetValue();

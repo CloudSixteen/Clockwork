@@ -37,6 +37,13 @@ Clockwork.datastream:Hook("SalesmenuRebuild", function(data)
 	end;
 end);
 
+Clockwork.datastream:Hook("SalesmanPlaySound", function(data)
+--	surface.PlaySound(data[1]);
+	if (data[2] and data[2]:IsValid()) then
+		data[2]:EmitSound(data[1]);
+	end;
+end);
+
 Clockwork.datastream:Hook("SalesmanAdd", function(data)
 	if (Clockwork.salesman:IsSalesmanOpen()) then
 		CloseDermaMenus();
@@ -62,7 +69,14 @@ Clockwork.datastream:Hook("SalesmanAdd", function(data)
 		Clockwork.salesman.model = "models/humans/group01/male_0"..math.random(1, 9)..".mdl";
 		Clockwork.salesman.items = {};
 		Clockwork.salesman.cash = -1;
-		Clockwork.salesman.text = {};
+		Clockwork.salesman.text = {
+			doneBusiness = {},
+			cannotAfford = {},
+			needMore = {},
+			noStock = {},
+			noSale = {},
+			start = {}
+		};
 		Clockwork.salesman.buys = {};
 		Clockwork.salesman.name = Clockwork.salesman.name;
 		

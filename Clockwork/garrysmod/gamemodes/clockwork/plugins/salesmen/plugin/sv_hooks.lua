@@ -35,7 +35,7 @@ function cwSalesmen:PlayerCanUseSalesman(player, entity)
 	end;
 	
 	if (bDisallowed) then
-		entity:TalkToPlayer(player, entity.cwTextTab.noSale or "I cannot trade my inventory with you!");
+		entity:TalkToPlayer(player, entity.cwTextTab.noSale, "I cannot trade my inventory with you!");
 		return false;
 	end;
 end;
@@ -56,4 +56,6 @@ function cwSalesmen:PlayerUseSalesman(player, entity)
 		buys = entity.cwBuyTab,
 		name = entity:GetNetworkedString("Name")
 	});
+
+	entity:TalkToPlayer(player,	entity.cwTextTab.start,	"How can I help you today?");
 end;
