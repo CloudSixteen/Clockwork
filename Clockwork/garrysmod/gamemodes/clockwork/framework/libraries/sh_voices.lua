@@ -6,7 +6,7 @@
     http://cloudsixteen.com/license/clockwork.html
 --]]
 
-Clockwork.voices = Clockwork.kernel:NewLibrary("Voices");
+Clockwork.voices = Clockwork.kernel:NewLibrary("CWVoices");
 Clockwork.voices.groups = {};
 
 -- A function to add a voice group.
