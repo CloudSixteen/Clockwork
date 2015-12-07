@@ -13,6 +13,7 @@ CW_ENGLISH["CannotActionRightNow"] = "You cannot do this action at the moment!";
 CW_ENGLISH["DroppedItemsOtherChar"] = "You cannot pick up items you dropped on another character!";
 CW_ENGLISH["DroppedCashOtherChar"] = "You cannot pick up #1 you dropped on another character!";
 CW_ENGLISH["CannotPurchaseAnotherDoor"] = "You cannot purchase another door!";
+CW_ENGLISH["EntityOptionWaitTime"] = "You cannot use another entity that fast!";
 CW_ENGLISH["YouNeedAnother"] = "You need another #1!";
 CW_ENGLISH["NotEnoughText"] = "You did not specify enough text!";
 CW_ENGLISH["ConfigVariablesPrinted"] = "The config variables have been printed to the console.";

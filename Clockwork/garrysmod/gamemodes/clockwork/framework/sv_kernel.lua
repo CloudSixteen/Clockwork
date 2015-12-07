@@ -3963,11 +3963,18 @@ Clockwork.datastream:Hook("EntityMenuOption", function(player, data)
 	local option = data[2];
 	local shootPos = player:GetShootPos();
 	local arguments = data[3];
+	local curTime = CurTime();
 	
 	if (IsValid(entity) and type(option) == "string") then
 		if (entity:NearestPoint(shootPos):Distance(shootPos) <= 80) then
 			if (Clockwork.plugin:Call("PlayerUse", player, entity)) then
-				Clockwork.plugin:Call("EntityHandleMenuOption", player, entity, option, arguments);
+				if (!player.nextEntityHandle or player.nextEntityHandle <= curTime) then
+					Clockwork.plugin:Call("EntityHandleMenuOption", player, entity, option, arguments);
+
+					player.nextEntityHandle = curTime + Clockwork.config:Get("entity_handle_time"):Get();
+				else
+					Clockwork.player:Notify(player, L(player, "EntityOptionWaitTime"));
+				end;
 			end;
 		end;
 	end;

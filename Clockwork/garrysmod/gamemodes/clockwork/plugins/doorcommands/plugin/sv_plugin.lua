@@ -7,6 +7,7 @@
 --]]
 
 Clockwork.config:Add("default_doors_hidden", true, nil, nil, nil, nil, true);
+Clockwork.config:Add("doors_save_state", true, nil, nil, nil, nil, true);
 
 -- A function to load the parent data.
 function cwDoorCmds:LoadParentData()
@@ -123,4 +124,50 @@ function cwDoorCmds:SaveDoorData()
 	end;
 	
 	Clockwork.kernel:SaveSchemaData("plugins/doors/"..game.GetMap(), doorData);
+end;
+
+function cwDoorCmds:SaveDoorStates()
+	local doorTable = {};
+
+	for k, v in pairs(ents.GetAll()) do
+		if (Clockwork.entity:IsDoor(v)) then
+			doorTable[#doorTable + 1] = {
+				position = v:GetPos(),
+				bLocked = Clockwork.entity:IsDoorLocked(v),
+				state = Clockwork.entity:GetDoorState(v)
+			};
+		end;
+	end;
+
+	Clockwork.kernel:SaveSchemaData("plugins/doorstates/"..game.GetMap(), doorTable);
+end;
+
+function cwDoorCmds:LoadDoorStates()
+	local doorTable = Clockwork.kernel:RestoreSchemaData("plugins/doorstates/"..game.GetMap());
+	local positions = {};
+
+	for k, v in pairs(ents.GetAll()) do
+		if (IsValid(v)) then
+			local position = v:GetPos();
+			
+			if (position) then
+				positions[tostring(position)] = v;
+			end;
+		end;
+	end;
+	
+	for k, v in pairs(doorTable) do
+		local entity = positions[tostring(v.position)];
+
+		if (IsValid(entity) and Clockwork.entity:IsDoor(entity)) then
+
+			if (v.state == 1 or v.state == 2) then
+				Clockwork.entity:OpenDoor(entity, 0);
+			end;
+
+			if (v.bLocked) then
+				entity:Fire("Lock", "", 0);
+			end;
+		end;
+	end;
 end;
