@@ -337,18 +337,32 @@ function Clockwork.tool:Register(tool)
 		tool:CreateConVars();
 
 		if (tool.leftClickCMD) then
+			if (tool.leftClickFire == nil) then tool.leftClickFire = true; end;
+
 			function tool:LeftClick(tr)
-				if (CLIENT) then return true; end;
+				if (CLIENT) then return tool.leftClickFire; end;
 
 				self:GetOwner():RunClockworkCmd(tool.leftClickCMD);
 			end;
 		end;
 
 		if (tool.rightClickCMD) then
+			if (tool.rightClickFire == nil) then tool.rightClickFire = true; end;
+
 			function tool:RightClick(tr)
-				if (CLIENT) then return true; end;
+				if (CLIENT) then return tool.rightClickFire; end;
 
 				self:GetOwner():RunClockworkCmd(tool.rightClickCMD);
+			end;
+		end;
+
+		if (tool.reloadCMD) then
+			if (tool.reloadFire == nil) then tool.reloadFire = true; end;
+
+			function tool:Reload(tr)
+				if (CLIENT) then return tool.reloadFire; end;
+
+				self:GetOwner():RunClockworkCmd(tool.reloadCMD);
 			end;
 		end;
 
