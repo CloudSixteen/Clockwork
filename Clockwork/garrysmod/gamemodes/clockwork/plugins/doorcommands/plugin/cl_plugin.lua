@@ -6,8 +6,8 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
-Clockwork.config:AddToSystem("Doors default hidden", "default_doors_hidden", "Set whether doors are hidden and unownable by default.");
-Clockwork.config:AddToSystem("Doors save state", "doors_save_state", "Set whether or not doors will save being open or closed and locked.");
+Clockwork.config:AddToSystem("Doors Default Hidden", "default_doors_hidden", "Set whether doors are hidden and unownable by default.");
+Clockwork.config:AddToSystem("Doors Save State", "doors_save_state", "Set whether or not doors will save being open or closed and locked.");
 
 -- Called to sync the ESP data.
 Clockwork.datastream:Hook("doorParentESP", function(data)

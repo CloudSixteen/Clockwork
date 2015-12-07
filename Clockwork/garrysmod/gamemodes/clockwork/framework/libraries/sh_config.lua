@@ -415,6 +415,7 @@ if (SERVER) then
 		if (self:IsValidValue(value)) then
 			if (!self.stored[key]) then
 				self.stored[key] = {
+					category = PLUGIN and PLUGIN:GetName(),
 					needsRestart = needsRestart,
 					isPrivate = isPrivate,
 					isShared = isShared,
@@ -595,9 +596,9 @@ else
 
 		self.system[key] = {
 			name = name or key,
-			decimals = decimals or 0,
-			maximum = maximum or 100,
-			minimum = minimum or 0,
+			decimals = tonumber(decimals) or 0,
+			maximum = tonumber(maximum) or 100,
+			minimum = tonumber(minimum) or 0,
 			help = help or "No information was provided for this entry.",
 			category = category or "Clockwork"
 		};

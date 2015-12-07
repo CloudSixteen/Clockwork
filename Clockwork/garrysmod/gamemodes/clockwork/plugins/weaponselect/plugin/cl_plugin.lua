@@ -6,7 +6,7 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
-Clockwork.config:AddToSystem("Weapon selection multi", "weapon_selection_multi", "Should the weapon selection be hidden if the player has only one weapon.");
+Clockwork.config:AddToSystem("Weapon Selection Multi", "weapon_selection_multi", "Should the weapon selection be hidden if the player has only one weapon.");
 
 -- A function to draw a weapon's information.
 function cwWeaponSelect:DrawWeaponInformation(itemTable, weapon, x, y, alpha)

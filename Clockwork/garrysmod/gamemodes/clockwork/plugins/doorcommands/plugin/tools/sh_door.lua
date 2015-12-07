@@ -115,25 +115,27 @@ if (CLIENT) then
 		AddDefControls(panel);
 	end;
 
+	local function DoorUpdatePanel()
+		local panel = controlpanel.Get("doortool");
+
+		if (!panel) then return; end;
+
+		AddDefControls(panel);
+	end;
+
 	-- A concommand that is called to set the mode of the tool, called from the controls in the tool menu.
 	concommand.Add("door_setmode", function(player, tool, args)
 		if (Clockwork.Client:GetInfoNum("doortool_mode", 2) != args[1]) then
 			RunConsoleCommand("doortool_mode", args[1]);
 
 			timer.Simple(0.05, function() 
-				door_updatepanel(); 
+				DoorUpdatePanel(); 
 			end);
 		end;
 	end);
 
 	-- A concommand that is called to rebuild the control panel for the tool, to show any new changes or selections.
-	concommand.Add("door_updatepanel", function()
-		local panel = controlpanel.Get("doortool");
-
-		if (!panel) then return; end;
-
-		AddDefControls(panel);
-	end);
+	concommand.Add("door_updatepanel", DoorUpdatePanel);
 end;
 
 TOOL:Register();

@@ -829,6 +829,7 @@ function Clockwork:Initialize()
 	CW_CONVAR_SHOWOOC = cwKernel:CreateClientConVar("cwShowOOC", 1, true, true);
 	CW_CONVAR_SHOWIC = cwKernel:CreateClientConVar("cwShowIC", 1, true, true);
 	CW_CONVAR_LANG = cwKernel:CreateClientConVar("cwLang", "English", true, true);
+	CW_CONVAR_VIGNETTE = cwKernel:CreateClientConVar("cwShowVignette", 1, true, true);
 
 	CW_CONVAR_ESPTIME = cwKernel:CreateClientConVar("cwESPTime", 1, true, true);
 	CW_CONVAR_ADMINESP = cwKernel:CreateClientConVar("cwAdminESP", 0, true, true);
@@ -3192,7 +3193,7 @@ function Clockwork:HUDPaint()
 			end;
 		end;
 		
-		if (self.event:CanRun("view", "vignette") and cwConfig:Get("enable_vignette"):Get()) then
+		if (self.event:CanRun("view", "vignette") and cwConfig:Get("enable_vignette"):Get() and CW_CONVAR_VIGNETTE:GetInt() == 1) then
 			cwPlugin:Call("DrawPlayerVignette");
 		end;
 		

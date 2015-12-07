@@ -2,6 +2,24 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.94.64
+-------
+
+* Added setting to disable/enable drawing of the vignette.
+	* *Contributed by NightAngel.*
+* Capitalized most setting/config entry names.
+	* *Contributed by NightAngel.*
+* Added category key to config entry array.
+	* *Contributed by kurozael.*
+* Changed decimal, maximum and minimum to be forced to numbers before being added to the config entry.
+	* *Contributed by NightAngel.*
+* Fixed issue with 'DoorSetChild' command where the active parent door could become its own child.
+	* *Contributed by NightAngel.*
+* Fixed minor issue with the door multitool not updating its cpanel properly.
+	* *Contributed by NightAngel.*
+* Cleaned up useless comment from 'SalesmanPlaySound' datastream hook.
+	* *Contributed by NightAngel.*
+
 0.94.6
 -------
 
