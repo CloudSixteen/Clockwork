@@ -6,4 +6,4 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
-Clockwork.config:AddToSystem("Take physcannon", "take_physcannon", "Whether or not the player is stripped of the physics cannon.");
+Clockwork.config:AddToSystem("Take Physcannon", "take_physcannon", "Whether or not the player is stripped of the physics cannon.");

@@ -2,6 +2,40 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.94.64
+-------
+
+* Added setting to disable/enable drawing of the vignette.
+	* *Contributed by NightAngel.*
+* Capitalized most setting/config entry names.
+	* *Contributed by NightAngel.*
+* Added category key to config entry array.
+	* *Contributed by kurozael.*
+* Changed decimal, maximum and minimum to be forced to numbers before being added to the config entry.
+	* *Contributed by NightAngel.*
+* Fixed issue with 'DoorSetChild' command where the active parent door could become its own child.
+	* *Contributed by NightAngel.*
+* Fixed minor issue with the door multitool not updating its cpanel properly.
+	* *Contributed by NightAngel.*
+* Cleaned up useless comment from 'SalesmanPlaySound' datastream hook.
+	* *Contributed by NightAngel.*
+
+0.94.6
+-------
+
+* Patched weakness that was being exploited to dupe items/currency, cooldown on entity use can now be edited with 'entity_handle_time' in the config.
+	* *Contributed by NightAngel.*
+* Added variables (tool.reloadCMD, tool.reloadFire, tool.leftClickFire, tool.rightClickFire) to the tool metatable. Fire variables are boolean for whether the beam will fire on each event.
+	* *Contributed by NightAngel.*
+* Shifted door tools and parent ESP from toolguns plugin to doorcommands plugin, optimized and cleaned up code for both tools. Also shifted alot of code from tools to the commands being called.
+	* *Contributed by NightAngel.*
+* Added notifications to 'DoorLock' and 'DoorUnlock' commands.
+	* *Contributed by NightAngel.*
+* Added 'DoorResetParent' command to clear a player's active parent door (this is what the reload function of parenting tool did).
+	* *Contributed by NightAngel.*
+* Added config to save whether doors are locked and/or opened (on by default).
+	* *Contributed by NightAngel.*
+
 0.94.51
 -------
 

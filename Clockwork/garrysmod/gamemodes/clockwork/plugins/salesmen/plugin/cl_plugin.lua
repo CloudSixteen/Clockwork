@@ -38,7 +38,6 @@ Clockwork.datastream:Hook("SalesmenuRebuild", function(data)
 end);
 
 Clockwork.datastream:Hook("SalesmanPlaySound", function(data)
---	surface.PlaySound(data[1]);
 	if (data[2] and data[2]:IsValid()) then
 		data[2]:EmitSound(data[1]);
 	end;
