@@ -2,6 +2,18 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.94.68
+-------
+
+* Moved chatbox hooks that implement voice commands to the voice library file for better organization.
+	* *Contributed by NightAngel.*
+* Added plugin call 'PlayerShouldStaminaDrain' to determine whether a player's stamina should drain while sprinting.
+	* *Contributed by NightAngel.*
+* Added pitch and volume arguments to the Add function of Clockwork.voices.
+	* *Contributed by NightAngel.*
+* Using a voice command will no longer display a message from the player if the phrase of the voice command is nil or empty.
+	* *Contributed by NightAngel.*
+
 0.94.64
 -------
 
