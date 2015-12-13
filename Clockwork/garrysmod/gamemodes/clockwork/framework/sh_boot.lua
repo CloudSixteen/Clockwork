@@ -28,7 +28,7 @@ end;
 
 Clockwork.ClockworkFolder = Clockwork.ClockworkFolder or GM.Folder;
 Clockwork.SchemaFolder = Clockwork.SchemaFolder or GM.Folder;
-Clockwork.KernelVersion = "0.94.68";
+Clockwork.KernelVersion = "0.94.69";
 Clockwork.KernelBuild = "alpha"
 Clockwork.DeveloperVersion = true;
 Clockwork.Website = "http://kurozael.com";
@@ -114,7 +114,7 @@ end;
 Clockwork.kernel:IncludeSchema();
 Clockwork.plugin:Call("ClockworkSchemaLoaded");
 
-MsgC(Color(0, 255, 100, 255), "[Clockwork] Schema \""..Schema:GetName().."\" ["..Schema:GetVersion().."] by "..Schema:GetAuthor().." loaded!\n");
+MsgC(Color(0, 255, 100, 255), "[Clockwork] Schema \""..Schema:GetName().."\" ["..Clockwork.kernel:GetSchemaGamemodeVersion().."] by "..Schema:GetAuthor().." loaded!\n");
 
 --[[ The following code is loaded over-the-Cloud. --]]
 if (SERVER and Clockwork.LoadPostSchemaExternals) then

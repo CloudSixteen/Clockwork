@@ -812,6 +812,7 @@ if (SERVER) then
 			SCHEMA_GAMEMODE_INFO["name"] = schemaData["title"] or "Undefined";
 			SCHEMA_GAMEMODE_INFO["author"] = schemaData["author"] or "Undefined";
 			SCHEMA_GAMEMODE_INFO["description"] = schemaData["description"] or "Undefined";
+			SCHEMA_GAMEMODE_INFO["version"] = schemaData["version"] or "Undefined";
 		return SCHEMA_GAMEMODE_INFO;
 	end;
 	
@@ -819,6 +820,12 @@ if (SERVER) then
 	function Clockwork.kernel:GetSchemaGamemodeName()
 		local schemaInfo = self:GetSchemaGamemodeInfo();
 		return schemaInfo["name"];
+	end;
+
+	-- A function to get the schema version.
+	function Clockwork.kernel:GetSchemaGamemodeVersion()
+		local schemaInfo = self:GetSchemaGamemodeInfo();
+		return schemaInfo["version"];
 	end;
 	
 	-- A function to find schema data in a directory.
