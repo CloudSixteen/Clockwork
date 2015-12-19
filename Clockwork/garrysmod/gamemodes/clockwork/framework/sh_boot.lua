@@ -114,7 +114,9 @@ end;
 Clockwork.kernel:IncludeSchema();
 Clockwork.plugin:Call("ClockworkSchemaLoaded");
 
-MsgC(Color(0, 255, 100, 255), "[Clockwork] Schema \""..Schema:GetName().."\" ["..Clockwork.kernel:GetSchemaGamemodeVersion().."] by "..Schema:GetAuthor().." loaded!\n");
+if (SERVER) then
+	MsgC(Color(0, 255, 100, 255), "[Clockwork] Schema \""..Schema:GetName().."\" ["..Clockwork.kernel:GetSchemaGamemodeVersion().."] by "..Schema:GetAuthor().." loaded!\n");
+end;
 
 --[[ The following code is loaded over-the-Cloud. --]]
 if (SERVER and Clockwork.LoadPostSchemaExternals) then
