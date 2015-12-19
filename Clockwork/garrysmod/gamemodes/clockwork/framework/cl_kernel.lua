@@ -2124,7 +2124,10 @@ function Clockwork:GetAdminESPInfo(info)
 			cwPlugin:Call("GetStatusInfo", v, topText);	
 
 			local text = {
-				{table.concat(topText, " "), cwTeam.GetColor(v:Team())}
+				{
+					text = table.concat(topText, " "), 
+					color = cwTeam.GetColor(v:Team())
+				}
 			};
 
 			cwPlugin:Call("GetPlayerESPInfo", v, text);
@@ -2140,16 +2143,21 @@ function Clockwork:GetAdminESPInfo(info)
 		for k, v in pairs (ents.GetAll()) do 
 			if (v:GetClass() == "cw_salesman") then
 				if (v:IsValid()) then
-					local position = v:GetPos()
+					local position = v:GetPos() + Vector(0, 0, 80);
 					local saleName = v:GetNetworkedString("Name");
 					local color = Color(255, 150, 0, 255);
 
 					table.insert(info, {
 						position = position,
-						color = color,
 						text = {
-							{"[Salesman]", color},
-							{saleName, color}
+							{
+								text = "[Salesman]", 
+								color = color
+							},
+							{
+								text = saleName, 
+								color = color
+							}
 						}
 					});
 				end;
@@ -2161,19 +2169,24 @@ function Clockwork:GetAdminESPInfo(info)
 		for k, v in pairs (ents.GetAll()) do 
 			if (v:GetClass() == "cw_item") then
 				if (v:IsValid()) then
-					local position = v:GetPos()
-					local itemTable = Clockwork.entity:FetchItemTable(v)
+					local position = v:GetPos();
+					local itemTable = Clockwork.entity:FetchItemTable(v);
 
 					if (itemTable) then
-						local itemName = itemTable("name")
+						local itemName = itemTable("name");
 						local color = Color(0, 255, 255, 255);
 
 						table.insert(info, {
 							position = position,
-							color = color,
 							text = {
-								{"[Item]", color},
-								{itemName, color}
+								{
+									text = "[Item]",
+									color = color
+								},
+								{
+									text = itemName,
+									color = color
+								}
 							}
 						});
 					end;
@@ -2227,19 +2240,37 @@ function Clockwork:GetPlayerESPInfo(player, text)
 		local colorHealth = colorWhite;
 		local colorArmor = colorWhite;
 		
-		table.insert(text, {player:SteamName(), Color(170, 170, 170, 255), nil, nil, self.player:GetChatIcon(player)})
+		table.insert(text, {
+			text = player:SteamName(), 
+			color = Color(170, 170, 170, 255), 
+			icon = self.player:GetChatIcon(player)
+		});
 
 		if (player:Alive() and health > 0) then
-
 			if (CW_CONVAR_ESPBARS:GetInt() == 0) then
 				colorHealth = self:GetValueColor(health);
 				colorArmor = self:GetValueColor(armor);
 			end;
 
-			table.insert(text, {"Health: ["..health.."]", colorHealth, {health, player:GetMaxHealth()}})
+			table.insert(text, {
+				text = "Health: ["..health.."]", 
+				color = colorHealth, 
+				bar = {
+					value = health,
+					max = player:GetMaxHealth()
+				}
+			});
 			
 			if (player:Armor() > 0) then
-				table.insert(text, {"Armor: ["..armor.."]", colorArmor, {armor, player:GetMaxArmor()}, Color(30, 65, 175, 255)});
+				table.insert(text, {
+					text = "Armor: ["..armor.."]",
+					color = colorArmor, 
+					bar = {
+						value = armor,
+						max = player:GetMaxArmor()
+					}, 
+					barColor = Color(30, 65, 175, 255)
+				});
 			end;
 		
 			if (weapon and IsValid(weapon)) then			
@@ -2254,7 +2285,10 @@ function Clockwork:GetPlayerESPInfo(player, text)
 					local printName = weapon:GetPrintName();
 
 					if (printName) then
-						table.insert(text, {printName, color})
+						table.insert(text, {
+							text = printName, 
+							color = color
+						});
 					end;
 				end;
 			end;
