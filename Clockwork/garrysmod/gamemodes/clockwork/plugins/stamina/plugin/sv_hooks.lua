@@ -52,6 +52,11 @@ function cwStamina:PlayerShouldStaminaRegenerate(player)
 	return true;
 end;
 
+-- Called when a player's stamina should drain.
+function cwStamina:PlayerShouldStaminaDrain(player)
+	return true;
+end;
+
 -- Called at an interval while a player is connected.
 function cwStamina:PlayerThink(player, curTime, infoTable)
 	local regenScale = Clockwork.config:Get("stam_regen_scale"):Get();
@@ -65,17 +70,19 @@ function cwStamina:PlayerThink(player, curTime, infoTable)
 	if (!player:IsNoClipping() and player:IsOnGround()) then
 		local playerVelocityLength = player:GetVelocity():Length();
 		if ((infoTable.isRunning or infoTable.isJogging) and playerVelocityLength != 0) then
-			player:SetCharacterData(
-				"Stamina", math.Clamp(
-					player:GetCharacterData("Stamina") - decrease, 0, 100
-				)
-			);
-			
-			if (player:GetCharacterData("Stamina") > 1) then
-				if (infoTable.isRunning) then
-					player:ProgressAttribute(ATB_STAMINA, 0.025, true);
-				elseif (infoTable.isJogging) then
-					player:ProgressAttribute(ATB_STAMINA, 0.0125, true);
+			if (Clockwork.plugin:Call("PlayerShouldStaminaDrain", player)) then
+				player:SetCharacterData(
+					"Stamina", math.Clamp(
+						player:GetCharacterData("Stamina") - decrease, 0, 100
+					)
+				);
+				
+				if (player:GetCharacterData("Stamina") > 1) then
+					if (infoTable.isRunning) then
+						player:ProgressAttribute(ATB_STAMINA, 0.025, true);
+					elseif (infoTable.isJogging) then
+						player:ProgressAttribute(ATB_STAMINA, 0.0125, true);
+					end;
 				end;
 			end;
 		elseif (playerVelocityLength == 0) then
