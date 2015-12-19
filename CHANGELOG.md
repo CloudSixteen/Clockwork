@@ -2,6 +2,24 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.94.72
+-------
+
+* Fixed issues with command hints not showing due to recent GMOD update.
+	* *Contributed by NightAngel.*
+* Added hints for voice commands that display command and phrase when typing IC.
+	* *Contributed by NightAngel.*
+* Changed voice library to use a local stored table instead of a global one, added three new functions to access the table easier.
+	* *Contributed by NightAngel.*
+* Added three new functions to access the voice groups table easier GetAll(), FindByID(id) and GetVoices(id).
+	* *Contributed by NightAngel.*
+
+0.94.69
+-------
+
+* Fixed schema version print to show properly (small bugs may occur where extra decimals are added).
+	* *Contributed by NightAngel.*
+
 0.94.68
 -------
 

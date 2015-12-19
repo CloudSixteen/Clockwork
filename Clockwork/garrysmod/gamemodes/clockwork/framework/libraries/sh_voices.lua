@@ -7,7 +7,23 @@
 --]]
 
 Clockwork.voices = Clockwork.kernel:NewLibrary("CWVoices");
-Clockwork.voices.groups = {};
+
+local groups = {};
+
+-- A function to get the local stored voice groups.
+function Clockwork.voices:GetAll()
+	return groups;
+end;
+
+-- A function to get a certain group by ID.
+function Clockwork.voices:FindByID(id)
+	return groups[id];
+end;
+
+-- A function to get the voices of a certain group by ID.
+function Clockwork.voices:GetVoices(id)
+	return groups[id].voices;
+end;
 
 -- A function to add a voice group.
 function Clockwork.voices:RegisterGroup(group, bGender, callback)
@@ -15,7 +31,7 @@ function Clockwork.voices:RegisterGroup(group, bGender, callback)
 		bGender = false;
 	end;
 	
-	self.groups[group] = {
+	groups[group] = {
 		bGender = bGender,
 		IsPlayerMember = callback,
 		voices = {};
@@ -24,7 +40,7 @@ end;
 
 -- A function to add a voice.
 function Clockwork.voices:Add(groupName, command, phrase, sound, female, menu, pitch, volume)
-	local group = self.groups[groupName];
+	local group = groups[groupName];
 	
 	if (group) then
 		group.hasVoices = true;
@@ -68,10 +84,10 @@ function Clockwork.voices:ClockworkInitialized()
 
 	Clockwork.plugin:Call("RegisterVoiceGroups", self);
 	Clockwork.plugin:Call("RegisterVoices", self);
-	Clockwork.plugin:Call("AdjustVoices", self.groups);
+	Clockwork.plugin:Call("AdjustVoices", groups);
 
 	if (CLIENT) then
-		for k, v in pairs(self.groups) do
+		for k, v in pairs(groups) do
 			if (v.hasVoices) then
 				Clockwork.directory:AddCategory(k, "Commands");
 				table.sort(v.voices, function(a, b) return a.command < b.command; end);
@@ -94,7 +110,7 @@ function Clockwork.voices:ChatBoxAdjustInfo(info)
 		if (IsValid(info.speaker) and info.speaker:HasInitialized()) then
 			info.text = string.upper(string.sub(info.text, 1, 1))..string.sub(info.text, 2);
 			
-			for k, v in pairs(self.groups) do
+			for k, v in pairs(groups) do
 				if (v.IsPlayerMember(info.speaker)) then
 					for k2, v2 in pairs(v.voices) do
 						if (string.lower(info.text) == string.lower(v2.command)) then
