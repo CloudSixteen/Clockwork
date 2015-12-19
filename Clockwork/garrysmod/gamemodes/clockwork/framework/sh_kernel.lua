@@ -2268,14 +2268,14 @@ else
 							text = v2;
 							color = v.color;
 						else
-							text = v2[1];
-							color = v2[2];
+							text = v2.text;
+							color = v2.color;
 
-							local barNumbers = v2[3];
+							local barNumbers = v2.bar;
 
 							if (type(barNumbers) == "table") then
-								barValue = barNumbers[1];
-								maximum = barNumbers[2];
+								barValue = barNumbers.value;
+								maximum = barNumbers.max;
 							else
 								barValue = barNumbers;
 							end;
@@ -2289,23 +2289,23 @@ else
 							height = draw.GetFontHeight(Clockwork.option:GetFont("main_text"));
 						end;
 
-						if (v2[5]) then
+						if (v2.icon) then
 							local icon = "icon16/exclamation.png";
 							local width = surface.GetTextSize(text);
 
-							if (type(v2[5] == "string") and v2[5] != "") then
-								icon = v2[5];
+							if (type(v2.icon == "string") and v2.icon != "") then
+								icon = v2.icon;
 							end;
 
 							surface.SetDrawColor(255, 255, 255, 255);
-							surface.SetMaterial(Material(icon));
+							surface.SetMaterial(Clockwork.kernel:GetMaterial(icon));
 							surface.DrawTexturedRect(position.x - (width * 0.40) - height, position.y - height * 0.5, height, height);
 						end;
 
 						if (barValue and CW_CONVAR_ESPBARS:GetInt() == 1) then
 							local barHeight = height * 0.80;
-							local barColor = v2[4] or Clockwork:GetValueColor(barValue);
-							local grayColor = Color( 150, 150, 150, 170);
+							local barColor = v2.barColor or Clockwork:GetValueColor(barValue);
+							local grayColor = Color(150, 150, 150, 170);
 							local progress = 100 * (barValue / maximum);
 
 							if progress < 0 then
