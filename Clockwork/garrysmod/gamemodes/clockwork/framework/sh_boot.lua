@@ -28,7 +28,7 @@ end;
 
 Clockwork.ClockworkFolder = Clockwork.ClockworkFolder or GM.Folder;
 Clockwork.SchemaFolder = Clockwork.SchemaFolder or GM.Folder;
-Clockwork.KernelVersion = "0.94.72";
+Clockwork.KernelVersion = "0.94.74";
 Clockwork.KernelBuild = "alpha"
 Clockwork.DeveloperVersion = true;
 Clockwork.Website = "http://kurozael.com";

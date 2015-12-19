@@ -2,6 +2,18 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.94.74
+-------
+
+* Fixed a fatal error with schema prints erroring out clientside.
+	* *Contributed by NightAngel.*
+
+0.94.73
+-------
+
+* Changed the ESP system to be a little less confusing with its tables, uses string keys instead of numbered keys now.
+	* *Contributed by NightAngel.*
+
 0.94.72
 -------
 
