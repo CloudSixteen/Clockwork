@@ -146,12 +146,44 @@ end;
 function Clockwork.chatBox:IsTypingCommand()
 	local currentText = Clockwork.chatBox:GetCurrentText();
 	local prefix = Clockwork.config:Get("command_prefix"):Get();
-	
-	if (string.utf8sub(currentText, 1, string.utf8len(prefix)) == prefix) then
-		return true;
-	else
-		return false;
+
+	if (string.find(currentText, prefix) == 1) then
+		return true;	
 	end;
+
+	return false;
+end;
+
+-- A function to get whether the player is typing a voice command.
+function Clockwork.chatBox:IsTypingVC()
+	local currentText = Clockwork.chatBox:GetCurrentText();
+	local groups = Clockwork.voices:GetAll();
+	local commands = {};
+
+	if (currentText != "") then
+		for k, v in pairs(groups) do
+			if (v.IsPlayerMember(Clockwork.Client)) then
+				for key, voice in pairs(v.voices) do
+					local command = string.lower(voice.command);
+					local text = string.lower(currentText);
+
+					if (command == text) then
+						commands[1] = voice;
+
+						break;
+					elseif (string.find(command, text)) then
+						commands[#commands + 1] = voice;
+					end;
+
+					if (#commands == 8) then
+						break;
+					end;
+				end;
+			end;
+		end;
+	end;
+
+	return (#commands > 0), commands;
 end;
 
 -- A function to get the spacing between messages.
@@ -754,6 +786,7 @@ function Clockwork.chatBox:Paint()
 	local messages = self.messages;
 	local x, y = origX, origY;
 	local box = {width = 0, height = 0};
+	local bIsTypingVC, voiceCommands = Clockwork.chatBox:IsTypingVC();
 
 	if (!bIsOpen) then
 		if (#self.historyMsgs > 100) then
@@ -800,7 +833,7 @@ function Clockwork.chatBox:Paint()
 		local messageY = y;
 		local alpha = v.alpha;
 		
-		if (bIsTypingCommand) then
+		if (bIsTypingCommand or bIsTypingVC) then
 			alpha = 25;
 		elseif (bIsOpen) then
 			alpha = 255;
@@ -924,6 +957,50 @@ function Clockwork.chatBox:Paint()
 			
 			Clockwork.kernel:OverrideMainFont(false);
 		end;
+	elseif (bIsTypingVC) then
+		local colorInformation = Clockwork.option:GetColor("information");
+		local bSingleCommand = (#voiceCommands == 1);
+		local colorWhite = Clockwork.option:GetColor("white");
+		local oX, oY = origX, origY;
+				
+		for k, v in pairs(voiceCommands) do
+			local totalText = v.command;
+					
+			if (bSingleCommand) then
+				totalText = totalText.." "..v.phrase;
+			end;
+					
+			local tWidth, tHeight = Clockwork.kernel:GetCachedTextSize(
+				chatBoxSyntaxFont, totalText
+			);
+					
+			if (k == 1) then
+				oY = oY - tHeight;
+			end;
+				
+			Clockwork.kernel:DrawSimpleText(v.command, oX, oY, colorInformation);
+					
+			if (bSingleCommand) then
+				local pWidth = Clockwork.kernel:GetCachedTextSize(
+					chatBoxSyntaxFont, v.command
+				);
+						
+				Clockwork.kernel:DrawSimpleText(v.phrase, oX, oY - tHeight - 8, colorWhite);
+			end;
+					
+			if (k < #voiceCommands) then oY = oY - tHeight; end;
+			if (oY < y) then y = oY; end;
+					
+			if (origY - oY > box.height) then
+				box.height = origY - oY;
+			end;
+					
+			if (origX + tWidth - 8 > box.width) then
+				box.width = origX + tWidth - 8;
+			end;
+		end;
+
+		Clockwork.kernel:OverrideMainFont(false);
 	end;
 	
 	self.scroll:SetSize(box.width + 8, box.height + 8);
