@@ -3794,6 +3794,10 @@ function Clockwork:KeyPress(player, key)
 		else
 			player.cwReloadHoldTime = CurTime() + 0.25;
 		end;
+	elseif (key == IN_ATTACK or key == IN_ATTACK2) then
+		if (cwPly:GetWeaponRaised(player) == false) then
+			cwPly:ToggleWeaponRaised(player);
+		end;
 	end;
 end;
 

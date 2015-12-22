@@ -2,6 +2,12 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.94.75
+-------
+
+* Added the ability to raise your weapon by pressing left or right click if it is lowered.
+	* *Contributed by NightAngel.*
+
 0.94.74
 -------
 
