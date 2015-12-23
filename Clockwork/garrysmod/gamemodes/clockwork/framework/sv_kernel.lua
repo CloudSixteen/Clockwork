@@ -5127,6 +5127,20 @@ function playerMeta:HasItemByID(uniqueID)
 	);
 end;
 
+-- A function to get whether a player has an item by ID.
+function playerMeta:GetItemCountByID(uniqueID)
+	return Clockwork.inventory:GetItemCountByID(
+		self:GetInventory(), uniqueID
+	);
+end;
+
+-- A function to get whether a player has an item by ID.
+function playerMeta:HasItemCountByID(uniqueID, amount)
+	return Clockwork.inventory:HasItemCountByID(
+		self:GetInventory(), uniqueID, amount
+	);
+end;
+
 -- A function to find a player's item by ID.
 function playerMeta:FindItemByID(uniqueID, itemID)
 	return Clockwork.inventory:FindItemByID(
