@@ -31,11 +31,7 @@ Clockwork.entity = Clockwork.kernel:NewLibrary("Entity");
 if (CLIENT) then
 	--[[
 		@codebase Client
-<<<<<<< HEAD
 		@details A function to get a weapon's muzzle position from its viewmodel.
-=======
-		@details A function to get a weapon's muzzle position.
->>>>>>> origin/master
 		@param Entity The player's current weapon.
 		@param Entity The player's attachment on the weapon.
 		@returns Vector The coordinates of weapon's muzzle position.
@@ -73,11 +69,7 @@ end;
 
 --[[
 	@codebase Shared
-<<<<<<< HEAD
 	@details A function to check if an entity is a door or not by seeing if its name includes "door" or if the entity is one of the following classes: "func_door", "func_door_rotating", "prop_door_rotating", "func_movelinear"
-=======
-	@details A function to check if an entity is a door or not.
->>>>>>> origin/master
 	@param Entity The entity being check as a door.
 	@returns Bool Whether the entity is a door or not.
 --]]
@@ -104,11 +96,7 @@ end;
 
 --[[
 	@codebase Shared
-<<<<<<< HEAD
 	@details A function to get whether an entity is decaying by being in the process of fading out and being removed.
-=======
-	@details A function to get whether an entity is decaying.
->>>>>>> origin/master
 	@param Entity The entity being checked as decaying or not.
 	@returns Bool Whether or not the entity is decaying.
 --]]
@@ -118,11 +106,7 @@ end;
 
 --[[
 	@codebase Shared
-<<<<<<< HEAD
 	@details A function to get a door entity's partners which are doors that open along with it.
-=======
-	@details A function to get a door entity's partners.
->>>>>>> origin/master
 	@param Entity The entity to get the door partners from.
 	@return Table A list of partners on the door entity.
 --]]
@@ -154,11 +138,7 @@ end;
 
 --[[
 	@codebase Shared
-<<<<<<< HEAD
 	@details A function to check if an entity is in a specified box area.
-=======
-	@details A function to check if an entity is in a box.
->>>>>>> origin/master
 	@param Entity The entity to check if it's in a box.
 	@param Int Minimum position to check in.
 	@param Int Maximum position to check in.
@@ -203,11 +183,7 @@ end;
 
 --[[
 	@codebase Shared
-<<<<<<< HEAD
 	@details A function to get whether an entity can see a position from its own position.
-=======
-	@details A function to get whether an entity can see a position.
->>>>>>> origin/master
 	@param Entity The entity that's being checked on if it can see a position.
 	@param Vector Location being checked if the entity can see it.
 	@param Int Optional: Variance around the position being checked.
@@ -239,11 +215,7 @@ end;
 
 --[[
 	@codebase Shared
-<<<<<<< HEAD
 	@details A function to get whether an entity can see an NPC from its own position.
-=======
-	@details A function to get whether an entity can see an NPC.
->>>>>>> origin/master
 	@param Entity The entity that's being checked on if it can see an NPC.
 	@param Entity The NPC being check if it can be seen.
 	@param Int Optional: Variance around the position being checked.
@@ -275,11 +247,7 @@ end;
 
 --[[
 	@codebase Shared
-<<<<<<< HEAD
 	@details A function to get whether an entity can see a player from its own position.
-=======
-	@details A function to get whether an entity can see a player.
->>>>>>> origin/master
 	@param Entity The entity that's being checked on if it can see a player.
 	@param Entity The player being checked if it can be seen.
 	@param Int Optional: Variance around the position being checked.
@@ -315,11 +283,7 @@ end;
 
 --[[
 	@codebase Shared
-<<<<<<< HEAD
 	@details A function to get whether an entity can see an entity from its own position.
-=======
-	@details A function to get whether an entity can see an entity.
->>>>>>> origin/master
 	@param Entity The entity that's being checked on if it can see another entity.
 	@param Entity The entity being checked if it can be seen.
 	@param Int Optional: Variance around the entity being checked.
@@ -350,11 +314,7 @@ end;
 
 --[[
 	@codebase Shared
-<<<<<<< HEAD
 	@details A function to get whether a door is unownable by a player.
-=======
-	@details A function to get whether a door is unownable.
->>>>>>> origin/master
 	@param Entity Door being checked as unownable.
 	@returns Bool Whether or not the door is unownable.
 --]]
@@ -394,11 +354,7 @@ end;
 
 --[[
 	@codebase Shared
-<<<<<<< HEAD
 	@details A function to get the text being displayed on a door.
-=======
-	@details A function to get a door's text.
->>>>>>> origin/master
 	@param Entity Door getting its text from.
 	@returns String Text being displayed on the door.
 --]]
@@ -408,11 +364,7 @@ end;
 
 --[[
 	@codebase Shared
-<<<<<<< HEAD
 	@details A function to get whether an entity is a player in ragdoll form.
-=======
-	@details A function to get whether an entity is a player ragdoll.
->>>>>>> origin/master
 	@param Entity The entity getting checked as a player ragdoll.
 	@returns Bool Whether or not the entity is a player ragdoll.
 --]]
@@ -428,11 +380,7 @@ end;
 
 --[[
 	@codebase Shared
-<<<<<<< HEAD
 	@details A function to get a player from an entity.
-=======
-	@details A function to get an entity's player.
->>>>>>> origin/master
 	@param Entity The entity getting the player from.
 	@returns Entity The player from the entity.
 --]]
