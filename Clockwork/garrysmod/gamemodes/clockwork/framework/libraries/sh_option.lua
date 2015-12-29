@@ -88,6 +88,10 @@ Clockwork.option:SetKey("top_bars", false);
 Clockwork.option:SetKey("name_use", "Use");
 Clockwork.option:SetKey("gradient", "gui/gradient_up");
 
+Clockwork.option:SetKey("crafting_description", "Combine various items to make new items.");
+Clockwork.option:SetKey("crafting_menu_enabled", true);
+Clockwork.option:SetKey("crafting_name", "Crafting");
+
 Clockwork.option:SetSound("click_release", "ui/buttonclickrelease.wav");
 Clockwork.option:SetSound("rollover", "ui/buttonrollover.wav");
 Clockwork.option:SetSound("click", "ui/buttonclick.wav");

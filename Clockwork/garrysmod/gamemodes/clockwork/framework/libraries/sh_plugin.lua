@@ -665,6 +665,8 @@ Clockwork.plugin:AddExtra("/language/");
 Clockwork.plugin:AddExtra("/config/");
 Clockwork.plugin:AddExtra("/tools/");
 
+Clockwork.plugin:AddExtra("/blueprints/");
+
 --[[ This table will hold the plugin info, if it doesn't already exist. --]]
 if (!CW_SCRIPT_SHARED.plugins) then
 	CW_SCRIPT_SHARED.plugins = {};
