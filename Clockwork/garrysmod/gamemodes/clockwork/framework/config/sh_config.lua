@@ -42,3 +42,7 @@ Clockwork.config:ShareKey("draw_intro_bars");
 Clockwork.config:ShareKey("show_business");
 Clockwork.config:ShareKey("chat_multiplier");
 Clockwork.config:ShareKey("enable_looc_icons");
+
+Clockwork.config:ShareKey("crafting_description");
+Clockwork.config:ShareKey("crafting_menu_enabled");
+Clockwork.config:ShareKey("crafting_name");

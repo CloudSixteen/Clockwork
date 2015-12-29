@@ -95,3 +95,7 @@ Clockwork.config:AddToSystem("Enable Chat Multiplier", "chat_multiplier", "Wheth
 Clockwork.config:AddToSystem("Steam API Key", "steam_api_key", "Some non-essential features may require the usage of the Steam API.\nhttp://steamcommunity.com/dev/apikey");
 Clockwork.config:AddToSystem("Enable Map Props Physgrab", "enable_map_props_physgrab", "Whether or not players will be able to grab map props and doors with physguns.");
 Clockwork.config:AddToSystem("Entity Use Cooldown", "entity_handle_time", "The amount of time between entity uses a player has to wait.", 0, 1, 3);
+
+Clockwork.config:AddToSystem("Crafting Description", "crafting_description", "The amount of time between entity uses a player has to wait.");
+Clockwork.config:AddToSystem("Crafting Enabled", "crafting_menu_enabled", "Whether or not the crafting menu is enabled.");
+Clockwork.config:AddToSystem("Crafting Name", "crafting_name", "The amount of time between entity uses a player has to wait.");

@@ -1329,6 +1329,10 @@ function Clockwork:MenuItemsAdd(menuItems)
 		local businessName = cwOption:GetKey("name_business");
 		menuItems:Add(businessName, "cwBusiness", cwOption:GetKey("description_business"), cwOption:GetKey("icon_data_business"));
 	end;
+	
+	if (cwConfig:Get("crafting_menu_enabled"):GetBoolean() == true) then
+		menuItems:Add(cwOption:GetKey("crafting_name"), "cwCrafting", cwOption:GetKey("crafting_description"));
+	end;
 end;
 
 -- Called when the menu's items should be destroyed.
