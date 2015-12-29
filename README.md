@@ -1,10 +1,3 @@
-Private Development
----------
-
-The development Clockwork repo has moved. From now on, we'll only update this repository when a new update is released for Clockwork.
-
-If you have a Contribution you'd like to make, feel free to make a pull-request as usual.
-
 Clockwork
 ---------
 A roleplaying framework developed by Cloud Sixteen for the people.  
@@ -23,15 +16,10 @@ https://docs.google.com/document/d/1F24V5s21aXx5T5bbz0bQsOT1FWLgnqaP5iMy-DxHhL8/
 
 Donations
 ------------
-If you'd like to support the development you can donate via PayPal to **kurozael@gmail.com**
+If you'd like to support the development you can donate via Bitcoin to the following address
+**12wPvfmNkokbyyjNFUcCVHrJiQR4vL76Q1**
 
-HL2 RP / HL2RP
-------------
-HL2 RP is the most popular Clockwork schema and has made Clockwork what it is today. If you'd like to purchase HL2 RP and support Clockwork development, you can [buy HL2 RP](http://store.cloudsixteen.com/cart.php) at http://store.cloudsixteen.com
-
-Cloud Sixteen also offer other official schemas, so feel free to check them out or [join the Cloud Sixteen community forums](http://forums.cloudsixteen.com) for more information.
-
-You can also reach the [official GMod HL2RP](http://gmodhl2rp.com/) website at http://gmodhl2rp.com/ for a direct link to the page.
+Or via PayPal to **kurozael@gmail.com**
 
 Contributing
 ------------
@@ -55,7 +43,6 @@ http://cloudsixteen.com/license/clockwork.html
 #### CloudAuthX
 http://cloudsixteen.com/license/cloudauthx.html
 
-<<<<<<< HEAD
 Credits
 -------
 
@@ -89,11 +76,3 @@ Credits
 #### Other Contributors
 * Alex Grist and Impulse for fixing Clockwork and schemas to work with GMod 13 API.
 * Assorted contributors that have sent pull requests and fixes through the years.
-=======
-See Also
---------
-
-* https://github.com/CloudSixteen/HL2RP 
-* http://cloudsixteen.com 
-* http://gmodhl2rp.com/
->>>>>>> origin/master

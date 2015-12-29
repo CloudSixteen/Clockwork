@@ -19,37 +19,8 @@ Clockwork.inventory = Clockwork.kernel:NewLibrary("Inventory");
 function Clockwork.inventory:AddInstance(inventory, itemTable, quantity)
 	quantity = quantity or 1;
 
-<<<<<<< HEAD
 	if (itemTable == nil) then
 		return false;
-=======
-	for k, v in pairs(inventory) do
-		local itemTable = Clockwork.item:FindByID(k);
-		
-		if (itemTable) then
-			local uniqueID = itemTable("uniqueID");
-
-			if (uniqueID != k) then
-				continue;
-			end;
-			
-			if (!newTable[uniqueID]) then
-				newTable[uniqueID] = {};
-			end;
-			
-			for k2, v2 in pairs(v) do
-				local itemID = tonumber(k2);
-				local instance = Clockwork.item:CreateInstance(
-					k, itemID, v2
-				);
-				
-				if (instance and !instance.OnLoaded
-				or instance:OnLoaded() != false) then
-					newTable[uniqueID][itemID] = instance;
-				end;
-			end;
-		end;
->>>>>>> origin/master
 	end;
 
 	if (!itemTable:IsInstance()) then
@@ -95,7 +66,6 @@ function Clockwork.inventory:CalculateWeight(inventory)
 	return weight;
 end;
 
-<<<<<<< HEAD
 -- A function to create a duplicate of an inventory.
 function Clockwork.inventory:CreateDuplicate(inventory)
 	local duplicate = {};
@@ -107,15 +77,6 @@ function Clockwork.inventory:CreateDuplicate(inventory)
 		end;
 	return duplicate;
 end;
-=======
--- A function to add an instance to a table.
-function Clockwork.inventory:AddInstance(inventory, itemTable, quantity)
-	quantity = quantity or 1;
-
-	if (itemTable == nil) then
-		return false;
-	end;
->>>>>>> origin/master
 
 -- A function to find an item within an inventory by ID.
 function Clockwork.inventory:FindItemByID(inventory, uniqueID, itemID)
@@ -130,25 +91,8 @@ function Clockwork.inventory:FindItemByID(inventory, uniqueID, itemID)
 		itemID = tonumber(itemID);
 	end;
 	
-<<<<<<< HEAD
 	if (!itemTable or !inventory[itemTable("uniqueID")]) then
 		return;
-=======
-	inventory[itemTable("uniqueID")][itemTable("itemID")] = itemTable;
-	
-	if (quantity != 1) then
-		self:AddInstance(inventory, Clockwork.item:CreateInstance(itemTable("uniqueID")), quantity - 1);
-	end;
-	
-	return itemTable;
-end;
-
--- A function to remove an instance from a table.
-function Clockwork.inventory:RemoveInstance(inventory, itemTable)
-	if (!itemTable:IsInstance()) then
-		debug.Trace();
-		return false;
->>>>>>> origin/master
 	end;
 	
 	local itemsList = inventory[itemTable("uniqueID")];
