@@ -1095,6 +1095,7 @@ function Clockwork:PlayerSpawn(player)
 					end;
 				end;
 			end;
+<<<<<<< HEAD
 			
 			if (istable(relation)) then
 				local relationEnts;
@@ -1102,6 +1103,15 @@ function Clockwork:PlayerSpawn(player)
 				prevRelation = prevRelation or {};
 				prevRelation[player:SteamID()] = prevRelation[player:SteamID()] or {};
 			
+=======
+			
+			if (istable(relation)) then
+				local relationEnts;
+			
+				prevRelation = prevRelation or {};
+				prevRelation[player:SteamID()] = prevRelation[player:SteamID()] or {};
+			
+>>>>>>> origin/master
 				for k, v in pairs(relation) do
 					relationEnts = ents.FindByClass(k);
 				

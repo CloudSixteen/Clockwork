@@ -111,8 +111,12 @@ Clockwork.config:Add("chat_multiplier", true, true, true);
 Clockwork.config:Add("steam_api_key", "");
 Clockwork.config:Add("enable_map_props_physgrab", false);
 Clockwork.config:Add("translate_api_key", "");
+<<<<<<< HEAD
 Clockwork.config:Add("entity_handle_time", 0.1);
 
 Clockwork.config:Add("crafting_description", "Combine various items to make new items.", true);
 Clockwork.config:Add("crafting_menu_enabled", false, true, nil, nil, nil, true);
 Clockwork.config:Add("crafting_name", "Crafting", true);
+=======
+Clockwork.config:Add("entity_handle_time", 0.1);
+>>>>>>> origin/master
