@@ -2,6 +2,26 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.94.8
+-------
+
+* Clarified some documentation in the entity library.
+	* *Contributed by RJ.*
+* Alphabeticalized inventory library.
+	* *Contributed by RJ.*
+* Added methods to count the amount of a specified item in an inventory.
+	* *Contributed by RJ.*
+* Added work in progress crafting library.
+	* *Contributed by RJ.*
+* Optimized some functions in sv_kernel and removed pointless variables that were slowing things down.
+	* *Contributed by NightAngel.*
+* Added more comments to sv_kernel to better explain reasons for doing certain things.
+	* *Contributed by NightAngel.*
+* Added PlayerCanQuickRaise plugin hook that calls when a player attempts to raise their weapon by pressing left or right click.
+	* *Contributed by NightAngel.*
+* Hands SWEP is now impossible to quick raise, due to quick raising conflicting with certain functions of the SWEP.
+	* *Contributed by NightAngel.*
+
 0.94.75
 -------
 

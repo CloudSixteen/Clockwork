@@ -9,7 +9,10 @@
 --[[ Initiate the shared booting process. --]]
 include("sh_boot.lua");
 
---[[ Micro-optimizations --]]
+--[[ 
+	Micro-optimizations.
+	We do this because local variables are faster to access than global ones.
+--]]
 local Clockwork = Clockwork;
 local RunConsoleCommand = RunConsoleCommand;
 local DeriveGamemode = DeriveGamemode;
@@ -38,23 +41,6 @@ local hook = hook;
 local math = math;
 local game = game;
 local os = os;
-
-local cwHint = Clockwork.hint;
-local cwKernel = Clockwork.kernel;
-local cwPlugin = Clockwork.plugin;
-local cwConfig = Clockwork.config;
-local cwPly = Clockwork.player;
-local cwStorage = Clockwork.storage;
-local cwEvent = Clockwork.event;
-local cwLimb = Clockwork.limb;
-local cwItem = Clockwork.item;
-local cwEntity = Clockwork.entity;
-local mathCeil = math.ceil;
-local mathMax = math.max;
-local mathMin = math.min;
-local mathClamp = math.Clamp;
-local mathCos = math.cos;
-local mathApproach = math.Approach;
 
 --[[ Downloads the content addon for clients. --]]
 resource.AddWorkshop("474315121")
@@ -91,6 +77,9 @@ end;
 --[[
 	This is a hack to allow us to call plugin hooks based
 	on default GMod hooks that are called.
+
+	It modifies the hook.Call funtion to call hooks inside Clockwork plugins
+	as well as hooks that are added normally with hook.Add.
 --]]
 hook.ClockworkCall = hook.ClockworkCall or hook.Call;
 hook.Timings = hook.Timings or {};
@@ -114,11 +103,7 @@ function hook.Call(name, gamemode, ...)
 	local timeTook = SysTime() - startTime;
 	
 	hook.Timings[name] = timeTook;
-	--[[hook.Averages[name] = hook.Averages[name] or {0, 0};
-	local avg = hook.Averages[name][1];
-	local n = hook.Averages[name][2];
-	hook.Averages[name] = {((avg * n) + timeTook) / (n + 1), n + 1};]]
-	
+
 	if (!bStatus) then
 		if (!Clockwork.Unauthorized) then
 			MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Kernel]\nThe '"..name.."' hook has failed to run.\n"..value.."\n");
@@ -241,33 +226,33 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 	local bPlayerBreathSnd = false;
 	local storageTable = player:GetStorageTable();
 	
-	if (!cwConfig:Get("cash_enabled"):Get()) then
+	if (!Clockwork.config:Get("cash_enabled"):Get()) then
 		player:SetCharacterData("Cash", 0, true);
 		infoTable.wages = 0;
 	end;
 	
 	if (player.cwReloadHoldTime and curTime >= player.cwReloadHoldTime) then
-		cwPly:ToggleWeaponRaised(player);
+		Clockwork.player:ToggleWeaponRaised(player);
 		player.cwReloadHoldTime = nil;
-		player.cwNextShootTime = curTime + cwConfig:Get("shoot_after_raise_time"):Get();
+		player.cwNextShootTime = curTime + Clockwork.config:Get("shoot_after_raise_time"):Get();
 	end;
 	
 	if (player:IsRagdolled()) then
 		player:SetMoveType(MOVETYPE_OBSERVER);
 	end;
 	
-	if (storageTable and cwPlugin:Call("PlayerStorageShouldClose", player, storageTable)) then
-		cwStorage:Close(player);
+	if (storageTable and Clockwork.plugin:Call("PlayerStorageShouldClose", player, storageTable)) then
+		Clockwork.storage:Close(player);
 	end;
 	
-	player:SetSharedVar("InvWeight", mathCeil(infoTable.inventoryWeight));
-	player:SetSharedVar("InvSpace", mathCeil(infoTable.inventorySpace));
-	player:SetSharedVar("Wages", mathCeil(infoTable.wages));
+	player:SetSharedVar("InvWeight", math.ceil(infoTable.inventoryWeight));
+	player:SetSharedVar("InvSpace", math.ceil(infoTable.inventorySpace));
+	player:SetSharedVar("Wages", math.ceil(infoTable.wages));
 	
-	if (cwEvent:CanRun("limb_damage", "disability")) then
-		local leftLeg = cwLimb:GetDamage(player, HITGROUP_LEFTLEG, true);
-		local rightLeg = cwLimb:GetDamage(player, HITGROUP_RIGHTLEG, true);
-		local legDamage = mathMax(leftLeg, rightLeg);
+	if (Clockwork.event:CanRun("limb_damage", "disability")) then
+		local leftLeg = Clockwork.limb:GetDamage(player, HITGROUP_LEFTLEG, true);
+		local rightLeg = Clockwork.limb:GetDamage(player, HITGROUP_RIGHTLEG, true);
+		local legDamage = math.max(leftLeg, rightLeg);
 		
 		if (legDamage > 0) then
 			infoTable.runSpeed = infoTable.runSpeed / (1 + legDamage);
@@ -287,7 +272,7 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 		infoTable.runSpeed = infoTable.walkSpeed;
 	end;
 	
-	if (cwPlugin:Call("PlayerShouldSmoothSprint", player, infoTable)) then
+	if (Clockwork.plugin:Call("PlayerShouldSmoothSprint", player, infoTable)) then
 		--[[ The target run speed is what we're aiming for! --]]
 		player.cwTargetRunSpeed = infoTable.runSpeed;
 		
@@ -302,11 +287,11 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 		end;
 		
 		if (player:IsRunning(true)) then
-			player.cwLastRunSpeed = mathApproach(
+			player.cwLastRunSpeed = math.Approach(
 				player.cwLastRunSpeed, infoTable.runSpeed, player.cwLastRunSpeed * 0.3
 			);
 		else
-			player.cwLastRunSpeed = mathApproach(
+			player.cwLastRunSpeed = math.Approach(
 				player.cwLastRunSpeed, infoTable.walkSpeed, player.cwLastRunSpeed * 0.3
 			);
 		end;
@@ -318,13 +303,13 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 	player:UpdateWeaponFired(); player:UpdateWeaponRaised();
 	player:SetSharedVar("IsRunMode", infoTable.isRunning);
 	
-	player:SetCrouchedWalkSpeed(mathMax(infoTable.crouchedSpeed, 0), true);
-	player:SetWalkSpeed(mathMax(infoTable.walkSpeed, 0), true);
-	player:SetJumpPower(mathMax(infoTable.jumpPower, 0), true);
-	player:SetRunSpeed(mathMax(infoTable.runSpeed, 0), true);
+	player:SetCrouchedWalkSpeed(math.max(infoTable.crouchedSpeed, 0), true);
+	player:SetWalkSpeed(math.max(infoTable.walkSpeed, 0), true);
+	player:SetJumpPower(math.max(infoTable.jumpPower, 0), true);
+	player:SetRunSpeed(math.max(infoTable.runSpeed, 0), true);
 	
 	local activeWeapon = player:GetActiveWeapon();
-	local weaponItemTable = cwItem:GetByWeapon(activeWeapon);
+	local weaponItemTable = Clockwork.item:GetByWeapon(activeWeapon);
 	
 	if (weaponItemTable and weaponItemTable:IsInstance()) then
 		local clipOne = activeWeapon:Clip1();
@@ -345,21 +330,21 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 	local velocity = player:GetVelocity():Length();
 	local entity = traceLine.Entity;
 		
-	if (traceLine.HitPos:Distance(player:GetShootPos()) > mathMax(48, mathMin(velocity, 256))
+	if (traceLine.HitPos:Distance(player:GetShootPos()) > math.max(48, math.min(velocity, 256))
 	or !IsValid(entity)) then
 		return;
 	end;
 	
-	if (entity:GetClass() != "prop_door_rotating" or cwPly:IsNoClipping(player)) then
+	if (entity:GetClass() != "prop_door_rotating" or Clockwork.player:IsNoClipping(player)) then
 		return;
 	end;
 	
-	local doorPartners = cwEntity:GetDoorPartners(entity);
+	local doorPartners = Clockwork.entity:GetDoorPartners(entity);
 	
 	for k, v in pairs(doorPartners) do
-		if ((!cwEntity:IsDoorLocked(v) and cwConfig:Get("bash_in_door_enabled"):Get())
+		if ((!Clockwork.entity:IsDoorLocked(v) and Clockwork.config:Get("bash_in_door_enabled"):Get())
 		and (!v.cwNextBashDoor or curTime >= v.cwNextBashDoor)) then
-			cwEntity:BashInDoor(v, player);
+			Clockwork.entity:BashInDoor(v, player);
 			
 			player:ViewPunch(
 				Angle(math.Rand(-32, 32), math.Rand(-80, 80), math.Rand(-16, 16))
@@ -914,17 +899,17 @@ end;
 function Clockwork:SetupMove(player, moveData)
 	if (player:Alive() and !player:IsRagdolled()) then
 		local frameTime = FrameTime();
-		local isDrunk = cwPly:GetDrunk(player);
+		local isDrunk = Clockwork.player:GetDrunk(player);
 		local curTime = CurTime();
 		
 		if (isDrunk and player.cwDrunkSwerve) then
-			player.cwDrunkSwerve = mathClamp(player.cwDrunkSwerve + frameTime, 0, mathMin(isDrunk * 2, 16));
+			player.cwDrunkSwerve = math.Clamp(player.cwDrunkSwerve + frameTime, 0, math.min(isDrunk * 2, 16));
 			
-			moveData:SetMoveAngles(moveData:GetMoveAngles() + Angle(0, mathCos(curTime) * player.cwDrunkSwerve, 0));
+			moveData:SetMoveAngles(moveData:GetMoveAngles() + Angle(0, math.cos(curTime) * player.cwDrunkSwerve, 0));
 		elseif (player.cwDrunkSwerve and player.cwDrunkSwerve > 1) then
-			player.cwDrunkSwerve = mathMax(player.cwDrunkSwerve - frameTime, 0);
+			player.cwDrunkSwerve = math.max(player.cwDrunkSwerve - frameTime, 0);
 			
-			moveData:SetMoveAngles(moveData:GetMoveAngles() + Angle(0, mathCos(curTime) * player.cwDrunkSwerve, 0));
+			moveData:SetMoveAngles(moveData:GetMoveAngles() + Angle(0, math.cos(curTime) * player.cwDrunkSwerve, 0));
 		elseif (player.cwDrunkSwerve != 1) then
 			player.cwDrunkSwerve = 1;
 		end;
@@ -1597,15 +1582,15 @@ function Clockwork:Tick()
 	local plyTable = player.GetAll();
 
 	if (!self.NextHint or curTime >= self.NextHint) then
-		cwHint:Distribute();
-		self.NextHint = curTime + cwConfig:Get("hint_interval"):Get();
+		Clockwork.hint:Distribute();
+		self.NextHint = curTime + Clockwork.config:Get("hint_interval"):Get();
 	end;
 	
 	if (!self.NextWagesTime or curTime >= self.NextWagesTime) then
-		cwKernel:DistributeWagesCash();
+		Clockwork.kernel:DistributeWagesCash();
 		
 		local info = {
-			interval = cwConfig:Get("wages_interval"):Get();
+			interval = Clockwork.config:Get("wages_interval"):Get();
 		};
 		
 		self.plugin:Call("ModifyWagesInterval", info);
@@ -1614,10 +1599,10 @@ function Clockwork:Tick()
 	end;
 	
 	if (!self.NextGeneratorTime or curTime >= self.NextGeneratorTime) then
-		cwKernel:DistributeGeneratorCash();
+		Clockwork.kernel:DistributeGeneratorCash();
 		
 		local info = {
-			interval = cwConfig:Get("generator_interval"):Get();
+			interval = Clockwork.config:Get("generator_interval"):Get();
 		};
 		
 		self.plugin:Call("ModifyGeneratorInterval", info);
@@ -1626,16 +1611,16 @@ function Clockwork:Tick()
 	end;
 	
 	if (!self.NextDateTimeThink or sysTime >= self.NextDateTimeThink) then
-		cwKernel:PerformDateTimeThink();
-		self.NextDateTimeThink = sysTime + cwConfig:Get("minute_time"):Get();
+		Clockwork.kernel:PerformDateTimeThink();
+		self.NextDateTimeThink = sysTime + Clockwork.config:Get("minute_time"):Get();
 	end;
 	
 	if (!self.NextSaveData or sysTime >= self.NextSaveData) then
-		cwPlugin:Call("PreSaveData");
-			cwPlugin:Call("SaveData");
-		cwPlugin:Call("PostSaveData");
+		Clockwork.plugin:Call("PreSaveData");
+			Clockwork.plugin:Call("SaveData");
+		Clockwork.plugin:Call("PostSaveData");
 		
-		self.NextSaveData = sysTime + cwConfig:Get("save_data_interval"):Get();
+		self.NextSaveData = sysTime + Clockwork.config:Get("save_data_interval"):Get();
 	end;
 	
 	if (!self.NextCheckEmpty) then
@@ -1661,7 +1646,7 @@ function Clockwork:Tick()
 			end;
 			
 			if (curTime >= v.cwNextThink) then
-				cwPly:CallThinkHook(
+				Clockwork.player:CallThinkHook(
 					v, (curTime >= v.cwNextSetSharedVars), curTime
 				);
 			end;
@@ -3327,14 +3312,14 @@ end;
 function Clockwork:PlayerDeath(player, inflictor, attacker, damageInfo)
 	self.kernel:CalculateSpawnTime(player, inflictor, attacker, damageInfo);
 	
-	if (player:GetRagdollEntity()) then
-		local ragdoll = player:GetRagdollEntity();
-		
-		if (inflictor:GetClass() == "prop_combine_ball") then
+	local ragdoll = player:GetRagdollEntity();
+
+	if (ragdoll) then		
+		if (IsValid(inflictor) and inflictor:GetClass() == "prop_combine_ball") then
 			if (damageInfo) then
-				self.entity:Disintegrate(player:GetRagdollEntity(), 3, damageInfo:GetDamageForce() * 32);
+				self.entity:Disintegrate(ragdoll, 3, damageInfo:GetDamageForce() * 32);
 			else
-				self.entity:Disintegrate(player:GetRagdollEntity(), 3);
+				self.entity:Disintegrate(ragdoll, 3);
 			end;
 		end;
 	end;
@@ -3795,8 +3780,13 @@ function Clockwork:KeyPress(player, key)
 			player.cwReloadHoldTime = CurTime() + 0.25;
 		end;
 	elseif (key == IN_ATTACK or key == IN_ATTACK2) then
-		if (cwPly:GetWeaponRaised(player) == false) then
-			cwPly:ToggleWeaponRaised(player);
+		if (Clockwork.player:GetWeaponRaised(player) == false) then
+			local weapon = player:GetActiveWeapon();
+			local bQuickRaise = Clockwork.plugin:Call("PlayerCanQuickRaise", player, weapon, key);
+
+			if (bQuickRaise) then
+				Clockwork.player:ToggleWeaponRaised(player);
+			end;
 		end;
 	end;
 end;
@@ -3808,10 +3798,20 @@ function Clockwork:KeyRelease(player, key)
 	end;
 end;
 
+--[[
+	@codebase Server
+	@details Called to determine whether or not a player can quickly raise their weapon when they press left or right click.
+	@param Player The player that is attempting to quickly raise their weapon with left or right click.
+	@param Weapon The player's current active weapon.
+	@param Number The key that the player has pressed (can only be IN_ATTACK OR IN_ATTACK2).
+--]]
+function Clockwork:PlayerCanQuickRaise(player, weapon, key)
+	return !(IsValid(weapon) and weapon:GetClass() == "cw_hands");
+end;
+
 -- A function to setup a player's visibility.
 function Clockwork:SetupPlayerVisibility(player)
 	local ragdollEntity = player:GetRagdollEntity();
-	local curTime = CurTime();
 	
 	if (ragdollEntity) then
 		AddOriginToPVS(ragdollEntity:GetPos());
