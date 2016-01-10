@@ -2287,7 +2287,18 @@ function Clockwork:PlayerCanUseCommand(player, commandTable, arguments)
 end;
 
 -- Called when a player speaks from the client.
-function Clockwork:PlayerSay(player, text, bPublic) end;
+function Clockwork:PlayerSay(player, text, bPublic)
+	local prefix = Clockwork.config:Get("command_prefix"):Get();
+	local prefixLength = string.len(prefix);
+
+ 	if (string.sub(text, 1, prefixLength) == prefix) then
+		local arguments = Clockwork.kernel:ExplodeByTags(text, " ", "\"", "\"", true);
+		local command = string.sub(arguments[1], prefixLength + 1);
+		local realCommand = Clockwork.command:GetAlias()[command] or command;
+
+		return string.Replace(text, prefix..command, prefix..realCommand);
+ 	end;
+end;
 
 -- Called when a player attempts to suicide.
 function Clockwork:CanPlayerSuicide(player) return false; end;
