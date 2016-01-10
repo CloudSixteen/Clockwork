@@ -2294,7 +2294,7 @@ function Clockwork:PlayerSay(player, text, bPublic)
  	if (string.sub(text, 1, prefixLength) == prefix) then
 		local arguments = Clockwork.kernel:ExplodeByTags(text, " ", "\"", "\"", true);
 		local command = string.sub(arguments[1], prefixLength + 1);
-		local realCommand = Clockwork.command:GetAlias()[command];
+		local realCommand = Clockwork.command:GetAlias()[command] or command;
 
 		return string.Replace(text, prefix..command, prefix..realCommand);
  	end;
