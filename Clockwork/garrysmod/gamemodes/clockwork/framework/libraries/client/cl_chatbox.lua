@@ -895,11 +895,25 @@ function Clockwork.chatBox:Paint()
 		local prefix = Clockwork.config:Get("command_prefix"):Get();
 		
 		if (command and command != "") then
-			for k, v in pairs(Clockwork.command.stored) do
+			for k, v in pairs(Clockwork.command:GetAlias()) do
 				if (string.utf8sub(k, 1, string.utf8len(command)) == string.lower(command)
 				and (!splitTable[2] or string.lower(command) == k)) then
-					if (Clockwork.player:HasFlags(Clockwork.Client, v.access)) then
-						commands[#commands + 1] = v;
+					local cmdTable = Clockwork.command:FindByAlias(v);
+
+					if (Clockwork.player:HasFlags(Clockwork.Client, cmdTable.access)) then
+						local bShouldAdd = true;
+
+						-- It can so happen that multiple alias for the same command begin with the same string.
+						-- We don't want to display the same command multiple times, so we check for that.
+						for k, v in pairs(commands) do
+							if (v == cmdTable) then
+								bShouldAdd = false;
+							end;
+						end;
+
+						if (bShouldAdd) then
+							commands[#commands + 1] = cmdTable;
+						end;
 					end;
 				end;
 				
