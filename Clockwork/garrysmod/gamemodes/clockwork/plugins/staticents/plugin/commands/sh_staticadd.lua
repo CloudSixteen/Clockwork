@@ -26,8 +26,7 @@ function COMMAND:OnRun(player, arguments)
 				end;
 			end;
 				
-			table.insert(cwStaticEnts.staticEnts, target);
-			cwStaticEnts:SaveStaticEnts();
+			cwStaticEnts:SaveEntity(target);
 
 			Clockwork.player:Notify(player, "You have added a static entity.");		
 		else

@@ -6,8 +6,62 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
+-- A function to check if an entity can be static.
+function cwStaticEnts:CanEntityStatic(entity)
+	if (entity:IsValid()) then
+		local class = entity:GetClass();
+		local whitelist = {
+			"prop_physics",
+			"gmod_",
+			"prop_ragdoll",
+			"edit_"
+		};
+		local blacklist = {
+			"gmod_tool"
+		};
+
+		Clockwork.plugin:Call("EditStaticWhitelist", whitelist);
+		Clockwork.plugin:Call("EditStaticBlacklist", blacklist);
+
+		for k, v in ipairs(blacklist) do
+			if (string.find(class, v)) then
+				return false;
+			end;
+		end;
+
+		for k, v in ipairs(whitelist) do
+			if (string.find(class, v)) then
+				return class;
+			end;
+		end;
+		
+		return false;
+	end;
+end;
+
+-- Called before the whitelist is checked when an entity is staticed.
+function cwStaticEnts:EditStaticWhitelist(whitelist)
+	table.Merge(whitelist, Clockwork.kernel:RestoreSchemaData("maps/"..game.GetMap().."/static_entities/whitelist"));
+end;
+
+-- A function to save an entity.
+function cwStaticEnts:SaveEntity(entity)
+	if (IsValid(entity) and Clockwork.plugin:Call("CanEntityStatic", entity)) then
+		table.insert(self.staticEnts, entity);
+	end;
+
+	self:SaveStaticEnts();
+end;
+
+-- A function to return the static mode boolean variable.
+function cwStaticEnts:GetStaticMode()
+	return self.staticMode[1];
+end;
+
 -- A function to load the static entities.
 function cwStaticEnts:LoadStaticEnts()
+	self.whitelist = Clockwork.kernel:RestoreSchemaData("maps/"..game.GetMap().."/static_entities/whitelist") or {};
+	self.staticMode = Clockwork.kernel:RestoreSchemaData("maps/"..game.GetMap().."/static_entities/static_mode") or {false};
 	local classTable = Clockwork.kernel:RestoreSchemaData("maps/"..game.GetMap().."/static_entities/classtable");
 	local staticEnts = {};
 	self.staticEnts = {};
@@ -77,10 +131,11 @@ function cwStaticEnts:SaveStaticEnts()
 			if (IsValid(v)) then
 				local entTable = {};
 				local physicsObject = v:GetPhysicsObject();
+				local class = v:GetClass();
 
-				staticEnts[v:GetClass()] = staticEnts[v:GetClass()] or {};
+				staticEnts[class] = staticEnts[class] or {};
 
-				entTable.class = v:GetClass();			
+				entTable.class = class;			
 				entTable.color = v:GetColor();
 				entTable.model = v:GetModel();
 				entTable.angles = v:GetAngles();
@@ -95,7 +150,7 @@ function cwStaticEnts:SaveStaticEnts()
 
 				Clockwork.plugin:Call("OnStaticEntitySaved", v, entTable);
 				
-				table.insert(staticEnts[v:GetClass()], entTable);
+				table.insert(staticEnts[class], entTable);
 			end;
 		end;
 		
@@ -110,6 +165,12 @@ function cwStaticEnts:SaveStaticEnts()
 				if (!classTable[k]) then
 					table.insert(classTable, k);
 				end;
+			end;
+		end;
+
+		for k, v in pairs(_player.GetAll()) do
+			if (Clockwork.player:IsAdmin(v)) then
+				Clockwork.datastream:Start(v, "StaticESPSync", self.staticEnts);
 			end;
 		end;
 
@@ -175,20 +236,3 @@ function cwStaticEnts:OnStaticEntityLoaded(entity, entTable)
 		entity:SetOn(true);
 	end;
 end;
-
-Clockwork.datastream:Listen("staticESPSync", function()
-	local data = {};
-
-	for k, v in ipairs(cwStaticEnts.staticEnts) do
-		if (IsValid(v)) then
-			if (v:IsValid()) then
-				table.insert(data, {
-					pos = v:GetPos(),
-					class = v:GetClass()
-				});
-			end;
-		end;
-	end;
-
-	return true, data;
-end);

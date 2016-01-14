@@ -353,10 +353,9 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 	end;
 end;
 
-
 -- Called when a player should smooth sprint.
 function Clockwork:PlayerShouldSmoothSprint(player, infoTable)
-	return true;
+	return Clockwork.config:Get("player_should_smooth_sprint"):GetBoolean();
 end;
 
 -- Called when a player fires a weapon.
@@ -375,7 +374,7 @@ function Clockwork:PlayerDisconnected(player)
 			self.plugin:Call("PlayerSaveTempData", player, tempData);
 		end;
 		
-		self.kernel:PrintLog(LOGTYPE_MINOR, player:Name().." ("..player:SteamID()..") has disconnected.");
+		self.kernel:PrintLog(LOGTYPE_MINOR, player:Name().." ("..player:SteamID().." / "..player:IPAddress()..") has disconnected.");
 		self.chatBox:Add(nil, nil, "disconnect", player:SteamName().." has disconnected from the server.");
 	end;
 end;
@@ -1157,7 +1156,7 @@ end;
 -- Choose the model for hands according to their player model.
 function Clockwork:PlayerSetHandsModel(player, entity)
 	local simpleModel = player_manager.TranslateToPlayerModelName(player:GetModel())
-	local info = player_manager.TranslatePlayerHands(simpleModel)
+	local info = player_manager.TranslatePlayerHands(simpleModel);
 
 	if (info) then
 		entity:SetModel(info.model);
@@ -1280,7 +1279,7 @@ function Clockwork:PlayerInitialSpawn(player)
 	end;
 	
 	if (!player:IsKicked()) then
-		self.kernel:PrintLog(LOGTYPE_MINOR, player:SteamName().." ("..player:SteamID()..") has connected.");
+		self.kernel:PrintLog(LOGTYPE_MINOR, player:SteamName().." ("..player:SteamID().." / "..player:IPAddress()..") has connected.");
 		self.chatBox:Add(nil, nil, 'connect', player:SteamName()..' has connected to the server.');
 	end;
 end;
@@ -3094,6 +3093,7 @@ function Clockwork:PlayerCharacterLoaded(player)
 	local onNextLoad = player:QueryCharacter("OnNextLoad");
 	local steamID = player:SteamID();
 	local query = "UPDATE "..charactersTable.." SET _OnNextLoad = \"\" WHERE";
+	local playerFlags = player:GetPlayerFlags();
 	
 	if (onNextLoad != "") then
 		local queryObj = Clockwork.database:Update(charactersTable);
@@ -3122,8 +3122,8 @@ function Clockwork:PlayerCharacterLoaded(player)
 		end;
 	end;
 	
-	if (player:GetPlayerFlags()) then
-		Clockwork.player:GiveFlags(player, player:GetPlayerFlags())
+	if (playerFlags) then
+		Clockwork.player:GiveFlags(player, playerFlags);
 	end;
 end;
 
@@ -3246,11 +3246,7 @@ function Clockwork:PrePlayerTakeDamage(player, attacker, inflictor, damageInfo) 
 
 -- Called when a player should take damage.
 function Clockwork:PlayerShouldTakeDamage(player, attacker, inflictor, damageInfo)
-	if (self.player:IsNoClipping(player)) then
-		return false;
-	end;
-	
-	return true;
+	return !self.player:IsNoClipping(player);
 end;
 
 -- Called when a player is attacked by a trace.
@@ -4134,47 +4130,54 @@ Clockwork.datastream:Hook("RecogniseOption", function(player, data)
 	local recogniseData = data;
 
 	if (Clockwork.config:Get("recognise_system"):Get()) then
-		if (type(recogniseData) == "string") then
-			local talkRadius = Clockwork.config:Get("talk_radius"):Get();
+		if (type(recogniseData) == "string") then	
 			local playSound = false;
-			local position = player:GetPos();
-			local plyTable = _player.GetAll();
 			
-			for k, v in pairs(plyTable) do
-				if (v:HasInitialized() and player != v) then
-					if (!Clockwork.player:IsNoClipping(v)) then
-						local distance = v:GetPos():Distance(position);
-						local recognise = false;
-						
-						if (recogniseData == "whisper") then
-							if (distance <= math.min(talkRadius / 3, 80)) then
-								recognise = true;
-							end;
-						elseif (recogniseData == "yell") then
-							if (distance <= talkRadius * 2) then 
-								recognise = true; 
-							end;
-						elseif (recogniseData == "talk") then
-							if (distance <= talkRadius) then
-								recognise = true;
-							end;
-						elseif (recogniseData == "look") then
-							if (v == player:GetEyeTraceNoCursor().entity) then
-								recognise = true;
-							end;
-						end;
-						
-						if (recognise) then
-							Clockwork.player:SetRecognises(v, player, RECOGNISE_SAVE);
+			if (recogniseData == "look") then
+				local target = player:GetEyeTraceNoCursor().Entity;
+
+				if (target:HasInitialized() and !Clockwork.player:IsNoClipping(target) and target != player) then
+					Clockwork.player:SetRecognises(target, player, RECOGNISE_SAVE);
+
+					playSound = true;
+				end;
+			else
+				local position = player:GetPos();
+				local plyTable = _player.GetAll();
+				local talkRadius = Clockwork.config:Get("talk_radius"):Get();
+
+				for k, v in pairs(plyTable) do
+					if (v:HasInitialized() and player != v) then
+						if (!Clockwork.player:IsNoClipping(v)) then
+							local distance = v:GetPos():Distance(position);
+							local recognise = false;
 							
-							if (!playSound) then
-								playSound = true;
+							if (recogniseData == "whisper") then
+								if (distance <= math.min(talkRadius / 3, 80)) then
+									recognise = true;
+								end;
+							elseif (recogniseData == "yell") then
+								if (distance <= talkRadius * 2) then 
+									recognise = true; 
+								end;
+							elseif (recogniseData == "talk") then
+								if (distance <= talkRadius) then
+									recognise = true;
+								end;
+							end;
+							
+							if (recognise) then
+								Clockwork.player:SetRecognises(v, player, RECOGNISE_SAVE);
+								
+								if (!playSound) then
+									playSound = true;
+								end;
 							end;
 						end;
 					end;
 				end;
 			end;
-			
+
 			if (playSound) then
 				Clockwork.player:PlaySound(player, "buttons/button17.wav");
 			end;
@@ -5017,6 +5020,8 @@ function playerMeta:SetClockworkUserGroup(userGroup)
 		self.cwUserGroup = userGroup;
 		self:SetUserGroup(userGroup);
 		self:SaveCharacter();
+
+		Clockwork.plugin:Call("OnPlayerUserGroupSet", self, userGroup);
 	end;
 end;
 

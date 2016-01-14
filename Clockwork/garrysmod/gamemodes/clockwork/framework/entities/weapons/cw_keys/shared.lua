@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© 2016 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -30,38 +30,44 @@ if (CLIENT) then
 	SWEP.DrawCrosshair = false;
 end
 
-SWEP.Instructions = "Primary Fire: Lock.\nSecondary Fire: Unlock.";
-SWEP.Contact = "";
-SWEP.Purpose = "Locking and unlocking entities that you have access to.";
-SWEP.Author	= "kurozael";
+SWEP.Instructions 			= "Primary Fire: Lock.\nSecondary Fire: Unlock.";
+SWEP.Contact 				= "Cloudsixteen.com";
+SWEP.Purpose 				= "Locking and unlocking entities that you have access to.";
+SWEP.Author					= "Cloudsixteen";
 
-SWEP.WorldModel = "models/weapons/w_fists_t.mdl";
-SWEP.ViewModel = "models/weapons/v_punch.mdl";
-SWEP.HoldType = "fist";
+SWEP.WorldModel 			= "";
+SWEP.ViewModel 				= "models/weapons/c_arms.mdl";
+SWEP.HoldType 				= "fist";
 
-SWEP.AdminSpawnable = false;
-SWEP.Spawnable = false;
+SWEP.AdminSpawnable 		= false;
+SWEP.Spawnable 				= false;
   
-SWEP.Primary.DefaultClip = 0;
-SWEP.Primary.Automatic = true;
-SWEP.Primary.ClipSize = -1;
-SWEP.Primary.Damage = 1;
-SWEP.Primary.Ammo = "";
+SWEP.Primary.DefaultClip 	= 0;
+SWEP.Primary.Automatic 		= true;
+SWEP.Primary.ClipSize 		= -1;
+SWEP.Primary.Damage 		= 1;
+SWEP.Primary.Ammo 			= "";
 
-SWEP.Secondary.DefaultClip = 0;
-SWEP.Secondary.Automatic = false;
-SWEP.Secondary.ClipSize = -1;
-SWEP.Secondary.Ammo	= "";
+SWEP.Secondary.DefaultClip 	= 0;
+SWEP.Secondary.Automatic 	= false;
+SWEP.Secondary.ClipSize 	= -1;
+SWEP.Secondary.Ammo			= "";
 
-SWEP.NoIronSightFovChange = true;
-SWEP.NoIronSightAttack = true;
-SWEP.IronSightPos = Vector(0, 0, 0);
-SWEP.IronSightAng = Vector(0, 0, 0);
-SWEP.NeverRaised = true;
+SWEP.NoIronSightFovChange 	= true;
+SWEP.NoIronSightAttack 		= true;
+SWEP.IronSightPos 			= Vector(0, 0, 0);
+SWEP.IronSightAng 			= Vector(0, 0, 0);
+SWEP.NeverRaised 			= true;
+SWEP.LoweredAngles 			= Angle(0.000, 0.000, -22.000)
+
+--[[Bunch of key functionality bullshit.]]--
 
 -- Called when the SWEP is deployed.
 function SWEP:Deploy()
-	self:SendWeaponAnim(ACT_VM_DRAW);
+	local vm = self.Owner:GetViewModel();
+	vm:SendViewModelMatchingSequence(vm:LookupSequence("fists_draw"));
+	
+	return true;
 end;
 
 -- Called when the SWEP is holstered.

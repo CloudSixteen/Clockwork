@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© 2016 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -8,8 +8,11 @@
 
 if (SERVER) then
 	AddCSLuaFile("shared.lua");
-	
-	resource.AddFile("models/weapons/v_punch.mdl");
+
+	SWEP.Weight				= 5;
+	SWEP.AutoSwitchTo		= false;
+	SWEP.AutoSwitchFrom		= false;
+
 	resource.AddFile("models/weapons/w_fists_t.mdl");
 	
 	SWEP.ActivityTranslate = {
@@ -26,102 +29,87 @@ if (SERVER) then
 end;
 
 if (CLIENT) then
-	SWEP.Slot = 5;
-	SWEP.SlotPos = 3;
-	SWEP.DrawAmmo = false;
-	SWEP.PrintName = "Hands";
-	SWEP.DrawCrosshair = false;
-end
+	SWEP.PrintName			= "Hands";
+	SWEP.Author 			= "Cloud Sixteen";
+	SWEP.Instructions		= "Primary Fire: Hit.\nSecondary Fire: Knock on a door.\nR: Drop an item.";
+	SWEP.Purpose			= "Harming characters and knocking on doors.";
+	SWEP.Contact			= "CloudSixteen.com";
 
-SWEP.Instructions = "Primary Fire: Punch.\nSecondary Fire: Knock.";
-SWEP.Contact = "";
-SWEP.Purpose = "Punching characters and knocking on doors.";
-SWEP.Author	= "kurozael";
-
-SWEP.WorldModel = "models/weapons/w_fists_t.mdl";
-SWEP.ViewModel = "models/weapons/v_punch.mdl";
-SWEP.HoldType = "fist";
-
-SWEP.AdminSpawnable = false;
-SWEP.Spawnable = false;
-  
-SWEP.Primary.DefaultClip = 0;
-SWEP.Primary.Automatic = true;
-SWEP.Primary.ClipSize = -1;
-SWEP.Primary.Damage = 6;
-SWEP.Primary.Ammo = "";
-
-SWEP.Secondary.NeverRaised = true;
-SWEP.Secondary.DefaultClip = 0;
-SWEP.Secondary.Automatic = false;
-SWEP.Secondary.ClipSize = -1;
-SWEP.Secondary.Ammo	= "";
-
-SWEP.NoIronSightFovChange = true;
-SWEP.NoIronSightAttack = true;
-SWEP.IronSightPos = Vector(0, 0, 0);
-SWEP.IronSightAng = Vector(0, 0, 0);
-
--- Called when the SWEP is deployed.
-function SWEP:Deploy()
-	self:SendWeaponAnim(ACT_VM_DRAW);
+	SWEP.DrawAmmo 			= false;
+	SWEP.DrawCrosshair 		= false;
+	SWEP.DrawSecondaryAmmo	= false;
+	SWEP.ViewModelFOV		= 55;
+	SWEP.ViewModelFlip		= false;
+	SWEP.CSMuzzleFlashes	= false;
+	
+	SWEP.Slot				= 1;
+	SWEP.SlotPos			= 1;
+	SWEP.IconLetter			= "j";
 end;
 
--- Called when the SWEP is holstered.
-function SWEP:Holster(switchingTo)
-	self:SendWeaponAnim(ACT_VM_HOLSTER);
+SWEP.Category				= "Backsword";
+
+SWEP.HoldType				= "fist";
+
+SWEP.Spawnable				= true;
+SWEP.AdminSpawnable			= true;
+
+SWEP.ViewModel 				= "models/weapons/c_arms.mdl";
+SWEP.WorldModel 			= "" ;
+SWEP.UseHands				= true;
+
+SWEP.Weight					= 5;
+SWEP.AutoSwitchTo			= false;
+SWEP.AutoSwitchFrom			= false;
+
+SWEP.Primary.ClipSize		= -1;
+SWEP.Primary.Damage			= 6;
+SWEP.Primary.DefaultClip	= -1;
+SWEP.Primary.Automatic		= false;
+SWEP.Primary.Ammo			="none";
+SWEP.DrawAmmo 				= false;
+
+SWEP.Secondary.ClipSize		= -1;
+SWEP.Secondary.DefaultClip	= -1;
+SWEP.Secondary.Damage		= 100;
+SWEP.Secondary.Automatic	= false;
+SWEP.Secondary.Ammo			= "";
+
+SWEP.WallSound 				= Sound("Flesh.ImpactHard");
+SWEP.SwingSound				= Sound("WeaponFrag.Throw");
+SWEP.HitDistance			= 38;
+SWEP.LoweredAngles 			= Angle(0.000, 0.000, -22.000)
+
+/*---------------------------------------------------------
+Initialize
+---------------------------------------------------------*/
+function SWEP:Initialize() 
+	self:SetWeaponHoldType(self.HoldType);
+end;
+
+/*---------------------------------------------------------
+Deploy
+---------------------------------------------------------*/
+function SWEP:Deploy()
+	local vm = self.Owner:GetViewModel();
+
+	vm:SendViewModelMatchingSequence(vm:LookupSequence("fists_draw"));
+	self.Weapon:SetNextPrimaryFire(CurTime() + 1);
+
 	return true;
 end;
 
--- A function to punch an entity.
-function SWEP:PunchEntity()
-	local bounds = Vector(0, 0, 0);
-	local startPosition = self.Owner:GetShootPos();
-	local finishPosition = startPosition + (self.Owner:GetAimVector() * 64);
-	local traceLineAttack = util.TraceLine({
-		start = startPosition,
-		endpos = finishPosition,
-		filter = self.Owner
-	});
-	
-	self.Weapon:EmitSound("weapons/crossbow/hitbod2.wav", 25);
-	
-	if (SERVER) then
-		self.Weapon:CallOnClient("PunchEntity", "");
-		
-		if (IsValid(traceLineAttack.Entity)) then
-			traceLineAttack.Entity:TakeDamageInfo(
-				Clockwork.kernel:FakeDamageInfo(self.Primary.Damage, self, self.Owner, traceLineAttack.HitPos, DMG_CLUB, 1)
-			);
-		end;
-	end;
-end;
-
--- A function to play the knock sound.
-function SWEP:PlayKnockSound()
-	if (SERVER) then
-		self.Weapon:CallOnClient("PlayKnockSound", "");
-	end;
-	
-	self.Weapon:EmitSound("physics/wood/wood_crate_impact_hard2.wav");
-end;
-
--- A function to play the punch animation.
-function SWEP:PlayPunchAnimation()
-	if (SERVER) then
-		self.Weapon:CallOnClient("PlayPunchAnimation", "");
-	end;
-	
-	self.Owner:EmitSound("npc/vort/claw_swing2.wav");
-	self.Weapon:SendWeaponAnim(ACT_VM_PRIMARYATTACK);
-end;
-
--- Called when the player attempts to primary fire.
+/*---------------------------------------------------------
+PrimaryAttack
+---------------------------------------------------------*/
 function SWEP:PrimaryAttack()
 	if (SERVER) then
 		if (Clockwork.plugin:Call("PlayerCanThrowPunch", self.Owner)) then
 			self:PlayPunchAnimation();
 			self.Owner:SetAnimation(PLAYER_ATTACK1);
+			self.Weapon:SetNextPrimaryFire(CurTime() + 0.5)
+			self.Weapon:SetNextSecondaryFire(CurTime() + 0.7)
+			timer.Simple(0.10, function ()self.Weapon:EmitSound( self.SwingSound ); end);	
 			
 			local trace = self.Owner:GetEyeTraceNoCursor();
 			
@@ -177,9 +165,11 @@ function SWEP:PrimaryAttack()
 	end;
 end;
 
--- Called when the player attempts to secondary fire.
-function SWEP:SecondaryAttack()
-	if (SERVER) then
+/*---------------------------------------------------------
+SecondaryAttack
+---------------------------------------------------------*/
+function SWEP:SecondaryAttack() 
+		if (SERVER) then
 		local trace = self.Owner:GetEyeTraceNoCursor();
 		
 		if (IsValid(trace.Entity) and Clockwork.entity:IsDoor(trace.Entity)) then
@@ -195,4 +185,120 @@ function SWEP:SecondaryAttack()
 			end;
 		end;
 	end;
+end;
+
+/*---------------------------------------------------------
+KnockSound
+---------------------------------------------------------*/
+function SWEP:PlayKnockSound()
+	if (SERVER) then
+		self.Weapon:CallOnClient("PlayKnockSound", "");
+	end;
+	
+	self.Weapon:EmitSound("physics/wood/wood_crate_impact_hard2.wav");
+end;
+
+
+/*---------------------------------------------------------
+Reload
+---------------------------------------------------------*/
+function SWEP:Reload()
+
+	return false;
+end;
+
+/*---------------------------------------------------------
+OnRemove
+---------------------------------------------------------*/
+function SWEP:OnRemove()
+
+	return true;
+end;
+
+/*---------------------------------------------------------
+Holster
+---------------------------------------------------------*/
+function SWEP:Holster()
+
+	return true;
+end;
+
+/*---------------------------------------------------------
+ShootEffects
+---------------------------------------------------------*/
+function SWEP:ShootEffects() end;
+
+/*---------------------------------------------------------
+OnDrop
+---------------------------------------------------------*/
+function SWEP:OnDrop()
+	self:Remove();
+end;
+
+/*---------------------------------------------------------
+SetupDataTables
+---------------------------------------------------------*/
+function SWEP:SetupDataTables()  
+	self:NetworkVar( "Float", 0, "NextMeleeAttack" ) 
+ 	self:NetworkVar( "Float", 1, "NextIdle" )
+end;
+
+/*---------------------------------------------------------
+UpdateNextIdle
+---------------------------------------------------------*/
+function SWEP:UpdateNextIdle() 
+ 	local vm = self.Owner:GetViewModel();
+
+ 	self:SetNextIdle(CurTime() + vm:SequenceDuration());
+end;
+
+/*---------------------------------------------------------
+PunchEntity
+---------------------------------------------------------*/
+function SWEP:PunchEntity()
+	local bounds = Vector(0, 0, 0);
+	local startPosition = self.Owner:GetShootPos();
+	local finishPosition = startPosition + (self.Owner:GetAimVector() * 64);
+	local traceLineAttack = util.TraceLine({
+		start = startPosition,
+		endpos = finishPosition,
+		filter = self.Owner
+	});
+
+	timer.Simple(0.32, function ()self.Weapon:EmitSound( self.WallSound ); end);
+	
+	if (SERVER) then
+		self.Weapon:CallOnClient("PunchEntity", "");
+		
+		if (IsValid(traceLineAttack.Entity)) then
+			traceLineAttack.Entity:TakeDamageInfo(
+				Clockwork.kernel:FakeDamageInfo(self.Primary.Damage, self, self.Owner, traceLineAttack.HitPos, DMG_CLUB, 1)
+			);
+		end;
+	end;
+end;
+
+-- A function to play the punch animation.
+/*---------------------------------------------------------
+PunchingAnimation
+---------------------------------------------------------*/
+function SWEP:PlayPunchAnimation()
+	if (SERVER) then
+		self.Weapon:CallOnClient("PlayPunchAnimation", "");
+	end;
+
+ 	if (self.left == nil) then self.left = true; else self.left = !self.left; end;
+
+	local anim = "fists_right";
+	local ownerAnim = PLAYER_ATTACK1;
+ 
+ 	if (self.left) then
+		anim = "fists_left";
+		--ownerAnim = PLAYER_ATTACK2;
+	end;
+ 
+ 	local vm = self.Owner:GetViewModel();
+
+ 	self.Owner:SetAnimation(ownerAnim);
+ 	vm:SendViewModelMatchingSequence(vm:LookupSequence(anim));
 end;

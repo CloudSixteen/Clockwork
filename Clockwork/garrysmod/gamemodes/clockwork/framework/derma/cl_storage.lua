@@ -70,11 +70,13 @@ function PANEL:RebuildPanel(storagePanel, storageType, usedWeight, weight, usedS
 	if (storageType == "Container") then
 		local ent = Clockwork.storage:GetEntity();
 
-		modelIcon:SetModel(ent:GetModel())
-		sequence = ent:GetSequence(); 
+		if (IsValid(ent)) then
+			modelIcon:SetModel(ent:GetModel())
+			sequence = ent:GetSequence();
+		end;
 	else
 		local player = Clockwork.Client;
-
+		
 		modelIcon:SetModel(player:GetModel());
 		sequence = player:GetSequence();
 	end;
