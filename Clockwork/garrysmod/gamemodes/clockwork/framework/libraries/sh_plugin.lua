@@ -18,17 +18,67 @@ local string = string;
 local table = table;
 local file = file;
 local util = util;
+local debug = debug;
 
 --[[ The plugin library is already defined! --]]
 if (Clockwork.plugin) then return; end;
 
 Clockwork.plugin = Clockwork.kernel:NewLibrary("Plugin");
-Clockwork.plugin.stored = Clockwork.plugin.stored or {};
-Clockwork.plugin.buffer = Clockwork.plugin.buffer or {};
-Clockwork.plugin.modules = Clockwork.plugin.modules or {};
-Clockwork.plugin.unloaded = Clockwork.plugin.unloaded or {};
-Clockwork.plugin.extras = Clockwork.plugin.extras or {};
-Clockwork.plugin.hookCache = Clockwork.plugin.hookCache or {};
+
+--[[
+	We do local variables instead of global ones for performance increase.
+	Most CW libraries use functions to return their tables anyways.
+--]]
+local stored = {};
+local modules = {};
+local unloaded = {};
+local extras = {};
+local hookCache = {};
+
+--[[
+	@codebase Shared
+	@details A function to get the local stored table that contains all registered plugins.
+	@returns Table The local stored plugin table.
+--]]
+function Clockwork.plugin:GetStored()
+	return stored;
+end;
+
+--[[
+	@codebase Shared
+	@details A function to get the local plugin module table that contains all registered plugin modules.
+	@returns Table The local plugin module table.
+--]]
+function Clockwork.plugin:GetModules()
+	return modules;
+end;
+
+--[[
+	@codebase Shared
+	@details A function to get the local unloaded table that contains all unloaded plugins.
+	@returns Table The local stored unloaded plugin table.
+--]]
+function Clockwork.plugin:GetUnloaded()
+	return unloaded;
+end;
+
+--[[
+	@codebase Shared
+	@details A function to get the extras that will be included in each plugin.
+	@returns Table The local table of extras to be searched for in plugins.
+--]]
+function Clockwork.plugin:GetExtras()
+	return extras;
+end;
+
+--[[
+	@codebase Shared
+	@details A function to get the local plugin hook cache.
+	@returns Table The local plugin hook cache table.
+--]]
+function Clockwork.plugin:GetHookCache()
+	return hookCache;
+end;
 
 PLUGIN_META = {__index = PLUGIN_META};
 PLUGIN_META.description = "An undescribed plugin or schema.";
@@ -85,12 +135,12 @@ if (SERVER) then
 		
 		if (plugin and plugin != Schema) then
 			if (isUnloaded) then
-				self.unloaded[plugin.folderName] = true;
+				unloaded[plugin.folderName] = true;
 			else
-				self.unloaded[plugin.folderName] = nil;
+				unloaded[plugin.folderName] = nil;
 			end;
 			
-			Clockwork.kernel:SaveSchemaData("plugins", self.unloaded);
+			Clockwork.kernel:SaveSchemaData("plugins", unloaded);
 			return true;
 		end;
 		
@@ -103,7 +153,7 @@ if (SERVER) then
 			local plugin = self:FindByID(name);
 			
 			if (plugin and plugin != Schema) then
-				for k, v in pairs(self.unloaded) do
+				for k, v in pairs(unloaded) do
 					local unloaded = self:FindByID(k);
 					
 					if (unloaded and unloaded != Schema
@@ -115,7 +165,7 @@ if (SERVER) then
 				end;
 			end;
 		else
-			for k, v in pairs(self.unloaded) do
+			for k, v in pairs(unloaded) do
 				local unloaded = self:FindByID(k);
 				
 				if (unloaded and unloaded != Schema and name != unloaded.folderName) then
@@ -135,10 +185,10 @@ if (SERVER) then
 			local plugin = self:FindByID(name);
 			
 			if (plugin and plugin != Schema) then
-				return (self.unloaded[plugin.folderName] == true);
+				return (unloaded[plugin.folderName] == true);
 			end;
 		else
-			return (self.unloaded[name] == true);
+			return (unloaded[name] == true);
 		end;
 		
 		return false;
@@ -161,7 +211,7 @@ else
 			local plugin = self:FindByID(name);
 			
 			if (plugin and plugin != Schema) then
-				for k, v in pairs(self.unloaded) do
+				for k, v in pairs(unloaded) do
 					local unloaded = self:FindByID(k);
 					
 					if (unloaded and unloaded != Schema
@@ -173,7 +223,7 @@ else
 				end;
 			end;
 		else
-			for k, v in pairs(self.unloaded) do
+			for k, v in pairs(unloaded) do
 				local unloaded = self:FindByID(k);
 				
 				if (unloaded and unloaded != Schema
@@ -198,14 +248,14 @@ else
 					return self.override[plugin.folderName];
 				end;
 				
-				return (self.unloaded[plugin.folderName] == true);
+				return (unloaded[plugin.folderName] == true);
 			end;
 		else
 			if (self.override[name] != nil) then
 				return self.override[name];
 			end;
 			
-			return (self.unloaded[name] == true);
+			return (unloaded[name] == true);
 		end;
 		
 		return false;
@@ -229,7 +279,7 @@ function Clockwork.plugin:Initialize()
 	end;
 
 	if (SERVER) then
-		self.unloaded = Clockwork.kernel:RestoreSchemaData("plugins");
+		unloaded = Clockwork.kernel:RestoreSchemaData("plugins");
 	end;
 	
 	self:SetInitialized(true);
@@ -258,13 +308,12 @@ function Clockwork.plugin:Register(pluginTable)
 	local newBaseDir = Clockwork.kernel:RemoveTextFromEnd(pluginTable.baseDir, "/schema");
 	local files, pluginFolders = cwFile.Find(newBaseDir.."/plugins/*", "LUA", "namedesc");
 
-	self.buffer[pluginTable.folderName] = pluginTable;
-	self.stored[pluginTable.name] = pluginTable;
-	self.stored[pluginTable.name].plugins = {};
+	stored[pluginTable.name] = pluginTable;
+	stored[pluginTable.name].plugins = {};
 	
 	for k, v in pairs(pluginFolders) do
 		if (v != ".." and v != ".") then
-			table.insert(self.stored[pluginTable.name].plugins, v);
+			table.insert(stored[pluginTable.name].plugins, v);
 		end;
 	end;
 	
@@ -305,7 +354,7 @@ end;
 
 -- A function to find a plugin by an ID.
 function Clockwork.plugin:FindByID(identifier)
-	return self.stored[identifier] or self.buffer[identifier];
+	return stored[identifier];
 end;
 
 -- A function to determine whether a plugin's version is higher than the framework's.
@@ -332,10 +381,10 @@ end;
 
 -- A function to include a plugin.
 function Clockwork.plugin:Include(directory, bIsSchema)
-	local schemaFolder = string.lower(Clockwork.kernel:GetSchemaFolder());
+	local schemaFolder = Clockwork.kernel:GetSchemaFolder();
 	local explodeDir = string.Explode("/", directory);
-	local folderName = string.lower(explodeDir[#explodeDir - 1]);
-	local pathCRC = util.CRC(string.lower(directory));
+	local folderName = explodeDir[#explodeDir - 1];
+	local pathCRC = util.CRC(directory);
 	
 	PLUGIN_BASE_DIR = directory;
 	PLUGIN_FOLDERNAME = folderName;
@@ -399,7 +448,7 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 				table.Merge(PLUGIN, iniTable);
 				
 				if (iniTable.isUnloaded) then
-					self.unloaded[PLUGIN_FOLDERNAME] = true;
+					unloaded[PLUGIN_FOLDERNAME] = true;
 				end;
 			else
 				MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
@@ -455,9 +504,9 @@ end;
 -- A function to clear the hook cache for all hooks or a specific one.
 function Clockwork.plugin:ClearHookCache(name)
 	if (!name) then
-		self.hookCache = {};
-	elseif (self.hookCache[name]) then
-		self.hookCache[name] = nil;
+		hookCache = {};
+	elseif (hookCache[name]) then
+		hookCache[name] = nil;
 	else
 	    MsgC(Color(255, 100, 0, 255), "[Clockwork:Plugin] Attempted to clear cache for invalid hook '"..name.."'");
 	end;
@@ -466,25 +515,25 @@ end;
 -- A function to run the plugin hooks.
 function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 	if (not self.sortedModules) then
-		self.sortedModules = self:SortList(self.modules);
+		self.sortedModules = self:SortList(modules);
 	end;
 	
 	if (not self.sortedPlugins) then
-		self.sortedPlugins = self:SortList(self.stored);
+		self.sortedPlugins = self:SortList(stored);
 	end;
 
-	local cache = self.hookCache[name];
+	local cache = hookCache[name];
 	
 	if (not cache) then
 		cache = {};
 		for k, v in ipairs(self.sortedModules) do
-			if (self.modules[v.name] and v[name]) then
+			if (modules[v.name] and v[name]) then
 				table.insert(cache, {v[name], v});
 			end;
 		end;
 
 		for k, v in ipairs(self.sortedPlugins) do
-			if (self.stored[v.name] and Schema != v and v[name]) then
+			if (stored[v.name] and Schema != v and v[name]) then
 				table.insert(cache, {v[name], v});
 			end;
 		end;
@@ -493,7 +542,7 @@ function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 			table.insert(cache, {Schema[name], Schema});
 		end;
 
-		self.hookCache[name] = cache;
+		hookCache[name] = cache;
 	end;
 
 	for k, v in ipairs(cache) do
@@ -524,7 +573,7 @@ end;
 
 -- A function to remove a module by name.
 function Clockwork.plugin:Remove(name)
-	self.modules[name] = nil;
+	modules[name] = nil;
 end;
 
 -- A function to add a table as a module.
@@ -535,7 +584,7 @@ function Clockwork.plugin:Add(name, moduleTable, hookOrder)
 	
 	moduleTable.hookOrder = hookOrder or 0;
 	
-	self.modules[name] = moduleTable;
+	modules[name] = moduleTable;
 end;
 
 -- A function to include a plugin's entities.
@@ -630,14 +679,14 @@ function Clockwork.plugin:IncludePlugins(directory)
 	end;
 	
 	for k, v in pairs(pluginFolders) do
-		self:Include(directory.."/plugins/"..string.lower(v).."/plugin");
+		self:Include(directory.."/plugins/"..v.."/plugin");
 	end;
 end;
 
 -- A function to add an extra folder to include for plugins.
 function Clockwork.plugin:AddExtra(folderName)
-	if (!table.HasValue(self.extras, folderName)) then
-		self.extras[#self.extras + 1] = folderName;
+	if (!table.HasValue(extras, folderName)) then
+		extras[#extras + 1] = folderName;
 	end;
 end;
 
@@ -647,7 +696,7 @@ function Clockwork.plugin:IncludeExtras(directory)
 	self:IncludeWeapons(directory);
 	self:IncludeEntities(directory);
 
-	for k, v in ipairs(self.extras) do
+	for k, v in ipairs(extras) do
 		Clockwork.kernel:IncludeDirectory(directory..v);
 	end;
 end;
@@ -664,10 +713,7 @@ Clockwork.plugin:AddExtra("/commands/");
 Clockwork.plugin:AddExtra("/language/");
 Clockwork.plugin:AddExtra("/config/");
 Clockwork.plugin:AddExtra("/tools/");
-
 Clockwork.plugin:AddExtra("/blueprints/");
 
 --[[ This table will hold the plugin info, if it doesn't already exist. --]]
-if (!CW_SCRIPT_SHARED.plugins) then
-	CW_SCRIPT_SHARED.plugins = {};
-end;
+CW_SCRIPT_SHARED.plugins = CW_SCRIPT_SHARED.plugins or {};

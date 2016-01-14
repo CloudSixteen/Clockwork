@@ -541,99 +541,29 @@ function Clockwork.player:GetWagesName(player)
 	return Clockwork.class:Query(player:Team(), "wagesName", Clockwork.config:Get("wages_name"):Get());
 end;
 
--- A function to get whether a player can see an NPC.
-function Clockwork.player:CanSeeNPC(player, target, iAllowance, tIgnoreEnts)
-	if (player:GetEyeTraceNoCursor().Entity != target) then
-		local trace = {};
-		
-		trace.mask = CONTENTS_SOLID + CONTENTS_MOVEABLE + CONTENTS_OPAQUE + CONTENTS_DEBRIS + CONTENTS_HITBOX + CONTENTS_MONSTER;
-		trace.start = player:GetShootPos();
-		trace.endpos = target:GetShootPos();
-		trace.filter = {player, target};
-		
-		if (tIgnoreEnts) then
-			if (type(tIgnoreEnts) == "table") then
-				table.Add(trace.filter, tIgnoreEnts);
-			else
-				table.Add(trace.filter, ents.GetAll());
-			end;
-		end;
-		
-		trace = util.TraceLine(trace);
-		
-		if (trace.Fraction >= (iAllowance or 0.75)) then
-			return true;
-		end;
-	else
-		return true;
-	end;
-end;
-
--- A function to get whether a player can see a player.
-function Clockwork.player:CanSeePlayer(player, target, iAllowance, tIgnoreEnts)
-	if (player:GetEyeTraceNoCursor().Entity != target
-	and target:GetEyeTraceNoCursor().Entity != player) then
-		local trace = {};
-		
-		trace.mask = CONTENTS_SOLID + CONTENTS_MOVEABLE + CONTENTS_OPAQUE + CONTENTS_DEBRIS + CONTENTS_HITBOX + CONTENTS_MONSTER;
-		trace.start = player:GetShootPos();
-		trace.endpos = target:GetShootPos();
-		trace.filter = {player, target};
-		
-		if (tIgnoreEnts) then
-			if (type(tIgnoreEnts) == "table") then
-				table.Add(trace.filter, tIgnoreEnts);
-			else
-				table.Add(trace.filter, ents.GetAll());
-			end;
-		end;
-		
-		trace = util.TraceLine(trace);
-		
-		if (trace.Fraction >= (iAllowance or 0.75)) then
-			return true;
-		end;
-	else
-		return true;
-	end;
-end;
-
 -- A function to get whether a player can see an entity.
 function Clockwork.player:CanSeeEntity(player, target, iAllowance, tIgnoreEnts)
 	if (player:GetEyeTraceNoCursor().Entity != target) then
-		local trace = {};
-		
-		trace.mask = CONTENTS_SOLID + CONTENTS_MOVEABLE + CONTENTS_OPAQUE + CONTENTS_DEBRIS + CONTENTS_HITBOX + CONTENTS_MONSTER;
-		trace.start = player:GetShootPos();
-		trace.endpos = target:LocalToWorld(target:OBBCenter());
-		trace.filter = {player, target};
-		
-		if (tIgnoreEnts) then
-			if (type(tIgnoreEnts) == "table") then
-				table.Add(trace.filter, tIgnoreEnts);
-			else
-				table.Add(trace.filter, ents.GetAll());
-			end;
-		end;
-		
-		trace = util.TraceLine(trace);
-		
-		if (trace.Fraction >= (iAllowance or 0.75)) then
-			return true;
-		end;
+		return self:CanSeePosition(player, target:LocalToWorld(target:OBBCenter()), iAllowance, tIgnoreEnts, target);
 	else
 		return true;
 	end;
 end;
 
+--[[
+	Duplicate functions, keeping them like this for backward compatiblity.
+--]]
+Clockwork.player.CanSeePlayer = Clockwork.player.CanSeeEntity;
+Clockwork.player.CanSeeNPC = Clockwork.player.CanSeeEntity;
+
 -- A function to get whether a player can see a position.
-function Clockwork.player:CanSeePosition(player, position, iAllowance, tIgnoreEnts)
+function Clockwork.player:CanSeePosition(player, position, iAllowance, tIgnoreEnts, targetEnt)
 	local trace = {};
 	
 	trace.mask = CONTENTS_SOLID + CONTENTS_MOVEABLE + CONTENTS_OPAQUE + CONTENTS_DEBRIS + CONTENTS_HITBOX + CONTENTS_MONSTER;
 	trace.start = player:GetShootPos();
 	trace.endpos = position;
-	trace.filter = {player};
+	trace.filter = {player, targetEnt};
 	
 	if (tIgnoreEnts) then
 		if (type(tIgnoreEnts) == "table") then
@@ -1183,6 +1113,8 @@ function Clockwork.player:GivePlayerFlags(player, flags)
 		
 		if (!string.find(player:GetPlayerFlags(), flag)) then
 			player:SetData("Flags", player:GetPlayerFlags()..flag, true);
+
+			Clockwork.plugin:Call("PlayerFlagsGiven", player, flag);
 		end;
 	end;
 end;
@@ -1396,6 +1328,8 @@ function Clockwork.player:TakePlayerFlags(player, flags)
 		
 		if (string.find(player:GetPlayerFlags(), flag)) then
 			player:SetData("Flags", string.gsub(player:GetFlags(), flag, ""), true);
+
+			Clockwork.plugin:Call("PlayerFlagsTaken", player, flag);
 		end;
 	end;
 end;

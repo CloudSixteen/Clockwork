@@ -562,7 +562,7 @@ function Clockwork:CalcMainActivity(player, velocity)
 	local model = player:GetModel();
 	
 	if (stringFind(model, "/player/")) then
-		return cwBaseClass:CalcMainActivity(player, velocity);
+		return self.BaseClass:CalcMainActivity(player, velocity);
 	end;
 	
 	ANIMATION_PLAYER = player;

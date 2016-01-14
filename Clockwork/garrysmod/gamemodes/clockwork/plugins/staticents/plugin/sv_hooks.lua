@@ -17,3 +17,57 @@ function cwStaticEnts:PostSaveData()
 		self:SaveStaticEnts();
 	end;
 end;
+
+-- Called when a player's usergroup has been set.
+function cwStaticEnts:OnPlayerUserGroupSet(player, usergroup)
+	local groupCheck = {
+		owner = true,
+		superadmin = true,
+		admin = true,
+		operator = true
+	};
+
+	if (groupCheck[string.lower(usergroup)]) then
+		local staticEnts = {};
+
+		for k, v in ipairs(cwStaticEnts.staticEnts) do
+			if (IsValid(v) and v:IsValid()) then
+				table.insert(staticEnts, v);
+			end;
+		end;
+
+		Clockwork.datastream:Start(player, "StaticESPSync", staticEnts);
+	end;
+end;
+
+function cwStaticEnts:PostPlayerSpawn(player, lightSpawn, changeClass, firstSpawn)
+	if (player:IsAdmin()) then
+		local staticEnts = {};
+
+		for k, v in ipairs(cwStaticEnts.staticEnts) do
+			if (IsValid(v) and v:IsValid()) then
+				table.insert(staticEnts, v);
+			end;
+		end;
+
+		Clockwork.datastream:Start(player, "StaticESPSync", staticEnts);
+	end;
+end;
+
+function cwStaticEnts:PlayerSpawnedProp(player, model, ent)
+	if (self:GetStaticMode()) then		
+		self:SaveEntity(ent);
+	end;
+end;
+
+function cwStaticEnts:PlayerSpawnedSENT(player, ent)
+	if (self:GetStaticMode()) then			
+		self:SaveEntity(ent);
+	end;
+end;
+
+function cwStaticEnts:PlayerSpawnedRagdoll(player, model, ent)
+	if (self:GetStaticMode()) then		
+		self:SaveEntity(ent);
+	end;
+end;

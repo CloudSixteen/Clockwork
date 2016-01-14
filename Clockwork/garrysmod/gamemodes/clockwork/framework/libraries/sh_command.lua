@@ -17,7 +17,7 @@ local hook = hook;
 
 Clockwork.command = Clockwork.kernel:NewLibrary("Command");
 Clockwork.command.stored = Clockwork.command.stored or {};
-Clockwork.command.hidden = Clockwork.command.hidden or {};
+local hidden = {};
 
 CMD_KNOCKEDOUT = 2;
 CMD_FALLENOVER = 4;
@@ -38,6 +38,11 @@ function CLASS_TABLE:Register()
 	return Clockwork.command:Register(self, self.name);
 end;
 
+-- A function to get all stored commands.
+function Clockwork.command:GetAll()
+	return self.stored;
+end;
+
 -- A function to get a new command.
 function Clockwork.command:New(name)
 	local object = Clockwork.kernel:NewMetaTable(CLASS_TABLE);
@@ -45,25 +50,30 @@ function Clockwork.command:New(name)
 	return object;
 end;
 
+-- A function to remove a command.
+function Clockwork.command:RemoveByID(identifier)
+	self.stored[string.lower(string.gsub(identifier, "%s", ""))] = nil;
+end;
+
 -- A function to set whether a command is hidden.
-function Clockwork.command:SetHidden(name, hidden)
+function Clockwork.command:SetHidden(name, bHidden)
 	local uniqueID = string.lower(string.gsub(name, "%s", ""));
 
-	if (!hidden and self.hidden[uniqueID]) then
-		self.stored[uniqueID] = self.hidden[uniqueID];
-		self.hidden[uniqueID] = nil;
+	if (!bHidden and hidden[uniqueID]) then
+		self.stored[uniqueID] = hidden[uniqueID];
+		hidden[uniqueID] = nil;
 	elseif (hidden and self.stored[uniqueID]) then
-		self.hidden[uniqueID] = self.stored[uniqueID];
+		hidden[uniqueID] = self.stored[uniqueID];
 		self.stored[uniqueID] = nil;
 	end;
 
 	if (SERVER) then
 		Clockwork.datastream:Start(nil, "HideCommand", {
-			index = Clockwork.kernel:GetShortCRC(uniqueID), hidden = hidden
+			index = Clockwork.kernel:GetShortCRC(uniqueID), hidden = bHidden
 		});
-	elseif (hidden and self.hidden[uniqueID]) then
-		self:RemoveHelp(self.hidden[uniqueID]);
-	elseif (!hidden and self.stored[uniqueID]) then
+	elseif (bHidden and hidden[uniqueID]) then
+		self:RemoveHelp(hidden[uniqueID]);
+	elseif (!bHidden and self.stored[uniqueID]) then
 		self:AddHelp(self.stored[uniqueID]);
 	end;
 end;
@@ -200,7 +210,7 @@ if (SERVER) then
 	hook.Add("PlayerInitialSpawn", "Clockwork.command:PlayerInitialSpawn", function(player)
 		local hiddenCommands = {};
 
-		for k, v in pairs(Clockwork.command.hidden) do
+		for k, v in pairs(hidden) do
 			hiddenCommands[#hiddenCommands + 1] = Clockwork.kernel:GetShortCRC(k);
 		end;
 

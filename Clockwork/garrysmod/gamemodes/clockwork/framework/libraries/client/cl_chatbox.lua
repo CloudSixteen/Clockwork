@@ -34,10 +34,13 @@ Clockwork.chatBox = Clockwork.kernel:NewLibrary("ChatBox");
 	Clockwork.chatBox.classes = Clockwork.chatBox.classes or {};
 	Clockwork.chatBox.defaultClasses = Clockwork.chatBox.defaultClasses or {}
 	Clockwork.chatBox.messages = Clockwork.chatBox.messages or {};
-	Clockwork.chatBox.historyPos = 0;
+	Clockwork.chatBox.historyPos = Clockwork.chatBox.historyPos or 0;
 	Clockwork.chatBox.historyMsgs = Clockwork.chatBox.historyMsgs or {};
 	Clockwork.chatBox.spaceWidths = Clockwork.chatBox.spaceWidths or {};
-chat.ClockworkAddText = chat.AddText;
+
+if (!chat.ClockworkAddText) then
+	chat.ClockworkAddText = chat.AddText;
+end;
 
 -- A function to add text to the chat box.
 function chat.AddText(...)
@@ -75,6 +78,20 @@ function Clockwork.chatBox:RegisterDefaultClass(class, filter, Callback)
 		Callback = Callback,
 		filter = filter
 	};
+end;
+
+-- A function to get all the registered types of text, returns default ones or not based on bool argument.
+function Clockwork.chatBox:GetClasses(bDefault)
+	if (bDefault) then
+		return self.defaultClasses;
+	else
+		return self.classes;
+	end;
+end;
+
+-- A function to get a chatbox class by identifier to modify.
+function Clockwork.chatBox:FindByID(id)
+	return self:GetClasses()[id] or self:GetClasses(true)[id];
 end;
 
 -- A function to set the chat box's custom position.
@@ -432,13 +449,12 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 		filter = self.classes[class].filter;
 	elseif (self.defaultClasses[class]) then
 		filter = self.defaultClasses[class].filter;
-	elseif (class == "pm" or class == "ooc"	or class == "roll"
-		or class == "looc" or class == "priv") then
-		filtered = (CW_CONVAR_SHOWOOC:GetInt() == 0);
-		filter = "ooc";
-	else
+	end;
+
+	if (filter == "ic") then
 		filtered = (CW_CONVAR_SHOWIC:GetInt() == 0);
-		filter = "ic";
+	else
+		filtered = (CW_CONVAR_SHOWOOC:GetInt() == 0);
 	end;
 	
 	text = Clockwork.kernel:Replace(text, " ' ", "'");
@@ -447,8 +463,6 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 		if (!Clockwork.kernel:IsChoosingCharacter()) then
 			if (speaker:Name() != "") then
 				local unrecognised = false;
-				local classIndex = speaker:Team();
-				local classColor = cwTeam.GetColor(classIndex);
 				local focusedOn = false;
 				
 				icon = speaker:GetChatIcon();
@@ -505,135 +519,7 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 					if (self.classes[info.class]) then
 						self.classes[info.class].Callback(info);
 					elseif (self.defaultClasses[info.class]) then
-						self.defaultClasses[info.class].Callback(info);
-						
-					elseif (info.class == "radio_eavesdrop") then
-						if (info.shouldHear) then
-							local color = Color(255, 255, 175, 255);
-							
-							if (info.focusedOn) then
-								color = Color(175, 255, 175, 255);
-							end;
-							
-							Clockwork.chatBox:Add(info.filtered, nil, color, info.name.." radios in \""..info.text.."\"");
-						end;
-					elseif (info.class == "whisper") then
-						if (info.shouldHear) then
-							local color = Color(255, 255, 175, 255);
-							
-							if (info.focusedOn) then
-								color = Color(175, 255, 175, 255);
-							end;
-							
-							Clockwork.chatBox:Add(info.filtered, nil, color, info.name.." whispers \""..info.text.."\"");
-						end;
-					elseif (info.class == "event") then
-						Clockwork.chatBox:Add(info.filtered, nil, Color(200, 100, 50, 255), info.text);
-					elseif (info.class == "localevent") then
-						Clockwork.chatBox:Add(info.filtered, nil, Color(200, 100, 50, 255), "(LOCAL) "..info.text);
-					elseif (info.class == "radio") then
-						Clockwork.chatBox:Add(info.filtered, nil, Color(75, 150, 50, 255), info.name.." radios in \""..info.text.."\"");
-					elseif (info.class == "yell") then
-						local color = Color(255, 255, 175, 255);
-						
-						if (info.focusedOn) then
-							color = Color(175, 255, 175, 255);
-						end;
-						Clockwork.chatBox:Add(info.filtered, nil, color, info.name.." yells \""..info.text.."\"");
-					elseif (info.class == "chat") then
-						Clockwork.chatBox:Add(info.filtered, nil, classColor, info.name, ": ", info.text, nil, info.filtered);
-					elseif (info.class == "looc") then
-						if (Clockwork.config:Get("enable_looc_icons"):Get()) then
-							Clockwork.chatBox:Add(info.filtered, info.icon, Color(225, 50, 50, 255), "[LOOC] ", Color(255, 255, 150, 255), info.name..": "..info.text);
-						else
-							Clockwork.chatBox:Add(info.filtered, nil, Color(225, 50, 50, 255), "[LOOC] ", Color(255, 255, 150, 255), info.name..": "..info.text);
-						end;
-					elseif (info.class == "priv") then
-						Clockwork.chatBox:Add(info.filtered, nil, Color(255, 200, 50, 255), "@"..info.data.userGroup.." ", classColor, info.name, ": ", info.text);
-					elseif (info.class == "roll") then
-						if (info.shouldHear) then
-							Clockwork.chatBox:Add(info.filtered, nil, Color(150, 75, 75, 255), "** "..info.name.." "..info.text);
-						end;
-					elseif (info.class == "ooc") then
-						Clockwork.chatBox:Add(info.filtered, info.icon, Color(225, 50, 50, 255), "[OOC] ", classColor, info.name, ": ", info.text);
-					elseif (info.class == "pm") then
-						Clockwork.chatBox:Add(info.filtered, nil, "[PM] ", Color(125, 150, 75, 255), info.name..": "..info.text);
-						surface.PlaySound("hl1/fvox/bell.wav");
-					elseif (info.class == "me") then
-						local color = Color(255, 255, 175, 255);
-						
-						if (info.focusedOn) then
-							color = Color(175, 255, 175, 255);
-						end;
-						
-						if (string.utf8sub(info.text, 1, 1) == "'") then
-							Clockwork.chatBox:Add(info.filtered, nil, color, "*** "..info.name..info.text);
-						else
-							Clockwork.chatBox:Add(info.filtered, nil, color, "*** "..info.name.." "..info.text);
-						end;
-					elseif (info.class == "mec") then
-						local color;
-						if (!info.focusedOn) then
-							color = Color(255, 255, 150, 255);
-						else
-							color = Color(175, 255, 175, 255);
-						end;
-						
-						if (string.utf8sub(info.text, 1, 1) == "'") then
-							Clockwork.chatBox:Add(info.filtered, nil, color, "* "..info.name..info.text);
-						else
-							Clockwork.chatBox:Add(info.filtered, nil, color, "* "..info.name.." "..info.text);
-						end;
-					elseif (info.class == "mel") then
-						local color;
-						if (!info.focusedOn) then
-							color = Color(255, 255, 150, 255);
-						else
-							color = Color(175, 255, 175, 255);
-						end;
-						
-						if (string.utf8sub(info.text, 1, 1) == "'") then
-							Clockwork.chatBox:Add(info.filtered, nil, color, "***** "..info.name..info.text);
-						else
-							Clockwork.chatBox:Add(info.filtered, nil, color, "***** "..info.name.." "..info.text);
-						end;
-
-					elseif (info.class == "it") then
-						local color = Color(255, 255, 175, 255);
-						
-						if (info.focusedOn) then
-							color = Color(175, 255, 175, 255);
-						end;
-						
-						Clockwork.chatBox:Add(info.filtered, nil, color, "***' "..info.text);
-					elseif (info.class == "itc") then
-						local color;
-						if (!info.focusedOn) then
-							color = Color(255, 255, 150, 255);
-						else
-							color = Color(175, 255, 175, 255);
-						end;
-						
-						Clockwork.chatBox:Add(info.filtered, nil, color, "*' "..info.text);
-					elseif (info.class == "itl") then
-						local color;
-						if (!info.focusedOn) then
-							color = Color(255, 255, 150, 255);
-						else
-							color = Color(175, 255, 175, 255);
-						end;
-						
-						Clockwork.chatBox:Add(info.filtered, nil, color, "*****' "..info.text);
-					elseif (info.class == "ic") then
-						if (info.shouldHear) then
-							local color = Color(255, 255, 150, 255);
-							
-							if (info.focusedOn) then
-								color = Color(175, 255, 150, 255);
-							end;
-							
-							Clockwork.chatBox:Add(info.filtered, nil, color, info.name.." says \""..info.text.."\"");
-						end;
+						self.defaultClasses[info.class].Callback(info);					
 					end;
 				end;
 			end;
@@ -663,53 +549,10 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 		if (self.classes[info.class]) then
 			self.classes[info.class].Callback(info);
 		elseif (self.defaultClasses[info.class]) then
-			self.defaultClasses[info.class].Callback(info);
-
-		elseif (info.class == "notify_all") then
-			if (Clockwork.kernel:GetNoticePanel()) then
-				Clockwork.kernel:AddCinematicText(info.text, Color(255, 255, 255, 255), 32, 6, Clockwork.option:GetFont("menu_text_tiny"), true);
-			end;
-
-			local filtered = (CW_CONVAR_SHOWAURA:GetInt() == 0) or info.filtered;
-			local icon = info.data.icon or "comment";
-			local color = Color(125, 150, 175, 255);
-
-			if (string.utf8sub(info.text, -1) == "!") then
-				icon = info.data.icon or "error";
-				color = Color(200, 175, 200, 255);
-			end;
-
-			Clockwork.chatBox:Add(filtered, "icon16/"..icon..".png", color, info.text);
-		elseif (info.class == "disconnect") then
-			local filtered = (CW_CONVAR_SHOWAURA:GetInt() == 0) or info.filtered;
-			
-			Clockwork.chatBox:Add(filtered, "icon16/user_delete.png", Color(200, 150, 200, 255), info.text);
-		elseif (info.class == "notify") then
-			if (Clockwork.kernel:GetNoticePanel()) then
-				Clockwork.kernel:AddCinematicText(info.text, Color(255, 255, 255, 255), 32, 6, Clockwork.option:GetFont("menu_text_tiny"), true);
-			end;
-			
-			local filtered = (CW_CONVAR_SHOWAURA:GetInt() == 0) or info.filtered;
-			local icon = info.data.icon or "comment";
-			local color = Color(175, 200, 255, 255);
-
-			if (string.utf8sub(info.text, -1) == "!") then
-				icon = info.data.icon or "error";
-				color = Color(200, 175, 200, 255);
-			end;
-
-			Clockwork.chatBox:Add(filtered, "icon16/"..icon..".png", color, info.text);
-		elseif (info.class == "connect") then
-			local filtered = (CW_CONVAR_SHOWAURA:GetInt() == 0) or info.filtered;
-			Clockwork.chatBox:Add(filtered, "icon16/user_add.png", Color(150, 150, 200, 255), info.text);
-		elseif (info.class == "chat") then
-			Clockwork.chatBox:Add(info.filtered, info.icon, Color(225, 50, 50, 255), "[OOC] ", Color(150, 150, 150, 255), name, ": ", info.text);
+			self.defaultClasses[info.class].Callback(info);		
 		else
 			local yellowColor = Color(255, 255, 150, 255);
-			local blueColor = Color(125, 150, 175, 255);
-			local redColor = Color(200, 25, 25, 255);
 			local filtered = (CW_CONVAR_SHOWSERVER:GetInt() == 0) or info.filtered;
-			local prefix;
 			
 			Clockwork.chatBox:Add(filtered, nil, yellowColor, info.text);
 		end;
@@ -895,7 +738,7 @@ function Clockwork.chatBox:Paint()
 		local prefix = Clockwork.config:Get("command_prefix"):Get();
 		
 		if (command and command != "") then
-			for k, v in pairs(Clockwork.command.stored) do
+			for k, v in pairs(Clockwork.command:GetAll()) do
 				if (string.utf8sub(k, 1, string.utf8len(command)) == string.lower(command)
 				and (!splitTable[2] or string.lower(command) == k)) then
 					if (Clockwork.player:HasFlags(Clockwork.Client, v.access)) then
@@ -1101,6 +944,228 @@ function Clockwork.chatBox:Add(filtered, icon, ...)
 		Clockwork.kernel:PrintColoredText(...);
 	end;
 end;
+
+Clockwork.chatBox:RegisterDefaultClass("ic", "ic", function(info)
+	if (info.shouldHear) then
+		local color = Color(255, 255, 150, 255);
+							
+		if (info.focusedOn) then
+			color = Color(175, 255, 150, 255);
+		end;
+							
+		Clockwork.chatBox:Add(info.filtered, nil, color, info.name.." says \""..info.text.."\"");
+	end;
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("me", "ic", function(info)
+	local color = Color(255, 255, 175, 255);
+						
+	if (info.focusedOn) then
+		color = Color(175, 255, 175, 255);
+	end;
+						
+	if (string.utf8sub(info.text, 1, 1) == "'") then
+		Clockwork.chatBox:Add(info.filtered, nil, color, "*** "..info.name..info.text);
+	else
+		Clockwork.chatBox:Add(info.filtered, nil, color, "*** "..info.name.." "..info.text);
+	end;
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("mec", "ic", function(info)
+	local color = Color(255, 255, 150, 255);
+
+	if (info.focusedOn) then
+		color = Color(175, 255, 175, 255);
+	end;
+						
+	if (string.utf8sub(info.text, 1, 1) == "'") then
+		Clockwork.chatBox:Add(info.filtered, nil, color, "* "..info.name..info.text);
+	else
+		Clockwork.chatBox:Add(info.filtered, nil, color, "* "..info.name.." "..info.text);
+	end;
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("mel", "ic", function(info)
+	local color = Color(255, 255, 150, 255);
+
+	if (info.focusedOn) then
+		color = Color(175, 255, 175, 255);
+	end;
+						
+	if (string.utf8sub(info.text, 1, 1) == "'") then
+		Clockwork.chatBox:Add(info.filtered, nil, color, "***** "..info.name..info.text);
+	else
+		Clockwork.chatBox:Add(info.filtered, nil, color, "***** "..info.name.." "..info.text);
+	end;
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("it", "ic", function(info)
+	local color = Color(255, 255, 175, 255);
+						
+	if (info.focusedOn) then
+		color = Color(175, 255, 175, 255);
+	end;
+						
+	Clockwork.chatBox:Add(info.filtered, nil, color, "***' "..info.text);
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("itl", "ic", function(info)
+	local color = Color(255, 255, 150, 255);
+
+	if (info.focusedOn) then
+		color = Color(175, 255, 175, 255);
+	end;
+						
+	Clockwork.chatBox:Add(info.filtered, nil, color, "*' "..info.text);
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("itl", "ic", function(info)
+	local color = Color(255, 255, 150, 255);
+
+	if (info.focusedOn) then
+		color = Color(175, 255, 175, 255);
+	end;
+						
+	Clockwork.chatBox:Add(info.filtered, nil, color, "*****' "..info.text);
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("yell", "ic", function(info)
+	local color = Color(255, 255, 175, 255);
+					
+	if (info.focusedOn) then
+		color = Color(175, 255, 175, 255);
+	end;
+
+	Clockwork.chatBox:Add(info.filtered, nil, color, info.name.." yells \""..info.text.."\"");
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("whisper", "ic", function(info)
+	if (info.shouldHear) then
+		local color = Color(255, 255, 175, 255);
+							
+		if (info.focusedOn) then
+			color = Color(175, 255, 175, 255);
+		end;
+							
+		Clockwork.chatBox:Add(info.filtered, nil, color, info.name.." whispers \""..info.text.."\"");
+	end;
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("radio", "ic", function(info)
+	Clockwork.chatBox:Add(info.filtered, nil, Color(75, 150, 50, 255), info.name.." radios in \""..info.text.."\"");
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("radio_eavesdrop", "ic", function(info)
+	if (info.shouldHear) then
+		local color = Color(255, 255, 175, 255);
+							
+		if (info.focusedOn) then
+			color = Color(175, 255, 175, 255);
+		end;
+						
+		Clockwork.chatBox:Add(info.filtered, nil, color, info.name.." radios in \""..info.text.."\"");
+	end;
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("localevent", "ic", function(info)
+	Clockwork.chatBox:Add(info.filtered, nil, Color(200, 100, 50, 255), "(LOCAL) "..info.text);
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("event", "ic", function(info)		
+	Clockwork.chatBox:Add(info.filtered, nil, Color(200, 100, 50, 255), info.text);
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("looc", "ooc", function(info)
+	if (!Clockwork.config:Get("enable_looc_icons"):Get()) then
+		info.icon = nil;
+	end;
+
+	Clockwork.chatBox:Add(info.filtered, info.icon, Color(225, 50, 50, 255), "[LOOC] ", Color(255, 255, 150, 255), info.name..": "..info.text);
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("priv", "ooc", function(info)
+	local classIndex = info.speaker:Team();
+	local classColor = cwTeam.GetColor(classIndex);
+
+	Clockwork.chatBox:Add(info.filtered, nil, Color(255, 200, 50, 255), "@"..info.data.userGroup.." ", classColor, info.name, ": ", info.text);
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("roll", "ooc", function(info)
+	if (info.shouldHear) then
+		Clockwork.chatBox:Add(info.filtered, nil, Color(150, 75, 75, 255), "** "..info.name.." "..info.text);
+	end;
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("ooc", "ooc", function(info)
+	local classIndex = info.speaker:Team();
+	local classColor = cwTeam.GetColor(classIndex);
+
+	Clockwork.chatBox:Add(info.filtered, info.icon, Color(225, 50, 50, 255), "[OOC] ", classColor, info.name, ": ", info.text);
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("pm", "ooc", function(info)
+	Clockwork.chatBox:Add(info.filtered, nil, "[PM] ", Color(125, 150, 75, 255), info.name..": "..info.text);
+	surface.PlaySound("hl1/fvox/bell.wav");
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("disconnect", "ooc", function(info)
+	local filtered = (CW_CONVAR_SHOWAURA:GetInt() == 0) or info.filtered;
+			
+	Clockwork.chatBox:Add(filtered, "icon16/user_delete.png", Color(200, 150, 200, 255), info.text);
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("notify_all", "ooc", function(info)
+	if (Clockwork.kernel:GetNoticePanel()) then
+		Clockwork.kernel:AddCinematicText(info.text, Color(255, 255, 255, 255), 32, 6, Clockwork.option:GetFont("menu_text_tiny"), true);
+	end;
+
+	local filtered = (CW_CONVAR_SHOWAURA:GetInt() == 0) or info.filtered;
+	local icon = info.data.icon or "comment";
+	local color = Color(125, 150, 175, 255);
+
+	if (string.utf8sub(info.text, -1) == "!") then
+		icon = info.data.icon or "error";
+		color = Color(200, 175, 200, 255);
+	end;
+
+	Clockwork.chatBox:Add(filtered, "icon16/"..icon..".png", color, info.text);
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("notify", "ooc", function(info)
+	if (Clockwork.kernel:GetNoticePanel()) then
+		Clockwork.kernel:AddCinematicText(info.text, Color(255, 255, 255, 255), 32, 6, Clockwork.option:GetFont("menu_text_tiny"), true);
+	end;
+			
+	local filtered = (CW_CONVAR_SHOWAURA:GetInt() == 0) or info.filtered;
+	local icon = info.data.icon or "comment";
+	local color = Color(175, 200, 255, 255);
+
+	if (string.utf8sub(info.text, -1) == "!") then
+		icon = info.data.icon or "error";
+		color = Color(200, 175, 200, 255);
+	end;
+
+	Clockwork.chatBox:Add(filtered, "icon16/"..icon..".png", color, info.text);
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("connect", "ooc", function(info)
+	local filtered = (CW_CONVAR_SHOWAURA:GetInt() == 0) or info.filtered;
+
+	Clockwork.chatBox:Add(filtered, "icon16/user_add.png", Color(150, 150, 200, 255), info.text);
+end);
+
+Clockwork.chatBox:RegisterDefaultClass("chat", "ooc", function(info)
+	local speaker = info.speaker;
+
+	if (speaker) then
+		local classIndex = speaker:Team();
+		local classColor = cwTeam.GetColor(classIndex);
+
+		Clockwork.chatBox:Add(info.filtered, nil, classColor, info.name, ": ", info.text, nil, info.filtered);
+	else
+		Clockwork.chatBox:Add(info.filtered, info.icon, Color(225, 50, 50, 255), "[OOC] ", Color(150, 150, 150, 255), name, ": ", info.text);
+	end;	
+end);
 
 hook.Add("PlayerBindPress", "Clockwork.chatBox:PlayerBindPress", function(player, bind, bPress)
 	if ((string.find(bind, "messagemode") or string.find(bind, "messagemode2")) and bPress) then

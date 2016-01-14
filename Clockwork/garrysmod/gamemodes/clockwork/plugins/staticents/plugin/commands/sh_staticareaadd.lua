@@ -41,7 +41,7 @@ function COMMAND:OnRun(player, arguments)
 		end;
 
 		if (staticCount > 0) then
-			cwStaticEnts:SaveStaticEnts();
+			cwStaticEnts:SaveEntity(nil);
 		end;
 
 		Clockwork.player:Notify(player, "You have staticed "..staticCount.." entities within "..radius.." units around you.");

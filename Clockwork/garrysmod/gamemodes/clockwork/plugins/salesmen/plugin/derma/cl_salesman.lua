@@ -135,6 +135,8 @@ function PANEL:Init()
 	self.doneBusinessText = self.responsesForm:TextEntry("When the player is done doing trading.");
 	self.doneBusinessSound = self.responsesForm:TextEntry("The sound to play for the above phrase.");
 	self.doneBusinessHideName = self.responsesForm:CheckBox("Hide the salesman's name for the above phrase.")
+
+	Clockwork.salesman.text.start = Clockwork.salesman.text.start or {};
 	
 	self.startText:SetValue(Clockwork.salesman.text.start.text or "How can I help you today?");
 	self.startSound:SetValue(Clockwork.salesman.text.start.sound or "");

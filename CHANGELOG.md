@@ -2,6 +2,54 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.95
+-------
+
+* Optimized cl_kernel by localizing global tables.
+	* *Contributed by NightAngel.*
+* Added config to enable/disable smooth sprint.
+	* *Contributed by NightAngel.*
+* Fixed typo in crafting menu that caused tab menu to not open.
+	* *Contributed by NightAngel.*
+* Added check that stops some errors with the storage from occurring.
+	* *Contributed by NightAngel.*
+* Removed changelog from directory menu.
+	* *Contributed by NightAngel.*
+* Arranged default chatbox classes into an array, and added GetClasses(boolean Default) function to Clockwork.chatBox.
+	* *Contributed by NightAngel.*
+* Modified similar Clockwork.player:CanSee[X] functions to run off of CanSeeEntity, which in turn runs off of CanSeePosition.
+	* *Contributed by NightAngel.*
+* Localized hidden table for Clockwork.command, and added Clockwork.command:GetAll().
+	* *Contributed by NightAngel.*
+* Localized global plugin library arrays, and changed to no longer force lowercase directories for including plugins.
+	* *Contributed by NightAngel.*
+* Fixed typo with player models to bypass Clockwork animations (temp work around).
+	* *Contributed by NightAngel.*
+* Changed joining and leaving logs to include IP addresses as well as SteamIDs.
+	* *Contributed by NightAngel.*
+* Fixed look recognise and organized recognise options.
+	* *Contributed by NightAngel.*
+* Added a hook that is called after a player's usergroup is set 'OnPlayerUserGroupSet'.
+	* *Contributed by NightAngel.*
+* Fixed displaytyping to display proper type of talking the player is doing, also fixed the display not working on ragdolls or when a head bone isn't found.
+	* *Contributed by NightAngel.*
+* Fixed problem with editing salesmen that were made before the update to salesmen.
+	* *Contributed by NightAngel.*
+* Optimized StaticESP to sync only on spawn as admin, usergroup being set to admin, or when an entity is staticed and you're an admin.
+	* *Contributed by NightAngel.*
+* Changed StaticESP to get info from an entity clientside, instead of networking pre-gathered info serverside (now syncs entity IDs instead).
+	* *Contributed by NightAngel.*
+* Added SaveEntity() function to StaticEnts plugin and made all saving commands/functions use it, adds entity to staticEnt table to be saved.
+	* *Contributed by NightAngel.*
+* Added command 'StaticModeToggle', when used it will toggle StaticMode, this will automatically save all whitelisted entities/props/ragdolls when ANY player spawns them.
+	* *Contributed by NightAngel.*
+* Added 'StaticWhitelist[X]' commands for management of the static whitelist ingame (which entities can be staticed).
+	* *Contributed by NightAngel.*
+* Moved 'CanEntityStatic' to serverside, since it is only called serverside anyways and requires serverside functions now.
+	* *Contributed by NightAngel.*
+* Updated hands and keys SWEPs to new hands model and changed hands SWEP to play viewmodel animations.
+	* *Contributed by Zigalishous.*
+
 0.94.8
 -------
 

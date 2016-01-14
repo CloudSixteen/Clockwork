@@ -27,36 +27,28 @@ local classTranslate = {
 
 -- Called when the ESP info is needed.
 function cwStaticEnts:GetAdminESPInfo(info)
-	local info = info;
-
 	if (self.staticEnts) then
 		if (CW_CONVAR_STATICESP:GetInt() == 1) then
 			for k, v in ipairs(self.staticEnts) do
-				local class = classTranslate[v.class] or v.class;
+				if (IsValid(v) and v:IsValid()) then
+					local class = v:GetClass();
+					
+					if (class != "worldspawn") then
+						local translatedClass = classTranslate[class] or class;
 
-				table.insert(info,{
-					position = v.pos + Vector(0, 0, 32),
-					color = Color(0, 210, 255, 255),
-					text = "[Static "..class.."]"
-				});
+						table.insert(info,{
+							position = v:GetPos() + Vector(0, 0, 32),
+							color = Color(0, 210, 255, 255),
+							text = "[Static "..translatedClass.."]"
+						});
+					end;
+				end;
 			end;
 		end;
 	end;
 end;
 
--- Called every tick.
-function cwStaticEnts:Tick()
-	local curTime = CurTime();
-
-	if (Clockwork.Client.HasInitialized and Clockwork.Client:HasInitialized()) then
-		if (Clockwork.plugin:Call("PlayerCanSeeAdminESP") and CW_CONVAR_STATICESP:GetInt() == 1) then
-			if (!self.nextSync or curTime >= self.nextSync) then
-				Clockwork.datastream:Request("staticESPSync", nil, function(data)
-					cwStaticEnts.staticEnts = data;
-				end);
-
-				self.nextSync = curTime + 2;
-			end;
-		end;
-	end;
-end;
+-- Called to sync up the ESP data from the server.
+Clockwork.datastream:Hook("StaticESPSync", function(data)
+	cwStaticEnts.staticEnts = data;
+end)
