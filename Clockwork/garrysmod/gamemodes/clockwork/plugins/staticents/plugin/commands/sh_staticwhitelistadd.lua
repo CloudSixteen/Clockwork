@@ -11,6 +11,7 @@ COMMAND.tip = "Add a class of entity to the static whitelist so it can be static
 COMMAND.text = "<string Class>";
 COMMAND.access = "a";
 COMMAND.arguments = 1;
+COMMAND.alias = {"SWAdd"};
 
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)	
