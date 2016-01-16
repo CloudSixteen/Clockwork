@@ -2,6 +2,20 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.95.1
+-------
+
+* Added command aliases, which can be used to shorten longer commands while still keeping the original commands present.
+	* *Contributed by Mr. Meow.*
+* Fixed chatbox to display commands properly after one letter is typed.
+	* *Contributed by NightAngel.*
+* Added SpawnPointESP which includes info_player_start point entities, made minor optimization to staticESP.
+	* *Contributed by NightAngel.*
+* Fixed errors occuring with manage_plugins system menu.
+	* *Contributed by NightAngel.*
+* Fixed DisplayTyping plugin not drawing properly due to a minor mistake and optimized it further.
+	* *Contributed by NightAngel.*
+
 0.95
 -------
 

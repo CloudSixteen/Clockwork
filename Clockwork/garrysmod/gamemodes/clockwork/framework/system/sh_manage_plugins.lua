@@ -36,7 +36,7 @@ if (CLIENT) then
 		local categories = {};
 		local mainPlugins = {};
 		
-		for k, v in pairs(Clockwork.plugin.stored) do
+		for k, v in pairs(Clockwork.plugin:GetStored()) do
 			if (v != Schema) then
 				categories[v.author] = categories[v.author] or {};
 				categories[v.author][#categories[v.author] + 1] = v;
@@ -139,7 +139,7 @@ if (CLIENT) then
 		local systemTable = Clockwork.system:FindByID("Manage Plugins");
 		local unloaded = data;
 		
-		for k, v in pairs(Clockwork.plugin.stored) do
+		for k, v in pairs(Clockwork.plugin:GetStored()) do
 			if (unloaded[v.folderName]) then
 				Clockwork.plugin:SetUnloaded(v.name, true);
 			else
@@ -166,7 +166,7 @@ if (CLIENT) then
 	end);
 else
 	Clockwork.datastream:Hook("SystemPluginGet", function(player, data)
-		Clockwork.datastream:Start(player, "SystemPluginGet", Clockwork.plugin.unloaded);
+		Clockwork.datastream:Start(player, "SystemPluginGet", Clockwork.plugin:GetUnloaded());
 	end);
 	
 	Clockwork.datastream:Hook("SystemPluginSet", function(player, data)

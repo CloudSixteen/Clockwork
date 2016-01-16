@@ -11,6 +11,7 @@ COMMAND.tip = "Remove a class of entity from the static whitelist.";
 COMMAND.text = "<string Class>";
 COMMAND.access = "a";
 COMMAND.arguments = 1;
+COMMAND.alias = {"SWRemove"};
 
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)	

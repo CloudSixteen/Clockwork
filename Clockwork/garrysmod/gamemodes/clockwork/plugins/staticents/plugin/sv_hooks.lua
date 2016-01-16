@@ -18,15 +18,15 @@ function cwStaticEnts:PostSaveData()
 	end;
 end;
 
+local groupCheck = {
+	owner = true,
+	superadmin = true,
+	admin = true,
+	operator = true
+};
+
 -- Called when a player's usergroup has been set.
 function cwStaticEnts:OnPlayerUserGroupSet(player, usergroup)
-	local groupCheck = {
-		owner = true,
-		superadmin = true,
-		admin = true,
-		operator = true
-	};
-
 	if (groupCheck[string.lower(usergroup)]) then
 		local staticEnts = {};
 

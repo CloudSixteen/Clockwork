@@ -65,5 +65,23 @@ function cwSpawnPoints:PlayerSpawn(player)
 				end;
 			end;
 		end;
+
+		if (player:IsAdmin()) then
+			Clockwork.datastream:Start(player, "SpawnPointESPSync", self:GetSpawnPoints());
+		end;
+	end;
+end;
+
+local groupCheck = {
+	owner = true,
+	superadmin = true,
+	admin = true,
+	operator = true
+};
+
+-- Called when a player's usergroup has been set.
+function cwSpawnPoints:OnPlayerUserGroupSet(player, usergroup)
+	if (groupCheck[string.lower(usergroup)]) then
+		Clockwork.datastream:Start(player, "SpawnPointESPSync", self:GetSpawnPoints());
 	end;
 end;

@@ -9,6 +9,7 @@
 local COMMAND = Clockwork.command:New("StaticWhitelistView");
 COMMAND.tip = "View the static whitelist.";
 COMMAND.access = "a";
+COMMAND.alias = {"SWView"};
 
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)

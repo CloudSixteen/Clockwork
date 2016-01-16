@@ -18,6 +18,7 @@ local hook = hook;
 Clockwork.command = Clockwork.kernel:NewLibrary("Command");
 Clockwork.command.stored = Clockwork.command.stored or {};
 local hidden = {};
+local alias = {};
 
 CMD_KNOCKEDOUT = 2;
 CMD_FALLENOVER = 4;
@@ -89,6 +90,16 @@ function Clockwork.command:Register(data, name)
 		end;
 	end;
 
+	-- We do that so the Command Interpreter can find the command
+ 	-- if it's original, non-aliased name has been used.
+ 	alias[uniqueID] = uniqueID;
+ 
+ 	if (data.alias and type(data.alias) == "table") then
+ 		for k, v in pairs(data.alias) do
+ 			alias[string.lower(tostring(v))] = uniqueID;
+ 		end;
+ 	end;
+
 	self.stored[uniqueID] = data;
 	self.stored[uniqueID].name = realName;
 	self.stored[uniqueID].text = data.text or "<none>";
@@ -108,12 +119,29 @@ function Clockwork.command:FindByID(identifier)
 	return self.stored[string.lower(string.gsub(identifier, "%s", ""))];
 end;
 
+--[[
+ 	@codebase Shared
+ 	@details Returns command's table by alias or unique id.
+	@param ID Identifier of the command to find. Can be alias or original command name.
+--]]
+function Clockwork.command:FindByAlias(id)
+	return self.stored[alias[id]] or nil;
+end;
+ 
+--[[
+	@codebase Shared
+	@details Returns table of all comamnd alias indexed by alias' names.
+--]]
+function Clockwork.command:GetAlias()
+	return alias;
+end;
+
 if (SERVER) then
 	function Clockwork.command:ConsoleCommand(player, command, arguments)
 		if (player:HasInitialized()) then
 			if (arguments and arguments[1]) then
 				local realCommand = string.lower(arguments[1]);
-				local commandTable = self.stored[realCommand];
+				local commandTable = self:FindByAlias(realCommand);
 				local commandPrefix = Clockwork.config:Get("command_prefix"):Get();
 
 				if (commandTable) then
@@ -188,10 +216,10 @@ if (SERVER) then
 						end;
 					end;
 				elseif (!Clockwork.player:GetDeathCode(player, true)) then
-					Clockwork.player:Notify(player, "This is not a valid command!");
+					Clockwork.player:Notify(player, "This is not a valid command or alias!");
 				end;
 			elseif (!Clockwork.player:GetDeathCode(player, true)) then
-				Clockwork.player:Notify(player, "This is not a valid command!");
+				Clockwork.player:Notify(player, "This is not a valid command or alias!");
 			end;
 
 			if (Clockwork.player:GetDeathCode(player)) then

@@ -62,6 +62,26 @@ function cwSpawnPoints:SaveSpawnPoints()
 			};
 		end;
 	end;
+
+	for k, player in pairs(_player.GetAll()) do
+		if (player:IsAdmin()) then
+			Clockwork.datastream:Start(player, "SpawnPointESPSync", self:GetSpawnPoints());
+		end;
+	end;
 	
 	Clockwork.kernel:SaveSchemaData("plugins/spawnpoints/"..game.GetMap(), spawnPoints);
+end;
+
+-- A function to get the CW spawnpoints and combine them with source spawnpoints for syncing.
+function cwSpawnPoints:GetSpawnPoints()
+	local spawnPoints = table.Copy(self.spawnPoints);
+
+	for k, v in pairs(ents.FindByClass("info_player_start")) do
+		spawnPoints["Source Spawnpoint"] = spawnPoints["Source Spawnpoint"] or {};
+		spawnPoints["Source Spawnpoint"][#spawnPoints["Source Spawnpoint"] + 1] = {
+			position = v:GetPos()
+		};
+	end;
+
+	return spawnPoints;
 end;
