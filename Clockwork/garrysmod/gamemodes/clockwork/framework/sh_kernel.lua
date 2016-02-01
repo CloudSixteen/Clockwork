@@ -310,6 +310,19 @@ function Clockwork.kernel:SplitString(text, interval)
 	return baseTable;
 end;
 
+— A function to determine if a table contains the specified value.
+function Clockwork.kernel:TableContains(tablename, item)
+	if IsValid(tablename) then
+		for i,v in ipairs(tablename) do
+			if v == item then
+				return true;
+			end;
+		end;
+	else
+		return nil;
+	end;
+end;
+
 -- A function to get whether a letter is a vowel.
 function Clockwork.kernel:IsVowel(letter)
 	letter = string.lower(letter);
