@@ -8,9 +8,7 @@
 
 -- Called when the local player should be drawn.
 function cwEmoteAnims:ShouldDrawLocalPlayer()
-	if (self:IsPlayerInStance(Clockwork.Client)) then
-		return true;
-	end;
+	return self:IsPlayerInStance(Clockwork.Client);
 end;
 
 -- Called when a player's animation is updated.

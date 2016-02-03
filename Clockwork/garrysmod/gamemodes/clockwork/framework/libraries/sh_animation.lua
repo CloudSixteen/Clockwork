@@ -144,7 +144,12 @@ Clockwork.animation.stored.combineOverwatch = {
 	["smg_reload"] = ACT_GESTURE_RELOAD,
 	["stand_run"] = ACT_RUN_RIFLE,
 	["jump"] = ACT_GLIDE,
-	["sit"] = ACT_COVER_LOW
+	["sit"] = ACT_COVER_LOW,
+	["hands"] = {
+		body = 0000000,
+		model = "models/weapons/c_arms_combine.mdl",
+		skin = 0
+	}
 };
 
 Clockwork.animation.stored.civilProtection = {
@@ -233,7 +238,12 @@ Clockwork.animation.stored.civilProtection = {
 	["smg_reload"] = ACT_GESTURE_RELOAD_SMG1,
 	["stand_run"] = ACT_RUN,
 	["jump"] = ACT_GLIDE,
-	["sit"] = ACT_COVER_PISTOL_LOW
+	["sit"] = ACT_COVER_PISTOL_LOW,
+	["hands"] = {
+		body = 0000000,
+		model = "models/weapons/c_arms_combine.mdl",
+		skin = 0
+	}
 };
 
 Clockwork.animation.stored.femaleHuman = {
@@ -414,6 +424,95 @@ Clockwork.animation.stored.maleHuman = {
 	["sit"] = ACT_BUSY_SIT_CHAIR
 };
 
+Clockwork.animation.stored.zombie = {
+	["crouch_grenade_aim_idle"] = ACT_COVER_LOW,
+	["crouch_grenade_aim_walk"] = ACT_WALK,
+	["stand_grenade_aim_idle"] = ACT_IDLE,
+	["crouch_pistol_aim_idle"] = ACT_RANGE_ATTACK_PISTOL_LOW,
+	["stand_grenade_aim_walk"] = ACT_WALK,
+	["crouch_pistol_aim_walk"] = ACT_WALK,
+	["crouch_heavy_aim_idle"] = ACT_RANGE_AIM_SMG1_LOW,
+	["crouch_blunt_aim_idle"] = ACT_COWER,
+	["stand_grenade_aim_run"] = ACT_RUN,
+	["crouch_blunt_aim_walk"] = ACT_WALK,
+	["crouch_heavy_aim_walk"] = ACT_WALK,
+	["stand_pistol_aim_walk"] = ACT_WALK,
+	["stand_pistol_aim_idle"] = ACT_RANGE_ATTACK_PISTOL,
+	["crouch_fist_aim_walk"] = ACT_WALK,
+	["crouch_slam_aim_walk"] = ACT_WALK,
+	["stand_pistol_aim_run"] = ACT_RUN_AIM_RIFLE_STIMULATED,
+	["crouch_fist_aim_idle"] = ACT_RANGE_AIM_SMG1_LOW,
+	["stand_heavy_aim_idle"] = ACT_IDLE_ANGRY_RPG,
+	["stand_blunt_aim_idle"] = ACT_IDLE_MANNEDGUN,
+	["crouch_slam_aim_idle"] = ACT_COVER_LOW_RPG,
+	["stand_blunt_aim_walk"] = ACT_WALK,
+	["stand_heavy_aim_walk"] = ACT_WALK,
+	["stand_fist_aim_idle"] = ACT_RANGE_ATTACK_SMG1,
+	["crouch_smg_aim_walk"] = ACT_WALK,
+	["crouch_smg_aim_idle"] = ACT_RANGE_AIM_SMG1_LOW,
+	["stand_fist_aim_walk"] = ACT_WALK,
+	["stand_blunt_aim_run"] = ACT_RUN,
+	["stand_heavy_aim_run"] = ACT_RUN_AIM_RIFLE_STIMULATED,
+	["crouch_grenade_walk"] = ACT_WALK,
+	["crouch_grenade_idle"] = ACT_COVER_LOW,
+	["stand_slam_aim_idle"] = ACT_IDLE_PACKAGE,
+	["stand_slam_aim_walk"] = ACT_WALK,
+	["stand_slam_aim_run"] = ACT_RUN_RPG,
+	["stand_smg_aim_idle"] = ACT_RANGE_ATTACK_SMG1,
+	["stand_smg_aim_walk"] = ACT_WALK,
+	["stand_fist_aim_run"] = ACT_RUN_AIM_RIFLE_STIMULATED,
+	["crouch_pistol_idle"] = ACT_COVER_LOW,
+	["stand_grenade_walk"] = ACT_WALK,
+	["crouch_pistol_walk"] = ACT_WALK,
+	["stand_grenade_idle"] = ACT_IDLE,
+	["stand_grenade_run"] = ACT_RUN,
+	["crouch_blunt_idle"] = ACT_COVER_LOW,
+	["stand_pistol_walk"] = ACT_WALK,
+	["crouch_blunt_walk"] = ACT_WALK,
+	["crouch_heavy_walk"] = ACT_WALK,
+	["stand_pistol_idle"] = ACT_IDLE,
+	["crouch_heavy_idle"] = ACT_COVER_LOW_RPG,
+	["stand_smg_aim_run"] = ACT_RUN_AIM_RIFLE_STIMULATED,
+	["stand_heavy_walk"] = ACT_WALK,
+	["stand_blunt_walk"] = ACT_WALK,
+	["stand_blunt_idle"] = ACT_IDLE,
+	["crouch_fist_idle"] = ACT_COVER_LOW,
+	["crouch_fist_walk"] = ACT_WALK,
+	["crouch_slam_idle"] = ACT_COVER,
+	["stand_pistol_run"] = ACT_RUN,
+	["stand_heavy_idle"] = ACT_IDLE_SHOTGUN_AGITATED,
+	["crouch_slam_walk"] = ACT_WALK,
+	["stand_heavy_run"] = ACT_RUN_RPG_RELAXED,
+	["stand_slam_idle"] = ACT_IDLE_SUITCASE,
+	["stand_fist_walk"] = ACT_WALK,
+	["stand_slam_walk"] = ACT_WALK,
+	["stand_blunt_run"] = ACT_RUN,
+	["crouch_smg_walk"] = ACT_WALK,
+	["crouch_smg_idle"] = ACT_COVER_LOW_RPG,
+	["stand_fist_idle"] = ACT_IDLE,
+	["stand_slam_run"] = ACT_RUN,
+	["grenade_attack"] = ACT_RANGE_ATTACK_THROW,
+	["stand_smg_idle"] = ACT_IDLE_RPG,
+	["stand_fist_run"] = ACT_RUN,
+	["stand_smg_walk"] = ACT_WALK,
+	["pistol_attack"] = ACT_GESTURE_RANGE_ATTACK_SMG1,
+	["stand_smg_run"] = ACT_RUN_RPG_RELAXED,
+	["pistol_reload"] = ACT_GESTURE_RELOAD_SMG1,
+	["heavy_reload"] = ACT_GESTURE_RELOAD_SMG1,
+	["heavy_attack"] = ACT_GESTURE_RANGE_ATTACK_AR2,
+	["blunt_attack"] = ACT_MELEE_ATTACK_SWING,
+	["crouch_idle"] = ACT_COVER_LOW,
+	["crouch_walk"] = ACT_WALK,
+	["slam_attack"] = ACT_PICKUP_GROUND,
+	["stand_idle"] = ACT_IDLE,
+	["stand_walk"] = ACT_WALK,
+	["smg_attack"] = ACT_GESTURE_RANGE_ATTACK_SMG1,
+	["smg_reload"] = ACT_GESTURE_RELOAD_SMG1,
+	["stand_run"] = ACT_RUN,
+	["jump"] = ACT_GLIDE,
+	["sit"] = ACT_BUSY_SIT_CHAIR
+};
+
 Clockwork.animation.stored.vortigaunt = {
 	["crouch_grenade_aim_idle"] = "CrouchIdle",
 	["crouch_grenade_aim_walk"] = ACT_WALK,
@@ -492,6 +591,95 @@ Clockwork.animation.stored.vortigaunt = {
 	["stand_run"] = ACT_RUN,
 	["jump"] = ACT_BARNACLE_CHOMP,
 	["sit"] = "chess_wait"
+};
+
+Clockwork.animation.stored.player = {
+	["crouch_grenade_aim_idle"] = "cidle_grenade",
+	["crouch_grenade_aim_walk"] = "cwalk_grenade",
+	["stand_grenade_aim_idle"] = "idle_grenade",
+	["crouch_pistol_aim_idle"] = "cidle_revolver",
+	["stand_grenade_aim_walk"] = "walk_grenade",
+	["crouch_pistol_aim_walk"] = "cwalk_revolver",
+	["crouch_heavy_aim_idle"] = ACT_RANGE_AIM_SMG1_LOW,
+	["crouch_blunt_aim_idle"] = "cidle_melee",
+	["stand_grenade_aim_run"] = "run_grenade",
+	["crouch_blunt_aim_walk"] = "cwalk_melee",
+	["crouch_heavy_aim_walk"] = ACT_WALK,
+	["stand_pistol_aim_walk"] = "walk_revolver",
+	["stand_pistol_aim_idle"] = "idle_revolver",
+	["crouch_fist_aim_walk"] = "cwalk_fist",
+	["crouch_slam_aim_walk"] = "cwalk_slam",
+	["stand_pistol_aim_run"] = "run_revolver",
+	["crouch_fist_aim_idle"] = "cidle_fist",
+	["stand_heavy_aim_idle"] = ACT_IDLE_ANGRY_RPG,
+	["stand_blunt_aim_idle"] = "idle_melee",
+	["crouch_slam_aim_idle"] = "cidle_slam",
+	["stand_blunt_aim_walk"] = "walk_melee",
+	["stand_heavy_aim_walk"] = ACT_WALK,
+	["stand_fist_aim_idle"] = "idle_fist",
+	["crouch_smg_aim_walk"] = "cwalk_smg1",
+	["crouch_smg_aim_idle"] = "cidle_smg1",
+	["stand_fist_aim_walk"] = "walk_fist",
+	["stand_blunt_aim_run"] = "run_melee",
+	["stand_heavy_aim_run"] = ACT_RUN_AIM_RIFLE_STIMULATED,
+	["crouch_grenade_walk"] = "cwalk_all",
+	["crouch_grenade_idle"] = "cidle_all",
+	["stand_slam_aim_idle"] = "idle_slam",
+	["stand_slam_aim_walk"] = "walk_slam",
+	["stand_slam_aim_run"] = "run_slam",
+	["stand_smg_aim_idle"] = "idle_smg1",
+	["stand_smg_aim_walk"] = "walk_smg1",
+	["stand_fist_aim_run"] = ACT_MP_RUN,
+	["crouch_pistol_idle"] = ACT_MP_CROUCH_IDLE,
+	["stand_grenade_walk"] = ACT_MP_WALK,
+	["crouch_pistol_walk"] = ACT_MP_CROUCHWALK,
+	["stand_grenade_idle"] = ACT_MP_STAND_IDLE,
+	["stand_grenade_run"] = ACT_MP_RUN,
+	["crouch_blunt_idle"] = ACT_MP_CROUCH_IDLE,
+	["stand_pistol_walk"] = ACT_MP_WALK,
+	["crouch_blunt_walk"] = "cwalk_all",
+	["crouch_heavy_walk"] = ACT_WALK,
+	["stand_pistol_idle"] = ACT_MP_STAND_IDLE,
+	["crouch_heavy_idle"] = ACT_COVER_LOW_RPG,
+	["stand_smg_aim_run"] = "run_smg1",
+	["stand_heavy_walk"] = ACT_WALK,
+	["stand_blunt_walk"] = ACT_MP_WALK,
+	["stand_blunt_idle"] = ACT_MP_STAND_IDLE,
+	["crouch_fist_idle"] = ACT_MP_CROUCH_IDLE,
+	["crouch_fist_walk"] = "cwalk_all",
+	["crouch_slam_idle"] = ACT_MP_CROUCH_IDLE,
+	["stand_pistol_run"] = ACT_MP_RUN,
+	["stand_heavy_idle"] = ACT_IDLE_SHOTGUN_AGITATED,
+	["crouch_slam_walk"] = "cwalk_all",
+	["stand_heavy_run"] = ACT_RUN_RPG_RELAXED,
+	["stand_slam_idle"] = ACT_MP_STAND_IDLE,
+	["stand_fist_walk"] = ACT_MP_WALK,
+	["stand_slam_walk"] = ACT_MP_WALK,
+	["stand_blunt_run"] = ACT_MP_RUN,
+	["crouch_smg_walk"] = "cwalk_all",
+	["crouch_smg_idle"] = ACT_MP_CROUCH_IDLE,
+	["stand_fist_idle"] = ACT_MP_STAND_IDLE,
+	["stand_slam_run"] = ACT_MP_RUN,
+	["grenade_attack"] = ACT_RANGE_ATTACK_THROW,
+	["stand_smg_idle"] = "idle_passive",
+	["stand_fist_run"] = ACT_MP_RUN,
+	["stand_smg_walk"] = "walk_passive",
+	["pistol_attack"] = ACT_GESTURE_RANGE_ATTACK_PISTOL,
+	["stand_smg_run"] = "run_passive",
+	["pistol_reload"] = ACT_GESTURE_RELOAD_PISTOL,
+	["heavy_reload"] = ACT_GESTURE_RELOAD_SMG1,
+	["heavy_attack"] = ACT_GESTURE_RANGE_ATTACK_AR2,
+	["blunt_attack"] = ACT_MELEE_ATTACK_SWING,
+	["crouch_idle"] = ACT_COVER_LOW,
+	["crouch_walk"] = ACT_WALK,
+	["slam_attack"] = ACT_PICKUP_GROUND,
+	["stand_idle"] = ACT_MP_STAND_IDLE,
+	["stand_walk"] = ACT_WALK,
+	["smg_attack"] = ACT_GESTURE_RANGE_ATTACK_SMG1,
+	["smg_reload"] = ACT_GESTURE_RELOAD_SMG1,
+	["stand_run"] = ACT_MP_RUN,
+	["jump"] = ACT_MP_JUMP,
+	["sit"] = ACT_BUSY_SIT_CHAIR
 };
 
 -- A function to set a model's menu sequence.
@@ -625,12 +813,129 @@ function Clockwork.animation:GetTable(model)
 	
 	if (class and self.stored[class]) then
 		return self.stored[class];
+	elseif (string.find(lowerModel, "/player/")) then
+		return self.stored.player;
 	elseif (string.find(lowerModel, "female")) then
 		return self.stored.femaleHuman;
 	else
 		return self.stored.maleHuman;
 	end;
 end;
+
+local handsModels = {};
+local blackModels = {};
+
+-- A function to add viewmodel c_arms info to a model.
+function Clockwork.animation:AddHandsModel(model, hands)
+	handsModels[string.lower(model)] = hands;
+end;
+
+-- A function to make a model use the black skin for hands viewmodels.
+function Clockwork.animation:AddBlackModel(model)
+	blackModels[model] = true;
+end;
+
+-- A function to make a model use the zombie skin for citizen hands.
+function Clockwork.animation:AddZombieHands(model)
+	self:AddHandsModel(model, {
+		body = 0000000,
+		model = "models/weapons/c_arms_citizen.mdl",
+		skin = 2
+	});
+end;
+
+-- A function to make a model use the HL2 HEV viewmodel hands.
+function Clockwork.animation:AddHEVHands(model)
+	self:AddHandsModel(model, {
+		body = 0000000,
+		model = "models/weapons/c_arms_hev.mdl",
+		skin = 0
+	});
+end;
+
+-- A function to make a model use the combine viewmodel hands.
+function Clockwork.animation:AddCombineHands(model)
+	self:AddHandsModel(model, {
+		body = 0000000,
+		model = "models/weapons/c_arms_combine.mdl",
+		skin = 0
+	});
+end;
+
+-- A function to make a model use the CSS viewmodel hands.
+function Clockwork.animation:AddCSSHands(model)
+	self:AddHandsModel(model, {
+		body = 0000000,
+		model = "models/weapons/c_arms_cstrike.mdl",
+		skin = 0
+	});
+end;
+
+-- A function to make a model use the refugee viewmodel hands.
+function Clockwork.animation:AddRefugeeHands(model)
+	self:AddHandsModel(model, {
+		body = 11,
+		model = "models/weapons/c_arms_refugee.mdl",
+		skin = 0
+	});
+end;
+
+-- a function to make a model use the refugee viewmodel hands with a zombie skin.
+function Clockwork.animation:AddZombieRefugeeHands(model)
+	self:AddHandsModel(model, {
+		body = 0000000,
+		model = "models/weapons/c_arms_refugee.mdl",
+		skin = 2
+	});
+end;
+
+-- A function to check for stored hands info by model.
+function Clockwork.animation:CheckHands(model, animTable)
+	local info = animTable.hands or {
+		body = 0000000,
+		model = "models/weapons/c_arms_citizen.mdl",
+		skin = 0
+	};
+
+	for k, v in pairs(handsModels) do
+		if (string.find(model, k)) then
+			info = v;
+
+			break;
+		end;
+	end;
+
+	self:AdjustHandsInfo(model, info);
+
+	return info;
+end;
+
+-- A function to adjust the hands info with checks for if a model is set to use the black skin.
+function Clockwork.animation:AdjustHandsInfo(model, info)
+	for k, v in pairs(blackModels) do
+		if (string.find(model, k)) then
+			info.skin = 1;
+		end;
+	end;
+
+	Clockwork.plugin:Call("AdjustCModelHandsInfo", model, info);
+end;
+
+-- A function to get the c_model hands based on model.
+function Clockwork.animation:GetHandsInfo(model)
+	local animTable = self:GetTable(model);
+
+	return self:CheckHands(string.lower(model), animTable);
+end;
+
+Clockwork.animation:AddBlackModel("/male_01.mdl");
+Clockwork.animation:AddBlackModel("/male_03.mdl");
+Clockwork.animation:AddBlackModel("/female_03.mdl");
+
+Clockwork.animation:AddRefugeeHands("/group03/");
+Clockwork.animation:AddRefugeeHands("/group03m/");
+
+Clockwork.animation:AddZombieRefugeeHands("/Zombie/");
 
 Clockwork.animation:AddVortigauntModel("models/vortigaunt.mdl");
 Clockwork.animation:AddVortigauntModel("models/vortigaunt_slave.mdl");
@@ -641,65 +946,3 @@ Clockwork.animation:AddCombineOverwatchModel("models/combine_super_soldier.mdl")
 Clockwork.animation:AddCombineOverwatchModel("models/combine_soldier.mdl");
 
 Clockwork.animation:AddCivilProtectionModel("models/police.mdl");
-
-Clockwork.animation:AddFemaleHumanModel("models/humans/group01/female_01.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group01/female_02.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group01/female_03.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group01/female_04.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group01/female_06.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group01/female_07.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group02/female_01.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group02/female_02.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group02/female_03.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group02/female_04.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group02/female_06.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group02/female_07.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group03/female_01.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group03/female_02.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group03/female_03.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group03/female_04.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group03/female_06.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group03/female_07.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group03m/female_01.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group03m/female_02.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group03m/female_03.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group03m/female_04.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group03m/female_06.mdl");
-Clockwork.animation:AddFemaleHumanModel("models/humans/group03m/female_07.mdl");
-  
-Clockwork.animation:AddMaleHumanModel("models/humans/group01/male_01.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group01/male_02.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group01/male_03.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group01/male_04.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group01/male_05.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group01/male_06.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group01/male_07.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group01/male_08.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group01/male_09.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group02/male_01.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group02/male_02.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group02/male_03.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group02/male_04.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group02/male_05.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group02/male_06.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group02/male_07.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group02/male_08.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group02/male_09.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group03/male_01.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group03/male_02.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group03/male_03.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group03/male_04.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group03/male_05.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group03/male_06.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group03/male_07.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group03/male_08.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group03/male_09.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group03m/male_01.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group03m/male_02.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group03m/male_03.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group03m/male_04.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group03m/male_05.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group03m/male_06.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group03m/male_07.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group03m/male_08.mdl");
-Clockwork.animation:AddMaleHumanModel("models/humans/group03m/male_09.mdl");

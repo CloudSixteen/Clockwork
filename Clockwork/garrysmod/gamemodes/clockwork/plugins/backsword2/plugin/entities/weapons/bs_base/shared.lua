@@ -1,9 +1,13 @@
 --[[
-	© 2011 CloudSixteen.com do not share, re-distribute or modify
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
 	http://cloudsixteen.com/license/clockwork.html
+--]]
+
+--[[
+	This is an updated and supported version of Backsword I'll be updating from now on with Kurozael's permission.
 --]]
 
 if (SERVER) then
@@ -15,11 +19,15 @@ end;
 
 if (CLIENT) then
 	SWEP.DrawAmmo = true; -- Draw our own ammo display?
-	SWEP.IconLetter = "a"; -- The icon letter of the font.
+	SWEP.IconLetter = "SMG"; -- The icon letter of the font.
 	SWEP.DrawCrosshair = false; -- Draw the crosshair, or draw our own?
 	SWEP.ViewModelFOV = 82;
 	SWEP.ViewModelFlip = true; -- Some view models are incorrectly flipped.
 	SWEP.CSMuzzleFlashes = true; -- Use Counter-Strike muzzle flashes?
+	SWEP.PrintName			= "SMG"			
+	SWEP.Slot				= 2
+	SWEP.SlotPos			= 1
+	SWEP.IconLetter			= "SMG"
 	
 	--[[ The font used for the killicons. --]]
 	surface.CreateFont("CSKillIcons", 
@@ -41,10 +49,10 @@ if (CLIENT) then
 end;
 
 --[[ Basic SWEP information to display to the client. --]]
-SWEP.Author	= "kurozael"
-SWEP.Contact = "kurozael@gmail.com"
-SWEP.Purpose = "A weapon base designed for use with Clockwork."
-SWEP.Instructions = "Derive from this base when creating a weapon."
+SWEP.Author	= ""
+SWEP.Contact = ""
+SWEP.Purpose = ""
+SWEP.Instructions = ""
 
 --[[ Set whether the SWEP is spawnable (by users or by admins). --]]
 SWEP.Spawnable = false;
@@ -76,6 +84,14 @@ SWEP.BulletForce = 30;
 --[[ Set up the ironsight's position and angles. --]]
 SWEP.IronSightsPos = nil;
 SWEP.IronSightsAng = nil;
+
+--[[Set up the accuracy for the weapon. --]]
+SWEP.CrouchCone				= 0.01 -- Accuracy when we're crouching
+SWEP.CrouchWalkCone			= 0.02 -- Accuracy when we're crouching and walking
+SWEP.WalkCone				= 0.025 -- Accuracy when we're walking
+SWEP.AirCone				= 0.1 -- Accuracy when we're in air
+SWEP.StandCone				= 0.015 -- Accuracy when we're standing still
+SWEP.IronSightsCone			= 0.006 -- Accuracy when we're aiming
 
 --[[
 	AR2, AlyxGun, Pistol, SMG1, 357, XBowBolt, Buckshot,
@@ -118,7 +134,7 @@ function SWEP:Initialize()
 		self:SetNPCMinBurst(30);
 		self:SetNPCMaxBurst(30);
 		self:SetNPCFireRate(0.01);
-	end
+	end;
 	
 	self:SetWeaponHoldType(self.HoldType);
 	
@@ -139,10 +155,17 @@ end;
 
 -- Called when when the SWEP is being reloaded.
 function SWEP:Reload()
+
+	if self.Owner:KeyDown(IN_ATTACK) then return end;
+	if( self.Owner:GetAmmoCount( self.Primary.Ammo ) <= 0 || self.Weapon:Clip1() >= self.Primary.ClipSize)	then return end;
 	if (!self.OnReload or self:OnReload() != true) then
 		self.Weapon:DefaultReload(ACT_VM_RELOAD);
 		self:SetIronSights(false);
-	end
+		
+	if (self.ReloadSound) then 
+		self.Weapon:EmitSound(self.Primary.Reload)
+		end;
+	end;
 end;
 
 -- Called every frame.
@@ -150,22 +173,26 @@ function SWEP:Think()
 	if (self.OnThink) then
 		self:OnThink();
 	end;
-end
+end;
+
+function SWEP:Deploy()
+	self:SendWeaponAnim( ACT_VM_DRAW )
+		self:SetNextPrimaryFire( CurTime() + self:SequenceDuration() )
+	return true
+end;
 
 -- Called when the SWEP's primary attack is fired.
 function SWEP:PrimaryAttack()
 	self.Weapon:SetNextSecondaryFire(CurTime() + self.Primary.Delay);
 	self.Weapon:SetNextPrimaryFire(CurTime() + self.Primary.Delay);
 	
-	if (!self:CanPrimaryAttack()) then return; end;
+	if (!self:CanPrimaryAttack()) then return; end; 
 	
 	self.Weapon:EmitSound(self.Primary.Sound);
 	
-	--[[ Fire the bullet(s) and take some ammo as a consequence. --]]
 	self:HandleBullets(self.Primary.Damage, self.Primary.Recoil, self.Primary.NumShots, self.Primary.Cone);
 	self:TakePrimaryAmmo(1);
 	
-	--[[ NPCs don't require a view punch, that's just silly! --]]
 	if (self.Owner:IsNPC()) then return; end;
 	
 	self.Owner:ViewPunch(
@@ -288,4 +315,28 @@ function SWEP:SetIronSights(bEnabled)
 	if (self.OnIronSightsChanged) then
 		self.OnIronSightsChanged(bEnabled);
 	end;
+end;
+
+-- A function for spreading.
+function SWEP:SpreadSystem()
+
+	if self.Owner:OnGround() and (self.Owner:KeyDown(IN_FORWARD) or self.Owner:KeyDown(IN_BACK) or self.Owner:KeyDown(IN_MOVERIGHT) or self.Owner:KeyDown(IN_MOVELEFT)) then
+		if self.Owner:KeyDown(IN_DUCK) then
+			self.Primary.Cone = self.CrouchWalkCone
+		elseif self.Owner:KeyDown(IN_SPEED) then
+		self.Primary.Cone = self.AirCone
+		else
+			self.Primary.Cone = self.WalkCone
+		end;
+	elseif self.Owner:OnGround() and self.Owner:KeyDown(IN_DUCK) then
+		self.Primary.Cone = self.CrouchCone
+	elseif not self.Owner:OnGround() then
+		self.Primary.Cone = self.AirCone
+	else
+			self.Primary.Cone = self.StandCone
+	end;
+	end;
+
+function SWEP:Think()
+	self:SpreadSystem();
 end;

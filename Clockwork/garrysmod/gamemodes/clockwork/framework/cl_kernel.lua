@@ -676,6 +676,13 @@ function Clockwork:ClockworkConfigInitialized(key, value)
 	end;
 end;
 
+local checkTable = {
+	["cwTextColorR"] = true,
+	["cwTextColorG"] = true,
+	["cwTextColorB"] = true,
+	["cwTextColorA"] = true
+}
+
 --[[
 	@codebase Client
 	@details Called when one of the client's console variables have been changed.
@@ -684,13 +691,6 @@ end;
 	@param String The new value of the convar.
 --]]
 function Clockwork:ClockworkConVarChanged(name, previousValue, newValue)
-	local checkTable = {
-		["cwTextColorR"] = true,
-		["cwTextColorG"] = true,
-		["cwTextColorB"] = true,
-		["cwTextColorA"] = true
-	}
-
 	if (checkTable[name] and not Clockwork.theme:IsFixed()) then
 		cwOption:SetColor(
 			"information",
@@ -880,6 +880,8 @@ function Clockwork:Initialize()
 	CW_CONVAR_BACKH = cwKernel:CreateClientConVar("cwBackH", 109, true, true);
 	CW_CONVAR_SHOWMATERIAL = cwKernel:CreateClientConVar("cwShowMaterial", 0, true, true);
 	CW_CONVAR_SHOWGRADIENT = cwKernel:CreateClientConVar("cwShowGradient", 0, true, true);
+
+	CW_CONVAR_ENTITYMENU = cwKernel:CreateClientConVar("cwEntityMenuType", 0, true, true);
 	
 	if (!cwChatBox.panel) then
 		cwChatBox:CreateDermaAll();
@@ -1190,15 +1192,40 @@ function Clockwork:CalcView(player, origin, angles, fov)
 	return view;
 end;
 
-local WEAPON_LOWERED_ANGLES = Angle(30, -30, -25)
+local WEAPON_LOWERED_ANGLES = Angle(30, -30, -25);
+local WEAPON_LOWERED_ORIGIN = Vector(0, 0, 0);
+local DEFAULT_IRONSIGHTS_ORIGIN = Vector(-3.481, -8.242, 1.039);
+local WEAPON_IRONSIGHTS = {
+	weapon_pistol = {
+		angles = Vector(0.493, -1.31, 2),
+		origin = Vector(-5.841, -8.643, 2.939)
+	},
+	weapon_ar2 = {
+		angles = Vector(0, 0, 0),
+		origin = Vector(-3.481, -8.242, 1.039)
+	},
+	weapon_smg1 = {
+		angles = Vector(1.208, 0, 0),
+		origin = Vector(-6.422, -5.85, 0.8)
+	},
+	weapon_357 = {
+		angles = Vector(0, -0.25, 1),
+		origin = Vector(-4.7, -2, 0.65)
+	},
+	weapon_shotgun = {
+		angles = Vector(0, 0, 0),
+		origin = Vector(-8.961, -6.633, 4.239)
+	}
+};
 
 function Clockwork:CalcViewModelView(weapon, viewModel, oldEyePos, oldEyeAngles, eyePos, eyeAngles)
 	if (!IsValid(weapon)) then return; end;
 
-	local weaponRaised = cwPly:GetWeaponRaised(cwClient);
-	
-	if (!cwClient:HasInitialized() or !cwConfig:HasInitialized()
-	or cwClient:GetMoveType() == MOVETYPE_OBSERVER) then
+	local weaponRaised = Clockwork.player:GetWeaponRaised(Clockwork.Client);
+	local isIronSights = Clockwork.ironsights:GetIronSights();
+
+	if (!Clockwork.Client:HasInitialized() or !Clockwork.config:HasInitialized()
+	or Clockwork.Client:GetMoveType() == MOVETYPE_OBSERVER) then
 		weaponRaised = nil;
 	end;
 	
@@ -1208,9 +1235,9 @@ function Clockwork:CalcViewModelView(weapon, viewModel, oldEyePos, oldEyeAngles,
 		targetValue = 0;
 	end;
 
-	local fraction = (cwClient.cwRaisedFraction or 100) / 100;
-	local itemTable = cwItem:GetByWeapon(weapon);
-	local originMod = Vector(-3.0451, -1.6419, -0.5771);
+	local fraction = (Clockwork.Client.cwRaisedFraction or 100) / 100;
+	local itemTable = Clockwork.item:GetByWeapon(weapon);
+	local originMod = weapon.LoweredOrigin or WEAPON_LOWERED_ORIGIN;
 	local anglesMod = weapon.LoweredAngles or WEAPON_LOWERED_ANGLES;
 	
 	if (itemTable and itemTable("loweredAngles")) then
@@ -1218,29 +1245,64 @@ function Clockwork:CalcViewModelView(weapon, viewModel, oldEyePos, oldEyeAngles,
 	elseif (weapon.LoweredAngles) then
 		anglesMod = weapon.LoweredAngles;
 	end;
-	
-	local viewInfo = {
-		origin = originMod,
-		angles = anglesMod
-	};
-	
-	cwPlugin:Call("GetWeaponLoweredViewInfo", itemTable, weapon, viewInfo);
-	
-	--[[
+
 	if (itemTable and itemTable("loweredOrigin")) then
 		originMod = itemTable("loweredOrigin");
 	elseif (weapon.LoweredOrigin) then
 		originMod = weapon.LoweredOrigin;
 	end;
-	--]]
+		
+	local viewInfo = {
+		origin = originMod,
+		angles = anglesMod
+	};
 	
+	Clockwork.plugin:Call("GetWeaponLoweredViewInfo", itemTable, weapon, viewInfo);
+
 	eyeAngles:RotateAroundAxis(eyeAngles:Up(), viewInfo.angles.p * fraction);
 	eyeAngles:RotateAroundAxis(eyeAngles:Forward(), viewInfo.angles.y * fraction);
 	eyeAngles:RotateAroundAxis(eyeAngles:Right(), viewInfo.angles.r * fraction);
 
-	cwClient.cwRaisedFraction = Lerp(FrameTime() * 2, cwClient.cwRaisedFraction or 100, targetValue)
-	--viewModel:SetAngles(eyeAngles)
+	oldEyePos = oldEyePos + ((eyeAngles:Forward() * viewInfo.origin.y) + (eyeAngles:Right() * viewInfo.origin.x) + (eyeAngles:Up() * viewInfo.origin.z)) * fraction;
 
+	Clockwork.Client.cwRaisedFraction = Lerp(FrameTime() * 2, Clockwork.Client.cwRaisedFraction or 100, targetValue)
+
+	--Ironsights.
+	local viewTable = WEAPON_IRONSIGHTS[weapon:GetClass()] or {};
+	
+	Clockwork.plugin:Call("GetWeaponIronsightsViewInfo", itemTable, weapon, viewTable);
+
+	local ironAnglesMod = viewTable.angles;
+	local ironOriginMod = viewTable.origin or DEFAULT_IRONSIGHTS_ORIGIN;
+	local ironTargetValue = 0;
+
+	if ((ironAnglesMod or ironOriginMod) and isIronSights) then
+		ironTargetValue = 100;
+	end;
+
+	local fraction = (Clockwork.ironsights.ironFraction or 100) / 100;
+	
+	if (ironAnglesMod) then
+		eyeAngles:RotateAroundAxis(eyeAngles:Up(), ironAnglesMod.y  * fraction);
+		eyeAngles:RotateAroundAxis(eyeAngles:Forward(), ironAnglesMod.z * fraction);
+		eyeAngles:RotateAroundAxis(eyeAngles:Right(), ironAnglesMod.x * fraction);
+	end;
+
+	if (ironOriginMod) then
+		oldEyePos = oldEyePos + ((eyeAngles:Forward() * ironOriginMod.y) + (eyeAngles:Right() * ironOriginMod.x) + (eyeAngles:Up() * ironOriginMod.z)) * fraction;
+	end;
+
+	local bLerp = true;
+
+	if (Clockwork.ironsights.ironFraction <= 1 and ironTargetValue == 0) then
+		bLerp = false;
+	end;
+
+	if (bLerp) then
+		Clockwork.ironsights.ironFraction = Lerp(FrameTime() * 5, Clockwork.ironsights.ironFraction or 100, ironTargetValue);
+	end;
+	
+	--Return the edited angle and position.
 	return oldEyePos, eyeAngles;
 end;
 
@@ -1259,25 +1321,24 @@ function Clockwork:PlayerLimbTakeDamage(hitGroup, damage) end;
 -- Called when a weapon's lowered view info is needed.
 function Clockwork:GetWeaponLoweredViewInfo(itemTable, weapon, viewInfo) end;
 
+local blockedElements = {
+	CHudSecondaryAmmo = true,
+	CHudVoiceStatus = true,
+	CHudSuitPower = true,
+	CHudCrosshair = true,
+	CHudBattery = true,
+	CHudHealth = true,
+	CHudAmmo = true,
+	CHudChat = true
+};
+
 -- Called when a HUD element should be drawn.
 function Clockwork:HUDShouldDraw(name)
-	local blockedElements = {
-		"CHudSecondaryAmmo",
-		"CHudVoiceStatus",
-		"CHudSuitPower",
-		"CHudBattery",
-		"CHudHealth",
-		"CHudAmmo",
-		"CHudChat"
-	};
-	
 	if (!IsValid(cwClient) or !cwClient:HasInitialized() or cwKernel:IsChoosingCharacter()) then
 		if (name != "CHudGMod") then
 			return false;
 		end;
-	elseif (name == "CHudCrosshair") then
-		return false;
-	elseif (table.HasValue(blockedElements, name)) then
+	elseif (blockedElements[name]) then
 		return false;
 	end;
 	
@@ -1535,18 +1596,15 @@ end;
 function Clockwork:InitPostEntity()
 	self.Client = LocalPlayer();
 	cwClient = self.Client;
+
+	if (IsValid(self.Client)) then
+		cwPlugin:Call("LocalPlayerCreated");
+		cwDatastream:Start("LocalPlayerCreated", true);
+	end;
 end;
 
 -- Called each frame.
 function Clockwork:Think()
-	if (!self.CreatedLocalPlayer) then
-		if (IsValid(self.Client)) then
-			cwPlugin:Call("LocalPlayerCreated");
-				cwDatastream:Start("LocalPlayerCreated", true);
-			self.CreatedLocalPlayer = true;
-		end;
-	end;
-	
 	cwKernel:CallTimerThink(CurTime());
 	cwKernel:CalculateHints();
 	
@@ -3251,8 +3309,9 @@ function Clockwork:HUDPaint()
 			cwKernel:DrawHints();
 		end;
 		
-		if ((cwConfig:Get("enable_crosshair"):Get() or cwKernel:IsDefaultWeapon(weapon))
-		and (IsValid(weapon) and weapon.DrawCrosshair != false)) then
+	--	if ((cwConfig:Get("enable_crosshair"):Get() or cwKernel:IsDefaultWeapon(weapon))
+	--	and (IsValid(weapon) and weapon.DrawCrosshair != false)) then
+		if (cwPlugin:Call("CanDrawCrosshair", weapon)) then
 			local info = {
 				color = Color(255, 255, 255, 255),
 				x = ScrW() / 2,
@@ -3265,6 +3324,11 @@ function Clockwork:HUDPaint()
 			self.CustomCrosshair = false;
 		end;
 	end;
+end;
+
+function Clockwork:CanDrawCrosshair(weapon)
+	return (cwConfig:Get("enable_crosshair"):Get() or cwKernel:IsDefaultWeapon(weapon)) 
+	and (IsValid(weapon) and weapon.DrawCrosshair != false);
 end;
 
 -- Called when the local player's crosshair info is needed.

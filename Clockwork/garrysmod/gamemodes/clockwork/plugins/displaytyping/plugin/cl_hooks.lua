@@ -23,7 +23,7 @@ local string = string;
 local pairs = pairs;
 
 -- Called to draw the text over each player's head if needed.
-function cwDisplayTyping:PreDrawOpaqueRenderables()
+function cwDisplayTyping:PostDrawTranslucentRenderables()
 	for k, player in pairs(playerGetAll()) do
 		if (player:HasInitialized()) then
 			local large3D2DFont = cwOption:GetFont("large_3d_2d");
@@ -137,8 +137,6 @@ function cwDisplayTyping:PreDrawOpaqueRenderables()
 		end;
 	end;
 end;
-
-
 
 -- Called when the chat box is closed.
 function cwDisplayTyping:ChatBoxClosed(textTyped)

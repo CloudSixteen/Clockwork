@@ -2,6 +2,45 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.95.2
+-------
+
+* Added BackSword 2, a reworked SWEP base made for Clockwork that includes ironsights variables.
+	* *Contributed by Zigalishous.*
+* Added ironsights that can be used with any weapon that uses the ironsight variable format that M9K, BS2 and RealCS use.
+Just press middle mouse while your weapon is raised to use the ironsights, it will slow movement and reduce spread.
+	* *Contributed by NightAngel.*
+* Added cwToggleIronSights concommand so that players can bind a key to this to toggle their ironsights instead of middle mouse.
+	* *Contributed by NightAngel.*
+* Fixed displaytyping text not drawing over translucent surfaces after recent changes.
+	* *Contributed by NightAngel.*
+* Small optimizations to some functions in cl_kernel.
+	* *Contributed by NightAngel.*
+* Added viewmodel hands info to Combine animations tables to make any added models use the Combine viewmodel hands.
+	* *Contributed by NightAngel.*
+* Added rudimentary zombie animation table for Half-Life 2 classic zombie animations.
+	* *Contributed by NightAngel.*
+* Added player model animations so that player models will now animate properly without tposing.
+	* *Contributed by NightAngel.*
+* Added multiple functions to register certain models to use certain viewmodel hand info (CSS, HL2, Combine, Citizen, etc).
+	* *Contributed by NightAngel.*
+* Made male_01/03 as well as female_03 use the black skin for citizen hands.
+	* *Contributed by NightAngel.*
+* Made group03/03m models use the refugee hands model with the gloves bodygroup on.
+	* *Contributed by NightAngel.*
+* Made HL2 zombie models use zombie skin for refugee arms model.
+	* *Contributed by NightAngel.*
+* Removed redundant male/female human model animation registering (They get set to these automatically anyways).
+	* *Contributed by NightAngel.*
+* Small edit to codebase to make it write its documentation findings to seperate files to avoid this huge text file containing all the documentation.
+	* *Contributed by NightAngel.*
+* Added 'CanDrawCrosshair' plugin hook that gets called to determine if a player's crosshair should be drawn, ironsights will force crosshair to draw if they are used in third person.
+	* *Contributed by NightAngel.*
+* Added two configs to modify how much ironsights will reduce the spread, as well as how much they will reduce walk speed of the player.
+	* *Contributed by NightAngel.*
+* Added edited Half-Life Universe entity menus that can be toggled on or off via convar 'cwEntityMenuType', or alternatively forced via config.
+	* *Contributed by Spencer Sharkey and modified by NightAngel.*
+
 0.95.1
 -------
 
