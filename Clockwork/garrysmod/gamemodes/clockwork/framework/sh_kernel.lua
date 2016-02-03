@@ -557,13 +557,41 @@ function Clockwork:UpdateAnimation(player, velocity, maxSeqGroundSpeed)
 	end;
 end;
 
+local IdleActivity = ACT_HL2MP_IDLE;
+local IdleActivityTranslate = {
+	[ACT_MP_ATTACK_CROUCH_PRIMARYFIRE] = IdleActivity + 5,
+	[ACT_MP_ATTACK_STAND_PRIMARYFIRE] = IdleActivity + 5,
+	[ACT_MP_RELOAD_CROUCH] = IdleActivity + 6,
+	[ACT_MP_RELOAD_STAND] = IdleActivity + 6,
+	[ACT_MP_CROUCH_IDLE] = IdleActivity + 3,
+	[ACT_MP_STAND_IDLE] = IdleActivity,
+	[ACT_MP_CROUCHWALK] = IdleActivity + 4,
+	[ACT_MP_JUMP] = ACT_HL2MP_JUMP_SLAM,
+	[ACT_MP_WALK] = IdleActivity + 1,
+	[ACT_MP_RUN] = IdleActivity + 2,
+};
+	
+-- Called when a player's activity is supposed to be translated.
+function Clockwork:TranslateActivity(player, act)
+	local model = player:GetModel();
+	local bIsRaised = self.player:GetWeaponRaised(player, true);
+	
+	if (string.find(model, "/player/")) then
+		local newAct = player:TranslateWeaponActivity(act);
+		
+		if (!bIsRaised or act == newAct) then
+			return IdleActivityTranslate[act];
+		else
+			return newAct;
+		end;
+	end;
+	
+	return act;
+end;
+
 -- Called when the main activity should be calculated.
 function Clockwork:CalcMainActivity(player, velocity)
 	local model = player:GetModel();
-	
-	if (stringFind(model, "/player/")) then
-		return self.BaseClass:CalcMainActivity(player, velocity);
-	end;
 	
 	ANIMATION_PLAYER = player;
 	
@@ -631,40 +659,8 @@ function Clockwork:CalcMainActivity(player, velocity)
 	local normalized = mathNormalize(yaw - eyeAngles.y);
 
 	player:SetPoseParameter("move_yaw", normalized);
-	
-	return player.CalcIdeal, player.CalcSeqOverride;
-end;
 
-local IdleActivity = ACT_HL2MP_IDLE;
-local IdleActivityTranslate = {
-	ACT_MP_ATTACK_CROUCH_PRIMARYFIRE = IdleActivity + 5,
-	ACT_MP_ATTACK_STAND_PRIMARYFIRE = IdleActivity + 5,
-	ACT_MP_RELOAD_CROUCH = IdleActivity + 6,
-	ACT_MP_RELOAD_STAND = IdleActivity + 6,
-	ACT_MP_CROUCH_IDLE = IdleActivity + 3,
-	ACT_MP_STAND_IDLE = IdleActivity,
-	ACT_MP_CROUCHWALK = IdleActivity + 4,
-	ACT_MP_JUMP = ACT_HL2MP_JUMP_SLAM,
-	ACT_MP_WALK = IdleActivity + 1,
-	ACT_MP_RUN = IdleActivity + 2,
-};
-	
--- Called when a player's activity is supposed to be translated.
-function Clockwork:TranslateActivity(player, act)
-	local model = player:GetModel();
-	local bIsRaised = self.player:GetWeaponRaised(player, true);
-	
-	if (string.find(model, "/player/")) then
-		local newAct = player:TranslateWeaponActivity(act);
-		
-		if (!bIsRaised or act == newAct) then
-			return IdleActivityTranslate[act];
-		else
-			return newAct;
-		end;
-	end;
-	
-	return act;
+	return player.CalcIdeal, player.CalcSeqOverride;
 end;
 
 -- Called when the animation event is supposed to be done.
@@ -1644,73 +1640,143 @@ else
 
 		if (table.Count(options) == 0) then return; end;
 		
-		local menuPanel = self:AddMenuFromData(nil, options, function(menuPanel, option, arguments)
-			if (itemTable and type(arguments) == "table" and arguments.isOptionTable) then
-				menuPanel:AddOption(arguments.title, function()
-					if (itemTable.HandleOptions) then
-						local transmit, data = itemTable:HandleOptions(arguments.name, nil, nil, entity);
+		if (self:GetEntityMenuType()) then
+			local menuPanel = self:AddMenuFromData(nil, options, function(menuPanel, option, arguments)
+				if (itemTable and type(arguments) == "table" and arguments.isOptionTable) then
+					menuPanel:AddOption(arguments.title, function()
+						if (itemTable.HandleOptions) then
+							local transmit, data = itemTable:HandleOptions(arguments.name, nil, nil, entity);
+							
+							if (transmit) then
+								Clockwork.datastream:Start("MenuOption", {
+									option = arguments.name,
+									data = data,
+									item = itemTable("itemID"),
+									entity = entity
+								});
+							end;
+						end;
+					end)
+				else
+					menuPanel:AddOption(option, function()
+						if (type(arguments) == "table" and arguments.isArgTable) then
+							if (arguments.Callback) then
+								arguments.Callback(function(arguments)
+									Clockwork.entity:ForceMenuOption(
+										entity, option, arguments
+									);
+								end);
+							else
+								Clockwork.entity:ForceMenuOption(
+									entity, option, arguments.arguments
+								);
+							end;
+						else
+							Clockwork.entity:ForceMenuOption(
+								entity, option, arguments
+							);
+						end;
 						
-						if (transmit) then
-							Clockwork.datastream:Start("MenuOption", {
-								option = arguments.name,
-								data = data,
-								item = itemTable("itemID"),
-								entity = entity
-							});
+						timer.Simple(FrameTime(), function()
+							self:RemoveActiveToolTip();
+						end);
+					end);
+				end;
+				
+				menuPanel.Items = menuPanel:GetChildren();
+				local panel = menuPanel.Items[#menuPanel.Items];
+				
+				if (IsValid(panel)) then
+					if (type(arguments) == "table") then
+						if (arguments.isOrdered) then
+							menuPanel.Items[#menuPanel.Items] = nil;
+							table.insert(menuPanel.Items, 1, panel);
+						end;
+						
+						if (arguments.toolTip) then
+							self:CreateMarkupToolTip(panel);
+							panel:SetMarkupToolTip(arguments.toolTip);
 						end;
 					end;
-				end)
-			else
-				menuPanel:AddOption(option, function()
+				end;
+			end);
+			
+			self:RegisterBackgroundBlur(menuPanel, SysTime());
+			self:SetTitledMenu(menuPanel, "INTERACT WITH THIS ENTITY");
+			menuPanel.entity = entity;
+			
+			return menuPanel;
+		else
+			local menu = Clockwork.entityMenu:AddMenuFromData(entity, options, nil, function(menu, option, arguments)
+				table.insert(menu.options, {text = option, callback = function()
 					if (type(arguments) == "table" and arguments.isArgTable) then
 						if (arguments.Callback) then
 							arguments.Callback(function(arguments)
-								Clockwork.entity:ForceMenuOption(
-									entity, option, arguments
-								);
-							end);
+								Clockwork.entity:ForceMenuOption(entity, option, arguments)
+							end)
 						else
-							Clockwork.entity:ForceMenuOption(
-								entity, option, arguments.arguments
-							);
-						end;
+							Clockwork.entity:ForceMenuOption(entity, option, arguments.arguments)
+						end
 					else
-						Clockwork.entity:ForceMenuOption(
-							entity, option, arguments
-						);
-					end;
-					
-					timer.Simple(FrameTime(), function()
-						self:RemoveActiveToolTip();
-					end);
-				end);
-			end;
+						Clockwork.entity:ForceMenuOption(entity, option, arguments)
+					end
+				end})
+			end)
 			
-			menuPanel.Items = menuPanel:GetChildren();
-			local panel = menuPanel.Items[#menuPanel.Items];
-			
-			if (IsValid(panel)) then
-				if (type(arguments) == "table") then
-					if (arguments.isOrdered) then
-						menuPanel.Items[#menuPanel.Items] = nil;
-						table.insert(menuPanel.Items, 1, panel);
-					end;
-					
-					if (arguments.toolTip) then
-						self:CreateMarkupToolTip(panel);
-						panel:SetMarkupToolTip(arguments.toolTip);
-					end;
-				end;
-			end;
-		end);
-		
-		self:RegisterBackgroundBlur(menuPanel, SysTime());
-		self:SetTitledMenu(menuPanel, "INTERACT WITH THIS ENTITY");
-		menuPanel.entity = entity;
-		
-		return menuPanel;
+			return menu
+		end;
 	end;
+
+--[[
+	-- A function to handle an entity's menu.
+	function Clockwork.kernel:HandleEntityMenu(entity)
+		local options = {}
+		Clockwork.plugin:Call("GetEntityMenuOptions", entity, options)
+
+		if (table.Count(options) == 0) then return end
+		
+		if (table.Count(options) == 1) then
+			Clockwork.entity:ForceMenuOption(entity, table.GetFirstKey(options), table.GetFirstValue(options))
+			return
+		end
+
+		local menu = Clockwork.entityMenu:AddMenuFromData(entity, options, nil, function(menu, option, arguments)
+			table.insert(menu.options, {text = option, callback = function()
+				if (type(arguments) == "table" and arguments.isArgTable) then
+					if (arguments.Callback) then
+						arguments.Callback(function(arguments)
+							Clockwork.entity:ForceMenuOption(entity, option, arguments)
+						end)
+					else
+						Clockwork.entity:ForceMenuOption(entity, option, arguments.arguments)
+					end
+				else
+					Clockwork.entity:ForceMenuOption(entity, option, arguments)
+				end
+			end})
+		end)
+		
+		return menu
+	end;
+--]]
 	
+	-- A function to get what type of entity menu to use.
+	function Clockwork.kernel:GetEntityMenuType()
+		local forceMenus = Clockwork.config:Get("force_entity_menus"):Get();
+
+		if (forceMenus == 0) then -- Config says use both according to player setting.
+			if (CW_CONVAR_ENTITYMENU:GetInt() == 0) then -- Setting says use 2D menu.
+				return true
+			else -- Setting says use 3D menu.
+				return false;
+			end;
+		elseif (forceMenus == 1) then -- Config says use 2D menu.
+			return true;
+		else -- Config says use 3D menu.
+			return false;
+		end;
+	end;
+
 	-- A function to get the gradient texture.
 	function Clockwork.kernel:GetGradientTexture()
 		return Clockwork.GradientTexture;

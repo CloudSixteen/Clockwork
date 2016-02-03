@@ -28,8 +28,8 @@ end;
 
 Clockwork.ClockworkFolder = Clockwork.ClockworkFolder or GM.Folder;
 Clockwork.SchemaFolder = Clockwork.SchemaFolder or GM.Folder;
-Clockwork.KernelVersion = "0.95.1";
-Clockwork.KernelBuild = "beta"
+Clockwork.KernelVersion = "0.95.2";
+Clockwork.KernelBuild = "beta";
 Clockwork.DeveloperVersion = true;
 Clockwork.Website = "http://kurozael.com";
 Clockwork.Author = "kurozael";

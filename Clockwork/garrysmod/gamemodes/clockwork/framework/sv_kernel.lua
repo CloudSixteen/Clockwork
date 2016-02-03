@@ -449,7 +449,13 @@ function Clockwork:PlayerBanned(player, duration, reason) end;
 function Clockwork:PlayerSkinChanged(player, skin) end;
 
 -- Called when a player's model has changed.
-function Clockwork:PlayerModelChanged(player, model) end;
+function Clockwork:PlayerModelChanged(player, model)
+	local hands = player:GetHands();
+
+	if (IsValid(hands) and hands:IsValid()) then
+		self:PlayerSetHandsModel(player, player:GetHands());
+	end;
+end;
 
 -- Called when a player's saved inventory should be added to.
 function Clockwork:PlayerAddToSavedInventory(player, character, Callback)
@@ -1155,14 +1161,26 @@ end;
 
 -- Choose the model for hands according to their player model.
 function Clockwork:PlayerSetHandsModel(player, entity)
-	local simpleModel = player_manager.TranslateToPlayerModelName(player:GetModel())
-	local info = player_manager.TranslatePlayerHands(simpleModel);
+	local model = player:GetModel();
+	local simpleModel = player_manager.TranslateToPlayerModelName(model)
+	local info = self.animation:GetHandsInfo(model) or player_manager.TranslatePlayerHands(simpleModel);
 
 	if (info) then
 		entity:SetModel(info.model);
 		entity:SetSkin(info.skin);
-		entity:SetBodyGroups(info.body);
+
+		local bodyGroups = tostring(info.body);
+
+		if (bodyGroups) then
+			bodyGroups = string.Explode("", bodyGroups);
+
+			for k, v in pairs(bodyGroups) do
+				entity:SetBodygroup(k, tonumber(v));
+			end;
+		end;
 	end;
+
+	Clockwork.plugin:Call("PostCModelHandsSet", player, model, entity, info);
 end;
 
 -- Called every frame.
