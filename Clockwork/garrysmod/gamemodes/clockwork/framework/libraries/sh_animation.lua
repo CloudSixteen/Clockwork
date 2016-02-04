@@ -600,28 +600,28 @@ Clockwork.animation.stored.player = {
 	["crouch_pistol_aim_idle"] = "cidle_revolver",
 	["stand_grenade_aim_walk"] = "walk_grenade",
 	["crouch_pistol_aim_walk"] = "cwalk_revolver",
-	["crouch_heavy_aim_idle"] = ACT_RANGE_AIM_SMG1_LOW,
+	["crouch_heavy_aim_idle"] = "cidle_physgun",
 	["crouch_blunt_aim_idle"] = "cidle_melee",
 	["stand_grenade_aim_run"] = "run_grenade",
 	["crouch_blunt_aim_walk"] = "cwalk_melee",
-	["crouch_heavy_aim_walk"] = ACT_WALK,
+	["crouch_heavy_aim_walk"] = "cwalk_physgun",
 	["stand_pistol_aim_walk"] = "walk_revolver",
 	["stand_pistol_aim_idle"] = "idle_revolver",
 	["crouch_fist_aim_walk"] = "cwalk_fist",
 	["crouch_slam_aim_walk"] = "cwalk_slam",
 	["stand_pistol_aim_run"] = "run_revolver",
 	["crouch_fist_aim_idle"] = "cidle_fist",
-	["stand_heavy_aim_idle"] = ACT_IDLE_ANGRY_RPG,
+	["stand_heavy_aim_idle"] = "idle_physgun",
 	["stand_blunt_aim_idle"] = "idle_melee",
 	["crouch_slam_aim_idle"] = "cidle_slam",
 	["stand_blunt_aim_walk"] = "walk_melee",
-	["stand_heavy_aim_walk"] = ACT_WALK,
+	["stand_heavy_aim_walk"] = "walk_physgun",
 	["stand_fist_aim_idle"] = "idle_fist",
 	["crouch_smg_aim_walk"] = "cwalk_smg1",
 	["crouch_smg_aim_idle"] = "cidle_smg1",
 	["stand_fist_aim_walk"] = "walk_fist",
 	["stand_blunt_aim_run"] = "run_melee",
-	["stand_heavy_aim_run"] = ACT_RUN_AIM_RIFLE_STIMULATED,
+	["stand_heavy_aim_run"] = "run_physgun",
 	["crouch_grenade_walk"] = "cwalk_all",
 	["crouch_grenade_idle"] = "cidle_all",
 	["stand_slam_aim_idle"] = "idle_slam",
@@ -638,26 +638,26 @@ Clockwork.animation.stored.player = {
 	["crouch_blunt_idle"] = ACT_MP_CROUCH_IDLE,
 	["stand_pistol_walk"] = ACT_MP_WALK,
 	["crouch_blunt_walk"] = "cwalk_all",
-	["crouch_heavy_walk"] = ACT_WALK,
+	["crouch_heavy_walk"] = "cwalk_passive",
 	["stand_pistol_idle"] = ACT_MP_STAND_IDLE,
-	["crouch_heavy_idle"] = ACT_COVER_LOW_RPG,
+	["crouch_heavy_idle"] = "cidle_passive",
 	["stand_smg_aim_run"] = "run_smg1",
-	["stand_heavy_walk"] = ACT_WALK,
+	["stand_heavy_walk"] = "walk_passive",
 	["stand_blunt_walk"] = ACT_MP_WALK,
 	["stand_blunt_idle"] = ACT_MP_STAND_IDLE,
 	["crouch_fist_idle"] = ACT_MP_CROUCH_IDLE,
 	["crouch_fist_walk"] = "cwalk_all",
 	["crouch_slam_idle"] = ACT_MP_CROUCH_IDLE,
 	["stand_pistol_run"] = ACT_MP_RUN,
-	["stand_heavy_idle"] = ACT_IDLE_SHOTGUN_AGITATED,
+	["stand_heavy_idle"] = "idle_passive",
 	["crouch_slam_walk"] = "cwalk_all",
-	["stand_heavy_run"] = ACT_RUN_RPG_RELAXED,
+	["stand_heavy_run"] = "run_passive",
 	["stand_slam_idle"] = ACT_MP_STAND_IDLE,
 	["stand_fist_walk"] = ACT_MP_WALK,
 	["stand_slam_walk"] = ACT_MP_WALK,
 	["stand_blunt_run"] = ACT_MP_RUN,
-	["crouch_smg_walk"] = "cwalk_all",
-	["crouch_smg_idle"] = ACT_MP_CROUCH_IDLE,
+	["crouch_smg_walk"] = "cwalk_passive",
+	["crouch_smg_idle"] = "cidle_passive",
 	["stand_fist_idle"] = ACT_MP_STAND_IDLE,
 	["stand_slam_run"] = ACT_MP_RUN,
 	["grenade_attack"] = ACT_RANGE_ATTACK_THROW,
@@ -832,7 +832,7 @@ end;
 
 -- A function to make a model use the black skin for hands viewmodels.
 function Clockwork.animation:AddBlackModel(model)
-	blackModels[model] = true;
+	blackModels[string.lower(model)] = true;
 end;
 
 -- A function to make a model use the zombie skin for citizen hands.
@@ -874,7 +874,7 @@ end;
 -- A function to make a model use the refugee viewmodel hands.
 function Clockwork.animation:AddRefugeeHands(model)
 	self:AddHandsModel(model, {
-		body = 11,
+		body = 01,
 		model = "models/weapons/c_arms_refugee.mdl",
 		skin = 0
 	});
@@ -912,9 +912,15 @@ end;
 
 -- A function to adjust the hands info with checks for if a model is set to use the black skin.
 function Clockwork.animation:AdjustHandsInfo(model, info)
-	for k, v in pairs(blackModels) do
-		if (string.find(model, k)) then
-			info.skin = 1;
+	if (info.model == "models/weapons/c_arms_citizen.mdl" or info.model == "models/weapons/c_arms_refugee.mdl") then
+		for k, v in pairs(blackModels) do
+			if (string.find(model, k)) then
+				info.skin = 1;
+
+				break;
+			elseif (info.skin == 1) then
+				info.skin = 0;
+			end;
 		end;
 	end;
 

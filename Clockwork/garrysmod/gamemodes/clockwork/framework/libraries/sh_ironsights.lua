@@ -11,6 +11,7 @@
 --]]
 if (!Clockwork.datastream) then include("sh_datastream.lua"); end;
 if (!Clockwork.plugin) then include("sh_plugin.lua"); end;
+if (!Clockwork.player) then include("sh_player.lua"); end;
 
 --[[ 
 	Micro Optimizations because local variables are faster than table
@@ -98,7 +99,7 @@ if (SERVER) then
 
 	function Clockwork.ironsights:PlayerThink(player, curTime, infoTable)
 		if (self:GetIronSights(player) and cwPly:GetWeaponRaised(player)) then
-			infoTable.walkSpeed = infoTable.walkSpeed * cwConfig:Get("ironsights_spread"):Get() or 0.5;
+			infoTable.walkSpeed = infoTable.walkSpeed * cwConfig:Get("ironsights_slow"):Get() or 0.5;
 		end;
 	end;
 
