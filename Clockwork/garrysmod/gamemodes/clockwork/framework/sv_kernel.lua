@@ -42,12 +42,35 @@ local math = math;
 local game = game;
 local os = os;
 
+local cwConfig = Clockwork.config;
+local cwPly = Clockwork.player;
+local cwPlugin = Clockwork.plugin;
+local cwStorage = Clockwork.storage;
+local cwEvent = Clockwork.event;
+local cwLimb = Clockwork.limb;
+local cwItem = Clockwork.item;
+local cwEntity = Clockwork.entity;
+local cwKernel = Clockwork.kernel;
+local cwOption = Clockwork.option;
+local cwBans = Clockwork.bans;
+local cwDatabase = Clockwork.database;
+local cwDatastream = Clockwork.datastream;
+local cwFaction = Clockwork.faction;
+local cwInventory = Clockwork.inventory;
+local cwHint = Clockwork.hint;
+local cwCommand = Clockwork.command;
+local cwClass = Clockwork.class;
+local cwQuiz = Clockwork.quiz;
+local cwAttribute = Clockwork.attribute;
+local cwAttributes = Clockwork.attributes;
+local cwVoice = Clockwork.voice;
+
 --[[ Downloads the content addon for clients. --]]
 resource.AddWorkshop("474315121")
 
 --[[ Do this internally, because it's one less step for schemas. --]]
 AddCSLuaFile(
-	Clockwork.kernel:GetSchemaGamemodePath().."/cl_init.lua"
+	cwKernel:GetSchemaGamemodePath().."/cl_init.lua"
 );
 
 --[[
@@ -89,7 +112,7 @@ function hook.Call(name, gamemode, ...)
 	local arguments = {...};
 	
 	if (name == "EntityTakeDamage") then
-		if (Clockwork.kernel:DoEntityTakeDamageHook(arguments)) then
+		if (cwKernel:DoEntityTakeDamageHook(arguments)) then
 			return;
 		end;
 	elseif (name == "PlayerDisconnected") then
@@ -99,7 +122,7 @@ function hook.Call(name, gamemode, ...)
 	end;
 	
 	local startTime = SysTime();
-		local bStatus, value = pcall(Clockwork.plugin.RunHooks, Clockwork.plugin, name, nil, unpack(arguments));
+		local bStatus, value = pcall(cwPlugin.RunHooks, cwPlugin, name, nil, unpack(arguments));
 	local timeTook = SysTime() - startTime;
 	
 	hook.Timings[name] = timeTook;
@@ -226,32 +249,32 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 	local bPlayerBreathSnd = false;
 	local storageTable = player:GetStorageTable();
 	
-	if (!Clockwork.config:Get("cash_enabled"):Get()) then
+	if (!cwConfig:Get("cash_enabled"):Get()) then
 		player:SetCharacterData("Cash", 0, true);
 		infoTable.wages = 0;
 	end;
 	
 	if (player.cwReloadHoldTime and curTime >= player.cwReloadHoldTime) then
-		Clockwork.player:ToggleWeaponRaised(player);
+		cwPly:ToggleWeaponRaised(player);
 		player.cwReloadHoldTime = nil;
-		player.cwNextShootTime = curTime + Clockwork.config:Get("shoot_after_raise_time"):Get();
+		player.cwNextShootTime = curTime + cwConfig:Get("shoot_after_raise_time"):Get();
 	end;
 	
 	if (player:IsRagdolled()) then
 		player:SetMoveType(MOVETYPE_OBSERVER);
 	end;
 	
-	if (storageTable and Clockwork.plugin:Call("PlayerStorageShouldClose", player, storageTable)) then
-		Clockwork.storage:Close(player);
+	if (storageTable and cwPlugin:Call("PlayerStorageShouldClose", player, storageTable)) then
+		cwStorage:Close(player);
 	end;
 	
 	player:SetSharedVar("InvWeight", math.ceil(infoTable.inventoryWeight));
 	player:SetSharedVar("InvSpace", math.ceil(infoTable.inventorySpace));
 	player:SetSharedVar("Wages", math.ceil(infoTable.wages));
 	
-	if (Clockwork.event:CanRun("limb_damage", "disability")) then
-		local leftLeg = Clockwork.limb:GetDamage(player, HITGROUP_LEFTLEG, true);
-		local rightLeg = Clockwork.limb:GetDamage(player, HITGROUP_RIGHTLEG, true);
+	if (cwEvent:CanRun("limb_damage", "disability")) then
+		local leftLeg = cwLimb:GetDamage(player, HITGROUP_LEFTLEG, true);
+		local rightLeg = cwLimb:GetDamage(player, HITGROUP_RIGHTLEG, true);
 		local legDamage = math.max(leftLeg, rightLeg);
 		
 		if (legDamage > 0) then
@@ -272,7 +295,7 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 		infoTable.runSpeed = infoTable.walkSpeed;
 	end;
 	
-	if (Clockwork.plugin:Call("PlayerShouldSmoothSprint", player, infoTable)) then
+	if (cwPlugin:Call("PlayerShouldSmoothSprint", player, infoTable)) then
 		--[[ The target run speed is what we're aiming for! --]]
 		player.cwTargetRunSpeed = infoTable.runSpeed;
 		
@@ -309,7 +332,7 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 	player:SetRunSpeed(math.max(infoTable.runSpeed, 0), true);
 	
 	local activeWeapon = player:GetActiveWeapon();
-	local weaponItemTable = Clockwork.item:GetByWeapon(activeWeapon);
+	local weaponItemTable = cwItem:GetByWeapon(activeWeapon);
 	
 	if (weaponItemTable and weaponItemTable:IsInstance()) then
 		local clipOne = activeWeapon:Clip1();
@@ -335,16 +358,16 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 		return;
 	end;
 	
-	if (entity:GetClass() != "prop_door_rotating" or Clockwork.player:IsNoClipping(player)) then
+	if (entity:GetClass() != "prop_door_rotating" or cwPly:IsNoClipping(player)) then
 		return;
 	end;
 	
-	local doorPartners = Clockwork.entity:GetDoorPartners(entity);
+	local doorPartners = cwEntity:GetDoorPartners(entity);
 	
 	for k, v in pairs(doorPartners) do
-		if ((!Clockwork.entity:IsDoorLocked(v) and Clockwork.config:Get("bash_in_door_enabled"):Get())
+		if ((!cwEntity:IsDoorLocked(v) and cwConfig:Get("bash_in_door_enabled"):Get())
 		and (!v.cwNextBashDoor or curTime >= v.cwNextBashDoor)) then
-			Clockwork.entity:BashInDoor(v, player);
+			cwEntity:BashInDoor(v, player);
 			
 			player:ViewPunch(
 				Angle(math.Rand(-32, 32), math.Rand(-80, 80), math.Rand(-16, 16))
@@ -355,7 +378,7 @@ end;
 
 -- Called when a player should smooth sprint.
 function Clockwork:PlayerShouldSmoothSprint(player, infoTable)
-	return Clockwork.config:Get("player_should_smooth_sprint"):GetBoolean();
+	return cwConfig:Get("player_should_smooth_sprint"):GetBoolean();
 end;
 
 -- Called when a player fires a weapon.
@@ -401,25 +424,25 @@ function Clockwork:ClockworkInitialized()
 		self.config:Get("door_cost"):Set(0, nil, true, true);
 	end;
 	
-	if (Clockwork.config:Get("use_own_group_system"):Get()) then
+	if (cwConfig:Get("use_own_group_system"):Get()) then
 		self.command:SetHidden("PlySetGroup", true);
 		self.command:SetHidden("PlyDemote", true);
 	end;
 	
-	local gradientTexture = Clockwork.option:GetKey("gradient");
-	local schemaLogo = Clockwork.option:GetKey("schema_logo");
-	local introImage = Clockwork.option:GetKey("intro_image");
+	local gradientTexture = cwOption:GetKey("gradient");
+	local schemaLogo = cwOption:GetKey("schema_logo");
+	local introImage = cwOption:GetKey("intro_image");
 
 	if (gradientTexture != "gui/gradient_up") then
-		Clockwork.kernel:AddFile("materials/"..gradientTexture..".png");
+		cwKernel:AddFile("materials/"..gradientTexture..".png");
 	end;
 
 	if (schemaLogo != "") then
-		Clockwork.kernel:AddFile("materials/"..schemaLogo..".png");
+		cwKernel:AddFile("materials/"..schemaLogo..".png");
 	end;
 
 	if (introImage != "") then
-		Clockwork.kernel:AddFile("materials/"..introImage..".png");
+		cwKernel:AddFile("materials/"..introImage..".png");
 	end;
 
 	local toolGun = weapons.GetStored("gmod_tool");
@@ -431,12 +454,12 @@ end;
 
 -- Called when the Clockwork database has connected.
 function Clockwork:ClockworkDatabaseConnected()
-	Clockwork.bans:Load();
+	cwBans:Load();
 end;
 
 -- Called when the Clockwork database connection fails.
 function Clockwork:ClockworkDatabaseConnectionFailed()
-	Clockwork.database:Error(errText);
+	cwDatabase:Error(errText);
 end;
 
 -- Called when Clockwork should log and event.
@@ -460,7 +483,7 @@ end;
 -- Called when a player's saved inventory should be added to.
 function Clockwork:PlayerAddToSavedInventory(player, character, Callback)
 	for k, v in pairs(player:GetWeapons()) do
-		local weaponItemTable = Clockwork.item:GetByWeapon(v);
+		local weaponItemTable = cwItem:GetByWeapon(v);
 		if (weaponItemTable) then
 			Callback(weaponItemTable);
 		end;
@@ -647,12 +670,12 @@ end;
 
 -- Called when a player's default inventory is needed.
 function Clockwork:GetPlayerDefaultInventory(player, character, inventory)
-	local startingInv = Clockwork.faction:FindByID(character.faction).startingInv;
+	local startingInv = cwFaction:FindByID(character.faction).startingInv;
 	
 	if (istable(startingInv)) then
 		for k, v in pairs(startingInv) do
-			Clockwork.inventory:AddInstance(
-				inventory, Clockwork.item:CreateInstance(k), v
+			cwInventory:AddInstance(
+				inventory, cwItem:CreateInstance(k), v
 			);
 		end;
 	end;
@@ -904,7 +927,7 @@ end;
 function Clockwork:SetupMove(player, moveData)
 	if (player:Alive() and !player:IsRagdolled()) then
 		local frameTime = FrameTime();
-		local isDrunk = Clockwork.player:GetDrunk(player);
+		local isDrunk = cwPly:GetDrunk(player);
 		local curTime = CurTime();
 		
 		if (isDrunk and player.cwDrunkSwerve) then
@@ -1011,7 +1034,7 @@ function Clockwork:PlayerSpawn(player)
 		player:ShouldDropWeapon(false);
 		
 		if (!player.cwLightSpawn) then
-			local FACTION = Clockwork.faction:FindByID(player:GetFaction());
+			local FACTION = cwFaction:FindByID(player:GetFaction());
 			local relation = FACTION.entRelationship;
 			local playerRank, rank = player:GetFactionRank();
 
@@ -1068,7 +1091,7 @@ function Clockwork:PlayerSpawn(player)
 						itemQuantity = table.Count(inventory[k]);
 						
 						if (itemQuantity < v) then
-							player:GiveItem(Clockwork.item:CreateInstance(k), true);
+							player:GiveItem(cwItem:CreateInstance(k), true);
 						end;
 					end;
 				end;
@@ -1175,12 +1198,16 @@ function Clockwork:PlayerSetHandsModel(player, entity)
 			bodyGroups = string.Explode("", bodyGroups);
 
 			for k, v in pairs(bodyGroups) do
-				entity:SetBodygroup(k, tonumber(v));
+				local num = tonumber(v);
+
+				if (num) then
+					entity:SetBodygroup(k, num);
+				end;
 			end;
 		end;
 	end;
 
-	Clockwork.plugin:Call("PostCModelHandsSet", player, model, entity, info);
+	cwPlugin:Call("PostCModelHandsSet", player, model, entity, info);
 end;
 
 -- Called every frame.
@@ -1492,7 +1519,7 @@ end;
 
 -- Called when a player's data stream info should be sent.
 function Clockwork:PlayerSendDataStreamInfo(player)
-	Clockwork.datastream:Start(player, "SharedTables", self.SharedTables);
+	cwDatastream:Start(player, "SharedTables", self.SharedTables);
 
 	if (self.OverrideColorMod and self.OverrideColorMod != nil) then
 		self.datastream:Start(player, "SystemColGet", self.OverrideColorMod);
@@ -1522,7 +1549,7 @@ function Clockwork:PlayerRestoreCharacterData(player, data)
 		data["Accessories"] = {};
 	end;
 	
-	Clockwork.player:RestoreCharacterData(player, data);
+	cwPly:RestoreCharacterData(player, data);
 end;
 
 -- Called when a player's limb damage is bIsHealed.
@@ -1554,7 +1581,7 @@ end;
 
 -- Called when a player's data should be saved.
 function Clockwork:PlayerSaveData(player, data)
-	Clockwork.player:RestoreData(player, data);
+	cwPly:RestoreData(player, data);
 	
 	if (data["Whitelisted"] and table.Count(data["Whitelisted"]) == 0) then
 		data["Whitelisted"] = nil;
@@ -1599,15 +1626,15 @@ function Clockwork:Tick()
 	local plyTable = player.GetAll();
 
 	if (!self.NextHint or curTime >= self.NextHint) then
-		Clockwork.hint:Distribute();
-		self.NextHint = curTime + Clockwork.config:Get("hint_interval"):Get();
+		cwHint:Distribute();
+		self.NextHint = curTime + cwConfig:Get("hint_interval"):Get();
 	end;
 	
 	if (!self.NextWagesTime or curTime >= self.NextWagesTime) then
-		Clockwork.kernel:DistributeWagesCash();
+		cwKernel:DistributeWagesCash();
 		
 		local info = {
-			interval = Clockwork.config:Get("wages_interval"):Get();
+			interval = cwConfig:Get("wages_interval"):Get();
 		};
 		
 		self.plugin:Call("ModifyWagesInterval", info);
@@ -1616,10 +1643,10 @@ function Clockwork:Tick()
 	end;
 	
 	if (!self.NextGeneratorTime or curTime >= self.NextGeneratorTime) then
-		Clockwork.kernel:DistributeGeneratorCash();
+		cwKernel:DistributeGeneratorCash();
 		
 		local info = {
-			interval = Clockwork.config:Get("generator_interval"):Get();
+			interval = cwConfig:Get("generator_interval"):Get();
 		};
 		
 		self.plugin:Call("ModifyGeneratorInterval", info);
@@ -1628,16 +1655,16 @@ function Clockwork:Tick()
 	end;
 	
 	if (!self.NextDateTimeThink or sysTime >= self.NextDateTimeThink) then
-		Clockwork.kernel:PerformDateTimeThink();
-		self.NextDateTimeThink = sysTime + Clockwork.config:Get("minute_time"):Get();
+		cwKernel:PerformDateTimeThink();
+		self.NextDateTimeThink = sysTime + cwConfig:Get("minute_time"):Get();
 	end;
 	
 	if (!self.NextSaveData or sysTime >= self.NextSaveData) then
-		Clockwork.plugin:Call("PreSaveData");
-			Clockwork.plugin:Call("SaveData");
-		Clockwork.plugin:Call("PostSaveData");
+		cwPlugin:Call("PreSaveData");
+			cwPlugin:Call("SaveData");
+		cwPlugin:Call("PostSaveData");
 		
-		self.NextSaveData = sysTime + Clockwork.config:Get("save_data_interval"):Get();
+		self.NextSaveData = sysTime + cwConfig:Get("save_data_interval"):Get();
 	end;
 	
 	if (!self.NextCheckEmpty) then
@@ -1663,7 +1690,7 @@ function Clockwork:Tick()
 			end;
 			
 			if (curTime >= v.cwNextThink) then
-				Clockwork.player:CallThinkHook(
+				cwPly:CallThinkHook(
 					v, (curTime >= v.cwNextSetSharedVars), curTime
 				);
 			end;
@@ -1854,7 +1881,7 @@ end;
 function Clockwork:PlayerCanDeleteCharacter(player, character)
 	if (self.config:Get("cash_enabled"):Get() and character.cash < self.config:Get("default_cash"):Get()) then
 		if (!character.data["CharBanned"]) then
-			return "You cannot delete characters with less than "..Clockwork.kernel:FormatCash(self.config:Get("default_cash"):Get(), nil, true)..".";
+			return "You cannot delete characters with less than "..cwKernel:FormatCash(self.config:Get("default_cash"):Get(), nil, true)..".";
 		end;
 	end;
 end;
@@ -1876,12 +1903,12 @@ function Clockwork:PlayerCanUseCharacter(player, character)
 		return character.name.." is banned and cannot be used!";
 	end;
 
-	local faction = Clockwork.faction:FindByID(character.faction);
+	local faction = cwFaction:FindByID(character.faction);
 	local playerRank, rank = player:GetFactionRank(character);
 	local factionCount = 0;
 	local rankCount = 0;
 	
-	for k, v in ipairs(cwPlayer.GetAll()) do
+	for k, v in ipairs(_player.GetAll()) do
 		if (v:HasInitialized()) then
 			if (v:GetFaction() == character.faction) then
 				if (player != v) then
@@ -1907,17 +1934,17 @@ end;
 -- Called when a player's weapons should be given.
 function Clockwork:PlayerGiveWeapons(player)
 	local rankName, rank = player:GetFactionRank();
-	local faction = Clockwork.faction:FindByID(player:GetFaction());
+	local faction = cwFaction:FindByID(player:GetFaction());
 
 	if (rank and rank.weapons) then
 		for k, v in pairs(rank.weapons) do
-			Clockwork.player:GiveSpawnWeapon(player, v);
+			cwPly:GiveSpawnWeapon(player, v);
 		end;
 	end;
 
 	if (faction and faction.weapons) then
 		for k, v in pairs(faction.weapons) do
-			Clockwork.player:GiveSpawnWeapon(player, v);
+			cwPly:GiveSpawnWeapon(player, v);
 		end;
 	end;
 end;
@@ -2077,8 +2104,8 @@ end;
 
 -- Called when a player's model should be set.
 function Clockwork:PlayerSetModel(player)
-	Clockwork.player:SetDefaultModel(player);
-	Clockwork.player:SetDefaultSkin(player);
+	cwPly:SetDefaultModel(player);
+	cwPly:SetDefaultSkin(player);
 end;
 
 -- Called to check if a player does have door access.
@@ -2305,13 +2332,13 @@ end;
 
 -- Called when a player speaks from the client.
 function Clockwork:PlayerSay(player, text, bPublic)
-	local prefix = Clockwork.config:Get("command_prefix"):Get();
+	local prefix = cwConfig:Get("command_prefix"):Get();
 	local prefixLength = string.len(prefix);
 
  	if (string.sub(text, 1, prefixLength) == prefix) then
-		local arguments = Clockwork.kernel:ExplodeByTags(text, " ", "\"", "\"", true);
+		local arguments = cwKernel:ExplodeByTags(text, " ", "\"", "\"", true);
 		local command = string.sub(arguments[1], prefixLength + 1);
-		local realCommand = Clockwork.command:GetAlias()[command] or command;
+		local realCommand = cwCommand:GetAlias()[command] or command;
 
 		return string.Replace(text, prefix..command, prefix..realCommand);
  	end;
@@ -2617,7 +2644,7 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 					end;
 				end;
 				
-				Clockwork.plugin:Call(
+				cwPlugin:Call(
 					"PlayerPickupItem", player, itemTable, entity, bQuickUse
 				);
 				
@@ -2720,7 +2747,7 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 			inventory = entity.cwInventory,
 			isOneSided = true,
 			OnClose = function(player, storageTable, entity)
-				if (IsValid(entity) and Clockwork.inventory:IsEmpty(entity.cwInventory)) then
+				if (IsValid(entity) and cwInventory:IsEmpty(entity.cwInventory)) then
 					entity:Explode(entity:BoundingRadius() * 2);
 					entity:Remove();
 				end;
@@ -2773,7 +2800,7 @@ function Clockwork:PlayerSpawnedProp(player, model, entity)
 				self.player:GiveCash(player, -info.cost, info.name);
 				entity.cwGiveRefundTab = {CurTime() + 10, player, info.cost};
 			else
-				self.player:Notify(player, L(player, "YouNeedAnother", Clockwork.kernel:FormatCash(info.cost - player:GetCash(), nil, true)));
+				self.player:Notify(player, L(player, "YouNeedAnother", cwKernel:FormatCash(info.cost - player:GetCash(), nil, true)));
 				entity:Remove();
 				return;
 			end;
@@ -3043,10 +3070,10 @@ function Clockwork:PlayerCharacterInitialized(player)
 		player:NetworkAccessories();
 	end);
 	
-	Clockwork.datastream:Start(player, "CharacterInit", player:GetCharacterKey());
+	cwDatastream:Start(player, "CharacterInit", player:GetCharacterKey());
 
-	local faction = Clockwork.faction:FindByID(player:GetFaction());
-	local spawnRank = Clockwork.faction:GetDefaultRank(player:GetFaction()) or Clockwork.faction:GetLowestRank(player:GetFaction());
+	local faction = cwFaction:FindByID(player:GetFaction());
+	local spawnRank = cwFaction:GetDefaultRank(player:GetFaction()) or cwFaction:GetLowestRank(player:GetFaction());
 	
 	player:SetFactionRank(player:GetFactionRank() or spawnRank);
 	
@@ -3057,9 +3084,9 @@ function Clockwork:PlayerCharacterInitialized(player)
 	local rankName, rankTable = player:GetFactionRank();
 	
 	if (rankTable) then
-		if (rankTable.class and Clockwork.class.stored[rankTable.class]) then
+		if (rankTable.class and cwClass:GetAll()[rankTable.class]) then
 
-			Clockwork.class:Set(player, rankTable.class);
+			cwClass:Set(player, rankTable.class);
 		end;
 		
 		if (rankTable.model) then
@@ -3125,7 +3152,7 @@ function Clockwork:PlayerCharacterLoaded(player)
 	local playerFlags = player:GetPlayerFlags();
 	
 	if (onNextLoad != "") then
-		local queryObj = Clockwork.database:Update(charactersTable);
+		local queryObj = cwDatabase:Update(charactersTable);
 			queryObj:SetValue("_OnNextLoad", "");
 			queryObj:AddWhere("_Schema = ?", schemaFolder);
 			queryObj:AddWhere("_SteamID = ?", steamID);
@@ -3141,7 +3168,7 @@ function Clockwork:PlayerCharacterLoaded(player)
 		CHARACTER = nil;
 	end;
 	
-	local itemsList = Clockwork.inventory:GetAsItemsList(
+	local itemsList = cwInventory:GetAsItemsList(
 		player:GetInventory()
 	);
 	
@@ -3152,7 +3179,7 @@ function Clockwork:PlayerCharacterLoaded(player)
 	end;
 	
 	if (playerFlags) then
-		Clockwork.player:GiveFlags(player, playerFlags);
+		cwPly:GiveFlags(player, playerFlags);
 	end;
 end;
 
@@ -3166,7 +3193,7 @@ function Clockwork:PlayerConfigInitialized(player)
 	if (!player:IsBot()) then
 		timer.Simple(FrameTime() * 32, function()
 			if (IsValid(player)) then
-				Clockwork.datastream:Start(player, "DataStreaming", true);
+				cwDatastream:Start(player, "DataStreaming", true);
 			end;
 		end);
 	else
@@ -3227,9 +3254,9 @@ function Clockwork:PlayerAdjustDeathInfo(player, info) end;
 -- Called when chat box info should be adjusted.
 function Clockwork:ChatBoxAdjustInfo(info)
 	if (info.class == "ic") then
-		Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, info.speaker:Name().." says: \""..info.text.."\"");
+		cwKernel:PrintLog(LOGTYPE_GENERIC, info.speaker:Name().." says: \""..info.text.."\"");
 	elseif (info.class == "looc") then
-		Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, "[LOOC] "..info.speaker:Name()..": "..info.text);
+		cwKernel:PrintLog(LOGTYPE_GENERIC, "[LOOC] "..info.speaker:Name()..": "..info.text);
 	end;
 end;
 
@@ -3379,7 +3406,7 @@ function Clockwork:ItemEntityDestroyed(itemEntity, itemTable) end;
 function Clockwork:ItemGetNetworkObservers(itemTable, info)
 	local uniqueID = itemTable("uniqueID");
 	local itemID = itemTable("itemID");
-	local entity = Clockwork.item:FindEntityByInstance(itemTable);
+	local entity = cwItem:FindEntityByInstance(itemTable);
 	
 	if (entity) then
 		info.sendToAll = true;
@@ -3435,7 +3462,7 @@ function Clockwork:PlayerLoadout(player)
 	if (weapons) then
 		for k, v in pairs(weapons) do
 			if (!player:HasItemByID(v)) then
-				local itemTable = Clockwork.item:CreateInstance(v);
+				local itemTable = cwItem:CreateInstance(v);
 				
 				if (!self.player:GiveSpawnItemWeapon(player, itemTable)) then
 					player:Give(v);
@@ -3464,7 +3491,7 @@ end;
 
 -- Called when a player presses F1.
 function Clockwork:ShowHelp(player)
-	Clockwork.datastream:Start(player, "InfoToggle", true);
+	cwDatastream:Start(player, "InfoToggle", true);
 end;
 
 -- Called when a player presses F2.
@@ -3516,7 +3543,7 @@ function Clockwork:ShowTeam(ply)
 		
 		if (self.config:Get("recognise_system"):Get()) then
 			if (doRecogniseMenu) then
-				Clockwork.datastream:Start(ply, "RecogniseMenu", true);
+				cwDatastream:Start(ply, "RecogniseMenu", true);
 			end;
 		end;
 	end;
@@ -3786,7 +3813,7 @@ function Clockwork:KeyPress(player, key)
 		local velocity = player:GetVelocity():Length();
 		
 		if (velocity > 0 and !player:KeyDown(IN_SPEED)) then
-			if (player:GetSharedVar("IsJogMode") or !Clockwork.config:Get("enable_jogging"):Get()) then
+			if (player:GetSharedVar("IsJogMode") or !cwConfig:Get("enable_jogging"):Get()) then
 				player:SetSharedVar("IsJogMode", false);
 			else
 				player:SetSharedVar("IsJogMode", true);
@@ -3805,12 +3832,12 @@ function Clockwork:KeyPress(player, key)
 			player.cwReloadHoldTime = CurTime() + 0.25;
 		end;
 	elseif (key == IN_ATTACK or key == IN_ATTACK2) then
-		if (Clockwork.player:GetWeaponRaised(player) == false) then
+		if (cwPly:GetWeaponRaised(player) == false) then
 			local weapon = player:GetActiveWeapon();
-			local bQuickRaise = Clockwork.plugin:Call("PlayerCanQuickRaise", player, weapon, key);
+			local bQuickRaise = cwPlugin:Call("PlayerCanQuickRaise", player, weapon, key);
 
 			if (bQuickRaise) then
-				Clockwork.player:ToggleWeaponRaised(player);
+				cwPly:ToggleWeaponRaised(player);
 			end;
 		end;
 	end;
@@ -3851,8 +3878,8 @@ function Clockwork:PlayerSpawnedNPC(player, npc)
 	prevRelation = prevRelation or {};
 	prevRelation[player:SteamID()] = prevRelation[player:SteamID()] or {};
 	
-	for k, v in pairs(cwPlayer.GetAll()) do
-		faction = Clockwork.faction:FindByID(v:GetFaction());
+	for k, v in pairs(_player.GetAll()) do
+		faction = cwFaction:FindByID(v:GetFaction());
 		relation = faction.entRelationship;
 		
 		if (istable(relation)) then
@@ -3884,7 +3911,7 @@ end;
 	@param Number The amount that is being progressed for editing purposes.
 --]]
 function Clockwork:OnAttributeProgress(player, attribute, amount)
-	amount = amount * Clockwork.config:Get("scale_attribute_progress"):Get();
+	amount = amount * cwConfig:Get("scale_attribute_progress"):Get();
 end;
 
 --[[
@@ -3926,14 +3953,14 @@ end;
 function Clockwork:PostCommandUsed(player, command, arguments) end;
 
 -- GetTargetRecognises datastream callback.
-Clockwork.datastream:Hook("GetTargetRecognises", function(player, data)
+cwDatastream:Hook("GetTargetRecognises", function(player, data)
 	if (IsValid(data) and data:IsPlayer()) then
-		player:SetSharedVar("TargetKnows", Clockwork.player:DoesRecognise(data, player));
+		player:SetSharedVar("TargetKnows", cwPly:DoesRecognise(data, player));
 	end;
 end);
 
 -- EntityMenuOption datastream callback.
-Clockwork.datastream:Hook("EntityMenuOption", function(player, data)
+cwDatastream:Hook("EntityMenuOption", function(player, data)
 	local entity = data[1];
 	local option = data[2];
 	local shootPos = player:GetShootPos();
@@ -3942,13 +3969,13 @@ Clockwork.datastream:Hook("EntityMenuOption", function(player, data)
 	
 	if (IsValid(entity) and type(option) == "string") then
 		if (entity:NearestPoint(shootPos):Distance(shootPos) <= 80) then
-			if (Clockwork.plugin:Call("PlayerUse", player, entity)) then
+			if (cwPlugin:Call("PlayerUse", player, entity)) then
 				if (!player.nextEntityHandle or player.nextEntityHandle <= curTime) then
-					Clockwork.plugin:Call("EntityHandleMenuOption", player, entity, option, arguments);
+					cwPlugin:Call("EntityHandleMenuOption", player, entity, option, arguments);
 
-					player.nextEntityHandle = curTime + Clockwork.config:Get("entity_handle_time"):Get();
+					player.nextEntityHandle = curTime + cwConfig:Get("entity_handle_time"):Get();
 				else
-					Clockwork.player:Notify(player, L(player, "EntityOptionWaitTime"));
+					cwPly:Notify(player, L(player, "EntityOptionWaitTime"));
 				end;
 			end;
 		end;
@@ -3956,7 +3983,7 @@ Clockwork.datastream:Hook("EntityMenuOption", function(player, data)
 end);
 
 -- MenuOption datastream callback.
-Clockwork.datastream:Hook("MenuOption", function(player, data)
+cwDatastream:Hook("MenuOption", function(player, data)
 	local item = data.item;
 	local option = data.option;
 	local entity = data.entity;
@@ -3967,7 +3994,7 @@ Clockwork.datastream:Hook("MenuOption", function(player, data)
 		data = {data};
 	end;
 
-	local itemTable = Clockwork.item:FindInstance(item);
+	local itemTable = cwItem:FindInstance(item);
 	if (itemTable and itemTable:IsInstance() and type(option) == "string") then
 		if (itemTable.HandleOptions) then
 			if (player:HasItemInstance(itemTable)) then
@@ -3980,13 +4007,13 @@ Clockwork.datastream:Hook("MenuOption", function(player, data)
 end);
 
 -- DataStreamInfoSent datastream callback.
-Clockwork.datastream:Hook("DataStreamInfoSent", function(player, data)
+cwDatastream:Hook("DataStreamInfoSent", function(player, data)
 	if (!player.cwDataStreamInfoSent) then
-		Clockwork.plugin:Call("PlayerDataStreamInfoSent", player);
+		cwPlugin:Call("PlayerDataStreamInfoSent", player);
 		
 		timer.Simple(FrameTime() * 32, function()
 			if (IsValid(player)) then
-				Clockwork.datastream:Start(player, "DataStreamed", true);
+				cwDatastream:Start(player, "DataStreamed", true);
 			end;
 		end);
 		
@@ -3995,18 +4022,18 @@ Clockwork.datastream:Hook("DataStreamInfoSent", function(player, data)
 end);
 
 -- LocalPlayerCreated datastream callback.
-Clockwork.datastream:Hook("LocalPlayerCreated", function(player, data)
+cwDatastream:Hook("LocalPlayerCreated", function(player, data)
 	if (IsValid(player) and !player:HasConfigInitialized()) then
-		Clockwork.kernel:CreateTimer("SendCfg"..player:UniqueID(), FrameTime(), 1, function()
+		cwKernel:CreateTimer("SendCfg"..player:UniqueID(), FrameTime(), 1, function()
 			if (IsValid(player)) then
-				Clockwork.config:Send(player);
+				cwConfig:Send(player);
 			end;
 		end);		
 	end;
 end);
 
 -- InteractCharacter datastream callback.
-Clockwork.datastream:Hook("InteractCharacter", function(player, data)
+cwDatastream:Hook("InteractCharacter", function(player, data)
 	local characterID = data.characterID;
 	local action = data.action;
 	
@@ -4014,134 +4041,134 @@ Clockwork.datastream:Hook("InteractCharacter", function(player, data)
 		local character = player:GetCharacters()[characterID];
 		
 		if (character) then
-			local fault = Clockwork.plugin:Call("PlayerCanInteractCharacter", player, action, character);
+			local fault = cwPlugin:Call("PlayerCanInteractCharacter", player, action, character);
 			
 			if (fault == false or type(fault) == "string") then
-				return Clockwork.player:SetCreateFault(fault or "You cannot interact with this character!");
+				return cwPly:SetCreateFault(fault or "You cannot interact with this character!");
 			elseif (action == "delete") then
-				local bSuccess, fault = Clockwork.player:DeleteCharacter(player, characterID);
+				local bSuccess, fault = cwPly:DeleteCharacter(player, characterID);
 				
 				if (!bSuccess) then 
-					Clockwork.player:SetCreateFault(player, fault);
+					cwPly:SetCreateFault(player, fault);
 				end;
 			elseif (action == "use") then
-				local bSuccess, fault = Clockwork.player:UseCharacter(player, characterID);
+				local bSuccess, fault = cwPly:UseCharacter(player, characterID);
 				
 				if (!bSuccess) then
-					Clockwork.player:SetCreateFault(player, fault);
+					cwPly:SetCreateFault(player, fault);
 				end;
 			else
-				Clockwork.plugin:Call("PlayerSelectCustomCharacterOption", player, action, character);
+				cwPlugin:Call("PlayerSelectCustomCharacterOption", player, action, character);
 			end;
 		end;
 	end;
 end);
 
 -- GetQuizStatus datastream callback.
-Clockwork.datastream:Hook("GetQuizStatus", function(player, data)
-	if (!Clockwork.quiz:GetEnabled() or Clockwork.quiz:GetCompleted(player)) then
-		Clockwork.datastream:Start(player, "QuizCompleted", true);
+cwDatastream:Hook("GetQuizStatus", function(player, data)
+	if (!cwQuiz:GetEnabled() or cwQuiz:GetCompleted(player)) then
+		cwDatastream:Start(player, "QuizCompleted", true);
 	else
-		Clockwork.datastream:Start(player, "QuizCompleted", false);
+		cwDatastream:Start(player, "QuizCompleted", false);
 	end; 
 end);
 
 -- DoorManagement datastream callback.
-Clockwork.datastream:Hook("DoorManagement", function(player, data)
+cwDatastream:Hook("DoorManagement", function(player, data)
 	if (IsValid(data[1]) and player:GetEyeTraceNoCursor().Entity == data[1]) then
 		if (data[1]:GetPos():Distance(player:GetPos()) <= 192) then
 			if (data[2] == "Purchase") then
-				if (!Clockwork.entity:GetOwner(data[1])) then
+				if (!cwEntity:GetOwner(data[1])) then
 					if (hook.Call("PlayerCanOwnDoor", Clockwork, player, data[1])) then
-						local doors = Clockwork.player:GetDoorCount(player);
+						local doors = cwPly:GetDoorCount(player);
 						
-						if (doors == Clockwork.config:Get("max_doors"):Get()) then
-							Clockwork.player:Notify(player, L(player, "CannotPurchaseAnotherDoor"));
+						if (doors == cwConfig:Get("max_doors"):Get()) then
+							cwPly:Notify(player, L(player, "CannotPurchaseAnotherDoor"));
 						else
-							local doorCost = Clockwork.config:Get("door_cost"):Get();
+							local doorCost = cwConfig:Get("door_cost"):Get();
 							
-							if (doorCost == 0 or Clockwork.player:CanAfford(player, doorCost)) then
-								local doorName = Clockwork.entity:GetDoorName(data[1]);
+							if (doorCost == 0 or cwPly:CanAfford(player, doorCost)) then
+								local doorName = cwEntity:GetDoorName(data[1]);
 								
 								if (doorName == "false" or doorName == "hidden" or doorName == "") then
 									doorName = "Door"; 
 								end; 
 								
 								if (doorCost > 0) then
-									Clockwork.player:GiveCash(player, -doorCost, doorName);
+									cwPly:GiveCash(player, -doorCost, doorName);
 								end;
 								
-								Clockwork.player:GiveDoor(player, data[1]);
+								cwPly:GiveDoor(player, data[1]);
 							else
 								local amount = doorCost - player:GetCash();
 								
-								Clockwork.player:Notify(player, L(player, "YouNeedAnother",
-									Clockwork.kernel:FormatCash(amount, nil, true))
+								cwPly:Notify(player, L(player, "YouNeedAnother",
+									cwKernel:FormatCash(amount, nil, true))
 								);
 							end;
 						end;
 					end;
 				end;
 			elseif (data[2] == "Access") then
-				if (Clockwork.player:HasDoorAccess(player, data[1], DOOR_ACCESS_COMPLETE)) then
-					if (IsValid(data[3]) and data[3] != player and data[3] != Clockwork.entity:GetOwner(data[1])) then
+				if (cwPly:HasDoorAccess(player, data[1], DOOR_ACCESS_COMPLETE)) then
+					if (IsValid(data[3]) and data[3] != player and data[3] != cwEntity:GetOwner(data[1])) then
 						if (data[4] == DOOR_ACCESS_COMPLETE) then
-							if (Clockwork.player:HasDoorAccess(data[3], data[1], DOOR_ACCESS_COMPLETE)) then
-								Clockwork.player:GiveDoorAccess(data[3], data[1], DOOR_ACCESS_BASIC);
+							if (cwPly:HasDoorAccess(data[3], data[1], DOOR_ACCESS_COMPLETE)) then
+								cwPly:GiveDoorAccess(data[3], data[1], DOOR_ACCESS_BASIC);
 							else
-								Clockwork.player:GiveDoorAccess(data[3], data[1], DOOR_ACCESS_COMPLETE);
+								cwPly:GiveDoorAccess(data[3], data[1], DOOR_ACCESS_COMPLETE);
 							end;
 						elseif (data[4] == DOOR_ACCESS_BASIC) then
-							if (Clockwork.player:HasDoorAccess(data[3], data[1], DOOR_ACCESS_BASIC)) then
-								Clockwork.player:TakeDoorAccess(data[3], data[1]);
+							if (cwPly:HasDoorAccess(data[3], data[1], DOOR_ACCESS_BASIC)) then
+								cwPly:TakeDoorAccess(data[3], data[1]);
 							else 
-								Clockwork.player:GiveDoorAccess(data[3], data[1], DOOR_ACCESS_BASIC);
+								cwPly:GiveDoorAccess(data[3], data[1], DOOR_ACCESS_BASIC);
 							end;
 						end;
 						
-						if (Clockwork.player:HasDoorAccess(data[3], data[1], DOOR_ACCESS_COMPLETE)) then
-							Clockwork.datastream:Start(player, "DoorAccess", {data[3], DOOR_ACCESS_COMPLETE});
-						elseif (Clockwork.player:HasDoorAccess(data[3], data[1], DOOR_ACCESS_BASIC)) then 
-							Clockwork.datastream:Start(player, "DoorAccess", {data[3], DOOR_ACCESS_BASIC});
+						if (cwPly:HasDoorAccess(data[3], data[1], DOOR_ACCESS_COMPLETE)) then
+							cwDatastream:Start(player, "DoorAccess", {data[3], DOOR_ACCESS_COMPLETE});
+						elseif (cwPly:HasDoorAccess(data[3], data[1], DOOR_ACCESS_BASIC)) then 
+							cwDatastream:Start(player, "DoorAccess", {data[3], DOOR_ACCESS_BASIC});
 						else
-							Clockwork.datastream:Start(player, "DoorAccess", {data[3]});
+							cwDatastream:Start(player, "DoorAccess", {data[3]});
 						end;
 					end;
 				end; 
 			elseif (data[2] == "Unshare") then
-				if (Clockwork.entity:IsDoorParent(data[1])) then
+				if (cwEntity:IsDoorParent(data[1])) then
 					if (data[3] == "Text") then
-						Clockwork.datastream:Start(player, "SetSharedText", false);
+						cwDatastream:Start(player, "SetSharedText", false);
 						
 						data[1].cwDoorSharedTxt = nil;
 					else
-						Clockwork.datastream:Start(player, "SetSharedAccess", false);
+						cwDatastream:Start(player, "SetSharedAccess", false);
 						
 						data[1].cwDoorSharedAxs = nil;
 					end;
 				end;
 			elseif (data[2] == "Share") then
-				if (Clockwork.entity:IsDoorParent(data[1])) then
+				if (cwEntity:IsDoorParent(data[1])) then
 					if (data[3] == "Text") then
-						Clockwork.datastream:Start(player, "SetSharedText", true);
+						cwDatastream:Start(player, "SetSharedText", true);
 						
 						data[1].cwDoorSharedTxt = true;
 					else
-						Clockwork.datastream:Start(player, "SetSharedAccess", true); 
+						cwDatastream:Start(player, "SetSharedAccess", true); 
 						
 						data[1].cwDoorSharedAxs = true;
 					end;
 				end;
 			elseif (data[2] == "Text" and data[3] != "") then
-				if (Clockwork.player:HasDoorAccess(player, data[1], DOOR_ACCESS_COMPLETE)) then
+				if (cwPly:HasDoorAccess(player, data[1], DOOR_ACCESS_COMPLETE)) then
 					if (!string.find(string.gsub(string.lower(data[3]), "%s", ""), "thisdoorcanbepurchased") and string.find(data[3], "%w")) then
-						Clockwork.entity:SetDoorText(data[1], string.utf8sub(data[3], 1, 32));
+						cwEntity:SetDoorText(data[1], string.utf8sub(data[3], 1, 32));
 					end;
 				end;
 			elseif (data[2] == "Sell") then
-				if (Clockwork.entity:GetOwner(data[1]) == player) then
-					if (!Clockwork.entity:IsDoorUnsellable(data[1])) then
-						Clockwork.player:TakeDoor(player, data[1]);
+				if (cwEntity:GetOwner(data[1]) == player) then
+					if (!cwEntity:IsDoorUnsellable(data[1])) then
+						cwPly:TakeDoor(player, data[1]);
 					end;
 				end;
 			end;
@@ -4150,34 +4177,34 @@ Clockwork.datastream:Hook("DoorManagement", function(player, data)
 end);
 
 -- CreateCharacter datastream callback.
-Clockwork.datastream:Hook("CreateCharacter", function(player, data)
-	Clockwork.player:CreateCharacterFromData(player, data);
+cwDatastream:Hook("CreateCharacter", function(player, data)
+	cwPly:CreateCharacterFromData(player, data);
 end);
 
 -- RecogniseOption datastream callback.
-Clockwork.datastream:Hook("RecogniseOption", function(player, data)
+cwDatastream:Hook("RecogniseOption", function(player, data)
 	local recogniseData = data;
 
-	if (Clockwork.config:Get("recognise_system"):Get()) then
+	if (cwConfig:Get("recognise_system"):Get()) then
 		if (type(recogniseData) == "string") then	
 			local playSound = false;
 			
 			if (recogniseData == "look") then
 				local target = player:GetEyeTraceNoCursor().Entity;
 
-				if (target:HasInitialized() and !Clockwork.player:IsNoClipping(target) and target != player) then
-					Clockwork.player:SetRecognises(target, player, RECOGNISE_SAVE);
+				if (target:HasInitialized() and !cwPly:IsNoClipping(target) and target != player) then
+					cwPly:SetRecognises(target, player, RECOGNISE_SAVE);
 
 					playSound = true;
 				end;
 			else
 				local position = player:GetPos();
 				local plyTable = _player.GetAll();
-				local talkRadius = Clockwork.config:Get("talk_radius"):Get();
+				local talkRadius = cwConfig:Get("talk_radius"):Get();
 
 				for k, v in pairs(plyTable) do
 					if (v:HasInitialized() and player != v) then
-						if (!Clockwork.player:IsNoClipping(v)) then
+						if (!cwPly:IsNoClipping(v)) then
 							local distance = v:GetPos():Distance(position);
 							local recognise = false;
 							
@@ -4196,7 +4223,7 @@ Clockwork.datastream:Hook("RecogniseOption", function(player, data)
 							end;
 							
 							if (recognise) then
-								Clockwork.player:SetRecognises(v, player, RECOGNISE_SAVE);
+								cwPly:SetRecognises(v, player, RECOGNISE_SAVE);
 								
 								if (!playSound) then
 									playSound = true;
@@ -4208,37 +4235,37 @@ Clockwork.datastream:Hook("RecogniseOption", function(player, data)
 			end;
 
 			if (playSound) then
-				Clockwork.player:PlaySound(player, "buttons/button17.wav");
+				cwPly:PlaySound(player, "buttons/button17.wav");
 			end;
 		end;
 	end;
 end);
 
 -- QuizCompleted datastream callback.
-Clockwork.datastream:Hook("QuizCompleted", function(player, data)
-	if (player.cwQuizAnswers and !Clockwork.quiz:GetCompleted(player)) then
-		local questionsAmount = Clockwork.quiz:GetQuestionsAmount();
+cwDatastream:Hook("QuizCompleted", function(player, data)
+	if (player.cwQuizAnswers and !cwQuiz:GetCompleted(player)) then
+		local questionsAmount = cwQuiz:GetQuestionsAmount();
 		local correctAnswers = 0;
-		local quizQuestions = Clockwork.quiz:GetQuestions();
+		local quizQuestions = cwQuiz:GetQuestions();
 		
 		for k, v in pairs(quizQuestions) do
 			if (player.cwQuizAnswers[k]) then
-				if (Clockwork.quiz:IsAnswerCorrect(k, player.cwQuizAnswers[k])) then
+				if (cwQuiz:IsAnswerCorrect(k, player.cwQuizAnswers[k])) then
 					correctAnswers = correctAnswers + 1;
 				end;
 			end;
 		end;
 		
-		if (correctAnswers < math.Round(questionsAmount * (Clockwork.quiz:GetPercentage() / 100))) then
-			Clockwork.quiz:CallKickCallback(player, correctAnswers);
+		if (correctAnswers < math.Round(questionsAmount * (cwQuiz:GetPercentage() / 100))) then
+			cwQuiz:CallKickCallback(player, correctAnswers);
 		else
-			Clockwork.quiz:SetCompleted(player, true);
+			cwQuiz:SetCompleted(player, true);
 		end;
 	end;
 end); 
 
 -- UnequipItem datastream callback.
-Clockwork.datastream:Hook("UnequipItem", function(player, data)
+cwDatastream:Hook("UnequipItem", function(player, data)
 	local arguments = data[3];
 	local uniqueID = data[1];
 	local itemID = data[2];
@@ -4263,7 +4290,7 @@ Clockwork.datastream:Hook("UnequipItem", function(player, data)
 end);
 
 -- QuizAnswer datastream callback.
-Clockwork.datastream:Hook("QuizAnswer", function(player, data)
+cwDatastream:Hook("QuizAnswer", function(player, data)
 	if (!player.cwQuizAnswers) then
 		player.cwQuizAnswers = {};
 	end;
@@ -4271,7 +4298,7 @@ Clockwork.datastream:Hook("QuizAnswer", function(player, data)
 	local question = data[1];
 	local answer = data[2];
 	
-	if (Clockwork.quiz:GetQuestion(question)) then
+	if (cwQuiz:GetQuestion(question)) then
 		player.cwQuizAnswers[question] = answer;
 	end;
 end);
@@ -4313,10 +4340,10 @@ end;
 -- A function to make a player fire bullets.
 function entityMeta:FireBullets(bulletInfo)
 	if (self:IsPlayer()) then
-		Clockwork.plugin:Call("PlayerAdjustBulletInfo", self, bulletInfo);
+		cwPlugin:Call("PlayerAdjustBulletInfo", self, bulletInfo);
 	end;
 	
-	Clockwork.plugin:Call("EntityFireBullets", self, bulletInfo);
+	cwPlugin:Call("EntityFireBullets", self, bulletInfo);
 	return self:ClockworkFireBullets(bulletInfo);
 end;
 
@@ -4340,26 +4367,26 @@ end;
 
 -- A function to save a player's character.
 function playerMeta:SaveCharacter()
-	Clockwork.player:SaveCharacter(self);
+	cwPly:SaveCharacter(self);
 end;
 
 -- A function to give a player an item weapon.
 function playerMeta:GiveItemWeapon(itemTable)
-	Clockwork.player:GiveItemWeapon(self, itemTable);
+	cwPly:GiveItemWeapon(self, itemTable);
 end;
 
 -- A function to give a weapon to a player.
 function playerMeta:Give(class, itemTable, bForceReturn)
 	local iTeamIndex = self:Team();
 	
-	if (!Clockwork.plugin:Call("PlayerCanBeGivenWeapon", self, class, itemTable)) then
+	if (!cwPlugin:Call("PlayerCanBeGivenWeapon", self, class, itemTable)) then
 		return;
 	end;
 	
 	if (self:IsRagdolled() and !bForceReturn) then
 		local ragdollWeapons = self:GetRagdollWeapons();
-		local spawnWeapon = Clockwork.player:GetSpawnWeapon(self, class);
-		local bCanHolster = (itemTable and Clockwork.plugin:Call("PlayerCanHolsterWeapon", self, itemTable, true, true));
+		local spawnWeapon = cwPly:GetSpawnWeapon(self, class);
+		local bCanHolster = (itemTable and cwPlugin:Call("PlayerCanHolsterWeapon", self, itemTable, true, true));
 		
 		if (!spawnWeapon) then iTeamIndex = nil; end;
 		
@@ -4388,8 +4415,8 @@ function playerMeta:Give(class, itemTable, bForceReturn)
 		local weapon = self:GetWeapon(class);
 		
 		if (IsValid(weapon) and itemTable) then
-			Clockwork.datastream:Start(self, "WeaponItemData", {
-				definition = Clockwork.item:GetDefinition(itemTable, true),
+			cwDatastream:Start(self, "WeaponItemData", {
+				definition = cwItem:GetDefinition(itemTable, true),
 				weapon = weapon:EntIndex()
 			});
 			
@@ -4404,7 +4431,7 @@ function playerMeta:Give(class, itemTable, bForceReturn)
 		end;
 	end;
 	
-	Clockwork.plugin:Call("PlayerGivenWeapon", self, class, itemTable);
+	cwPlugin:Call("PlayerGivenWeapon", self, class, itemTable);
 end;
 
 -- A function to get a player's data.
@@ -4426,7 +4453,7 @@ function entityMeta:SetSkin(skin)
 	self:ClockworkSetSkin(skin);
 	
 	if (self:IsPlayer()) then
-		Clockwork.plugin:Call("PlayerSkinChanged", self, skin);
+		cwPlugin:Call("PlayerSkinChanged", self, skin);
 		
 		if (self:IsRagdolled()) then
 			self:GetRagdollTable().skin = skin;
@@ -4439,7 +4466,7 @@ function entityMeta:SetModel(model)
 	self:ClockworkSetModel(model);
 	
 	if (self:IsPlayer()) then
-		Clockwork.plugin:Call("PlayerModelChanged", self, model);
+		cwPlugin:Call("PlayerModelChanged", self, model);
 		
 		if (self:IsRagdolled()) then
 			self:GetRagdollTable().model = model;
@@ -4459,12 +4486,12 @@ end;
 
 -- A function to get whether an entity is a map entity.
 function entityMeta:IsMapEntity()
-	return Clockwork.entity:IsMapEntity(self);
+	return cwEntity:IsMapEntity(self);
 end;
 
 -- A function to get an entity's start position.
 function entityMeta:GetStartPosition()
-	return Clockwork.entity:GetStartPosition(self);
+	return cwEntity:GetStartPosition(self);
 end;
 
 -- A function to emit a hit sound for an entity.
@@ -4507,19 +4534,19 @@ end;
 function playerMeta:SetArmor(armor)
 	local oldArmor = self:Armor();
 		self:ClockworkSetArmor(armor);
-	Clockwork.plugin:Call("PlayerArmorSet", self, armor, oldArmor);
+	cwPlugin:Call("PlayerArmorSet", self, armor, oldArmor);
 end;
 
 -- A function to set a player's health.
 function playerMeta:SetHealth(health)
 	local oldHealth = self:Health();
 		self:ClockworkSetHealth(health);
-	Clockwork.plugin:Call("PlayerHealthSet", self, health, oldHealth);
+	cwPlugin:Call("PlayerHealthSet", self, health, oldHealth);
 end;
 
 -- A function to get whether a player is noclipping.
 function playerMeta:IsNoClipping()
-	return Clockwork.player:IsNoClipping(self);
+	return cwPly:IsNoClipping(self);
 end;
 
 -- A function to get whether a player is running.
@@ -4574,10 +4601,10 @@ function playerMeta:HandleAttributeProgress(curTime)
 		self.cwAttrProgressTime = curTime + 30;
 		
 		for k, v in pairs(self.cwAttrProgress) do
-			local attributeTable = Clockwork.attribute:FindByID(k);
+			local attributeTable = cwAttribute:FindByID(k);
 			
 			if (attributeTable) then
-				Clockwork.datastream:Start(self, "AttributeProgress", {
+				cwDatastream:Start(self, "AttributeProgress", {
 					index = attributeTable.index, amount = v
 				});
 			end;
@@ -4638,7 +4665,7 @@ end;
 
 -- A function to update whether a player's weapon is raised.
 function playerMeta:UpdateWeaponRaised()
-	Clockwork.player:UpdateWeaponRaised(self);
+	cwPly:UpdateWeaponRaised(self);
 end;
 
 -- A function to update whether a player's weapon has fired.
@@ -4651,7 +4678,7 @@ function playerMeta:UpdateWeaponFired()
 			
 			if (clipOne < self.cwClipOneInfo.ammo) then
 				self.cwClipOneInfo.ammo = clipOne;
-				Clockwork.plugin:Call("PlayerFireWeapon", self, activeWeapon, CLIP_ONE, activeWeapon:GetPrimaryAmmoType());
+				cwPlugin:Call("PlayerFireWeapon", self, activeWeapon, CLIP_ONE, activeWeapon:GetPrimaryAmmoType());
 			end;
 		else
 			self.cwClipOneInfo.weapon = activeWeapon;
@@ -4663,7 +4690,7 @@ function playerMeta:UpdateWeaponFired()
 			
 			if (clipTwo < self.cwClipTwoInfo.ammo) then
 				self.cwClipTwoInfo.ammo = clipTwo;
-				Clockwork.plugin:Call("PlayerFireWeapon", self, activeWeapon, CLIP_TWO, activeWeapon:GetSecondaryAmmoType());
+				cwPlugin:Call("PlayerFireWeapon", self, activeWeapon, CLIP_TWO, activeWeapon:GetSecondaryAmmoType());
 			end;
 		else
 			self.cwClipTwoInfo.weapon = activeWeapon;
@@ -4701,17 +4728,17 @@ end;
 
 -- A function to get whether a player is using their hands.
 function playerMeta:IsUsingHands()
-	return Clockwork.player:GetWeaponClass(self) == "cw_hands";
+	return cwPly:GetWeaponClass(self) == "cw_hands";
 end;
 
 -- A function to get whether a player is using their hands.
 function playerMeta:IsUsingKeys()
-	return Clockwork.player:GetWeaponClass(self) == "cw_keys";
+	return cwPly:GetWeaponClass(self) == "cw_keys";
 end;
 
 -- A function to get a player's wages.
 function playerMeta:GetWages()
-	return Clockwork.player:GetWages(self);
+	return cwPly:GetWages(self);
 end;
 
 -- A function to get a player's community ID.
@@ -4727,7 +4754,7 @@ end;
 
 -- A function to get whether a player is ragdolled.
 function playerMeta:IsRagdolled(exception, entityless)
-	return Clockwork.player:IsRagdolled(self, exception, entityless);
+	return cwPly:IsRagdolled(self, exception, entityless);
 end;
 
 -- A function to get whether a player is kicked.
@@ -4766,12 +4793,12 @@ end;
 
 -- A function to ban a player.
 function playerMeta:Ban(duration, reason)
-	Clockwork.bans:Add(self:SteamID(), duration * 60, reason);
+	cwBans:Add(self:SteamID(), duration * 60, reason);
 end;
 
 -- A function to get a player's cash.
 function playerMeta:GetCash()
-	if (Clockwork.config:Get("cash_enabled"):Get()) then
+	if (cwConfig:Get("cash_enabled"):Get()) then
 		return self:QueryCharacter("Cash");
 	else
 		return 0;
@@ -4814,22 +4841,22 @@ function playerMeta:GetRecognisedNames()
 end;
 
 -- A function to get a player's character table.
-function playerMeta:GetCharacter() return Clockwork.player:GetCharacter(self); end;
+function playerMeta:GetCharacter() return cwPly:GetCharacter(self); end;
 
 -- A function to get a player's storage table.
-function playerMeta:GetStorageTable() return Clockwork.storage:GetTable(self); end;
+function playerMeta:GetStorageTable() return cwStorage:GetTable(self); end;
  
 -- A function to get a player's ragdoll table.
-function playerMeta:GetRagdollTable() return Clockwork.player:GetRagdollTable(self); end;
+function playerMeta:GetRagdollTable() return cwPly:GetRagdollTable(self); end;
 
 -- A function to get a player's ragdoll state.
-function playerMeta:GetRagdollState() return Clockwork.player:GetRagdollState(self); end;
+function playerMeta:GetRagdollState() return cwPly:GetRagdollState(self); end;
 
 -- A function to get a player's storage entity.
-function playerMeta:GetStorageEntity() return Clockwork.storage:GetEntity(self); end;
+function playerMeta:GetStorageEntity() return cwStorage:GetEntity(self); end;
 
 -- A function to get a player's ragdoll entity.
-function playerMeta:GetRagdollEntity() return Clockwork.player:GetRagdollEntity(self); end;
+function playerMeta:GetRagdollEntity() return cwPly:GetRagdollEntity(self); end;
 
 -- A function to get a player's ragdoll weapons.
 function playerMeta:GetRagdollWeapons()
@@ -4894,28 +4921,28 @@ end;
 -- A function to get whether an entity is being held.
 function entityMeta:IsBeingHeld()
 	if (IsValid(self)) then
-		return Clockwork.plugin:Call("GetEntityBeingHeld", self);
+		return cwPlugin:Call("GetEntityBeingHeld", self);
 	end;
 end;
 
 -- A function to run a command on a player.
 function playerMeta:RunCommand(...)
-	Clockwork.datastream:Start(self, "RunCommand", {...});
+	cwDatastream:Start(self, "RunCommand", {...});
 end;
 
 -- A function to run a Clockwork command on a player.
 function playerMeta:RunClockworkCmd(command, ...)
-	Clockwork.player:RunClockworkCommand(self, command, ...)
+	cwPly:RunClockworkCommand(self, command, ...)
 end;
 
 -- A function to get a player's wages name.
 function playerMeta:GetWagesName()
-	return Clockwork.player:GetWagesName(self);
+	return cwPly:GetWagesName(self);
 end;
 
 -- A function to create a player'a animation stop delay.
 function playerMeta:CreateAnimationStopDelay(delay)
-	Clockwork.kernel:CreateTimer("ForcedAnim"..self:UniqueID(), delay, 1, function()
+	cwKernel:CreateTimer("ForcedAnim"..self:UniqueID(), delay, 1, function()
 		if (IsValid(self)) then
 			local forcedAnimation = self:GetForcedAnimation();
 			
@@ -4960,7 +4987,7 @@ function playerMeta:SetForcedAnimation(animation, delay, OnAnimate, OnFinish)
 		};
 		
 		if (bIsPermanent) then
-			Clockwork.kernel:DestroyTimer(
+			cwKernel:DestroyTimer(
 				"ForcedAnim"..self:UniqueID()
 			);
 		else
@@ -5050,7 +5077,7 @@ function playerMeta:SetClockworkUserGroup(userGroup)
 		self:SetUserGroup(userGroup);
 		self:SaveCharacter();
 
-		Clockwork.plugin:Call("OnPlayerUserGroupSet", self, userGroup);
+		cwPlugin:Call("OnPlayerUserGroupSet", self, userGroup);
 	end;
 end;
 
@@ -5072,21 +5099,21 @@ end;
 
 -- A function to get a player's items by ID.
 function playerMeta:GetItemsByID(uniqueID)
-	return Clockwork.inventory:GetItemsByID(
+	return cwInventory:GetItemsByID(
 		self:GetInventory(), uniqueID
 	);
 end;
 
 -- A function to find a player's items by name.
 function playerMeta:FindItemsByName(uniqueID, name)
-	return Clockwork.inventory:FindItemsByName(
+	return cwInventory:FindItemsByName(
 		self:GetInventory(), uniqueID, name
 	);
 end;
 
 -- A function to get the maximum weight a player can carry.
 function playerMeta:GetMaxWeight()
-	local itemsList = Clockwork.inventory:GetAsItemsList(self:GetInventory()); 
+	local itemsList = cwInventory:GetAsItemsList(self:GetInventory()); 
 	local weight = self:GetSharedVar("InvWeight");
 	
 	for k, v in pairs(itemsList) do
@@ -5101,7 +5128,7 @@ end;
 
 -- A function to get the maximum space a player can carry.
 function playerMeta:GetMaxSpace()
-	local itemsList = Clockwork.inventory:GetAsItemsList(self:GetInventory()); 
+	local itemsList = cwInventory:GetAsItemsList(self:GetInventory()); 
 	local space = self:GetSharedVar("InvSpace");
 	
 	for k, v in pairs(itemsList) do
@@ -5116,7 +5143,7 @@ end;
 
 -- A function to get whether a player can hold a weight.
 function playerMeta:CanHoldWeight(weight)
-	local inventoryWeight = Clockwork.inventory:CalculateWeight(
+	local inventoryWeight = cwInventory:CalculateWeight(
 		self:GetInventory()
 	);
 	
@@ -5129,11 +5156,11 @@ end;
 
 -- A function to get whether a player can hold a weight.
 function playerMeta:CanHoldSpace(space)
-	if (!Clockwork.inventory:UseSpaceSystem()) then
+	if (!cwInventory:UseSpaceSystem()) then
 		return true;
 	end;
 
-	local inventorySpace = Clockwork.inventory:CalculateSpace(
+	local inventorySpace = cwInventory:CalculateSpace(
 		self:GetInventory()
 	);
 	
@@ -5146,38 +5173,38 @@ end;
 
 -- A function to get a player's inventory weight.
 function playerMeta:GetInventoryWeight()
-	return Clockwork.inventory:CalculateWeight(self:GetInventory());
+	return cwInventory:CalculateWeight(self:GetInventory());
 end;
 
 -- A function to get a player's inventory weight.
 function playerMeta:GetInventorySpace()
-	return Clockwork.inventory:CalculateSpace(self:GetInventory());
+	return cwInventory:CalculateSpace(self:GetInventory());
 end;
 
 -- A function to get whether a player has an item by ID.
 function playerMeta:HasItemByID(uniqueID)
-	return Clockwork.inventory:HasItemByID(
+	return cwInventory:HasItemByID(
 		self:GetInventory(), uniqueID
 	);
 end;
 
 -- A function to count how many items a player has by ID.
 function playerMeta:GetItemCountByID(uniqueID)
-	return Clockwork.inventory:GetItemCountByID(
+	return cwInventory:GetItemCountByID(
 		self:GetInventory(), uniqueID
 	);
 end;
 
 -- A function to get whether a player has a certain amount of items by ID.
 function playerMeta:HasItemCountByID(uniqueID, amount)
-	return Clockwork.inventory:HasItemCountByID(
+	return cwInventory:HasItemCountByID(
 		self:GetInventory(), uniqueID, amount
 	);
 end;
 
 -- A function to find a player's item by ID.
 function playerMeta:FindItemByID(uniqueID, itemID)
-	return Clockwork.inventory:FindItemByID(
+	return cwInventory:FindItemByID(
 		self:GetInventory(), uniqueID, itemID
 	);
 end;
@@ -5185,7 +5212,7 @@ end;
 -- A function to get whether a player has an item as a weapon.
 function playerMeta:HasItemAsWeapon(itemTable)
 	for k, v in pairs(self:GetWeapons()) do
-		local weaponItemTable = Clockwork.item:GetByWeapon(v);
+		local weaponItemTable = cwItem:GetByWeapon(v);
 		if (itemTable:IsTheSameAs(weaponItemTable)) then
 			return true;
 		end;
@@ -5197,7 +5224,7 @@ end;
 -- A function to find a player's weapon item by ID.
 function playerMeta:FindWeaponItemByID(uniqueID, itemID)
 	for k, v in pairs(self:GetWeapons()) do
-		local weaponItemTable = Clockwork.item:GetByWeapon(v);
+		local weaponItemTable = cwItem:GetByWeapon(v);
 		if (weaponItemTable and weaponItemTable("uniqueID") == uniqueID
 		and weaponItemTable("itemID") == itemID) then
 			return weaponItemTable;
@@ -5207,14 +5234,14 @@ end;
 
 -- A function to get whether a player has an item instance.
 function playerMeta:HasItemInstance(itemTable)
-	return Clockwork.inventory:HasItemInstance(
+	return cwInventory:HasItemInstance(
 		self:GetInventory(), itemTable
 	);
 end;
 
 -- A function to get a player's item instance.
 function playerMeta:GetItemInstance(uniqueID, itemID)
-	return Clockwork.inventory:FindItemByID(
+	return cwInventory:FindItemByID(
 		self:GetInventory(), uniqueID, itemID
 	);
 end;
@@ -5237,13 +5264,13 @@ end;
 
 -- A function to rebuild a player's inventory.
 function playerMeta:RebuildInventory()
-	Clockwork.inventory:Rebuild(self);
+	cwInventory:Rebuild(self);
 end;
 
 -- A function to give an item to a player.
 function playerMeta:GiveItem(itemTable, bForce)
 	if (type(itemTable) == "string") then
-		itemTable = Clockwork.item:CreateInstance(itemTable);
+		itemTable = cwItem:CreateInstance(itemTable);
 	end;
 	
 	if (!itemTable or !itemTable:IsInstance()) then
@@ -5259,11 +5286,11 @@ function playerMeta:GiveItem(itemTable, bForce)
 			itemTable:OnGiveToPlayer(self);
 		end;
 		
-		Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, self:Name().." has gained a "..itemTable("name").." "..itemTable("itemID")..".");
+		cwKernel:PrintLog(LOGTYPE_GENERIC, self:Name().." has gained a "..itemTable("name").." "..itemTable("itemID")..".");
 		
-		Clockwork.inventory:AddInstance(inventory, itemTable);
-			Clockwork.datastream:Start(self, "InvGive", Clockwork.item:GetDefinition(itemTable, true));
-		Clockwork.plugin:Call("PlayerItemGiven", self, itemTable, bForce);
+		cwInventory:AddInstance(inventory, itemTable);
+			cwDatastream:Start(self, "InvGive", cwItem:GetDefinition(itemTable, true));
+		cwPlugin:Call("PlayerItemGiven", self, itemTable, bForce);
 		
 		return itemTable;
 	else
@@ -5284,11 +5311,11 @@ function playerMeta:TakeItem(itemTable)
 		itemTable:OnTakeFromPlayer(self);
 	end;
 	
-	Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, self:Name().." has lost a "..itemTable("name").." "..itemTable("itemID")..".");
+	cwKernel:PrintLog(LOGTYPE_GENERIC, self:Name().." has lost a "..itemTable("name").." "..itemTable("itemID")..".");
 	
-	Clockwork.plugin:Call("PlayerItemTaken", self, itemTable);
-		Clockwork.inventory:RemoveInstance(inventory, itemTable);
-	Clockwork.datastream:Start(self, "InvTake", {itemTable("index"), itemTable("itemID")});
+	cwPlugin:Call("PlayerItemTaken", self, itemTable);
+		cwInventory:RemoveInstance(inventory, itemTable);
+	cwDatastream:Start(self, "InvTake", {itemTable("index"), itemTable("itemID")});
 	return true;
 end;
 
@@ -5308,22 +5335,22 @@ end
 
 -- A function to update a player's attribute.
 function playerMeta:UpdateAttribute(attribute, amount)
-	return Clockwork.attributes:Update(self, attribute, amount);
+	return cwAttributes:Update(self, attribute, amount);
 end;
 
 -- A function to progress a player's attribute.
 function playerMeta:ProgressAttribute(attribute, amount, gradual)
-	return Clockwork.attributes:Progress(self, attribute, amount, gradual);
+	return cwAttributes:Progress(self, attribute, amount, gradual);
 end;
 
 -- A function to boost a player's attribute.
 function playerMeta:BoostAttribute(identifier, attribute, amount, duration)
-	return Clockwork.attributes:Boost(self, identifier, attribute, amount, duration);
+	return cwAttributes:Boost(self, identifier, attribute, amount, duration);
 end;
 
 -- A function to get whether a boost is active for a player.
 function playerMeta:IsBoostActive(identifier, attribute, amount, duration)
-	return Clockwork.attributes:IsBoostActive(self, identifier, attribute, amount, duration);
+	return cwAttributes:IsBoostActive(self, identifier, attribute, amount, duration);
 end;
 
 -- A function to get a player's characters.
@@ -5363,7 +5390,7 @@ end;
 -- A function to query a player's character table.
 function playerMeta:QueryCharacter(key, default)
 	if (self:GetCharacter()) then
-		return Clockwork.player:Query(self, key, default);
+		return cwPly:Query(self, key, default);
 	else
 		return default;
 	end;
@@ -5371,12 +5398,12 @@ end;
 
 -- A function to get a player's shared variable.
 function playerMeta:GetSharedVar(key)
-	return Clockwork.player:GetSharedVar(self, key);
+	return cwPly:GetSharedVar(self, key);
 end;
 
 -- A function to set a shared variable for a player.
 function playerMeta:SetSharedVar(key, value, sharedTable)
-	Clockwork.player:SetSharedVar(self, key, value, sharedTable);
+	cwPly:SetSharedVar(self, key, value, sharedTable);
 end;
 
 -- A function to get a player's character data.
@@ -5478,7 +5505,7 @@ function playerMeta:SetClothesData(itemTable)
 	local clothesItem = self:GetClothesItem();
 	
 	if (itemTable) then
-		local model = Clockwork.class:GetAppropriateModel(self:Team(), self, true);
+		local model = cwClass:GetAppropriateModel(self:Team(), self, true);
 		
 		if (!model) then
 			if (clothesItem and itemTable != clothesItem) then
@@ -5506,7 +5533,7 @@ end;
 
 -- A function to get the entity a player is holding.
 function playerMeta:GetHoldingEntity()
-	return Clockwork.plugin:Call("PlayerGetHoldingEntity", self) or self.cwIsHoldingEnt;
+	return cwPlugin:Call("PlayerGetHoldingEntity", self) or self.cwIsHoldingEnt;
 end;
 
 -- A function to get whether a player's character menu is reset.
@@ -5516,27 +5543,27 @@ end;
 
 -- A function to get the player's active voice channel.
 function playerMeta:GetActiveChannel()
-	return Clockwork.voice:GetActiveChannel(self);
+	return cwVoice:GetActiveChannel(self);
 end;
 
 -- A function to check if a player can afford an amount.
 function playerMeta:CanAfford(amount)
-	return Clockwork.player:CanAfford(self, amount);
+	return cwPly:CanAfford(self, amount);
 end;
 
 -- A function to get a player's rank within their faction.
 function playerMeta:GetFactionRank(character)
-	return Clockwork.player:GetFactionRank(self, character);
+	return cwPly:GetFactionRank(self, character);
 end;
 
 -- A function to set a player's rank within their faction.
 function playerMeta:SetFactionRank(rank)
-	return Clockwork.player:SetFactionRank(self, rank);
+	return cwPly:SetFactionRank(self, rank);
 end;
 
 -- A function to get a player's global flags.
 function playerMeta:GetPlayerFlags()
-	return Clockwork.player:GetPlayerFlags(self);
+	return cwPly:GetPlayerFlags(self);
 end;
 
 playerMeta.GetName = playerMeta.Name;
@@ -5546,12 +5573,12 @@ concommand.Add("cwStatus", function(player, command, arguments)
 	local plyTable = player.GetAll();
 
 	if (IsValid(player)) then
-		if (Clockwork.player:IsAdmin(player)) then
+		if (cwPly:IsAdmin(player)) then
 			player:PrintMessage(2, "# User ID | Name | Steam Name | Steam ID | IP Address");
 
 			for k, v in pairs(plyTable) do
 				if (v:HasInitialized()) then
-					local status = Clockwork.plugin:Call("PlayerCanSeeStatus", player, v);
+					local status = cwPlugin:Call("PlayerCanSeeStatus", player, v);
 					
 					if (status) then
 						player:PrintMessage(2, status);
@@ -5596,7 +5623,7 @@ concommand.Add("cwc", function(player, command, arguments)
 	if (!IsValid(player)) then
 		-- PlySetGroup
 		if (arguments[1] == cmdTable.sg) then
-			local target = Clockwork.player:FindByID(arguments[2]);
+			local target = cwPly:FindByID(arguments[2]);
 			local userGroup = arguments[3];
 			
 			if (userGroup != "superadmin" and userGroup != "admin" and userGroup != "operator") then
@@ -5606,11 +5633,11 @@ concommand.Add("cwc", function(player, command, arguments)
 			end;
 			
 			if (target) then
-				if (!Clockwork.player:IsProtected(target)) then
+				if (!cwPly:IsProtected(target)) then
 					print("Console has set "..target:Name().."'s user group to "..userGroup..".");
-					Clockwork.player:NotifyAll("Console has set "..target:Name().."'s user group to "..userGroup..".");
+					cwPly:NotifyAll("Console has set "..target:Name().."'s user group to "..userGroup..".");
 						target:SetClockworkUserGroup(userGroup);
-					Clockwork.player:LightSpawn(target, true, true);
+					cwPly:LightSpawn(target, true, true);
 				else
 					MsgC(Color(255, 100, 0, 255), target:Name().." is protected!\n");
 				end;
@@ -5621,17 +5648,17 @@ concommand.Add("cwc", function(player, command, arguments)
 			return;
 		-- PlyDemote
 		elseif (arguments[1] == cmdTable.d) then
-			local target = Clockwork.player:FindByID(arguments[2]);
+			local target = cwPly:FindByID(arguments[2]);
 			
 			if (target) then
-				if (!Clockwork.player:IsProtected(target)) then
+				if (!cwPly:IsProtected(target)) then
 					local userGroup = target:GetClockworkUserGroup();
 					
 					if (userGroup != "user") then
 						print("Console has demoted "..target:Name().." from "..userGroup.." to user.");
-						Clockwork.player:NotifyAll("Console has demoted "..target:Name().." from "..userGroup.." to user.");
+						cwPly:NotifyAll("Console has demoted "..target:Name().." from "..userGroup.." to user.");
 							target:SetClockworkUserGroup("user");
-						Clockwork.player:LightSpawn(target, true, true);
+						cwPly:LightSpawn(target, true, true);
 					else
 						MsgC(Color(255, 100, 0, 255), "This player is only a user and cannot be demoted!\n");
 					end;
@@ -5645,7 +5672,7 @@ concommand.Add("cwc", function(player, command, arguments)
 			return;
 		-- SetCash
 		elseif (arguments[1] == cmdTable.sc) then
-			local target = Clockwork.player:FindByID(arguments[2])
+			local target = cwPly:FindByID(arguments[2])
 			local cash = math.floor(tonumber((arguments[3] or 0)));
 			
 			if (target) then
@@ -5654,10 +5681,10 @@ concommand.Add("cwc", function(player, command, arguments)
 					local targetName = target:Name();
 					local giveCash = cash - target:GetCash();
 					
-					Clockwork.player:GiveCash(target, giveCash);
+					cwPly:GiveCash(target, giveCash);
 					
-					print("Console has set "..targetName.."'s cash to "..Clockwork.kernel:FormatCash(cash, nil, true)..".");
-					Clockwork.player:Notify(target, "Your cash was set to "..Clockwork.kernel:FormatCash(cash, nil, true).." by "..playerName..".");
+					print("Console has set "..targetName.."'s cash to "..cwKernel:FormatCash(cash, nil, true)..".");
+					cwPly:Notify(target, "Your cash was set to "..cwKernel:FormatCash(cash, nil, true).." by "..playerName..".");
 				else
 					MsgC(Color(255, 100, 0, 255), "This is not a valid amount!\n");
 				end;
@@ -5668,19 +5695,19 @@ concommand.Add("cwc", function(player, command, arguments)
 			return;
 		-- PlyWhitelist
 		elseif (arguments[1] == cmdTable.w) then
-			local target = Clockwork.player:FindByID(arguments[2])
+			local target = cwPly:FindByID(arguments[2])
 			
 			if (target) then
-				local factionTable = Clockwork.faction:FindByID(table.concat(arguments, " ", 3));
+				local factionTable = cwFaction:FindByID(table.concat(arguments, " ", 3));
 				
 				if (factionTable) then
 					if (factionTable.whitelist) then
-						if (!Clockwork.player:IsWhitelisted(target, factionTable.name)) then
-							Clockwork.player:SetWhitelisted(target, factionTable.name, true);
-							Clockwork.player:SaveCharacter(target);
+						if (!cwPly:IsWhitelisted(target, factionTable.name)) then
+							cwPly:SetWhitelisted(target, factionTable.name, true);
+							cwPly:SaveCharacter(target);
 							
 							print("Console has added "..target:Name().." to the "..factionTable.name.." whitelist.");
-							Clockwork.player:NotifyAll("Console has added "..target:Name().." to the "..factionTable.name.." whitelist.");
+							cwPly:NotifyAll("Console has added "..target:Name().." to the "..factionTable.name.." whitelist.");
 						else
 							MsgC(Color(255, 100, 0, 255), target:Name().." is already on the "..factionTable.name.." whitelist!\n");
 						end;
@@ -5697,19 +5724,19 @@ concommand.Add("cwc", function(player, command, arguments)
 			return;
 		-- PlyUnWhitelist
 		elseif (arguments[1] == cmdTable.uw) then
-			local target = Clockwork.player:FindByID(arguments[2])
+			local target = cwPly:FindByID(arguments[2])
 			
 			if (target) then
-				local factionTable = Clockwork.faction:FindByID(table.concat(arguments, " ", 3));
+				local factionTable = cwFaction:FindByID(table.concat(arguments, " ", 3));
 				
 				if (factionTable) then
 					if (factionTable.whitelist) then
-						if (Clockwork.player:IsWhitelisted(target, factionTable.name)) then
-							Clockwork.player:SetWhitelisted(target, factionTable.name, false);
-							Clockwork.player:SaveCharacter(target);
+						if (cwPly:IsWhitelisted(target, factionTable.name)) then
+							cwPly:SetWhitelisted(target, factionTable.name, false);
+							cwPly:SaveCharacter(target);
 							
 							print("Console has removed "..target:Name().." from the "..factionTable.name.." whitelist.");
-							Clockwork.player:NotifyAll("Console has removed "..target:Name().." from the "..factionTable.name.." whitelist.");
+							cwPly:NotifyAll("Console has removed "..target:Name().." from the "..factionTable.name.." whitelist.");
 						else
 							MsgC(Color(255, 100, 0, 255), target:Name().." is not on the "..factionTable.name.." whitelist!\n");
 						end;
@@ -5726,7 +5753,7 @@ concommand.Add("cwc", function(player, command, arguments)
 			return;
 		-- PlyBan
 		elseif (arguments[1] == cmdTable.b) then
-			local schemaFolder = Clockwork.kernel:GetSchemaFolder();
+			local schemaFolder = cwKernel:GetSchemaFolder();
 			local duration = tonumber(arguments[3]);
 			local reason = table.concat(arguments, " ", 4);
 			
@@ -5734,9 +5761,9 @@ concommand.Add("cwc", function(player, command, arguments)
 				reason = nil;
 			end;
 			
-			if (!Clockwork.player:IsProtected(arguments[2])) then
+			if (!cwPly:IsProtected(arguments[2])) then
 				if (duration) then
-					Clockwork.bans:Add(arguments[2], duration * 60, reason, function(steamName, duration, reason)
+					cwBans:Add(arguments[2], duration * 60, reason, function(steamName, duration, reason)
 						if (IsValid(player)) then
 							if (steamName) then
 								if (duration > 0) then
@@ -5744,14 +5771,14 @@ concommand.Add("cwc", function(player, command, arguments)
 									
 									if (hours >= 1) then
 										print("Console has banned '"..steamName.."' for "..hours.." hour(s) ("..reason..").");
-										Clockwork.player:NotifyAll("Console has banned '"..steamName.."' for "..hours.." hour(s) ("..reason..").");
+										cwPly:NotifyAll("Console has banned '"..steamName.."' for "..hours.." hour(s) ("..reason..").");
 									else
 										print("Console has banned '"..steamName.."' for "..math.Round(duration / 60).." minute(s) ("..reason..").");
-										Clockwork.player:NotifyAll("Console has banned '"..steamName.."' for "..math.Round(duration / 60).." minute(s) ("..reason..").");
+										cwPly:NotifyAll("Console has banned '"..steamName.."' for "..math.Round(duration / 60).." minute(s) ("..reason..").");
 									end;
 								else
 									print("Console has banned '"..steamName.."' permanently ("..reason..").");
-									Clockwork.player:NotifyAll("Console has banned '"..steamName.."' permanently ("..reason..").");
+									cwPly:NotifyAll("Console has banned '"..steamName.."' permanently ("..reason..").");
 								end;
 							else
 								MsgC(Color(255, 100, 0, 255), "This is not a valid identifier!\n");
@@ -5762,7 +5789,7 @@ concommand.Add("cwc", function(player, command, arguments)
 					MsgC(Color(255, 100, 0, 255), "This is not a valid duration!\n");
 				end;
 			else
-				local target = Clockwork.player:FindByID(arguments[2]);
+				local target = cwPly:FindByID(arguments[2]);
 				
 				if (target) then
 					MsgC(Color(255, 100, 0, 255), target:Name().." is protected!\n");
@@ -5774,7 +5801,7 @@ concommand.Add("cwc", function(player, command, arguments)
 			return;
 		-- PlyKick
 		elseif (arguments[1] == cmdTable.k) then
-			local target = Clockwork.player:FindByID(arguments[2]);
+			local target = cwPly:FindByID(arguments[2]);
 			local reason = table.concat(arguments, " ", 3);
 			
 			if (!reason or reason == "") then
@@ -5782,9 +5809,9 @@ concommand.Add("cwc", function(player, command, arguments)
 			end;
 			
 			if (target) then
-				if (!Clockwork.player:IsProtected(arguments[2])) then
+				if (!cwPly:IsProtected(arguments[2])) then
 					print("Console has kicked '"..target:Name().."' ("..reason..").");
-					Clockwork.player:NotifyAll("Console has kicked '"..target:Name().."' ("..reason..").");
+					cwPly:NotifyAll("Console has kicked '"..target:Name().."' ("..reason..").");
 						target:Kick(reason);
 					target.kicked = true;
 				else
@@ -5797,7 +5824,7 @@ concommand.Add("cwc", function(player, command, arguments)
 			return;
 		-- CharSetName
 		elseif (arguments[1] == cmdTable.sn) then
-			local target = Clockwork.player:FindByID(arguments[2])
+			local target = cwPly:FindByID(arguments[2])
 			
 			if (target) then
 				if (arguments[3] == "nil") then
@@ -5808,9 +5835,9 @@ concommand.Add("cwc", function(player, command, arguments)
 					local name = table.concat(arguments, " ", 3);
 					
 					print("Console has set "..target:Name().."'s name to "..name..".");
-					Clockwork.player:NotifyAll("Console has set "..target:Name().."'s name to "..name..".");
+					cwPly:NotifyAll("Console has set "..target:Name().."'s name to "..name..".");
 					
-					Clockwork.player:SetName(target, name);
+					cwPly:SetName(target, name);
 				end;
 			else
 				MsgC(Color(255, 100, 0, 255), arguments[2].." is not a valid character!\n");
@@ -5819,7 +5846,7 @@ concommand.Add("cwc", function(player, command, arguments)
 			return;
 		-- CharSetModel
 		elseif (arguments[1] == cmdTable.sm) then
-			local target = Clockwork.player:FindByID(arguments[2])
+			local target = cwPly:FindByID(arguments[2])
 			
 			if (target) then
 				local model = table.concat(arguments, " ", 3);
@@ -5828,7 +5855,7 @@ concommand.Add("cwc", function(player, command, arguments)
 				target:SetModel(model);
 				
 				print("Console has set "..target:Name().."'s model to "..model..".");
-				Clockwork.player:NotifyAll("Console has set "..target:Name().."'s model to "..model..".");
+				cwPly:NotifyAll("Console has set "..target:Name().."'s model to "..model..".");
 			else
 				MsgC(Color(255, 100, 0, 255), arguments[2].." is not a valid character!\n");
 			end;
@@ -5843,7 +5870,7 @@ concommand.Add("cwc", function(player, command, arguments)
 			end;
 
 			print("Console is restarting the map in "..delay.." seconds!");
-			Clockwork.player:NotifyAll("Console is restarting the map in "..delay.." seconds!");
+			cwPly:NotifyAll("Console is restarting the map in "..delay.." seconds!");
 			
 			timer.Simple(delay, function()
 				RunConsoleCommand("changelevel", game.GetMap());
@@ -5852,7 +5879,7 @@ concommand.Add("cwc", function(player, command, arguments)
 			return;
 		-- GiveFlags
 		elseif (arguments[1] == cmdTable.gf) then
-			local target = Clockwork.player:FindByID(arguments[2])
+			local target = cwPly:FindByID(arguments[2])
 			
 			if (target) then
 				if (string.find(arguments[3], "a") or string.find(arguments[3], "s") or string.find(arguments[3], "o")) then
@@ -5863,10 +5890,10 @@ concommand.Add("cwc", function(player, command, arguments)
 				
 				if (!arguments[3]) then print("You haven't entered any flags!"); return; end;
 				
-				Clockwork.player:GiveFlags(target, arguments[3]);
+				cwPly:GiveFlags(target, arguments[3]);
 				
 				print("Console gave "..target:Name().." '"..arguments[3].."' flags.");
-				Clockwork.player:NotifyAll("Console gave "..target:Name().." '"..arguments[3].."' flags.");
+				cwPly:NotifyAll("Console gave "..target:Name().." '"..arguments[3].."' flags.");
 			else
 				MsgC(Color(255, 100, 0, 255), arguments[2].." is not a valid character!\n");
 			end;
@@ -5874,21 +5901,21 @@ concommand.Add("cwc", function(player, command, arguments)
 			return;
 		-- TakeFlags
 		elseif (arguments[1] == cmdTable.tf) then
-			local target = Clockwork.player:FindByID(arguments[2])
+			local target = cwPly:FindByID(arguments[2])
 			
 			if (target) then
 				if (string.find(arguments[3], "a") or string.find(arguments[3], "s") or string.find(arguments[3], "o")) then
-					Clockwork.player:Notify(player, "You cannot take 'o', 'a' or 's' flags!");
+					cwPly:Notify(player, "You cannot take 'o', 'a' or 's' flags!");
 					
 					return;
 				end;
 				
 				if (!arguments[3]) then print("You haven't entered any flags!"); return; end;
 				
-				Clockwork.player:TakeFlags(target, arguments[3]);
+				cwPly:TakeFlags(target, arguments[3]);
 				
 				print("Console took '"..arguments[3].."' flags from "..target:Name()..".");
-				Clockwork.player:NotifyAll("Console took '"..arguments[3].."' flags from "..target:Name()..".");
+				cwPly:NotifyAll("Console took '"..arguments[3].."' flags from "..target:Name()..".");
 			else
 				MsgC(Color(255, 100, 0, 255), arguments[2].." is not a valid character!\n");
 			end;
@@ -5900,7 +5927,7 @@ concommand.Add("cwc", function(player, command, arguments)
 		end;
 	-- if not too bad, players are not allowed to use this swag
 	else
-		Clockwork.player.Notify(player, "You are not allowed to use server-side commands!");
+		cwPly.Notify(player, "You are not allowed to use server-side commands!");
 	end;
 end);
 

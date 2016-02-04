@@ -2,6 +2,18 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.95.3
+-------
+
+* Consolidated cl_player, sv_player and sh_player into sh_player and optimized it by localizing Clockwork libraries.
+	* *Contributed by NightAngel.*
+* Fixed some player model animations to look better and added 'heavy' animations for physgun, etc.
+	* *Contributed by NightAngel.*
+* Made ironsights file check for the player library and include sh_player if it isn't included when ironsights are included, also fixed a small typo with the movement slow using spread config instead of slow config.
+	* *Contributed by NightAngel.*
+* Localized Clockwork libraries in sv_kernel for micro optimizations and fixed some mistakes that would slow down PlayerThink hooks.
+	* *Contributed by NightAngel.*
+
 0.95.2
 -------
 
