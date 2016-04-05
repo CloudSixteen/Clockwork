@@ -2,6 +2,47 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.96.1
+-------
+
+* Optimized cl_kernel, sv_kernel and sh_kernel with localizations and added library/class functions.
+	* *Contributed by NightAngel.*
+* Optimized the doorcommands plugin saving doors and door states, should no longer lag the server when saving.
+	* *Contributed by NightAngel.*
+* Added GetDoorEntities function in the entity library, which returns all doors stored on startup for optimization.
+	* *Contributed by NightAngel.*
+* Themes can now be changed in game by clients through the Clockwork settings menu.
+	* *Contributed by NightAngel.*
+* Added themes folder to plugin extras, so you can now have a '/themes/' folder in plugins to store added themes.
+	* *Contributed by NightAngel.*
+* Added default Clockwork theme, which all themes will inherit from.
+	* *Contributed by NightAngel.*
+* Added configs for stopping players from changing their themes, as well as changing the default theme that players start with.
+	* *Contributed by NightAngel.*
+* Added CanHandsPickupEntity hook that is called when a player attempts to pickup an entity with the hands secondary fire.
+	* *Contributed by NightAngel.*
+* Possible fix to gray/loading screen being stuck on joining.
+	* *Contributed by NightAngel.*
+* Item entities will now remove if they are out of the map, or if the item they represent isn't loaded on the server.
+	* *Contributed by NightAngel.*
+* Added config to disable/enable quick raising your weapon.
+	* *Contributed by NightAngel.*
+* Added Lerp wrapper library for easily adding and using lerp functions that are included with GMod for linear interpolation.
+	* *Contributed by NightAngel.*
+* Changed quick raising to be activated by pressing the B key, left and right mouse will no longer trigger it.
+	* *Contributed by NightAngel.*
+* Changed the CharSetDesc command to display the target's physdesc and let you edit it, similar to changing your own physdesc.
+	* *Contributed by NightAngel.*
+* Adjusted some fonts in multiple menus.
+	* *Contributed by NightAngel.*
+* Fixed command library FindByAlias not being caps insensitive.
+	* *Contributed by NightAngel.*
+* Fixed multiple BackSword 2 issues, including the holdtypes issue, and added several scope textures.
+	* *Contributed by Zigalishous.*
+* Added and changed multiple admin related commands including commands for managing teleports, chat, and respawns.
+	* *Contributed by Tyler.*
+
+
 0.95.3
 -------
 

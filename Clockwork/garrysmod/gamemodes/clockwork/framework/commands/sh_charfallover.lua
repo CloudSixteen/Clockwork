@@ -13,6 +13,7 @@ COMMAND.tip = "Make your character fall to the floor.";
 COMMAND.text = "[number Seconds]";
 COMMAND.flags = CMD_DEFAULT;
 COMMAND.optionalArguments = 1;
+COMMAND.alias = {"Fallover"};
 
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)

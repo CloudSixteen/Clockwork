@@ -15,6 +15,7 @@ COMMAND.text = "<string Name> <string Item> [number Amount]";
 COMMAND.access = "s";
 COMMAND.arguments = 2;
 COMMAND.optionalArguments = 1;
+COMMAND.alias = {"PlyGiveItem"};
 
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)

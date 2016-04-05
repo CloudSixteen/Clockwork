@@ -149,13 +149,19 @@ function Clockwork.setting:Remove(category, text, class, conVar)
 end;
 
 function Clockwork.setting:AddSettings()
-	local langTable = {};
-
-	for k, v in pairs(Clockwork.lang:GetAll()) do
-		table.insert(langTable, k);
-	end;
-
 	if (!Clockwork.setting.SettingsAdded) then
+		local langTable = {};
+
+		for k, v in pairs(Clockwork.lang:GetAll()) do
+			table.insert(langTable, k);
+		end;
+
+		local themeTable = {};
+
+		for k, v in pairs(Clockwork.theme:GetAll()) do
+			table.insert(themeTable, k);
+		end;
+
 		local frameworkStr = L("Framework");
 		local chatBoxStr = L("ChatBox");
 		local themeStr = L("Theme");
@@ -179,7 +185,12 @@ function Clockwork.setting:AddSettings()
 		Clockwork.setting:AddCheckBox(chatBoxStr, "Show out-of-character messages.", "cwShowOOC", "Whether or not to show you any out-of-character messages.");
 		Clockwork.setting:AddCheckBox(chatBoxStr, "Show in-character messages.", "cwShowIC", "Whether or not to show you any in-character messages.");
 
-		Clockwork.setting:AddColorMixer(themeStr, "Text Color:", "cwTextColor", "The Text Color");
+		Clockwork.setting:AddMultiChoice(themeStr, themeStr..":", "cwActiveTheme", themeTable, "The current active GUI theme to display.", function ()
+			return (Clockwork.config:Get("modify_themes"):GetBoolean());
+		end);
+		Clockwork.setting:AddColorMixer(themeStr, "Text Color:", "cwTextColor", "The Text Color", function()
+			return (!Clockwork.theme:IsFixed());
+		end);
 		Clockwork.setting:AddColorMixer(themeStr, "Background Color:", "cwBackColor", "The Background Color");
 		Clockwork.setting:AddNumberSlider(themeStr, "TabMenu X-Axis:", "cwTabPosX", 0, ScrW(), 0, "The position of the tab menu on the X axis.");
 		Clockwork.setting:AddNumberSlider(themeStr, "TabMenu Y-Axis:", "cwTabPosY", 0, ScrH(), 0, "The position of the tab menu on the Y axis.");

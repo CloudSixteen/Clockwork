@@ -76,7 +76,10 @@ function PANEL:Rebuild()
 				self.systemCategoryForm:SetTall(100);
 			self.panelList:AddItem(self.systemCategoryForm);
 			
-			self.systemCategoryForm:Help(v.toolTip);
+			local tooltip = self.systemCategoryForm:Help(v.toolTip);
+
+			tooltip:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 18));
+			tooltip:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
 			
 			local systemButton = vgui.Create("cwInfoText", systemPanel);
 				systemButton:SetText("Open");

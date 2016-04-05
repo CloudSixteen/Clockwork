@@ -27,15 +27,6 @@ function ENT:Initialize()
 	end;
 end;
 
--- Called each frame.
-function ENT:Think()
-	self:NextThink(CurTime() + 1);
-	
-	if (!self:IsInWorld()) then
-		self:Remove();
-	end;
-end;
-
 -- Called when the entity's transmit state should be updated.
 function ENT:UpdateTransmitState()
 	return TRANSMIT_ALWAYS;
@@ -113,12 +104,22 @@ end;
 -- Called each frame.
 function ENT:Think()
 	local itemTable = self.cwItemTable;
+
+	if (!self:IsInWorld()) then
+		self:Remove();
+	end;
 	
-	if (itemTable and itemTable.OnEntityThink) then
-		local nextThink = itemTable:OnEntityThink(self);
-		
-		if (type(nextThink) == "number") then
-			self:NextThink(CurTime() + nextThink);
+	if (itemTable) then
+		if (itemTable.OnEntityThink) then
+			local nextThink = itemTable:OnEntityThink(self);
+			
+			if (type(nextThink) == "number") then
+				return self:NextThink(CurTime() + nextThink);
+			end;
+		else
+			self:Remove();
 		end;
 	end;
+
+	self:NextThink(CurTime() + 1);
 end;

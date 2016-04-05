@@ -138,6 +138,15 @@ end;
 
 --[[
 	@codebase Shared
+	@details A function to get all door entities which are stored from server start.
+	@return Table A list of all door entities.
+--]]
+function Clockwork.entity:GetDoorEntities()
+	return self.DoorEntities or {};
+end;
+
+--[[
+	@codebase Shared
 	@details A function to check if an entity is in a specified box area.
 	@param Entity The entity to check if it's in a box.
 	@param Int Minimum position to check in.
@@ -1311,10 +1320,12 @@ if (SERVER) then
 		@param Bool Whether or not the entity is a map entity.
 	--]]
 	function Clockwork.entity:SetMapEntity(entity, isMapEntity)
+		local entIndex = entity:EntIndex();
+
 		if (isMapEntity) then
-			Clockwork.Entities[entity] = entity;
+			Clockwork.Entities[entIndex] = true;
 		else
-			Clockwork.Entities[entity] = nil;
+			Clockwork.Entities[entIndex] = false;
 		end;
 	end;
 	
@@ -1325,7 +1336,7 @@ if (SERVER) then
 		@returns Bool Whether or not the entity is a map entity.
 	--]]
 	function Clockwork.entity:IsMapEntity(entity)
-		return Clockwork.Entities[entity] != nil;
+		return Clockwork.Entities[entity] or false;
 	end;
 	
 	--[[
