@@ -65,15 +65,6 @@ if (CLIENT) then
 		
 		return attachment.Pos, attachment.Ang;
 	end;
-else
-	--[[
-		@codebase Server
-		@details A function to get all door entities which are stored from server start.
-		@return Table A list of all door entities.
-	--]]
-	function Clockwork.entity:GetDoorEntities()
-		return self.DoorEntities or {};
-	end;
 end;
 
 --[[
@@ -143,6 +134,15 @@ function Clockwork.entity:GetDoorPartners(entity)
 	end;
 	
 	return doorPartners;
+end;
+
+--[[
+	@codebase Shared
+	@details A function to get all door entities which are stored from server start.
+	@return Table A list of all door entities.
+--]]
+function Clockwork.entity:GetDoorEntities()
+	return self.DoorEntities or {};
 end;
 
 --[[
@@ -1323,9 +1323,9 @@ if (SERVER) then
 		local entIndex = entity:EntIndex();
 
 		if (isMapEntity) then
-			Clockwork.Entities[entity] = true;
+			Clockwork.Entities[entIndex] = true;
 		else
-			Clockwork.Entities[entity] = false;
+			Clockwork.Entities[entIndex] = false;
 		end;
 	end;
 	

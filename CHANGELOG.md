@@ -2,19 +2,6 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
-0.96.2
--------
-
-* Fixed doors not displaying 3D2D info properly.
-* Removed theme library debug prints when switching a theme.
-* Made the GetDoorEntities function serverside only.
-* Gave the PreDrawWeaponList hook the ability to stop drawing the weapon list if it returns true.
-* Fixed items removing on think (I.E. removing instantly when dropped).
-* Fixed IsMapEntity using entIndex, changed to using the entity itself to check for.
-* Fixed fists not playing the knocking noise when the secondary fire is used on a door.
-	* *Contributed by NightAngel.*
-
-
 0.96.1
 -------
 

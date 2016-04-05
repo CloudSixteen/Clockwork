@@ -365,6 +365,8 @@ end;
 function Clockwork.theme:LoadTheme(themeTable, isBase)
 	local baseName = themeTable.base;
 
+	print(themeTable.name, baseName);
+
 	if (baseName) then
 		local base = self:FindByID(baseName);
 

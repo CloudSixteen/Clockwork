@@ -95,67 +95,67 @@ function cwWeaponSelect:HUDPaintImportant()
 		end;
 	end;
 
-	if (!Clockwork.plugin:Call("PreDrawWeaponList", x, y, weaponLimit, self.displayAlpha, beforeWeapons, currentWeapon, afterWeapons, newWeapons)) then
-		if (#beforeWeapons > 1) then
-			for k, v in pairs(beforeWeapons) do
-				local weaponAlpha = math.min((255 / weaponLimit) * k, self.displayAlpha);
-					
-				y = Clockwork.kernel:DrawInfo(
-					string.upper(self:GetWeaponPrintName(v)), x, y, colorWhite, weaponAlpha, true,
-					function(x, y, width, height)
-						Clockwork.plugin:Call("DrawWeaponList", x, y, width, height, weaponAlpha, "before");
+	Clockwork.plugin:Call("PreDrawWeaponList", x, y, weaponLimit, self.displayAlpha);
 
-						return x, y;
-					end
-				) + 3;
-			end;
-		end;
-			
-		if (IsValid(currentWeapon)) then
-			local currentWeaponName = string.upper(self:GetWeaponPrintName(currentWeapon));
-			local weaponInfoY = y;
-			local weaponInfoX = x + 196;
-			
+	if (#beforeWeapons > 1) then
+		for k, v in pairs(beforeWeapons) do
+			local weaponAlpha = math.min((255 / weaponLimit) * k, self.displayAlpha);
+				
 			y = Clockwork.kernel:DrawInfo(
-				currentWeaponName, x, y, informationColor, self.displayAlpha, true,
+				string.upper(self:GetWeaponPrintName(v)), x, y, colorWhite, weaponAlpha, true,
 				function(x, y, width, height)
-					Clockwork.plugin:Call("DrawWeaponList", x, y, width, height, self.displayAlpha, "current");
+					Clockwork.plugin:Call("DrawWeaponList", x, y, width, height, weaponAlpha, "before");
 
 					return x, y;
 				end
 			) + 3;
-			
-			Clockwork.kernel:OverrideMainFont(false);
-				self:DrawWeaponInformation(
-					Clockwork.item:GetByWeapon(currentWeapon), currentWeapon, weaponInfoX, weaponInfoY, self.displayAlpha
-				);
-				
-				if (#newWeapons == 1) then
-					y = Clockwork.kernel:DrawInfo(
-						"There are no other weapons.", x, y, colorWhite, self.displayAlpha, true,
-						function(x, y, width, height)
-							Clockwork.plugin:Call("DrawWeaponList", x, y, width, height, self.displayAlpha, "current");
-							
-							return x, y;
-						end
-					) + 3;
-				end;
-			Clockwork.kernel:OverrideMainFont(Clockwork.option:GetFont("menu_text_tiny"));
 		end;
+	end;
 		
-		if (#newWeapons > 1) then
-			for k, v in pairs(afterWeapons) do
-				local weaponAlpha = math.min(255 - ((255 / weaponLimit) * k), self.displayAlpha);
-				
+	if (IsValid(currentWeapon)) then
+		local currentWeaponName = string.upper(self:GetWeaponPrintName(currentWeapon));
+		local weaponInfoY = y;
+		local weaponInfoX = x + 196;
+		
+		y = Clockwork.kernel:DrawInfo(
+			currentWeaponName, x, y, informationColor, self.displayAlpha, true,
+			function(x, y, width, height)
+				Clockwork.plugin:Call("DrawWeaponList", x, y, width, height, self.displayAlpha, "current");
+
+				return x, y;
+			end
+		) + 3;
+		
+		Clockwork.kernel:OverrideMainFont(false);
+			self:DrawWeaponInformation(
+				Clockwork.item:GetByWeapon(currentWeapon), currentWeapon, weaponInfoX, weaponInfoY, self.displayAlpha
+			);
+			
+			if (#newWeapons == 1) then
 				y = Clockwork.kernel:DrawInfo(
-					string.upper(self:GetWeaponPrintName(v)), x, y, colorWhite, weaponAlpha, true,
+					"There are no other weapons.", x, y, colorWhite, self.displayAlpha, true,
 					function(x, y, width, height)
-						Clockwork.plugin:Call("DrawWeaponList", x, y, width, height, weaponAlpha, "after");
+						Clockwork.plugin:Call("DrawWeaponList", x, y, width, height, self.displayAlpha, "current");
 						
 						return x, y;
 					end
 				) + 3;
 			end;
+		Clockwork.kernel:OverrideMainFont(Clockwork.option:GetFont("menu_text_tiny"));
+	end;
+	
+	if (#newWeapons > 1) then
+		for k, v in pairs(afterWeapons) do
+			local weaponAlpha = math.min(255 - ((255 / weaponLimit) * k), self.displayAlpha);
+			
+			y = Clockwork.kernel:DrawInfo(
+				string.upper(self:GetWeaponPrintName(v)), x, y, colorWhite, weaponAlpha, true,
+				function(x, y, width, height)
+					Clockwork.plugin:Call("DrawWeaponList", x, y, width, height, weaponAlpha, "after");
+					
+					return x, y;
+				end
+			) + 3;
 		end;
 	end;
 	
