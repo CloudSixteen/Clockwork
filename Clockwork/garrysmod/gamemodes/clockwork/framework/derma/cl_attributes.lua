@@ -112,7 +112,7 @@ function PANEL:Rebuild()
 			categoryForm:SetPadding(0);
 			categoryForm:SetSpacing(8);
 			categoryForm:SetAutoSize(true);
-			categoryForm:SetText(v.category, nil, "basic_form_highlight");
+			categoryForm:SetText(v.category, nil, "basic_form_highlight", 25);
 			
 			local panelList = vgui.Create("DPanelList", self);
 			

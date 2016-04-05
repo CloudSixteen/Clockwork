@@ -6,6 +6,8 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
+local Clockwork = Clockwork;
+
 local NAME_CASH = Clockwork.option:GetKey("name_cash");
 
 local COMMAND = Clockwork.command:New("Give"..string.gsub(NAME_CASH, "%s", ""));

@@ -86,7 +86,7 @@ function PANEL:Rebuild()
 			characterForm:SetPadding(8);
 			characterForm:SetSpacing(8);
 			characterForm:SetAutoSize(true);
-			characterForm:SetText(v.name, nil, classColor)
+			characterForm:SetText(v.name, Clockwork.option:GetFont("scoreboard_class"), classColor);
 			
 			local panelList = vgui.Create("DPanelList", self);
 			
@@ -155,8 +155,10 @@ function PANEL:Init()
 	
 	self:SetSize(self:GetParent():GetWide(), 48);
 	
-	local nameFont = Clockwork.fonts:GetSize(Clockwork.option:GetFont("scoreboard_name"), 20);
-	local descFont = Clockwork.fonts:GetSize(Clockwork.option:GetFont("scoreboard_desc"), 16);
+--	local nameFont = Clockwork.fonts:GetSize(Clockwork.option:GetFont("scoreboard_name"), 20);
+--	local descFont = Clockwork.fonts:GetSize(Clockwork.option:GetFont("scoreboard_desc"), 16);
+	local nameFont = Clockwork.option:GetFont("scoreboard_name");
+	local descFont = Clockwork.option:GetFont("scoreboard_desc");
 	local playerData = self:GetParent().playerData;
 	local info = {
 		doesRecognise = Clockwork.player:DoesRecognise(playerData.player),
@@ -236,7 +238,7 @@ function PANEL:Init()
 end;
 
 function PANEL:Paint(width, height)
-	INFOTEXT_SLICED:Draw(0, 0, width, height, 8, Color(255, 255, 255, 50));
+	INFOTEXT_SLICED:Draw(0, 0, width, height, 8, Clockwork.option:GetColor("scoreboard_item_background"));
 	
 	return true;
 end;

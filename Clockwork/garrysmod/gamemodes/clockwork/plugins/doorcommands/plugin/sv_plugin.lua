@@ -6,17 +6,30 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
-Clockwork.config:Add("default_doors_hidden", true, nil, nil, nil, nil, true);
-Clockwork.config:Add("doors_save_state", true, nil, nil, nil, nil, true);
+local Clockwork = Clockwork;
+local tostring = tostring;
+local IsValid = IsValid;
+local pairs = pairs;
+local game = game;
+
+local cwEntity = Clockwork.entity;
+local cwKernel = Clockwork.kernel;
+local cwConfig = Clockwork.config;
+
+local IsDoorLocked = cwEntity.IsDoorLocked;
+local GetDoorState = cwEntity.GetDoorState;
+
+cwConfig:Add("default_doors_hidden", true, nil, nil, nil, nil, true);
+cwConfig:Add("doors_save_state", true, nil, nil, nil, nil, true);
 
 -- A function to load the parent data.
 function cwDoorCmds:LoadParentData()
 	self.parentData = self.parentData or {};
 	
-	local parentData = Clockwork.kernel:RestoreSchemaData("plugins/parents/"..game.GetMap());
+	local parentData = cwKernel:RestoreSchemaData("plugins/parents/"..game.GetMap());
 	local positions = {};
 	
-	for k, v in pairs(ents.GetAll()) do
+	for k, v in pairs(cwEntity:GetDoorEntities()) do
 		if (IsValid(v)) then
 			local position = v:GetPos();
 			
@@ -31,8 +44,8 @@ function cwDoorCmds:LoadParentData()
 		local entity = positions[tostring(v.position)];
 		
 		if (IsValid(entity) and IsValid(parent) and !self.parentData[entity]) then
-			if (Clockwork.entity:IsDoor(entity) and Clockwork.entity:IsDoor(parent)) then
-				Clockwork.entity:SetDoorParent(entity, parent);
+			if (cwEntity:IsDoor(entity) and cwEntity:IsDoor(parent)) then
+				cwEntity:SetDoorParent(entity, parent);
 				
 				self.parentData[entity] = parent;
 			end;
@@ -45,9 +58,9 @@ function cwDoorCmds:LoadDoorData()
 	self.doorData = self.doorData or {};
 	
 	local positions = {};
-	local doorData = Clockwork.kernel:RestoreSchemaData("plugins/doors/"..game.GetMap());
+	local doorData = cwKernel:RestoreSchemaData("plugins/doors/"..game.GetMap());
 	
-	for k, v in pairs(ents.GetAll()) do
+	for k, v in pairs(cwEntity:GetDoorEntities()) do
 		if (IsValid(v)) then
 			local position = v:GetPos();
 			
@@ -61,7 +74,7 @@ function cwDoorCmds:LoadDoorData()
 		local entity = positions[tostring(v.position)];
 		
 		if (IsValid(entity) and !self.doorData[entity]) then
-			if (Clockwork.entity:IsDoor(entity)) then
+			if (cwEntity:IsDoor(entity)) then
 				local data = {
 					customName = v.customName,
 					position = v.position,
@@ -71,11 +84,11 @@ function cwDoorCmds:LoadDoorData()
 				};
 				
 				if (!data.customName) then
-					Clockwork.entity:SetDoorUnownable(data.entity, true);
-					Clockwork.entity:SetDoorName(data.entity, data.name);
-					Clockwork.entity:SetDoorText(data.entity, data.text);
+					cwEntity:SetDoorUnownable(data.entity, true);
+					cwEntity:SetDoorName(data.entity, data.name);
+					cwEntity:SetDoorText(data.entity, data.text);
 				else
-					Clockwork.entity:SetDoorName(data.entity, data.name);
+					cwEntity:SetDoorName(data.entity, data.name);
 				end;
 				
 				self.doorData[data.entity] = data;
@@ -83,10 +96,10 @@ function cwDoorCmds:LoadDoorData()
 		end;
 	end;
 	
-	if (Clockwork.config:Get("default_doors_hidden"):Get()) then
+	if (cwConfig:Get("default_doors_hidden"):Get()) then
 		for k, v in pairs(positions) do
 			if (!self.doorData[v]) then
-				Clockwork.entity:SetDoorHidden(v, true);
+				cwEntity:SetDoorHidden(v, true);
 			end;
 		end;
 	end;
@@ -105,7 +118,7 @@ function cwDoorCmds:SaveParentData()
 		end;
 	end;
 	
-	Clockwork.kernel:SaveSchemaData("plugins/parents/"..game.GetMap(), parentData);
+	cwKernel:SaveSchemaData("plugins/parents/"..game.GetMap(), parentData);
 end;
 
 -- A function to save the door data.
@@ -123,30 +136,30 @@ function cwDoorCmds:SaveDoorData()
 		doorData[#doorData + 1] = data;
 	end;
 	
-	Clockwork.kernel:SaveSchemaData("plugins/doors/"..game.GetMap(), doorData);
+	cwKernel:SaveSchemaData("plugins/doors/"..game.GetMap(), doorData);
 end;
 
 function cwDoorCmds:SaveDoorStates()
 	local doorTable = {};
 
-	for k, v in pairs(ents.GetAll()) do
-		if (Clockwork.entity:IsDoor(v)) then
+	for k, v in pairs(cwEntity:GetDoorEntities()) do
+		if (v:IsValid()) then
 			doorTable[#doorTable + 1] = {
 				position = v:GetPos(),
-				bLocked = Clockwork.entity:IsDoorLocked(v),
-				state = Clockwork.entity:GetDoorState(v)
+				bLocked = IsDoorLocked(cwEntity, v),
+				state = GetDoorState(cwEntity, v)
 			};
 		end;
 	end;
 
-	Clockwork.kernel:SaveSchemaData("plugins/doorstates/"..game.GetMap(), doorTable);
+	cwKernel:SaveSchemaData("plugins/doorstates/"..game.GetMap(), doorTable);
 end;
 
 function cwDoorCmds:LoadDoorStates()
-	local doorTable = Clockwork.kernel:RestoreSchemaData("plugins/doorstates/"..game.GetMap());
+	local doorTable = cwKernel:RestoreSchemaData("plugins/doorstates/"..game.GetMap());
 	local positions = {};
 
-	for k, v in pairs(ents.GetAll()) do
+	for k, v in pairs(cwEntity:GetDoorEntities()) do
 		if (IsValid(v)) then
 			local position = v:GetPos();
 			
@@ -159,10 +172,10 @@ function cwDoorCmds:LoadDoorStates()
 	for k, v in pairs(doorTable) do
 		local entity = positions[tostring(v.position)];
 
-		if (IsValid(entity) and Clockwork.entity:IsDoor(entity)) then
+		if (IsValid(entity) and cwEntity:IsDoor(entity)) then
 
 			if (v.state == 1 or v.state == 2) then
-				Clockwork.entity:OpenDoor(entity, 0);
+				cwEntity:OpenDoor(entity, 0);
 			end;
 
 			if (v.bLocked) then

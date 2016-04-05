@@ -28,8 +28,8 @@ end;
 
 Clockwork.ClockworkFolder = Clockwork.ClockworkFolder or GM.Folder;
 Clockwork.SchemaFolder = Clockwork.SchemaFolder or GM.Folder;
-Clockwork.KernelVersion = "0.95.3";
-Clockwork.KernelBuild = "beta";
+Clockwork.KernelVersion = "0.96.1";
+Clockwork.KernelBuild = "alpha"
 Clockwork.DeveloperVersion = true;
 Clockwork.Website = "http://kurozael.com";
 Clockwork.Author = "kurozael";
@@ -54,6 +54,7 @@ function Clockwork:GetGameDescription()
 end;
 
 AddCSLuaFile("cl_kernel.lua");
+AddCSLuaFile("cl_theme.lua");
 AddCSLuaFile("sh_kernel.lua");
 AddCSLuaFile("sh_fixes.lua");
 AddCSLuaFile("sh_enum.lua");
@@ -85,6 +86,7 @@ end;
 --[[ These are aliases to avoid variable name conflicts. --]]
 cwPlayer, cwTeam, cwFile = player, team, file;
 _player, _team, _file = player, team, file;
+library, lib = cwLibrary, cwLib;
 
 --[[ These are libraries that we want to load before any others. --]]
 Clockwork.kernel:IncludePrefixed("libraries/server/sv_file.lua");
@@ -94,6 +96,7 @@ if (SERVER) then CloudAuthX.Authenticate(); end;
 Clockwork.kernel:IncludeDirectory("libraries/server", true);
 Clockwork.kernel:IncludeDirectory("libraries/client", true);
 Clockwork.kernel:IncludeDirectory("libraries/", true);
+Clockwork.kernel:IncludePrefixed("cl_theme.lua");
 Clockwork.kernel:IncludeDirectory("language/", true);
 Clockwork.kernel:IncludeDirectory("directory/", true);
 Clockwork.kernel:IncludeDirectory("config/", true);

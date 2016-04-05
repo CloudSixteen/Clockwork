@@ -37,6 +37,7 @@ local Angle = Angle;
 local pairs = pairs;
 local Color = Color;
 local print = print;
+local MsgC = MsgC;
 local ScrW = ScrW;
 local ScrH = ScrH;
 local concommand = concommand;
@@ -57,22 +58,25 @@ local _file = _file;
 	just that little bit faster, it will use a small amount more ram,
 	but the performance increase will add up.
 --]]
-local cwKernel = Clockwork.kernel;
-local cwClient;
-local cwPlugin = Clockwork.plugin;
 local cwDatastream = Clockwork.datastream;
-local cwCommand = Clockwork.command;
-local cwMenu = Clockwork.menu;
-local cwOption = Clockwork.option;
-local cwConfig = Clockwork.config;
-local cwQuiz = Clockwork.quiz;
 local cwCharacter = Clockwork.character;
-local cwItem = Clockwork.item;
-local cwEntity = Clockwork.entity;
+local cwCommand = Clockwork.command;
 local cwSetting = Clockwork.setting;
-local cwPly = Clockwork.player;
 local cwFaction = Clockwork.faction;
 local cwChatBox = Clockwork.chatBox;
+local cwEntity = Clockwork.entity;
+local cwOption = Clockwork.option;
+local cwConfig = Clockwork.config;
+local cwKernel = Clockwork.kernel;
+local cwPlugin = Clockwork.plugin;
+local cwTheme = Clockwork.theme;
+local cwEvent = Clockwork.event;
+local cwPly = Clockwork.player;
+local cwMenu = Clockwork.menu;
+local cwQuiz = Clockwork.quiz;
+local cwItem = Clockwork.item;
+local cwLimb = Clockwork.limb;
+local cwClient;
 
 --[[
 	Derive from Sandbox, because we want the spawn menu and such!
@@ -691,7 +695,7 @@ local checkTable = {
 	@param String The new value of the convar.
 --]]
 function Clockwork:ClockworkConVarChanged(name, previousValue, newValue)
-	if (checkTable[name] and not Clockwork.theme:IsFixed()) then
+	if (checkTable[name] and !cwTheme:IsFixed()) then
 		cwOption:SetColor(
 			"information",
 			Color(
@@ -703,6 +707,14 @@ function Clockwork:ClockworkConVarChanged(name, previousValue, newValue)
 		);
 	elseif (name == "cwLang") then
 		cwClient:SetNWString("Language", newValue);
+	elseif (name == "cwActiveTheme") then
+		if (Clockwork.config:Get("modify_themes"):GetBoolean()) then
+			local newTheme = Clockwork.theme:FindByID(newValue);
+
+			if (newTheme) then
+				Clockwork.theme:SetActive(newTheme);
+			end;
+		end;
 	end;
 end;
 
@@ -831,6 +843,10 @@ function Clockwork:LocalPlayerCreated()
 			Clockwork.inventory:Rebuild();
 		end;
 	end);
+
+	timer.Simple(1, function()
+		cwDatastream:Start("LocalPlayerCreated", true);
+	end);
 end;
 
 --[[
@@ -860,6 +876,7 @@ function Clockwork:Initialize()
 	CW_CONVAR_SALEESP = cwKernel:CreateClientConVar("cwSaleESP", 0, false, true);
 	CW_CONVAR_NPCESP = cwKernel:CreateClientConVar("cwNPCESP", 0, false, true);
 	
+	CW_CONVAR_ACTIVETHEME = cwKernel:CreateClientConVar("cwActiveTheme", "", true, true);
 	CW_CONVAR_TEXTCOLORR = cwKernel:CreateClientConVar("cwTextColorR", 255, true, true);
 	CW_CONVAR_TEXTCOLORG = cwKernel:CreateClientConVar("cwTextColorG", 200, true, true);
 	CW_CONVAR_TEXTCOLORB = cwKernel:CreateClientConVar("cwTextColorB", 0, true, true);
@@ -898,9 +915,7 @@ function Clockwork:Initialize()
 	cwPlugin:Call("ClockworkKernelLoaded");
 	cwPlugin:Call("ClockworkInitialized");
 	
-	self.theme:CreateFonts();
-		-- self.theme:CopySkin();
-	self.theme:Initialize();
+	cwTheme:Initialize();
 	
 	cwPlugin:CheckMismatches();
 	cwPlugin:ClearHookCache();
@@ -909,7 +924,7 @@ function Clockwork:Initialize()
 
 	cwClient:SetNWString("Language", CW_CONVAR_LANG:GetString());
 
-	if (not Clockwork.theme:IsFixed()) then
+	if (!cwTheme:IsFixed()) then
 		cwOption:SetColor(
 			"information",
 			Color(
@@ -1404,7 +1419,7 @@ function Clockwork:MenuItemsAdd(menuItems)
 	menuItems:Add(inventoryName, "cwInventory", cwOption:GetKey("description_inventory"), cwOption:GetKey("icon_data_inventory"));
 	menuItems:Add(directoryName, "cwDirectory", cwOption:GetKey("description_directory"), cwOption:GetKey("icon_data_directory"));
 	menuItems:Add(attributesName, "cwAttributes", cwOption:GetKey("description_attributes"), cwOption:GetKey("icon_data_attributes"));
-	
+
 	if (cwConfig:Get("show_business"):GetBoolean() == true) then
 		local businessName = cwOption:GetKey("name_business");
 		menuItems:Add(businessName, "cwBusiness", cwOption:GetKey("description_business"), cwOption:GetKey("icon_data_business"));
@@ -1599,7 +1614,6 @@ function Clockwork:InitPostEntity()
 
 	if (IsValid(self.Client)) then
 		cwPlugin:Call("LocalPlayerCreated");
-		cwDatastream:Start("LocalPlayerCreated", true);
 	end;
 end;
 
@@ -2783,10 +2797,12 @@ function Clockwork:PostDrawTranslucentRenderables(bDrawingDepth, bDrawingSkybox)
 	
 	if (!cwKernel:IsChoosingCharacter()) then
 		cam.Start3D(eyePos, eyeAngles);
-			local entities = ents.FindInSphere(eyePos, 256);
+			local entities = cwEntity:GetDoorEntities();
 			
 			for k, v in pairs(entities) do
-				if (IsValid(v) and cwEntity:IsDoor(v)) then
+				local pos = v:GetPos();
+
+				if (IsValid(v) and pos:Distance(eyePos) <= 256) then
 					cwKernel:DrawDoorText(v, eyePos, eyeAngles, doorFont, colorInfo, colorWhite);
 				end;
 			end;
@@ -2806,11 +2822,11 @@ function Clockwork:RenderScreenspaceEffects()
 		local isDrunk = cwPly:GetDrunk();
 		
 		if (!cwKernel:IsChoosingCharacter()) then
-			if (self.limb:IsActive() and self.event:CanRun("blur", "limb_damage")) then
-				local headDamage = self.limb:GetDamage(HITGROUP_HEAD);
+			if (cwLimb:IsActive() and cwEvent:CanRun("blur", "limb_damage")) then
+				local headDamage = cwLimb:GetDamage(HITGROUP_HEAD);
 				motionBlurs.blurTable["health"] = math.Clamp(1 - (headDamage * 0.01), 0, 1);
 			elseif (cwClient:Health() <= 75) then
-				if (self.event:CanRun("blur", "health")) then
+				if (cwEvent:CanRun("blur", "health")) then
 					motionBlurs.blurTable["health"] = math.Clamp(
 						1 - ((cwClient:GetMaxHealth() - cwClient:Health()) * 0.01), 0, 1
 					);
@@ -2823,7 +2839,7 @@ function Clockwork:RenderScreenspaceEffects()
 				color = 0;
 			end;
 			
-			if (self.event:CanRun("blur", "isDrunk")) then
+			if (cwEvent:CanRun("blur", "isDrunk")) then
 				if (isDrunk and self.DrunkBlur) then
 					self.DrunkBlur = math.Clamp(self.DrunkBlur - (frameTime / 10), math.max(1 - (isDrunk / 8), 0.1), 1);					
 					DrawMotionBlur(self.DrunkBlur, 1, 0);
@@ -3281,7 +3297,7 @@ function Clockwork:HUDPaintPlayer(player) end;
 -- Called when the HUD should be painted.
 function Clockwork:HUDPaint()
 	if (!cwKernel:IsChoosingCharacter() and !cwKernel:IsUsingCamera()) then
-		if (self.event:CanRun("view", "damage") and cwClient:Alive()) then
+		if (cwEvent:CanRun("view", "damage") and cwClient:Alive()) then
 			local maxHealth = cwClient:GetMaxHealth();
 			local health = cwClient:Health();
 			
@@ -3290,7 +3306,7 @@ function Clockwork:HUDPaint()
 			end;
 		end;
 		
-		if (self.event:CanRun("view", "vignette") and cwConfig:Get("enable_vignette"):Get() and CW_CONVAR_VIGNETTE:GetInt() == 1) then
+		if (cwEvent:CanRun("view", "vignette") and cwConfig:Get("enable_vignette"):Get() and CW_CONVAR_VIGNETTE:GetInt() == 1) then
 			cwPlugin:Call("DrawPlayerVignette");
 		end;
 		
@@ -3606,7 +3622,7 @@ end;
 function playerMeta:GetData(key, default)
 	local playerData = cwPly.playerData[key];
 	
-	if (playerData and (not playerData.playerOnly
+	if (playerData and (!playerData.playerOnly
 	or self == cwClient)) then
 		return self:GetSharedVar(key);
 	end;
@@ -3618,7 +3634,7 @@ end;
 function playerMeta:GetCharacterData(key, default)
 	local characterData = cwPly.characterData[key];
 	
-	if (characterData and (not characterData.playerOnly
+	if (characterData and (!characterData.playerOnly
 	or self == cwClient)) then
 		return self:GetSharedVar(key);
 	end;

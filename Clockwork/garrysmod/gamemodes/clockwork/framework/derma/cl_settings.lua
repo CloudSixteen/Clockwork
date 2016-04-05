@@ -77,7 +77,7 @@ function PANEL:Rebuild()
 			form:SetPadding(8);
 			form:SetSpacing(8);
 			form:SetAutoSize(true);
-			form:SetText(v.category, nil, "basic_form_highlight");
+			form:SetText(v.category, nil, "basic_form_highlight", 25);
 			
 			for k2, v2 in pairs(v.settings) do
 				if (v2.class == "numberSlider") then
@@ -102,7 +102,7 @@ function PANEL:Rebuild()
 					local label = vgui.Create("DLabel");
 					
 					label:SetText(v2.text);
-					label:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 14));
+					label:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
 					label:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
 					mixer:SetPalette(true);
 					mixer:SetAlphaBar(true);
@@ -112,6 +112,8 @@ function PANEL:Rebuild()
 					mixer:SetConVarB(v2.conVar.."B");
 					mixer:SetConVarA(v2.conVar.."A");
 					
+					panel = mixer;
+
 					form:AddItem(label);
 					form:AddItem(mixer);
 				end;

@@ -124,13 +124,13 @@ end;
  	@details Returns command's table by alias or unique id.
 	@param ID Identifier of the command to find. Can be alias or original command name.
 --]]
-function Clockwork.command:FindByAlias(id)
-	return self.stored[alias[id]] or nil;
+function Clockwork.command:FindByAlias(identifier)
+	return self.stored[alias[string.lower(string.gsub(identifier, "%s", ""))]];
 end;
  
 --[[
 	@codebase Shared
-	@details Returns table of all comamnd alias indexed by alias' names.
+	@details Returns table of all command alias indexed by alias' names.
 --]]
 function Clockwork.command:GetAlias()
 	return alias;

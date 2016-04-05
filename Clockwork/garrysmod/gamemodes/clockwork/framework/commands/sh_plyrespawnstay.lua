@@ -8,21 +8,22 @@
 
 local Clockwork = Clockwork;
 
-local COMMAND = Clockwork.command:New("PlyGoTo");
-COMMAND.tip = "Goto a player's location.";
-COMMAND.text = "<string Name>";
-COMMAND.access = "o";
+local COMMAND = Clockwork.command:New("PlyRespawnStay");
+COMMAND.tip = "Respawn a player at their position of death.";
+COMMAND.text = "<string Target>";
 COMMAND.arguments = 1;
+COMMAND.access = "o";
+COMMAND.alias = {"PlyRStay"};
 
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)
 	local target = Clockwork.player:FindByID(arguments[1]);
 
 	if (target) then
-		Clockwork.player:SetSafePosition(player, target:GetPos());
-		Clockwork.player:NotifyAll(player:Name().." has gone to "..target:Name().."'s location.");
+		Clockwork.player:LightSpawn(target, true, true, false);
+		Clockwork.player:Notify(player, target:GetName().." was respawned at their position of death.");
 	else
-		Clockwork.player:Notify(player, arguments[1].." is not a valid player!");
+		Clockwork.player:Notify(player, arguments[1].." is not a valid target!");
 	end;
 end;
 

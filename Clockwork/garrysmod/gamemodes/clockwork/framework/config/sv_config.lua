@@ -113,7 +113,10 @@ Clockwork.config:Add("enable_map_props_physgrab", false);
 Clockwork.config:Add("translate_api_key", "");
 Clockwork.config:Add("entity_handle_time", 0.1);
 Clockwork.config:Add("player_should_smooth_sprint", true);
+Clockwork.config:Add("quick_raise_enabled", true);
 Clockwork.config:Add("force_entity_menus", 1, true);
+Clockwork.config:Add("modify_themes", true, true);
+Clockwork.config:Add("default_theme", "Schema", true);
 
 Clockwork.config:Add("enable_ironsights", true, true);
 Clockwork.config:Add("ironsights_spread", 0.5, true);
