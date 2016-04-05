@@ -116,9 +116,9 @@ function ENT:Think()
 			if (type(nextThink) == "number") then
 				return self:NextThink(CurTime() + nextThink);
 			end;
+		else
+			self:Remove();
 		end;
-	else
-		self:Remove();
 	end;
 
 	self:NextThink(CurTime() + 1);
