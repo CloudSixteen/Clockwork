@@ -112,8 +112,21 @@ function cwPickupObjects:KeyPress(player, key)
 				local entity = trace.Entity;
 				local bCanPickup = nil;
 
-				if (Clockwork.plugin:Call("CanHandsPickupEntity", player, entity, trace)) then
-					self:ForcePickup(player, entity, trace);
+				if (IsValid(entity) and trace.HitPos:Distance(player:GetShootPos()) <= 96
+				and !entity:IsPlayer() and !entity:IsNPC()) then
+					if (Clockwork.plugin:Call("CanHandsPickupEntity", player, entity, trace)) then
+						bCanPickup = true;
+					end;
+
+					local bIsDoor = Clockwork.entity:IsDoor(entity);
+
+					if (bCanPickup and !bIsDoor and !player:InVehicle()) then
+						self:ForcePickup(player, entity, trace);
+					elseif (bIsDoor) then
+						local hands = player:GetActiveWeapon();
+												
+						hands:SecondaryAttack();
+					end;
 				end;
 			end;
 		elseif (key == IN_ATTACK) then
@@ -126,14 +139,11 @@ end;
 
 -- Called when a player attempts to pickup an object.
 function cwPickupObjects:CanHandsPickupEntity(player, entity, trace)
-	if (IsValid(entity) and trace.HitPos:Distance(player:GetShootPos()) <= 96
-	and !entity:IsPlayer() and !entity:IsNPC()) then
-		if (IsValid(entity:GetPhysicsObject()) and entity:GetSolid() == SOLID_VPHYSICS) then
-			if (entity:GetClass() == "prop_ragdoll" or entity:GetPhysicsObject():GetMass() <= 100) then
-				if (entity:GetPhysicsObject():IsMoveable() and !IsValid(entity.cwHoldingGrab)) then
-					if (!Clockwork.entity:IsDoor(entity) and !player:InVehicle() and !entity.noHandsPickup) then
-						return true;
-					end;
+	if (IsValid(entity:GetPhysicsObject()) and entity:GetSolid() == SOLID_VPHYSICS) then
+		if (entity:GetClass() == "prop_ragdoll" or entity:GetPhysicsObject():GetMass() <= 100) then
+			if (entity:GetPhysicsObject():IsMoveable() and !IsValid(entity.cwHoldingGrab)) then
+				if (!entity.noHandsPickup) then
+					return true;
 				end;
 			end;
 		end;

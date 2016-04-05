@@ -2797,12 +2797,10 @@ function Clockwork:PostDrawTranslucentRenderables(bDrawingDepth, bDrawingSkybox)
 	
 	if (!cwKernel:IsChoosingCharacter()) then
 		cam.Start3D(eyePos, eyeAngles);
-			local entities = cwEntity:GetDoorEntities();
+			local entities = ents.FindInSphere(eyePos, 256);
 			
 			for k, v in pairs(entities) do
-				local pos = v:GetPos();
-
-				if (IsValid(v) and pos:Distance(eyePos) <= 256) then
+				if (IsValid(v) and cwEntity:IsDoor(v)) then
 					cwKernel:DrawDoorText(v, eyePos, eyeAngles, doorFont, colorInfo, colorWhite);
 				end;
 			end;
