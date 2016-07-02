@@ -47,7 +47,6 @@ function ENT:TalkToPlayer(player, text, default)
 		Clockwork.player:Notify(player, sayString);
 	end;
 
-
 	if (text.sound and text.sound != "") then
 		Clockwork.datastream:Start(player, "SalesmanPlaySound", {text.sound, self});
 	end;
