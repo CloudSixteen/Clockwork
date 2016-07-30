@@ -27,9 +27,13 @@ function PANEL:SetIcon(iconPath, size)
 end;
 
 function PANEL:SetupLabel(menuItem, panel)
+	local upper = Clockwork.option:GetKey("menu_uppercase_text");
 	self.LabelButton:SetFont(Clockwork.option:GetFont("menu_text_tiny"));
-	self.LabelButton:SetText(string.upper(menuItem.text));
-	
+	if upper then
+		self.LabelButton:SetText(string.upper(menuItem.text));
+	else
+		self.LabelButton:SetText(menuItem.text);
+	end;
 	if (CW_CONVAR_FADEPANEL:GetInt() == 1) then
 		self.LabelButton:SetAlpha(0);
 		self.LabelButton:FadeIn(0.5);
