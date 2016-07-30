@@ -39,7 +39,13 @@ function ENT:TalkToPlayer(player, text, default)
 		sayString = self:GetNetworkedString("Name").." says \""..sayString.."\"";
 	end;
 
-	Clockwork.player:Notify(player, sayString);
+	if (text.text) then
+		if (text.text != "") then
+			Clockwork.player:Notify(player, sayString);
+		end;
+	else
+		Clockwork.player:Notify(player, sayString);
+	end;
 
 	if (text.sound and text.sound != "") then
 		Clockwork.datastream:Start(player, "SalesmanPlaySound", {text.sound, self});
