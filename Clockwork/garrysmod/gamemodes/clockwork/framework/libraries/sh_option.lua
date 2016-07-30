@@ -82,6 +82,7 @@ Clockwork.option:SetKey("schema_logo", "");
 Clockwork.option:SetKey("intro_image", "");
 Clockwork.option:SetKey("intro_sound", "music/HL2_song25_Teleporter.mp3");
 Clockwork.option:SetKey("menu_music", "music/hl2_song32.mp3");
+Clockwork.option:SetKey("menu_uppercase_text",true)
 Clockwork.option:SetKey("name_cash", "Cash");
 Clockwork.option:SetKey("name_drop", "Drop");
 Clockwork.option:SetKey("top_bars", false);
@@ -141,7 +142,7 @@ if (CLIENT) then
 	
 	Clockwork.option:SetKey("top_bar_width_scale", 0.3);
 	
-	Clockwork.option:SetKey("info_text_icon_size", 16);
+	Clockwork.option:SetKey("info_text_icon_size", 20);
 	Clockwork.option:SetKey("info_text_red_icon", "icon16/exclamation.png");
 	Clockwork.option:SetKey("info_text_green_icon", "icon16/tick.png");
 	Clockwork.option:SetKey("info_text_orange_icon", "icon16/error.png");
