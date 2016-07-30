@@ -83,10 +83,13 @@ local tableCount = table.Count;
 local tableSort = table.sort;
 local tableAdd = table.Add;
 
+
+
 Clockwork.kernel = Clockwork.kernel or {};
 Clockwork.Timers = Clockwork.Timers or {};
 Clockwork.Libraries = Clockwork.Libraries or {};
 Clockwork.SharedTables = Clockwork.SharedTables or {};
+
 
 --[[
 	@codebase Shared
@@ -1791,6 +1794,7 @@ else
 	function Clockwork.kernel:GetEntityMenuType()
 		return true;
 	end;
+
 
 	-- A function to get the gradient texture.
 	function Clockwork.kernel:GetGradientTexture()
@@ -3545,8 +3549,12 @@ else
 			local textPosX = screenWidth * 0.3;
 			
 			if (cinematicInfo.title) then
-				local cinematicInfoTitle = stringUpper(cinematicInfo.title);
-				local cinematicIntroText = stringUpper(cinematicInfo.text);
+				local cinematicInfoTitle = cinematicInfo.title;
+				local cinematicIntroText = cinematicInfo.text;
+				if (Clockwork.option:GetKey("menu_uppercase_text")) then
+					cinematicInfoTitle = stringUpper(cinematicInfo.title);
+					cinematicIntroText = stringUpper(cinematicInfo.text);
+				end;
 				local introTextSmallFont = Clockwork.option:GetFont("intro_text_small");
 				local introTextBigFont = Clockwork.option:GetFont("intro_text_big");
 				local textWidth, textHeight = self:GetCachedTextSize(introTextBigFont, cinematicInfoTitle);
