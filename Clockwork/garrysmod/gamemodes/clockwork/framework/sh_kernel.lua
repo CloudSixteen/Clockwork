@@ -1789,19 +1789,7 @@ else
 
 	-- A function to get what type of entity menu to use.
 	function Clockwork.kernel:GetEntityMenuType()
-		local forceMenus = Clockwork.config:Get("force_entity_menus"):Get();
-
-		if (forceMenus == 0) then -- Config says use both according to player setting.
-			if (CW_CONVAR_ENTITYMENU:GetInt() == 0) then -- Setting says use 2D menu.
-				return true
-			else -- Setting says use 3D menu.
-				return false;
-			end;
-		elseif (forceMenus == 1) then -- Config says use 2D menu.
-			return true;
-		else -- Config says use 3D menu.
-			return false;
-		end;
+		return true;
 	end;
 
 	-- A function to get the gradient texture.
