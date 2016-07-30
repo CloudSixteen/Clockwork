@@ -3,9 +3,9 @@ Clockwork
 A roleplaying framework developed by Cloud Sixteen for the people.  
 *Clockwork was created and is under development by Conna Wiles, also known as kurozael.*
 
-Installation
+Documentation and Installation
 ------------
-http://wiki.cloudsixteen.com/Installing  
+http://wiki.cloudsixteen.com/installation
 http://wiki.cloudsixteen.com/
 
 Coding Standard
