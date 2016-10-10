@@ -138,95 +138,99 @@ end;
 
 if (SERVER) then
 	function Clockwork.command:ConsoleCommand(player, command, arguments)
-		if (player:HasInitialized()) then
-			if (arguments and arguments[1]) then
-				local realCommand = string.lower(arguments[1]);
-				local commandTable = self:FindByAlias(realCommand);
-				local commandPrefix = Clockwork.config:Get("command_prefix"):Get();
+		if (IsValid(player)) then
+			if (player:HasInitialized()) then
+				if (arguments and arguments[1]) then
+					local realCommand = string.lower(arguments[1]);
+					local commandTable = self:FindByAlias(realCommand);
+					local commandPrefix = Clockwork.config:Get("command_prefix"):Get();
 
-				if (commandTable) then
-					table.remove(arguments, 1);
+					if (commandTable) then
+						table.remove(arguments, 1);
 
-					for k, v in pairs(arguments) do
-						arguments[k] = Clockwork.kernel:Replace(arguments[k], " ' ", "'");
-						arguments[k] = Clockwork.kernel:Replace(arguments[k], " : ", ":");
-					end;
+						for k, v in pairs(arguments) do
+							arguments[k] = Clockwork.kernel:Replace(arguments[k], " ' ", "'");
+							arguments[k] = Clockwork.kernel:Replace(arguments[k], " : ", ":");
+						end;
 
-					if (Clockwork.plugin:Call("PlayerCanUseCommand", player, commandTable, arguments)) then
-						if (#arguments >= commandTable.arguments) then
-							if (Clockwork.player:HasFlags(player, commandTable.access) and ((!commandTable.faction)
-							or (commandTable.faction and (commandTable.faction == player:GetFaction())
-							or (istable(commandTable.faction) and table.HasValue(commandTable.faction, player:GetFaction()))))) then
-								local flags = commandTable.flags;
+						if (Clockwork.plugin:Call("PlayerCanUseCommand", player, commandTable, arguments)) then
+							if (#arguments >= commandTable.arguments) then
+								if (Clockwork.player:HasFlags(player, commandTable.access) and ((!commandTable.faction)
+								or (commandTable.faction and (commandTable.faction == player:GetFaction())
+								or (istable(commandTable.faction) and table.HasValue(commandTable.faction, player:GetFaction()))))) then
+									local flags = commandTable.flags;
 
-								if (Clockwork.player:GetDeathCode(player, true)) then
-									if (flags == 0 and CMD_DEATHCODE == 0) then
-										Clockwork.player:TakeDeathCode(player);
-									end;
-								end;
-
-								if (bit.band(flags, CMD_DEAD) > 0 and !player:Alive()) then
-									if (!player.cwDeathCodeAuth) then
-										Clockwork.player:Notify(player, "You cannot do this action at the moment!");
-									end; return;
-								elseif (bit.band(flags, CMD_VEHICLE) > 0 and player:InVehicle()) then
-									if (!player.cwDeathCodeAuth) then
-										Clockwork.player:Notify(player, "You cannot do this action at the moment!");
-									end; return;
-								elseif (bit.band(flags, CMD_RAGDOLLED) > 0 and player:IsRagdolled()) then
-									if (!player.cwDeathCodeAuth) then
-										Clockwork.player:Notify(player, "You cannot do this action at the moment!");
-									end; return;
-								elseif (bit.band(flags, CMD_FALLENOVER) > 0 and player:GetRagdollState() == RAGDOLL_FALLENOVER) then
-									if (!player.cwDeathCodeAuth) then
-										Clockwork.player:Notify(player, "You cannot do this action at the moment!");
-									end; return;
-								elseif (bit.band(flags, CMD_KNOCKEDOUT) > 0 and player:GetRagdollState() == RAGDOLL_KNOCKEDOUT) then
-									if (!player.cwDeathCodeAuth) then
-										Clockwork.player:Notify(player, "You cannot do this action at the moment!");
-									end; return;
-								end;
-
-								if (commandTable.OnRun) then
-									local bSuccess, value = pcall(commandTable.OnRun, commandTable, player, arguments);
-
-									if (!bSuccess) then
-										MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Command]\nThe '"..commandTable.name.."' command has failed to run.\n"..value.."\n");
-									elseif (Clockwork.player:GetDeathCode(player, true)) then
-										Clockwork.player:UseDeathCode(player, commandTable.name, arguments);
+									if (Clockwork.player:GetDeathCode(player, true)) then
+										if (flags == 0 and CMD_DEATHCODE == 0) then
+											Clockwork.player:TakeDeathCode(player);
+										end;
 									end;
 
-									if (bSuccess) then
-										if (table.concat(arguments, " ") != "") then
-											Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, player:Name().." has used '"..commandPrefix..commandTable.name.." "..table.concat(arguments, " ").."'.");
-										else
-											Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, player:Name().." has used '"..commandPrefix..commandTable.name.."'.");
+									if (bit.band(flags, CMD_DEAD) > 0 and !player:Alive()) then
+										if (!player.cwDeathCodeAuth) then
+											Clockwork.player:Notify(player, "You cannot do this action at the moment!");
+										end; return;
+									elseif (bit.band(flags, CMD_VEHICLE) > 0 and player:InVehicle()) then
+										if (!player.cwDeathCodeAuth) then
+											Clockwork.player:Notify(player, "You cannot do this action at the moment!");
+										end; return;
+									elseif (bit.band(flags, CMD_RAGDOLLED) > 0 and player:IsRagdolled()) then
+										if (!player.cwDeathCodeAuth) then
+											Clockwork.player:Notify(player, "You cannot do this action at the moment!");
+										end; return;
+									elseif (bit.band(flags, CMD_FALLENOVER) > 0 and player:GetRagdollState() == RAGDOLL_FALLENOVER) then
+										if (!player.cwDeathCodeAuth) then
+											Clockwork.player:Notify(player, "You cannot do this action at the moment!");
+										end; return;
+									elseif (bit.band(flags, CMD_KNOCKEDOUT) > 0 and player:GetRagdollState() == RAGDOLL_KNOCKEDOUT) then
+										if (!player.cwDeathCodeAuth) then
+											Clockwork.player:Notify(player, "You cannot do this action at the moment!");
+										end; return;
+									end;
+
+									if (commandTable.OnRun) then
+										local bSuccess, value = pcall(commandTable.OnRun, commandTable, player, arguments);
+
+										if (!bSuccess) then
+											MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Command]\nThe '"..commandTable.name.."' command has failed to run.\n"..value.."\n");
+										elseif (Clockwork.player:GetDeathCode(player, true)) then
+											Clockwork.player:UseDeathCode(player, commandTable.name, arguments);
 										end;
 
-										return value;
-									end;
+										if (bSuccess) then
+											if (table.concat(arguments, " ") != "") then
+												Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, player:Name().." has used '"..commandPrefix..commandTable.name.." "..table.concat(arguments, " ").."'.");
+											else
+												Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, player:Name().." has used '"..commandPrefix..commandTable.name.."'.");
+											end;
 
-									Clockwork.plugin:Call("PostCommandUsed", player, commandTable, arguments);
+											return value;
+										end;
+
+										Clockwork.plugin:Call("PostCommandUsed", player, commandTable, arguments);
+									end;
+								else
+									Clockwork.player:Notify(player, "You do not have access to this command, "..player:Name()..".");
 								end;
 							else
-								Clockwork.player:Notify(player, "You do not have access to this command, "..player:Name()..".");
+								Clockwork.player:Notify(player, commandTable.name.." "..commandTable.text.."!");
 							end;
-						else
-							Clockwork.player:Notify(player, commandTable.name.." "..commandTable.text.."!");
 						end;
+					elseif (!Clockwork.player:GetDeathCode(player, true)) then
+						Clockwork.player:Notify(player, "This is not a valid command or alias!");
 					end;
 				elseif (!Clockwork.player:GetDeathCode(player, true)) then
 					Clockwork.player:Notify(player, "This is not a valid command or alias!");
 				end;
-			elseif (!Clockwork.player:GetDeathCode(player, true)) then
-				Clockwork.player:Notify(player, "This is not a valid command or alias!");
-			end;
 
-			if (Clockwork.player:GetDeathCode(player)) then
-				Clockwork.player:TakeDeathCode(player);
+				if (Clockwork.player:GetDeathCode(player)) then
+					Clockwork.player:TakeDeathCode(player);
+				end;
+			else
+				Clockwork.player:Notify(player, "You cannot use commands yet!");
 			end;
 		else
-			Clockwork.player:Notify(player, "You cannot use commands yet!");
+			print("You cannot run commands from server console. If you did not attempt to, you can ignore this message.");
 		end;
 	end;
 

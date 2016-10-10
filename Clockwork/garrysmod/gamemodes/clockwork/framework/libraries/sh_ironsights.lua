@@ -26,7 +26,7 @@ local CurTime = CurTime;
 local Vector = Vector;
 local IsValid = IsValid;
 
-Clockwork.ironsights = Clockwork.ironsights or Clockwork.kernel:NewLibrary("CW Ironsights");
+Clockwork.ironsights = Clockwork.ironsights or Clockwork.kernel:NewLibrary("Ironsights");
 
 local nextIronSights = nil;
 
@@ -107,9 +107,6 @@ if (SERVER) then
 		self:SetIronSights(player, false);
 	end;
 else
-	--[[
-		Ironsights hooks.
-	--]]
 	cwDatastream:Hook("SetClockworkIronSights", function(data)
 		Clockwork.Client.cwIronSights = data[1];
 	end);

@@ -1700,96 +1700,71 @@ else
 
 		if (tableCount(options) == 0) then return; end;
 		
-		if (self:GetEntityMenuType()) then
-			local menuPanel = self:AddMenuFromData(nil, options, function(menuPanel, option, arguments)
-				if (itemTable and type(arguments) == "table" and arguments.isOptionTable) then
-					menuPanel:AddOption(arguments.title, function()
-						if (itemTable.HandleOptions) then
-							local transmit, data = itemTable:HandleOptions(arguments.name, nil, nil, entity);
+		local menuPanel = self:AddMenuFromData(nil, options, function(menuPanel, option, arguments)
+			if (itemTable and type(arguments) == "table" and arguments.isOptionTable) then
+				menuPanel:AddOption(arguments.title, function()
+					if (itemTable.HandleOptions) then
+						local transmit, data = itemTable:HandleOptions(arguments.name, nil, nil, entity);
 							
-							if (transmit) then
-								Clockwork.datastream:Start("MenuOption", {
-									option = arguments.name,
-									data = data,
-									item = itemTable("itemID"),
-									entity = entity
-								});
-							end;
-						end;
-					end)
-				else
-					menuPanel:AddOption(option, function()
-						if (type(arguments) == "table" and arguments.isArgTable) then
-							if (arguments.Callback) then
-								arguments.Callback(function(arguments)
-									Clockwork.entity:ForceMenuOption(
-										entity, option, arguments
-									);
-								end);
-							else
-								Clockwork.entity:ForceMenuOption(
-									entity, option, arguments.arguments
-								);
-							end;
-						else
-							Clockwork.entity:ForceMenuOption(
-								entity, option, arguments
-							);
-						end;
-						
-						timer.Simple(FrameTime(), function()
-							self:RemoveActiveToolTip();
-						end);
-					end);
-				end;
-				
-				menuPanel.Items = menuPanel:GetChildren();
-				local panel = menuPanel.Items[#menuPanel.Items];
-				
-				if (IsValid(panel)) then
-					if (type(arguments) == "table") then
-						if (arguments.isOrdered) then
-							menuPanel.Items[#menuPanel.Items] = nil;
-							tableInsert(menuPanel.Items, 1, panel);
-						end;
-						
-						if (arguments.toolTip) then
-							self:CreateMarkupToolTip(panel);
-							panel:SetMarkupToolTip(arguments.toolTip);
+						if (transmit) then
+							Clockwork.datastream:Start("MenuOption", {
+								option = arguments.name,
+								data = data,
+								item = itemTable("itemID"),
+								entity = entity
+							});
 						end;
 					end;
-				end;
-			end);
-			
-			self:RegisterBackgroundBlur(menuPanel, SysTime());
-			self:SetTitledMenu(menuPanel, "INTERACT WITH THIS ENTITY");
-			menuPanel.entity = entity;
-			
-			return menuPanel;
-		else
-			local menu = Clockwork.entityMenu:AddMenuFromData(entity, options, nil, function(menu, option, arguments)
-				tableInsert(menu.options, {text = option, callback = function()
+				end)
+			else
+				menuPanel:AddOption(option, function()
 					if (type(arguments) == "table" and arguments.isArgTable) then
 						if (arguments.Callback) then
 							arguments.Callback(function(arguments)
-								Clockwork.entity:ForceMenuOption(entity, option, arguments)
-							end)
+								Clockwork.entity:ForceMenuOption(
+									entity, option, arguments
+								);
+							end);
 						else
-							Clockwork.entity:ForceMenuOption(entity, option, arguments.arguments)
-						end
+							Clockwork.entity:ForceMenuOption(
+								entity, option, arguments.arguments
+							);
+						end;
 					else
-						Clockwork.entity:ForceMenuOption(entity, option, arguments)
-					end
-				end})
-			end)
+						Clockwork.entity:ForceMenuOption(
+							entity, option, arguments
+						);
+					end;
+						
+					timer.Simple(FrameTime(), function()
+						self:RemoveActiveToolTip();
+					end);
+				end);
+			end;
+				
+			menuPanel.Items = menuPanel:GetChildren();
+			local panel = menuPanel.Items[#menuPanel.Items];
+				
+			if (IsValid(panel)) then
+				if (type(arguments) == "table") then
+					if (arguments.isOrdered) then
+						menuPanel.Items[#menuPanel.Items] = nil;
+						tableInsert(menuPanel.Items, 1, panel);
+					end;
+						
+					if (arguments.toolTip) then
+						self:CreateMarkupToolTip(panel);
+						panel:SetMarkupToolTip(arguments.toolTip);
+					end;
+				end;
+			end;
+		end);
 			
-			return menu
-		end;
-	end;
-
-	-- A function to get what type of entity menu to use.
-	function Clockwork.kernel:GetEntityMenuType()
-		return true;
+		self:RegisterBackgroundBlur(menuPanel, SysTime());
+		self:SetTitledMenu(menuPanel, "INTERACT WITH THIS ENTITY");
+		menuPanel.entity = entity;
+			
+		return menuPanel;
 	end;
 
 	-- A function to get the gradient texture.

@@ -1714,6 +1714,24 @@ function Clockwork:Tick()
 			end;
 		end;
 	end;
+
+	if (self.config:Get("enable_disease"):GetBoolean()) then
+		local nextDisease = self.nextDisease;
+
+		if (!nextDisease or nextDisease < CurTime()) then
+			for k, v in pairs(plyTable) do
+				if (Clockwork.player:HasDiseases(v)) then
+					local symptoms = Clockwork.player:GetSymptoms(v);
+
+					for k2, v2 in pairs(symptoms) do
+						v2(v);
+					end;
+				end;
+			end;
+
+			self.nextDisease = CurTime() + self.config:Get("disease_interval"):Get();
+		end;
+	end;
 end;
 
 -- Called when a player's health should regenerate.
@@ -3869,6 +3887,8 @@ function Clockwork:PlayerButtonDown(player, button)
 				cwPly:ToggleWeaponRaised(player);
 			end;
 		end;
+	else
+		numpad.Activate(player, button);
 	end;
 end;
 

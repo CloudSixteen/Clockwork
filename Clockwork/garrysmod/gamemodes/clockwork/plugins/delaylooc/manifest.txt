@@ -1,0 +1,6 @@
+3
+plugin.ini
+manifest.txt
+README.md
+plugin/sh_plugin.lua
+plugin/sv_hooks.lua

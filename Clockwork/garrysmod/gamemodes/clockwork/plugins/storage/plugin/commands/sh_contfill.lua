@@ -27,14 +27,14 @@ function COMMAND:OnRun(player, arguments)
 				local model = string.lower(trace.Entity:GetModel());
 				
 				if (cwStorage.containerList[model]) then
-					if (!trace.Entity.inventory) then
+					if (!trace.Entity.cwInventory) then
 						cwStorage.storage[trace.Entity] = trace.Entity;
 						
-						trace.Entity.inventory = {};
+						trace.Entity.cwInventory = {};
 					end;
 					
 					local containerWeight = cwStorage.containerList[model][1] / (6 - scale);
-					local weight = Clockwork.inventory:CalculateWeight(trace.Entity.inventory);
+					local weight = Clockwork.inventory:CalculateWeight(trace.Entity.cwInventory);
 					
 					if (!arguments[2] or cwStorage:CategoryExists(arguments[2])) then
 						while (weight < containerWeight) do
@@ -42,7 +42,7 @@ function COMMAND:OnRun(player, arguments)
 							
 							if (randomItem) then
 								Clockwork.inventory:AddInstance(
-									trace.Entity.inventory, Clockwork.item:CreateInstance(randomItem[1])
+									trace.Entity.cwInventory, Clockwork.item:CreateInstance(randomItem[1])
 								);
 								
 								weight = weight + randomItem[2];

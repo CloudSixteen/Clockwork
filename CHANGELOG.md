@@ -2,6 +2,16 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.96.3
+-------
+
+* Fixed items being removed too soon on creation.
+* Fixed TOOL binds not working (such as camera key, etc.)
+* Removed deploy animation from the hands weapon.
+* Fixed odd credits in the keys weapon.
+* Moved experimental Backsword and themetest plugins to development/ folder.
+* Made ironsights library name more consistent with others.
+
 0.96.2
 -------
 
@@ -13,7 +23,6 @@ The following changes have been made for each official Clockwork build.
 * Fixed IsMapEntity using entIndex, changed to using the entity itself to check for.
 * Fixed fists not playing the knocking noise when the secondary fire is used on a door.
 	* *Contributed by NightAngel.*
-
 
 0.96.1
 -------
@@ -104,8 +113,6 @@ Just press middle mouse while your weapon is raised to use the ironsights, it wi
 	* *Contributed by NightAngel.*
 * Added two configs to modify how much ironsights will reduce the spread, as well as how much they will reduce walk speed of the player.
 	* *Contributed by NightAngel.*
-* Added edited Half-Life Universe entity menus that can be toggled on or off via convar 'cwEntityMenuType', or alternatively forced via config.
-	* *Contributed by Spencer Sharkey and modified by NightAngel.*
 
 0.95.1
 -------

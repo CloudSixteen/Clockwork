@@ -151,24 +151,24 @@ end;
 function cwDisplayTyping:ChatBoxTextChanged(previousText, newText)
 	local prefix = cwConfig:Get("command_prefix"):Get();
 	
-	if (string.utf8sub(newText, 1, string.utf8len(prefix) + 5) == prefix.."radio") then
-		if (string.utf8sub(previousText, 1, string.utf8len(prefix) + 5) != prefix.."radio") then
+	if (string.utf8sub(newText, 1, string.utf8len(prefix) + 6) == prefix.."radio") then
+		if (string.utf8sub(previousText, 1, string.utf8len(prefix) + 6) != prefix.."radio") then
 			RunConsoleCommand("cwTypingStart", "r");
 		end;
-	elseif (string.utf8sub(newText, 1, string.utf8len(prefix) + 2) == prefix.."me") then
-		if (string.utf8sub(previousText, 1, string.utf8len(prefix) + 2) != prefix.."me") then
+	elseif (string.utf8sub(newText, 1, string.utf8len(prefix) + 3) == prefix.."me") then
+		if (string.utf8sub(previousText, 1, string.utf8len(prefix) + 3) != prefix.."me") then
 			RunConsoleCommand("cwTypingStart", "p");
 		end;
-	elseif (string.utf8sub(newText, 1, string.utf8len(prefix) + 2) == prefix.."pm") then
-		if (string.utf8sub(previousText, 1, string.utf8len(prefix) + 2) != prefix.."pm") then
+	elseif (string.utf8sub(newText, 1, string.utf8len(prefix) + 3) == prefix.."pm") then
+		if (string.utf8sub(previousText, 1, string.utf8len(prefix) + 3) != prefix.."pm") then
 			RunConsoleCommand("cwTypingStart", "o");
 		end;
-	elseif (string.utf8sub(newText, 1, string.utf8len(prefix) + 1) == prefix.."w") then
-		if (string.utf8sub(previousText, 1, string.utf8len(prefix) + 1) != prefix.."w") then
+	elseif (string.utf8sub(newText, 1, string.utf8len(prefix) + 2) == prefix.."w") then
+		if (string.utf8sub(previousText, 1, string.utf8len(prefix) + 2) != prefix.."w") then
 			RunConsoleCommand("cwTypingStart", "w");
 		end;
-	elseif (string.utf8sub(newText, 1, string.utf8len(prefix) + 1) == prefix.."y") then
-		if (string.utf8sub(previousText, 1, string.utf8len(prefix) + 1) != prefix.."y") then
+	elseif (string.utf8sub(newText, 1, string.utf8len(prefix) + 2) == prefix.."y") then
+		if (string.utf8sub(previousText, 1, string.utf8len(prefix) + 2) != prefix.."y") then
 			RunConsoleCommand("cwTypingStart", "y");
 		end;
 	elseif (string.utf8sub(newText, 1, 2) == "//") then

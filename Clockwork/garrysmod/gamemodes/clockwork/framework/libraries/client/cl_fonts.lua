@@ -21,7 +21,6 @@ Clockwork.fonts.sizes = Clockwork.fonts.sizes or {};
 
 -- A function to add a new font to the system.
 function Clockwork.fonts:Add(name, fontTable)
-	fontTable.extended = true; -- Force the font to load all characters.
 	self.stored[name] = fontTable;
 	CreateFont(name, self.stored[name]);
 end;
@@ -64,8 +63,7 @@ Clockwork.fonts:Add("cwMainText",
 	size		= Clockwork.kernel:FontScreenScale(7),
 	weight		= 700,
 	antialiase	= true,
-	additive 	= false,
-	extended	= true
+	additive 	= false
 });
 Clockwork.fonts:Add("cwESPText", 
 {
@@ -73,8 +71,7 @@ Clockwork.fonts:Add("cwESPText",
 	size		= Clockwork.kernel:FontScreenScale(5.5),
 	weight		= 700,
 	antialiase	= true,
-	additive 	= false,
-	extended 	= true
+	additive 	= false
 });
 Clockwork.fonts:Add("cwTooltip", 
 {
@@ -82,8 +79,7 @@ Clockwork.fonts:Add("cwTooltip",
 	size		= Clockwork.kernel:FontScreenScale(5),
 	weight		= 700,
 	antialiase	= true,
-	additive 	= false,
-	extended	= true
+	additive 	= false
 });
 Clockwork.fonts:Add("cwMenuTextBig",
 {
@@ -91,8 +87,7 @@ Clockwork.fonts:Add("cwMenuTextBig",
 	size		= Clockwork.kernel:FontScreenScale(18),
 	weight		= 700,
 	antialiase	= true,
-	additive 	= false,
-	extended 	= true
+	additive 	= false
 });
 Clockwork.fonts:Add("cwMenuTextTiny",
 {
@@ -100,8 +95,7 @@ Clockwork.fonts:Add("cwMenuTextTiny",
 	size		= Clockwork.kernel:FontScreenScale(7),
 	weight		= 700,
 	antialiase	= true,
-	additive 	= false,
-	extended	= true
+	additive 	= false
 });
 Clockwork.fonts:Add("cwInfoTextFont",
 {
@@ -109,8 +103,7 @@ Clockwork.fonts:Add("cwInfoTextFont",
 	size		= Clockwork.kernel:FontScreenScale(6),
 	weight		= 700,
 	antialiase	= true,
-	additive 	= false,
-	extended	= true
+	additive 	= false
 });
 Clockwork.fonts:Add("cwMenuTextHuge",
 {
@@ -118,8 +111,7 @@ Clockwork.fonts:Add("cwMenuTextHuge",
 	size		= Clockwork.kernel:FontScreenScale(30),
 	weight		= 700,
 	antialiase	= true,
-	additive 	= false,
-	extended	= true
+	additive 	= false
 });
 Clockwork.fonts:Add("cwMenuTextSmall",
 {
@@ -127,8 +119,7 @@ Clockwork.fonts:Add("cwMenuTextSmall",
 	size		= Clockwork.kernel:FontScreenScale(10),
 	weight		= 700,
 	antialiase	= true,
-	additive 	= false,
-	extended	= true
+	additive 	= false
 });
 Clockwork.fonts:Add("cwIntroTextBig",
 {
@@ -136,8 +127,7 @@ Clockwork.fonts:Add("cwIntroTextBig",
 	size		= Clockwork.kernel:FontScreenScale(18),
 	weight		= 700,
 	antialiase	= true,
-	additive 	= false,
-	extended	= true
+	additive 	= false
 });
 Clockwork.fonts:Add("cwIntroTextTiny",
 {
@@ -145,8 +135,7 @@ Clockwork.fonts:Add("cwIntroTextTiny",
 	size		= Clockwork.kernel:FontScreenScale(9),
 	weight		= 700,
 	antialiase	= true,
-	additive 	= false,
-	extended	= true
+	additive 	= false
 });
 Clockwork.fonts:Add("cwIntroTextSmall",
 {
@@ -154,8 +143,7 @@ Clockwork.fonts:Add("cwIntroTextSmall",
 	size		= Clockwork.kernel:FontScreenScale(7),
 	weight		= 700,
 	antialiase	= true,
-	additive 	= false,
-	extended	= true
+	additive 	= false
 });
 Clockwork.fonts:Add("cwLarge3D2D",
 {
@@ -163,8 +151,7 @@ Clockwork.fonts:Add("cwLarge3D2D",
 	size		= Clockwork.kernel:GetFontSize3D(),
 	weight		= 700,
 	antialiase	= true,
-	additive 	= false,
-	extended 	= true
+	additive 	= false
 });
 Clockwork.fonts:Add("cwScoreboardName",
 {
@@ -172,8 +159,7 @@ Clockwork.fonts:Add("cwScoreboardName",
 	size		= Clockwork.kernel:FontScreenScale(7),
 	weight		= 600,
 	antialiase	= true,
-	additive 	= false,
-	extended 	= true
+	additive 	= false
 });
 Clockwork.fonts:Add("cwScoreboardDesc",
 {
@@ -181,8 +167,7 @@ Clockwork.fonts:Add("cwScoreboardDesc",
 	size		= Clockwork.kernel:FontScreenScale(5),
 	weight		= 600,
 	antialiase	= true,
-	additive 	= false,
-	extended 	= true
+	additive 	= false
 });
 Clockwork.fonts:Add("cwCinematicText",
 {
@@ -190,8 +175,7 @@ Clockwork.fonts:Add("cwCinematicText",
 	size		= Clockwork.kernel:FontScreenScale(8),
 	weight		= 700,
 	antialiase	= true,
-	additive 	= false,
-	extended 	= true
+	additive 	= false
 });
 Clockwork.fonts:Add("cwChatSyntax",
 {
@@ -199,6 +183,5 @@ Clockwork.fonts:Add("cwChatSyntax",
 	size		= Clockwork.kernel:FontScreenScale(7),
 	weight		= 600,
 	antialiase	= true,
-	additive 	= false,
-	extended 	= true
+	additive 	= false
 });

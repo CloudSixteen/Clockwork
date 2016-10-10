@@ -4220,6 +4220,81 @@ function Clockwork.player:SetFactionRank(player, rank)
 	end;
 end;
 
+-- A function which returns the unique ID of any diseases a player has.
+function Clockwork.player:GetDiseases(player)
+	local diseases = player:GetCharacterData("diseases");
+
+	if (diseases and istable(diseases)) then
+		return diseases;
+	else
+		return {};
+	end;
+end;
+
+-- A function to get if a player has any diseases.
+function Clockwork.player:HasDiseases(player)
+	local diseases = self:GetDiseases(player);
+
+	return (#diseases > 0);
+end;
+
+-- A function which returns the unique ID and callbacks of any symptoms a player suffers.
+function Clockwork.player:GetSymptoms(player)
+	local diseases = self:GetDiseases(player);
+	local symptoms = {};
+
+	for k, v in pairs(diseases) do
+		if (Clockwork.disease:IsValid(v)) then
+			local diseaseSymptoms = Clockwork.disease:GetSymptoms(v);
+
+			for k2, v2 in pairs(diseaseSymptoms) do
+				symptoms[k2] = v2;
+			end;
+		end;
+	end;
+
+	return symptoms;
+end;
+
+-- A function which gives a player a disease.
+function Clockwork.player:AddDisease(player, uniqueID)
+	if (uniqueID) then
+		if (Clockwork.disease:IsValid(uniqueID)) then
+			local diseases = self:GetDiseases(player);
+
+			table.insert(diseases, uniqueID);
+
+			player:SetCharacterData("diseases", diseases);
+		else
+			ErrorNoHalt("Attempting to give player invalid disease '"..uniqueID.."'.");
+		end;
+	else
+		ErrorNoHalt("Attempting to give player nil disease.");
+	end;
+end;
+
+-- A function which cures a player of all diseases.
+function Clockwork.player:CureAll(player)
+	player:SetCharacterData("diseases", {});
+end;
+
+-- A function which cures a player of a disease.
+function Clockwork.player:Cure(player, uniqueID)
+	if (uniqueID) then
+		if (Clockwork.disease:IsValid(uniqueID)) then
+			local diseases = self:GetDiseases(player);
+
+			table.RemoveByValue(diseases, uniqueID);
+
+			player:SetCharacterData("diseases", diseases);
+		else
+			ErrorNoHalt("Attempting to cure of invalid disease '"..uniqueID.."'.");
+		end;
+	else
+		ErrorNoHalt("Attempting to cure of nil disease.");
+	end;
+end;
+
 -- A function to get a player's global flags.
 function Clockwork.player:GetPlayerFlags(player)
 	return player:GetData("Flags") or "";

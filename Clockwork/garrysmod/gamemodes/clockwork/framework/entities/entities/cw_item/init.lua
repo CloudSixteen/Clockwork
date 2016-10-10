@@ -95,6 +95,7 @@ function ENT:OnTakeDamage(damageInfo)
 			end;
 			
 			Clockwork.plugin:Call("ItemEntityDestroyed", self, itemTable);
+			
 			self:Explode();
 			self:Remove();
 		end;
@@ -104,9 +105,18 @@ end;
 -- Called each frame.
 function ENT:Think()
 	local itemTable = self.cwItemTable;
-
+	local curTime = CurTime();
+	
 	if (!self:IsInWorld()) then
-		self:Remove();
+		if (self.cwOutOfWorldTime == nil) then
+			self.cwOutOfWorldTime = curTime + 5;
+		end;
+		
+		if (curTime >= self.cwOutOfWorldTime) then
+			self:Remove();
+		end;
+	else
+		self.cwOutOfWorldTime = nil;
 	end;
 	
 	if (itemTable) then
@@ -117,8 +127,6 @@ function ENT:Think()
 				return self:NextThink(CurTime() + nextThink);
 			end;
 		end;
-	else
-		self:Remove();
 	end;
 
 	self:NextThink(CurTime() + 1);

@@ -93,7 +93,7 @@ Deploy
 function SWEP:Deploy()
 	local vm = self.Owner:GetViewModel();
 
-	vm:SendViewModelMatchingSequence(vm:LookupSequence("fists_draw"));
+	--vm:SendViewModelMatchingSequence(vm:LookupSequence("fists_draw"));
 	self.Weapon:SetNextPrimaryFire(CurTime() + 1);
 
 	return true;

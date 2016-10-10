@@ -33,7 +33,7 @@ end
 SWEP.Instructions 			= "Primary Fire: Lock.\nSecondary Fire: Unlock.";
 SWEP.Contact 				= "Cloudsixteen.com";
 SWEP.Purpose 				= "Locking and unlocking entities that you have access to.";
-SWEP.Author					= "Cloudsixteen";
+SWEP.Author					= "Cloud Sixteen";
 
 SWEP.WorldModel 			= "";
 SWEP.ViewModel 				= "models/weapons/c_arms.mdl";

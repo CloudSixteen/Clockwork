@@ -97,10 +97,10 @@ Clockwork.config:AddToSystem("Enable Map Props Physgrab", "enable_map_props_phys
 Clockwork.config:AddToSystem("Entity Use Cooldown", "entity_handle_time", "The amount of time between entity uses a player has to wait.", 0, 1, 3);
 Clockwork.config:AddToSystem("Enable Smooth Sprint", "player_should_smooth_sprint", "Whether or not smooth sprinting will be used.");
 Clockwork.config:AddToSystem("Enable Quick Raise", "quick_raise_enabled", "Whether or not players can use quick raising to raise their weapons.");
-Clockwork.config:AddToSystem("Force Entity Menu Type", "force_entity_menus", "Either force 3D entity menus (2), 2D (1), or let the user decide (0).", 0, 2, 0);
 Clockwork.config:AddToSystem("Players Change Themes", "modify_themes", "Whether or not players can switch between available themes.");
 Clockwork.config:AddToSystem("Default Theme", "default_theme", "The default theme that players will start with.");
-
+Clockwork.config:AddToSystem("Enable Diseases", "enable_disease", "Whether or not you want use of the disease library to be enabled.");
+Clockwork.config:AddToSystem("Disease Interval", "disease_interval", "The number of seconds between each run of the symptom function.");
 Clockwork.config:AddToSystem("Enable Ironsights", "enable_ironsights", "Whether or not players can use ironsights on their weapons when available.");
 Clockwork.config:AddToSystem("Ironsights Spread Reduction", "ironsights_spread", "The amount that ironsights will reduce bullet spread by.", 0, 1, 3);
 Clockwork.config:AddToSystem("Ironsights Slow Amount", "ironsights_slow", "The amount that using ironsights will decrease a player's movement speed by.", 0, 1, 3);

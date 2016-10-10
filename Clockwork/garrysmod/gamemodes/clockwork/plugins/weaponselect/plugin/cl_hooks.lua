@@ -180,6 +180,7 @@ function cwWeaponSelect:TopLevelPlayerBindPress(player, bind, bPress)
 	local weapons = Clockwork.Client:GetWeapons();
 	
 	if (!IsValid(activeWeapon)) then return; end;
+	
 	if (Clockwork.Client:InVehicle()) then return; end;
 	
 	if (activeWeapon:GetClass() == "weapon_physgun") then
