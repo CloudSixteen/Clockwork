@@ -21,7 +21,10 @@ Clockwork.fonts.sizes = Clockwork.fonts.sizes or {};
 
 -- A function to add a new font to the system.
 function Clockwork.fonts:Add(name, fontTable)
+	fontTable.extended = true;
+	
 	self.stored[name] = fontTable;
+	
 	CreateFont(name, self.stored[name]);
 end;
 
@@ -61,127 +64,95 @@ Clockwork.fonts:Add("cwMainText",
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(7),
-	weight		= 700,
-	antialiase	= true,
-	additive 	= false
+	weight		= 700
 });
 Clockwork.fonts:Add("cwESPText", 
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(5.5),
-	weight		= 700,
-	antialiase	= true,
-	additive 	= false
+	weight		= 700
 });
 Clockwork.fonts:Add("cwTooltip", 
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(5),
-	weight		= 700,
-	antialiase	= true,
-	additive 	= false
+	weight		= 700
 });
 Clockwork.fonts:Add("cwMenuTextBig",
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(18),
-	weight		= 700,
-	antialiase	= true,
-	additive 	= false
+	weight		= 700
 });
 Clockwork.fonts:Add("cwMenuTextTiny",
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(7),
-	weight		= 700,
-	antialiase	= true,
-	additive 	= false
+	weight		= 700
 });
 Clockwork.fonts:Add("cwInfoTextFont",
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(6),
-	weight		= 700,
-	antialiase	= true,
-	additive 	= false
+	weight		= 700
 });
 Clockwork.fonts:Add("cwMenuTextHuge",
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(30),
-	weight		= 700,
-	antialiase	= true,
-	additive 	= false
+	weight		= 700
 });
 Clockwork.fonts:Add("cwMenuTextSmall",
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(10),
-	weight		= 700,
-	antialiase	= true,
-	additive 	= false
+	weight		= 700
 });
 Clockwork.fonts:Add("cwIntroTextBig",
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(18),
-	weight		= 700,
-	antialiase	= true,
-	additive 	= false
+	weight		= 700
 });
 Clockwork.fonts:Add("cwIntroTextTiny",
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(9),
-	weight		= 700,
-	antialiase	= true,
-	additive 	= false
+	weight		= 700
 });
 Clockwork.fonts:Add("cwIntroTextSmall",
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(7),
-	weight		= 700,
-	antialiase	= true,
-	additive 	= false
+	weight		= 700
 });
 Clockwork.fonts:Add("cwLarge3D2D",
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:GetFontSize3D(),
-	weight		= 700,
-	antialiase	= true,
-	additive 	= false
+	weight		= 700
 });
 Clockwork.fonts:Add("cwScoreboardName",
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(7),
-	weight		= 600,
-	antialiase	= true,
-	additive 	= false
+	weight		= 600
 });
 Clockwork.fonts:Add("cwScoreboardDesc",
 {
 	font		= "Arial",
 	size		= Clockwork.kernel:FontScreenScale(5),
-	weight		= 600,
-	antialiase	= true,
-	additive 	= false
+	weight		= 600
 });
 Clockwork.fonts:Add("cwCinematicText",
 {
 	font		= "Trebuchet",
 	size		= Clockwork.kernel:FontScreenScale(8),
-	weight		= 700,
-	antialiase	= true,
-	additive 	= false
+	weight		= 700
 });
 Clockwork.fonts:Add("cwChatSyntax",
 {
 	font		= "Courier New",
 	size		= Clockwork.kernel:FontScreenScale(7),
-	weight		= 600,
-	antialiase	= true,
-	additive 	= false
+	weight		= 600
 });
