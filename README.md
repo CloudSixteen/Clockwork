@@ -5,7 +5,7 @@ A roleplaying framework developed by Cloud Sixteen for the people.
 
 Documentation and Installation
 ------------
-http://wiki.cloudsixteen.com/installation
+http://wiki.cloudsixteen.com/installation  
 http://wiki.cloudsixteen.com/
 
 Coding Standard
