@@ -1,3 +1,11 @@
+--[[ 
+	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	without permission of its author (kurozael@gmail.com).
+
+	Clockwork was created by Conna Wiles (also known as kurozael.)
+	http://cloudsixteen.com/license/clockwork.html
+--]]
+
 local Clockwork = Clockwork;
 local pairs = pairs;
 local string = string;
@@ -23,8 +31,6 @@ CLASS_TABLE.name = "";
 CLASS_TABLE.model = "";
 CLASS_TABLE.category = "";
 CLASS_TABLE.description = "";
-CLASS_TABLE.duration = 1; -- Not yet implemented.
-CLASS_TABLE.entityRequirements = {}; -- Not yet implemented.
 CLASS_TABLE.itemRequirements = {};
 CLASS_TABLE.takeCash = 0;
 CLASS_TABLE.giveCash = 0;
@@ -115,13 +121,6 @@ end;
 
 --[[
 	@codebase Shared
---]]
-function Clockwork.crafting:DisplayProgress(player)
-	-- TODO add display counting down time left until craft is complete
-end;
-
---[[
-	@codebase Shared
 	@details A function to craft a blueprint.
 	@param Entity Player crafting the blueprint.
 	@param Table Blueprint being crafted.
@@ -141,13 +140,13 @@ function Clockwork.crafting:Craft(player, blueprintTable)
 	if (canCraft) then
 		message = "SUCCESS: Crafted " .. blueprintTable("name") .. "!" .. message;
 		
-		blueprintTable:OnCraft(player); -- Before crafting.
+		blueprintTable:OnCraft(player);
 		
 		Clockwork.crafting:TakeItems(player, blueprintTable);
 		Clockwork.crafting:GiveItems(player, blueprintTable);
 		
-		Clockwork.player:GiveCash(player, blueprintTable.giveCash, "", true); -- We give cash first just in case (so a player's balance doesn't go negative by chance).
-		Clockwork.player:GiveCash(player, -blueprintTable.takeCash, "", true); -- Takes away cash.
+		Clockwork.player:GiveCash(player, blueprintTable.giveCash, "", true);
+		Clockwork.player:GiveCash(player, -blueprintTable.takeCash, "", true);
 		
 		blueprintTable:PostCraft(player); -- After crafting.
 		
@@ -492,6 +491,7 @@ end;
 function Clockwork.crafting:Register(blueprintTable)
 	blueprintTable.uniqueID = string.lower(string.gsub(blueprintTable.uniqueID or string.gsub(blueprintTable.name, "%s", "_"), "['%.]", ""));
 	blueprintTable.index = Clockwork.kernel:GetShortCRC(blueprintTable.uniqueID);
+	
 	self.stored[blueprintTable.uniqueID] = blueprintTable;
 	self.buffer[blueprintTable.index] = blueprintTable;
 	
@@ -535,10 +535,6 @@ function Clockwork.crafting:TakeItems(player, blueprintTable)
 	elseif (type(takeItems) == "string") then
 		Clockwork.crafting:CheckTakeItems(player, takeItems, 1);
 	end;
-end;
-
-if (SERVER) then
-
 end;
 
 if (CLIENT) then
