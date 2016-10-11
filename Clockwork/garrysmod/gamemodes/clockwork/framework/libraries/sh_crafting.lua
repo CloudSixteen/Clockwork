@@ -594,33 +594,32 @@ if (CLIENT) then
 			Callback(displayInfo);
 		end;
 		
-		local toolTipTitle = "";
-		toolTipTitle = "["..displayInfo.name.."]";
+		local markupObject = Clockwork.theme:GetMarkupObject();
+		local toolTipTitle = displayInfo.name;
+		local toolTipColor = nil;
 		
 		if (displayInfo.itemTitle) then
 			toolTipTitle = displayInfo.itemTitle;
 		end;
 		
 		if (blueprintTable("color")) then
-			toolTipTitle = Clockwork.kernel:MarkupTextWithColor(toolTipTitle, blueprintTable("color"));
+			toolTipColor = blueprintTable("color");
 		else
-			toolTipTitle = Clockwork.kernel:MarkupTextWithColor(toolTipTitle, informationColor);
+			toolTipColor = informationColor;
 		end;
 		
-		toolTipTitle = toolTipTitle.."\n"..Clockwork.config:Parse(description);
-		toolTipTitle = toolTipTitle.."\n"..Clockwork.kernel:MarkupTextWithColor("[Category]", informationColor);
-		toolTipTitle = toolTipTitle.."\n"..blueprintTable("category");
-		toolTipTitle = toolTipTitle.."\n"..Clockwork.kernel:MarkupTextWithColor("[Cost]", informationColor);
-		toolTipTitle = toolTipTitle.."\n"..blueprintTable("takeCash");
-		toolTipTitle = toolTipTitle.."\n"..Clockwork.kernel:MarkupTextWithColor("[Requirements]", informationColor);
-		toolTipTitle = toolTipTitle.."\n"..Clockwork.crafting:FormatRequirements(Clockwork.inventory:GetClient(), blueprintTable);
+		markupObject:Title(toolTipTitle, toolTipColor);
+		markupObject:Add(Clockwork.config:Parse(description));
 		
-		return toolTipTitle;
+		markupObject:Title("Category", informationColor);
+		markupObject:Add(blueprintTable("category"));
+		
+		markupObject:Title("Cost", informationColor);
+		markupObject:Add(blueprintTable("takeCash"));
+		
+		markupObject:Title("Requirements", informationColor);
+		markupObject:Add(Clockwork.crafting:FormatRequirements(Clockwork.inventory:GetClient(), blueprintTable));
+		
+		return markupObject:GetText();
 	end;
-	
-	Clockwork.datastream:Hook("BlueprintData", function(data)
-		Clockwork.item:CreateInstance(
-			data.index, data.blueprintID, data.data
-		);
-	end);
 end;
