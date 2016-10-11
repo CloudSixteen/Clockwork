@@ -14,144 +14,108 @@ function THEME:CreateFonts()
 	{
 		font		= "Arial",
 		size		= Clockwork.kernel:FontScreenScale(7),
-		weight		= 700,
-		antialiase	= true,
-		additive 	= false
+		weight		= 700
 	});
 	Clockwork.fonts:Add("cwESPText", 
 	{
 		font		= "Arial",
 		size		= Clockwork.kernel:FontScreenScale(5.5),
-		weight		= 700,
-		antialiase	= true,
-		additive 	= false
+		weight		= 700
 	});
 	Clockwork.fonts:Add("cwTooltip", 
 	{
 		font		= "Arial",
 		size		= Clockwork.kernel:FontScreenScale(5),
-		weight		= 700,
-		antialiase	= true,
-		additive 	= false
+		weight		= 700
 	});
 	Clockwork.fonts:Add("cwMenuTextBig",
 	{
 		font		= "Arial",
 		size		= Clockwork.kernel:FontScreenScale(18),
-		weight		= 700,
-		antialiase	= true,
-		additive 	= false
+		weight		= 700
 	});
 	Clockwork.fonts:Add("cwMenuTextTiny",
 	{
 		font		= "Arial",
 		size		= Clockwork.kernel:FontScreenScale(7),
-		weight		= 700,
-		antialiase	= true,
-		additive 	= false
+		weight		= 700
 	});
 	Clockwork.fonts:Add("cwInfoTextFont",
 	{
 		font		= "Arial",
 		size		= Clockwork.kernel:FontScreenScale(6),
-		weight		= 700,
-		antialiase	= true,
-		additive 	= false
+		weight		= 700
 	});
 	Clockwork.fonts:Add("cwMenuTextHuge",
 	{
 		font		= "Arial",
 		size		= Clockwork.kernel:FontScreenScale(30),
-		weight		= 700,
-		antialiase	= true,
-		additive 	= false
+		weight		= 700
 	});
 	Clockwork.fonts:Add("cwMenuTextSmall",
 	{
 		font		= "Arial",
 		size		= Clockwork.kernel:FontScreenScale(10),
-		weight		= 700,
-		antialiase	= true,
-		additive 	= false
+		weight		= 700
 	});
 	Clockwork.fonts:Add("cwIntroTextBig",
 	{
 		font		= "Arial",
 		size		= Clockwork.kernel:FontScreenScale(18),
-		weight		= 700,
-		antialiase	= true,
-		additive 	= false
+		weight		= 700
 	});
 	Clockwork.fonts:Add("cwIntroTextTiny",
 	{
 		font		= "Arial",
 		size		= Clockwork.kernel:FontScreenScale(9),
-		weight		= 700,
-		antialiase	= true,
-		additive 	= false
+		weight		= 700
 	});
 	Clockwork.fonts:Add("cwIntroTextSmall",
 	{
 		font		= "Arial",
 		size		= Clockwork.kernel:FontScreenScale(7),
-		weight		= 700,
-		antialiase	= true,
-		additive 	= false
+		weight		= 700
 	});
 	Clockwork.fonts:Add("cwLarge3D2D",
 	{
 		font		= "Arial",
 		size		= Clockwork.kernel:GetFontSize3D(),
-		weight		= 700,
-		antialiase	= true,
-		additive 	= false
+		weight		= 700
 	});
 	Clockwork.fonts:Add("cwScoreboardName",
 	{
 		font		= "Arial",
 		size		= 20,
-		weight		= 600,
-		antialiase	= true,
-		additive 	= false
+		weight		= 600
 	});
 	Clockwork.fonts:Add("cwScoreboardDesc",
 	{
 		font		= "Arial",
 		size		= 16,
-		weight		= 600,
-		antialiase	= true,
-		additive 	= false
+		weight		= 600
 	});
 	Clockwork.fonts:Add("cwScoreboardClass",
 	{
 		font		= "Arial",
 		size		= 25,
-		weight		= 700,
-		antialiase	= true,
-		additive 	= false
+		weight		= 700
 	});
 	Clockwork.fonts:Add("cwCinematicText",
 	{
 		font		= "Trebuchet",
 		size		= Clockwork.kernel:FontScreenScale(8),
-		weight		= 700,
-		antialiase	= true,
-		additive 	= false
+		weight		= 700
 	});
 	Clockwork.fonts:Add("cwChatSyntax",
 	{
 		font		= "Courier New",
 		size		= Clockwork.kernel:FontScreenScale(7),
-		weight		= 600,
-		antialiase	= true,
-		additive 	= false
+		weight		= 600
 	});
 end;
 
 -- Called when to initialize the theme.
 function THEME:Initialize()
-
-	--[[ Set Default Options --]]
 	Clockwork.option:SetKey("icon_data_classes", {path = "", size = nil});
 	Clockwork.option:SetKey("icon_data_settings", {path = "", size = nil});
 	Clockwork.option:SetKey("icon_data_donations", {path = "", size = nil});
@@ -187,8 +151,7 @@ function THEME:Initialize()
 	Clockwork.option:SetKey("description_attributes", "Check the status of your attributes.");
 
 	Clockwork.option:SetKey("gradient", nil);
-
-	--[[ Set Default Colors --]]
+	
 	Clockwork.option:SetColor("columnsheet_shadow_normal", Color(0, 0, 0, 255));
 	Clockwork.option:SetColor("columnsheet_text_normal", Color(255, 255, 255, 255));
 	Clockwork.option:SetColor("columnsheet_shadow_active", Color(255, 255, 255, 255));
@@ -207,8 +170,7 @@ function THEME:Initialize()
 	Clockwork.option:SetColor("foreground", Color(50, 50, 50, 125));
 	Clockwork.option:SetColor("target_id", Color(50, 75, 100, 255));
 	Clockwork.option:SetColor("white", Color(255, 255, 255, 255));
-
-	--[[ Set Default Fonts --]]
+	
 	Clockwork.option:SetFont("schema_description", "cwMainText");
 	Clockwork.option:SetFont("scoreboard_desc", "cwScoreboardDesc");
 	Clockwork.option:SetFont("scoreboard_name", "cwScoreboardName");
@@ -233,14 +195,12 @@ function THEME:Initialize()
 	Clockwork.option:SetFont("main_text", "cwMainText");
 	Clockwork.option:SetFont("bar_text", "cwMainText");
 	Clockwork.option:SetFont("esp_text", "cwESPText");
-
-	--[[ Set Default Sounds --]]
+	
 	Clockwork.option:SetSound("click_release", "ui/buttonclickrelease.wav");
 	Clockwork.option:SetSound("rollover", "ui/buttonrollover.wav");
 	Clockwork.option:SetSound("click", "ui/buttonclick.wav");
 	Clockwork.option:SetSound("tick", "common/talk.wav");
-
-	--[[ Set Default Slices --]]
+	
 	SMALL_BAR_BG = Clockwork.render:AddSlice9("SimpleTint", "clockwork/sliced/simpletint", 6);
 	SMALL_BAR_FG = Clockwork.render:AddSlice9("SimpleTint", "clockwork/sliced/simpletint", 6);
 	INFOTEXT_SLICED = Clockwork.render:AddSlice9("SimpleTint", "clockwork/sliced/simpletint", 6);
@@ -254,8 +214,7 @@ function THEME:Initialize()
 	SLICED_PLAYER_INFO = Clockwork.render:AddSlice9("SimpleRed", "clockwork/sliced/simplered", 28);
 	SLICED_INFO_MENU_BG = Clockwork.render:AddSlice9("SimpleRed", "clockwork/sliced/simplered", 28);
 	SLICED_COLUMNSHEET_BUTTON = Clockwork.render:AddSlice9("SimpleTint", "clockwork/sliced/simpletint", 6);
-
-	--[[ Bar Settings --]]
+	
 	Clockwork.bars.height = 12;
 	Clockwork.bars.padding = 14;
 end;
