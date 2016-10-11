@@ -9,16 +9,16 @@
 local COMMAND = Clockwork.command:New("RankPromote");
 
 COMMAND.tip = "Promote someone to the next rank up.";
-COMMAND.text = "<string Name> [boolean Force]";
+COMMAND.text = "<string Name> [boolean IsForced]";
 COMMAND.arguments = 1;
 COMMAND.optionalArguments = 1;
 
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)
 	local target = Clockwork.player:FindByID(arguments[1]);
-	local force = tobool(arguments[2]);
+	local isForced = tobool(arguments[2]);
 
-	if (force) then
+	if (isForced) then
 		if (player:IsAdmin()) then
 			local highestRank, rankTable = Clockwork.faction:GetHighestRank(target:GetFaction());
 			local targetRank, targetRankTable = Clockwork.player:GetFactionRank(target);
@@ -28,12 +28,12 @@ function COMMAND:OnRun(player, arguments)
 				
 				Clockwork.player:SetFactionRank(target, Clockwork.faction:GetHigherRank(target:GetFaction(), rankTable));
 
-				Clockwork.player:NotifyAll(player:Name().." has force-promoted "..target:Name().." to rank "..target:GetFactionRank());
+				Clockwork.player:NotifyAll({"PlayerForcePromoted", player:Name(), target:Name(), target:GetFactionRank()});
 			else
-				Clockwork.player:Notify(player, "You cannot promote this player!")
+				Clockwork.player:Notify(player, {"YouCannotPromotePlayer"});
 			end;
 		else
-			Clockwork.player:Notify(player, "You must be an admin or superadmin to force promote!");
+			Clockwork.player:Notify(player, {"ForcePromoteAdminNeeded"});
 		end;
 	else
 		if (player:GetFaction() == target:GetFaction()) then
@@ -42,12 +42,12 @@ function COMMAND:OnRun(player, arguments)
 
 				Clockwork.player:SetFactionRank(target, Clockwork.faction:GetHigherRank(target:GetFaction(), rankTable));
 
-				Clockwork.player:NotifyAll(player:Name().." has promoted "..target:Name().." to rank "..target:GetFactionRank());
+				Clockwork.player:NotifyAll({"PlayerPromotedPlayer", player:Name(), target:Name(), target:GetFactionRank()});
 			else
-				Clockwork.player:Notify(player, "You do not have permission to promote this player.");
+				Clockwork.player:Notify(player, {"PromotePermsNeeded"});
 			end;
 		else
-			Clockwork.player:Notify(player, "You can only promote someone within your own faction!");
+			Clockwork.player:Notify(player, {"PromoteFactionOnly"});
 		end;
 	end;
 end;

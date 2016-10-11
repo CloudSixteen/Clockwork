@@ -22,14 +22,14 @@ function COMMAND:OnRun(player, arguments)
 	if (target) then
 		if (!Clockwork.player:IsProtected(target)) then
 			Clockwork.player:SetBanned(target, true);
-			Clockwork.player:NotifyAll(player:Name().." banned the character '"..target:Name().."'.");
+			Clockwork.player:NotifyAll({"PlayerBannedPlayer", player:Name(), target:Name()});
 			
 			target:KillSilent();
 		else
-			Clockwork.player:Notify(player, target:Name().." is protected!");
+			Clockwork.player:Notify(player, {"PlayerIsProtected", target:Name()});
 		end;
 	else
-		Clockwork.player:Notify(player, L(player, "NotValidCharacter", arguments[1]));
+		Clockwork.player:Notify(player, {"NotValidCharacter", arguments[1]});
 	end;
 end;
 

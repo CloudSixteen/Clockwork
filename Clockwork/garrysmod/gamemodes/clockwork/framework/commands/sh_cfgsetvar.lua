@@ -47,14 +47,14 @@ function COMMAND:OnRun(player, arguments)
 
 				if (configObject("isPrivate")) then
 					if (configObject("needsRestart")) then
-						Clockwork.player:NotifyAll(player:Name().." set "..keyPrefix..key.." to '"..string.rep("*", string.utf8len(printValue)).."' for the next restart.");
+						Clockwork.player:NotifyAll({"PlayerConfigSetNextRestart", player:Name(), keyPrefix, key, string.rep("*", string.utf8len(printValue))});
 					else
-						Clockwork.player:NotifyAll(player:Name().." set "..keyPrefix..key.." to '"..string.rep("*", string.utf8len(printValue)).."'.");
+						Clockwork.player:NotifyAll({"PlayerConfigSet", player:Name(), keyPrefix, key, string.rep("*", string.utf8len(printValue))});
 					end;
 				elseif (configObject("needsRestart")) then
-					Clockwork.player:NotifyAll(player:Name().." set "..keyPrefix..key.." to '"..printValue.."' for the next restart.");
+					Clockwork.player:NotifyAll({"PlayerConfigSetNextRestart", player:Name(), keyPrefix, key, printValue});
 				else
-					Clockwork.player:NotifyAll(player:Name().." set "..keyPrefix..key.." to '"..printValue.."'.");
+					Clockwork.player:NotifyAll({"PlayerConfigSet", player:Name(), keyPrefix, key, printValue});
 				end;
 			else
 				Clockwork.player:Notify(player, L(player, "ConfigUnableToSet", key));

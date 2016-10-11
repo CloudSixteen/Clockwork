@@ -82,4 +82,12 @@ else
 		local language = player:GetNWString("Language");
 		return Clockwork.lang:GetString(language, identifier, ...);
 	end;
+	
+	function T(player, data)
+		if (type(data) == "table") then
+			return L(player, unpack(data));
+		else
+			return data;
+		end;
+	end;
 end;

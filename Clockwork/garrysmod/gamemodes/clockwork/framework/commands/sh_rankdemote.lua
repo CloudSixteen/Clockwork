@@ -9,16 +9,16 @@
 local COMMAND = Clockwork.command:New("RankDemote");
 
 COMMAND.tip = "Demote someone to the next rank down.";
-COMMAND.text = "<string Name> [boolean Force]";
+COMMAND.text = "<string Name> [boolean IsForced]";
 COMMAND.arguments = 1;
 COMMAND.optionalArguments = 1;
 
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)
 	local target = Clockwork.player:FindByID(arguments[1]);
-	local force = tobool(arguments[2]);
+	local isForced = tobool(arguments[2]);
 
-	if (force) then
+	if (isForced) then
 		if (player:IsAdmin()) then
 			local lowestRank, rankTable = Clockwork.faction:GetLowestRank(target:GetFaction());
 			local targetRank, targetRankTable = Clockwork.player:GetFactionRank(target);
@@ -28,12 +28,12 @@ function COMMAND:OnRun(player, arguments)
 				
 				Clockwork.player:SetFactionRank(target, Clockwork.faction:GetLowerRank(target:GetFaction(), rankTable));
 
-				Clockwork.player:NotifyAll(player:Name().." has force-demoted "..target:Name().." to rank "..target:GetFactionRank());
+				Clockwork.player:NotifyAll({"PlayerForceDemoted", player:Name(), target:Name(), target:GetFactionRank()});
 			else
-				Clockwork.player:Notify(player, "You cannot demote this player!")
+				Clockwork.player:Notify(player, {"YouCannotDemotePlayer"})
 			end;
 		else
-			Clockwork.player:Notify(player, "You must be an admin or superadmin to force demote!");
+			Clockwork.player:Notify(player, {"ForceDemoteAdminNeeded"});
 		end;
 	else
 		if (player:GetFaction() == target:GetFaction()) then
@@ -44,10 +44,10 @@ function COMMAND:OnRun(player, arguments)
 
 				Clockwork.player:NotifyAll(player:Name().." has demoted "..target:Name().." to rank "..target:GetFactionRank());
 			else
-				Clockwork.player:Notify(player, "You do not have permission to demote this player.");
+				Clockwork.player:Notify(player, {"DemotePermsNeeded"});
 			end;
 		else
-			Clockwork.player:Notify(player, "You can only demote someone within your own faction!");
+			Clockwork.player:Notify(player, {"DemoteFactionOnly"});
 		end;
 	end;
 end;

@@ -27,18 +27,18 @@ function COMMAND:OnRun(player, arguments)
 					Clockwork.player:SetWhitelisted(target, factionTable.name, true);
 					Clockwork.player:SaveCharacter(target);
 					
-					Clockwork.player:NotifyAll(player:Name().." has added "..target:Name().." to the "..factionTable.name.." whitelist.");
+					Clockwork.player:NotifyAll({"PlayerAddedToWhitelist", player:Name(), target:Name(), factionTable.name});
 				else
-					Clockwork.player:Notify(player, target:Name().." is already on the "..factionTable.name.." whitelist!");
+					Clockwork.player:Notify(player, {"PlayerAlreadyOnWhitelist", target:Name(), factionTable.name});
 				end;
 			else
-				Clockwork.player:Notify(player, factionTable.name.." does not have a whitelist!");
+				Clockwork.player:Notify(player, {"FactionDoesNotHaveWhitelist", factionTable.name});
 			end;
 		else
-			Clockwork.player:Notify(player, table.concat(arguments, " ", 2).." is not a valid faction!");
+			Clockwork.player:Notify(player, {"FactionIsNotValid", table.concat(arguments, " ", 2)});
 		end;
 	else
-		Clockwork.player:Notify(player, arguments[1].." is not a valid player!");
+		Clockwork.player:Notify(player, {"NotValidPlayer", arguments[1]});
 	end;
 end;
 

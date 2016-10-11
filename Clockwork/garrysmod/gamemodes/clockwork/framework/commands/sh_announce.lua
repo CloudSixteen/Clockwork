@@ -16,8 +16,10 @@ COMMAND.access = "o";
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)
 	local text = table.concat(arguments, " ");
-
- 	Clockwork.player:NotifyAll(text);
+	
+	if (text ~= "") then
+		Clockwork.player:NotifyAll(text);
+	end;
 end;
 
 COMMAND:Register();

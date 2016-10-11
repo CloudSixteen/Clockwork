@@ -3039,19 +3039,19 @@ function Clockwork.player:Notify(player, text, class, icon)
 	elseif (class == true) then
 		if (icon) then
 			local data = {icon = icon};
-			cwChatbox:Add(player, nil, "notify_all", text, data);
+			
+			cwChatbox:Add(player, nil, "notify_all", LT(player, text), data);
 		else
-			cwChatbox:Add(player, nil, "notify_all", text);
+			cwChatbox:Add(player, nil, "notify_all", LT(player, text));
 		end;
 	elseif (!class) then
 		if (icon) then
-			local data = {icon = icon};
-			cwChatbox:Add(player, nil, "notify", text, data);
+			cwChatbox:Add(player, nil, "notify", LT(player, text), {icon = icon});
 		else
-			cwChatbox:Add(player, nil, "notify", text);
+			cwChatbox:Add(player, nil, "notify", LT(player, text));
 		end;
 	else
-		cwDatastream:Start(player, "Notification", {text = text, class = class});
+		cwDatastream:Start(player, "Notification", {text = LT(player, text), class = class});
 	end;
 end;
 
