@@ -426,13 +426,11 @@ function Clockwork.crafting:GiveItems(player, blueprintTable)
 	
 	if (type(giveItems) == "table") then
 		for k, v in pairs (giveItems) do
-			if (type(k) == "number" and type(v) == "string") then -- Indexed table entry (e.g. "id_1")
+			if (type(k) == "number" and type(v) == "string") then
 				Clockwork.crafting:CheckGiveItems(player, v, k);
-			elseif (type(k) == "string" and type(v) == "number") then -- Named table entry, used for multiple items (e.g. ["id_1"] = 2)
+			elseif (type(k) == "string" and type(v) == "number") then
 				Clockwork.crafting:CheckGiveItems(player, k, v);
-			elseif (type(v) == "table") then -- Table table entry, used for single or multiple items (e.g. {"id_1", 3} or {3, "id_1"})
-				
-				-- Assuming value not being checked is the item to be taken.
+			elseif (type(v) == "table") then
 				if (type(v[1]) == "number") then
 					Clockwork.crafting:CheckGiveItems(player, v[2], v[1]);
 				elseif (type(v[2]) == "number") then
@@ -495,14 +493,13 @@ function Clockwork.crafting:TakeItems(player, blueprintTable)
 		local itemsToTake = {};
 		
 		for k, v in pairs (takeItems) do
-			if (type(k) == "number" and type(v) == "string") then -- Indexed table entry (e.g. "id_1")
+			if (type(k) == "number" and type(v) == "string") then
 				Clockwork.crafting:CheckTakeItems(player, v, k);
-			elseif (type(k) == "string" and type(v) == "number") then -- Named table entry, used for multiple items (e.g. ["id_1"] = 2)
+			elseif (type(k) == "string" and type(v) == "number") then
 				Clockwork.crafting:CheckTakeItems(player, k, v);
 			elseif (type(v) == "table") then
 				local amount, item = nil;
 				
-				-- Assuming value not being checked is the item to be taken.
 				if (type(v[1]) == "number") then
 					Clockwork.crafting:CheckTakeItems(player, v[2], v[1]);
 				elseif (type(v[2]) == "number") then
