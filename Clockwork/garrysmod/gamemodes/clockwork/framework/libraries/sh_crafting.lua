@@ -31,7 +31,7 @@ CLASS_TABLE.name = "";
 CLASS_TABLE.model = "";
 CLASS_TABLE.category = "";
 CLASS_TABLE.description = "";
-CLASS_TABLE.itemRequirements = {};
+CLASS_TABLE.requirements = {};
 CLASS_TABLE.takeCash = 0;
 CLASS_TABLE.giveCash = 0;
 CLASS_TABLE.takeItems = {};
@@ -39,30 +39,11 @@ CLASS_TABLE.giveItems = {};
 
 --[[
 	@codebase Shared
-	@details Called when the blueprint is invoked as a function. Whenever getting a value from a blueprintTable you should always do blueprintTable("varName") instead of blueprintTable.varName so that the query system is used. Note: it would be advised not to use blueprintTable("varName") during a query proxy or a stack overflow may be caused.
+	@details Called when the blueprint is invoked as a function. Whenever getting a value from a blueprintTable you should always do blueprintTable("varName") instead of blueprintTable.varName.
 	@param String
 	@param Bool
 --]]
 function CLASS_TABLE:__call(varName, failSafe)
-	if (self.queryProxies[varName]) then
-		local bNotDefault = self.queryProxies[varName].bNotDefault;
-		local dataName = self.queryProxies[varName].dataName;
-		
-		if (type(dataName) != "function") then
-			local defaultValue = self.defaultData[dataName];
-			local currentValue = self.data[dataName];
-			
-			if (defaultValue != nil and currentValue != nil and (defaultValue != currentValue or !bNotDefault)) then
-				return self.data[dataName];
-			end;
-		else
-			local returnValue = dataName(self);
-			if (returnValue != nil) then
-				return returnValue;
-			end;
-		end;
-	end;
-	
 	return (self[varName] != nil and self[varName] or failSafe);
 end;
 
@@ -72,7 +53,7 @@ end;
 	@returns String The blueprint converted to a string.
 --]]
 function CLASS_TABLE:__tostring()
-	return "BLUEPRINT[" ..self("blueprintID").. "]";
+	return "BLUEPRINT[" ..self("uniqueID").. "]";
 end;
 
 --[[
@@ -80,14 +61,7 @@ end;
 	@details Called when crafting is unsuccessful.
 	@param Entity Player crafting the blueprint.
 --]]
-function CLASS_TABLE:FailedCraft(player) end; -- TODO return a table containing what requirements were missing.
-
---[[
-	@codebase Shared
-	@details A function to get whether the item is an instance.
-	@returns Whether the blueprint is an instance or not.
---]]
-function CLASS_TABLE:IsInstance() return (self("itemID") != 0); end;
+function CLASS_TABLE:FailedCraft(player) end;
 
 --[[
 	@codebase Shared
@@ -130,15 +104,14 @@ function Clockwork.crafting:Craft(player, blueprintTable)
 		blueprintTable = Clockwork.crafting:FindByID(blueprintTable);
 	end;
 	
-	if (!blueprintTable or !blueprintTable:IsInstance()) then
-		debug.Trace();
-		return false, "ERROR: Trying to craft a non-instance blueprint!";
+	if (!blueprintTable) then
+		return false, "ERROR: Trying to craft a nil blueprint!";
 	end;
 	
 	local canCraft, message = Clockwork.crafting:CanCraft(player, blueprintTable);
 	
 	if (canCraft) then
-		message = "SUCCESS: Crafted " .. blueprintTable("name") .. "!" .. message;
+		message = "You have crafted the "..blueprintTable("name")..".";
 		
 		blueprintTable:OnCraft(player);
 		
@@ -148,11 +121,11 @@ function Clockwork.crafting:Craft(player, blueprintTable)
 		Clockwork.player:GiveCash(player, blueprintTable.giveCash, "", true);
 		Clockwork.player:GiveCash(player, -blueprintTable.takeCash, "", true);
 		
-		blueprintTable:PostCraft(player); -- After crafting.
+		blueprintTable:PostCraft(player);
 		
 		Clockwork.player:Notify(player, message);
 	else
-		message = "FAILURE: Unable to craft blueprint! " .. message;
+		message = "You have failed to craft the "..blueprintTable("name").."! "..message;
 		
 		blueprintTable:FailedCraft(player);
 		
@@ -167,10 +140,10 @@ end;
 	@param Table Blueprint being crafted.
 --]]
 function Clockwork.crafting:CanCraft(player, blueprintTable)
-	local requirements = blueprintTable.itemRequirements;
+	local requirements = blueprintTable.requirements;
 	
 	if (player:GetCash() < blueprintTable.takeCash) then
-		return false, "Not enough cash.";
+		return false, "Not enough "..Clockwork.option:GetKey("name_cash");
 	end;
 	
 	local canCraft = false;
@@ -178,22 +151,21 @@ function Clockwork.crafting:CanCraft(player, blueprintTable)
 	
 	if (type(requirements) == "table") then
 		for k, v in pairs (requirements) do
-			if (type(k) == "number" and type(v) == "string") then -- Indexed table entry (e.g. "id_1")
+			if (type(k) == "number" and type(v) == "string") then
 				canCraft, itemsChecked[#itemsChecked + 1] = Clockwork.crafting:CheckCanCraft(player, v, 1);
 				
 				if (!canCraft) then
 					return false, "Missing item requirements.";
 				end;
-			elseif (type(k) == "string" and type(v) == "number") then -- Named table entry, used for multiple items (e.g. ["id_1"] = 2)
+			elseif (type(k) == "string" and type(v) == "number") then
 				canCraft, itemsChecked[#itemsChecked + 1] = Clockwork.crafting:CheckCanCraft(player, k, v);
 				
 				if (!canCraft) then
 					return false, "Missing item requirements.";
 				end;
-			elseif (type(v) == "table") then -- Table table entry, used for single or multiple items (e.g. {"id_1", 3})
+			elseif (type(v) == "table") then
 				local amount, item = nil;
 				
-				-- Assuming value not being checked is the item to be taken.
 				if (type(v[1]) == "number") then
 					canCraft, itemsChecked[#itemsChecked + 1] = Clockwork.crafting:CheckCanCraft(player, v[2], v[1]);
 					
@@ -209,7 +181,7 @@ function Clockwork.crafting:CanCraft(player, blueprintTable)
 				end;
 			end;
 		end;
-	elseif (type(requirements) == "string") then -- Just 1 item
+	elseif (type(requirements) == "string") then
 		canCraft, itemsChecked[#itemsChecked + 1] = Clockwork.crafting:CheckCanCraft(player, requirements, 1);
 		
 		if (!canCraft) then
@@ -218,16 +190,28 @@ function Clockwork.crafting:CanCraft(player, blueprintTable)
 	end;
 	
 	local itemsWeight = 0;
-	
-	-- Adds up weight of all item requirements.
+	local itemsSpace = 0;
+
 	for k, v in pairs (itemsChecked) do
 		local itemTable = Clockwork.item:FindByID(v);
-		
-		itemsWeight = itemsWeight + itemTable("weight")
+		local weight = itemTable("weight");
+		local space = itemTable("space");
+
+		if (weight) then
+			itemsWeight = itemsWeight + weight;
+		end;
+
+		if (space) then
+			itemsSpace = itemsSpace + space;
+		end;
 	end;
 	
 	if (!player:CanHoldWeight(itemsWeight)) then
-		return false, "Not enough inventory space.";
+		return false, "Output is too heavy for the inventory.";
+	end;
+
+	if (!player:CanHoldSpace(itemsSpace)) then
+		return false, "Output is too large for the inventory.";
 	end;
 	
 	return true, "";
@@ -383,19 +367,18 @@ end;
 	@returns String Formatted requirements for the blueprint.
 --]]
 function Clockwork.crafting:FormatRequirements(player, blueprintTable)
-	local itemRequirements = blueprintTable.itemRequirements;
+	local requirements = blueprintTable.requirements;
 	local formattedRequirements = "";
 	
-	if (type(itemRequirements) == "table") then
-		for k, v in pairs (itemRequirements) do
-			if (type(k) == "number" and type(v) == "string") then -- Indexed table entry (e.g. "id_1")
+	if (type(requirements) == "table") then
+		for k, v in pairs (requirements) do
+			if (type(k) == "number" and type(v) == "string") then
 				formattedRequirements = formattedRequirements .. Clockwork.crafting:CheckFormatRequirements(player, v, 1);
-			elseif (type(k) == "string" and type(v) == "number") then -- Named table entry, used for multiple items (e.g. ["id_1"] = 2)
+			elseif (type(k) == "string" and type(v) == "number") then
 				formattedRequirements = formattedRequirements .. Clockwork.crafting:CheckFormatRequirements(player, k, v);
-			elseif (type(v) == "table") then -- Table table entry, used for single or multiple items (e.g. {"id_1", 3})
+			elseif (type(v) == "table") then
 				local amount, item = nil;
 				
-				-- Assuming value not being checked is the item to be taken.
 				if (type(v[1]) == "number") then
 					formattedRequirements = formattedRequirements .. Clockwork.crafting:CheckFormatRequirements(player, v[2], v[1]);
 				elseif (type(v[2]) == "number") then
@@ -407,8 +390,8 @@ function Clockwork.crafting:FormatRequirements(player, blueprintTable)
 		end;
 		
 		formattedRequirements = string.TrimRight(formattedRequirements, "\n");
-	elseif (type(itemRequirements) == "string") then
-		formattedRequirements = formattedRequirements .. Clockwork.crafting:CheckFormatRequirements(player, itemRequirements, 1);
+	elseif (type(requirements) == "string") then
+		formattedRequirements = formattedRequirements .. Clockwork.crafting:CheckFormatRequirements(player, requirements, 1);
 	end;
 	
 	return formattedRequirements;
@@ -472,13 +455,8 @@ end;
 function Clockwork.crafting:New(baseBlueprint, bIsBaseBlueprint)
 	local object = Clockwork.kernel:NewMetaTable(CLASS_TABLE);
 	
-	object.networkQueue = {};
-	object.networkData = {};
-	object.defaultData = {};
-	object.queryProxies = {};
 	object.isBaseBlueprint = bIsBaseBlueprint;
 	object.baseBlueprint = baseBlueprint;
-	object.data = {};
 	
 	return object;
 end;
