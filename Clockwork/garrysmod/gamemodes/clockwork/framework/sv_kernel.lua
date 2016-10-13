@@ -4238,7 +4238,8 @@ cwDatastream:Hook("RecogniseOption", function(player, data)
 			if (recogniseData == "look") then
 				local target = player:GetEyeTraceNoCursor().Entity;
 
-				if (target:HasInitialized() and !cwPly:IsNoClipping(target) and target != player) then
+				if (IsValid(target) and target:HasInitialized()
+				and !cwPly:IsNoClipping(target) and target != player) then
 					cwPly:SetRecognises(target, player, RECOGNISE_SAVE);
 
 					playSound = true;
