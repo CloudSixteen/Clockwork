@@ -19,7 +19,7 @@ function COMMAND:OnRun(player, arguments)
 	local target = Clockwork.player:FindByID(arguments[1]);
 	
 	if (target) then
-		Clockwork.player:Notify(player, "This player has "..target:GetFlags().." flags.");
+		Clockwork.player:Notify(player, L(player, "PlayerHasFlags", target:GetFlags()));
 	else
 		Clockwork.player:Notify(player, L(player, "NotValidCharacter", arguments[1]));
 	end;
