@@ -453,7 +453,7 @@ cwDatastream:Hook("AllAccessories", function(data)
 end);
 
 cwDatastream:Hook("Notification", function(data)
-	local text = data.text;
+	local text = T(data.text);
 	local class = data.class;
 	local sound = "ambient/water/drip2.wav";
 	
@@ -475,7 +475,9 @@ cwDatastream:Hook("Notification", function(data)
 	
 	if (cwPlugin:Call("NotificationAdjustInfo", info)) then
 		cwKernel:AddNotify(info.text, info.class, 10);
-			surface.PlaySound(info.sound);
+		
+		surface.PlaySound(info.sound);
+		
 		print(info.text);
 	end;
 end);

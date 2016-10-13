@@ -74,6 +74,10 @@ end;
 
 if (CLIENT) then
 	function L(identifier, ...)
+		if (type(identifier) == "table") then
+			return L(unpack(data));
+		end;
+		
 		local language = CW_CONVAR_LANG:GetString();
 		return Clockwork.lang:GetString(language, identifier, ...);
 	end;
