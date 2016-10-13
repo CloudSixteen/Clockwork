@@ -3002,6 +3002,10 @@ end;
 
 -- A function to notify each player.
 function Clockwork.player:NotifyAll(text, icon)
+	if (type(text) == "table") then
+		text = T(nil, text);
+	end;
+	
 	self:Notify(nil, text, true, icon);
 end;
 

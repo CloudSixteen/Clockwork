@@ -79,12 +79,18 @@ if (CLIENT) then
 		end;
 		
 		local language = CW_CONVAR_LANG:GetString();
+		
 		return Clockwork.lang:GetString(language, identifier, ...);
 	end;
 else
 	function L(player, identifier, ...)
-		local language = player:GetNWString("Language");
-		return Clockwork.lang:GetString(language, identifier, ...);
+		if (player != nil) then
+			local language = player:GetNWString("Language");
+			
+			return Clockwork.lang:GetString(language, identifier, ...);
+		else
+			return Clockwork.lang:GetString("English", identifier, ...);
+		end;
 	end;
 	
 	function T(player, data)
