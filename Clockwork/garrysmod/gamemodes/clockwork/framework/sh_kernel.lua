@@ -1277,6 +1277,7 @@ if (SERVER) then
 			
 			if (ragdoll and entity != ragdoll) then
 				hook.Call("EntityTakeDamage", Clockwork, ragdoll, damageInfo);
+				
 				damageInfo:SetDamage(0);
 				
 				return true;
@@ -1290,14 +1291,15 @@ if (SERVER) then
 					local curTime = CurTime();
 					
 					if (damageInfo:IsDamageType(DMG_CRUSH)) then
-						if (entity.cwNextFallDamage
-						and curTime < entity.cwNextFallDamage) then
+						if (entity.cwNextFallDamage and curTime < entity.cwNextFallDamage) then
 							damageInfo:SetDamage(0);
 							return true;
 						end;
 						
 						amount = hook.Call("GetFallDamage", Clockwork, player, velocity);
+						
 						entity.cwNextFallDamage = curTime + 1;
+						
 						damageInfo:SetDamage(amount)
 					end;
 				end;

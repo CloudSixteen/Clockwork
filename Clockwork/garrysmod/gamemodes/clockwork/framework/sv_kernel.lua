@@ -3412,21 +3412,23 @@ function Clockwork:PlayerDeath(player, inflictor, attacker, damageInfo)
 		end;
 	end;
 	
-	if (attacker:IsPlayer()) then
-		if (IsValid(attacker:GetActiveWeapon())) then
-			local weapon = attacker:GetActiveWeapon();
-			local itemTable = cwItem:GetByWeapon(weapon);
-		
-			if (IsValid(weapon) and itemTable) then
-				cwKernel:PrintLog(LOGTYPE_CRITICAL, attacker:Name().." has dealt "..tostring(math.ceil(damageInfo:GetDamage())).." damage to "..player:Name().." with "..itemTable("name")..", killing them!");
+	if (damageInfo) then
+		if (attacker:IsPlayer()) then
+			if (IsValid(attacker:GetActiveWeapon())) then
+				local weapon = attacker:GetActiveWeapon();
+				local itemTable = cwItem:GetByWeapon(weapon);
+			
+				if (IsValid(weapon) and itemTable) then
+					cwKernel:PrintLog(LOGTYPE_CRITICAL, attacker:Name().." has dealt "..tostring(math.ceil(damageInfo:GetDamage())).." damage to "..player:Name().." with "..itemTable("name")..", killing them!");
+				else
+					cwKernel:PrintLog(LOGTYPE_CRITICAL, attacker:Name().." has dealt "..tostring(math.ceil(damageInfo:GetDamage())).." damage to "..player:Name().." with "..cwPly:GetWeaponClass(attacker)..", killing them!");
+				end;
 			else
-				cwKernel:PrintLog(LOGTYPE_CRITICAL, attacker:Name().." has dealt "..tostring(math.ceil(damageInfo:GetDamage())).." damage to "..player:Name().." with "..cwPly:GetWeaponClass(attacker)..", killing them!");
+				cwKernel:PrintLog(LOGTYPE_CRITICAL, attacker:Name().." has dealt "..tostring(math.ceil(damageInfo:GetDamage())).." damage to "..player:Name()..", killing them!");
 			end;
 		else
-			cwKernel:PrintLog(LOGTYPE_CRITICAL, attacker:Name().." has dealt "..tostring(math.ceil(damageInfo:GetDamage())).." damage to "..player:Name()..", killing them!");
+			cwKernel:PrintLog(LOGTYPE_CRITICAL, attacker:GetClass().." has dealt "..tostring(math.ceil(damageInfo:GetDamage())).." damage to "..player:Name()..", killing them!");
 		end;
-	else
-		cwKernel:PrintLog(LOGTYPE_CRITICAL, attacker:GetClass().." has dealt "..tostring(math.ceil(damageInfo:GetDamage())).." damage to "..player:Name()..", killing them!");
 	end;
 end;
 
@@ -3619,18 +3621,21 @@ function Clockwork:EntityTakeDamage(entity, damageInfo)
 			entity.cwDamageImmunity = curTime + 1;
 			
 			damageInfo:SetDamage(0);
+			
 			return false;
 		end;
 		
 		if (IsValid(attacker) and attacker:GetClass() == "worldspawn"
 		and entity.cwDamageImmunity and entity.cwDamageImmunity > curTime) then
 			damageInfo:SetDamage(0);
+			
 			return false;
 		end;
 		
 		if ((IsValid(inflictor) and inflictor:IsBeingHeld())
 		or attacker:IsBeingHeld()) then
 			damageInfo:SetDamage(0);
+			
 			return false;
 		end;
 	end;
@@ -3676,13 +3681,17 @@ function Clockwork:EntityTakeDamage(entity, damageInfo)
 				
 				if (damageInfo:GetDamage() > 0) then
 					cwKernel:CalculatePlayerDamage(player, lastHitGroup, damageInfo);
+					
 					player:SetVelocity(cwKernel:ConvertForce(damageInfo:GetDamageForce() * 32, 200));
 					
 					if (player:Alive() and player:Health() == 1) then
 						player:SetFakingDeath(true);
-							hook.Call("DoPlayerDeath", self, player, attacker, damageInfo);
-							hook.Call("PlayerDeath", self, player, inflictor, attacker, damageInfo);
-							cwKernel:CreateBloodEffects(damageInfo:GetDamagePosition(), 1, player, damageInfo:GetDamageForce());
+						
+						hook.Call("DoPlayerDeath", self, player, attacker, damageInfo);
+						hook.Call("PlayerDeath", self, player, inflictor, attacker, damageInfo);
+						
+						cwKernel:CreateBloodEffects(damageInfo:GetDamagePosition(), 1, player, damageInfo:GetDamageForce());
+						
 						player:SetFakingDeath(false, true);
 					else
 						local bNoMsg = cwPlugin:Call("PlayerTakeDamage", player, inflictor, attacker, lastHitGroup, damageInfo);
@@ -3709,6 +3718,7 @@ function Clockwork:EntityTakeDamage(entity, damageInfo)
 				end;
 				
 				damageInfo:SetDamage(0);
+				
 				player.cwLastHitGroup = nil;
 			end;
 		else
@@ -3735,11 +3745,13 @@ function Clockwork:EntityTakeDamage(entity, damageInfo)
 				
 				if (player:Alive() and player:Health() == 1) then
 					player:SetFakingDeath(true);
-						player:GetRagdollTable().health = 0;
-						player:GetRagdollTable().armor = 0;
-						
-						hook.Call("DoPlayerDeath", self, player, attacker, damageInfo);
-						hook.Call("PlayerDeath", self, player, inflictor, attacker, damageInfo);
+					
+					player:GetRagdollTable().health = 0;
+					player:GetRagdollTable().armor = 0;
+					
+					hook.Call("DoPlayerDeath", self, player, attacker, damageInfo);
+					hook.Call("PlayerDeath", self, player, inflictor, attacker, damageInfo);
+					
 					player:SetFakingDeath(false, true);
 				elseif (player:Alive()) then
 					local bNoMsg = cwPlugin:Call("PlayerTakeDamage", player, inflictor, attacker, hitGroup, damageInfo);
