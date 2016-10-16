@@ -27,6 +27,7 @@ function PANEL:Init()
 		local hugeTextFont = Clockwork.option:GetFont("menu_text_huge");
 		local scrH = ScrH();
 		local scrW = ScrW();
+		local upper = Clockwork.option:GetKey("menu_uppercase_text");
 		
 		self:SetPos(0, 0);
 		self:SetSize(scrW, scrH);
@@ -38,14 +39,22 @@ function PANEL:Init()
 		self.titleLabel = vgui.Create("cwLabelButton", self);
 		self.titleLabel:SetDisabled(true);
 		self.titleLabel:SetFont(hugeTextFont);
-		self.titleLabel:SetText(string.upper(Schema:GetName()));
+		if upper then
+			self.titleLabel:SetText(string.upper(Schema:GetName()));
+		else
+			self.titleLabel:SetText(Schema:GetName());
+		end;
 		
 		local schemaLogo = Clockwork.option:GetKey("schema_logo");
 		
 		self.subLabel = vgui.Create("cwLabelButton", self);
 		self.subLabel:SetDisabled(true);
 		self.subLabel:SetFont(smallTextFont);
-		self.subLabel:SetText(string.upper(Schema:GetDescription()));
+		if upper then
+			self.subLabel:SetText(string.upper(Schema:GetDescription()));
+		else
+			self.subLabel:SetText(Schema:GetDescription());
+		end;
 		self.subLabel:SizeToContents();
 		
 		if (schemaLogo == "") then
@@ -63,7 +72,11 @@ function PANEL:Init()
 		self.authorLabel = vgui.Create("cwLabelButton", self);
 		self.authorLabel:SetDisabled(true);
 		self.authorLabel:SetFont(tinyTextFont);
-		self.authorLabel:SetText("DEVELOPED BY "..string.upper(Schema:GetAuthor()));
+		if upper then
+			self.authorLabel:SetText("DEVELOPED BY "..string.upper(Schema:GetAuthor()));
+		else
+			self.authorLabel:SetText("Developed by "..(Schema:GetAuthor()));
+		end;
 		self.authorLabel:SizeToContents();
 		self.authorLabel:SetPos(self.subLabel.x + (self.subLabel:GetWide() - self.authorLabel:GetWide()), self.subLabel.y + self.subLabel:GetTall() + 4);
 		
@@ -767,14 +780,22 @@ function PANEL:Init()
 	self.nameLabel = vgui.Create("cwLabelButton", self);
 	self.nameLabel:SetDisabled(true);
 	self.nameLabel:SetFont(smallTextFont);
-	self.nameLabel:SetText(string.upper(self.customData.name));
+	if upper then
+		self.nameLabel:SetText(string.upper(self.customData.name));
+	else
+		self.nameLabel:SetText(self.customData.name);
+	end;
 	self.nameLabel:SizeToContents();
 	self.nameLabel:SetPos(0, 80);
 	
 	self.factionLabel = vgui.Create("cwLabelButton", self);
 	self.factionLabel:SetDisabled(true);
 	self.factionLabel:SetFont(tinyTextFont);
-	self.factionLabel:SetText(string.upper(self.customData.faction));
+	if upper then
+		self.factionLabel:SetText(string.upper(self.customData.faction));
+	else
+		self.factionLabel:SetText(self.customData.faction);
+	end;
 	self.factionLabel:SizeToContents();
 	self.factionLabel:SetPos(0, self.nameLabel.y + self.nameLabel:GetTall() + 4);
 	
@@ -925,7 +946,11 @@ function PANEL:Init()
 		local label = vgui.Create("cwLabelButton", self);
 		label:SetDisabled(true);
 		label:SetFont(tinyTextFont);
-		label:SetText(string.upper(v.text));
+		if upper then
+			label:SetText(string.upper(v.text));
+		else
+			label:SetText(v.text);
+		end;
 		label:OverrideTextColor(v.color)
 		label:SizeToContents();
 		label:SetPos((maxWidth / 2) - (label:GetWide()/2), labelY);

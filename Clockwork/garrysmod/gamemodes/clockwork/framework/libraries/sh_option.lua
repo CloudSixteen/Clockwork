@@ -82,6 +82,7 @@ Clockwork.option:SetKey("schema_logo", "");
 Clockwork.option:SetKey("intro_image", "");
 Clockwork.option:SetKey("intro_sound", "music/HL2_song25_Teleporter.mp3");
 Clockwork.option:SetKey("menu_music", "music/hl2_song32.mp3");
+Clockwork.option:SetKey("menu_uppercase_text",true)
 Clockwork.option:SetKey("name_cash", "Cash");
 Clockwork.option:SetKey("name_drop", "Drop");
 Clockwork.option:SetKey("top_bars", false);
