@@ -424,9 +424,11 @@ if (CLIENT) then
 				v.index, v.itemID, v.data
 			);
 			
-			Clockwork.inventory:AddInstance(
-				Clockwork.inventory.client, itemTable
-			);
+			if (itemTable) then
+				Clockwork.inventory:AddInstance(
+					Clockwork.inventory.client, itemTable
+				);
+			end;
 		end;
 		
 		Clockwork.inventory:Rebuild();
