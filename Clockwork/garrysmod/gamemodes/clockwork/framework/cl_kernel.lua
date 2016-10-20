@@ -3235,7 +3235,7 @@ function Clockwork:PostDrawBackgroundBlurs()
 		local factionTable = cwFaction:FindByID(panelInfo[2]);
 		
 		if (factionTable and factionTable.material) then
-			if (_file:Exists("materials/"..factionTable.material..".png", "GAME")) then
+			if (_file.Exists("materials/"..factionTable.material..".png", "GAME")) then
 				if (!panelInfo[3]) then
 					panelInfo[3] = cwKernel:GetMaterial(factionTable.material..".png");
 				end;
