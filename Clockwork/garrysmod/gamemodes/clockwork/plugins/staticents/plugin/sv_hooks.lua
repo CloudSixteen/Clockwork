@@ -30,7 +30,7 @@ function cwStaticEnts:OnPlayerUserGroupSet(player, usergroup)
 	if (groupCheck[string.lower(usergroup)]) then
 		local staticEnts = {};
 
-		for k, v in ipairs(cwStaticEnts.staticEnts) do
+		for k, v in ipairs(self.staticEnts) do
 			if (IsValid(v) and v:IsValid()) then
 				table.insert(staticEnts, v);
 			end;
@@ -43,8 +43,9 @@ end;
 function cwStaticEnts:PostPlayerSpawn(player, lightSpawn, changeClass, firstSpawn)
 	if (player:IsAdmin()) then
 		local staticEnts = {};
+		self.staticEnts = self.staticEnts or {}
 
-		for k, v in ipairs(cwStaticEnts.staticEnts) do
+		for k, v in ipairs(self.staticEnts) do
 			if (IsValid(v) and v:IsValid()) then
 				table.insert(staticEnts, v);
 			end;

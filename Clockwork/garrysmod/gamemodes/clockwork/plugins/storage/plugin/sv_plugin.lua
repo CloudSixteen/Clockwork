@@ -71,6 +71,7 @@ end;
 -- A function to save the storage.
 function cwStorage:SaveStorage()
 	local storage = {};
+	self.storage = self.storage or {}
 	
 	for k, v in pairs(self.storage) do
 		if (IsValid(v)) then
