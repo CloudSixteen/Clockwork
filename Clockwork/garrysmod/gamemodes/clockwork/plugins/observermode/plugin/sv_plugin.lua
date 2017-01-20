@@ -17,6 +17,7 @@ function cwObserverMode:MakePlayerExitObserverMode(player)
 	player:DrawShadow(true);
 	player:SetNoDraw(false);
 	player:SetNotSolid(false);
+	player:SetNoTarget(false);
 	player:SetMoveType(player.cwObserverMoveType or MOVETYPE_WALK);
 	
 	timer.Simple(FrameTime() * 0.5, function()
@@ -52,4 +53,5 @@ function cwObserverMode:MakePlayerEnterObserverMode(player)
 	player.cwObserverColor = player:GetColor();
 	player.cwObserverMode = true;
 	player:SetMoveType(MOVETYPE_NOCLIP);
+	player:SetNoTarget(true);
 end;
