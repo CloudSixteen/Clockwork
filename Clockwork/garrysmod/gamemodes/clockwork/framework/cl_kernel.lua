@@ -1774,7 +1774,7 @@ function Clockwork:HUDPaintForeground()
 	
 	cwChatBox:Paint();
 	
-	local info = {width = ScrW() * cwOption:GetKey("top_bar_width_scale"), x = 8, y = 8};
+	local info = {width = ScrW() * cwOption:GetKey("top_bar_width_scale"), x = 16, y = 16};
 		cwKernel:DrawBars(info, "top");
 	cwPlugin:Call("HUDPaintTopScreen", info);
 end;
@@ -3235,7 +3235,7 @@ function Clockwork:PostDrawBackgroundBlurs()
 		local factionTable = cwFaction:FindByID(panelInfo[2]);
 		
 		if (factionTable and factionTable.material) then
-			if (_file:Exists("materials/"..factionTable.material..".png", "GAME")) then
+			if (_file.Exists("materials/"..factionTable.material..".png", "GAME")) then
 				if (!panelInfo[3]) then
 					panelInfo[3] = cwKernel:GetMaterial(factionTable.material..".png");
 				end;

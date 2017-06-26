@@ -126,6 +126,12 @@ if (CLIENT) then
 	Clockwork.option:SetColor("columnsheet_shadow_active", Color(255, 255, 255, 255));
 	Clockwork.option:SetColor("columnsheet_text_active", Color(50, 50, 50, 255));
 	
+	Clockwork.option:SetColor("attribute_base_color", Color(50, 50, 50, 255));
+	Clockwork.option:SetColor("attribute_progress_color", Color(175, 175, 175, 255));
+	Clockwork.option:SetColor("attribute_boost_color", Color(50, 255, 50, 255));
+	Clockwork.option:SetColor("attribute_hinder_color", Color(255, 50, 50, 255));
+	Clockwork.option:SetColor("attribute_main_color", Color(100, 100, 100, 255));
+	
 	Clockwork.option:SetColor("basic_form_highlight", Color(0, 0, 0, 255));
 	Clockwork.option:SetColor("basic_form_color", Color(0, 0, 0, 255));
 	

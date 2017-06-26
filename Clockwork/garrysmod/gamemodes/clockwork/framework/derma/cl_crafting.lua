@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© 2017 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -35,10 +35,12 @@ function PANEL:Rebuild()
 	local blueprintsList = {};
 	
 	for k, v in pairs(Clockwork.crafting:GetAll()) do
-		local blueprintCategory = v("category");
-		
-		blueprintsList[blueprintCategory] = blueprintsList[blueprintCategory] or {};
-		blueprintsList[blueprintCategory][#blueprintsList[blueprintCategory] + 1] = v;
+		if (Clockwork.kernel:HasObjectAccess(Clockwork.Client, v)) then
+			local blueprintCategory = v("category");
+			
+			blueprintsList[blueprintCategory] = blueprintsList[blueprintCategory] or {};
+			blueprintsList[blueprintCategory][#blueprintsList[blueprintCategory] + 1] = v;
+		end;
 	end;
 	
 	for k, v in pairs(blueprintsList) do
@@ -59,15 +61,20 @@ function PANEL:Rebuild()
 		self.panelList:AddItem(label);
 	else
 		for k, v in pairs(categories) do
-			local collapsibleCategory = Clockwork.kernel:CreateCustomCategoryPanel(v.category, self.panelList);
-				self.panelList:AddItem(collapsibleCategory);
+			local categoryForm = vgui.Create("cwBasicForm", self);
+			categoryForm:SetPadding(8);
+			categoryForm:SetSpacing(8);
+			categoryForm:SetAutoSize(true);
+			categoryForm:SetText(v.category, nil, "basic_form_highlight")
 			
-			local categoryList = vgui.Create("DPanelList", collapsibleCategory);
+			local categoryList = vgui.Create("DPanelList", categoryForm);
 				categoryList:EnableHorizontal(true);
 				categoryList:SetAutoSize(true);
 				categoryList:SetPadding(4);
 				categoryList:SetSpacing(4);
-			collapsibleCategory:SetContents(categoryList);
+			categoryForm:AddItem(categoryList);
+			
+			self.panelList:AddItem(categoryForm);
 			
 			table.sort(v.blueprintsList, function(a, b)
 				local blueprintTableA = a;
@@ -105,14 +112,12 @@ function PANEL:OnSelected() self:Rebuild(); end;
 
 -- Called when the layout should be performed.
 function PANEL:PerformLayout(w, h)
-	self.panelList:StretchToParent(4, 28, 4, 4);
-	self:SetSize(w, math.min(self.panelList.pnlCanvas:GetTall() + 32, ScrH() * 0.75));
+	self.panelList:StretchToParent(4, 4, 4, 4);
+	self:SetSize(w, ScrH() * 0.75);
 end;
 
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
-	derma.SkinHook("Paint", "Frame", self, w, h);
-	
 	return true;
 end;
 
@@ -129,11 +134,8 @@ local PANEL = {};
 function PANEL:Init()
 	local itemData = self:GetParent().blueprintData;
 	
-	self:SetSize(40, 40);
+	self:SetSize(48, 48);
 	self.blueprintTable = itemData.blueprintTable;
-	
-	local model, skin = Clockwork.crafting:GetIconInfo(self.blueprintTable);
-	
 	self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("cwSpawnIcon", self));
 	
 	if (Clockwork.OrderCooldown and CurTime() < Clockwork.OrderCooldown) then
@@ -147,9 +149,11 @@ function PANEL:Init()
 		);
 	end;
 	
+	local model, skin = Clockwork.crafting:GetIconInfo(self.blueprintTable);
+	
 	self.spawnIcon:SetModel(model, skin);
 	self.spawnIcon:SetToolTip("");
-	self.spawnIcon:SetSize(40, 40);
+	self.spawnIcon:SetSize(48, 48);
 end;
 
 -- Called each frame.

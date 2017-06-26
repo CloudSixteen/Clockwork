@@ -761,7 +761,7 @@ else
 	end;
 	
 	-- A function to get an item's markup tooltip.
-	function Clockwork.item:GetMarkupToolTip(itemTable, bBusinessStyle, Callback)
+	function Clockwork.item:GetMarkupToolTip(itemTable, isBusinessStyle, Callback)
 		local informationColor = Clockwork.option:GetColor("information");
 		local description = itemTable("description");
 		local toolTip = itemTable("toolTip");
@@ -788,7 +788,7 @@ else
 			name = itemTable:GetClientSideName();
 		end;
 		
-		if (bBusinessStyle and itemTable("batch") > 1) then
+		if (isBusinessStyle and itemTable("batch") > 1) then
 			name = itemTable("batch").." x "..Clockwork.kernel:Pluralize(name);
 		end;
 		
@@ -842,7 +842,7 @@ else
 			markupObject:Add(description);
 		end;
 		
-		if (bBusinessStyle) then
+		if (isBusinessStyle) then
 			local redColor = Color(255, 50, 50, 255);
 			local greenColor = Color(50, 255, 50, 255);
 			
@@ -852,7 +852,7 @@ else
 				for k, v in ipairs(itemTable.recipes) do
 					if (Clockwork.kernel:HasObjectAccess(Clockwork.Client, v)) then
 						markupObject:Title("Recipe "..numRecipe);
-							
+						
 						for k2, v2 in pairs(v.ingredients) do
 							local colorToUse = redColor;
 							local requiredItem = Clockwork.item:FindByID(k2);

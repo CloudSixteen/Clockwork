@@ -209,10 +209,10 @@ function PANEL:Init()
 	
 	-- Called when the panel should be painted.
 	function self.baseBar.Paint(baseBar)
-		local hinderColor = Color(255, 50, 50, 255);
-		local boostColor = Color(50, 255, 50, 255);
+		local hinderColor = Clockwork.option:GetColor("attribute_hinder_color");
+		local boostColor = Clockwork.option:GetColor("attribute_boost_color");
 		local attributes = Clockwork.attributes.panel.attributes;
-		local mainColor = Color(100, 100, 100, 255);
+		local mainColor = Clockwork.option:GetColor("attribute_main_color");
 		local frameTime = FrameTime() * 10;
 		local uniqueID = self.attribute.uniqueID;
 		local curTime = CurTime();
@@ -254,7 +254,7 @@ function PANEL:Init()
 		
 		boosts[uniqueID] = math.Approach(boosts[uniqueID], boost, frameTime);
 		
-		local color = Color(50, 50, 50, 255);
+		local color = Clockwork.option:GetColor("attribute_base_color");
 		local width = (baseBar:GetWide() / self.attribute.maximum) * attributes[uniqueID];
 		local boostData = {
 			negative = boosts[uniqueID] < 0,
@@ -316,7 +316,7 @@ function PANEL:Init()
 	
 	-- Called when the panel should be painted.
 	function self.progressBar.Paint(progressBar)
-		local progressColor = Color(175, 175, 175, 255);
+		local progressColor = Clockwork.option:GetColor("attribute_progress_color");
 		local uniqueID = self.attribute.uniqueID;
 		local progress = Clockwork.attributes.panel.progress;
 		local default = Clockwork.attributes.stored[uniqueID];
