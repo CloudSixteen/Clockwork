@@ -95,28 +95,23 @@ function Clockwork.class:FindByID(identifier)
 end;
 
 function Clockwork.class:AssignToDefault(player)
-	local defaultClasses = {};
+	local defaults = {};
 	local faction = player:GetFaction();
 
 	for k, v in pairs(self.stored) do
-		if (v.factions and v.isDefault and table.HasValue(v.factions, faction)) then
-			defaultClasses[#defaultClasses + 1] = v.index;
+		if (v.factions and v.isDefault
+		and table.HasValue(v.factions, faction)) then
+			defaults[#defaults + 1] = v.index;
 		end;
 	end;
 
-	if (#defaultClasses > 0) then
-		local class = defaultClasses[math.random(1, #defaultClasses)];
+	if (#defaults > 0) then
+		local class = defaults[math.random(1, #defaults)];
 
 		if (class) then
 			return self:Set(player, class);
 		end;
 	else
-		for k, v in pairs(self.stored) do
-			if (v.factions and table.HasValue(v.factions, faction)) then
-				return self:Set(player, v.index);
-			end;
-		end;
-
 		for k, v in pairs(self.stored) do
 			if (Clockwork.kernel:HasObjectAccess(player, v)) then
 				return self:Set(player, v.index);
@@ -170,13 +165,13 @@ end;
 
 -- A function to check if a class has any flags.
 function Clockwork.class:HasAnyFlags(name, flags)
-	local sFlagString = self:Query(name, "flags")
+	local flagString = self:Query(name, "flags")
 
-	if (sFlagString) then
+	if (flagString) then
 		for i = 1, #flags do
 			local flag = string.utf8sub(flags, i, i);
 
-			if (string.find(sFlagString, flag)) then
+			if (string.find(flagString, flag)) then
 				return true;
 			end;
 		end;
@@ -185,13 +180,13 @@ end;
 
 -- A function to check if a class has flags.
 function Clockwork.class:HasFlags(name, flags)
-	local sFlagString = self:Query(name, "flags")
+	local flagString = self:Query(name, "flags")
 
-	if (sFlagString) then
+	if (flagString) then
 		for i = 1, #flags do
 			local flag = string.utf8sub(flags, i, i);
 
-			if (!string.find(sFlagString, flag)) then
+			if (!string.find(flagString, flag)) then
 				return false;
 			end;
 		end;

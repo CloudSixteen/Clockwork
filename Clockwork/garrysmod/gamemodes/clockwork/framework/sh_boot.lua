@@ -56,7 +56,7 @@ end;
 AddCSLuaFile("cl_kernel.lua");
 AddCSLuaFile("cl_theme.lua");
 AddCSLuaFile("sh_kernel.lua");
-AddCSLuaFile("sh_fixes.lua");
+--AddCSLuaFile("sh_fixes.lua");
 AddCSLuaFile("sh_enum.lua");
 AddCSLuaFile("sh_boot.lua");
 include("sh_enum.lua");

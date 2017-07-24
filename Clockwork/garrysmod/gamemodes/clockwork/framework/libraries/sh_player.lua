@@ -545,11 +545,11 @@ function Clockwork.player:GetDefaultModel(player)
 end;
 
 -- A function to check if a player has any flags.
-function Clockwork.player:HasAnyFlags(player, flags, bByDefault)
+function Clockwork.player:HasAnyFlags(player, flags, byDefault)
 	local playerFlags = player:GetSharedVar("Flags")
 	
 	if (playerFlags != "") then
-		if (Clockwork.class:HasAnyFlags(player:Team(), flags) and !bByDefault) then
+		if (Clockwork.class:HasAnyFlags(player:Team(), flags) and !byDefault) then
 			return true;
 		end;
 		
@@ -557,7 +557,7 @@ function Clockwork.player:HasAnyFlags(player, flags, bByDefault)
 			local flag = string.utf8sub(flags, i, i);
 			local bSuccess = true;
 			
-			if (!bByDefault) then
+			if (!byDefault) then
 				local hasFlag = Clockwork.plugin:Call("PlayerDoesHaveFlag", player, flag);
 				
 				if (hasFlag != false) then
@@ -593,11 +593,11 @@ function Clockwork.player:HasAnyFlags(player, flags, bByDefault)
 end;
 
 -- A function to check if a player has access.
-function Clockwork.player:HasFlags(player, flags, bByDefault)
+function Clockwork.player:HasFlags(player, flags, byDefault)
 	local playerFlags = player:GetSharedVar("Flags")
 	
 	if (playerFlags != "") then
-		if (Clockwork.class:HasFlags(player:Team(), flags) and !bByDefault) then
+		if (Clockwork.class:HasFlags(player:Team(), flags) and !byDefault) then
 			return true;
 		end;
 		
@@ -605,7 +605,7 @@ function Clockwork.player:HasFlags(player, flags, bByDefault)
 			local flag = string.utf8sub(flags, i, i);
 			local bSuccess;
 			
-			if (!bByDefault) then
+			if (!byDefault) then
 				local hasFlag = Clockwork.plugin:Call("PlayerDoesHaveFlag", player, flag);
 				
 				if (hasFlag != false) then
@@ -2079,11 +2079,11 @@ function Clockwork.player:SetInitialized(player, initialized)
 end;
 
 -- A function to check if a player has any flags.
-function Clockwork.player:HasAnyFlags(player, flags, bByDefault)
+function Clockwork.player:HasAnyFlags(player, flags, byDefault)
 	if (player:GetCharacter()) then
 		local playerFlags = player:GetFlags();
 		
-		if (cwClass:HasAnyFlags(player:Team(), flags) and !bByDefault) then
+		if (cwClass:HasAnyFlags(player:Team(), flags) and !byDefault) then
 			return true;
 		end;
 		
@@ -2091,7 +2091,7 @@ function Clockwork.player:HasAnyFlags(player, flags, bByDefault)
 			local flag = string.utf8sub(flags, i, i);
 			local bSuccess = true;
 			
-			if (!bByDefault) then
+			if (!byDefault) then
 				local hasFlag = cwPlugin:Call("PlayerDoesHaveFlag", player, flag);
 				
 				if (hasFlag != false) then
@@ -2127,11 +2127,11 @@ function Clockwork.player:HasAnyFlags(player, flags, bByDefault)
 end;
 
 -- A function to check if a player has flags.
-function Clockwork.player:HasFlags(player, flags, bByDefault)
+function Clockwork.player:HasFlags(player, flags, byDefault)
 	if (player:GetCharacter()) then
 		local playerFlags = player:GetFlags();
 		
-		if (cwClass:HasFlags(player:Team(), flags) and !bByDefault) then
+		if (cwClass:HasFlags(player:Team(), flags) and !byDefault) then
 			return true;
 		end;
 		
@@ -2139,7 +2139,7 @@ function Clockwork.player:HasFlags(player, flags, bByDefault)
 			local flag = string.utf8sub(flags, i, i);
 			local bSuccess;
 			
-			if (!bByDefault) then
+			if (!byDefault) then
 				local hasFlag = cwPlugin:Call("PlayerDoesHaveFlag", player, flag);
 				
 				if (hasFlag != false) then

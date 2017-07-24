@@ -779,11 +779,18 @@ function PANEL:Init()
 	self.factionLabel:SetPos(0, self.nameLabel.y + self.nameLabel:GetTall() + 4);
 	
 	local color = Color(255, 255, 255, 255);
-	for k, class in pairs(Clockwork.class:GetAll()) do
-		if (class.factions[1] == self.customData.faction) then
-			color = class.color;
+	local factionTable = Clockwork.faction:FindByID(self.customData.faction);
+	
+	if (!factionTable or !factionTable.color) then
+		for k, v in pairs(Clockwork.class:GetAll()) do
+			if (v.factions and table.HasValue(v.factions, self.customData.faction)) then
+				color = v.color;
+			end;
 		end;
+	else	
+		color = factionTable.color;
 	end;
+	
 	self.factionLabel:OverrideTextColor(color)
 		
 	self.characterModel = vgui.Create("cwCharacterModel", self);
