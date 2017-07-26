@@ -1036,9 +1036,10 @@ function Clockwork:PlayerSpawn(player)
 		player:ShouldDropWeapon(false);
 		
 		if (!player.cwLightSpawn) then
-			local FACTION = cwFaction:FindByID(player:GetFaction());
-			local relation = FACTION.entRelationship;
+			local factionTable = cwFaction:FindByID(player:GetFaction());
+			local relation = factionTable.entRelationship;
 			local playerRank, rank = player:GetFactionRank();
+			local uniqueID = player:UniqueID();
 
 			cwPly:SetWeaponRaised(player, false);
 			cwPly:SetRagdollState(player, RAGDOLL_RESET);
@@ -1072,10 +1073,10 @@ function Clockwork:PlayerSpawn(player)
 			player:SetRunSpeed(cwConfig:Get("run_speed"):Get());
 			player:CrosshairDisable();
 
-			player:SetMaxHealth(FACTION.maxHealth or 100);
-			player:SetMaxArmor(FACTION.maxArmor or 0);
-			player:SetHealth(FACTION.maxHealth or 100);
-			player:SetArmor(FACTION.maxArmor or 0);
+			player:SetMaxHealth(factionTable.maxHealth or 100);
+			player:SetMaxArmor(factionTable.maxArmor or 0);
+			player:SetHealth(factionTable.maxHealth or 100);
+			player:SetArmor(factionTable.maxArmor or 0);
 		
 			if (rank) then
 				player:SetMaxHealth(rank.maxHealth or player:GetMaxHealth());
@@ -1084,11 +1085,11 @@ function Clockwork:PlayerSpawn(player)
 				player:SetArmor(rank.maxArmor or player:GetMaxArmor());
 			end;
 		
-			if (istable(FACTION.respawnInv)) then
+			if (istable(factionTable.respawnInv)) then
 				local inventory = player:GetInventory();
 				local itemQuantity;
 			
-				for k, v in pairs(FACTION.respawnInv) do
+				for k, v in pairs(factionTable.respawnInv) do
 					for i = 1, (v or 1) do
 						itemQuantity = table.Count(inventory[k]);
 						
@@ -1099,13 +1100,13 @@ function Clockwork:PlayerSpawn(player)
 				end;
 			end;
 		
-			if (prevRelation) then
+			if (STORED_RELATIONS and STORED_RELATIONS[uniqueID]) then
 				for k, v in pairs(ents.GetAll()) do
 					if (v:IsNPC()) then
-						local prevRelationVal = prevRelation[player:SteamID()][v:GetClass()];
+						local storedRelation = STORED_RELATIONS[uniqueID][v:GetClass()];
 					
-						if (prevRelationVal) then
-							v:AddEntityRelationship(player, prevRelationVal, 1);
+						if (storedRelation) then
+							v:AddEntityRelationship(player, storedRelation, 1);
 						end;
 					end;
 				end;
@@ -1114,8 +1115,8 @@ function Clockwork:PlayerSpawn(player)
 			if (istable(relation)) then
 				local relationEnts;
 			
-				prevRelation = prevRelation or {};
-				prevRelation[player:SteamID()] = prevRelation[player:SteamID()] or {};
+				STORED_RELATIONS = STORED_RELATIONS or {};
+				STORED_RELATIONS[uniqueID] = STORED_RELATIONS[uniqueID] or {};
 			
 				for k, v in pairs(relation) do
 					relationEnts = ents.FindByClass(k);
@@ -1123,16 +1124,16 @@ function Clockwork:PlayerSpawn(player)
 					if (relationEnts) then
 						for k2, v2 in pairs(relationEnts) do
 							if (string.lower(v) == "like") then
-								prevRelation[player:SteamID()][k] = v2:Disposition(player);
+								STORED_RELATIONS[uniqueID][k] = v2:Disposition(player);
 								v2:AddEntityRelationship(player, D_LI, 1);
 							elseif (string.lower(v) == "fear") then
-								prevRelation[player:SteamID()][k] = v2:Disposition(player);
+								STORED_RELATIONS[uniqueID][k] = v2:Disposition(player);
 								v2:AddEntityRelationship(player, D_FR, 1);
 							elseif (string.lower(v) == "hate") then
-								prevRelation[player:SteamID()][k] = v2:Disposition(player);
+								STORED_RELATIONS[uniqueID][k] = v2:Disposition(player);
 								v2:AddEntityRelationship(player, D_HT, 1);
 							else
-								ErrorNoHalt("Attempting to add relationship using invalid relation '"..v.."' towards faction '"..FACTION.name.."'.\r\n");
+								ErrorNoHalt("Attempting to add relationship using invalid relation '"..v.."' towards faction '"..factionTable.name.."'.\r\n");
 							end;
 						end;
 					end;
@@ -3932,9 +3933,10 @@ end;
 function Clockwork:PlayerSpawnedNPC(player, npc)
 	local faction;
 	local relation;
+	local uniqueID = player:UniqueID();
 	
-	prevRelation = prevRelation or {};
-	prevRelation[player:SteamID()] = prevRelation[player:SteamID()] or {};
+	STORED_RELATIONS = STORED_RELATIONS or {};
+	STORED_RELATIONS[uniqueID] = STORED_RELATIONS[uniqueID] or {};
 	
 	for k, v in pairs(_player.GetAll()) do
 		faction = cwFaction:FindByID(v:GetFaction());
@@ -3944,13 +3946,13 @@ function Clockwork:PlayerSpawnedNPC(player, npc)
 			for k2, v2 in pairs(relation) do
 				if (k2 == npc:GetClass()) then
 					if (string.lower(v2) == "like") then
-						prevRelation[player:SteamID()][k2] = prevRelation[player:SteamID()][k2] or npc:Disposition(v);
+						STORED_RELATIONS[uniqueID][k2] = STORED_RELATIONS[uniqueID][k2] or npc:Disposition(v);
 						npc:AddEntityRelationship(v, D_LI, 1);
 					elseif (string.lower(v2) == "fear") then
-						prevRelation[player:SteamID()][k2] = prevRelation[player:SteamID()][k2] or npc:Disposition(v);
+						STORED_RELATIONS[uniqueID][k2] = STORED_RELATIONS[uniqueID][k2] or npc:Disposition(v);
 						npc:AddEntityRelationship(v, D_FR, 1);
 					elseif (string.lower(v2) == "hate") then
-						prevRelation[player:SteamID()][k2] = prevRelation[player:SteamID()][k2] or npc:Disposition(v);
+						STORED_RELATIONS[uniqueID][k2] = STORED_RELATIONS[uniqueID][k2] or npc:Disposition(v);
 						npc:AddEntityRelationship(v, D_HT, 1);
 					else
 						ErrorNoHalt("Attempting to add relationship using invalid relation '"..v2.."' towards faction '"..faction.name.."'.\r\n");
