@@ -15,14 +15,14 @@ CW_FRENCH["DroppedCashOtherChar"] = "Vous ne pouvez pas prendre #1 vous l'avez j
 CW_FRENCH["CannotPurchaseAnotherDoor"] = "Vous ne pouvez pas acheter une autre porte !";
 CW_FRENCH["EntityOptionWaitTime"] = "Vous ne pouvez pas utiliser une autre entité aussi vite !";
 CW_FRENCH["YouNeedAnother"] = "Vous avez besoin encore de #1 !";
-CW_FRENCH["NotEnoughText"] = "Vous n'avez pas précisé assez de texte !";
+CW_FRENCH["NotEnoughText"] = "Vous n'avez pas spécifié assez de texte !";
 CW_FRENCH["ConfigVariablesPrinted"] = "Les variables de configuration ont été imprimées dans la console.";
 
 CW_FRENCH["PlayerForceDemoted"] = "#1 a forcé la rétrogradation de #2 au rang de '#3'.";
 CW_FRENCH["PlayerDemotedPlayer"] = "#1 a rétrogradé #2 au rang de '#3'.";
 CW_FRENCH["DemotePermsNeeded"] = "Vous n'avez pas la permission de rétrograder ce joueur.";
 CW_FRENCH["DemoteFactionOnly"] = "Vous pouvez seulement rétrograder quelqu'un de votre propre faction !";
-CW_FRENCH["YouCannotDemotePlayer"] = "Vous ne pouvez pas rétrogradé ce joueur !";
+CW_FRENCH["YouCannotDemotePlayer"] = "Vous ne pouvez pas rétrograder ce joueur !";
 CW_FRENCH["ForceDemoteAdminNeeded"] = "Vous devez être un admin ou un superadmin pour forcer la rétrogradation !";
 
 CW_FRENCH["PlayerForcePromoted"] = "#1 a forcé la promotion de #2 au rang de '#3'.";
@@ -54,7 +54,7 @@ CW_FRENCH["ConfigIsStaticKey"] = "#1 est une clé de configuration statique !";
 CW_FRENCH["ConfigKeyNotValid"] = "#1 n'est pas une clé de configuration valide !";
 CW_FRENCH["NotValidCharacter"] = "#1 n'est pas un personnage valide !";
 CW_FRENCH["NotValidPlayer"] = "#1 n'est pas un joueur valide !";
-CW_FRENCH["Framework"] = "Framework";
+CW_FRENCH["Framework"] = "Structure";
 CW_FRENCH["ChatBox"] = "Boîte de discussion";
 CW_FRENCH["Theme"] = "Thème";
 CW_FRENCH["Language"] = "Langue";
