@@ -5,7 +5,7 @@
 	Clockwork was created by Conna Wiles (also known as kurozael.)
 	http://cloudsixteen.com/license/clockwork.html
 	
-	This language file is created by Tensa. (https://github.com/10sa or http://steamcommunity.com/id/Developer_Tensa/)
+	This language file was created by Tensa. (https://github.com/10sa or http://steamcommunity.com/id/Developer_Tensa/)
 --]]
 
 CW_KOREAN = Clockwork.lang:GetTable("Korean");
