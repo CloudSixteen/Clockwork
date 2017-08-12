@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("PlyWhitelist");
+
 COMMAND.tip = "Add a player to a whitelist.";
 COMMAND.text = "<string Name> <string Faction>";
 COMMAND.access = "s";

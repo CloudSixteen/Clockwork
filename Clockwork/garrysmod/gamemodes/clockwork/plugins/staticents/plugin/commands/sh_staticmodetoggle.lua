@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("StaticModeToggle");
+
 COMMAND.tip = "Toggle static mode, where ALL player spawned entities will be checked through the whitelist and staticed on spawn.";
 COMMAND.access = "a";
 COMMAND.alias = {"SMToggle"};

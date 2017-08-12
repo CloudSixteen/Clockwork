@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("DoorUnlock");
+
 COMMAND.tip = "Unlock a door.";
 COMMAND.flags = CMD_DEFAULT;
 COMMAND.access = "o";

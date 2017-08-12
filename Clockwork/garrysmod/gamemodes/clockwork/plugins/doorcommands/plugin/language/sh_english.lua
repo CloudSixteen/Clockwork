@@ -34,6 +34,7 @@ CW_ENGLISH["DoorAlreadyChildToParent"] = "This door is already a child to the ac
 CW_ENGLISH["CannotParentDoorToSelf"] = "You cannot parent the active parent door to itself!";
 CW_ENGLISH["YouUnparentedDoor"] = "You have successfully unparented this door.";
 CW_ENGLISH["YouUnlockedDoor"] = "You have successfully unlocked this door.";
+CW_ENGLISH["YouLockedDoor"] = "You have successfully locked this door.";
 CW_ENGLISH["YouSetUnownableDoor"] = "You have successfully made this door unownable.";
 CW_ENGLISH["YouSetOwnableDoor"] = "You have successfully made this door ownable.";
 CW_ENGLISH["YouMadeDoorFalse"] = "You have successfully made this door false.";

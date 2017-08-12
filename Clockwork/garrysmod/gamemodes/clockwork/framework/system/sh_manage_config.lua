@@ -201,7 +201,7 @@ else
 					keyPrefix = useMap.."'s ";
 					
 					if (!file.Exists("maps/"..useMap..".bsp", "GAME")) then
-						Clockwork.player:Notify(player, useMap.." is not a valid map!");
+						Clockwork.player:Notify(player, {"MapNameIsNotValid", useMap});
 						
 						return;
 					end;
@@ -227,13 +227,13 @@ else
 						
 						Clockwork.datastream:Start(player, "SystemCfgValue", { data.key, configObject:Get() });
 					else
-						Clockwork.player:Notify(player, data.key.." was unable to be set!");
+						Clockwork.player:Notify(player, {"UnableToBeSet", data.key});
 					end;
 				else
-					Clockwork.player:Notify(player, data.key.." is a static config key!");
+					Clockwork.player:Notify(player, {"ConfigKeyIsStatic", data.key});
 				end;
 			else
-				Clockwork.player:Notify(player, data.key.." is not a valid config key!");
+				Clockwork.player:Notify(player, {"ConfigKeyIsNotValid", data.key});
 			end;
 		end;
 	end);

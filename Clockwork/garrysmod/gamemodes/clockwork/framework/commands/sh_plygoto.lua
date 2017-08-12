@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("PlyGoTo");
+
 COMMAND.tip = "Goto a player's location.";
 COMMAND.text = "<string Name>";
 COMMAND.access = "o";

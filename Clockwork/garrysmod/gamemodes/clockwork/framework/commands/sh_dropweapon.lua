@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("DropWeapon");
+
 COMMAND.tip = "Drop your weapon at your target position.";
 COMMAND.flags = bit.bor(CMD_DEFAULT, CMD_FALLENOVER);
 

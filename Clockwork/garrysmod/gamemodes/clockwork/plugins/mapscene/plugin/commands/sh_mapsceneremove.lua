@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("MapSceneRemove");
+
 COMMAND.tip = "Remove map scenes at your current position.";
 COMMAND.flags = CMD_DEFAULT;
 COMMAND.access = "a";

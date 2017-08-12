@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("StaticWhitelistAdd");
+
 COMMAND.tip = "Add a class of entity to the static whitelist so it can be staticed.";
 COMMAND.text = "<string Class>";
 COMMAND.access = "a";

@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("PlyReport");
+
 COMMAND.tip = "Report a player to the Cloud Sixteen official reports list.";
 COMMAND.text = "<string Name>";
 COMMAND.flags = CMD_DEFAULT;

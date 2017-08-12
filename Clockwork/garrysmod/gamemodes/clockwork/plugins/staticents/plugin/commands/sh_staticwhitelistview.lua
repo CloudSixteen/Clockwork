@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("StaticWhitelistView");
+
 COMMAND.tip = "View the static whitelist.";
 COMMAND.access = "a";
 COMMAND.alias = {"SWView"};

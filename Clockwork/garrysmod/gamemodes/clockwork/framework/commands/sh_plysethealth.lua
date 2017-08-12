@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("PlySetHealth");
+
 COMMAND.tip = "Set a player's health.";
 COMMAND.text = "<string Target> <number HP>";
 COMMAND.arguments = 2;

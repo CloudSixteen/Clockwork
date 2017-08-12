@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("AnimPant");
+
 COMMAND.tip = "Put your character into a panting stance.";
 COMMAND.flags = CMD_DEFAULT;
 

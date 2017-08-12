@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("CharUnban");
+
 COMMAND.tip = "Unban a character from being used.";
 COMMAND.text = "<string Name>";
 COMMAND.flags = CMD_DEFAULT;

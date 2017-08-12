@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("CfgListVars");
+
 COMMAND.tip = "List the Clockwork config variables.";
 COMMAND.text = "[string Find]";
 COMMAND.access = "s";

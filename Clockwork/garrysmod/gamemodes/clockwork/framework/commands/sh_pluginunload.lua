@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("PluginUnload");
+
 COMMAND.tip = "Attempt to unload a plugin.";
 COMMAND.text = "<string Name>";
 COMMAND.flags = CMD_DEFAULT;
@@ -20,7 +21,7 @@ function COMMAND:OnRun(player, arguments)
 	local plugin = Clockwork.plugin:FindByID(arguments[1]);
 	
 	if (!plugin) then
-		Clockwork.player:Notify(player, "This plugin is not valid!");
+		Clockwork.player:Notify(player, {"PluginNotValid"});
 		return;
 	end;
 	
@@ -47,10 +48,10 @@ function COMMAND:OnRun(player, arguments)
 				Clockwork.datastream:Start(recipients, "SystemPluginSet", {plugin.name, true});
 			end;
 		else
-			Clockwork.player:Notify(player, "This plugin could not be unloaded!");
+			Clockwork.player:Notify(player, {"PluginCouldNotBeUnloaded"});
 		end;
 	else
-		Clockwork.player:Notify(player, "This plugin depends on another plugin!");
+		Clockwork.player:Notify(player, {"PluginDependsOnAnother"});
 	end;
 end;
 

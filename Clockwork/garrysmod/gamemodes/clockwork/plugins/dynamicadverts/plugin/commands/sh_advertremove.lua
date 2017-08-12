@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("AdvertRemove");
+
 COMMAND.tip = "Remove a dynamic advert.";
 COMMAND.flags = CMD_DEFAULT;
 COMMAND.access = "a";

@@ -11,6 +11,7 @@ local COMMAND = Clockwork.command:New("PlySlay");
 COMMAND.tip = "Slay another player.";
 COMMAND.text = "<string Target> <bool isSilent>";
 COMMAND.flags = bit.bor(CMD_DEFAULT, CMD_FALLENOVER);
+
 COMMAND.arguments = 1;
 COMMAND.optionalArguments = 1;
 COMMAND.access = "o";

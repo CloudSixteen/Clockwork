@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("PlyVoiceBan");
+
 COMMAND.tip = "Ban a player from the server.";
 COMMAND.text = "<string Name|SteamID|IPAddress>";
 COMMAND.flags = CMD_DEFAULT;

@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("StaticWhitelistRemove");
+
 COMMAND.tip = "Remove a class of entity from the static whitelist.";
 COMMAND.text = "<string Class>";
 COMMAND.access = "a";

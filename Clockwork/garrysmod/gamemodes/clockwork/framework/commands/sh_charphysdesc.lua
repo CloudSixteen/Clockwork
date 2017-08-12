@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("CharPhysDesc");
+
 COMMAND.tip = "Change your character's physical description.";
 COMMAND.text = "[string Text]";
 COMMAND.flags = CMD_DEFAULT;

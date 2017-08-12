@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("MapSceneAdd");
+
 COMMAND.tip = "Add a map scene at your current position.";
 COMMAND.text = "<bool ShouldSpin>";
 COMMAND.flags = CMD_DEFAULT;

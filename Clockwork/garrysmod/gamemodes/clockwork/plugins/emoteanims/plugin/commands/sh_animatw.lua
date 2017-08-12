@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("AnimATW");
+
 COMMAND.tip = "Make your character put their hands up against the wall.";
 COMMAND.text = "[bool HandsUp]";
 COMMAND.flags = CMD_DEFAULT;

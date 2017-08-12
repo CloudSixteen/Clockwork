@@ -78,3 +78,10 @@ CW_ENGLISH["NoAuthority"] = "You do not have the authority to do this!";
 
 CW_ENGLISH["ErrorGiveNonInstance"] = "Failed to give a player a non-instanced item!";
 CW_ENGLISH["YourInventoryFull"] = "Your inventory is currently too full!";
+
+CW_ENGLISH["PluginNotValid"] = "That plugin is not valid!";
+CW_ENGLISH["PluginCouldNotBeUnloaded"] = "That plugin could not be unloaded!";
+CW_ENGLISH["PluginCouldNotBeLoaded"] = "That plugin could not be loaded!";
+CW_ENGLISH["PluginDependsOnAnother"] = "That plugin depends on another plugin!";
+
+CW_ENGLISH["MapNameIsNotValid"] = "#1 is not a valid map!";

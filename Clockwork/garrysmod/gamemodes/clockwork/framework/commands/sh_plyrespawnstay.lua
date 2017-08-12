@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("PlyRespawnStay");
+
 COMMAND.tip = "Respawn a player at their position of death.";
 COMMAND.text = "<string Target>";
 COMMAND.arguments = 1;

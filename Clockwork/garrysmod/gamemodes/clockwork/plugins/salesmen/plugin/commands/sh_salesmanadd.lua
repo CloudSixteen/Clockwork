@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("SalesmanAdd");
+
 COMMAND.tip = "Add a salesman at your target position.";
 COMMAND.text = "[number Animation]";
 COMMAND.flags = CMD_DEFAULT;

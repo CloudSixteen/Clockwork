@@ -9,9 +9,11 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("Y");
+
 COMMAND.tip = "Yell to characters near you.";
 COMMAND.text = "<string Text>";
 COMMAND.flags = bit.bor(CMD_DEFAULT, CMD_DEATHCODE);
+
 COMMAND.arguments = 1;
 
 -- Called when the command has been run.

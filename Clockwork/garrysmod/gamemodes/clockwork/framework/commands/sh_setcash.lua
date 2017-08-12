@@ -9,6 +9,7 @@
 local NAME_CASH = Clockwork.option:GetKey("name_cash");
 
 local COMMAND = Clockwork.command:New("Set"..string.gsub(NAME_CASH, "%s", ""));
+
 COMMAND.tip = "Set a character's "..string.lower(NAME_CASH)..".";
 COMMAND.text = "<string Name> <number "..string.gsub(NAME_CASH, "%s", "")..">";
 COMMAND.flags = CMD_DEFAULT;

@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("AnimLean");
+
 COMMAND.tip = "Make your character lean back up against a wall.";
 COMMAND.text = "[string ArmsBack|ArmsDown]";
 COMMAND.flags = CMD_DEFAULT;

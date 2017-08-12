@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("CharGetUp");
+
 COMMAND.tip = "Get your character up from the floor.";
 COMMAND.flags = CMD_DEFAULT;
 

@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("TextAdd");
+
 COMMAND.tip = "Add some text to a surface.";
 COMMAND.text = "<markup Text> [number Scale]";
 COMMAND.flags = CMD_DEFAULT;

@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("ContFill");
+
 COMMAND.tip = "Fill a container with random items.";
 COMMAND.text = "<number Density: 1-5> [string Category]";
 COMMAND.flags = CMD_DEFAULT;

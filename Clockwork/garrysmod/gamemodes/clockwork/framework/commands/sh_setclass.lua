@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("SetClass");
+
 COMMAND.tip = "Set the class of your character.";
 COMMAND.text = "<string Class>";
 COMMAND.flags = CMD_HEAVY;

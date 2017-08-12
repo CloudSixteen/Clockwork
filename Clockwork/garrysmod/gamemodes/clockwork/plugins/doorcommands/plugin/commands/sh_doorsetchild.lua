@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("DoorSetChild");
+
 COMMAND.tip = "Add a child to the active parent door.";
 COMMAND.flags = CMD_DEFAULT;
 COMMAND.access = "a";

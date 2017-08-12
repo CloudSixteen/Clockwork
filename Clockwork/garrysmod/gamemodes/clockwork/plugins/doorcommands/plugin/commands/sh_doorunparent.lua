@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("DoorUnparent");
+
 COMMAND.tip = "Unparent the target door.";
 COMMAND.flags = CMD_DEFAULT;
 COMMAND.access = "a";

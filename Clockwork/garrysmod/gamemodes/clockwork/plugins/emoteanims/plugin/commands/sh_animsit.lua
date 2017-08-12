@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("AnimSit");
+
 COMMAND.tip = "Make your character sit on the ground.";
 COMMAND.flags = CMD_DEFAULT;
 

@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("SpawnPointAdd");
+
 COMMAND.tip = "Add a spawn point at your target position.";
 COMMAND.text = "<string Class|Faction|Default> [number Rotate]";
 COMMAND.flags = CMD_DEFAULT;

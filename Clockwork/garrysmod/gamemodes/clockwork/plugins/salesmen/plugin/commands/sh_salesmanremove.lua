@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("SalesmanRemove");
+
 COMMAND.tip = "Remove a salesman at your target position.";
 COMMAND.access = "a";
 

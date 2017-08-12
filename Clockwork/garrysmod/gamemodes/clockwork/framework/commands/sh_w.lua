@@ -9,9 +9,11 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("W");
+
 COMMAND.tip = "Whisper to characters near you.";
 COMMAND.text = "<string Text>";
 COMMAND.flags = bit.bor(CMD_DEFAULT, CMD_DEATHCODE);
+
 COMMAND.arguments = 1;
 
 -- Called when the command has been run.

@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("AnimThreat");
+
 COMMAND.tip = "Put your character into a threatening stance.";
 COMMAND.text = "[bool ArmsCrossed]"
 COMMAND.flags = CMD_DEFAULT;

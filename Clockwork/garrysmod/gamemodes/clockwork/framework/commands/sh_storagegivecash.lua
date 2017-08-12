@@ -9,6 +9,7 @@
 local NAME_CASH = Clockwork.option:GetKey("name_cash");
 
 local COMMAND = Clockwork.command:New("StorageGive"..string.gsub(NAME_CASH, "%s", ""));
+
 COMMAND.tip = "Give some "..string.lower(NAME_CASH).." to storage.";
 COMMAND.text = "<number "..string.gsub(NAME_CASH, "%s", "")..">";
 COMMAND.flags = CMD_DEFAULT;

@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("ItC");
+
 COMMAND.tip = "Describe a close-range local action or event.";
 COMMAND.text = "<string Text>";
 COMMAND.flags = CMD_DEFAULT;

@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("AnimIdle");
+
 COMMAND.tip = "Put your character into an idle stance.";
 COMMAND.text = "[bool ArmsCrossed]";
 COMMAND.flags = CMD_DEFAULT;

@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("AreaAdd");
+
 COMMAND.tip = "Add an area. Classes are 3D, Scrolling or Cinematic. Use %t in the name to show time.";
 COMMAND.text = "<string Name> [number Scale] [bool Expires] [string Class]";
 COMMAND.flags = CMD_DEFAULT;
@@ -32,13 +33,13 @@ function COMMAND:OnRun(player, arguments)
 			player.cwAreaData.doesExpire = true;
 		end;
 		
-		Clockwork.player:Notify(player, "You have added the minimum point. Now add the maximum point.");
+		Clockwork.player:Notify(player, {"AreaDisplayMinimum"});
 		return;
 	elseif (!areaPointData.maximum) then
 		areaPointData.maximum = trace.HitPos;
 		
 		if (areaPointData.class == "3D") then
-			Clockwork.player:Notify(player, "You have added the minimum point. Now point at where the text will show.");
+			Clockwork.player:Notify(player, {"AreaDisplayMaximum"});
 			return;
 		end;
 	end;
@@ -59,7 +60,7 @@ function COMMAND:OnRun(player, arguments)
 	Clockwork.datastream:Start(nil, "AreaAdd", data);
 		cwAreaDisplays.storedList[#cwAreaDisplays.storedList + 1] = data;
 		cwAreaDisplays:SaveAreaDisplays();
-	Clockwork.player:Notify(player, "You have added the '"..data.name.."' area display.");
+	Clockwork.player:Notify(player, {"AreaDisplayAdded", data.name});
 	
 	player.cwAreaData = nil;
 end;

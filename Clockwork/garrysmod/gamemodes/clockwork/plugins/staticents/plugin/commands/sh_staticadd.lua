@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("StaticAdd");
+
 COMMAND.tip = "Add a static entity at your target position.";
 COMMAND.access = "a";
 

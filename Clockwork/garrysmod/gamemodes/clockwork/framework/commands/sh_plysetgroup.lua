@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("PlySetGroup");
+
 COMMAND.tip = "Set a player's user group.";
 COMMAND.text = "<string Name> <string UserGroup>";
 COMMAND.flags = CMD_DEFAULT;

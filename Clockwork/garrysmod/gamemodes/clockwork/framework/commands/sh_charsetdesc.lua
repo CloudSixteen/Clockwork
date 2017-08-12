@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("CharSetDesc");
+
 COMMAND.tip = "Set a character's description permanently.";
 COMMAND.text = "<string Name> <string Description>";
 COMMAND.access = "o";

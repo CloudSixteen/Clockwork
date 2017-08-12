@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("AnimWave");
+
 COMMAND.tip = "Make your character wave at another character.";
 COMMAND.text = "[string Close|Normal]";
 COMMAND.flags = CMD_DEFAULT;

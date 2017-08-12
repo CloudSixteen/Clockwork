@@ -11,6 +11,7 @@ local Clockwork = Clockwork;
 local NAME_CASH = Clockwork.option:GetKey("name_cash");
 
 local COMMAND = Clockwork.command:New("Give"..string.gsub(NAME_CASH, "%s", ""));
+
 COMMAND.tip = "Give "..string.lower(NAME_CASH).." to the target character.";
 COMMAND.text = "<number "..string.gsub(NAME_CASH, "%s", "")..">";
 COMMAND.flags = CMD_DEFAULT;

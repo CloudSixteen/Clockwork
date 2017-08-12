@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("SpawnPointRemove");
+
 COMMAND.tip = "Remove spawn points at your target position.";
 COMMAND.text = "<string Class|Faction|Default>";
 COMMAND.flags = CMD_DEFAULT;

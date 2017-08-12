@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("CharSetModel");
+
 COMMAND.tip = "Set a character's model permanently.";
 COMMAND.text = "<string Name> <string Model>";
 COMMAND.access = "s";

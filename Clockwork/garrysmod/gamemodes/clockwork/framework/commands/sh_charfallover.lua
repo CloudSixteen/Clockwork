@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("CharFallOver");
+
 COMMAND.tip = "Make your character fall to the floor.";
 COMMAND.text = "[number Seconds]";
 COMMAND.flags = CMD_DEFAULT;

@@ -9,6 +9,7 @@
 local NAME_CASH = Clockwork.option:GetKey("name_cash");
 
 local COMMAND = Clockwork.command:New("Drop"..string.gsub(NAME_CASH, "%s", ""));
+
 COMMAND.tip = "Drop "..string.lower(NAME_CASH).." at your target position.";
 COMMAND.text = "<number "..string.gsub(NAME_CASH, "%s", "")..">";
 COMMAND.flags = CMD_DEFAULT;

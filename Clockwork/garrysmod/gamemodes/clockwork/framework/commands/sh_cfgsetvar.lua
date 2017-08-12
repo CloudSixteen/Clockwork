@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("CfgSetVar");
+
 COMMAND.tip = "Set a Clockwork config variable.";
 COMMAND.text = "<string Key> [all Value] [string Map]";
 COMMAND.access = "s";

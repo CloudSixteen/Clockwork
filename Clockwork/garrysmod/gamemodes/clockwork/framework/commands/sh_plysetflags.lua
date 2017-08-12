@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("PlySetFlags");
+
 COMMAND.tip = "Set a player's flags.";
 COMMAND.text = "<string Name> <string Flag(s)>";
 COMMAND.access = "s";

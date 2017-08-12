@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("StaticAreaRemove");
+
 COMMAND.tip = "Remove static ents in a certain radius around yourself.";
 COMMAND.text = "<number Radius> [bool PropsOnly]";
 COMMAND.access = "a";

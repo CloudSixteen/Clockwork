@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("DoorSetHidden");
+
 COMMAND.tip = "Set whether a door is hidden.";
 COMMAND.text = "<bool IsHidden>";
 COMMAND.flags = CMD_DEFAULT;

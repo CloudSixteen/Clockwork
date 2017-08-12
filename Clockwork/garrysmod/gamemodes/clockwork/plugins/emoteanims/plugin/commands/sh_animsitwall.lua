@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("AnimSitWall");
+
 COMMAND.tip = "Make your character sit back up against a wall.";
 COMMAND.flags = CMD_DEFAULT;
 

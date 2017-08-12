@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("TextRemove");
+
 COMMAND.tip = "Remove some text from a surface.";
 COMMAND.flags = CMD_DEFAULT;
 COMMAND.access = "a";

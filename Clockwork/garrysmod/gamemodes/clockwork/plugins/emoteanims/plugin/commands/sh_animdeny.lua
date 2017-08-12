@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("AnimDeny");
+
 COMMAND.tip = "Make your character stick his hand out to deny access.";
 COMMAND.flags = CMD_DEFAULT;
 

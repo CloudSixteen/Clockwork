@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("StaticRemove");
+
 COMMAND.tip = "Remove static entities at your target position.";
 COMMAND.access = "a";
 

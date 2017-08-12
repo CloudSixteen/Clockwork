@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("A");
+
 COMMAND.tip = "Send a private message to all staff.";
 COMMAND.text = "<string Msg>";
 COMMAND.access = "o";

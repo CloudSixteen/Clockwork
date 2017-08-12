@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("ContSetName");
+
 COMMAND.tip = "Set a container's name.";
 COMMAND.text = "[string Name]";
 COMMAND.flags = CMD_DEFAULT;

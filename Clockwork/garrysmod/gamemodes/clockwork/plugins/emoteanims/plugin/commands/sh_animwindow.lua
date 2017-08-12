@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("AnimWindow");
+
 COMMAND.tip = "Make your character look out of a window.";
 COMMAND.flags = CMD_DEFAULT;
 

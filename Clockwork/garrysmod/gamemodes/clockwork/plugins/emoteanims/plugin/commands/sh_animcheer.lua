@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("AnimCheer");
+
 COMMAND.tip = "Make your character cheer in happiness.";
 COMMAND.flags = CMD_DEFAULT;
 

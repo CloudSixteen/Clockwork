@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("AreaRemove");
+
 COMMAND.tip = "Remove an area by looking near it.";
 COMMAND.text = "<string Name>";
 COMMAND.flags = CMD_DEFAULT;
@@ -33,13 +34,9 @@ function COMMAND:OnRun(player, arguments)
 	end;
 	
 	if (removed > 0) then
-		if (removed == 1) then
-			Clockwork.player:Notify(player, "You have removed "..removed.." area display.");
-		else
-			Clockwork.player:Notify(player, "You have removed "..removed.." area displays.");
-		end;
+		Clockwork.player:Notify(player, {"AreaDisplayRemoved", removed});
 	else
-		Clockwork.player:Notify(player, "There were no area displays found with that name.");
+		Clockwork.player:Notify(player, {"AreaDisplayNoneNearPosition"});
 	end;
 	
 	cwAreaDisplays:SaveAreaDisplays();

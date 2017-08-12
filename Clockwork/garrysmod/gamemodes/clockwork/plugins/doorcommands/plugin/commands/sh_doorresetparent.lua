@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("DoorResetParent");
+
 COMMAND.tip = "Reset the player's active parent door.";
 COMMAND.flags = CMD_DEFAULT;
 COMMAND.access = "a";

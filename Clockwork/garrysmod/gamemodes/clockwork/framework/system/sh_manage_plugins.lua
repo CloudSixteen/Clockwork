@@ -184,7 +184,7 @@ else
 		local plugin = Clockwork.plugin:FindByID(data[1]);
 		
 		if (not plugin) then
-			Clockwork.player:Notify(player, "This plugin is not valid!");
+			Clockwork.player:Notify(player, {"PluginNotValid"});
 			return;
 		end;
 		
@@ -212,12 +212,12 @@ else
 					Clockwork.datastream:Start(recipients, "SystemPluginSet", { plugin.name, data[2] });
 				end;
 			elseif (data[2]) then
-				Clockwork.player:Notify(player, "This plugin could not be unloaded!");
+				Clockwork.player:Notify(player, {"PluginCouldNotBeUnloaded"});
 			else
-				Clockwork.player:Notify(player, "This plugin could not be loaded!");
+				Clockwork.player:Notify(player, {"PluginCouldNotBeLoaded"});
 			end;
 		else
-			Clockwork.player:Notify(player, "This plugin depends on another plugin!");
+			Clockwork.player:Notify(player, {"PluginDependsOnAnother"});
 		end;
 	end);
 end;

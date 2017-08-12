@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("CharTie");
+
 COMMAND.tip = "Tie/Untie a player.";
 COMMAND.text = "<string Name>";
 COMMAND.access = "a";

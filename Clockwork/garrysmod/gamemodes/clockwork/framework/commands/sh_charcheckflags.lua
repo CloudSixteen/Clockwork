@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("CharCheckFlags");
+
 COMMAND.tip = "Checks a character's flags.";
 COMMAND.text = "<string Name>";
 COMMAND.access = "s";

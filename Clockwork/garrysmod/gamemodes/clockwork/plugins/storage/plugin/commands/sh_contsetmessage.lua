@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("ContSetMessage");
+
 COMMAND.tip = "Set a container's message.";
 COMMAND.text = "<string Message>";
 COMMAND.flags = CMD_DEFAULT;

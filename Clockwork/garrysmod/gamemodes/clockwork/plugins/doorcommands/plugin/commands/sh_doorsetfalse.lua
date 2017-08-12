@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("DoorSetFalse");
+
 COMMAND.tip = "Set whether a door is false.";
 COMMAND.text = "<bool IsFalse>";
 COMMAND.flags = CMD_DEFAULT;

@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("Event");
+
 COMMAND.tip = "Send an event to all characters.";
 COMMAND.text = "<string Text>";
 COMMAND.flags = CMD_DEFAULT;

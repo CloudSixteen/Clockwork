@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("PlySearch");
+
 COMMAND.tip = "Search a players inventory.";
 COMMAND.text = "<string Name>";
 COMMAND.access = "s";

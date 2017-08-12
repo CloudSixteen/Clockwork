@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("ContSetPassword");
+
 COMMAND.tip = "Set a container's password.";
 COMMAND.text = "<string Pass>";
 COMMAND.flags = CMD_DEFAULT;

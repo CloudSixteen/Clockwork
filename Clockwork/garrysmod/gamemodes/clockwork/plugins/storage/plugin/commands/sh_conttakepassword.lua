@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("ContTakePassword");
+
 COMMAND.tip = "Take a container's password.";
 COMMAND.flags = CMD_DEFAULT;
 COMMAND.access = "a";

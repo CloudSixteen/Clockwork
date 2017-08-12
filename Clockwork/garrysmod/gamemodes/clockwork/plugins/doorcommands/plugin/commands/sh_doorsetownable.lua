@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("DoorSetOwnable");
+
 COMMAND.tip = "Set an ownable door.";
 COMMAND.text = "<string Name>";
 COMMAND.flags = CMD_DEFAULT;

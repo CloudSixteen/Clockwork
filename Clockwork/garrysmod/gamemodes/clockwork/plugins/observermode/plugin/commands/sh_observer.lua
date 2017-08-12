@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("Observer");
+
 COMMAND.tip = "Enter or exit observer mode.";
 COMMAND.flags = CMD_DEFAULT;
 COMMAND.access = "o";

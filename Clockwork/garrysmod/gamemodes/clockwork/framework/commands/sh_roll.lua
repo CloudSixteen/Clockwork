@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("Roll");
+
 COMMAND.tip = "Roll a number between 0 and the specified number.";
 COMMAND.text = "[number Range]";
 

@@ -7,6 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("ContTakeName");
+
 COMMAND.tip = "Take a container's name.";
 COMMAND.flags = CMD_DEFAULT;
 COMMAND.access = "a";
