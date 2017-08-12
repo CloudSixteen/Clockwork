@@ -34,13 +34,14 @@ function COMMAND:OnRun(player, arguments)
 				end;
 			else
 				local amount = cash - player:GetCash();
-				Clockwork.player:Notify(player, "You need another "..Clockwork.kernel:FormatCash(amount, nil, true).."!");
+				
+				player:NotifyMissingCash(amount);
 			end;
 		else
-			Clockwork.player:Notify(player, "You cannot drop "..string.lower(NAME_CASH).." that far away!");
+			Clockwork.player:Notify(player, {"CannotDropNameFar", string.lower(NAME_CASH)});
 		end;
 	else
-		Clockwork.player:Notify(player, "This is not a valid amount!");
+		Clockwork.player:Notify(player, {"NotValidAmount"});
 	end;
 end;
 

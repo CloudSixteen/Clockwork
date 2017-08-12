@@ -25,7 +25,7 @@ function COMMAND:OnRun(player, arguments)
 		local name = target:Name();
 		
 		if (!Clockwork.faction.stored[faction]) then
-			Clockwork.player:Notify(player, faction.." is not a valid faction!");
+			Clockwork.player:Notify(player, {"FactionIsNotValid", faction});
 			return;
 		end;
 		
@@ -33,17 +33,17 @@ function COMMAND:OnRun(player, arguments)
 			local targetFaction = target:GetFaction();
 			
 			if (targetFaction == faction) then
-				Clockwork.player:Notify(player, target:Name().." is already the "..faction.." faction!");
+				Clockwork.player:Notify(player, {"PlayerAlreadyIsFaction", target:Name(), faction});
 				return;
 			end;
 			
 			if (!Clockwork.faction:IsGenderValid(faction, target:GetGender())) then
-				Clockwork.player:Notify(player, target:Name().." is not the correct gender for the "..faction.." faction!");
+				Clockwork.player:Notify(player, {"PlayerNotCorrectGenderForFaction", target:Name(), faction});
 				return;
 			end;
 			
 			if (!Clockwork.faction.stored[faction].OnTransferred) then
-				Clockwork.player:Notify(player, target:Name().." cannot be transferred to the "..faction.." faction!");
+				Clockwork.player:Notify(player, {"PlayerCannotTransferToFaction", target:Name(), faction});
 				return;
 			end;
 			
@@ -55,10 +55,10 @@ function COMMAND:OnRun(player, arguments)
 				Clockwork.player:LoadCharacter(target, Clockwork.player:GetCharacterID(target));
 				Clockwork.player:NotifyAll(player:Name().." has transferred "..name.." to the "..faction.." faction.");
 			else
-				Clockwork.player:Notify(player, fault or target:Name().." could not be transferred to the "..faction.." faction!");
+				Clockwork.player:Notify(player, fault or {"PlayerCouldNotBeTransferred", target:Name(), faction});
 			end;
 		else
-			Clockwork.player:Notify(player, target:Name().." is not on the "..faction.." whitelist!");
+			Clockwork.player:Notify(player, {"PlayerNotOnFactionWhitelist", target:Name(), faction});
 		end;
 	else
 		Clockwork.player:Notify(player, {"NotValidPlayer", arguments[1]});

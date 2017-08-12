@@ -24,7 +24,7 @@ function COMMAND:OnRun(player, arguments)
 		if (target:GetData("VoiceBan")) then
 			target:SetData("VoiceBan", false);
 		else
-			Clockwork.player:Notify(player, target:Name().." is not banned from using voice!");
+			Clockwork.player:Notify(player, {"PlayerNotBannedFromVoice", target:Name()});
 		end;
 	end;
 end;

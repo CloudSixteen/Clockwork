@@ -29,10 +29,10 @@ function COMMAND:OnRun(player, arguments)
 					target:SetClockworkUserGroup("user");
 				Clockwork.player:LightSpawn(target, true, true);
 			else
-				Clockwork.player:Notify(player, "This player is only a user and cannot be demoted!");
+				Clockwork.player:Notify(player, {"PlayerIsOnlyAUser"});
 			end;
 		else
-			Clockwork.player:Notify(player, target:Name().." is protected!");
+			Clockwork.player:Notify(player, {"PlayerHasProtectionStatus", target:Name()});
 		end;
 	else
 		Clockwork.player:Notify(player, {"NotValidPlayer", arguments[1]});

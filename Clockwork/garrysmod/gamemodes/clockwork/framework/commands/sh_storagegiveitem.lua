@@ -25,18 +25,18 @@ function COMMAND:OnRun(player, arguments)
 		local itemTable = player:FindItemByID(uniqueID, itemID);
 		
 		if (!itemTable) then
-			Clockwork.player:Notify(player, "You do not have an instance of this item!");
+			Clockwork.player:Notify(player, {"YouHaveNoInstanceOfThisItem"});
 			return;
 		end;
 		
 		if (storageTable.isOneSided) then
-			Clockwork.player:Notify(player, "You cannot give items to this container!");
+			Clockwork.player:Notify(player, {"YouCannotGiveItemsToThisContainer"});
 			return;
 		end;
 		
 		Clockwork.storage:GiveTo(player, itemTable);
 	else
-		Clockwork.player:Notify(player, "You do not have storage open!");
+		Clockwork.player:Notify(player, {"YouHaveNoStorageOpen"});
 	end;
 end;
 

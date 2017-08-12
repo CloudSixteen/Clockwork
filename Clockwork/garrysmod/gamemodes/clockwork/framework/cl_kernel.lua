@@ -537,9 +537,9 @@ function Clockwork:CanProperty(player, property, entity)
 		return false;
 	end;
 	
-	local bIsAdmin = cwPly:IsAdmin(player);
+	local isAdmin = cwPly:IsAdmin(player);
 	
-	if (!player:Alive() or player:IsRagdolled() or !bIsAdmin) then
+	if (!player:Alive() or player:IsRagdolled() or !isAdmin) then
 		return false;
 	end;
 	
@@ -558,9 +558,9 @@ function Clockwork:CanDrive(player, entity)
 		return false;
 	end;
 	
-	local bIsAdmin = cwPly:IsAdmin(player);
+	local isAdmin = cwPly:IsAdmin(player);
 	
-	if (!player:Alive() or player:IsRagdolled() or !bIsAdmin) then
+	if (!player:Alive() or player:IsRagdolled() or !isAdmin) then
 		return false;
 	end;
 

@@ -24,7 +24,7 @@ function COMMAND:OnRun(player, arguments)
 			local forcedAnimation = player:GetForcedAnimation();
 			
 			if (forcedAnimation and cwEmoteAnims.stanceList[forcedAnimation.animation]) then
-				Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
+				Clockwork.player:Notify(player, {"CannotActionRightNow"});
 			else
 				if (modelClass == "femaleHuman" or math.random(1, 2) == 1) then
 					player:SetForcedAnimation("cheer1", 2);

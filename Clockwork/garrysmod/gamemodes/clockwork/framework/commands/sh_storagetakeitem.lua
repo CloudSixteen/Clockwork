@@ -27,13 +27,13 @@ function COMMAND:OnRun(player, arguments)
 		);
 		
 		if (!itemTable) then
-			Clockwork.player:Notify(player, "The storage does not contain an instance of this item!");
+			Clockwork.player:Notify(player, {"StorageHasNoInstance"});
 			return;
 		end;
 		
 		Clockwork.storage:TakeFrom(player, itemTable);
 	else
-		Clockwork.player:Notify(player, "You do not have storage open!");
+		Clockwork.player:Notify(player, {"YouHaveNoStorageOpen"});
 	end;
 end;
 

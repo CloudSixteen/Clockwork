@@ -22,7 +22,7 @@ function COMMAND:OnRun(player, arguments)
 	local text = table.concat(arguments, " ");
 	
 	if (text == "") then
-		Clockwork.player:Notify(player, L(player, "NotEnoughText"));
+		Clockwork.player:Notify(player, {"NotEnoughText"});
 		
 		return;
 	end;

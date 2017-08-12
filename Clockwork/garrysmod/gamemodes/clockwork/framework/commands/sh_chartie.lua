@@ -10,7 +10,7 @@ local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("CharTie");
 
-COMMAND.tip = "Tie/Untie a player.";
+COMMAND.tip = "Tie/Untie a character.";
 COMMAND.text = "<string Name>";
 COMMAND.access = "a";
 COMMAND.arguments = 1;
@@ -21,19 +21,21 @@ function COMMAND:OnRun(player, arguments)
 	local target = Clockwork.player:FindByID(arguments[1]);
 
 	if (!Clockwork.command:FindByID("InvZipTie")) then
-		player:Notify("This schema doesn't support tying.");
+		player:Notify({"TieCommandNotFound"});
 		return;
 	end;
 
 	if (target) then
 		if (target:GetSharedVar("tied") != 0) then
 			Schema:TiePlayer(target, false);
-			player:Notify("You untied "..target:GetName()..".");
-			target:Notify("You were untied by "..player:GetName()..".");
+			
+			player:Notify({"YouHaveUntiedPlayer"});
+			target:Notify({"YouWereUntiedByPlayer"});
 		else
 			Schema:TiePlayer(target, true);
-			player:Notify("You tied "..target:GetName()..".");
-			target:Notify("You were tied by "..player:GetName()..".");
+			
+			player:Notify({"YouHaveTiedPlayer"});
+			target:Notify({"YouWereTiedByPlayer"});
 		end
 	else
 		player:Notify({"NotValidPlayer", arguments[1]});

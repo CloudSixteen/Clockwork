@@ -48,11 +48,11 @@ function COMMAND:OnRun(player, arguments)
 					Clockwork.item:Drop(player, itemTable);
 				end;
 			else
-				Clockwork.player:Notify(player, "You cannot drop the item that far away!");
+				Clockwork.player:Notify(player, {"CannotDropItemFar"});
 			end;
 		elseif (itemAction == "use") then
 			if (player:InVehicle() and itemTable("useInVehicle") == false) then
-				Clockwork.player:Notify(player, "You cannot use this item in a vehicle!");
+				Clockwork.player:Notify(player, {"CannotUseItemInVehicle"});
 				
 				return;
 			end;
@@ -64,7 +64,7 @@ function COMMAND:OnRun(player, arguments)
 			Clockwork.plugin:Call("PlayerUseUnknownItemFunction", player, itemTable, itemAction);
 		end;
 	else
-		Clockwork.player:Notify(player, "You do not own this item!");
+		Clockwork.player:Notify(player, {"YouHaveNoInstanceOfThisItem"});
 	end;
 end;
 

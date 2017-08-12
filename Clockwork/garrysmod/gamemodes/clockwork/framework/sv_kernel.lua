@@ -68,12 +68,10 @@ local cwVoice = Clockwork.voice;
 local cwChatbox = Clockwork.chatBox;
 
 --[[ Downloads the content addon for clients. --]]
-resource.AddWorkshop("474315121")
+resource.AddWorkshop("474315121");
 
 --[[ Do this internally, because it's one less step for schemas. --]]
-AddCSLuaFile(
-	cwKernel:GetSchemaGamemodePath().."/cl_init.lua"
-);
+AddCSLuaFile(cwKernel:GetSchemaGamemodePath().."/cl_init.lua");
 
 --[[
 	Derive from Sandbox, because we want the spawn menu and such!
@@ -2041,7 +2039,7 @@ end;
 function Clockwork:PlayerCanHolsterWeapon(player, itemTable, weapon, bForce, bNoMsg)
 	if (cwPly:GetSpawnWeapon(player, itemTable("weaponClass"))) then
 		if (!bNoMsg) then
-			cwPly:Notify(player, L(player, "CannotHolsterWeapon"));
+			cwPly:Notify(player, {"CannotHolsterWeapon"});
 		end;
 		
 		return false;
@@ -2056,7 +2054,7 @@ end;
 function Clockwork:PlayerCanDropWeapon(player, itemTable, weapon, bNoMsg)
 	if (cwPly:GetSpawnWeapon(player, itemTable("weaponClass"))) then
 		if (!bNoMsg) then
-			cwPly:Notify(player, L(player, "CannotDropWeapon"));
+			cwPly:Notify(player, {"CannotDropWeapon"});
 		end;
 		
 		return false;
@@ -2071,7 +2069,7 @@ end;
 function Clockwork:PlayerCanUseItem(player, itemTable, bNoMsg)
 	if (cwItem:IsWeapon(itemTable) and cwPly:GetSpawnWeapon(player, itemTable("weaponClass"))) then
 		if (!bNoMsg) then
-			cwPly:Notify(player, L(player, "CannotUseWeapon"));
+			cwPly:Notify(player, {"CannotUseWeapon"});
 		end;
 		
 		return false;
@@ -2311,9 +2309,7 @@ function Clockwork:PlayerCanChangeClass(player, class)
 	local curTime = CurTime();
 	
 	if (player.cwNextChangeClass and curTime < player.cwNextChangeClass) then
-		cwPly:Notify(player, L(player, "CannotChangeClassFor",
-			math.ceil(player.cwNextChangeClass - curTime))
-		);
+		cwPly:Notify(player, {"CannotChangeClassFor", math.ceil(player.cwNextChangeClass - curTime)});
 		
 		return false;
 	else
@@ -2348,7 +2344,7 @@ function Clockwork:ClockworkInitPostEntity() end;
 -- Called when a player attempts to say something in-character.
 function Clockwork:PlayerCanSayIC(player, text)
 	if ((!player:Alive() or player:IsRagdolled(RAGDOLL_FALLENOVER)) and !cwPly:GetDeathCode(player, true)) then
-		cwPly:Notify(player, L(player, "CannotActionRightNow"));
+		cwPly:Notify(player, {"CannotActionRightNow"});
 		
 		return false;
 	else
@@ -2416,9 +2412,9 @@ end;
 
 -- Called when a player attempts to unfreeze an entity.
 function Clockwork:CanPlayerUnfreeze(player, entity, physicsObject)
-	local bIsAdmin = cwPly:IsAdmin(player);
+	local isAdmin = cwPly:IsAdmin(player);
 	
-	if (cwConfig:Get("enable_prop_protection"):Get() and !bIsAdmin) then
+	if (cwConfig:Get("enable_prop_protection"):Get() and !isAdmin) then
 		local ownerKey = entity:GetOwnerKey();
 		
 		if (ownerKey and player:GetCharacterKey() != ownerKey) then
@@ -2426,7 +2422,7 @@ function Clockwork:CanPlayerUnfreeze(player, entity, physicsObject)
 		end;
 	end;
 	
-	if (!bIsAdmin and !cwEntity:IsInteractable(entity)) then
+	if (!isAdmin and !cwEntity:IsInteractable(entity)) then
 		return false;
 	end;
 	
@@ -2441,9 +2437,9 @@ end;
 
 -- Called when a player attempts to freeze an entity with the physics gun.
 function Clockwork:OnPhysgunFreeze(weapon, physicsObject, entity, player)
-	local bIsAdmin = cwPly:IsAdmin(player);
+	local isAdmin = cwPly:IsAdmin(player);
 	
-	if (cwConfig:Get("enable_prop_protection"):Get() and !bIsAdmin) then
+	if (cwConfig:Get("enable_prop_protection"):Get() and !isAdmin) then
 		local ownerKey = entity:GetOwnerKey();
 		
 		if (ownerKey and player:GetCharacterKey() != ownerKey) then
@@ -2451,7 +2447,7 @@ function Clockwork:OnPhysgunFreeze(weapon, physicsObject, entity, player)
 		end;
 	end;
 	
-	if (!bIsAdmin and cwEntity:IsChairEntity(entity)) then
+	if (!isAdmin and cwEntity:IsChairEntity(entity)) then
 		local entities = ents.FindInSphere(entity:GetPos(), 64);
 		
 		for k, v in pairs(entities) do
@@ -2465,11 +2461,11 @@ function Clockwork:OnPhysgunFreeze(weapon, physicsObject, entity, player)
 		return false;
 	end;
 	
-	if (!bIsAdmin and entity.PhysgunDisabled) then
+	if (!isAdmin and entity.PhysgunDisabled) then
 		return false;
 	end;
 	
-	if (!bIsAdmin and !cwEntity:IsInteractable(entity)) then
+	if (!isAdmin and !cwEntity:IsInteractable(entity)) then
 		return false;
 	else
 		return self.BaseClass:OnPhysgunFreeze(weapon, physicsObject, entity, player);
@@ -2479,7 +2475,7 @@ end;
 -- Called when a player attempts to pickup an entity with the physics gun.
 function Clockwork:PhysgunPickup(player, entity)
 	local bCanPickup = nil;
-	local bIsAdmin = cwPly:IsAdmin(player);
+	local isAdmin = cwPly:IsAdmin(player);
 
 	if (!cwConfig:Get("enable_map_props_physgrab"):Get()) then
 		if (cwEntity:IsMapEntity(entity)) then
@@ -2487,15 +2483,15 @@ function Clockwork:PhysgunPickup(player, entity)
 		end;
 	end;
 	
-	if (!bIsAdmin and !cwEntity:IsInteractable(entity)) then
+	if (!isAdmin and !cwEntity:IsInteractable(entity)) then
 		return false;
 	end;
 	
-	if (!bIsAdmin and cwEntity:IsPlayerRagdoll(entity)) then
+	if (!isAdmin and cwEntity:IsPlayerRagdoll(entity)) then
 		return false;
 	end;
 	
-	if (!bIsAdmin and entity:GetClass() == "prop_ragdoll") then
+	if (!isAdmin and entity:GetClass() == "prop_ragdoll") then
 		local ownerKey = entity:GetOwnerKey();
 		
 		if (ownerKey and player:GetCharacterKey() != ownerKey) then
@@ -2503,13 +2499,13 @@ function Clockwork:PhysgunPickup(player, entity)
 		end;
 	end;
 	
-	if (!bIsAdmin) then
+	if (!isAdmin) then
 		bCanPickup = self.BaseClass:PhysgunPickup(player, entity);
 	else
 		bCanPickup = true;
 	end;
 	
-	if (cwEntity:IsChairEntity(entity) and !bIsAdmin) then
+	if (cwEntity:IsChairEntity(entity) and !isAdmin) then
 		local entities = ents.FindInSphere(entity:GetPos(), 256);
 		
 		for k, v in pairs(entities) do
@@ -2519,7 +2515,7 @@ function Clockwork:PhysgunPickup(player, entity)
 		end;
 	end;
 	
-	if (cwConfig:Get("enable_prop_protection"):Get() and !bIsAdmin) then
+	if (cwConfig:Get("enable_prop_protection"):Get() and !isAdmin) then
 		local ownerKey = entity:GetOwnerKey();
 		
 		if (ownerKey and player:GetCharacterKey() != ownerKey) then
@@ -2580,7 +2576,7 @@ function Clockwork:PlayerSpawnNPC(player, model)
 	end;
 	
 	if (!player:Alive() or player:IsRagdolled()) then
-		cwPly:Notify(player, L(player, "CannotActionRightNow"));
+		cwPly:Notify(player, {"CannotActionRightNow"});
 		
 		return false;
 	end;
@@ -2647,7 +2643,7 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 	
 	if (class == "cw_item" and (arguments == "cwItemTake" or arguments == "cwItemUse")) then
 		if (cwEntity:BelongsToAnotherCharacter(player, entity)) then
-			cwPly:Notify(player, L(player, "DroppedItemsOtherChar"));
+			cwPly:Notify(player, {"DroppedItemsOtherChar"});
 			return;
 		end;
 		
@@ -2795,7 +2791,7 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 		});
 	elseif (class == "cw_cash" and arguments == "cwCashTake") then
 		if (cwEntity:BelongsToAnotherCharacter(player, entity)) then
-			cwPly:Notify(player, L(player, "DroppedCashOtherChar", cwOption:GetKey("name_cash", true)));
+			cwPly:Notify(player, {"DroppedCashOtherChar", cwOption:GetKey("name_cash", true)});
 			return;
 		end;
 		
@@ -2835,10 +2831,13 @@ function Clockwork:PlayerSpawnedProp(player, model, entity)
 			
 			if (cwPly:CanAfford(player, info.cost)) then
 				cwPly:GiveCash(player, -info.cost, info.name);
+				
 				entity.cwGiveRefundTab = {CurTime() + 10, player, info.cost};
 			else
-				cwPly:Notify(player, L(player, "YouNeedAnother", cwKernel:FormatCash(info.cost - player:GetCash(), nil, true)));
+				player:NotifyMissingCash(info.cost - player:GetCash());
+				
 				entity:Remove();
+				
 				return;
 			end;
 		end;
@@ -2865,7 +2864,7 @@ function Clockwork:PlayerSpawnProp(player, model)
 	end;
 	
 	if (!player:Alive() or player:IsRagdolled()) then
-		cwPly:Notify(player, L(player, "CannotActionRightNow"));
+		cwPly:Notify(player, {"CannotActionRightNow"});
 		return false;
 	end;
 	
@@ -2881,7 +2880,7 @@ function Clockwork:PlayerSpawnRagdoll(player, model)
 	if (!cwPly:HasFlags(player, "r")) then return false; end;
 	
 	if (!player:Alive() or player:IsRagdolled()) then
-		cwPly:Notify(player, L(player, "CannotActionRightNow"));
+		cwPly:Notify(player, {"CannotActionRightNow"});
 		
 		return false;
 	end;
@@ -2896,7 +2895,7 @@ end;
 -- Called when a player attempts to spawn an effect.
 function Clockwork:PlayerSpawnEffect(player, model)
 	if (!player:Alive() or player:IsRagdolled()) then
-		cwPly:Notify(player, L(player, "CannotActionRightNow"));
+		cwPly:Notify(player, {"CannotActionRightNow"});
 		
 		return false;
 	end;
@@ -2919,7 +2918,7 @@ function Clockwork:PlayerSpawnVehicle(player, model)
 	end;
 	
 	if (!player:Alive() or player:IsRagdolled()) then
-		cwPly:Notify(player, L(player, "CannotActionRightNow"));
+		cwPly:Notify(player, {"CannotActionRightNow"});
 		
 		return false;
 	end;
@@ -2933,21 +2932,21 @@ end;
 
 -- Called when a player attempts to use a tool.
 function Clockwork:CanTool(player, trace, tool)
-	local bIsAdmin = cwPly:IsAdmin(player);
+	local isAdmin = cwPly:IsAdmin(player);
 	
 	if (IsValid(trace.Entity)) then
 		local bPropProtectionEnabled = cwConfig:Get("enable_prop_protection"):Get();
 		local characterKey = player:GetCharacterKey();
 		
-		if (!bIsAdmin and !cwEntity:IsInteractable(trace.Entity)) then
+		if (!isAdmin and !cwEntity:IsInteractable(trace.Entity)) then
 			return false;
 		end;
 		
-		if (!bIsAdmin and cwEntity:IsPlayerRagdoll(trace.Entity)) then
+		if (!isAdmin and cwEntity:IsPlayerRagdoll(trace.Entity)) then
 			return false;
 		end;
 		
-		if (bPropProtectionEnabled and !bIsAdmin) then
+		if (bPropProtectionEnabled and !isAdmin) then
 			local ownerKey = trace.Entity:GetOwnerKey();
 			
 			if (ownerKey and characterKey != ownerKey) then
@@ -2955,7 +2954,7 @@ function Clockwork:CanTool(player, trace, tool)
 			end;
 		end;
 		
-		if (!bIsAdmin) then
+		if (!isAdmin) then
 			if (tool == "nail") then
 				local newTrace = {};
 				
@@ -3002,7 +3001,7 @@ function Clockwork:CanTool(player, trace, tool)
 		end;
 	end;
 	
-	if (!bIsAdmin) then
+	if (!isAdmin) then
 		if (tool == "dynamite" or tool == "duplicator") then
 			return false;
 		end;
@@ -3015,9 +3014,9 @@ end;
 
 -- Called when a player attempts to use the property menu.
 function Clockwork:CanProperty(player, property, entity)
-	local bIsAdmin = cwPly:IsAdmin(player);
+	local isAdmin = cwPly:IsAdmin(player);
 	
-	if (!player:Alive() or player:IsRagdolled() or !bIsAdmin) then
+	if (!player:Alive() or player:IsRagdolled() or !isAdmin) then
 		return false;
 	end;
 	
@@ -3026,9 +3025,9 @@ end;
 
 -- Called when a player attempts to use drive.
 function Clockwork:CanDrive(player, entity)
-	local bIsAdmin = cwPly:IsAdmin(player);
+	local isAdmin = cwPly:IsAdmin(player);
 	
-	if (!player:Alive() or player:IsRagdolled() or !bIsAdmin) then
+	if (!player:Alive() or player:IsRagdolled() or !isAdmin) then
 		return false;
 	end;
 
@@ -4035,7 +4034,7 @@ cwDatastream:Hook("EntityMenuOption", function(player, data)
 
 					player.nextEntityHandle = curTime + cwConfig:Get("entity_handle_time"):Get();
 				else
-					cwPly:Notify(player, L(player, "EntityOptionWaitTime"));
+					cwPly:Notify(player, {"EntityOptionWaitTime"});
 				end;
 			end;
 		end;
@@ -4143,7 +4142,7 @@ cwDatastream:Hook("DoorManagement", function(player, data)
 						local doors = cwPly:GetDoorCount(player);
 						
 						if (doors == cwConfig:Get("max_doors"):Get()) then
-							cwPly:Notify(player, L(player, "CannotPurchaseAnotherDoor"));
+							cwPly:Notify(player, {"CannotPurchaseAnotherDoor"});
 						else
 							local doorCost = cwConfig:Get("door_cost"):Get();
 							
@@ -4162,9 +4161,7 @@ cwDatastream:Hook("DoorManagement", function(player, data)
 							else
 								local amount = doorCost - player:GetCash();
 								
-								cwPly:Notify(player, L(player, "YouNeedAnother",
-									cwKernel:FormatCash(amount, nil, true))
-								);
+								player:NotifyMissingCash(amount);
 							end;
 						end;
 					end;
@@ -4434,6 +4431,11 @@ end;
 -- A function to give a player an item weapon.
 function playerMeta:GiveItemWeapon(itemTable)
 	cwPly:GiveItemWeapon(self, itemTable);
+end;
+
+-- A function to notify a player that they don't have enough cash.
+function playerMeta:NotifyMissingCash(amountMissing)
+	self:Notify({"YouNeedAnother", Clockwork.kernel:FormatCash(amountMissing, nil, true)});
 end;
 
 -- A function to give a weapon to a player.
@@ -5968,7 +5970,7 @@ concommand.Add("cwc", function(player, command, arguments)
 			
 			if (target) then
 				if (string.find(arguments[3], "a") or string.find(arguments[3], "s") or string.find(arguments[3], "o")) then
-					cwPly:Notify(player, "You cannot take 'o', 'a' or 's' flags!");
+					cwPly:Notify(player, {"CannotTakeAdminFlags"});
 					
 					return;
 				end;

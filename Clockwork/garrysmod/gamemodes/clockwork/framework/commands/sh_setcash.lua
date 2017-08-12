@@ -30,10 +30,10 @@ function COMMAND:OnRun(player, arguments)
 			
 			Clockwork.player:GiveCash(target, giveCash);
 			
-			Clockwork.player:Notify(player, "You have set "..targetName.."'s "..cashName.." to "..Clockwork.kernel:FormatCash(cash, nil, true)..".");
-			Clockwork.player:Notify(target, "Your "..cashName.." was set to "..Clockwork.kernel:FormatCash(cash, nil, true).." by "..playerName..".");
+			Clockwork.player:Notify(player, {"YouSetPlayersCash", targetName, cashName,Clockwork.kernel:FormatCash(cash, nil, true)});
+			Clockwork.player:Notify(target, {"YourCashSetBy", cashName, Clockwork.kernel:FormatCash(cash, nil, true), playerName});
 		else
-			Clockwork.player:Notify(player, "This is not a valid amount!");
+			Clockwork.player:Notify(player, {"NotValidAmount"});
 		end;
 	else
 		Clockwork.player:Notify(player, {"NotValidPlayer", arguments[1]});

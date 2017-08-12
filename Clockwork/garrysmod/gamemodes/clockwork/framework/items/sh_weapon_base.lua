@@ -135,7 +135,7 @@ function ITEM:OnPlayerUnequipped(player, extraData)
 					player:SelectWeapon("cw_hands");
 				end;
 			else
-				Clockwork.player:Notify(player, "You cannot drop your weapon that far away!");
+				Clockwork.player:Notify(player, {"CannotDropWeaponFar"});
 			end;
 		end;
 	end;

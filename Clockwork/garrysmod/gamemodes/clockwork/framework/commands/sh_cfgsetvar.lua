@@ -35,7 +35,7 @@ function COMMAND:OnRun(player, arguments)
 			keyPrefix = useMap.."'s ";
 
 			if (!file.Exists("maps/"..useMap..".bsp", "GAME")) then
-				Clockwork.player:Notify(player, L(player, "NotValidMap", useMap));
+				Clockwork.player:Notify(player, {"NotValidMap", useMap});
 				return;
 			end;
 		end;
@@ -58,13 +58,13 @@ function COMMAND:OnRun(player, arguments)
 					Clockwork.player:NotifyAll({"PlayerConfigSet", player:Name(), keyPrefix, key, printValue});
 				end;
 			else
-				Clockwork.player:Notify(player, L(player, "ConfigUnableToSet", key));
+				Clockwork.player:Notify(player, {"ConfigUnableToSet", key});
 			end;
 		else
-			Clockwork.player:Notify(player, L(player, "ConfigIsStaticKey", key));
+			Clockwork.player:Notify(player, {"ConfigIsStaticKey", key});
 		end;
 	else
-		Clockwork.player:Notify(player, L(player, "ConfigKeyNotValid", key));
+		Clockwork.player:Notify(player, {"ConfigKeyNotValid", key});
 	end;
 end;
 

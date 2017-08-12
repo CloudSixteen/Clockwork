@@ -22,9 +22,9 @@ function COMMAND:OnRun(player, arguments)
 
 	if (target) then
 		Clockwork.player:LightSpawn(target, true, true, false);
-		Clockwork.player:Notify(player, target:GetName().." was respawned at their position of death.");
+		Clockwork.player:Notify(player, {"PlayerWasRespawnedToDeath", target:GetName()});
 	else
-		Clockwork.player:Notify(player, arguments[1].." is not a valid target!");
+		Clockwork.player:Notify(player, {"NotValidTarget", arguments[1]});
 	end;
 end;
 

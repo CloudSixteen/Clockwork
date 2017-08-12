@@ -20,7 +20,7 @@ function COMMAND:OnRun(player, arguments)
 	local class = Clockwork.class:FindByID(arguments[1]);
 	
 	if (player:InVehicle()) then
-		Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
+		Clockwork.player:Notify(player, {"CannotActionRightNow"});
 		return;
 	end;
 	
@@ -44,13 +44,13 @@ function COMMAND:OnRun(player, arguments)
 					end;
 				end;
 			else
-				Clockwork.player:Notify(player, "You do not have access to this class!");
+				Clockwork.player:Notify(player, {"YouHaveNoAccessToClass"});
 			end;
 		else
-			Clockwork.player:Notify(player, "There are too many characters with this class!");
+			Clockwork.player:Notify(player, {"TooManyCharactersWithClass"});
 		end;
 	else
-		Clockwork.player:Notify(player, "This is not a valid class!");
+		Clockwork.player:Notify(player, {"ClassNotValid"});
 	end;
 end;
 

@@ -26,7 +26,7 @@ function COMMAND:OnRun(player, arguments)
 
 		Clockwork.player:SetName(target, name);
 	else
-		Clockwork.player:Notify(player, L(player, "NotValidCharacter", arguments[1]));
+		Clockwork.player:Notify(player, {"NotValidCharacter", arguments[1]});
 	end;
 end;
 

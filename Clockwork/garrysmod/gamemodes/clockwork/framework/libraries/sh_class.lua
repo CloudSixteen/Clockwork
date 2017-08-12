@@ -238,7 +238,7 @@ if (SERVER) then
 
 			return true;
 		else
-			return false, "This is not a valid class!";
+			return false, {"ClassNotValid"};
 		end;
 	end;
 end;

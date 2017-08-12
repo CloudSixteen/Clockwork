@@ -22,7 +22,7 @@ function COMMAND:OnRun(player, arguments)
 		local itemTable = Clockwork.item:GetByWeapon(weapon);
 		
 		if (!itemTable) then
-			Clockwork.player:Notify(player, "This is not a valid weapon!");
+			Clockwork.player:Notify(player, {"ThisNotValidWeapon"});
 			return;
 		end;
 		
@@ -40,11 +40,11 @@ function COMMAND:OnRun(player, arguments)
 					Clockwork.plugin:Call("PlayerDropWeapon", player, itemTable, entity, weapon);
 				end;
 			else
-				Clockwork.player:Notify(player, "You cannot drop your weapon that far away!");
+				Clockwork.player:Notify(player, {"CannotDropWeaponFar"});
 			end;
 		end;
 	else
-		Clockwork.player:Notify(player, "This is not a valid weapon!");
+		Clockwork.player:Notify(player, {"ThisNotValidWeapon"});
 	end;
 end;
 

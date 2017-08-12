@@ -25,7 +25,7 @@ function COMMAND:OnRun(player, arguments)
 	if (target) then
 		if (text and text != "") then
 			if (string.utf8len(text) < minimumPhysDesc) then
-				Clockwork.player:Notify(player, "The physical description must be at least "..minimumPhysDesc.." characters long!");
+				Clockwork.player:Notify(player, {"PhysDescMinimumLength", minimumPhysDesc});
 				return;
 			end;
 
@@ -33,14 +33,14 @@ function COMMAND:OnRun(player, arguments)
 			
 			target:SetCharacterData("PhysDesc", physDesc);
 
-			Clockwork.player:Notify(player, target:Name().."'s physical description has been changed to \'"..physDesc.."\'");
+			Clockwork.player:Notify(player, {"PlayersPhysDescChangedTo", target:Name(), physDesc});
 		else
-			Clockwork.dermaRequest:RequestString(player, "Physical Description Change", "What do you want to change the player's physical description to?", target:GetSharedVar("PhysDesc"), function(result)
+			Clockwork.dermaRequest:RequestString(player, {"PhysDescChangeTitle"}, {"PhysDescChangeOtherDesc"}, target:GetSharedVar("PhysDesc"), function(result)
 				player:RunClockworkCmd(self.name, target:Name(), result);
 			end)
 		end;
 	else
-		Clockwork.player:Notify(player, L(player, "NotValidCharacter", arguments[1]));
+		Clockwork.player:Notify(player, {"NotValidCharacter", arguments[1]});
 	end;
 end;
 

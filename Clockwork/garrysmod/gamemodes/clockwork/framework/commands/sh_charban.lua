@@ -27,7 +27,7 @@ function COMMAND:OnRun(player, arguments)
 			
 			target:KillSilent();
 		else
-			Clockwork.player:Notify(player, {"PlayerIsProtected", target:Name()});
+			Clockwork.player:Notify(player, {"PlayerHasProtectionStatus", target:Name()});
 		end;
 	else
 		Clockwork.player:Notify(player, {"NotValidCharacter", arguments[1]});

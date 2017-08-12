@@ -23,13 +23,13 @@ function COMMAND:OnRun(player, arguments)
 		local text = table.concat(arguments, " ");
 		
 		if (string.utf8len(text) < minimumPhysDesc) then
-			Clockwork.player:Notify(player, "The physical description must be at least "..minimumPhysDesc.." characters long!");
+			Clockwork.player:Notify(player, {"PhysDescMinimumLength", minimumPhysDesc});
 			return;
 		end;
 		
 		player:SetCharacterData("PhysDesc", Clockwork.kernel:ModifyPhysDesc(text));
 	else
-		Clockwork.dermaRequest:RequestString(player, "Physical Description Change", "What do you want to change your physical description to?", player:GetSharedVar("PhysDesc"), function(result)
+		Clockwork.dermaRequest:RequestString(player, {"PhysDescChangeTitle"}, {"PhysDescChangeDesc"}, player:GetSharedVar("PhysDesc"), function(result)
 			player:RunClockworkCmd(self.name, result);
 		end)
 	end;

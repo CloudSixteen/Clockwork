@@ -24,9 +24,9 @@ function COMMAND:OnRun(player, arguments)
 	if (target) then
 		Clockwork.player:LightSpawn(target, true, true, true);
 		Clockwork.player:SetSafePosition(target, trace);
-		Clockwork.player:Notify(player, target:GetName().." was respawned and teleported to your target position.");
+		Clockwork.player:Notify(player, {"PlayerWasRespawnedToTarget", target:GetName()});
 	else
-		Clockwork.player:Notify(player, arguments[2].." is not a valid target!");
+		Clockwork.player:Notify(player, {"NotValidTarget", arguments[2]});
 	end;
 end;
 

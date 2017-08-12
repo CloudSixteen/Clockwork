@@ -23,7 +23,7 @@ function COMMAND:OnRun(player, arguments)
 	if (target) then
 		if (string.find(arguments[2], "a") or string.find(arguments[2], "s")
 		or string.find(arguments[2], "o")) then
-			Clockwork.player:Notify(player, "You cannot give 'o', 'a' or 's' flags!");
+			Clockwork.player:Notify(player, {"CannotGiveAdminFlags"});
 			
 			return;
 		end;
@@ -32,7 +32,7 @@ function COMMAND:OnRun(player, arguments)
 		
 		Clockwork.player:NotifyAll(player:Name().." gave "..target:Name().." '"..arguments[2].."' flags.");
 	else
-		Clockwork.player:Notify(player, L(player, "NotValidCharacter", arguments[1]));
+		Clockwork.player:Notify(player, {"NotValidCharacter", arguments[1]});
 	end;
 end;
 

@@ -44,7 +44,7 @@ end;
 -- Called when a player drops the item.
 function ITEM:OnDrop(player, position)
 	if (player:IsWearingAccessory(self)) then
-		Clockwork.player:Notify(player, "You cannot drop this while you are wearing it!");
+		Clockwork.player:Notify(player, {"CannotDropWhileWearing"});
 		return false;
 	end;
 end;
@@ -57,7 +57,7 @@ function ITEM:OnUse(player, itemEntity)
 			return true;
 		end;
 	else
-		Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
+		Clockwork.player:Notify(player, {"CannotActionRightNow"});
 	end;
 	
 	return false;

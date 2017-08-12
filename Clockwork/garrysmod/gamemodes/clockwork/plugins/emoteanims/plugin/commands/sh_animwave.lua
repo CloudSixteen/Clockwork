@@ -27,7 +27,7 @@ function COMMAND:OnRun(player, arguments)
 			local action = string.lower(arguments[1] or "");
 			
 			if (forcedAnimation and cwEmoteAnims.stanceList[forcedAnimation.animation]) then
-				Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
+				Clockwork.player:Notify(player, {"CannotActionRightNow"});
 			else
 				if (action == "close") then
 					player:SetForcedAnimation("wave_close", 2);

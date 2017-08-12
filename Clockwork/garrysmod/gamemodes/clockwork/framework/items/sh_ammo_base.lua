@@ -51,9 +51,7 @@ function ITEM:OnUse(player, itemEntity)
 		end;
 	end;
 	
-	Clockwork.player:Notify(
-		player, "You need to equip a weapon that uses this ammunition!"
-	);
+	Clockwork.player:Notify(player, {"NeedWeaponThatUsesAmmo"});
 	
 	return false;
 end;

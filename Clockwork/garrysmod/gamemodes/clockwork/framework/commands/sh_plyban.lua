@@ -44,20 +44,20 @@ function COMMAND:OnRun(player, arguments)
 							Clockwork.player:NotifyAll(player:Name().." has banned '"..steamName.."' permanently ("..reason..").");
 						end;
 					else
-						Clockwork.player:Notify(player, "This is not a valid identifier!");
+						Clockwork.player:Notify(player, {"IdentifierIsNotValid", steamName});
 					end;
 				end;
 			end);
 		else
-			Clockwork.player:Notify(player, "This is not a valid duration!");
+			Clockwork.player:Notify(player, {"DurationNotValid"});
 		end;
 	else
 		local target = Clockwork.player:FindByID(arguments[1]);
 		
 		if (target) then
-			Clockwork.player:Notify(player, target:Name().." is protected!");
+			Clockwork.player:Notify(player, {"PlayerHasProtectionStatus", target:Name()});
 		else
-			Clockwork.player:Notify(player, "This player is protected!");
+			Clockwork.player:Notify(player, {"PlayerHasProtectionOffline"});
 		end;
 	end;
 end;

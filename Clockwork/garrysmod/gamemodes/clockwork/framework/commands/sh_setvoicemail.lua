@@ -20,10 +20,10 @@ COMMAND.arguments = 1;
 function COMMAND:OnRun(player, arguments)
 	if (arguments[1] == "none") then
 		player:SetCharacterData("Voicemail", nil);
-		Clockwork.player:Notify(player, "You have removed your voicemail.");
+		Clockwork.player:Notify(player, {"YouRemovedVoicemail"});
 	else
 		player:SetCharacterData("Voicemail", arguments[1]);
-		Clockwork.player:Notify(player, "You have set your voicemail to '"..arguments[1].."'.");
+		Clockwork.player:Notify(player, {"YouSetVoicemail", arguments[1]});
 	end;
 end;
 

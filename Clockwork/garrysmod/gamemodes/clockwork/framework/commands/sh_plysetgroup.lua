@@ -23,7 +23,7 @@ function COMMAND:OnRun(player, arguments)
 	
 	if (userGroup != "superadmin" and userGroup != "admin"
 	and userGroup != "operator") then
-		Clockwork.player:Notify(player, "The user group must be superadmin, admin or operator!");
+		Clockwork.player:Notify(player, {"UserGroupMustBeAdminType"});
 		
 		return;
 	end;
@@ -34,7 +34,7 @@ function COMMAND:OnRun(player, arguments)
 				target:SetClockworkUserGroup(userGroup);
 			Clockwork.player:LightSpawn(target, true, true);
 		else
-			Clockwork.player:Notify(player, target:Name().." is protected!");
+			Clockwork.player:Notify(player, {"PlayerHasProtectionStatus", target:Name()});
 		end;
 	else
 		Clockwork.player:Notify(player, {"NotValidPlayer", arguments[1]});

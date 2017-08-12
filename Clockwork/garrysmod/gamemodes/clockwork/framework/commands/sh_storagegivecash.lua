@@ -54,7 +54,7 @@ function COMMAND:OnRun(player, arguments)
 			end;
 		end;
 	else
-		Clockwork.player:Notify(player, "You do not have storage open!");
+		Clockwork.player:Notify(player, {"YouHaveNoStorageOpen"});
 	end;
 end;
 

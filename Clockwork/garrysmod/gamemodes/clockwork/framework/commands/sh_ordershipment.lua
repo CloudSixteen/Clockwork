@@ -28,7 +28,7 @@ function COMMAND:OnRun(player, arguments)
 	Clockwork.plugin:Call("PlayerAdjustOrderItemTable", player, itemTable);
 	
 	if (!Clockwork.kernel:HasObjectAccess(player, itemTable)) then
-		Clockwork.player:Notify(player, "You not have access to order this item!");
+		Clockwork.player:Notify(player, {"NoAccessToOrderItem"});
 		return false;
 	end;
 	
@@ -94,13 +94,14 @@ function COMMAND:OnRun(player, arguments)
 			player.cwNextOrderTime = CurTime() + (2 * itemTable("batch"));
 			Clockwork.datastream:Start(player, "OrderTime", player.cwNextOrderTime);
 		else
-			Clockwork.player:Notify(player, "You cannot order this item that far away!");
+			Clockwork.player:Notify(player, {"CannotOrderThatFarAway"});
 		end;
 	elseif (#itemTable.recipes > 0) then
-		Clockwork.player:Notify(player, "You do not have the required ingredients to craft this recipe!");
+		Clockwork.player:Notify(player, {"RequiredIngredientsMissing"});
 	else
 		local amount = (itemTable("cost") * itemTable("batch")) - player:GetCash();
-		Clockwork.player:Notify(player, "You need another "..Clockwork.kernel:FormatCash(amount, nil, true).."!");
+		
+		player:NotifyMissingCash(amount);
 	end;
 end;
 

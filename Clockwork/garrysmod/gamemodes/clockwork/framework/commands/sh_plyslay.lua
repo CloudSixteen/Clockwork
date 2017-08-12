@@ -25,10 +25,10 @@ function COMMAND:OnRun(player, arguments)
 		target:Kill();
 
 		if (!isSilent) then
-			Clockwork.player:Notify(target:Name().." was slain by "..player:Name()..".");
+			Clockwork.player:NotifyAll({"PlayerSlainBy", target:Name(), player:Name()});
 		end;
 	else
-		Clockwork.player:Notify(player, arguments[1].." is not a valid target!");
+		Clockwork.player:Notify(player, {"NotValidTarget", arguments[1]});
 	end;
 end;
 

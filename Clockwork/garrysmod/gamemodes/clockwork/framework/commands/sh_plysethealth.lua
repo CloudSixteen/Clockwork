@@ -23,8 +23,8 @@ function COMMAND:OnRun(player, arguments)
 
 	if (isnumber(health)) then
 		target:SetHealth(health);
-		Clockwork.player:Notify(player, target:GetName().."'s health set to "..health..".");
-		Clockwork.player:Notify(target, "Your health was set to "..health.." by "..player:GetName()".");
+		Clockwork.player:Notify(player, {"PlayersHealthWasSet", target:GetName(), health});
+		Clockwork.player:Notify(target, {"YourHealthWasSet", health, player:GetName()});
 	end;
 end;
 

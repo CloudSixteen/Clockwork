@@ -31,7 +31,7 @@ function COMMAND:OnRun(player, arguments)
 				target:Kick(reason);
 			target.kicked = true;
 		else
-			Clockwork.player:Notify(player, target:Name().." is protected!");
+			Clockwork.player:Notify(player, {"PlayerHasProtectionStatus", target:Name()});
 		end;
 	else
 		Clockwork.player:Notify(player, {"NotValidPlayer", arguments[1]});

@@ -22,16 +22,16 @@ function COMMAND:OnRun(player, arguments)
 	if (target) then
 		if (string.find(arguments[2], "a") or string.find(arguments[2], "s")
 		or string.find(arguments[2], "o")) then
-			Clockwork.player:Notify(player, "You cannot take 'o', 'a' or 's' flags!");
+			Clockwork.player:Notify(player, {"CannotTakeAdminFlags"});
 			
 			return;
 		end;
 		
 		Clockwork.player:TakePlayerFlags(target, arguments[2]);
 		
-		Clockwork.player:NotifyAll(player:Name().." took '"..arguments[2].."' flags from "..target:SteamName()..".");
+		Clockwork.player:NotifyAll({"PlayerTookFlagsFrom", player:Name(), arguments[2], target:SteamName()});
 	else
-		Clockwork.player:Notify(player, L(player, "NotValidCharacter", arguments[1]));
+		Clockwork.player:Notify(player, {"NotValidCharacter", arguments[1]});
 	end;
 end;
 

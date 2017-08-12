@@ -40,20 +40,21 @@ function COMMAND:OnRun(player, arguments)
 					Clockwork.player:GiveCash(player, -cash);
 					Clockwork.player:GiveCash(target, cash);
 					
-					Clockwork.player:Notify(player, "You have given "..Clockwork.kernel:FormatCash(cash, nil, true).." to "..targetName..".");
-					Clockwork.player:Notify(target, "You were given "..Clockwork.kernel:FormatCash(cash, nil, true).." by "..playerName..".");
+					Clockwork.player:Notify(player, {"YouGaveCashTo", Clockwork.kernel:FormatCash(cash, nil, true), targetName});
+					Clockwork.player:Notify(target, {"YouWereGivenCashBy", Clockwork.kernel:FormatCash(cash, nil, true), playerName});
 				else
 					local amount = cash - player:GetCash();
-					Clockwork.player:Notify(player, "You need another "..Clockwork.kernel:FormatCash(amount, nil, true).."!");
+					
+					player:NotifyMissingCash(amount);
 				end;
 			else
-				Clockwork.player:Notify(player, "This is not a valid amount!");
+				Clockwork.player:Notify(player, {"NotValidAmount"});
 			end;
 		else
-			Clockwork.player:Notify(player, "This character is too far away!");
+			Clockwork.player:Notify(player, {"TargetIsTooFarAway"});
 		end;
 	else
-		Clockwork.player:Notify(player, "You must look at a valid character!");
+		Clockwork.player:Notify(player, {"MustLookAtValidTarget"});
 	end;
 end;
 

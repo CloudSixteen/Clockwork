@@ -168,23 +168,23 @@ if (SERVER) then
 
 									if (bit.band(flags, CMD_DEAD) > 0 and !player:Alive()) then
 										if (!player.cwDeathCodeAuth) then
-											Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
+											Clockwork.player:Notify(player, {"CannotActionRightNow"});
 										end; return;
 									elseif (bit.band(flags, CMD_VEHICLE) > 0 and player:InVehicle()) then
 										if (!player.cwDeathCodeAuth) then
-											Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
+											Clockwork.player:Notify(player, {"CannotActionRightNow"});
 										end; return;
 									elseif (bit.band(flags, CMD_RAGDOLLED) > 0 and player:IsRagdolled()) then
 										if (!player.cwDeathCodeAuth) then
-											Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
+											Clockwork.player:Notify(player, {"CannotActionRightNow"});
 										end; return;
 									elseif (bit.band(flags, CMD_FALLENOVER) > 0 and player:GetRagdollState() == RAGDOLL_FALLENOVER) then
 										if (!player.cwDeathCodeAuth) then
-											Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
+											Clockwork.player:Notify(player, {"CannotActionRightNow"});
 										end; return;
 									elseif (bit.band(flags, CMD_KNOCKEDOUT) > 0 and player:GetRagdollState() == RAGDOLL_KNOCKEDOUT) then
 										if (!player.cwDeathCodeAuth) then
-											Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
+											Clockwork.player:Notify(player, {"CannotActionRightNow"});
 										end; return;
 									end;
 
@@ -210,24 +210,24 @@ if (SERVER) then
 										Clockwork.plugin:Call("PostCommandUsed", player, commandTable, arguments);
 									end;
 								else
-									Clockwork.player:Notify(player, "You do not have access to this command, "..player:Name()..".");
+									Clockwork.player:Notify(player, {"NoAccessToCommand", player:Name()});
 								end;
 							else
 								Clockwork.player:Notify(player, commandTable.name.." "..commandTable.text.."!");
 							end;
 						end;
 					elseif (!Clockwork.player:GetDeathCode(player, true)) then
-						Clockwork.player:Notify(player, "This is not a valid command or alias!");
+						Clockwork.player:Notify(player, {"NotValidCommandOrAlias"});
 					end;
 				elseif (!Clockwork.player:GetDeathCode(player, true)) then
-					Clockwork.player:Notify(player, "This is not a valid command or alias!");
+					Clockwork.player:Notify(player, {"NotValidCommandOrAlias"});
 				end;
 
 				if (Clockwork.player:GetDeathCode(player)) then
 					Clockwork.player:TakeDeathCode(player);
 				end;
 			else
-				Clockwork.player:Notify(player, "You cannot use commands yet!");
+				Clockwork.player:Notify(player, {"CannotUseCommandsYet"});
 			end;
 		else
 			print("You cannot run commands from server console. If you did not attempt to, you can ignore this message.");

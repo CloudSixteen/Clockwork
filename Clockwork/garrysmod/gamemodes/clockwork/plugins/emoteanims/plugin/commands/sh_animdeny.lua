@@ -24,7 +24,7 @@ function COMMAND:OnRun(player, arguments)
 			local forcedAnimation = player:GetForcedAnimation();
 			
 			if (forcedAnimation and cwEmoteAnims.stanceList[forcedAnimation.animation]) then
-				Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
+				Clockwork.player:Notify(player, {"CannotActionRightNow"});
 			else
 				player:SetForcedAnimation("harassfront2", 1.5);
 				player:SetSharedVar("StancePos", player:GetPos());

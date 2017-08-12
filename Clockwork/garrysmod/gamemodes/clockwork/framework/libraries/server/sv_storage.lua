@@ -386,11 +386,11 @@ function Clockwork.storage:TakeFrom(player, itemTable)
 		return false;
 	end;
 	
-	local bCanTakeStorage = !itemTable.CanTakeStorage or itemTable:CanTakeStorage(player, storageTable);
-	if (bCanTakeStorage == false) then return false; end;
+	local canTakeStorage = !itemTable.CanTakeStorage or itemTable:CanTakeStorage(player, storageTable);
+	if (canTakeStorage == false) then return false; end;
 	
-	bCanTakeStorage = !storageTable.CanTakeItem or storageTable.CanTakeItem(player, storageTable, itemTable);
-	if (bCanTakeStorage == false) then return false; end;
+	canTakeStorage = !storageTable.CanTakeItem or storageTable.CanTakeItem(player, storageTable, itemTable);
+	if (canTakeStorage == false) then return false; end;
 	
 	local wasSuccess, fault = player:GiveItem(itemTable);
 	

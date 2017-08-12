@@ -38,7 +38,7 @@ function COMMAND:OnRun(player, arguments)
 				player:SetSharedVar("FallenOver", true);
 			end;
 		else
-			Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
+			Clockwork.player:Notify(player, {"CannotActionRightNow"});
 		end;
 	end;
 end;

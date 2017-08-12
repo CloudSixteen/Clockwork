@@ -64,10 +64,10 @@ function COMMAND:OnRun(player, arguments)
 					end
 				});
 			else
-				Clockwork.player:Notify(player, "You are already searching a character!");
+				Clockwork.player:Notify(player, {"YouAreAlreadySearchingCharacter"});
 			end;
 		else
-			Clockwork.player:Notify(player, target:Name().." is already being searched!");
+			Clockwork.player:Notify(player, {"PlayerAlreadyBeingSearched", target:Name()});
 		end;
 	else
 		Clockwork.player:Notify(player, {"NotValidPlayer", arguments[1]});

@@ -113,7 +113,7 @@ end;
 -- Called when a player drops the item.
 function ITEM:OnDrop(player, position)
 	if (player:IsWearingItem(self)) then
-		Clockwork.player:Notify(player, "You cannot drop this while you are wearing it!");
+		Clockwork.player:Notify(player, {"CannotDropWhileWearing"});
 		return false;
 	end;
 end;
@@ -121,7 +121,7 @@ end;
 -- Called when a player uses the item.
 function ITEM:OnUse(player, itemEntity)
 	if (self("whitelist") and !table.HasValue(self("whitelist"), player:GetFaction())) then
-		Clockwork.player:Notify(player, "Your faction cannot wear this clothing!");
+		Clockwork.player:Notify(player, {"FactionCannotWearThis"});
 		return false;
 	end;
 	
@@ -131,7 +131,7 @@ function ITEM:OnUse(player, itemEntity)
 			return true;
 		end;
 	else
-		Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
+		Clockwork.player:Notify(player, {"CannotActionRightNow"});
 	end;
 	
 	return false;

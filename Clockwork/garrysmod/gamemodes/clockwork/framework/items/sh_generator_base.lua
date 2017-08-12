@@ -64,7 +64,7 @@ function ITEM:CanOrder(player)
 		end;
 		
 		if (Clockwork.player:GetPropertyCount(player, generatorInfo.uniqueID) >= maximum) then
-			Clockwork.player:Notify(player, "You have reached the maximum amount of this item!");
+			Clockwork.player:Notify(player, {"YouHaveMaxOfThese"});
 			return false;
 		end;
 	end;
@@ -85,7 +85,7 @@ function ITEM:OnDrop(player, position)
 		end;
 		
 		if (Clockwork.player:GetPropertyCount(player, generatorInfo.uniqueID) == maximum) then
-			Clockwork.player:Notify(player, "You have reached the maximum amount of this item!");
+			Clockwork.player:Notify(player, {"YouHaveMaxOfThese"});
 			return false;
 		end;
 	end;

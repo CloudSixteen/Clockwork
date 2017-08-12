@@ -20,7 +20,7 @@ function COMMAND:OnRun(player, arguments)
    if (!Clockwork.player:IsAdmin(player)) then
       Clockwork.player:NotifyAdmins("o", "REQUEST from "..player:Name()..": "..table.concat(arguments, " "), nil);
    else
-      Clockwork.player:Notify(player, "You are an admin. Use /a instead.");
+      Clockwork.player:Notify(player, {"RequestAdminRedirect"});
    end;
 end;
 

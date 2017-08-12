@@ -33,7 +33,7 @@ function COMMAND:OnRun(player, arguments)
 			end;
 			
 			if (forcedAnimation and cwEmoteAnims.stanceList[forcedAnimation.animation]) then
-				Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
+				Clockwork.player:Notify(player, {"CannotActionRightNow"});
 			else
 				player:SetForcedAnimation(animation, 2.5);
 				player:SetSharedVar("StancePos", player:GetPos());

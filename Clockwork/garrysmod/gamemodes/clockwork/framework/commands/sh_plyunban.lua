@@ -26,7 +26,7 @@ function COMMAND:OnRun(player, arguments)
 		Clockwork.player:NotifyAll(player:Name().." has unbanned '"..Clockwork.bans.stored[identifier].steamName.."'.");
 		Clockwork.bans:Remove(identifier);
 	else
-		Clockwork.player:Notify(player, "There are no banned players with the '"..identifier.."' identifier!");
+		Clockwork.player:Notify(player, {"ThereAreNoBannedPlayersWithID", identifier});
 	end;
 end;
 

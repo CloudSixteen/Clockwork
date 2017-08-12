@@ -19,6 +19,7 @@ COMMAND.arguments = 1;
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)
 	local charName = string.lower(arguments[1]);
+	
 	for k, v in pairs(cwPlayer.GetAll()) do
 		if (v:HasInitialized()) then
 			if (string.lower(v:Name()) == charName) then
@@ -53,7 +54,7 @@ function COMMAND:OnRun(player, arguments)
 				
 				Clockwork.player:NotifyAll(player:Name().." unbanned the character '"..arguments[1].."'.");
 			else
-				Clockwork.player:Notify(player, "This is not a valid character!");
+				Clockwork.player:Notify(player, {"NotValidCharacter", charName});
 			end;
 		end);
 		queryObj:AddWhere("_Name = ?", charName);

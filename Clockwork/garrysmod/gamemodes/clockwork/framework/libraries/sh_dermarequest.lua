@@ -13,13 +13,14 @@
 Clockwork.dermaRequest = Clockwork.kernel:NewLibrary("DermaRequest");
 
 local REQUEST_INDEX = 0;
+
 function Clockwork.dermaRequest:GenerateID()
 	REQUEST_INDEX = REQUEST_INDEX + 1;
+	
 	return os.time() + REQUEST_INDEX;
 end;
 
 if (SERVER) then
-
 	Clockwork.dermaRequest.hooks = Clockwork.dermaRequest.hooks or {};
 
 	--[[
@@ -32,9 +33,11 @@ if (SERVER) then
 		@param Function A callback function. It passes the answer as an argument.
 	--]]
 	function Clockwork.dermaRequest:RequestString(player, title, question, default, Callback)
-		local rID = self:GenerateID();
-		Clockwork.datastream:Start(player, "dermaRequest_stringQuery", {id = rID, title = title, question = question, default = default});
-		self.hooks[rID] = {Callback = Callback, player = player};
+		local id = self:GenerateID();
+		
+		Clockwork.datastream:Start(player, "dermaRequest_stringQuery", {id = id, title = title, question = question, default = default});
+		
+		self.hooks[id] = {Callback = Callback, player = player};
 	end;
 
 	--[[
@@ -46,9 +49,11 @@ if (SERVER) then
 		@param Function A callback function. It passes the answer as an argument.
 	--]]
 	function Clockwork.dermaRequest:RequestConfirmation(player, title, question, Callback)
-		local rID = self:GenerateID();
-		Clockwork.datastream:Start(player, "dermaRequest_confirmQuery", {id = rID, title = title, question = question});
-		self.hooks[rID] = {Callback = Callback, player = player};
+		local id = self:GenerateID();
+		
+		Clockwork.datastream:Start(player, "dermaRequest_confirmQuery", {id = id, title = title, question = question});
+		
+		self.hooks[id] = {Callback = Callback, player = player};
 	end;
 
 	--[[
@@ -68,6 +73,7 @@ if (SERVER) then
 		if (data.id and data.recv and self.hooks[data.id] and self.hooks[data.id].player == player) then
 			return true;
 		end;
+		
 		return false;
 	end;
 
@@ -84,13 +90,13 @@ else
 	end;
 
 	Clockwork.datastream:Hook("dermaRequest_stringQuery", function(data)
-		Derma_StringRequest(data.title, data.question, data.default, function(recv)
+		Derma_StringRequest(T(data.title), T(data.question), data.default, function(recv)
 			Clockwork.dermaRequest:Send(data.id, recv);
 		end);
 	end);
 
 	Clockwork.datastream:Hook("dermaRequest_confirmQuery", function(data)
-		Derma_Query(data.question, data.title, 
+		Derma_Query(T(data.question), T(data.title), 
 			"Confirm", function() Clockwork.dermaRequest:Send(data.id, true) end,
 			"Cancel", function() Clockwork.dermaRequest:Send(data.id, false); end);
 	end);
@@ -98,7 +104,8 @@ else
 	Clockwork.datastream:Hook("dermaRequest_message", function(data)
 		local title = data.title or nil;
 		local button = data.button or nil;
-		Derma_Message(data.message, data.title, data.button);
+		
+		Derma_Message(T(data.message), T(data.title), T(data.button));
 	end);
 
 end
