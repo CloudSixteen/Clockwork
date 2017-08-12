@@ -54,7 +54,7 @@ function COMMAND:OnRun(player, arguments)
 							cwEmoteAnims:MakePlayerExitStance(player);
 						end);
 					else
-						Clockwork.player:Notify(player, {"MustBeStandingOnGround"};
+						Clockwork.player:Notify(player, {"MustBeStandingOnGround"});
 					end;
 				end;
 			end;

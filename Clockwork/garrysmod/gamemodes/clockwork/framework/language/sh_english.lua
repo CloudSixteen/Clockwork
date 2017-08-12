@@ -195,7 +195,7 @@ CW_ENGLISH["NoAccessToMenu"] = "You do not have access to the #1 menu!";
 CW_ENGLISH["CannotOrderThatFarAway"] = "You cannot order this item that far away!";
 CW_ENGLISH["RequiredIngredientsMissing"] = "You do not have the required ingredients to craft this recipe!";
 
-CW_ENGLISH["NoBlueprintsForCraftingMenu"] = ""There are no blueprints for the {MenuNameCrafting} menu!";
+CW_ENGLISH["NoBlueprintsForCraftingMenu"] = "There are no blueprints for the {MenuNameCrafting} menu!";
 
 CW_ENGLISH["NotValidAttribute"] = "That is not a valid {AttributeName}!";
 CW_ENGLISH["YouHaveMaxOfThis"] = "You have the maximum of this %1!";

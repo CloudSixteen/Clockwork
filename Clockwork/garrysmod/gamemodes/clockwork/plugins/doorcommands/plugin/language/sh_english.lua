@@ -41,4 +41,4 @@ CW_ENGLISH["YouMadeDoorFalse"] = "You have successfully made this door false.";
 CW_ENGLISH["YouMadeDoorReal"] = "You have successfully made this door real.";
 CW_ENGLISH["YouMadeDoorUnhidden"] = "You have successfully unhidden this door.";
 CW_ENGLISH["ThisIsNotAValidDoor"] = "This is not a valid door target!";
-CW_ENGLISH["YouSetActiveParentDoor"] = "You have set the active parent door to this. The parent has been highlighted orange, and its children blue."";
+CW_ENGLISH["YouSetActiveParentDoor"] = "You have set the active parent door to this. The parent has been highlighted orange, and its children blue.";

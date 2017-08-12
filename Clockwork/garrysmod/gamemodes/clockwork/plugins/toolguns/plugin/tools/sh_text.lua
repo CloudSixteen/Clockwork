@@ -58,7 +58,7 @@ function TOOL:RightClick( tr )
 		return false;
 	end;
 	
-	ply:RunClockworkCmd("TextRemove);
+	ply:RunClockworkCmd("TextRemove");
 end;
 
 
