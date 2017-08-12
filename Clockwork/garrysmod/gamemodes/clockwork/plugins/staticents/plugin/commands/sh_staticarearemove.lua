@@ -37,9 +37,9 @@ function COMMAND:OnRun(player, arguments)
 			cwStaticEnts:SaveStaticEnts();
 		end;
 
-		Clockwork.player:Notify(player, "You have removed "..staticCount.." static entities within "..radius.." units around you.");
+		Clockwork.player:Notify(player, {"RemovedStaticInRadius", staticCount, radius});
 	else
-		Clockwork.player:Notify(player, "You must enter a number for the radius!");
+		Clockwork.player:Notify(player, {"StaticMustEnterRadius"});
 	end;
 end;
 

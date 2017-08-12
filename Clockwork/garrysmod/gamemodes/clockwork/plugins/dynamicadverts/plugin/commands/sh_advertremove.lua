@@ -27,13 +27,9 @@ function COMMAND:OnRun(player, arguments)
 	end;
 	
 	if (removed > 0) then
-		if (removed == 1) then
-			Clockwork.player:Notify(player, "You have removed "..removed.." dynamic advert.");
-		else
-			Clockwork.player:Notify(player, "You have removed "..removed.." dynamic adverts.");
-		end;
+		Clockwork.player:Notify(player, {"DynamicAdvertRemoved", removed});
 	else
-		Clockwork.player:Notify(player, "There were no dynamic adverts near this position.");
+		Clockwork.player:Notify(player, {"DynamicAdvertNoneNearPosition"});
 	end;
 	
 	cwDynamicAdverts:SaveDynamicAdverts();

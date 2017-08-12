@@ -38,7 +38,7 @@ function COMMAND:OnRun(player, arguments)
 	cwSurfaceTexts.storedList[#cwSurfaceTexts.storedList + 1] = data;
 	cwSurfaceTexts:SaveSurfaceTexts();
 	
-	Clockwork.player:Notify(player, "You have added some surface text.");
+	Clockwork.player:Notify(player, {"YouAddedSurfaceText"});
 end;
 
 COMMAND:Register();

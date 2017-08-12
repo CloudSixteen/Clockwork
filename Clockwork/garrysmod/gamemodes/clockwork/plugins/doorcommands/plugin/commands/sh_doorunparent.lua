@@ -33,9 +33,9 @@ function COMMAND:OnRun(player, arguments)
 		
 		Clockwork.entity:SetDoorParent(door, false);
 		
-		Clockwork.player:Notify(player, "You have unparented this door.");
+		Clockwork.player:Notify(player, {"YouUnparentedDoor"});
 	else
-		Clockwork.player:Notify(player, "This is not a valid door!");
+		Clockwork.player:Notify(player, {"ThisIsNotAValidDoor"});
 	end;
 end;
 

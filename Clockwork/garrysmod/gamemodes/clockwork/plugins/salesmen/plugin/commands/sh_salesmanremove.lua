@@ -22,16 +22,16 @@ function COMMAND:OnRun(player, arguments)
 					cwSalesmen.salesmen[k] = nil;
 					cwSalesmen:SaveSalesmen();
 					
-					Clockwork.player:Notify(player, "You have removed a salesman.");
+					Clockwork.player:Notify(player, {"SalesmanRemoved"});
 					
 					return;
 				end;
 			end;
 		else
-			Clockwork.player:Notify(player, "This entity is not a salesman!");
+			Clockwork.player:Notify(player, {"EntityNotSalesman"});
 		end;
 	else
-		Clockwork.player:Notify(player, "You must look at a valid entity!");
+		Clockwork.player:Notify(player, {"LookAtValidEntity"});
 	end;
 end;
 

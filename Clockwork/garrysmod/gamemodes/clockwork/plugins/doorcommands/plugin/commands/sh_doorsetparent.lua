@@ -27,13 +27,13 @@ function COMMAND:OnRun(player, arguments)
 			end;
 		end;
 
-		Clockwork.player:Notify(player, "You have set the active parent door to this. The parent has been highlighted orange, and its children blue.");
+		Clockwork.player:Notify(player, {"YouSetActiveParentDoor"});
 
 		if (cwDoorCmds.infoTable != {}) then
 			Clockwork.datastream:Start(player, "doorParentESP", cwDoorCmds.infoTable);
 		end;
 	else
-		Clockwork.player:Notify(player, "This is not a valid door!");
+		Clockwork.player:Notify(player, {"ThisIsNotAValidDoor"});
 	end;
 end;
 

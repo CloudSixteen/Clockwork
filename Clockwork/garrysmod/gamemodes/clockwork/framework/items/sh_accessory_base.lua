@@ -57,7 +57,7 @@ function ITEM:OnUse(player, itemEntity)
 			return true;
 		end;
 	else
-		Clockwork.player:Notify(player, "You cannot do this action at the moment!");
+		Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
 	end;
 	
 	return false;

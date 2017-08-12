@@ -32,7 +32,7 @@ function TOOL:LeftClick(tr)
 			player:RunClockworkCmd("DoorSetParent");
 		end;		
 	else
-		Clockwork.player:Notify(player, "This is not a valid door!");
+		Clockwork.player:Notify(player, {"ThisIsNotAValidDoor"});
 	end;
 end;
 

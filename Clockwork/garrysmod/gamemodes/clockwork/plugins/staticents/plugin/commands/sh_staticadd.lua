@@ -20,7 +20,7 @@ function COMMAND:OnRun(player, arguments)
 		if (class != false) then
 			for k, v in pairs(cwStaticEnts.staticEnts) do
 				if (target == v) then
-					Clockwork.player:Notify(player, "This entity is already static!");
+					Clockwork.player:Notify(player, {"EntityAlreadyStatic"});
 
 					return;
 				end;
@@ -28,12 +28,12 @@ function COMMAND:OnRun(player, arguments)
 				
 			cwStaticEnts:SaveEntity(target);
 
-			Clockwork.player:Notify(player, "You have added a static entity.");		
+			Clockwork.player:Notify(player, {"YouAddedStaticEntity"});		
 		else
-			Clockwork.player:Notify(player, "You cannot static this entity!");
+			Clockwork.player:Notify(player, {"CannotStaticEntity"});
 		end;
 	else
-		Clockwork.player:Notify(player, "You must look at a valid entity!");
+		Clockwork.player:Notify(player, {"LookAtValidEntity"});
 	end;
 end;
 

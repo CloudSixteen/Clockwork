@@ -32,9 +32,9 @@ function COMMAND:OnRun(player, arguments)
 		cwDoorCmds.doorData[data.entity] = data;
 		cwDoorCmds:SaveDoorData();
 		
-		Clockwork.player:Notify(player, "You have set an ownable door.");
+		Clockwork.player:Notify(player, {"YouSetOwnableDoor"});
 	else
-		Clockwork.player:Notify(player, "This is not a valid door!");
+		Clockwork.player:Notify(player, {"ThisIsNotAValidDoor"});
 	end;
 end;
 

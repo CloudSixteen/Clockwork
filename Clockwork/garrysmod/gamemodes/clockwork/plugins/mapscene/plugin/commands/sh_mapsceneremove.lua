@@ -26,16 +26,12 @@ function COMMAND:OnRun(player, arguments)
 		end;
 		
 		if (removed > 0) then
-			if (removed == 1) then
-				Clockwork.player:Notify(player, "You have removed "..removed.." map scene.");
-			else
-				Clockwork.player:Notify(player, "You have removed "..removed.." map scenes.");
-			end;
+			Clockwork.player:Notify(player, {"MapSceneRemoved", removed});
 		else
-			Clockwork.player:Notify(player, "There were no map scenes near this position.");
+			Clockwork.player:Notify(player, {"MapSceneNoneNearPosition"});
 		end;
 	else
-		Clockwork.player:Notify(player, "There are no map scenes.");
+		Clockwork.player:Notify(player, {"MapSceneNoneExist"});
 	end;
 end;
 

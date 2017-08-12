@@ -19,9 +19,9 @@ function COMMAND:OnRun(player, arguments)
 		table.insert(cwStaticEnts.whitelist, arguments[1]);
 		Clockwork.kernel:SaveSchemaData("maps/"..game.GetMap().."/static_entities/whitelist", cwStaticEnts.whitelist);
 
-		Clockwork.player:Notify(player, "You have added "..arguments[1].." to the list of entities that can be staticed.");
+		Clockwork.player:Notify(player, {"StaticWhitelistAdded", arguments[1]});
 	else
-		Clockwork.player:Notify(player, arguments[1].." is already in the static whitelist!");
+		Clockwork.player:Notify(player, {"StaticAlreadyWhitelisted", arguments[1]});
 	end;	
 end;
 

@@ -35,17 +35,17 @@ function COMMAND:OnRun(player, arguments)
 			
 			cwDoorCmds:SaveDoorData();
 			
-			Clockwork.player:Notify(player, "You have made this door false.");
+			Clockwork.player:Notify(player, {"YouMadeDoorFalse"});
 		else
 			Clockwork.entity:SetDoorFalse(door, false);
 			
 			cwDoorCmds.doorData[door] = nil;
 			cwDoorCmds:SaveDoorData();
 			
-			Clockwork.player:Notify(player, "You have no longer made this door false.");
+			Clockwork.player:Notify(player, {"YouMadeDoorReal"});
 		end;
 	else
-		Clockwork.player:Notify(player, "This is not a valid door!");
+		Clockwork.player:Notify(player, {"ThisIsNotAValidDoor"});
 	end;
 end;
 

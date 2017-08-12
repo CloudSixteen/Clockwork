@@ -20,15 +20,15 @@ function COMMAND:OnRun(player, arguments)
 				table.remove(cwStaticEnts.staticEnts, k);
 				cwStaticEnts:SaveStaticEnts();
 					
-				Clockwork.player:Notify(player, "You have removed a static entity.");
+				Clockwork.player:Notify(player, {"YouRemovedStaticEntity"});
 
 				return;
 			end;
 		end;
 
-		Clockwork.player:Notify(player, "This entity is not static.");
+		Clockwork.player:Notify(player, {"EntityIsNotStatic"});
 	else
-		Clockwork.player:Notify(player, "You must look at a valid entity!");
+		Clockwork.player:Notify(player, {"LookAtValidEntity"});
 	end;
 end;
 

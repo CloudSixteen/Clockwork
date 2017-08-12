@@ -44,9 +44,9 @@ function COMMAND:OnRun(player, arguments)
 			cwStaticEnts:SaveEntity(nil);
 		end;
 
-		Clockwork.player:Notify(player, "You have staticed "..staticCount.." entities within "..radius.." units around you.");
+		Clockwork.player:Notify(player, {"AddedStaticInRadius", staticCount, radius});
 	else
-		Clockwork.player:Notify(player, "You must enter a number for the radius!");
+		Clockwork.player:Notify(player, {"StaticMustEnterRadius"});
 	end;
 end;
 

@@ -28,9 +28,9 @@ function COMMAND:OnRun(player, arguments)
 			
 			if (forcedAnimation and (forcedAnimation.animation == "spreadwallidle" or forcedAnimation.animation == "apcarrestidle")) then
 				cwEmoteAnims:MakePlayerExitStance(player);
-			elseif (!forcedAnimation or !cwEmoteAnimscwEmoteAnims[forcedAnimation]) then
+			elseif (!forcedAnimation or !cwEmoteAnims.stanceList[forcedAnimation]) then
 				if (player:Crouching()) then
-					Clockwork.player:Notify(player, "You cannot do this while you are crouching!");
+					Clockwork.player:Notify(player, {"CannotDoThisCrouching"});
 				else
 					local traceLine = util.TraceLine({
 						start = eyePos,
@@ -58,15 +58,15 @@ function COMMAND:OnRun(player, arguments)
 						player:SetSharedVar("StanceAng", player:GetAngles());
 						player:SetSharedVar("StanceIdle", false);
 					else
-						Clockwork.player:Notify(player, "You must be facing, and near a wall!");
+						Clockwork.player:Notify(player, {"MustBeFacingAWall"});
 					end;
 				end;
 			end;
 		else
-			Clockwork.player:Notify(player, "The model that you are using cannot perform this action!");
+			Clockwork.player:Notify(player, {"ModelCannotDoThisAction"});
 		end;
 	else
-		Clockwork.player:Notify(player, "You cannot do another stance or gesture yet!");
+		Clockwork.player:Notify(player, {"CannotDoAnotherGestureYet"});
 	end;
 end;
 

@@ -17,7 +17,7 @@ function COMMAND:OnRun(player, arguments)
 
 	Clockwork.kernel:SaveSchemaData("maps/"..game.GetMap().."/static_entities/static_mode", cwStaticEnts.staticMode);
 
-	Clockwork.player:Notify(player, "You have toggled the static mode to "..tostring(cwStaticEnts.staticMode[1])..".");
+	Clockwork.player:Notify(player, {"ToggledStaticModeTo", tostring(cwStaticEnts.staticMode[1])});
 end;
 
 COMMAND:Register();

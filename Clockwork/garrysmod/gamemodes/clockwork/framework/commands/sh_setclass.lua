@@ -19,7 +19,7 @@ function COMMAND:OnRun(player, arguments)
 	local class = Clockwork.class:FindByID(arguments[1]);
 	
 	if (player:InVehicle()) then
-		Clockwork.player:Notify(player, "You cannot do this action at the moment!");
+		Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
 		return;
 	end;
 	

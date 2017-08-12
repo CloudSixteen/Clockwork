@@ -32,15 +32,15 @@ function COMMAND:OnRun(player, arguments)
 		cwSpawnPoints.spawnPoints[name][#cwSpawnPoints.spawnPoints[name] + 1] = {position = player:GetEyeTraceNoCursor().HitPos, rotate = rotate};
 		cwSpawnPoints:SaveSpawnPoints();
 		
-		Clockwork.player:Notify(player, "You have added a spawn point for "..name..".");
+		Clockwork.player:Notify(player, {"YouAddedNameSpawnpoint", name});
 	elseif (string.lower(arguments[1]) == "default") then
 		cwSpawnPoints.spawnPoints["default"] = cwSpawnPoints.spawnPoints["default"] or {};
 		cwSpawnPoints.spawnPoints["default"][#cwSpawnPoints.spawnPoints["default"] + 1] = {position = player:GetEyeTraceNoCursor().HitPos, rotate = rotate};
 		cwSpawnPoints:SaveSpawnPoints();
 		
-		Clockwork.player:Notify(player, "You have added a default spawn point.");
+		Clockwork.player:Notify(player, {"YouAddedDefaultSpawnpoint"});
 	else
-		Clockwork.player:Notify(player, "This is not a valid class or faction!");
+		Clockwork.player:Notify(player, {"NotValidClassOrFaction"});
 	end;
 end;
 

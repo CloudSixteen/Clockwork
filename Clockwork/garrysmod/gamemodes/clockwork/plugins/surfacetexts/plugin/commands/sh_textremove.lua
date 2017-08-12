@@ -25,13 +25,9 @@ function COMMAND:OnRun(player, arguments)
 	end;
 	
 	if (iRemoved > 0) then
-		if (iRemoved == 1) then
-			Clockwork.player:Notify(player, "You have removed "..iRemoved.." surface text.");
-		else
-			Clockwork.player:Notify(player, "You have removed "..iRemoved.." surface texts.");
-		end;
+		Clockwork.player:Notify(player, {"YouRemovedSurfaceText", iRemoved});
 	else
-		Clockwork.player:Notify(player, "There were no surface texts near this position.");
+		Clockwork.player:Notify(player, {"NoSurfaceTextsNearPosition"});
 	end;
 	
 	cwSurfaceTexts:SaveSurfaceTexts();

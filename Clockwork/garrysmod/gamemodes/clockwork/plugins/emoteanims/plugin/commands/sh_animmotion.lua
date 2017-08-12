@@ -31,8 +31,8 @@ function COMMAND:OnRun(player, arguments)
 				animation = "motionright";
 			end;
 			
-			if (forcedAnimation and cwEmoteAnimscwEmoteAnims[forcedAnimation.animation]) then
-				Clockwork.player:Notify(player, "You cannot do this action at the moment!");
+			if (forcedAnimation and cwEmoteAnims.stanceList[forcedAnimation.animation]) then
+				Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
 			else
 				player:SetForcedAnimation(animation, 2.5);
 				player:SetSharedVar("StancePos", player:GetPos());
@@ -40,10 +40,10 @@ function COMMAND:OnRun(player, arguments)
 				player:SetSharedVar("StanceIdle", false);
 			end;
 		else
-			Clockwork.player:Notify(player, "The model that you are using cannot perform this action!");
+			Clockwork.player:Notify(player, {"ModelCannotDoThisAction"});
 		end;
 	else
-		Clockwork.player:Notify(player, "You cannot do another stance or gesture yet!");
+		Clockwork.player:Notify(player, {"CannotDoAnotherGestureYet"});
 	end;
 end;
 

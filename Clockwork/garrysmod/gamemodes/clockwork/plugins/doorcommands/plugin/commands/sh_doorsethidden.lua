@@ -35,17 +35,17 @@ function COMMAND:OnRun(player, arguments)
 			
 			cwDoorCmds:SaveDoorData();
 			
-			Clockwork.player:Notify(player, "You have hidden this door.");
+			Clockwork.player:Notify(player, {"YouMadeDoorHidden"});
 		else
 			Clockwork.entity:SetDoorHidden(door, false);
 			
 			cwDoorCmds.doorData[door] = nil;
 			cwDoorCmds:SaveDoorData();
 			
-			Clockwork.player:Notify(player, "You have unhidden this door.");
+			Clockwork.player:Notify(player, {"YouMadeDoorUnhidden"});
 		end;
 	else
-		Clockwork.player:Notify(player, "This is not a valid door!");
+		Clockwork.player:Notify(player, {"ThisIsNotAValidDoor"});
 	end;
 end;
 

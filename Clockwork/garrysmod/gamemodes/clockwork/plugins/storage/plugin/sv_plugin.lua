@@ -19,7 +19,7 @@ Clockwork.datastream:Hook("ContainerPassword", function(player, data)
 			if (entity.cwPassword == password) then
 				cwStorage:OpenContainer(player, entity, containerWeight);
 			else
-				Clockwork.player:Notify(player, "You have entered an incorrect password!");
+				Clockwork.player:Notify(player, {"ContainerIncorrectPassword"});
 			end;
 		end;
 	end;

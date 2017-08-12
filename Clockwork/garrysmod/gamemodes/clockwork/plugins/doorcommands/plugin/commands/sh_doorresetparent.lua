@@ -19,10 +19,10 @@ function COMMAND:OnRun(player, arguments)
 		player.cwParentDoor = nil;
 		cwDoorCmds.infoTable = {};
 
-		Clockwork.player:Notify(player, "You have cleared your active parent door.");
+		Clockwork.player:Notify(player, {"DoorParentReset"});
 		Clockwork.datastream:Start(player, "doorParentESP", cwDoorCmds.infoTable);
 	else
-		Clockwork.player:Notify(player, "You do not have an active parent door.");
+		Clockwork.player:Notify(player, {"NotSelectedValidParentDoor"});
 	end;
 end;
 

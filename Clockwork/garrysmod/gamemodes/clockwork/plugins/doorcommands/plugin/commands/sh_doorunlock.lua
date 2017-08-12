@@ -19,9 +19,9 @@ function COMMAND:OnRun(player, arguments)
 		door:EmitSound("doors/door_latch3.wav");
 		door:Fire("Unlock", "", 0);
 
-		Clockwork.player:Notify(player, "You have unlocked the target door.");
+		Clockwork.player:Notify(player, {"YouUnlockedDoor"});
 	else
-		Clockwork.player:Notify(player, "This is not a valid door!");
+		Clockwork.player:Notify(player, {"ThisIsNotAValidDoor"});
 	end;
 end;
 

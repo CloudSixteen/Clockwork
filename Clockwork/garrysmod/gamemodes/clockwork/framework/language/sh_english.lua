@@ -75,3 +75,6 @@ CW_ENGLISH["YouWereGivenItemAmount"] = "#1 has given you #2 #3.";
 CW_ENGLISH["YouWereGivenAnItem"] = "#1 has given you a #2.";
 
 CW_ENGLISH["NoAuthority"] = "You do not have the authority to do this!";
+
+CW_ENGLISH["ErrorGiveNonInstance"] = "Failed to give a player a non-instanced item!";
+CW_ENGLISH["YourInventoryFull"] = "Your inventory is currently too full!";

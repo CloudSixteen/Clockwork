@@ -168,23 +168,23 @@ if (SERVER) then
 
 									if (bit.band(flags, CMD_DEAD) > 0 and !player:Alive()) then
 										if (!player.cwDeathCodeAuth) then
-											Clockwork.player:Notify(player, "You cannot do this action at the moment!");
+											Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
 										end; return;
 									elseif (bit.band(flags, CMD_VEHICLE) > 0 and player:InVehicle()) then
 										if (!player.cwDeathCodeAuth) then
-											Clockwork.player:Notify(player, "You cannot do this action at the moment!");
+											Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
 										end; return;
 									elseif (bit.band(flags, CMD_RAGDOLLED) > 0 and player:IsRagdolled()) then
 										if (!player.cwDeathCodeAuth) then
-											Clockwork.player:Notify(player, "You cannot do this action at the moment!");
+											Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
 										end; return;
 									elseif (bit.band(flags, CMD_FALLENOVER) > 0 and player:GetRagdollState() == RAGDOLL_FALLENOVER) then
 										if (!player.cwDeathCodeAuth) then
-											Clockwork.player:Notify(player, "You cannot do this action at the moment!");
+											Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
 										end; return;
 									elseif (bit.band(flags, CMD_KNOCKEDOUT) > 0 and player:GetRagdollState() == RAGDOLL_KNOCKEDOUT) then
 										if (!player.cwDeathCodeAuth) then
-											Clockwork.player:Notify(player, "You cannot do this action at the moment!");
+											Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
 										end; return;
 									end;
 

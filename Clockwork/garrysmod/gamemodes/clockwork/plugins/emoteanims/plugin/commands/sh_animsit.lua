@@ -30,9 +30,9 @@ function COMMAND:OnRun(player, arguments)
 				player:SetForcedAnimation("sit_ground_to_idle", 2, nil, function(player)
 					cwEmoteAnims:MakePlayerExitStance(player);
 				end);
-			elseif (!forcedAnimation or !cwEmoteAnimscwEmoteAnims[forcedAnimation.animation]) then
+			elseif (!forcedAnimation or !cwEmoteAnims.stanceList[forcedAnimation.animation]) then
 				if (player:Crouching()) then
-					Clockwork.player:Notify(player, "You cannot do this while you are crouching!");
+					Clockwork.player:Notify(player, {"CannotDoThisCrouching"});
 				elseif (player:IsOnGround() or IsValid(player:GetGroundEntity())) then
 					player:SetSharedVar("StancePos", player:GetPos());
 					player:SetSharedVar("StanceAng", player:GetAngles());
@@ -47,14 +47,14 @@ function COMMAND:OnRun(player, arguments)
 						end);
 					end);
 				else
-					Clockwork.player:Notify(player, "You must be standing on the ground!");
+					Clockwork.player:Notify(player, {"MustBeStandingOnGround"};
 				end;
 			end;
 		else
-			Clockwork.player:Notify(player, "The model that you are using cannot perform this action!");
+			Clockwork.player:Notify(player, {"ModelCannotDoThisAction"});
 		end;
 	else
-		Clockwork.player:Notify(player, "You cannot do another stance or gesture yet!");
+		Clockwork.player:Notify(player, {"CannotDoAnotherGestureYet"});
 	end;
 end;
 

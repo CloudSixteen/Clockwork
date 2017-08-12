@@ -5329,20 +5329,21 @@ function playerMeta:RebuildInventory()
 end;
 
 -- A function to give an item to a player.
-function playerMeta:GiveItem(itemTable, bForce)
+function playerMeta:GiveItem(itemTable, isForced)
 	if (type(itemTable) == "string") then
 		itemTable = cwItem:CreateInstance(itemTable);
 	end;
 	
 	if (!itemTable or !itemTable:IsInstance()) then
 		debug.Trace();
-		return false, "ERROR: Trying to give a player a non-instance item!";
+		
+		return false, {"ErrorGiveNonInstance"};
 	end;
 	
 	local inventory = self:GetInventory();
 	
 	if ((self:CanHoldWeight(itemTable("weight"))
-	and self:CanHoldSpace(itemTable("space"))) or bForce) then
+	and self:CanHoldSpace(itemTable("space"))) or isForced) then
 		if (itemTable.OnGiveToPlayer) then
 			itemTable:OnGiveToPlayer(self);
 		end;
@@ -5351,11 +5352,11 @@ function playerMeta:GiveItem(itemTable, bForce)
 		
 		cwInventory:AddInstance(inventory, itemTable);
 			cwDatastream:Start(self, "InvGive", cwItem:GetDefinition(itemTable, true));
-		cwPlugin:Call("PlayerItemGiven", self, itemTable, bForce);
+		cwPlugin:Call("PlayerItemGiven", self, itemTable, isForced);
 		
 		return itemTable;
 	else
-		return false, "You do not have enough inventory space!";
+		return false, {"YourInventoryFull"};
 	end;
 end;
 

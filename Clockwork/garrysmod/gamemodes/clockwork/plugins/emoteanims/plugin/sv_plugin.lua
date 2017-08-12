@@ -11,7 +11,7 @@ function cwEmoteAnims:MakePlayerExitStance(player, keepPosition)
 	if (player.cwPreviousPos and !keepPosition) then
 		for k, v in pairs(cwPlayer.GetAll()) do
 			if (v != player and v:GetPos():Distance(player.cwPreviousPos) <= 32) then
-				Clockwork.player:Notify(player, "Another character is blocking this position!");
+				Clockwork.player:Notify(player, {"AnotherCharacterBlockingPos"});
 				
 				return;
 			end;

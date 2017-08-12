@@ -19,3 +19,25 @@ CW_ENGLISH["DoorToolMode3"] = "3. Door Set Unownable";
 CW_ENGLISH["DoorToolSelectedMode1"] = "1. ** Lock/Unlock Door **";
 CW_ENGLISH["DoorToolSelectedMode2"] = "2. ** Door Set Ownable **";
 CW_ENGLISH["DoorToolSelectedMode3"] = "3. ** Door Set Unownable **";
+
+CW_ENGLISH["DoorToolLockNameText"] = "Lock/Unlock Door";
+CW_ENGLISH["DoorToolLockNameDesc"] = "Lock and unlock doors!";
+CW_ENGLISH["DoorToolDoorNameLabel"] = "Door Name";
+CW_ENGLISH["DoorToolDoorDescLabel"] = "Door Description";
+
+CW_ENGLISH["DoorParentReset"] = "You have cleared your active parent door.";
+CW_ENGLISH["AllDoorsUnownable"] = "You have made ALL doors unownable!";
+CW_ENGLISH["AllDoorsOwnable"] = "You have made ALL doors ownable!";
+CW_ENGLISH["YouAddedDoorAsChild"] = "You have added this door as a child to the active parent door.";
+CW_ENGLISH["NotSelectedValidParentDoor"] = "You have not selected a valid parent door!";
+CW_ENGLISH["DoorAlreadyChildToParent"] = "This door is already a child to the active parent door!";
+CW_ENGLISH["CannotParentDoorToSelf"] = "You cannot parent the active parent door to itself!";
+CW_ENGLISH["YouUnparentedDoor"] = "You have successfully unparented this door.";
+CW_ENGLISH["YouUnlockedDoor"] = "You have successfully unlocked this door.";
+CW_ENGLISH["YouSetUnownableDoor"] = "You have successfully made this door unownable.";
+CW_ENGLISH["YouSetOwnableDoor"] = "You have successfully made this door ownable.";
+CW_ENGLISH["YouMadeDoorFalse"] = "You have successfully made this door false.";
+CW_ENGLISH["YouMadeDoorReal"] = "You have successfully made this door real.";
+CW_ENGLISH["YouMadeDoorUnhidden"] = "You have successfully unhidden this door.";
+CW_ENGLISH["ThisIsNotAValidDoor"] = "This is not a valid door target!";
+CW_ENGLISH["YouSetActiveParentDoor"] = "You have set the active parent door to this. The parent has been highlighted orange, and its children blue."";

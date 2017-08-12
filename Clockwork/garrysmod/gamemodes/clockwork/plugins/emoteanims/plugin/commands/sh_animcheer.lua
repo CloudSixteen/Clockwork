@@ -22,8 +22,8 @@ function COMMAND:OnRun(player, arguments)
 		if (modelClass == "maleHuman" or modelClass == "femaleHuman") then
 			local forcedAnimation = player:GetForcedAnimation();
 			
-			if (forcedAnimation and cwEmoteAnimscwEmoteAnims[forcedAnimation.animation]) then
-				Clockwork.player:Notify(player, "You cannot do this action at the moment!");
+			if (forcedAnimation and cwEmoteAnims.stanceList[forcedAnimation.animation]) then
+				Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
 			else
 				if (modelClass == "femaleHuman" or math.random(1, 2) == 1) then
 					player:SetForcedAnimation("cheer1", 2);
@@ -36,10 +36,10 @@ function COMMAND:OnRun(player, arguments)
 				player:SetSharedVar("StanceIdle", false);
 			end;
 		else
-			Clockwork.player:Notify(player, "The model that you are using cannot perform this action!");
+			Clockwork.player:Notify(player, {"ModelCannotDoThisAction"});
 		end;
 	else
-		Clockwork.player:Notify(player, "You cannot do another stance or gesture yet!");
+		Clockwork.player:Notify(player, {"CannotDoAnotherGestureYet"});
 	end;
 end;
 

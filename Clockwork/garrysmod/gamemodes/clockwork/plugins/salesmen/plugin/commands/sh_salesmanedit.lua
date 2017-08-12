@@ -48,10 +48,10 @@ function COMMAND:OnRun(player, arguments)
 				end;
 			end;
 		else
-			Clockwork.player:Notify(player, "This entity is not a salesman!");
+			Clockwork.player:Notify(player, {"EntityNotSalesman"});
 		end;
 	else
-		Clockwork.player:Notify(player, "You must look at a valid entity!");
+		Clockwork.player:Notify(player, {"LookAtValidEntity"});
 	end;
 end;
 

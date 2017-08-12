@@ -8,14 +8,10 @@
 
 CW_ENGLISH = Clockwork.lang:GetTable("English");
 
-CW_ENGLISH["YouAddedSurfaceText"] = "You have successfully added some surface text!";
-CW_ENGLISH["YouRemovedSurfaceText"] = "You have successfully removed #1 surface text(s)!";
-CW_ENGLISH["NoSurfaceTextsNearPosition"] = "There were no surface texts near this position.";
 CW_ENGLISH["SurfaceTextToolDesc"] = "Add a string of text to the map. It can be colored and scaled.";
 CW_ENGLISH["SurfaceTextToolAddText"] = "Text Add/Remove";
 CW_ENGLISH["SurfaceTextToolSizeText"] = "Text Size";
 CW_ENGLISH["SurfaceTextToolColorText"] = "Text Color";
-
 
 CW_ENGLISH["ContainerToolMode1"] = "1. Container Filler";
 CW_ENGLISH["ContainerToolMode2"] = "2. Container Set Message";

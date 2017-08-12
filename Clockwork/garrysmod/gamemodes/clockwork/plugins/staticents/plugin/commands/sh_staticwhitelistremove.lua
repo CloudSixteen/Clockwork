@@ -19,9 +19,9 @@ function COMMAND:OnRun(player, arguments)
 		table.RemoveByValue(cwStaticEnts.whitelist, arguments[1]);
 		Clockwork.kernel:SaveSchemaData("maps/"..game.GetMap().."/static_entities/whitelist", cwStaticEnts.whitelist);
 
-		Clockwork.player:Notify(player, "You have removed "..arguments[1].." from the list of entities that can be staticed.");
+		Clockwork.player:Notify(player, {"StaticWhitelistRemoved", arguments[1]});
 	else
-		Clockwork.player:Notify(player, arguments[1].." isn't in the static whitelist!");
+		Clockwork.player:Notify(player, {"StaticNotWhitelisted", arguments[1]});
 	end;	
 end;
 

@@ -39,16 +39,12 @@ function COMMAND:OnRun(player, arguments)
 			end;
 			
 			if (removed > 0) then
-				if (removed == 1) then
-					Clockwork.player:Notify(player, "You have removed "..removed.." "..name.." spawn point.");
-				else
-					Clockwork.player:Notify(player, "You have removed "..removed.." "..name.." spawn points.");
-				end;
+				Clockwork.player:Notify(player, {"YouRemovedNameSpawnpoints", removed, name});
 			else
-				Clockwork.player:Notify(player, "There were no "..name.." spawn points near this position.");
+				Clockwork.player:Notify(player, {"NoNameSpawnpointsNearHere", name});
 			end;
 		else
-			Clockwork.player:Notify(player, "There are no "..name.." spawn points.");
+			Clockwork.player:Notify(player, {"NoNameSpawnpoints", name});
 		end;
 		
 		cwSpawnPoints:SaveSpawnPoints();
@@ -66,21 +62,17 @@ function COMMAND:OnRun(player, arguments)
 			end;
 			
 			if (removed > 0) then
-				if (removed == 1) then
-					Clockwork.player:Notify(player, "You have removed "..removed.." default spawn point.");
-				else
-					Clockwork.player:Notify(player, "You have removed "..removed.." default spawn points.");
-				end;
+				Clockwork.player:Notify(player, {"YouRemovedDefaultSpawnpoints", removed});
 			else
-				Clockwork.player:Notify(player, "There were no default spawn points near this position.");
+				Clockwork.player:Notify(player, {"NoDefaultSpawnpointsNearHere"});
 			end;
 		else
-			Clockwork.player:Notify(player, "There are no default spawn points.");
+			Clockwork.player:Notify(player, {"NoDefaultSpawnpoints"});
 		end;
 		
 		cwSpawnPoints:SaveSpawnPoints();
 	else
-		Clockwork.player:Notify(player, "This is not a valid class or faction!");
+		Clockwork.player:Notify(player, {"NotValidClassOrFaction"});
 	end;
 end;
 

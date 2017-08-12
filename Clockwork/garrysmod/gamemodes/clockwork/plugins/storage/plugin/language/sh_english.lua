@@ -15,4 +15,5 @@ CW_ENGLISH["ContainerFilledWithRandomItems"] = "This container has been filled w
 CW_ENGLISH["ContainerCategoryNotExist"] = "That item category doesn't exist!";
 CW_ENGLISH["ContainerNotValidScale"] = "That is not a valid scale!";
 CW_ENGLISH["ContainerNotValid"] = "That is not a valid container!";
+CW_ENGLISH["ContainerIncorrectPassword"] = "You have entered an incorrect password!";
 

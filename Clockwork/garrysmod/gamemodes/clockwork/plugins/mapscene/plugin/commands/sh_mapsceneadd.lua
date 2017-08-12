@@ -24,7 +24,7 @@ function COMMAND:OnRun(player, arguments)
 	cwMapScene.storedList[#cwMapScene.storedList + 1] = data;
 	cwMapScene:SaveMapScenes();
 	
-	Clockwork.player:Notify(player, "You have added a map scene.");
+	Clockwork.player:Notify(player, {"MapSceneAdded"});
 end;
 
 COMMAND:Register();

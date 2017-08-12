@@ -23,7 +23,7 @@ function COMMAND:OnRun(player, arguments)
 
 	table.Merge(whitelist, defaultList);
 	
-	Clockwork.player:Notify(player, "Whitelist: "..table.concat(whitelist, ", "));
+	Clockwork.player:Notify(player, {"StaticWhitelistView", table.concat(whitelist, ", ")});
 end;
 
 COMMAND:Register();

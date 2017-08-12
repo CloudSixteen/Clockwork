@@ -25,8 +25,8 @@ function COMMAND:OnRun(player, arguments)
 			local forcedAnimation = player:GetForcedAnimation();
 			local action = string.lower(arguments[1] or "");
 			
-			if (forcedAnimation and cwEmoteAnimscwEmoteAnims[forcedAnimation.animation]) then
-				Clockwork.player:Notify(player, "You cannot do this action at the moment!");
+			if (forcedAnimation and cwEmoteAnims.stanceList[forcedAnimation.animation]) then
+				Clockwork.player:Notify(player, {"CannotDoGestureAtTheMoment"});
 			else
 				if (action == "close") then
 					player:SetForcedAnimation("wave_close", 2);
@@ -39,10 +39,10 @@ function COMMAND:OnRun(player, arguments)
 				player:SetSharedVar("StanceIdle", false);
 			end;
 		else
-			Clockwork.player:Notify(player, "The model that you are using cannot perform this action!");
+			Clockwork.player:Notify(player, {"ModelCannotDoThisAction"});
 		end;
 	else
-		Clockwork.player:Notify(player, "You cannot do another stance or gesture yet!");
+		Clockwork.player:Notify(player, {"CannotDoAnotherGestureYet"});
 	end;
 end;
 

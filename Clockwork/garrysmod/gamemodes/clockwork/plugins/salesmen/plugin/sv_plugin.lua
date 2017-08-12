@@ -8,7 +8,7 @@
 
 Clockwork.datastream:Hook("SalesmanDone", function(player, data)
 	if (IsValid(data) and data:GetClass() == "cw_salesman") then
-		data:TalkToPlayer(player, data.cwTextTab.doneBusiness, "Thanks for doing business, see you soon!");
+		data:TalkToPlayer(player, data.cwTextTab.doneBusiness, {"SalesmenThanksForBusiness"});
 	end;
 end);
 
@@ -20,7 +20,7 @@ Clockwork.datastream:Hook("Salesmenu", function(player, data)
 			
 			if (data.tradeType == "Sells" and !itemTable("isBaseItem") and data.entity.cwSellTab[data.uniqueID]) then
 				if (data.entity.cwStock[itemUniqueID] == 0) then
-					data.entity:TalkToPlayer(player, data.entity.cwTextTab.noStock, "I do not have that item in stock!");
+					data.entity:TalkToPlayer(player, data.entity.cwTextTab.noStock, {"SalesmenNotInStock"});
 					
 					return;
 				end;
@@ -41,7 +41,7 @@ Clockwork.datastream:Hook("Salesmenu", function(player, data)
 				end;
 				
 				if (!player:CanHoldWeight(itemTable("weight") * amount)) then
-					Clockwork.player:Notify(player, "You do not have enough inventory space!");
+					Clockwork.player:Notify(player, {"YourInventoryFull"});
 					
 					return;
 				end;
@@ -58,10 +58,10 @@ Clockwork.datastream:Hook("Salesmenu", function(player, data)
 						
 						if (amount > 1) then
 							Clockwork.player:GiveCash(player, -(cost * amount), amount.." "..Clockwork.kernel:Pluralize(itemTable("name")));
-							Clockwork.player:Notify(player, "You have purchased "..amount.." "..Clockwork.kernel:Pluralize(itemTable("name")).." from "..data.entity:GetNetworkedString("Name")..".");
+							Clockwork.player:Notify(player, {"SalesmenYouPurchasedFrom", Clockwork.kernel:Pluralize(itemTable("name")), data.entity:GetNetworkedString("Name")});
 						else
 							Clockwork.player:GiveCash(player, -(cost * amount), amount.." "..itemTable("name"));
-							Clockwork.player:Notify(player, "You have purchased "..amount.." "..itemTable("name").." from "..data.entity:GetNetworkedString("Name")..".");
+							Clockwork.player:Notify(player, {"SalesmenYouPurchasedFrom", amount, itemTable("name"), data.entity:GetNetworkedString("Name")});
 						end;
 						
 						data.entity.cwCash = data.entity.cwCash + cost;
@@ -78,7 +78,7 @@ Clockwork.datastream:Hook("Salesmenu", function(player, data)
 					data.entity:TalkToPlayer(
 						player, 
 						data.entity.cwTextTab.needMore, 
-						"You need another "..Clockwork.kernel:FormatCash(cashRequired, nil, true).."!"
+						{"SalesmenYouNeedAnother", Clockwork.kernel:FormatCash(cashRequired, nil, true)}
 					);
 				end;
 			elseif (data.tradeType == "Buys" and !itemTable("isBaseItem") and data.entity.cwBuyTab[itemUniqueID]) then
@@ -102,10 +102,10 @@ Clockwork.datastream:Hook("Salesmenu", function(player, data)
 							end;
 							
 							Clockwork.player:GiveCash(player, cost, "1 "..itemTable("name"));
-							Clockwork.player:Notify(player, "You have sold 1 "..itemTable("name").." to "..data.entity:GetNetworkedString("Name")..".");
+							Clockwork.player:Notify(player, {"SalesmenYouSold", "1", itemTable("name"), data.entity:GetNetworkedString("Name")});
 						end;
 					else
-						data.entity:TalkToPlayer(player, data.entity.cwTextTab.cannotAfford, "I cannot afford to buy that item from you!");
+						data.entity:TalkToPlayer(player, data.entity.cwTextTab.cannotAfford, {"SalesmenCannotAfford"});
 					end;
 					
 					Clockwork.datastream:Start(player, "SalesmenuRebuild", data.entity.cwCash);
@@ -237,6 +237,7 @@ function cwSalesmen:LoadSalesmen()
 		salesman:SetupSalesman(v.name, v.physDesc, v.animation, v.showChatBubble);
 
 		Clockwork.entity:MakeSafe(salesman, true, true);
+		
 		self.salesmen[k] = salesman;
 	end;
 end;

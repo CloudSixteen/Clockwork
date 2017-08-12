@@ -43,7 +43,7 @@ function COMMAND:OnRun(player, arguments)
 	cwDynamicAdverts.storedList[#cwDynamicAdverts.storedList + 1] = data;
 	cwDynamicAdverts:SaveDynamicAdverts();
 	
-	Clockwork.player:Notify(player, "You have added a dynamic advert.");
+	Clockwork.player:Notify(player, {"DynamicAdvertAdded"});
 end;
 
 COMMAND:Register();
