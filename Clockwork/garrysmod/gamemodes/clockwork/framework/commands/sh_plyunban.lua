@@ -23,7 +23,7 @@ function COMMAND:OnRun(player, arguments)
 	local identifier = string.upper(arguments[1]);
 	
 	if (Clockwork.bans.stored[identifier]) then
-		Clockwork.player:NotifyAll(player:Name().." has unbanned '"..Clockwork.bans.stored[identifier].steamName.."'.");
+		Clockwork.player:NotifyAll({"PlayerUnbannedPlayer", player:Name(), Clockwork.bans.stored[identifier].steamName});
 		Clockwork.bans:Remove(identifier);
 	else
 		Clockwork.player:Notify(player, {"ThereAreNoBannedPlayersWithID", identifier});

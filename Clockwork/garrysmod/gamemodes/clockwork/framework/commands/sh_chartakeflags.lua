@@ -29,7 +29,7 @@ function COMMAND:OnRun(player, arguments)
 		
 		Clockwork.player:TakeFlags(target, arguments[2]);
 		
-		Clockwork.player:NotifyAll(player:Name().." took '"..arguments[2].."' flags from "..target:Name()..".");
+		Clockwork.player:NotifyAll({"PlayerTookFlagsFrom", player:Name(), arguments[2], target:Name()});
 	else
 		Clockwork.player:Notify(player, {"NotValidCharacter", arguments[1]});
 	end;

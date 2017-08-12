@@ -28,7 +28,7 @@ function COMMAND:OnRun(player, arguments)
 			Clockwork.player:SetSafePosition(target, other:GetPos());
 
 			if (!isSilent) then
-				Clockwork.player:NotifyAll(player:Name().." has teleported "..target:Name().." to "..other:Name()..".");
+				Clockwork.player:NotifyAll({"PlayerTeleportedPlayerTo", player:Name(), target:Name(), other:Name()});
 			end;
 		else
 			Clockwork.player:Notify(player, {"NotValidPlayer", arguments[2]});

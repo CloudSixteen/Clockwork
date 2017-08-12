@@ -901,7 +901,7 @@ function PANEL:Init()
 			);
 			
 			Clockwork.kernel:AddMenuFromData(nil, options, function(menu, key, value)
-				menu:AddOption(key, function()
+				menu:AddOption(T(key), function()
 					Clockwork.datastream:Start("InteractCharacter", {
 						characterID = self.customData.characterID, action = value}
 					);
@@ -1292,7 +1292,7 @@ function PANEL:Init()
 	end;
 	
 	self.attributesForm = vgui.Create("DForm");
-	self.attributesForm:SetName(Clockwork.option:GetKey("name_attributes"));
+	self.attributesForm:SetName(Clockwork.option:Translate("name_attributes"));
 	self.attributesForm:SetPadding(4);
 	
 	self.categoryList = vgui.Create("DCategoryList", self);
@@ -2165,7 +2165,7 @@ Clockwork.character:RegisterCreationPanel("Default Class", "cwCharacterStageThre
 );
 
 Clockwork.character:RegisterCreationPanel(
-	Clockwork.option:GetKey("name_attributes"), "cwCharacterStageFour", nil,
+	Clockwork.option:Translate("name_attributes"), "cwCharacterStageFour", nil,
 	function(info)
 		local attributeTable = Clockwork.attribute:GetAll();
 		

@@ -18,16 +18,18 @@ COMMAND.optionalArguments = 1;
 
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)
-	local sNewMap = string.lower(arguments[1]);
+	local newMap = string.lower(arguments[1]);
 
-	if (file.Exists("maps/"..sNewMap..".bsp", "GAME")) then
-		Clockwork.player:NotifyAll(player:Name().." is changing the map to "..sNewMap.." in five seconds!");
+	if (file.Exists("maps/"..newMap..".bsp", "GAME")) then
+		local delay = tonumber(arguments[2]) or 5;
+		
+		Clockwork.player:NotifyAll({"PlayerChangingMapIn", player:Name(), newMap, delay});
 
-		timer.Simple(tonumber(arguments[2]) or 5, function()
-			RunConsoleCommand("changelevel", sNewMap);
+		timer.Simple(delay, function()
+			RunConsoleCommand("changelevel", newMap);
 		end);
 	else
-		Clockwork.player:Notify(player, sNewMap.." is not a valid map!");
+		Clockwork.player:Notify(player, {"MapNameIsNotValid", newMap});
 	end;
 end;
 

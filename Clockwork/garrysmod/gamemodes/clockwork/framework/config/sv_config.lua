@@ -123,6 +123,6 @@ Clockwork.config:Add("enable_ironsights", true, true);
 Clockwork.config:Add("ironsights_spread", 0.5, true);
 Clockwork.config:Add("ironsights_slow", 0.5, true);
 
-Clockwork.config:Add("crafting_description", "Combine various items to make new items.", true);
+Clockwork.config:Add("description_crafting", "Combine various items to make new items.", true);
 Clockwork.config:Add("crafting_menu_enabled", false, true);
-Clockwork.config:Add("crafting_name", "Crafting", true);
+Clockwork.config:Add("name_crafting", "Crafting", true);

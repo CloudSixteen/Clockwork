@@ -863,14 +863,10 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 		end;
 		
 		if (pointsSpent > maximumPoints) then
-			return self:SetCreateFault(
-				player, "You have chosen more "..cwOption:GetKey("name_attribute", true).." points than you can afford to spend!"
-			);
+			return self:SetCreateFault(player, {"FaultMorePointsThanCanSpend", cwOption:GetKey("name_attribute", true)});
 		end;
 	elseif (attributes) then
-		return self:SetCreateFault(
-			player, "You did not choose any "..cwOption:GetKey("name_attributes", true).." or the ones that you did are not valid!"
-		);
+		return self:SetCreateFault(player, {"FaultDidNotChooseAttributes", cwOption:GetKey("name_attributes", true)});
 	end;
 	
 	if (!factionTable.GetName) then
@@ -880,70 +876,48 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 				data.surname = string.gsub(data.surname, "^.", string.upper);
 				
 				if (string.find(data.forename, "[%p%s%d]") or string.find(data.surname, "[%p%s%d]")) then
-					return self:SetCreateFault(
-						player, "Your forename and surname must not contain punctuation, spaces or digits!"
-					);
+					return self:SetCreateFault(player, {"FaultNameNoSpecialChars"});
 				end;
 				
 				if (!string.find(data.forename, "[aeiou]") or !string.find(data.surname, "[aeiou]")) then
-					return self:SetCreateFault(
-						player, "Your forename and surname must both contain at least one vowel!"
-					);
+					return self:SetCreateFault(player, {"FaultNameHaveVowel"});
 				end;
 				
 				if (string.utf8len(data.forename) < 2 or string.utf8len(data.surname) < 2) then
-					return self:SetCreateFault(
-						player, "Your forename and surname must both be at least 2 characters long!"
-					);
+					return self:SetCreateFault(player, {"FaultNameMinLength"});
 				end;
 				
 				if (string.utf8len(data.forename) > 16 or string.utf8len(data.surname) > 16) then
-					return self:SetCreateFault(
-						player, "Your forename and surname must not be greater than 16 characters long!"
-					);
+					return self:SetCreateFault(player, {"FaultNameTooLong"});
 				end;
 			else
-				return self:SetCreateFault(
-					player, "You did not choose a name, or the name that you chose is not valid!"
-				);
+				return self:SetCreateFault(player, {"FaultNameInvalid"});
 			end;
 		elseif (!data.fullName or data.fullName == "") then
-			return self:SetCreateFault(
-				player, "You did not choose a name, or the name that you chose is not valid!"
-			);
+			return self:SetCreateFault(player, {"FaultNameInvalid"});
 		end;
 	end;
 	
 	if (cwCommand:FindByID("CharPhysDesc") != nil) then
 		if (type(data.physDesc) != "string") then
-			return self:SetCreateFault(
-				player, "You did not enter a physical description!"
-			);
+			return self:SetCreateFault(player, {"FaultPhysDescNeeded"});
 		elseif (string.utf8len(data.physDesc) < minimumPhysDesc) then
-			return self:SetCreateFault(
-				player, "The physical description must be at least "..minimumPhysDesc.." characters long!"
-			);
+			return self:SetCreateFault(player, {"PhysDescMinimumLength", minimumPhysDesc});
 		end;
 		
 		info.data["PhysDesc"] = cwKernel:ModifyPhysDesc(data.physDesc);
 	end;
 	
 	if (!factionTable.GetModel and !info.model) then
-		return self:SetCreateFault(
-			player, "You did not choose a model, or the model that you chose is not valid!"
-		);
+		return self:SetCreateFault(player, {"FaultNeedModel"});
 	end;
 	
 	if (!cwFaction:IsGenderValid(info.faction, info.gender)) then
-		return self:SetCreateFault(
-			player, "You did not choose a gender, or the gender that you chose is not valid!"
-		);
+		return self:SetCreateFault(player, {"FaultNeedGender"});
 	end;
 	
 	if (factionTable.whitelist and !self:IsWhitelisted(player, info.faction)) then
-		return self:SetCreateFault(
-			player, "You are not on the "..info.faction.." whitelist!"
-		);
+		return self:SetCreateFault(player, {"FaultNotOnWhitelist", info.faction});
 	elseif (cwFaction:IsModelValid(factionTable.name, info.gender, info.model)
 	or (factionTable.GetModel and !info.model)) then
 		local charactersTable = cwCfg:Get("mysql_characters_table"):Get();
@@ -952,9 +926,7 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 		local characters = player:GetCharacters();
 		
 		if (cwFaction:HasReachedMaximum(player, factionTable.name)) then
-			return self:SetCreateFault(
-				player, "You cannot create any more characters in this faction."
-			);
+			return self:SetCreateFault(player, {"FaultTooManyInFaction"});
 		end;
 		
 		for i = 1, self:GetMaximumCharacters(player) do
@@ -983,26 +955,20 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 				local fault = factionTable:OnCreation(player, info);
 				
 				if (fault == false or type(fault) == "string") then
-					return self:SetCreateFault(
-						player, fault or "There was an error creating this character!"
-					);
+					return self:SetCreateFault(player, fault or {"FaultGenericError"});
 				end;
 			end;
 			
 			for k, v in pairs(characters) do
 				if (v.name == info.name) then
-					return self:SetCreateFault(
-						player, "You already have a character with the name '"..info.name.."'!"
-					);
+					return self:SetCreateFault(player, {"YouAlreadyHaveCharName", info.name});
 				end;
 			end;
 			
 			local fault = cwPlugin:Call("PlayerAdjustCharacterCreationInfo", player, info, data);
 			
 			if (fault == false or type(fault) == "string") then
-				return self:SetCreateFault(
-					player, fault or "There was an error creating this character!"
-				);
+				return self:SetCreateFault(player, fault or {"FaultGenericError"});
 			end;
 			
 			local queryObj = cwDatabase:Select(charactersTable);
@@ -1012,9 +978,7 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 					if (!IsValid(player)) then return; end;
 					
 					if (cwDatabase:IsResult(result)) then
-						self:SetCreateFault(
-							player, "A character with the name '"..info.name.."' already exists!"
-						);
+						self:SetCreateFault(player, {"FaultCharNameExists", info.name});
 						player.cwIsCreatingChar = nil;
 					else
 						self:LoadCharacter(player, characterID,
@@ -1046,12 +1010,10 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 				end);
 			queryObj:Pull();
 		else
-			return self:SetCreateFault(player, "You cannot create any more characters!");
+			return self:SetCreateFault(player, {"FaultTooManyCharacters"});
 		end;
 	else
-		return self:SetCreateFault(
-			player, "You did not choose a model, or the model that you chose is not valid!"
-		);
+		return self:SetCreateFault(player, {"FaultNeedModel"});
 	end;
 end;
 

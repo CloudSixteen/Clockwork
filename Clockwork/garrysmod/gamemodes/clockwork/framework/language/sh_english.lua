@@ -24,10 +24,16 @@ CW_ENGLISH["ConfigVariablesPrinted"] = "The config variables have been printed t
 
 CW_ENGLISH["PlayerForceDemoted"] = "#1 has force-demoted #2 to rank '#3'.";
 CW_ENGLISH["PlayerDemotedPlayer"] = "#1 has demoted #2 to rank '#3'.";
+CW_ENGLISH["PlayerDemotedUserToGroup"] = "#1 has demoted #2 from #3 to #4.";
 CW_ENGLISH["DemotePermsNeeded"] = "You do not have permission to demote this player.";
 CW_ENGLISH["DemoteFactionOnly"] = "You can only demote someone within your own faction!";
 CW_ENGLISH["YouCannotDemotePlayer"] = "You cannot demote this player!";
 CW_ENGLISH["ForceDemoteAdminNeeded"] = "You must be an admin or superadmin to force-demote!";
+
+CW_ENGLISH["PlayerUnbannedPlayer"] = "#1 has unbanned #2.";
+
+CW_ENGLISH["PlayerSetConfigRestart"] = "#1 set #2 to '#3' for the next restart.";
+CW_ENGLISH["PlayerSetConfig"] = "#1 set #2 to '#3'.";
 
 CW_ENGLISH["PlayerForcePromoted"] = "#1 has force-promoted #2 to rank '#3'.";
 CW_ENGLISH["PlayerPromotedPlayer"] = "#1 has promoted #2 to rank '#3'.";
@@ -101,6 +107,10 @@ CW_ENGLISH["PluginNotValid"] = "That plugin is not valid!";
 CW_ENGLISH["PluginCouldNotBeUnloaded"] = "That plugin could not be unloaded!";
 CW_ENGLISH["PluginCouldNotBeLoaded"] = "That plugin could not be loaded!";
 CW_ENGLISH["PluginDependsOnAnother"] = "That plugin depends on another plugin!";
+CW_ENGLISH["PlayerUnloadedPlugin"] = "#1 has unloaded the #2 plugin for the next restart.";
+CW_ENGLISH["PlayerLoadedPlugin"] = "#1 has loaded the #2 plugin for the next restart.";
+CW_ENGLISH["PlayerRestartingMapIn"] = "#1 is restarting the map in #2 second(s)!";
+CW_ENGLISH["PlayerChangingMapIn"] = "#1 is changing the map to #2 in #3 second(s)!";
 
 CW_ENGLISH["MapNameIsNotValid"] = "#1 is not a valid map!";
 CW_ENGLISH["ConfigKeyIsStatic"] = "#1 is a static config key!";
@@ -148,13 +158,28 @@ CW_ENGLISH["UserGroupMustBeAdminType"] = "The user group must be 'superadmin', '
 CW_ENGLISH["PlayerTookFlagsFrom"] = "#1 took '#2' flags from #3.";
 CW_ENGLISH["PlayersHealthWasSet"] = "#1's health was set to #2.";
 CW_ENGLISH["YourHealthWasSet"] = "Your health was set to #1 by #2.";
+CW_ENGLISH["PlayerSetPlayerName"] = "#1 set #2's name to #3.";
+CW_ENGLISH["PlayerSetPlayerModel"] = "#1 set #2's model to '#3'.";
 CW_ENGLISH["PlayerSlainBy"] = "#1 was slain by #2.";
 
 CW_ENGLISH["YouAreAlreadySearchingCharacter"] = "You are already searching a character!";
 CW_ENGLISH["PlayerAlreadyBeingSearched"] = "#1 is already being searched!";
 
+CW_ENGLISH["PlayerTeleportedPlayerTo"] = "#1 has teleported #2 to #3!";
+CW_ENGLISH["PlayerTeleportedPlayerToLocation"] = "#1 has teleported #2 to their target location!";
 CW_ENGLISH["PlayerWasRespawnedToTarget"] = "#1 was respawned and teleported to your target position!";
 CW_ENGLISH["PlayerWasRespawnedToDeath"] = "#1 was respawned at their position of death.";
+
+CW_ENGLISH["PlayerSetPlayerGroupTo"] = "#1 has set #2's user group to #3.";
+CW_ENGLISH["PlayerSetPlayerFlagsTo"] = "#1 has set #2's flags to #3.";
+CW_ENGLISH["PlayerKickedPlayer"] = "#1 has kicked #2 (#3).";
+CW_ENGLISH["PlayerGoneToPlayer"] = "#1 has gone to #2's location.";
+CW_ENGLISH["PlayerGavePlayerFlags"] = "#1 gave #2 '#3' flags.";
+CW_ENGLISH["PlayerBroughtPlayerTo"] = "#1 has brought #2 to their location.";
+
+CW_ENGLISH["PlayerBannedPlayerHours"] = "#1 has banned #2 for #3 hour(s) (#4).";
+CW_ENGLISH["PlayerBannedPlayerMinutes"] = "#1 has banned #2 for #3 minute(s) (#4).";
+CW_ENGLISH["PlayerBannedPlayerPerma"] = "#1 has banned #2 permanently (#4).";
 
 CW_ENGLISH["PhysDescChangeOtherDesc"] = "What do you want to change the player's physical description to?";
 CW_ENGLISH["PhysDescChangeTitle"] = "Physical Description Change";
@@ -166,11 +191,86 @@ CW_ENGLISH["PhysDescMinimumLength"] = "The physical description must be at least
 CW_ENGLISH["RequestAdminRedirect"] = "You are an admin, use the /a command instead.";
 
 CW_ENGLISH["NoAccessToOrderItem"] = "You do not have access to order this item!";
+CW_ENGLISH["NoAccessToMenu"] = "You do not have access to the #1 menu!";
 CW_ENGLISH["CannotOrderThatFarAway"] = "You cannot order this item that far away!";
 CW_ENGLISH["RequiredIngredientsMissing"] = "You do not have the required ingredients to craft this recipe!";
 
+CW_ENGLISH["NoBlueprintsForCraftingMenu"] = ""There are no blueprints for the {MenuNameCrafting} menu!";
+
+CW_ENGLISH["NotValidAttribute"] = "That is not a valid {AttributeName}!";
+CW_ENGLISH["YouHaveMaxOfThis"] = "You have the maximum of this %1!";
+
 CW_ENGLISH["PlayerAlreadyIsFaction"] = "#1 is already on the #2 faction!";
 CW_ENGLISH["PlayerNotCorrectGenderForFaction"] = "#1 is not the correct gender for the #1 faction!";
+CW_ENGLISH["PlayerTransferredPlayer"] = "#1 has transferred #2 to the #3 faction.";
 CW_ENGLISH["PlayerCannotTransferToFaction"] = "#1 cannot be transferred to the #2 faction!";
 CW_ENGLISH["PlayerCouldNotBeTransferred"] = "#1 could not be transferred to the #2 faction!";
 CW_ENGLISH["PlayerNotOnFactionWhitelist"] = "#1 is not on the #2 whitelist!";
+
+CW_ENGLISH["FaultMorePointsThanCanSpend"] = "You have chosen more #1 points than you can afford to spend!";
+CW_ENGLISH["FaultDidNotChooseAttributes"] = "You did not choose any #1 or the ones that you did are not valid!";
+CW_ENGLISH["FaultNameNoSpecialChars"] = "Your forename and surname must not contain punctuation, spaces or digits!";
+CW_ENGLISH["FaultNameHaveVowel"] = "Your forename and surname must both contain at least one vowel!";
+CW_ENGLISH["FaultNameMinLength"] = "Your forename and surname must both be at least 2 characters long!";
+CW_ENGLISH["FaultNameTooLong"] = "Your forename and surname must not be greater than 16 characters long!";
+CW_ENGLISH["FaultNameInvalid"] = "You did not choose a name, or the name that you chose is not valid!";
+CW_ENGLISH["FaultPhysDescNeeded"] = "You did not enter a physical description!";
+CW_ENGLISH["FaultNeedModel"] = "You did not choose a model, or the model that you chose is not valid!";
+CW_ENGLISH["FaultNeedGender"] = "You did not choose a gender, or the gender that you chose is not valid!";
+CW_ENGLISH["FaultNotOnWhitelist"] = "You are not on the #1 whitelist!";
+CW_ENGLISH["FaultTooManyInFaction"] = "You cannot create any more characters in this faction.";
+CW_ENGLISH["FaultTooManyCharacters"] = "You cannot create any more characters !";
+CW_ENGLISH["FaultGenericError"] = "There was an error creating this character!";
+CW_ENGLISH["FaultCharNameExists"] = "A character with the name '#1' already exists!";
+CW_ENGLISH["YouAlreadyHaveCharName"] = "You already have a character with the name '#1'!";
+
+CW_ENGLISH["MenuDescAttributes"] = "Check the status of your attributes.";
+CW_ENGLISH["MenuDescScoreboard"] = "See which players are on the server.";
+CW_ENGLISH["MenuDescDirectory"] = "A directory of various topics and information.";
+CW_ENGLISH["MenuDescInventory"] = "Manage the items in your inventory.";
+CW_ENGLISH["MenuDescBusiness"] = "Order items for your business.";
+CW_ENGLISH["MenuDescPluginCenter"] = "Browse and subscribe to Clockwork plugins.";
+CW_ENGLISH["MenuDescCommunity"] = "Visit the official Clockwork community.";
+CW_ENGLISH["MenuDescSystem"] = "Access a variety of server-side options.";
+CW_ENGLISH["MenuDescCrafting"] = "Combine various items to make new items.";
+CW_ENGLISH["MenuDescDonations"] = "Check your donation subscriptions.";
+CW_ENGLISH["MenuDescClasses"] = "Choose from a list of available classes.";
+CW_ENGLISH["MenuDescSettings"] = "Configure the way Clockwork works for you.";
+
+CW_ENGLISH["MenuNameAttributes"] = "Attributes";
+CW_ENGLISH["MenuNameScoreboard"] = "Scoreboard";
+CW_ENGLISH["MenuNamePluginCenter"] = "Plugin Center";
+CW_ENGLISH["MenuNameDirectory"] = "Directory";
+CW_ENGLISH["MenuNameBusiness"] = "Business";
+CW_ENGLISH["MenuNameCrafting"] = "Crafting";
+CW_ENGLISH["MenuNameInventory"] = "Inventory";
+CW_ENGLISH["MenuNameCommunity"] = "Community";
+CW_ENGLISH["MenuNameClasses"] = "Classes";
+CW_ENGLISH["MenuNameDonations"] = "Donations";
+CW_ENGLISH["MenuNameSettings"] = "Settings";
+CW_ENGLISH["MenuNameSystem"] = "System";
+
+CW_ENGLISH["AttributeName"] = "Attribute";
+CW_ENGLISH["EquipmentName"] = "Equipment";
+
+CW_ENGLISH["Monday"] = "Monday";
+CW_ENGLISH["Tuesday"] = "Tuesday";
+CW_ENGLISH["Wednesday"] = "Wednesday";
+CW_ENGLISH["Thursday"] = "Thursday";
+CW_ENGLISH["Friday"] = "Friday";
+CW_ENGLISH["Saturday"] = "Saturday";
+CW_ENGLISH["Sunday"] = "Sunday";
+
+CW_ENGLISH["Confirm"] = "Confirm";
+CW_ENGLISH["Cancel"] = "Cancel";
+CW_ENGLISH["Delete"] = "Delete";
+CW_ENGLISH["Examine"] = "Examine";
+CW_ENGLISH["Destroy"] = "Destroy";
+CW_ENGLISH["Supply"] = "Supply";
+CW_ENGLISH["Drop"] = "Drop";
+CW_ENGLISH["Open"] = "Open";
+CW_ENGLISH["Take"] = "Take";
+CW_ENGLISH["Okay"] = "Okay";
+CW_ENGLISH["Use"] = "Use";
+CW_ENGLISH["Yes"] = "Yes";
+CW_ENGLISH["No"] = "No";

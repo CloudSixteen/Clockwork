@@ -36,12 +36,12 @@ function COMMAND:OnRun(player, arguments)
 							local hours = math.Round(duration / 3600);
 							
 							if (hours >= 1) then
-								Clockwork.player:NotifyAll(player:Name().." has banned '"..steamName.."' for "..hours.." hour(s) ("..reason..").");
+								Clockwork.player:NotifyAll({"PlayerBannedPlayerHours", player:Name(), steamName, hours, reason});
 							else
-								Clockwork.player:NotifyAll(player:Name().." has banned '"..steamName.."' for "..math.Round(duration / 60).." minute(s) ("..reason..").");
+								Clockwork.player:NotifyAll({"PlayerBannedPlayerMinutes", player:Name(), steamName, math.Round(duration / 60), reason});
 							end;
 						else
-							Clockwork.player:NotifyAll(player:Name().." has banned '"..steamName.."' permanently ("..reason..").");
+							Clockwork.player:NotifyAll({"PlayerBannedPlayerPerma", player:Name(), steamName, reason});
 						end;
 					else
 						Clockwork.player:Notify(player, {"IdentifierIsNotValid", steamName});

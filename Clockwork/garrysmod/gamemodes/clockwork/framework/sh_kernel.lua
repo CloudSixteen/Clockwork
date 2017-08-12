@@ -1704,7 +1704,7 @@ else
 		
 		local menuPanel = self:AddMenuFromData(nil, options, function(menuPanel, option, arguments)
 			if (itemTable and type(arguments) == "table" and arguments.isOptionTable) then
-				menuPanel:AddOption(arguments.title, function()
+				menuPanel:AddOption(T(arguments.title), function()
 					if (itemTable.HandleOptions) then
 						local transmit, data = itemTable:HandleOptions(arguments.name, nil, nil, entity);
 							
@@ -1719,7 +1719,7 @@ else
 					end;
 				end)
 			else
-				menuPanel:AddOption(option, function()
+				menuPanel:AddOption(T(option), function()
 					if (type(arguments) == "table" and arguments.isArgTable) then
 						if (arguments.Callback) then
 							arguments.Callback(function(arguments)
@@ -1775,15 +1775,15 @@ else
 	end;
 	
 	-- A function to add a menu from data.
-	function Clockwork.kernel:AddMenuFromData(menuPanel, data, Callback, iMinimumWidth, bManualOpen)
-		local bCreated = false;
+	function Clockwork.kernel:AddMenuFromData(menuPanel, data, Callback, minimumWidth, manualOpen)
+		local isCreated = false;
 		local options = {};
 		
 		if (!menuPanel) then
-			bCreated = true; menuPanel = DermaMenu();
+			isCreated = true; menuPanel = DermaMenu();
 			
-			if (iMinimumWidth) then
-				menuPanel:SetMinimumWidth(iMinimumWidth);
+			if (minimumWidth) then
+				menuPanel:SetMinimumWidth(minimumWidth);
 			end;
 		end;
 		
@@ -1801,15 +1801,15 @@ else
 					self:AddMenuFromData(menuPanel:AddSubMenu(v[1]), v[2], Callback);
 				end;
 			elseif (type(v[2]) == "function") then
-				menuPanel:AddOption(v[1], v[2]);
+				menuPanel:AddOption(T(v[1]), v[2]);
 			elseif (Callback) then
 				Callback(menuPanel, v[1], v[2]);
 			end;
 		end;
 		
-		if (!bCreated) then return; end;
+		if (!isCreated) then return; end;
 		
-		if (!bManualOpen) then
+		if (!manualOpen) then
 			if (#options > 0) then
 				menuPanel:Open();
 			else
@@ -2688,7 +2688,7 @@ else
 	end;
 	
 	-- A function to create the info menu panel.
-	function Clockwork.kernel:CreateInfoMenuPanel(x, y, iMinimumWidth)
+	function Clockwork.kernel:CreateInfoMenuPanel(x, y, minimumWidth)
 		if (IsValid(Clockwork.InfoMenuPanel)) then return; end;
 		
 		local options = {};
@@ -2730,7 +2730,7 @@ else
 						name = v[1];
 					end;
 					
-					subMenu:AddOption(name, function()
+					subMenu:AddOption(T(name), function()
 						if (arguments.Callback) then
 							if (type(v) == "table") then
 								arguments.Callback(v[2]);
@@ -2750,7 +2750,7 @@ else
 					end;
 				end;
 			else
-				menuPanel:AddOption(option, function()
+				menuPanel:AddOption(T(option), function()
 					if (arguments.Callback) then
 						arguments.Callback();
 					end;
@@ -2766,11 +2766,11 @@ else
 					panel:SetToolTip(arguments.toolTip);
 				end;
 			end;
-		end, iMinimumWidth);
+		end, minimumWidth);
 		
 		if (IsValid(Clockwork.InfoMenuPanel)) then
 			Clockwork.InfoMenuPanel:SetVisible(false);
-			Clockwork.InfoMenuPanel:SetSize(iMinimumWidth, Clockwork.InfoMenuPanel:GetTall());
+			Clockwork.InfoMenuPanel:SetSize(minimumWidth, Clockwork.InfoMenuPanel:GetTall());
 			Clockwork.InfoMenuPanel:SetPos(x, y);
 		end;
 	end;
@@ -2844,20 +2844,17 @@ else
 	function Clockwork.kernel:HandleItemSpawnIconClick(itemTable, spawnIcon, Callback)
 		local customFunctions = itemTable("customFunctions");
 		local itemFunctions = {};
-		local destroyName = Clockwork.option:GetKey("name_destroy");
-		local dropName = Clockwork.option:GetKey("name_drop");
-		local useName = Clockwork.option:GetKey("name_use");
 		
 		if (itemTable.OnUse) then
-			itemFunctions[#itemFunctions + 1] = itemTable("useText", useName);
+			itemFunctions[#itemFunctions + 1] = itemTable("useText", "Use");
 		end;
 		
 		if (itemTable.OnDrop) then
-			itemFunctions[#itemFunctions + 1] = itemTable("dropText", dropName);
+			itemFunctions[#itemFunctions + 1] = itemTable("dropText", "Drop");
 		end;
 		
 		if (itemTable.OnDestroy) then
-			itemFunctions[#itemFunctions + 1] = itemTable("destroyText", destroyName);
+			itemFunctions[#itemFunctions + 1] = itemTable("destroyText", "Destroy");
 		end;
 		
 		if (customFunctions) then
@@ -2868,6 +2865,7 @@ else
 
 		if (itemTable.GetOptions) then
 			local options = itemTable:GetOptions(nil, nil);
+			
 			for k, v in pairs(options) do
 				itemFunctions[#itemFunctions + 1] = {title = k, name = v};
 			end
@@ -2878,10 +2876,16 @@ else
 		end;
 		
 		Clockwork.plugin:Call("PlayerAdjustItemFunctions", itemTable, itemFunctions);
+		
 		self:ValidateTableKeys(itemFunctions);
 		
-		tableSort(itemFunctions, function(a, b) return ((type(a) == "table" and a.title) or a) < ((type(b) == "table" and b.title) or b); end);
-		if (#itemFunctions == 0 and !Callback) then return; end;
+		tableSort(itemFunctions, function(a, b)
+			return ((type(a) == "table" and a.title) or a) < ((type(b) == "table" and b.title) or b);
+		end);
+		
+		if (#itemFunctions == 0 and !Callback) then
+			return;
+		end;
 		
 		local options = {};
 		
@@ -2890,7 +2894,7 @@ else
 		end;
 	
 		local itemMenu = self:AddMenuFromData(nil, options, function(menuPanel, option, arguments)
-			menuPanel:AddOption(option, function()
+			menuPanel:AddOption(T(option), function()
 				if (type(arguments) == "table" and arguments.isArgTable) then
 					if (arguments.Callback) then
 						arguments.Callback();
@@ -2905,21 +2909,26 @@ else
 			end);
 			
 			menuPanel.Items = menuPanel:GetChildren();
+			
 			local panel = menuPanel.Items[#menuPanel.Items];
 			
 			if (IsValid(panel)) then
 				if (type(arguments) == "table") then
 					if (arguments.toolTip) then
 						self:CreateMarkupToolTip(panel);
+						
 						panel:SetMarkupToolTip(arguments.toolTip);
 					end;
 				end;
 			end;
 		end, nil, true);
 		
-		if (Callback) then Callback(itemMenu); end;
+		if (Callback) then
+			Callback(itemMenu);
+		end;
 		
 		itemMenu:SetMinimumWidth(100);
+		
 		Clockwork.plugin:Call("PlayerAdjustItemMenu", itemTable, itemMenu, itemFunctions);
 			
 		for k, v in pairs(itemFunctions) do
@@ -2927,8 +2936,8 @@ else
 			local dropText = itemTable("dropText", "Drop");
 			local destroyText = itemTable("destroyText", "Destroy");
 			
-			if ((!useText and v == "Use") or (useText and v == useText)) then
-				itemMenu:AddOption(v, function()
+			if (v == useText) then
+				itemMenu:AddOption(T(v), function()
 					if (itemTable) then
 						if (itemTable.OnHandleUse) then
 							itemTable:OnHandleUse(function()
@@ -2943,16 +2952,16 @@ else
 						end;
 					end;
 				end);
-			elseif ((!dropText and v == "Drop") or (dropText and v == dropText)) then
-				itemMenu:AddOption(v, function()
+			elseif (v == dropText) then
+				itemMenu:AddOption(T(v), function()
 					if (itemTable) then
 						self:RunCommand(
 							"InvAction", "drop", itemTable("uniqueID"), itemTable("itemID")
 						);
 					end;
 				end);
-			elseif ((!destroyText and v == "Destroy") or (destroyText and v == destroyText)) then
-				local subMenu = itemMenu:AddSubMenu(v);
+			elseif (v == destroyText) then
+				local subMenu = itemMenu:AddSubMenu(T(v));
 				
 				subMenu:AddOption("Yes", function()
 					if (itemTable) then
@@ -2964,7 +2973,7 @@ else
 				
 				subMenu:AddOption("No", function() end);
 			elseif (type(v) == "table") then
-				itemMenu:AddOption(v.title, function()
+				itemMenu:AddOption(T(v.title), function()
 					local defaultAction = true;
 					
 					if (itemTable.HandleOptions) then
@@ -2987,7 +2996,7 @@ else
 					itemTable:OnCustomFunction(v);
 				end;
 				
-				itemMenu:AddOption(v, function()
+				itemMenu:AddOption(T(v), function()
 					if (itemTable) then
 						self:RunCommand(
 							"InvAction", v, itemTable("uniqueID"), itemTable("itemID")

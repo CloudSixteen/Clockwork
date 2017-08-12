@@ -20,7 +20,7 @@ function COMMAND:OnRun(player, arguments)
 	local text = table.concat(arguments, " ");
 	
 	if (string.utf8len(text) < 8) then
-		Clockwork.player:Notify(player, L(player, "NotEnoughText"));
+		Clockwork.player:Notify(player, {"NotEnoughText"});
 		
 		return;
 	end;

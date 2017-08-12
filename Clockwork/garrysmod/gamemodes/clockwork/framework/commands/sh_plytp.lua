@@ -22,7 +22,7 @@ function COMMAND:OnRun(player, arguments)
 
 	if (target) then
 		Clockwork.player:SetSafePosition(target, player:GetEyeTraceNoCursor().HitPos);
-		Clockwork.player:NotifyAll(player:Name().." has teleported "..target:Name().." to their target location.");
+		Clockwork.player:NotifyAll({"PlayerTeleportedPlayerToLocation", player:Name(), target:Name()});
 	else
 		Clockwork.player:Notify(player, {"NotValidPlayer", arguments[1]});
 	end;

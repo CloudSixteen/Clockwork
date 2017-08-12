@@ -56,7 +56,7 @@ function PANEL:Rebuild()
 	
 	if (#categories == 0) then
 		local label = vgui.Create("cwInfoText", self);
-			label:SetText("There are no blueprints for the "..Clockwork.option:GetKey("crafting_name").." menu!");
+			label:SetText(L("NoBlueprintsForCraftingMenu"));
 			label:SetInfoColor("red");
 		self.panelList:AddItem(label);
 	else

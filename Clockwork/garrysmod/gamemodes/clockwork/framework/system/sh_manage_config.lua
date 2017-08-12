@@ -215,17 +215,17 @@ else
 						
 						if (configObject("isPrivate")) then
 							if (configObject("needsRestart")) then
-								Clockwork.player:NotifyAll(player:Name().." set "..keyPrefix..data.key.." to '"..string.rep("*", string.utf8len(printValue)).."' for the next restart.");
+								Clockwork.player:NotifyAll({"PlayerSetConfigRestart", player:Name(), keyPrefix..data.key, string.rep("*", string.utf8len(printValue))});
 							else
-								Clockwork.player:NotifyAll(player:Name().." set "..keyPrefix..data.key.." to '"..string.rep("*", string.utf8len(printValue)).."'.");
+								Clockwork.player:NotifyAll({"PlayerSetConfig", player:Name(), keyPrefix..data.key, string.rep("*", string.utf8len(printValue))});
 							end;
 						elseif (configObject("needsRestart")) then
-							Clockwork.player:NotifyAll(player:Name().." set "..keyPrefix..data.key.." to '"..printValue.."' for the next restart.");
+							Clockwork.player:NotifyAll({"PlayerSetConfigRestart", player:Name(), keyPrefix..data.key, printValue});
 						else
-							Clockwork.player:NotifyAll(player:Name().." set "..keyPrefix..data.key.." to '"..printValue.."'.");
+							Clockwork.player:NotifyAll({"PlayerSetConfig", player:Name(), keyPrefix..data.key, printValue});
 						end;
 						
-						Clockwork.datastream:Start(player, "SystemCfgValue", { data.key, configObject:Get() });
+						Clockwork.datastream:Start(player, "SystemCfgValue", {data.key, configObject:Get()});
 					else
 						Clockwork.player:Notify(player, {"UnableToBeSet", data.key});
 					end;

@@ -57,7 +57,7 @@ function PANEL:Rebuild()
 	
 	if (#categories == 0) then
 		local label = vgui.Create("cwInfoText", self);
-			label:SetText("You do not have access to the "..Clockwork.option:GetKey("name_business", true).." menu!");
+			label:SetText(L("NoAccessToMenu", Clockwork.option:GetKey("name_business", true)));
 			label:SetInfoColor("red");
 		self.panelList:AddItem(label);
 		

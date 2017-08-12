@@ -25,7 +25,7 @@ function COMMAND:OnRun(player, arguments)
 		target:SetCharacterData("Model", model, true);
 		target:SetModel(model);
 		
-		Clockwork.player:NotifyAll(player:Name().." set "..target:Name().."'s model to "..model..".");
+		Clockwork.player:NotifyAll({"PlayerSetPlayerModel", player:Name(), target:Name(), model});
 	else
 		Clockwork.player:Notify(player, {"NotValidCharacter", arguments[1]});
 	end;

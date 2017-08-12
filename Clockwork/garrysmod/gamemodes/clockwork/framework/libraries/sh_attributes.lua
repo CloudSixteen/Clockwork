@@ -36,7 +36,7 @@ if (SERVER) then
 			if (attributes[attribute]) then
 				if (attributes[attribute].amount == attributeTable.maximum) then
 					if (amount > 0) then
-						return false, "You have the maximum of this "..Clockwork.option:GetKey("name_attribute", true).."!";
+						return false, {"YouHaveMaxOfThis", Clockwork.option:GetKey("name_attribute", true)};
 					end;
 				end;
 			else
@@ -78,7 +78,7 @@ if (SERVER) then
 				end;
 			end;
 		else
-			return false, "That is not a valid attribute!";
+			return false, {"NotValidAttribute"};
 		end;
 	end;
 	

@@ -53,7 +53,7 @@ function COMMAND:OnRun(player, arguments)
 				target:SetCharacterData("Faction", faction, true);
 				
 				Clockwork.player:LoadCharacter(target, Clockwork.player:GetCharacterID(target));
-				Clockwork.player:NotifyAll(player:Name().." has transferred "..name.." to the "..faction.." faction.");
+				Clockwork.player:NotifyAll({"PlayerTransferredPlayer", player:Name(), name, faction});
 			else
 				Clockwork.player:Notify(player, fault or {"PlayerCouldNotBeTransferred", target:Name(), faction});
 			end;

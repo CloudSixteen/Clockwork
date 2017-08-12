@@ -56,11 +56,11 @@ function PANEL:ShowCategory(category)
 		end;
 		
 		finalCode = Clockwork.kernel:Replace(
-			finalCode, "[category]", Clockwork.option:GetKey("name_directory")
+			finalCode, "[category]", Clockwork.option:Translate("name_directory")
 		);
 		
 		finalCode = Clockwork.kernel:Replace(
-			finalCode, "{category}", Clockwork.option:GetKey("name_directory"):upper()
+			finalCode, "{category}", Clockwork.option:Translate("name_directory"):upper()
 		);
 		
 		finalCode = Clockwork.kernel:ParseData(finalCode);

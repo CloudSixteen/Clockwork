@@ -30,8 +30,10 @@ function COMMAND:OnRun(player, arguments)
 	
 	if (target) then
 		if (!Clockwork.player:IsProtected(target)) then
-			Clockwork.player:NotifyAll(player:Name().." has set "..target:Name().."'s user group to "..userGroup..".");
-				target:SetClockworkUserGroup(userGroup);
+			Clockwork.player:NotifyAll({"PlayerSetPlayerGroupTo", player:Name(), target:Name()});
+			
+			target:SetClockworkUserGroup(userGroup);
+			
 			Clockwork.player:LightSpawn(target, true, true);
 		else
 			Clockwork.player:Notify(player, {"PlayerHasProtectionStatus", target:Name()});

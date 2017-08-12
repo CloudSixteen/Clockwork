@@ -23,14 +23,14 @@ function COMMAND:OnRun(player, arguments)
 	for k, v in pairs(cwPlayer.GetAll()) do
 		if (v:HasInitialized()) then
 			if (string.lower(v:Name()) == charName) then
-				Clockwork.player:NotifyAll(player:Name().." unbanned the character '"..arguments[1].."'.");
+				Clockwork.player:NotifyAll({"PlayerUnbannedPlayer", player:Name(), arguments[1]});
 				Clockwork.player:SetBanned(player, false);
 				
 				return;
 			else
 				for k2, v2 in pairs(v:GetCharacters()) do
 					if (string.lower(v2.name) == charName) then
-						Clockwork.player:NotifyAll(player:Name().." unbanned the character '"..arguments[1].."'.");
+						Clockwork.player:NotifyAll({"PlayerUnbannedPlayer", player:Name(), arguments[1]});
 						
 						v2.data["CharBanned"] = false;
 						
@@ -52,7 +52,7 @@ function COMMAND:OnRun(player, arguments)
 					queryObj:AddWhere("_Name = ?", charName);
 				queryObj:Push();
 				
-				Clockwork.player:NotifyAll(player:Name().." unbanned the character '"..arguments[1].."'.");
+				Clockwork.player:NotifyAll({"PlayerUnbannedPlayer", player:Name(), arguments[1]});
 			else
 				Clockwork.player:Notify(player, {"NotValidCharacter", charName});
 			end;

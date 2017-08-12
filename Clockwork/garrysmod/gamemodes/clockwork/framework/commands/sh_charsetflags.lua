@@ -29,7 +29,7 @@ function COMMAND:OnRun(player, arguments)
 		
 		Clockwork.player:SetFlags(target, arguments[2]);
 		
-		Clockwork.player:NotifyAll(player:Name().." set "..target:Name().."'s flags to "..arguments[2]..".");
+		Clockwork.player:NotifyAll({"PlayerSetPlayerFlagsTo", player:Name(), target:Name(), arguments[2]});
 	else
 		Clockwork.player:Notify(player, {"NotValidCharacter", arguments[1]});
 	end;

@@ -22,7 +22,7 @@ function COMMAND:OnRun(player, arguments)
 	if (target) then
 		local name = table.concat(arguments, " ", 2);
 
-		Clockwork.player:NotifyAll(player:Name().." set "..target:Name().."'s name to "..name..".");
+		Clockwork.player:NotifyAll({"PlayerSetPlayerName", player:Name(), target:Name(), name});
 
 		Clockwork.player:SetName(target, name);
 	else

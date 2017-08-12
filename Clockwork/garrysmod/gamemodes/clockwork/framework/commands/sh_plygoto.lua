@@ -21,7 +21,7 @@ function COMMAND:OnRun(player, arguments)
 
 	if (target) then
 		Clockwork.player:SetSafePosition(player, target:GetPos());
-		Clockwork.player:NotifyAll(player:Name().." has gone to "..target:Name().."'s location.");
+		Clockwork.player:NotifyAll({"PlayerGoneToPlayer", player:Name(), target:Name()});
 	else
 		Clockwork.player:Notify(player, {"NotValidPlayer", arguments[1]});
 	end;

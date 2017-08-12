@@ -18,7 +18,7 @@ COMMAND.access = "s";
 function COMMAND:OnRun(player, arguments)
 	local searchData = arguments[1] or "";
 		Clockwork.datastream:Start(player, "CfgListVars", searchData);
-	Clockwork.player:Notify(player, L(player, "ConfigVariablesPrinted"));
+	Clockwork.player:Notify(player, {"ConfigVariablesPrinted"});
 end;
 
 COMMAND:Register();

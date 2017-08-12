@@ -23,7 +23,7 @@ function COMMAND:OnRun(player, arguments)
 		delay = arguments[1];
 	end;
 
-	Clockwork.player:NotifyAll(player:Name().." is restarting the map in "..delay.." seconds!");
+	Clockwork.player:NotifyAll({"PlayerRestartingMapIn", player:Name(), delay});
 	
 	timer.Simple(delay, function()
 		RunConsoleCommand("changelevel", game.GetMap());

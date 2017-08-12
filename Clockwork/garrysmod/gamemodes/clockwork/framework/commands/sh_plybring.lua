@@ -26,7 +26,7 @@ function COMMAND:OnRun(player, arguments)
 		Clockwork.player:SetSafePosition(target, trace.HitPos);
 
 		if (!isSilent) then
-			Clockwork.player:NotifyAll(player:Name().." has brought "..target:Name().." to their target location.");
+			Clockwork.player:NotifyAll({"PlayerBroughtPlayerTo", player:Name(), target:Name()});
 		end;
 	else
 		Clockwork.player:Notify(player, {"NotValidPlayer", arguments[1]});

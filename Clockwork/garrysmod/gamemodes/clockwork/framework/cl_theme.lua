@@ -134,22 +134,6 @@ function THEME:Initialize()
 	Clockwork.option:SetKey("info_text_orange_icon", "icon16/error.png");
 	Clockwork.option:SetKey("info_text_blue_icon", "icon16/information.png");
 
-	Clockwork.option:SetKey("name_attributes", "Attributes");
-	Clockwork.option:SetKey("name_attribute", "Attribute");
-	Clockwork.option:SetKey("name_system", "System");
-	Clockwork.option:SetKey("name_scoreboard", "Scoreboard");
-	Clockwork.option:SetKey("name_directory", "Directory");
-	Clockwork.option:SetKey("name_inventory", "Inventory");
-	Clockwork.option:SetKey("name_business", "Business");
-	Clockwork.option:SetKey("name_destroy", "Destroy");
-
-	Clockwork.option:SetKey("description_business", "Order items for your business.");
-	Clockwork.option:SetKey("description_inventory", "Manage the items in your inventory.");
-	Clockwork.option:SetKey("description_directory", "A directory of various topics and information.");
-	Clockwork.option:SetKey("description_system", "Access a variety of server-side options.");
-	Clockwork.option:SetKey("description_scoreboard", "See which players are on the server.");
-	Clockwork.option:SetKey("description_attributes", "Check the status of your attributes.");
-
 	Clockwork.option:SetKey("gradient", nil);
 	
 	Clockwork.option:SetColor("columnsheet_shadow_normal", Color(0, 0, 0, 255));

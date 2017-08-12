@@ -194,9 +194,9 @@ else
 			
 			if (wasSuccess) then
 				if (data[2]) then
-					Clockwork.player:NotifyAll(player:Name().." has unloaded the "..plugin.name.." plugin for the next restart.");
+					Clockwork.player:NotifyAll({"PlayerUnloadedPlugin", player:Name(), plugin.name});
 				else
-					Clockwork.player:NotifyAll(player:Name().." has loaded the "..plugin.name.." plugin for the next restart.");
+					Clockwork.player:NotifyAll({"PlayerLoadedPlugin", player:Name(), plugin.name});
 				end;
 				
 				for k, v in pairs(cwPlayer.GetAll()) do
@@ -209,7 +209,7 @@ else
 				end;
 				
 				if (#recipients > 0) then
-					Clockwork.datastream:Start(recipients, "SystemPluginSet", { plugin.name, data[2] });
+					Clockwork.datastream:Start(recipients, "SystemPluginSet", {plugin.name, data[2]});
 				end;
 			elseif (data[2]) then
 				Clockwork.player:Notify(player, {"PluginCouldNotBeUnloaded"});

@@ -105,6 +105,6 @@ Clockwork.config:AddToSystem("Enable Ironsights", "enable_ironsights", "Whether 
 Clockwork.config:AddToSystem("Ironsights Spread Reduction", "ironsights_spread", "The amount that ironsights will reduce bullet spread by.", 0, 1, 3);
 Clockwork.config:AddToSystem("Ironsights Slow Amount", "ironsights_slow", "The amount that using ironsights will decrease a player's movement speed by.", 0, 1, 3);
 
-Clockwork.config:AddToSystem("Crafting Description", "crafting_description", "The description of what the crafting menu does.");
+Clockwork.config:AddToSystem("Crafting Description", "description_crafting", "The description of what the crafting menu does.");
 Clockwork.config:AddToSystem("Crafting Enabled", "crafting_menu_enabled", "Whether or not the crafting menu is enabled.");
-Clockwork.config:AddToSystem("Crafting Name", "crafting_name", "The name of the button to open the crafting menu.");
+Clockwork.config:AddToSystem("Crafting Name", "name_crafting", "The name of the button to open the crafting menu.");

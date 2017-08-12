@@ -87,7 +87,7 @@ if (CLIENT) then
 		if (type(data) == "table") then
 			return L(unpack(data));
 		else
-			return data;
+			return L(data);
 		end;
 	end;
 else
@@ -107,7 +107,7 @@ else
 		elseif (type(data) == "table") then
 			return L(player, unpack(data));
 		else
-			return data;
+			return L(data);
 		end;
 	end;
 end;

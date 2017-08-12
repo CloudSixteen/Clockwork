@@ -21,6 +21,17 @@ function Clockwork.option:SetKey(key, value)
 	self.keys[key] = value;
 end;
 
+-- A function to get a schema key translated.
+function Clockwork.option:GetTranslated(key)
+	local value = T(self.keys[key]);
+	
+	if (lowerValue and type(value) == "string") then
+		return string.lower(value);
+	else
+		return value;
+	end;
+end;
+
 -- A function to get a schema key.
 function Clockwork.option:GetKey(key, lowerValue)
 	local value = self.keys[key];
@@ -57,40 +68,43 @@ end;
 
 Clockwork.option:SetKey("default_date", {month = 1, year = 2010, day = 1});
 Clockwork.option:SetKey("default_time", {minute = 0, hour = 0, day = 1});
-Clockwork.option:SetKey("default_days", {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"});
-Clockwork.option:SetKey("description_business", "Order items for your business.");
-Clockwork.option:SetKey("description_inventory", "Manage the items in your inventory.");
-Clockwork.option:SetKey("description_directory", "A directory of various topics and information.");
-Clockwork.option:SetKey("description_system", "Access a variety of server-side options.");
-Clockwork.option:SetKey("description_scoreboard", "See which players are on the server.");
-Clockwork.option:SetKey("description_attributes", "Check the status of your attributes.");
+Clockwork.option:SetKey("default_days", {{"Monday"}, {"Tuesday"}, {"Wednesday"}, {"Thursday"}, {"Friday"}, {"Saturday"}, {"Sunday"}});
+Clockwork.option:SetKey("description_business", {"MenuDescBusiness"});
+Clockwork.option:SetKey("description_inventory", {"MenuDescInventory"});
+Clockwork.option:SetKey("description_directory", {"MenuDescDirectory"});
+Clockwork.option:SetKey("description_system", {"MenuDescSystem"});
+Clockwork.option:SetKey("description_scoreboard", {"MenuDescScoreboard"});
+Clockwork.option:SetKey("description_attributes", {"MenuDescAttributes"});
+Clockwork.option:SetKey("description_crafting", {"MenuDescCrafting"});
+Clockwork.option:SetKey("description_settings", {"MenuDescSettings"});
+Clockwork.option:SetKey("description_donations", {"MenuDescDonations"});
+Clockwork.option:SetKey("description_classes", {"MenuDescClasses"});
 Clockwork.option:SetKey("intro_background_url", "");
 Clockwork.option:SetKey("intro_logo_url", "");
 Clockwork.option:SetKey("model_shipment", "models/items/item_item_crate.mdl");
 Clockwork.option:SetKey("model_cash", "models/props_c17/briefcase001a.mdl");
 Clockwork.option:SetKey("format_singular_cash", "$%a");
 Clockwork.option:SetKey("format_cash", "$%a");
-Clockwork.option:SetKey("name_attributes", "Attributes");
-Clockwork.option:SetKey("name_attribute", "Attribute");
-Clockwork.option:SetKey("name_system", "System");
-Clockwork.option:SetKey("name_scoreboard", "Scoreboard");
-Clockwork.option:SetKey("name_directory", "Directory");
-Clockwork.option:SetKey("name_inventory", "Inventory");
-Clockwork.option:SetKey("name_business", "Business");
-Clockwork.option:SetKey("name_destroy", "Destroy");
+Clockwork.option:SetKey("name_attributes", {"MenuNameAttributes"});
+Clockwork.option:SetKey("name_attribute", {"MenuNameAttribute"});
+Clockwork.option:SetKey("name_system", {"MenuNameSystem"});
+Clockwork.option:SetKey("name_scoreboard", {"MenuNameScoreboard"});
+Clockwork.option:SetKey("name_directory", {"MenuNameDirectory"});
+Clockwork.option:SetKey("name_inventory", {"MenuNameInventory"});
+Clockwork.option:SetKey("name_business", {"MenuNameBusiness"});
+Clockwork.option:SetKey("name_crafting", {"MenuNameCrafting"});
+Clockwork.option:SetKey("name_donations", {"MenuNameDonations"});
+Clockwork.option:SetKey("name_settings", {"MenuNameSettings"});
+Clockwork.option:SetKey("name_classes", {"MenuNameClasses"});
 Clockwork.option:SetKey("schema_logo", "");
 Clockwork.option:SetKey("intro_image", "");
 Clockwork.option:SetKey("intro_sound", "music/HL2_song25_Teleporter.mp3");
 Clockwork.option:SetKey("menu_music", "music/hl2_song32.mp3");
 Clockwork.option:SetKey("name_cash", "Cash");
-Clockwork.option:SetKey("name_drop", "Drop");
 Clockwork.option:SetKey("top_bars", false);
-Clockwork.option:SetKey("name_use", "Use");
 Clockwork.option:SetKey("gradient", "gui/gradient_up");
 
-Clockwork.option:SetKey("crafting_description", "Combine various items to make new items.");
 Clockwork.option:SetKey("crafting_menu_enabled", true);
-Clockwork.option:SetKey("crafting_name", "Crafting");
 
 Clockwork.option:SetSound("click_release", "ui/buttonclickrelease.wav");
 Clockwork.option:SetSound("rollover", "ui/buttonrollover.wav");

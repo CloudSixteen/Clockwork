@@ -70,7 +70,7 @@ function PANEL:Rebuild()
 	end);
 	
 	if (#categories > 0 or #miscellaneous > 0) then
-		local attributeName = string.lower(Clockwork.option:GetKey("name_attribute"));
+		local attributeName = Clockwork.option:Translate("name_attribute", true);
 		
 		--[[
 		local label = vgui.Create("cwInfoText", self);
@@ -146,7 +146,7 @@ function PANEL:Rebuild()
 		end;
 	else
 		local label = vgui.Create("cwInfoText", self);
-			label:SetText("You do not have access to any "..Clockwork.option:GetKey("name_attributes", true).."!");
+			label:SetText("You do not have access to any "..Clockwork.option:Translate("name_attributes", true).."!");
 			label:SetInfoColor("red");
 		self.panelList:AddItem(label);
 	end;

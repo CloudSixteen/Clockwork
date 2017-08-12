@@ -176,7 +176,7 @@ cwDatastream:Hook("OrderTime", function(data)
 	
 	local activePanel = cwMenu:GetActivePanel();
 	
-	if (activePanel and activePanel:GetPanelName() == cwOption:GetKey("name_business")) then
+	if (activePanel and activePanel:GetPanelName() == cwOption:Translate("name_business")) then
 		activePanel:Rebuild();
 	end;
 end);
@@ -759,7 +759,7 @@ function Clockwork:GetEntityMenuOptions(entity, options)
 			if (itemTable.GetEntityMenuOptions) then
 				itemTable:GetEntityMenuOptions(entity, options);
 			end;
-						
+			
 			options["Take"] = "cwItemTake";
 			options["Examine"] = "cwItemExamine";
 		end;
@@ -1405,28 +1405,34 @@ function Clockwork:ScoreboardAdjustPlayerInfo(info) end;
 
 -- Called when the menu's items should be adjusted.
 function Clockwork:MenuItemsAdd(menuItems)
-	local attributesName = cwOption:GetKey("name_attributes");
-	local systemName = cwOption:GetKey("name_system");
-	local scoreboardName = cwOption:GetKey("name_scoreboard");
-	local directoryName = cwOption:GetKey("name_directory");
-	local inventoryName = cwOption:GetKey("name_inventory");
+	local attributesName = cwOption:Translate("name_attributes");
+	local systemName = cwOption:Translate("name_system");
+	local scoreboardName = cwOption:Translate("name_scoreboard");
+	local directoryName = cwOption:Translate("name_directory");
+	local inventoryName = cwOption:Translate("name_inventory");
+	local donationsName = cwOption:Translate("name_donations");
+	local settingsName = cwOption:Translate("name_settings");
+	local classesName = cwOption:Translate("name_classes");
 	
-	menuItems:Add("Classes", "cwClasses", "Choose from a list of available classes.", cwOption:GetKey("icon_data_classes"));
-	menuItems:Add("Settings", "cwSettings", "Configure the way Clockwork works for you.", cwOption:GetKey("icon_data_settings"));
-	menuItems:Add("Donations", "cwDonations", "Check your donation subscriptions.", cwOption:GetKey("icon_data_donations"));
-	menuItems:Add(systemName, "cwSystem", cwOption:GetKey("description_system"), cwOption:GetKey("icon_data_system"));
-	menuItems:Add(scoreboardName, "cwScoreboard", cwOption:GetKey("name_scoreboard"), cwOption:GetKey("icon_data_scoreboard"));
-	menuItems:Add(inventoryName, "cwInventory", cwOption:GetKey("description_inventory"), cwOption:GetKey("icon_data_inventory"));
-	menuItems:Add(directoryName, "cwDirectory", cwOption:GetKey("description_directory"), cwOption:GetKey("icon_data_directory"));
-	menuItems:Add(attributesName, "cwAttributes", cwOption:GetKey("description_attributes"), cwOption:GetKey("icon_data_attributes"));
+	menuItems:Add(classesName, "cwClasses", cwOption:Translate("description_classes"), cwOption:GetKey("icon_data_classes"));
+	menuItems:Add(settingsName, "cwSettings", cwOption:Translate("description_settings"), cwOption:GetKey("icon_data_settings"));
+	menuItems:Add(donationsName, "cwDonations", cwOption:Translate("description_donations"), cwOption:GetKey("icon_data_donations"));
+	menuItems:Add(systemName, "cwSystem", cwOption:Translate("description_system"), cwOption:GetKey("icon_data_system"));
+	menuItems:Add(scoreboardName, "cwScoreboard", cwOption:Translate("name_scoreboard"), cwOption:GetKey("icon_data_scoreboard"));
+	menuItems:Add(inventoryName, "cwInventory", cwOption:Translate("description_inventory"), cwOption:GetKey("icon_data_inventory"));
+	menuItems:Add(directoryName, "cwDirectory", cwOption:Translate("description_directory"), cwOption:GetKey("icon_data_directory"));
+	menuItems:Add(attributesName, "cwAttributes", cwOption:Translate("description_attributes"), cwOption:GetKey("icon_data_attributes"));
 
 	if (cwConfig:Get("show_business"):GetBoolean() == true) then
-		local businessName = cwOption:GetKey("name_business");
-		menuItems:Add(businessName, "cwBusiness", cwOption:GetKey("description_business"), cwOption:GetKey("icon_data_business"));
+		local businessName = cwOption:Translate("name_business");
+		
+		menuItems:Add(businessName, "cwBusiness", cwOption:Translate("description_business"), cwOption:GetKey("icon_data_business"));
 	end;
 	
 	if (cwConfig:Get("crafting_menu_enabled"):GetBoolean() == true) then
-		menuItems:Add(cwOption:GetKey("crafting_name"), "cwCrafting", cwOption:GetKey("crafting_description"));
+		local craftingName = cwOption:Translate("name_crafting");
+		
+		menuItems:Add(craftingName, "cwCrafting", cwOption:Translate("description_crafting"));
 	end;
 end;
 

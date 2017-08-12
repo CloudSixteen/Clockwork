@@ -25,7 +25,7 @@ function COMMAND:OnRun(player, arguments)
 			local userGroup = target:GetClockworkUserGroup();
 			
 			if (userGroup != "user") then
-				Clockwork.player:NotifyAll(player:Name().." has demoted "..target:Name().." from "..userGroup.." to user.");
+				Clockwork.player:NotifyAll({"PlayerDemotedUserToGroup", player:Name(), target:Name(), userGroup, "user"});
 					target:SetClockworkUserGroup("user");
 				Clockwork.player:LightSpawn(target, true, true);
 			else

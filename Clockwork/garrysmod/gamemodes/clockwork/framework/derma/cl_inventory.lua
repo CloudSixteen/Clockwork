@@ -30,8 +30,8 @@ function PANEL:Init()
 	
 	self.columnSheet = vgui.Create("cwColumnSheet", self);
 	self.columnSheet.Navigation:SetWidth(150);
-	self.columnSheet:AddSheet(Clockwork.option:GetKey("name_inventory"), self.inventoryList, "icon16/box.png");
-	self.columnSheet:AddSheet("Equipment", self.equipmentList, "icon16/shield.png");
+	self.columnSheet:AddSheet(Clockwork.option:Translate("name_inventory"), self.inventoryList, "icon16/box.png");
+	self.columnSheet:AddSheet(L("EquipmentName"), self.equipmentList, "icon16/shield.png");
 	
 	Clockwork.inventory.panel = self;
 	Clockwork.inventory.panel:Rebuild();

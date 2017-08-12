@@ -216,7 +216,7 @@ else
 					end);
 				queryObj:Push();
 				
-				Clockwork.player:NotifyAll(player:Name().." has demoted "..data[2].." from "..cwUserGroup.." to user.");
+				Clockwork.player:NotifyAll({"PlayerDemotedUserToGroup", player:Name(), data[2], cwUserGroup, "user"});
 			end;
 		end;
 	end);

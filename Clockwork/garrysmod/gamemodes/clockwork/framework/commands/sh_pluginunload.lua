@@ -33,7 +33,7 @@ function COMMAND:OnRun(player, arguments)
 		local recipients = {};
 		
 		if (wasSuccess) then
-			Clockwork.player:NotifyAll(player:Name().." has unloaded the "..plugin.name.." plugin for the next restart.");
+			Clockwork.player:NotifyAll({"PlayerUnloadedPlugin", player:Name(), plugin.name});
 			
 			for k, v in pairs(cwPlayer.GetAll()) do
 				if (v:HasInitialized()) then

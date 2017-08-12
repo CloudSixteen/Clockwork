@@ -63,7 +63,7 @@ function PANEL:Rebuild()
 		end;
 	else
 		local label = vgui.Create("cwInfoText", self);
-			label:SetText("The "..Clockwork.option:GetKey("name_system").." provides you with various Clockwork administrative tools.");
+			label:SetText(L("MenuDescSystem"));
 			label:SetInfoColor("blue");
 		self.panelList:AddItem(label);
 		
