@@ -54,22 +54,30 @@ end;
 	@returns The final string for the given identifier.
 --]]
 function Clockwork.lang:GetString(language, identifier, ...)
-	local langString = nil;
 	local arguments = {...};
+	local output = nil;
 	
 	if (self.stored[language]) then
-		langString = self.stored[language][identifier];
+		output = self.stored[language][identifier];
 	end;
 	
-	if (!langString) then
-		langString = self.stored["English"][identifier] or identifier;
+	if (!output) then
+		output = self.stored["English"][identifier] or identifier;
+	end;
+	
+	for child in string.gmatch(output, "%{(.-)%}") do
+		output = string.gsub(output, "{"..child.."}", self:GetString(language, child));
+	end;
+	
+	for child in string.gmatch(output, "%~(.-)%~") do
+		output = string.gsub(output, "~"..child.."~", string.lower(self:GetString(language, child)));
 	end;
 	
 	for k, v in pairs(arguments) do
-		langString = string.gsub(langString, "#"..k, tostring(v), 1);
+		output = string.gsub(output, "#"..k, tostring(v), 1);
 	end;
 	
-	return langString;
+	return output;
 end;
 
 if (CLIENT) then
