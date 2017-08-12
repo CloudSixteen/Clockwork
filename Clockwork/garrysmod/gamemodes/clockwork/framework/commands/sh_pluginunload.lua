@@ -28,10 +28,10 @@ function COMMAND:OnRun(player, arguments)
 	local loadTable = Clockwork.command:FindByID("PluginLoad");
 	
 	if (!Clockwork.plugin:IsDisabled(plugin.name)) then
-		local bSuccess = Clockwork.plugin:SetUnloaded(plugin.name, true);
+		local wasSuccess = Clockwork.plugin:SetUnloaded(plugin.name, true);
 		local recipients = {};
 		
-		if (bSuccess) then
+		if (wasSuccess) then
 			Clockwork.player:NotifyAll(player:Name().." has unloaded the "..plugin.name.." plugin for the next restart.");
 			
 			for k, v in pairs(cwPlayer.GetAll()) do

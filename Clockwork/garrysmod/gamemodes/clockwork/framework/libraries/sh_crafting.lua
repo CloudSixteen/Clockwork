@@ -132,16 +132,17 @@ function Clockwork.crafting:Craft(player, blueprintTable)
 	
 	if (!blueprintTable or !blueprintTable:IsInstance()) then
 		debug.Trace();
-		return false, "ERROR: Trying to craft a non-instance blueprint!";
+		
+		return false, {"ErrorCraftingNonInstance"};
 	end;
 	
 	local canCraft, message = Clockwork.crafting:CanCraft(player, blueprintTable);
 	
 	if (canCraft) then
 		if (message) then
-			message = "You have successfully crafted a "..blueprintTable("name").."! "..message;
+			message = {"SuccessfulCraftWithMsg", blueprintTable("name"), message};
 		else
-			message = "You have successfully crafted a "..blueprintTable("name").."!";
+			message = {"SuccessfulCraft", blueprintTable("name")};
 		end;
 		
 		blueprintTable:OnCraft(player);
@@ -156,7 +157,7 @@ function Clockwork.crafting:Craft(player, blueprintTable)
 		
 		Clockwork.player:Notify(player, message);
 	else
-		message = "Unable to craft a "..blueprintTable("name").."! "..message;
+		message = {"ErrorCraftingWithMsg", blueprintTable("name"), message};
 		
 		blueprintTable:FailedCraft(player);
 		

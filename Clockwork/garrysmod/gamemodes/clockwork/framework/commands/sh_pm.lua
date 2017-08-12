@@ -27,7 +27,7 @@ function COMMAND:OnRun(player, arguments)
 			Clockwork.chatBox:Add({player, target}, player, "pm", table.concat(arguments, " ", 2));
 		end;
 	else
-		Clockwork.player:Notify(player, arguments[1].." is not a valid player!");
+		Clockwork.player:Notify(player, {"NotValidPlayer", arguments[1]});
 	end;
 end;
 

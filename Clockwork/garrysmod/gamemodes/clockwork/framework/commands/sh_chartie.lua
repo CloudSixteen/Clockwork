@@ -35,7 +35,7 @@ function COMMAND:OnRun(player, arguments)
 			target:Notify("You were tied by "..player:GetName()..".");
 		end
 	else
-		player:Notify(arguments[2].." is not a valid player!");
+		player:Notify({"NotValidPlayer", arguments[1]});
 	end
 end;
 

@@ -22,9 +22,9 @@ function COMMAND:OnRun(player, arguments)
 	if (target) then
 		cwPlayerReport:Report(target);
 		
-		Clockwork.player:Notify(player, "Your report has been noted. Thanks for taking the time to help others identity bad players!");
+		Clockwork.player:Notify(player, {"PlayerReported"});
 	else
-		Clockwork.player:Notify(player, arguments[1].." is not a valid player!");
+		Clockwork.player:Notify(player, {"NotValidPlayer", arguments[1]});
 	end;
 end;
 

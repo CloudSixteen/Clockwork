@@ -750,17 +750,17 @@ function Clockwork.chatBox:Paint()
 					local cmdTable = Clockwork.command:FindByAlias(v);
  					
  					if (cmdTable and Clockwork.player:HasFlags(Clockwork.Client, cmdTable.access)) then
- 						local bShouldAdd = true;
+ 						local shouldAdd = true;
  
  						-- It can so happen that multiple alias for the same command begin with the same string.
  						-- We don't want to display the same command multiple times, so we check for that.
  						for k, v in pairs(commands) do
  							if (v == cmdTable) then
- 								bShouldAdd = false;
+ 								shouldAdd = false;
  							end;
  						end;
  
- 						if (bShouldAdd) then
+ 						if (shouldAdd) then
  							commands[#commands + 1] = cmdTable;
  						end;
  					end;
@@ -774,12 +774,12 @@ function Clockwork.chatBox:Paint()
 			Clockwork.kernel:OverrideMainFont(chatBoxSyntaxFont);
 			
 			if (#commands > 0) then
-				local bSingleCommand = (#commands == 1);
+				local isSingleCommand = (#commands == 1);
 				
 				for k, v in pairs(commands) do
 					local totalText = prefix..v.name;
 					
-					if (bSingleCommand) then
+					if (isSingleCommand) then
 						totalText = totalText.." "..v.text;
 					end;
 					
@@ -793,7 +793,7 @@ function Clockwork.chatBox:Paint()
 					
 					Clockwork.kernel:DrawSimpleText(prefix..v.name, oX, oY, colorInformation);
 					
-					if (bSingleCommand) then
+					if (isSingleCommand) then
 						local pWidth = Clockwork.kernel:GetCachedTextSize(
 							chatBoxSyntaxFont, prefix..v.name
 						);
@@ -822,42 +822,42 @@ function Clockwork.chatBox:Paint()
 		end;
 	elseif (bIsTypingVC) then
 		local colorInformation = Clockwork.option:GetColor("information");
-		local bSingleCommand = (#voiceCommands == 1);
+		local isSingleCommand = (#voiceCommands == 1);
 		local colorWhite = Clockwork.option:GetColor("white");
 		local oX, oY = origX, origY;
-				
+		
 		for k, v in pairs(voiceCommands) do
 			local totalText = v.command;
-					
-			if (bSingleCommand) then
+			
+			if (isSingleCommand) then
 				totalText = totalText.." "..v.phrase;
 			end;
 					
 			local tWidth, tHeight = Clockwork.kernel:GetCachedTextSize(
 				chatBoxSyntaxFont, totalText
 			);
-					
+			
 			if (k == 1) then
 				oY = oY - tHeight;
 			end;
-				
+			
 			Clockwork.kernel:DrawSimpleText(v.command, oX, oY, colorInformation);
-					
-			if (bSingleCommand) then
+			
+			if (isSingleCommand) then
 				local pWidth = Clockwork.kernel:GetCachedTextSize(
 					chatBoxSyntaxFont, v.command
 				);
 						
 				Clockwork.kernel:DrawSimpleText(v.phrase, oX, oY - tHeight - 8, colorWhite);
 			end;
-					
+			
 			if (k < #voiceCommands) then oY = oY - tHeight; end;
 			if (oY < y) then y = oY; end;
 					
 			if (origY - oY > box.height) then
 				box.height = origY - oY;
 			end;
-					
+			
 			if (origX + tWidth - 8 > box.width) then
 				box.width = origX + tWidth - 8;
 			end;
@@ -968,11 +968,11 @@ end;
 Clockwork.chatBox:RegisterDefaultClass("ic", "ic", function(info)
 	if (info.shouldHear) then
 		local color = Color(255, 255, 150, 255);
-							
+		
 		if (info.focusedOn) then
 			color = Color(175, 255, 150, 255);
 		end;
-							
+		
 		Clockwork.chatBox:Add(info.filtered, nil, color, info.name.." says \""..info.text.."\"");
 	end;
 end);
@@ -1242,6 +1242,6 @@ end);
 
 Clockwork.datastream:Hook("ChatBoxMessage", function(data)
 	if (data and type(data) == "table") then
-		Clockwork.chatBox:Decode(nil, nil, data.text, data.data, data.class, data.multiplier);
+		Clockwork.chatBox:Decode(nil, nil, T(data.text), data.data, data.class, data.multiplier);
 	end;
 end);

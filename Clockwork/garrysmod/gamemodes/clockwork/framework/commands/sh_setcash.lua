@@ -35,7 +35,7 @@ function COMMAND:OnRun(player, arguments)
 			Clockwork.player:Notify(player, "This is not a valid amount!");
 		end;
 	else
-		Clockwork.player:Notify(player, arguments[1].." is not a valid player!");
+		Clockwork.player:Notify(player, {"NotValidPlayer", arguments[1]});
 	end;
 end;
 

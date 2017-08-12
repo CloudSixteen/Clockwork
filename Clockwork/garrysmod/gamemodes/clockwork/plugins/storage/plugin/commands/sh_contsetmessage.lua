@@ -20,12 +20,12 @@ function COMMAND:OnRun(player, arguments)
 		if (Clockwork.entity:IsPhysicsEntity(trace.Entity)) then
 			trace.Entity.cwMessage = arguments[1];
 			
-			Clockwork.player:Notify(player, "You have set this container's message.");
+			Clockwork.player:Notify(player, {"YouSetContainerMessage"});
 		else
-			Clockwork.player:Notify(player, "This is not a valid container!");
+			Clockwork.player:Notify(player, {"ContainerNotValid"});
 		end;
 	else
-		Clockwork.player:Notify(player, "This is not a valid container!");
+		Clockwork.player:Notify(player, {"ContainerNotValid"});
 	end;
 end;
 

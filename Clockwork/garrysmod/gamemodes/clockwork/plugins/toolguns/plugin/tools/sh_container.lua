@@ -16,9 +16,9 @@ TOOL.HelpText		= "Primary: Do Action";
 TOOL.ClientConVar[ "mode" ]	 			= "1";
 TOOL.ClientConVar[ "contfillscale" ]	= "1";
 TOOL.ClientConVar[ "fillcategory" ]		= "Consumables";
-TOOL.ClientConVar[ "contname" ]			= "A Container";
-TOOL.ClientConVar[ "contmessage" ]		= "A Message";
-TOOL.ClientConVar[ "contpassword" ] 	= "password";
+TOOL.ClientConVar[ "contname" ]			= "Example Name";
+TOOL.ClientConVar[ "contmessage" ]		= "Example Message";
+TOOL.ClientConVar[ "contpassword" ] 	= "examplepassword";
 
 
 function TOOL:AddItems(entity)
@@ -30,55 +30,8 @@ function TOOL:AddItems(entity)
 	local player = self:GetOwner();
 
 	if (CLIENT) then return true end;
-
-	if (scale) then
-		scale = math.Clamp(math.Round(scale), 1, 5);
-		
-		if (IsValid(trace.Entity)) then
-			if (Clockwork.entity:IsPhysicsEntity(trace.Entity)) then
-				local model = string.lower(trace.Entity:GetModel());
-				
-				if (cwStorage.containerList[model]) then
-					if (!trace.Entity.inventory) then
-						cwStorage.storage[trace.Entity] = trace.Entity;
-						
-						trace.Entity.inventory = {};
-					end;
-					
-					local containerWeight = cwStorage.containerList[model][1] / (6 - scale);
-					local weight = Clockwork.inventory:CalculateWeight(trace.Entity.inventory);
-					
-					if (!category or cwStorage:CategoryExists(category)) then
-						while (weight < containerWeight) do
-							local randomItem = cwStorage:GetRandomItem(category);
-							
-							if (randomItem) then
-								Clockwork.inventory:AddInstance(
-									trace.Entity.inventory, Clockwork.item:CreateInstance(randomItem[1])
-								);
-								
-								weight = weight + randomItem[2];
-							end;
-						end;
-					
-						Clockwork.player:Notify(player, "This container has been filled with random items.");
-						return;
-					else
-						Clockwork.player:Notify(player, "That category doesn't exist!"); 
-						return;
-					end
-				end;
-
-				Clockwork.player:Notify(player, "This is not a valid container!");
-			else
-				Clockwork.player:Notify(player, "This is not a valid container!");
-			end;
-		else
-			Clockwork.player:Notify(player, "This is not a valid container!");
-		end;
-	else
-		Clockwork.player:Notify(player, "This is not a valid scale!");
-	end;
+	
+	player:RunClockworkCmd("ContFill", scale, category);
 end
 
 function TOOL:SetMessage(entity)
@@ -86,18 +39,8 @@ function TOOL:SetMessage(entity)
 	local player = self:GetOwner();
 
 	if (CLIENT) then return true end;
-
-	if (IsValid(trace.Entity)) then
-		if (Clockwork.entity:IsPhysicsEntity(trace.Entity)) then
-			trace.Entity.cwMessage = self:GetClientInfo("contmessage");
-			
-			Clockwork.player:Notify(player, "You have set this container's message.");
-		else
-			Clockwork.player:Notify(player, "This is not a valid container!");
-		end;
-	else
-		Clockwork.player:Notify(player, "This is not a valid container!");
-	end;
+	
+	player:RunClockworkCmd("ContSetMessage", self:GetClientInfo("contmessage"));
 end
 
 function TOOL:SetName(entity)
@@ -106,29 +49,8 @@ function TOOL:SetName(entity)
 	local name = self:GetClientInfo("contname");
 
 	if (CLIENT) then return true end;
-
-	if (IsValid(trace.Entity)) then
-		if (Clockwork.entity:IsPhysicsEntity(trace.Entity)) then
-			local model = string.lower(trace.Entity:GetModel());
-			
-			
-			if (cwStorage.containerList[model]) then
-				if (!trace.Entity.inventory) then
-					cwStorage.storage[trace.Entity] = trace.Entity;
-					
-					trace.Entity.inventory = {};
-				end;
-				
-				trace.Entity:SetNetworkedString("Name", name);
-			else
-				Clockwork.player:Notify(player, "This is not a valid container!");
-			end;
-		else
-			Clockwork.player:Notify(player, "This is not a valid container!");
-		end;
-	else
-		Clockwork.player:Notify(player, "This is not a valid container!");
-	end;
+	
+	player:RunClockworkCmd("ContSetName", name);
 end
 
 function TOOL:SetPassword(entity)
@@ -138,28 +60,7 @@ function TOOL:SetPassword(entity)
 
 	if (CLIENT) then return true end;
 	
-	if (IsValid(trace.Entity)) then
-		if (Clockwork.entity:IsPhysicsEntity(trace.Entity)) then
-			local model = string.lower(trace.Entity:GetModel());
-			
-			if (cwStorage.containerList[model]) then
-				if (!trace.Entity.inventory) then
-					cwStorage.storage[trace.Entity] = trace.Entity;
-					trace.Entity.inventory = {};
-				end;
-				
-				trace.Entity.cwPassword = password
-				
-				Clockwork.player:Notify(player, "This container's password has been set to '"..trace.Entity.cwPassword.."'.");
-			else
-				Clockwork.player:Notify(player, "This is not a valid container!");
-			end;
-		else
-			Clockwork.player:Notify(player, "This is not a valid container!");
-		end;
-	else
-		Clockwork.player:Notify(player, "This is not a valid container!");
-	end;
+	player:RunClockworkCmd("ContSetPassword", password);
 end
 
 function TOOL:LeftClick( trace )
@@ -216,24 +117,24 @@ if CLIENT then
 		end
 
 		if ( mode == 1 ) then
-			list:AddLine(" 1 **Container Filler**");
+			list:AddLine(L("ContainerToolSelectedMode1"));
 		else
-			list:AddLine(" 1   Container Filler");
+			list:AddLine(L("ContainerToolMode1"));
 		end
 		if ( mode == 2 ) then
-			list:AddLine(" 2 **Container Set Message**");
+			list:AddLine(L("ContainerToolSelectedMode2"));
 		else
-			list:AddLine(" 2   Container Set Message");
+			list:AddLine(L("ContainerToolMode2"));
 		end
 		if ( mode == 3 ) then
-			list:AddLine(" 3 **Container Set Name**");
+			list:AddLine(L("ContainerToolSelectedMode3"));
 		else
-			list:AddLine(" 3   Container Set Name  ");
+			list:AddLine(L("ContainerToolMode3"));
 		end
 		if ( mode == 4 ) then
-			list:AddLine(" 4 **Container Set Password**");
+			list:AddLine(L("ContainerToolSelectedMode4"));
 		else
-			list:AddLine(" 4   Container Set Password  ");
+			list:AddLine(L("ContainerToolMode4"));
 		end
 		
 		list:SortByColumn(1);
@@ -244,33 +145,33 @@ if CLIENT then
 
 		if ( mode == 1 ) then 
 			Panel:AddControl( "Slider",  { 
-					Label	= "Item Fill Scale",
+					Label	= L("ContainerToolScaleOfFillName"),
 					Type	= "Interger",
 					Min		= 1,
 					Max		= 5,
 					Command = "containertool_contfillscale",
-					Description = "Scale of Item fill"}	 );
+					Description = L("ContainerToolScaleOfFillDesc")}	 );
 
 			Panel:AddControl( "TextBox", { 
-									 Label = "Category",
+									 Label = L("ContainerToolCategoryName"),
 									 MaxLenth = "20",
 									 Command = "containertool_fillcategory" } );
 		end
 		if ( mode == 2 ) then 
 			Panel:AddControl( "TextBox", { 
-									 Label = "Message",
+									 Label = L("ContainerToolMessage"),
 									 MaxLenth = "20",
 									 Command = "containertool_contmessage" } );
 		end
 		if ( mode == 3) then 
 			Panel:AddControl( "TextBox", { 
-						Label = "Name",
+						Label = L("ContainerToolName"),
 						MaxLenth = "20",
 						Command = "containertool_contname" } );
 		end
 		if ( mode == 4) then 
 			Panel:AddControl( "TextBox", { 
-									 Label = "Password",
+									 Label = L("ContainerToolPassword"),
 									 MaxLenth = "20",
 									 Command = "containertool_contpassword" } );
 		end

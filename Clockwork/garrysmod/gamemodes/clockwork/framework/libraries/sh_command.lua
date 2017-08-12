@@ -189,15 +189,15 @@ if (SERVER) then
 									end;
 
 									if (commandTable.OnRun) then
-										local bSuccess, value = pcall(commandTable.OnRun, commandTable, player, arguments);
+										local wasSuccess, value = pcall(commandTable.OnRun, commandTable, player, arguments);
 
-										if (!bSuccess) then
+										if (!wasSuccess) then
 											MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Command]\nThe '"..commandTable.name.."' command has failed to run.\n"..value.."\n");
 										elseif (Clockwork.player:GetDeathCode(player, true)) then
 											Clockwork.player:UseDeathCode(player, commandTable.name, arguments);
 										end;
 
-										if (bSuccess) then
+										if (wasSuccess) then
 											if (table.concat(arguments, " ") != "") then
 												Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, player:Name().." has used '"..commandPrefix..commandTable.name.." "..table.concat(arguments, " ").."'.");
 											else

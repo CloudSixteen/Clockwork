@@ -10,7 +10,7 @@ local Clockwork = Clockwork;
 
 local COMMAND = Clockwork.command:New("PlyTeleportTo");
 COMMAND.tip = "Teleport a player to another player.";
-COMMAND.text = "<string Target> <string Name> <bool isSilent>";
+COMMAND.text = "<string Target> <string Other> <bool isSilent>";
 COMMAND.access = "o";
 COMMAND.arguments = 2;
 COMMAND.optionalArguments = 1;
@@ -19,21 +19,21 @@ COMMAND.alias = {"PlyTPTo"};
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)
 	local target = Clockwork.player:FindByID(arguments[1]);
-	local ply = Clockwork.player:FindByID(arguments[2]);
+	local other = Clockwork.player:FindByID(arguments[2]);
 	local isSilent = Clockwork.kernel:ToBool(arguments[3]);
 
 	if (target) then
-		if (ply) then
-			Clockwork.player:SetSafePosition(target, ply:GetPos());
+		if (other) then
+			Clockwork.player:SetSafePosition(target, other:GetPos());
 
 			if (!isSilent) then
-				Clockwork.player:NotifyAll(player:Name().." has teleported "..target:Name().." to "..ply:Name()..".");
+				Clockwork.player:NotifyAll(player:Name().." has teleported "..target:Name().." to "..other:Name()..".");
 			end;
 		else
-			Clockwork.player:Notify(player, arguments[2].." is not a valid player!");
+			Clockwork.player:Notify(player, {"NotValidPlayer", arguments[2]});
 		end;
 	else
-		Clockwork.player:Notify(player, arguments[1].." is not a valid player!");
+		Clockwork.player:Notify(player, {"NotValidPlayer", arguments[1]});
 	end;
 end;
 

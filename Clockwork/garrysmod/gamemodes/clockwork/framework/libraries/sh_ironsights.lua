@@ -55,13 +55,14 @@ end;
 function Clockwork.ironsights:ToggleIronSights(player)
 	if (SERVER) then
 		if (IsValid(player) and player:IsValid()) then
-			local bIronSights = self:GetIronSights(player);
+			local showIronSights = self:GetIronSights(player);
 
-			if (cwConfig:Get("enable_ironsights"):Get() and cwPlugin:Call("PlayerCanToggleIronSights", player, bIronSights)) then
+			if (cwConfig:Get("enable_ironsights"):Get()
+			and cwPlugin:Call("PlayerCanToggleIronSights", player, showIronSights)) then
 				local curTime = CurTime();
 
 				if (!nextIronSights or nextIronSights <= curTime) then
-					self:SetIronSights(player, !bIronSights);
+					self:SetIronSights(player, !showIronSights);
 					nextIronSights = curTime + 0.4;
 				end;
 			end;
@@ -71,8 +72,8 @@ function Clockwork.ironsights:ToggleIronSights(player)
 	end;
 end;
 
-function Clockwork.ironsights:PlayerCanToggleIronSights(player, bIronSights)
-	return (cwPly:GetWeaponRaised(player) or bIronSights);
+function Clockwork.ironsights:PlayerCanToggleIronSights(player, showIronSights)
+	return (cwPly:GetWeaponRaised(player) or showIronSights);
 end;
 
 function Clockwork.ironsights:EntityFireBullets(player, bulletInfo)
@@ -113,8 +114,8 @@ else
 
 	Clockwork.ironsights.ironFraction = 0;
 
-	function Clockwork.ironsights:PlayerCanSeeIronSights(player, bIronSights)
-		if (bIronSights) then
+	function Clockwork.ironsights:PlayerCanSeeIronSights(player, showIronSights)
+		if (showIronSights) then
 			return !player:IsRunning() and cwPly:GetWeaponRaised(player);
 		end;
 
@@ -188,4 +189,4 @@ else
 	end);
 end;
 
-cwPlugin:Add("Ironsights_Module", Clockwork.ironsights);
+cwPlugin:Add("IronsightsModule", Clockwork.ironsights);

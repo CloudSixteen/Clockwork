@@ -189,9 +189,9 @@ end;
 
 -- A function to load an INI file.
 function Clockwork.config:LoadINI(fileName, bFromGame, bStripQuotes)
-	local bSuccess, value = pcall(file.Read, fileName, (bFromGame and "GAME" or "DATA"));
+	local wasSuccess, value = pcall(file.Read, fileName, (bFromGame and "GAME" or "DATA"));
 	
-	if (bSuccess and value != nil) then
+	if (wasSuccess and value != nil) then
 		local explodedData = string.Explode("\n", value);
 		local outputTable = {};
 		local currentNode = "";

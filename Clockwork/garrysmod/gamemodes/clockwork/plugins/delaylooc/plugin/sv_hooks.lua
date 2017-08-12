@@ -15,13 +15,13 @@ function cwDelayLOOC:ClockworkConfigChanged(key, data, previousValue, newValue)
 end;
 
 function cwDelayLOOC:PlayerCanSayLOOC(player, text)
-	local libconfig = Clockwork.config;
-	local interval = libconfig:Get("looc_interval"):Get();
-	local libplayer = Clockwork.player;
+	local cwConfig = Clockwork.config;
+	local interval = cwConfig:Get("looc_interval"):Get();
+	local cwPlayer = Clockwork.player;
 	local curTime = CurTime();
 	
 	if (player.cwNextTalkLOOC ~= nil and curTime < player.cwNextTalkLOOC) then
-		libplayer:Notify(player, "You cannot cannot talk in LOOC for another "..math.ceil(player.cwNextTalkLOOC - curTime).." second(s)!");
+		cwPlayer:Notify(player, {"WaitTalkInLOOC", math.ceil(player.cwNextTalkLOOC - curTime)});
 		return false;
 	end;
 	

@@ -108,9 +108,9 @@ if (SERVER) then
 				player.cwDataStreamData = CW_DS_DATA;
 				
 				if (Clockwork.datastream.stored[player.cwDataStreamName]) then
-					local bSuccess, value = pcall(Clockwork.kernel.Deserialize, Clockwork.kernel, player.cwDataStreamData);
+					local wasSuccess, value = pcall(Clockwork.kernel.Deserialize, Clockwork.kernel, player.cwDataStreamData);
 					
-					if (bSuccess) then
+					if (wasSuccess) then
 						Clockwork.datastream.stored[player.cwDataStreamName](player, value.data);
 					elseif (value != nil) then
 						MsgC(Color(255, 100, 0, 255), "[Clockwork:Datastream] The '"..CW_DS_NAME.."' datastream has failed to run.\n"..value.."\nData: "..tostring(player.cwDataStreamData).."\n");
@@ -154,9 +154,9 @@ else
 
 		if (CW_DS_NAME and CW_DS_DATA and CW_DS_LENGTH) then			
 			if (Clockwork.datastream.stored[CW_DS_NAME]) then
-				local bSuccess, value = pcall(Clockwork.kernel.Deserialize, Clockwork.kernel, CW_DS_DATA);
+				local wasSuccess, value = pcall(Clockwork.kernel.Deserialize, Clockwork.kernel, CW_DS_DATA);
 			
-				if (bSuccess) then
+				if (wasSuccess) then
 					Clockwork.datastream.stored[CW_DS_NAME](value.data);
 				elseif (value != nil) then
 					MsgC(Color(255, 100, 0, 255), "[Clockwork:Datastream] The '"..CW_DS_NAME.."' datastream has failed to run.\n"..value.."\nData: "..tostring(CW_DS_DATA).."\n");

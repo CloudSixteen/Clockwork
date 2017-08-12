@@ -555,7 +555,7 @@ function Clockwork.player:HasAnyFlags(player, flags, byDefault)
 		
 		for i = 1, #flags do
 			local flag = string.utf8sub(flags, i, i);
-			local bSuccess = true;
+			local wasSuccess = true;
 			
 			if (!byDefault) then
 				local hasFlag = Clockwork.plugin:Call("PlayerDoesHaveFlag", player, flag);
@@ -565,11 +565,11 @@ function Clockwork.player:HasAnyFlags(player, flags, byDefault)
 						return true;
 					end;
 				else
-					bSuccess = nil;
+					wasSuccess = nil;
 				end;
 			end;
 			
-			if (bSuccess) then
+			if (wasSuccess) then
 				if (flag == "s") then
 					if (player:IsSuperAdmin()) then
 						return true;
@@ -603,21 +603,21 @@ function Clockwork.player:HasFlags(player, flags, byDefault)
 		
 		for i = 1, #flags do
 			local flag = string.utf8sub(flags, i, i);
-			local bSuccess;
+			local wasSuccess;
 			
 			if (!byDefault) then
 				local hasFlag = Clockwork.plugin:Call("PlayerDoesHaveFlag", player, flag);
 				
 				if (hasFlag != false) then
 					if (hasFlag) then
-						bSuccess = true;
+						wasSuccess = true;
 					end;
 				else
 					return;
 				end;
 			end;
 			
-			if (!bSuccess) then
+			if (!wasSuccess) then
 				if (flag == "s") then
 					if (!player:IsSuperAdmin()) then
 						return;
@@ -1031,7 +1031,7 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 									player:SteamName().." has created a "..info.faction.." character called '"..info.name.."'."
 								);
 								
-								cwDatastream:Start(player, "CharacterFinish", {bSuccess = true});
+								cwDatastream:Start(player, "CharacterFinish", {wasSuccess = true});
 								
 								player.cwIsCreatingChar = nil;
 								
@@ -2015,9 +2015,9 @@ end;
 
 -- Called to convert a player's data to a string.
 function Clockwork.player:ConvertDataString(player, data)
-	local bSuccess, value = pcall(cwJson.Decode, cwJson, data);
+	local wasSuccess, value = pcall(cwJson.Decode, cwJson, data);
 	
-	if (bSuccess and value != nil) then
+	if (wasSuccess and value != nil) then
 		return value;
 	else
 		return {};
@@ -2089,7 +2089,7 @@ function Clockwork.player:HasAnyFlags(player, flags, byDefault)
 		
 		for i = 1, #flags do
 			local flag = string.utf8sub(flags, i, i);
-			local bSuccess = true;
+			local wasSuccess = true;
 			
 			if (!byDefault) then
 				local hasFlag = cwPlugin:Call("PlayerDoesHaveFlag", player, flag);
@@ -2099,11 +2099,11 @@ function Clockwork.player:HasAnyFlags(player, flags, byDefault)
 						return true;
 					end;
 				else
-					bSuccess = nil;
+					wasSuccess = nil;
 				end;
 			end;
 			
-			if (bSuccess) then
+			if (wasSuccess) then
 				if (flag == "s") then
 					if (player:IsSuperAdmin()) then
 						return true;
@@ -2137,21 +2137,21 @@ function Clockwork.player:HasFlags(player, flags, byDefault)
 		
 		for i = 1, #flags do
 			local flag = string.utf8sub(flags, i, i);
-			local bSuccess;
+			local wasSuccess;
 			
 			if (!byDefault) then
 				local hasFlag = cwPlugin:Call("PlayerDoesHaveFlag", player, flag);
 				
 				if (hasFlag != false) then
 					if (hasFlag) then
-						bSuccess = true;
+						wasSuccess = true;
 					end;
 				else
 					return;
 				end;
 			end;
 			
-			if (!bSuccess) then
+			if (!wasSuccess) then
 				if (flag == "s") then
 					if (!player:IsSuperAdmin()) then
 						return;
@@ -2369,7 +2369,7 @@ function Clockwork.player:SetCreateFault(player, fault)
 		fault = "There has been an unknown error, please contact the administrator!";
 	end;
 	
-	cwDatastream:Start(player, "CharacterFinish", {bSuccess = false, fault = fault});
+	cwDatastream:Start(player, "CharacterFinish", {wasSuccess = false, fault = fault});
 end;
 
 -- A function to force a player to delete a character.
@@ -2955,9 +2955,9 @@ end;
 function Clockwork.player:IsProtected(identifier)
 	local steamID = nil;
 	local ownerSteamID = cwCfg:Get("owner_steamid"):Get();
-	local bSuccess, value = pcall(IsValid, identifier);
+	local wasSuccess, value = pcall(IsValid, identifier);
 		
-	if (!bSuccess or value == false) then
+	if (!wasSuccess or value == false) then
 		local playerObj = self:FindByID(identifier);
 
 		if (IsValid(playerObj)) then
@@ -3002,10 +3002,6 @@ end;
 
 -- A function to notify each player.
 function Clockwork.player:NotifyAll(text, icon)
-	if (type(text) == "table") then
-		text = T(nil, text);
-	end;
-	
 	self:Notify(nil, text, true, icon);
 end;
 
@@ -3055,7 +3051,10 @@ function Clockwork.player:Notify(player, text, class, icon)
 			cwChatbox:Add(player, nil, "notify", text);
 		end;
 	else
-		cwDatastream:Start(player, "Notification", {text = text, class = class});
+		cwDatastream:Start(player, "Notification", {
+			text = text,
+			class = class
+		});
 	end;
 end;
 
@@ -3895,9 +3894,9 @@ end;
 
 -- A function to convert a character's recognised names string to a table.
 function Clockwork.player:ConvertCharacterRecognisedNamesString(data)
-	local bSuccess, value = pcall(cwJson.Decode, cwJson, data);
+	local wasSuccess, value = pcall(cwJson.Decode, cwJson, data);
 	
-	if (bSuccess and value != nil) then
+	if (wasSuccess and value != nil) then
 		local recognisedNames = {};
 		
 		for k, v in pairs(value) do
@@ -3912,9 +3911,9 @@ end;
 
 -- A function to convert a character's data string to a table.
 function Clockwork.player:ConvertCharacterDataString(data)
-	local bSuccess, value = pcall(cwJson.Decode, cwJson, data);
+	local wasSuccess, value = pcall(cwJson.Decode, cwJson, data);
 	
-	if (bSuccess and value != nil) then
+	if (wasSuccess and value != nil) then
 		return value;
 	else
 		return {};
@@ -3944,9 +3943,9 @@ function Clockwork.player:LoadData(player, Callback)
 				player.cwUserGroup = result[1]._UserGroup;
 				player.cwData = self:ConvertDataString(player, result[1]._Data);
 				
-				local bSuccess, value = pcall(cwJson.Decode, cwJson, result[1]._Donations);
+				local wasSuccess, value = pcall(cwJson.Decode, cwJson, result[1]._Donations);
 				
-				if (bSuccess and value != nil) then
+				if (wasSuccess and value != nil) then
 					player.cwDonations = value;
 				else
 					player.cwDonations = {};

@@ -29,15 +29,15 @@ function COMMAND:OnRun(player, arguments)
 				
 				trace.Entity.cwPassword = table.concat(arguments, " ");
 				
-				Clockwork.player:Notify(player, "This container's password has been set to '"..trace.Entity.cwPassword.."'.");
+				Clockwork.player:Notify(player, {"YouSetContainerPassword"});
 			else
-				Clockwork.player:Notify(player, "This is not a valid container!");
+				Clockwork.player:Notify(player, {"ContainerNotValid"});
 			end;
 		else
-			Clockwork.player:Notify(player, "This is not a valid container!");
+			Clockwork.player:Notify(player, {"ContainerNotValid"});
 		end;
 	else
-		Clockwork.player:Notify(player, "This is not a valid container!");
+		Clockwork.player:Notify(player, {"ContainerNotValid"});
 	end;
 end;
 

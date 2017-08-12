@@ -392,9 +392,9 @@ function Clockwork.storage:TakeFrom(player, itemTable)
 	bCanTakeStorage = !storageTable.CanTakeItem or storageTable.CanTakeItem(player, storageTable, itemTable);
 	if (bCanTakeStorage == false) then return false; end;
 	
-	local bSuccess, fault = player:GiveItem(itemTable);
+	local wasSuccess, fault = player:GiveItem(itemTable);
 	
-	if (bSuccess) then
+	if (wasSuccess) then
 		Clockwork.plugin:Call("PlayerTakeFromStorage", player, storageTable, itemTable);
 		
 		if (not storageTable.entity or !storageTable.entity:IsPlayer()) then

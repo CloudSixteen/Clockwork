@@ -400,9 +400,9 @@ end;
 
 -- A function to serialize a table.
 function Clockwork.kernel:Serialize(tableToSerialize)
-	local bSuccess, value = pcall(von.serialize, tableToSerialize);
+	local wasSuccess, value = pcall(von.serialize, tableToSerialize);
   
-	if (!bSuccess) then
+	if (!wasSuccess) then
 		print(value);
 		return "";  	
 	end;
@@ -412,9 +412,9 @@ end;
 
 -- A function to deserialize a string.
 function Clockwork.kernel:Deserialize(stringToDeserialize)
-	local bSuccess, value = pcall(von.deserialize, stringToDeserialize);
+	local wasSuccess, value = pcall(von.deserialize, stringToDeserialize);
   
-	if (!bSuccess) then
+	if (!wasSuccess) then
 		print(value);
 		return {};  	
 	end;
@@ -895,9 +895,9 @@ if (SERVER) then
 			local data = Clockwork.file:Read("settings/clockwork/schemas/"..self:GetSchemaFolder().."/"..fileName..".cw", "namedesc");
 			
 			if (data) then
-				local bSuccess, value = pcall(self.Deserialize, self, data);
+				local wasSuccess, value = pcall(self.Deserialize, self, data);
 
-				if (bSuccess and value != nil) then
+				if (wasSuccess and value != nil) then
 					return value;
 				else
 					MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' schema data has failed to restore.\n"..value.."\n");
@@ -920,14 +920,14 @@ if (SERVER) then
 			local data = Clockwork.file:Read("settings/clockwork/"..fileName..".cw");
 			
 			if (data) then
-				local bSuccess, value = pcall(util.JSONToTable, data);
+				local wasSuccess, value = pcall(util.JSONToTable, data);
 				
-				if (bSuccess and value != nil) then
+				if (wasSuccess and value != nil) then
 					return value;
 				else
-					local bSuccess, value = pcall(self.Deserialize, self, data);
+					local wasSuccess, value = pcall(self.Deserialize, self, data);
 					
-					if (bSuccess and value != nil) then
+					if (wasSuccess and value != nil) then
 						return value;
 					else
 						MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' clockwork data has failed to restore.\n"..value.."\n");
@@ -3686,14 +3686,14 @@ else
 			local data = _file.Read("clockwork/schemas/"..self:GetSchemaFolder().."/"..fileName..".txt", "DATA");
 			
 			if (data) then
-				local bSuccess, value = pcall(util.JSONToTable, data);
+				local wasSuccess, value = pcall(util.JSONToTable, data);
 				
-				if (bSuccess and value != nil) then
+				if (wasSuccess and value != nil) then
 					return value;
 				else
-					local bSuccess, value = pcall(self.Deserialize, self, data);
+					local wasSuccess, value = pcall(self.Deserialize, self, data);
 					
-					if (bSuccess and value != nil) then
+					if (wasSuccess and value != nil) then
 						return value;
 					else
 						MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' schema data has failed to restore.\n"..value.."\n");
@@ -3722,9 +3722,9 @@ else
 				if (success and value != nil) then
 					return value;
 				else
-					local bSuccess, value = pcall(self.Deserialize, self, data);
+					local wasSuccess, value = pcall(self.Deserialize, self, data);
 					
-					if (bSuccess and value != nil) then
+					if (wasSuccess and value != nil) then
 						return value;
 					else
 						MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' clockwork data has failed to restore.\n"..value.."\n");
@@ -3996,9 +3996,9 @@ function Clockwork.kernel:CallTimerThink(curTime)
 	for k, v in pairs(Clockwork.Timers) do
 		if (!v.paused) then
 			if (curTime >= v.nextCall) then
-				local bSuccess, value = pcall(v.Callback, unpack(v.arguments));
+				local wasSuccess, value = pcall(v.Callback, unpack(v.arguments));
 				
-				if (!bSuccess) then
+				if (!wasSuccess) then
 					MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] The '"..tostring(k).."' timer has failed to run.\n"..value.."\n");
 				end;
 				

@@ -189,10 +189,10 @@ else
 		end;
 		
 		if (!Clockwork.plugin:IsDisabled(plugin.name)) then
-			local bSuccess = Clockwork.plugin:SetUnloaded(plugin.name, data[2]);
+			local wasSuccess = Clockwork.plugin:SetUnloaded(plugin.name, data[2]);
 			local recipients = {};
 			
-			if (bSuccess) then
+			if (wasSuccess) then
 				if (data[2]) then
 					Clockwork.player:NotifyAll(player:Name().." has unloaded the "..plugin.name.." plugin for the next restart.");
 				else

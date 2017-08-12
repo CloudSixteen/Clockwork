@@ -28,13 +28,13 @@ function COMMAND:OnRun(player, arguments)
 				
 				trace.Entity:SetNetworkedString("Name", "");
 			else
-				Clockwork.player:Notify(player, "This is not a valid container!");
+				Clockwork.player:Notify(player, {"ContainerNotValid"});
 			end;
 		else
-			Clockwork.player:Notify(player, "This is not a valid container!");
+			Clockwork.player:Notify(player, {"ContainerNotValid"});
 		end;
 	else
-		Clockwork.player:Notify(player, "This is not a valid container!");
+		Clockwork.player:Notify(player, {"ContainerNotValid"});
 	end;
 end;
 

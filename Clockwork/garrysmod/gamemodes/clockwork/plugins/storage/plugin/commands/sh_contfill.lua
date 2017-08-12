@@ -49,23 +49,23 @@ function COMMAND:OnRun(player, arguments)
 							end;
 						end;
 					
-						Clockwork.player:Notify(player, "This container has been filled with random items.");
+						Clockwork.player:Notify(player, {"ContainerFilledWithRandomItems"});
 						return;
 					else
-						Clockwork.player:Notify(player, "That category doesn't exist!"); 
+						Clockwork.player:Notify(player, {"ContainerCategoryNotExist"}); 
 						return;
 					end
 				end;
 
-				Clockwork.player:Notify(player, "This is not a valid container!");
+				Clockwork.player:Notify(player, {"ContainerNotValid"});
 			else
-				Clockwork.player:Notify(player, "This is not a valid container!");
+				Clockwork.player:Notify(player, {"ContainerNotValid"});
 			end;
 		else
-			Clockwork.player:Notify(player, "This is not a valid container!");
+			Clockwork.player:Notify(player, {"ContainerNotValid"});
 		end;
 	else
-		Clockwork.player:Notify(player, "This is not a valid scale!");
+		Clockwork.player:Notify(player, {"ContainerNotValidScale"});
 	end;
 end;
 

@@ -114,9 +114,9 @@ function IsValid(object)
 		return false;
 	end;
 
-	local bSuccess, value = pcall(ClockworkIsValid, object);
+	local wasSuccess, value = pcall(ClockworkIsValid, object);
 
-	if (!bSuccess) then
+	if (!wasSuccess) then
 		return false;
 	end;
 

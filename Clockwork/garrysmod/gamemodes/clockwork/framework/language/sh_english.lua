@@ -39,6 +39,7 @@ CW_ENGLISH["FactionDoesNotHaveWhitelist"] = "#1 does not have a whitelist!";
 CW_ENGLISH["PlayerNotOnWhitelist"] = "#1 is not on the #2 whitelist!";
 
 CW_ENGLISH["FactionIsNotValid"] = "#1 is not a valid faction!";
+CW_ENGLISH["ItemIsNotValid"] = "#1 is not a valid item!";
 
 CW_ENGLISH["PlayerConfigSetNextRestart"] = "#1 set #2#3 to '#4' for the next restart.";
 CW_ENGLISH["PlayerConfigSet"] = "#1 set #2#3 to '#4'.";
@@ -59,3 +60,18 @@ CW_ENGLISH["ChatBox"] = "Chat Box";
 CW_ENGLISH["Theme"] = "Theme";
 CW_ENGLISH["Language"] = "Language";
 CW_ENGLISH["LangDesc"] = "The currently selected language.";
+
+CW_ENGLISH["ErrorCraftingNonInstance"] = "Failed to craft a non-instanced blueprint!";
+CW_ENGLISH["SuccessfulCraftWithMsg"] = "You have successfully crafted a #1! #2";
+CW_ENGLISH["SuccessfulCraft"] = "You have successfully crafted a #1!";
+CW_ENGLISH["ErrorCraftingWithMsg"] = "Unable to craft a #1! #2";
+
+CW_ENGLISH["YouHaveGivenSomeItem"] = "You have given #1 some #2.";
+CW_ENGLISH["YouHaveGivenItemAmount"] = "You have given #1 #2 #3.";
+CW_ENGLISH["YouHaveGivenAnItem"] = "You have given #1 a #2.";
+
+CW_ENGLISH["YouWereGivenSomeItem"] = "#1 has given you some #2.";
+CW_ENGLISH["YouWereGivenItemAmount"] = "#1 has given you #2 #3.";
+CW_ENGLISH["YouWereGivenAnItem"] = "#1 has given you a #2.";
+
+CW_ENGLISH["NoAuthority"] = "You do not have the authority to do this!";

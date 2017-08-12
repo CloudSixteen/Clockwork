@@ -82,6 +82,14 @@ if (CLIENT) then
 		
 		return Clockwork.lang:GetString(language, identifier, ...);
 	end;
+	
+	function T(data)
+		if (type(data) == "table") then
+			return L(unpack(data));
+		else
+			return data;
+		end;
+	end;
 else
 	function L(player, identifier, ...)
 		if (player != nil) then
@@ -94,7 +102,9 @@ else
 	end;
 	
 	function T(player, data)
-		if (type(data) == "table") then
+		if (type(player) == "table") then
+			return player;
+		elseif (type(data) == "table") then
 			return L(player, unpack(data));
 		else
 			return data;

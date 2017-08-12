@@ -546,9 +546,9 @@ function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 	end;
 
 	for k, v in ipairs(cache) do
-		local bSuccess, value = pcall(v[1], v[2], ...);
+		local wasSuccess, value = pcall(v[1], v[2], ...);
 			
-		if (!bSuccess) then
+		if (!wasSuccess) then
 			MsgC(Color(255, 100, 0, 255), "\n[Clockwork:"..v[2].name.."]\nThe '"..name.."' hook has failed to run.\n"..value.."\n");
 		elseif (value != nil) then
 			return value;
@@ -556,9 +556,9 @@ function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 	end;
 
 	if (bGamemode and Clockwork[name]) then
-		local bSuccess, value = pcall(Clockwork[name], Clockwork, ...);
+		local wasSuccess, value = pcall(Clockwork[name], Clockwork, ...);
 		
-		if (!bSuccess) then
+		if (!wasSuccess) then
 			MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Kernel]\nThe '"..name.."' clockwork hook has failed to run.\n"..value.."\n");
 		elseif (value != nil) then
 			return value;

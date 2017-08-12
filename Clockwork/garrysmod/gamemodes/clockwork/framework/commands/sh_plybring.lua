@@ -29,7 +29,7 @@ function COMMAND:OnRun(player, arguments)
 			Clockwork.player:NotifyAll(player:Name().." has brought "..target:Name().." to their target location.");
 		end;
 	else
-		Clockwork.player:Notify(player, arguments[1].." is not a valid player!");
+		Clockwork.player:Notify(player, {"NotValidPlayer", arguments[1]});
 	end;
 end;
 

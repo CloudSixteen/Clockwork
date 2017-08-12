@@ -2135,7 +2135,7 @@ Clockwork.datastream:Hook("CharacterOpen", function(data)
 end);
 
 Clockwork.datastream:Hook("CharacterFinish", function(data)
-	if (data.bSuccess) then
+	if (data.wasSuccess) then
 		Clockwork.character:SetPanelMainMenu();
 		Clockwork.character:SetPanelOpen(false, true);
 		Clockwork.character:SetFault(nil);

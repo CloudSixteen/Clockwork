@@ -27,15 +27,16 @@ function COMMAND:OnRun(player, arguments)
 				end;
 				
 				trace.Entity.cwPassword = nil;
-				Clockwork.player:Notify(player, "This container's password has been removed.");
+				
+				Clockwork.player:Notify(player, {"YouRemovedContainerPassword"});
 			else
-				Clockwork.player:Notify(player, "This is not a valid container!");
+				Clockwork.player:Notify(player, {"ContainerNotValid"});
 			end;
 		else
-			Clockwork.player:Notify(player, "This is not a valid container!");
+			Clockwork.player:Notify(player, {"ContainerNotValid"});
 		end;
 	else
-		Clockwork.player:Notify(player, "This is not a valid container!");
+		Clockwork.player:Notify(player, {"ContainerNotValid"});
 	end;
 end;
 

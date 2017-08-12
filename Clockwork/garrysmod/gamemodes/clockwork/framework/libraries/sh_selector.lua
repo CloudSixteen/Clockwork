@@ -171,12 +171,12 @@ else
 	
 	-- A function to select a selector's option by key.
 	function CLASS_TABLE:Select(key)
-		local bSuccess = false;
+		local wasSuccess = false;
 		local tOption = nil;
 		
 		for k, v in pairs(self.pages[self.page]) do
 			if (v.class == "option" and v.key == key) then
-				bSuccess = true;
+				wasSuccess = true;
 				tOption = v;
 				break;
 			end;
@@ -205,7 +205,7 @@ else
 			end;
 		end;
 		
-		if (!bSuccess) then
+		if (!wasSuccess) then
 			return true;
 		end;
 	end;

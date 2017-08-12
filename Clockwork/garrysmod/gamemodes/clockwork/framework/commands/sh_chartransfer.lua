@@ -46,9 +46,9 @@ function COMMAND:OnRun(player, arguments)
 				return;
 			end;
 			
-			local bSuccess, fault = Clockwork.faction.stored[faction]:OnTransferred(target, Clockwork.faction.stored[targetFaction], arguments[3]);
+			local wasSuccess, fault = Clockwork.faction.stored[faction]:OnTransferred(target, Clockwork.faction.stored[targetFaction], arguments[3]);
 			
-			if (bSuccess != false) then
+			if (wasSuccess != false) then
 				target:SetCharacterData("Faction", faction, true);
 				
 				Clockwork.player:LoadCharacter(target, Clockwork.player:GetCharacterID(target));
@@ -60,7 +60,7 @@ function COMMAND:OnRun(player, arguments)
 			Clockwork.player:Notify(player, target:Name().." is not on the "..faction.." whitelist!");
 		end;
 	else
-		Clockwork.player:Notify(player, arguments[1].." is not a valid player!");
+		Clockwork.player:Notify(player, {"NotValidPlayer", arguments[1]});
 	end;
 end;
 

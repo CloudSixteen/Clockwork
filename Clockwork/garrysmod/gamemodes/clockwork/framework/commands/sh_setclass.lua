@@ -36,9 +36,9 @@ function COMMAND:OnRun(player, arguments)
 			if (player:Team() != class.index
 			and Clockwork.kernel:HasObjectAccess(player, class)) then
 				if (Clockwork.plugin:Call("PlayerCanChangeClass", player, class)) then
-					local bSuccess, fault = Clockwork.class:Set(player, class.index, nil, true);
+					local wasSuccess, fault = Clockwork.class:Set(player, class.index, nil, true);
 					
-					if (!bSuccess) then
+					if (!wasSuccess) then
 						Clockwork.player:Notify(player, fault);
 					end;
 				end;

@@ -66,21 +66,21 @@ if (CLIENT) then
 		end;
 
 		if (mode == 1) then
-			list:AddLine(" 1 **Lock/Unlock Door**");
+			list:AddLine(L("DoorToolSelectedMode1"));
 		else
-			list:AddLine(" 1   Lock/Unlock Door");
+			list:AddLine(L("DoorToolMode1"));
 		end;
 
 		if (mode == 2) then
-			list:AddLine(" 2 **Door Set Ownable**");
+			list:AddLine(L("DoorToolSelectedMode2"));
 		else
-			list:AddLine(" 2   Door Set Ownable  ");
+			list:AddLine(L("DoorToolMode2"));
 		end;
 
 		if (mode == 3) then
-			list:AddLine(" 3 **Door Set Unownable**");
+			list:AddLine(L("DoorToolSelectedMode3"));
 		else
-			list:AddLine(" 3   Door Set Unownable  ");
+			list:AddLine(L("DoorToolMode3"));
 		end;
 		
 		list:SortByColumn(1);
@@ -88,22 +88,22 @@ if (CLIENT) then
 		panel:AddItem(list);
 
 		if (mode == 1) then 
-			panel:AddControl("Header", {Text = "Lock/Unlook Door", Description = "Lock and unlock doors!" });
+			panel:AddControl("Header", {Text = L("DoorToolLockNameText"), Description = L("DoorToolLockNameDesc")});
 		elseif (mode == 2) then 
 			panel:AddControl( "TextBox", { 
-				Label = "Door Name",
+				Label = L("DoorToolDoorNameLabel"),
 				MaxLenth = "20",
 				Command = "doortool_doorname"
 			});
 		elseif (mode == 3) then 
 			panel:AddControl( "TextBox", { 
-				Label = "Door name",
+				Label = L("DoorToolDoorNameLabel"),
 				MaxLenth = "20",
 				Command = "doortool_doorname"
 			});
 
 			panel:AddControl( "TextBox", { 
-				Label = "Door Description",
+				Label = L("DoorToolDoorDescLabel"),
 				MaxLenth = "20",
 				Command = "doortool_doordesc"
 			});

@@ -2655,7 +2655,7 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 		local bQuickUse = (arguments == "cwItemUse");
 		
 		if (itemTable) then
-			local bDidPickupItem = true;
+			local didPickupItem = true;
 			local bCanPickup = (!itemTable.CanPickup or itemTable:CanPickup(player, bQuickUse, entity));
 			
 			if (bCanPickup != false) then
@@ -2666,26 +2666,26 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 					
 					if (!cwPly:InventoryAction(player, itemTable, "use")) then
 						player:TakeItem(itemTable, true);
-						bDidPickupItem = false;
+						
+						didPickupItem = false;
 					else
 						player:FakePickup(entity);
 					end;
 				else
-					local bSuccess, fault = player:GiveItem(itemTable);
+					local wasSuccess, fault = player:GiveItem(itemTable);
 					
-					if (!bSuccess) then
+					if (!wasSuccess) then
 						cwPly:Notify(player, fault);
-						bDidPickupItem = false;
+						
+						didPickupItem = false;
 					else
 						player:FakePickup(entity);
 					end;
 				end;
 				
-				cwPlugin:Call(
-					"PlayerPickupItem", player, itemTable, entity, bQuickUse
-				);
+				cwPlugin:Call("PlayerPickupItem", player, itemTable, entity, bQuickUse);
 				
-				if (bDidPickupItem) then
+				if (didPickupItem) then
 					if (!itemTable.OnPickup or itemTable:OnPickup(player, bQuickUse, entity) != false) then
 						entity:Remove();
 					end;
@@ -2706,11 +2706,11 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 	elseif (class == "cw_item" and arguments == "cwItemExamine") then
 		local itemTable = entity.cwItemTable;
 		local examineText = itemTable.description;
-			
+		
 		if (itemTable.GetEntityExamineText) then
 			examineText = itemTable:GetEntityExamineText(entity);
 		end;
-
+		
 		cwPly:Notify(player, examineText);
 	elseif (class == "cw_item" and arguments == "cwItemAmmo") then
 		local itemTable = entity.cwItemTable;
@@ -4106,15 +4106,15 @@ cwDatastream:Hook("InteractCharacter", function(player, data)
 			if (fault == false or type(fault) == "string") then
 				return cwPly:SetCreateFault(fault or "You cannot interact with this character!");
 			elseif (action == "delete") then
-				local bSuccess, fault = cwPly:DeleteCharacter(player, characterID);
+				local wasSuccess, fault = cwPly:DeleteCharacter(player, characterID);
 				
-				if (!bSuccess) then 
+				if (!wasSuccess) then 
 					cwPly:SetCreateFault(player, fault);
 				end;
 			elseif (action == "use") then
-				local bSuccess, fault = cwPly:UseCharacter(player, characterID);
+				local wasSuccess, fault = cwPly:UseCharacter(player, characterID);
 				
-				if (!bSuccess) then
+				if (!wasSuccess) then
 					cwPly:SetCreateFault(player, fault);
 				end;
 			else
@@ -5717,6 +5717,7 @@ concommand.Add("cwc", function(player, command, arguments)
 					
 					if (userGroup != "user") then
 						print("Console has demoted "..target:Name().." from "..userGroup.." to user.");
+						
 						cwPly:NotifyAll("Console has demoted "..target:Name().." from "..userGroup.." to user.");
 							target:SetClockworkUserGroup("user");
 						cwPly:LightSpawn(target, true, true);

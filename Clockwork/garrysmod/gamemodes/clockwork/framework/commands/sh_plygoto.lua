@@ -22,7 +22,7 @@ function COMMAND:OnRun(player, arguments)
 		Clockwork.player:SetSafePosition(player, target:GetPos());
 		Clockwork.player:NotifyAll(player:Name().." has gone to "..target:Name().."'s location.");
 	else
-		Clockwork.player:Notify(player, arguments[1].." is not a valid player!");
+		Clockwork.player:Notify(player, {"NotValidPlayer", arguments[1]});
 	end;
 end;
 
