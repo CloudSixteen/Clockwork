@@ -184,7 +184,7 @@ function PANEL:RebuildPanel(storagePanel, storageType, usedWeight, weight, usedS
 
 	local informationForm = vgui.Create("DForm", storagePanel);
 		informationForm:SetPadding(5);
-		informationForm:SetName("Weight");
+		informationForm:SetName(L("Weight"));
 
 		local storageWeight = vgui.Create("cwStorageWeight", storagePanel);
 		storageWeight:SetWeight(weight);
@@ -196,7 +196,7 @@ function PANEL:RebuildPanel(storagePanel, storageType, usedWeight, weight, usedS
 	if (Clockwork.inventory:UseSpaceSystem() and storagePanel.usedSpace > 0) then
 		local informationForm = vgui.Create("DForm", storagePanel);
 			informationForm:SetPadding(5);
-			informationForm:SetName("Space");
+			informationForm:SetName(L("Space"));
 
 			local storageSpace = vgui.Create("cwStorageSpace", storagePanel);
 			storageSpace:SetSpace(space);

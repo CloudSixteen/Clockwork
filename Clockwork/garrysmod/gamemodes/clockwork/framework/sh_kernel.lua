@@ -2458,7 +2458,7 @@ else
 	-- A function to set the recognise menu.
 	function Clockwork.kernel:SetRecogniseMenu(menuPanel)
 		Clockwork.RecogniseMenu = menuPanel;
-		self:SetTitledMenu(menuPanel, "SELECT WHO CAN RECOGNISE YOU");
+		self:SetTitledMenu(menuPanel, L("SelectWhoCanRecognize"));
 	end;
 	
 	-- A function to get the recognise menu.

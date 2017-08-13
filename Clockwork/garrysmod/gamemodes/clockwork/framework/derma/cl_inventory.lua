@@ -80,7 +80,7 @@ function PANEL:Rebuild()
 	self.weightForm:SetPadding(8);
 	self.weightForm:SetSpacing(8);
 	self.weightForm:SetAutoSize(true);
-	self.weightForm:SetText("Weight", nil, "basic_form_highlight");
+	self.weightForm:SetText(L("Weight"), nil, "basic_form_highlight");
 	self.weightForm:AddItem(vgui.Create("cwInventoryWeight", self));
 	
 	if (Clockwork.inventory:UseSpaceSystem()) then
@@ -88,7 +88,7 @@ function PANEL:Rebuild()
 		self.spaceForm:SetPadding(8);
 		self.spaceForm:SetSpacing(8);
 		self.spaceForm:SetAutoSize(true);
-		self.spaceForm:SetText("Space", nil, "basic_form_highlight");
+		self.spaceForm:SetText(L("Space"), nil, "basic_form_highlight");
 		self.spaceForm:AddItem(vgui.Create("cwInventorySpace", self));
 	end
 

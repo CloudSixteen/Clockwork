@@ -274,6 +274,13 @@ CW_ENGLISH["Examine"] = "Examine";
 CW_ENGLISH["Destroy"] = "Destroy";
 CW_ENGLISH["Supply"] = "Supply";
 CW_ENGLISH["Gender"] = "Gender";
+
+-- Amount of weight an inventory can carry.
+CW_ENGLISH["Weight"] = "Weight";
+
+-- Amount of space (size) an inventory can hold.
+CW_ENGLISH["Space"] = "Space";
+
 CW_ENGLISH["Next"] = "Next";
 CW_ENGLISH["Back"] = "Back";
 CW_ENGLISH["Drop"] = "Drop";
@@ -287,6 +294,11 @@ CW_ENGLISH["No"] = "No";
 
 CW_ENGLISH["CharacterRoleplayInfo"] = "CHARACTER AND ROLEPLAY INFO";
 CW_ENGLISH["SelectQuickMenuOption"] = "SELECT A QUICK MENU OPTION";
+CW_ENGLISH["SelectWhoCanRecognize"] = "SELECT WHO CAN RECOGNIZE YOU";
+CW_ENGLISH["AllInWhisperRange"] = "All characters within whispering range.";
+CW_ENGLISH["AllInYellRange"] = "All characters within yelling range.";
+CW_ENGLISH["AllInTalkRange"] = "All characters within talking range.";
+CW_ENGLISH["CharacterYouAreLookingAt"] = "The character you are looking at.";
 
 CW_ENGLISH["CharacterMenuNew"] = "NEW";
 CW_ENGLISH["CharacterMenuCancel"] = "CANCEL";

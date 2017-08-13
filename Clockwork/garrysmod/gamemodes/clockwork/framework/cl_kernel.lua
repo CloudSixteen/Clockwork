@@ -277,17 +277,22 @@ cwDatastream:Hook("QuizCompleted", function(data)
 end);
 
 cwDatastream:Hook("RecogniseMenu", function(data)
+	local whisperRange = L("AllInWhisperRange");
+	local yellRange = L("AllInYellRange");
+	local talkRange = L("AllInTalkRange");
+	local lookingAt = L("CharacterYouAreLookingAt");
+	
 	local menuPanel = cwKernel:AddMenuFromData(nil, {
-		["All characters within whispering range."] = function()
+		[whisperRange] = function()
 			cwDatastream:Start("RecogniseOption", "whisper");
 		end,
-		["All characters within yelling range."] = function()
+		[yellRange] = function()
 			cwDatastream:Start("RecogniseOption", "yell");
 		end,
-		["All characters within talking range"] = function()
+		[talkRange] = function()
 			cwDatastream:Start("RecogniseOption", "talk");
 		end,
-		["The character you are looking at."] = function()
+		[lookingAt] = function()
 			cwDatastream:Start("RecogniseOption", "look");
 		end
 	});
