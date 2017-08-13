@@ -50,5 +50,5 @@ end;
 COMMAND:Register();
 
 if (CLIENT) then
-	Clockwork.quickmenu:AddCommand(string.gsub(COMMAND.name, "Anim", ""), "Emotes", COMMAND.name, {"Close", "Normal"});
+	Clockwork.quickmenu:AddCommand(COMMAND.name, "Emotes", COMMAND.name, {{"AnimWaveClose", "Close"}, {"AnimWaveNormal", "Normal"}});
 end;

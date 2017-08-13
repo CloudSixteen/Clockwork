@@ -51,5 +51,5 @@ end;
 COMMAND:Register();
 
 if (CLIENT) then
-	Clockwork.quickmenu:AddCommand(string.gsub(COMMAND.name, "Anim", ""), "Emotes", COMMAND.name, {"Left", "Right", "Behind"});
+	Clockwork.quickmenu:AddCommand(COMMAND.name, "Emotes", COMMAND.name, {{"AnimMotionLeft", "Left"}, {"AnimMotionRight", "Right"}, {"AnimMotionBehind", "Behind"}});
 end;

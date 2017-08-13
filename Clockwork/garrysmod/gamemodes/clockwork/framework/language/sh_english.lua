@@ -300,6 +300,9 @@ CW_ENGLISH["AllInYellRange"] = "All characters within yelling range.";
 CW_ENGLISH["AllInTalkRange"] = "All characters within talking range.";
 CW_ENGLISH["CharacterYouAreLookingAt"] = "The character you are looking at.";
 
+CW_ENGLISH["QuickMenuFallOver"] = "Fall Over";
+CW_ENGLISH["QuickMenuDescription"] = "Physical Description";
+
 CW_ENGLISH["CharacterMenuNew"] = "NEW";
 CW_ENGLISH["CharacterMenuCancel"] = "CANCEL";
 CW_ENGLISH["CharacterMenuLoad"] = "LOAD";

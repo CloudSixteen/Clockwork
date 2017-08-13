@@ -65,5 +65,5 @@ end;
 COMMAND:Register();
 
 if (CLIENT) then
-	Clockwork.quickmenu:AddCommand("Sit Wall", "Emotes", COMMAND.name);
+	Clockwork.quickmenu:AddCommand(COMMAND.name, "Emotes", COMMAND.name);
 end;

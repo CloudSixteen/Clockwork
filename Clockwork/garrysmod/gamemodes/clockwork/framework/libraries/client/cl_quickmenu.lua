@@ -54,7 +54,7 @@ function Clockwork.quickmenu:AddCommand(name, category, command, options)
 	end);
 end;
 
-Clockwork.quickmenu:AddCallback("Fall Over", nil, function()
+Clockwork.quickmenu:AddCallback("QuickMenuFallOver", nil, function()
 	local commandTable = Clockwork.command:FindByID("CharFallOver");
 	
 	if (commandTable) then
@@ -69,7 +69,7 @@ Clockwork.quickmenu:AddCallback("Fall Over", nil, function()
 	end;
 end);
 
-Clockwork.quickmenu:AddCallback("Description", nil, function()
+Clockwork.quickmenu:AddCallback("QuickMenuDescription", nil, function()
 	local commandTable = Clockwork.command:FindByID("CharPhysDesc");
 	
 	if (commandTable) then
