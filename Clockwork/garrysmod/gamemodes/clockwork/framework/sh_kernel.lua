@@ -1801,7 +1801,6 @@ else
 					self:AddMenuFromData(menuPanel:AddSubMenu(T(v[1])), v[2], Callback);
 				end;
 			elseif (type(v[2]) == "function") then
-				PrintTable(v);
 				menuPanel:AddOption(T(v[1]), v[2]);
 			elseif (Callback) then
 				Callback(menuPanel, v[1], v[2]);
@@ -2724,7 +2723,7 @@ else
 			end;
 			
 			if (arguments.options) then
-				local subMenu = menuPanel:AddSubMenu(option);
+				local subMenu = menuPanel:AddSubMenu(L(option));
 				
 				for k, v in pairs(arguments.options) do
 					local name = v;
@@ -2763,6 +2762,7 @@ else
 				end);
 				
 				menuPanel.Items = menuPanel:GetChildren();
+				
 				local panel = menuPanel.Items[#menuPanel.Items];
 				
 				if (IsValid(panel) and arguments.toolTip) then
