@@ -302,9 +302,7 @@ function PANEL:OpenPanel(vguiName, childData, Callback)
 				Clockwork.character.activePanel:SetAlpha(0);
 				Clockwork.character.activePanel:FadeIn(0.5);
 				Clockwork.character.activePanel:MakePopup();
-
 				
-
 				Clockwork.character.activePanel:SetPos(ScrW() * 0.2, y);
 				
 				if (Callback) then
@@ -312,7 +310,7 @@ function PANEL:OpenPanel(vguiName, childData, Callback)
 				end;
 				
 				if (childData) then
-					Clockwork.character.activePanel.bIsCreationProcess = true;
+					Clockwork.character.activePanel.isCreationProcess = true;
 					Clockwork.character:FadeInNavigation();
 				end;
 			end);
@@ -331,7 +329,7 @@ function PANEL:OpenPanel(vguiName, childData, Callback)
 			end;
 			
 			if (childData) then
-				Clockwork.character.activePanel.bIsCreationProcess = true;
+				Clockwork.character.activePanel.isCreationProcess = true;
 				Clockwork.character:FadeInNavigation();
 			end;
 		end;
@@ -421,7 +419,7 @@ function PANEL:Paint(w, h)
 					color = Color(colorWhite.r, colorWhite.g, colorWhite.b, 100);
 				end;
 				
-				Clockwork.kernel:DrawSimpleText(creationPanels[i].friendlyName, textX, textY - 1, color, 1, 1);
+				Clockwork.kernel:DrawSimpleText(L(creationPanels[i].friendlyName), textX, textY - 1, color, 1, 1);
 			end;
 			
 			surface.SetDrawColor(
@@ -812,14 +810,14 @@ function PANEL:Init()
 	end;
 	
 	self.useButton = vgui.Create("DImageButton", self);
-	self.useButton:SetToolTip("Use this character.");
+	self.useButton:SetToolTip(L("UseThisCharacter"));
 	self.useButton:SetImage("icon16/tick.png");
 	self.useButton:SetSize(16, 16);
 	self.useButton:SetPos(0, buttonY);
 	self.useButton:SetMouseInputEnabled(true);
 	
 	self.deleteButton = vgui.Create("DImageButton", self);
-	self.deleteButton:SetToolTip("Delete this character.");
+	self.deleteButton:SetToolTip(L("DeleteThisCharacter"));
 	self.deleteButton:SetImage("icon16/cross.png");
 	self.deleteButton:SetSize(16, 16);
 	self.deleteButton:SetPos(20, buttonY);
@@ -1309,7 +1307,7 @@ function PANEL:Init()
 	
 	self.attributePanels = {};
 	self.info.attributes = {};
-	self.helpText = self.attributesForm:Help("You can spend "..maximumPoints.." more point(s).");
+	self.helpText = self.attributesForm:Help(L("YouCanSpendMorePoints", maximumPoints));
 	
 	for k, v in pairs(attributes) do
 		if (v.isOnCharScreen) then
@@ -1409,7 +1407,7 @@ function PANEL:Think()
 			pointsLeft = pointsLeft - v:GetTotalPoints();
 		end;
 		
-		self.helpText:SetText("You can spend "..pointsLeft.." more point(s).");
+		self.helpText:SetText(L("YouCanSpendMorePoints", pointsLeft));
 	end;
 	
 	if (self.animation) then
@@ -1432,7 +1430,7 @@ function PANEL:Init()
 	self.info = Clockwork.character:GetCreationInfo();
 	
 	self.classesForm = vgui.Create("DForm");
-	self.classesForm:SetName("Classes");
+	self.classesForm:SetName(L("MenuNameClasses"));
 	self.classesForm:SetPadding(4);
 	
 	self.categoryList = vgui.Create("DCategoryList", self);
@@ -1443,7 +1441,7 @@ function PANEL:Init()
 		if (v.isOnCharScreen and (v.factions and table.HasValue(v.factions, self.info.faction))) then
 			self.classTable = v;
 			self.overrideData = {
-				information = "Select this to make it your character's default class.",
+				information = L("SelectToMakeDefaultClass"),
 				Callback = function()
 					self.info.class = v.index;
 				end
@@ -1556,18 +1554,18 @@ function PANEL:Init()
  	self.categoryList:SizeToContents();
 	
 	self.overrideModel = nil;
-	self.bSelectModel = nil;
-	self.bPhysDesc = (Clockwork.command:FindByID("CharPhysDesc") != nil);
+	self.hasSelectedModel = nil;
+	self.hasPhysDesc = (Clockwork.command:FindByID("CharPhysDesc") != nil);
 	self.info = Clockwork.character:GetCreationInfo();
 	
 	if (!Clockwork.faction.stored[self.info.faction].GetModel) then
-		self.bSelectModel = true;
+		self.hasSelectedModel = true;
 	end;
 	
 	local genderModels = Clockwork.faction.stored[self.info.faction].models[string.lower(self.info.gender)];
 	
 	if (genderModels and #genderModels == 1) then
-		self.bSelectModel = false;
+		self.hasSelectedModel = false;
 		self.overrideModel = genderModels[1];
 		
 		if (!panel:FadeInModelPanel(self.overrideModel)) then
@@ -1578,37 +1576,37 @@ function PANEL:Init()
 	if (!Clockwork.faction.stored[self.info.faction].GetName) then
 		self.nameForm = vgui.Create("DForm", self);
 		self.nameForm:SetPadding(4);
-		self.nameForm:SetName("Name");
+		self.nameForm:SetName(L("Name"));
 		
 		if (Clockwork.faction.stored[self.info.faction].useFullName) then
-			self.fullNameTextEntry = self.nameForm:TextEntry("Full Name");
+			self.fullNameTextEntry = self.nameForm:TextEntry(L("CharacterMenuFullName"));
 			self.fullNameTextEntry:SetAllowNonAsciiCharacters(true);
 		else
-			self.forenameTextEntry = self.nameForm:TextEntry("Forename");
+			self.forenameTextEntry = self.nameForm:TextEntry(L("CharacterMenuForename"));
 			self.forenameTextEntry:SetAllowNonAsciiCharacters(true);
 			
-			self.surnameTextEntry = self.nameForm:TextEntry("Surname");
+			self.surnameTextEntry = self.nameForm:TextEntry(L("CharacterMenuSurname"));
 			self.surnameTextEntry:SetAllowNonAsciiCharacters(true);
 		end;
 	end;
 	
-	if (self.bSelectModel or self.bPhysDesc) then
+	if (self.hasSelectedModel or self.hasPhysDesc) then
 		self.appearanceForm = vgui.Create("DForm");
 		self.appearanceForm:SetPadding(4);
-		self.appearanceForm:SetName("Appearance");
+		self.appearanceForm:SetName(L("CharacterMenuAppearance"));
 		
-		if (self.bPhysDesc and self.bSelectModel) then
-			self.appearanceForm:Help("Write a physical description for your character in full English, and select an appropriate model.");
-		elseif (self.bPhysDesc) then
-			self.appearanceForm:Help("Write a physical description for your character in full English.");
+		if (self.hasPhysDesc and self.hasSelectedModel) then
+			self.appearanceForm:Help(L("CharacterMenuPhysDescHelpAndModel"));
+		elseif (self.hasPhysDesc) then
+			self.appearanceForm:Help(L("CharacterMenuPhysDescHelp"));
 		end;
 		
-		if (self.bPhysDesc) then
-			self.physDescTextEntry = self.appearanceForm:TextEntry("Description");
+		if (self.hasPhysDesc) then
+			self.physDescTextEntry = self.appearanceForm:TextEntry(L("CharacterMenuPhysDesc"));
 			self.physDescTextEntry:SetAllowNonAsciiCharacters(true);
 		end;
 		
-		if (self.bSelectModel) then
+		if (self.hasSelectedModel) then
 			self.modelItemsList = vgui.Create("DPanelList", self);
 				self.modelItemsList:SetPadding(4);
 				self.modelItemsList:SetSpacing(16);
@@ -1673,7 +1671,7 @@ function PANEL:OnNext()
 			self.info.fullName = self.fullNameTextEntry:GetValue();
 			
 			if (self.info.fullName == "") then
-				Clockwork.character:SetFault("You did not choose a name, or the name that you chose is not valid!");
+				Clockwork.character:SetFault({"FaultNameInvalid"});
 				return false;
 			end;
 		else
@@ -1681,42 +1679,42 @@ function PANEL:OnNext()
 			self.info.surname = self.surnameTextEntry:GetValue();
 			
 			if (self.info.forename == "" or self.info.surname == "") then
-				Clockwork.character:SetFault("You did not choose a name, or the name that you chose is not valid!");
+				Clockwork.character:SetFault({"FaultNameInvalid"});
 				return false;
 			end;
 			
 			if (string.find(self.info.forename, "[%p%s%d]") or string.find(self.info.surname, "[%p%s%d]")) then
-				Clockwork.character:SetFault("Your forename and surname must not contain punctuation, spaces or digits!");
+				Clockwork.character:SetFault({"FaultNameNoSpecialChars"});
 				return false;
 			end;
 			
 			if (!string.find(self.info.forename, "[aeiou]") or !string.find(self.info.surname, "[aeiou]")) then
-				Clockwork.character:SetFault("Your forename and surname must both contain at least one vowel!");
+				Clockwork.character:SetFault({"FaultNameHaveVowel"});
 				return false;
 			end;
 			
 			if (string.utf8len(self.info.forename) < 2 or string.utf8len(self.info.surname) < 2) then
-				Clockwork.character:SetFault("Your forename and surname must both be at least 2 characters long!");
+				Clockwork.character:SetFault({"FaultNameMinLength"});
 				return false;
 			end;
 			
 			if (string.utf8len(self.info.forename) > 16 or string.utf8len(self.info.surname) > 16) then
-				Clockwork.character:SetFault("Your forename and surname must not be greater than 16 characters long!");
+				Clockwork.character:SetFault({"FaultNameTooLong"});
 				return false;
 			end;
 		end;
 	end;
 	
-	if (self.bSelectModel and !self.info.model) then
-		Clockwork.character:SetFault("You did not choose a model, or the model that you chose is not valid!");
+	if (self.hasSelectedModel and !self.info.model) then
+		Clockwork.character:SetFault({"FaultNeedModel"});
 		return false;
 	end;
 	
-	if (self.bPhysDesc) then
+	if (self.hasPhysDesc) then
 		local minimumPhysDesc = Clockwork.config:Get("minimum_physdesc"):Get();
 			self.info.physDesc = self.physDescTextEntry:GetValue();
 		if (string.utf8len(self.info.physDesc) < minimumPhysDesc) then
-			Clockwork.character:SetFault("The physical description must be at least "..minimumPhysDesc.." characters long!");
+			Clockwork.character:SetFault({"PhysDescMinimumLength", minimumPhysDesc});
 			return false;
 		end;
 	end;
@@ -1835,12 +1833,12 @@ function PANEL:Init()
  	self.categoryList:SizeToContents();
 	
 	self.settingsForm = vgui.Create("DForm");
-	self.settingsForm:SetName("Persuasion");
+	self.settingsForm:SetName(L("CreateCharacterStage1"));
 	self.settingsForm:SetPadding(4);
 	
 	if (#factions > 1) then
-		self.settingsForm:Help("The faction defines the overall character and can most likely be unchanged.");
-		self.factionMultiChoice = self.settingsForm:ComboBox("Faction");
+		self.settingsForm:Help(L("CharacterMenuFactionHelp"));
+		self.factionMultiChoice = self.settingsForm:ComboBox(L("CharacterMenuFaction"));
 		
 		-- Called when an option is selected.
 		self.factionMultiChoice.OnSelect = function(multiChoice, index, value, data)
@@ -1849,15 +1847,15 @@ function PANEL:Init()
 					if (IsValid(self.genderMultiChoice)) then
 						self.genderMultiChoice:Clear();
 					else
-						self.genderMultiChoice = self.settingsForm:ComboBox("Gender");
+						self.genderMultiChoice = self.settingsForm:ComboBox(L("Gender"));
 						self.settingsForm:Rebuild();
 					end;
 
 					if (v.singleGender) then
-						self.genderMultiChoice:AddChoice(v.singleGender);
+						self.genderMultiChoice:AddChoice(L(v.singleGender));
 					else
-						self.genderMultiChoice:AddChoice(GENDER_FEMALE);
-						self.genderMultiChoice:AddChoice(GENDER_MALE);
+						self.genderMultiChoice:AddChoice(L(GENDER_FEMALE));
+						self.genderMultiChoice:AddChoice(L(GENDER_MALE));
 					end;
 					
 					Clockwork.CurrentFactionSelected = {self, value};
@@ -1869,13 +1867,13 @@ function PANEL:Init()
 	elseif (#factions == 1) then
 		for k, v in pairs(Clockwork.faction.stored) do
 			if (v.name == factions[1]) then
-				self.genderMultiChoice = self.settingsForm:ComboBox("Gender");
+				self.genderMultiChoice = self.settingsForm:ComboBox(L("Gender"));
 
 				if (v.singleGender) then
-					self.genderMultiChoice:AddChoice(v.singleGender);
+					self.genderMultiChoice:AddChoice(L(v.singleGender));
 				else
-					self.genderMultiChoice:AddChoice(GENDER_FEMALE);
-					self.genderMultiChoice:AddChoice(GENDER_MALE);
+					self.genderMultiChoice:AddChoice(L(GENDER_FEMALE));
+					self.genderMultiChoice:AddChoice(L(GENDER_MALE));
 				end;
 				
 				Clockwork.CurrentFactionSelected = {self, v.name};
@@ -1893,10 +1891,12 @@ function PANEL:Init()
 	end;
 	
 	self.customChoices = {};
+	
 	Clockwork.plugin:Call("GetPersuasionChoices", self.customChoices);
 
 	if (self.customChoices) then
 		self.customPanels = {};
+		
 		for k2, v2 in pairs(self.customChoices) do
 			if (!v2.type or string.lower(v2.type) == "combobox") then
 				table.insert(self.customPanels, {v2, self.settingsForm:ComboBox(v2.name)});
@@ -1922,24 +1922,24 @@ function PANEL:OnNext()
 			local value = v[2]:GetValue();
 
 			if (value == "") then
-				Clockwork.character:SetFault("You did not fill out "..v[1].name.."!");
+				Clockwork.character:SetFault({"FaultDidNotFillPanel", v[1].name});
 				return false;
 			elseif (v[1].isNumber) then
 				local max = v[1].max;
 				local min = v[1].min;
 
 				if (!tonumber(value)) then
-					Clockwork.character:SetFault("You did not fill out "..v[1].name.." with a number!");
+					Clockwork.character:SetFault({"FaultDidNotFillPanelWithNumber", v[1].name});
 					return false;
 				end;
 
 				if (max and max < tonumber(value)) then
-					Clockwork.character:SetFault("You cannot go higher than "..tostring(max).." in the "..v[1].name.." text entry!");
+					Clockwork.character:SetFault({"FaultTextEntryHigherThan", tostring(max), v[1].name});
 					return false;
 				end;
 
 				if (min and min > tonumber(value)) then
-					Clockwork.character:SetFault("You cannot go lower than "..tostring(min).." in the "..v[1].name.." text entry!");
+					Clockwork.character:SetFault({"FaultTextEntryLowerThan", tostring(min), v[1].name});
 					return false;
 				end;
 			end;
@@ -1952,6 +1952,12 @@ function PANEL:OnNext()
 		local faction = self.forcedFaction;
 		local gender = self.genderMultiChoice:GetValue();
 		
+		if (gender == L(GENDER_MALE)) then
+			gender = GENDER_MALE;
+		else
+			gender = GENDER_FEMALE;
+		end;
+		
 		if (!faction and self.factionMultiChoice) then
 			faction = self.factionMultiChoice:GetValue();
 		end;
@@ -1961,13 +1967,14 @@ function PANEL:OnNext()
 				if (Clockwork.faction:IsGenderValid(faction, gender)) then
 					self.info.faction = faction;
 					self.info.gender = gender;
+					
 					return true;
 				end;
 			end;
 		end;
 	end;
 	
-	Clockwork.character:SetFault("You did not choose a faction or the one you have chosen is not valid!");
+	Clockwork.character:SetFault({"FaultDidNotChooseFaction"});
 	return false;
 end;
 
@@ -2144,10 +2151,10 @@ Clockwork.datastream:Hook("CharacterFinish", function(data)
 	end;
 end);
 
-Clockwork.character:RegisterCreationPanel("Persuasion", "cwCharacterStageOne");
-Clockwork.character:RegisterCreationPanel("Description", "cwCharacterStageTwo");
+Clockwork.character:RegisterCreationPanel("CreateCharacterStage1", "cwCharacterStageOne");
+Clockwork.character:RegisterCreationPanel("CreateCharacterStage2", "cwCharacterStageTwo");
 
-Clockwork.character:RegisterCreationPanel("Default Class", "cwCharacterStageThree", nil,
+Clockwork.character:RegisterCreationPanel("CreateCharacterStage3", "cwCharacterStageThree", nil,
 	function(info)
 		local classTable = Clockwork.class:GetAll();
 		
@@ -2164,9 +2171,7 @@ Clockwork.character:RegisterCreationPanel("Default Class", "cwCharacterStageThre
 	end
 );
 
-Clockwork.character:RegisterCreationPanel(
-	Clockwork.option:Translate("name_attributes"), "cwCharacterStageFour", nil,
-	function(info)
+Clockwork.character:RegisterCreationPanel("CreateCharacterStage4", "cwCharacterStageFour", nil, function(info)
 		local attributeTable = Clockwork.attribute:GetAll();
 		
 		if (table.Count(attributeTable) > 0) then

@@ -13,7 +13,7 @@ local Clockwork = Clockwork;
 function cwStaticEnts:Initialize()
 	CW_CONVAR_STATICESP = Clockwork.kernel:CreateClientConVar("cwStaticESP", 0, true, true);
 	
-	Clockwork.setting:AddCheckBox("Admin ESP", "Show Static Entities.", "cwStaticESP", "Whether or not to show static entities in the admin ESP.", function()
+	Clockwork.setting:AddCheckBox("AdminESP", "ShowStaticEntities", "cwStaticESP", "ShowStaticEntitiesDesc", function()
 		return Clockwork.player:IsAdmin(Clockwork.Client);
 	end);
 end;

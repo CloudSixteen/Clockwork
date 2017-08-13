@@ -6,4 +6,7 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
-Clockwork.config:AddToSystem("SpawnWhereLeft", "spawn_where_left", "SpawnWhereLeftDesc");
+CW_ENGLISH = Clockwork.lang:GetTable("English");
+
+CW_ENGLISH["RemoveMapPhysics"] = "Remove Map Physics";
+CW_ENGLISH["RemoveMapPhysicsDesc"] = "Whether or not physics entities should be removed when the map is loaded.";

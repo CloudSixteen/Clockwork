@@ -9,3 +9,6 @@
 CW_ENGLISH = Clockwork.lang:GetTable("English");
 
 CW_ENGLISH["WaitTalkInLOOC"] = "You cannot talk in LOOC for another #1 second(s)!";
+
+CW_ENGLISH["LocalOOCInterval"] = "Local OOC Interval";
+CW_ENGLISH["LocalOOCIntervalDesc"] = "The time that a player has to wait to locally speak out-of-character again (seconds).\nSet to 0 for never.";

@@ -114,7 +114,7 @@ Clockwork.config:Add("translate_api_key", "");
 Clockwork.config:Add("entity_handle_time", 0.1);
 Clockwork.config:Add("player_should_smooth_sprint", true);
 Clockwork.config:Add("quick_raise_enabled", true);
-Clockwork.config:Add("modify_themes", true, true);
+Clockwork.config:Add("modify_themes", false, true);
 Clockwork.config:Add("default_theme", "Schema", true);
 Clockwork.config:Add("enable_disease", false);
 Clockwork.config:Add("disease_interval", 60);

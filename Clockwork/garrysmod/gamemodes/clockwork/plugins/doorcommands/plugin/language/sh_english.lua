@@ -42,3 +42,8 @@ CW_ENGLISH["YouMadeDoorReal"] = "You have successfully made this door real.";
 CW_ENGLISH["YouMadeDoorUnhidden"] = "You have successfully unhidden this door.";
 CW_ENGLISH["ThisIsNotAValidDoor"] = "This is not a valid door target!";
 CW_ENGLISH["YouSetActiveParentDoor"] = "You have set the active parent door to this. The parent has been highlighted orange, and its children blue.";
+
+CW_ENGLISH["DoorsDefaultHidden"] = "Doors Default Hidden";
+CW_ENGLISH["DoorsDefaultHiddenDesc"] = "Set whether doors are hidden and unownable by default.";
+CW_ENGLISH["DoorsSaveState"] = "Doors Save State";
+CW_ENGLISH["DoorsSaveStateDesc"] = "Set whether or not doors will save being open or closed and locked.";

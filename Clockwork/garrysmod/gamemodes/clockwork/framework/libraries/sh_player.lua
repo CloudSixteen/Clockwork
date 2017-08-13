@@ -2269,7 +2269,7 @@ function Clockwork.player:GiveDoor(player, door, name, unsellable, override)
 			door.unsellable = unsellable;
 			door.accessList = {};
 			
-			cwEntity:SetDoorText(door, name or "A purchased door.");
+			cwEntity:SetDoorText(door, name or "PurchasedDoorText");
 			self:GiveProperty(player, door, true);
 			
 			cwPlugin:Call("PlayerDoorGiven", player, door)
@@ -2370,15 +2370,15 @@ function Clockwork.player:DeleteCharacter(player, characterID)
 				
 				return true;
 			elseif (type(fault) != "string") then
-				return false, "You cannot delete this character!";
+				return false, {"YouCannotDeleteThisCharacter"};
 			else
 				return false, fault;
 			end;
 		else
-			return false, "You cannot delete the character you are using!";
+			return false, {"CannotDeleteCharacterUsing"};
 		end;
 	else
-		return false, "This character does not exist!";
+		return false, {"CharacterDoesNotExist"};
 	end;
 end;
 
@@ -2389,7 +2389,7 @@ function Clockwork.player:UseCharacter(player, characterID)
 	local character = player.cwCharacterList[characterID];
 	
 	if (!character) then
-		return false, "This character does not exist!";
+		return false, {"CharacterDoesNotExist"};
 	end;
 	
 	if (currentCharacter != character or isCharacterMenuReset) then
@@ -2409,13 +2409,13 @@ function Clockwork.player:UseCharacter(player, characterID)
 			end;
 			
 			if (limit and players == limit) then
-				return false, "The "..character.faction.." faction is full ("..limit.."/"..limit..")!";
+				return false, {"CannotSwitchFactionFull", character.faction, limit, limit};
 			else
 				if (currentCharacter) then
 					local fault = cwPlugin:Call("PlayerCanSwitchCharacter", player, character);
 					
 					if (fault != nil and fault != true) then
-						return false, fault or "You cannot switch to this character!";
+						return false, fault or {"YouCannotSwitchToCharacter"};
 					end;
 				end;
 				
@@ -2431,10 +2431,10 @@ function Clockwork.player:UseCharacter(player, characterID)
 				return true;
 			end;
 		else
-			return false, fault or "You cannot use this character!";
+			return false, fault or {"YouCannotUseThisCharacter"};
 		end;
 	else
-		return false, "You are already using this character!";
+		return false, {"AlreadyUsingThisCharacter"};
 	end;
 end;
 

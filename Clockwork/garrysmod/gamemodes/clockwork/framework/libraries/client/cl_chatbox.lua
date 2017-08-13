@@ -31,12 +31,12 @@ if (!Clockwork.datastream) then
 end;
 
 Clockwork.chatBox = Clockwork.kernel:NewLibrary("ChatBox");
-	Clockwork.chatBox.classes = Clockwork.chatBox.classes or {};
-	Clockwork.chatBox.defaultClasses = Clockwork.chatBox.defaultClasses or {}
-	Clockwork.chatBox.messages = Clockwork.chatBox.messages or {};
-	Clockwork.chatBox.historyPos = Clockwork.chatBox.historyPos or 0;
-	Clockwork.chatBox.historyMsgs = Clockwork.chatBox.historyMsgs or {};
-	Clockwork.chatBox.spaceWidths = Clockwork.chatBox.spaceWidths or {};
+Clockwork.chatBox.classes = Clockwork.chatBox.classes or {};
+Clockwork.chatBox.defaultClasses = Clockwork.chatBox.defaultClasses or {}
+Clockwork.chatBox.messages = Clockwork.chatBox.messages or {};
+Clockwork.chatBox.historyPos = Clockwork.chatBox.historyPos or 0;
+Clockwork.chatBox.historyMsgs = Clockwork.chatBox.historyMsgs or {};
+Clockwork.chatBox.spaceWidths = Clockwork.chatBox.spaceWidths or {};
 
 if (!chat.ClockworkAddText) then
 	chat.ClockworkAddText = chat.AddText;

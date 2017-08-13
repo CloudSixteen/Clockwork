@@ -148,7 +148,7 @@ end;
 function Clockwork.character:IsCreationProcessActive()
 	local activePanel = self:GetActivePanel();
 	
-	if (activePanel and activePanel.bIsCreationProcess) then
+	if (activePanel and activePanel.isCreationProcess) then
 		return true;
 	else
 		return false;

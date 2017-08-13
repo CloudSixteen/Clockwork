@@ -6,4 +6,7 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
-Clockwork.config:AddToSystem("SpawnWhereLeft", "spawn_where_left", "SpawnWhereLeftDesc");
+CW_ENGLISH = Clockwork.lang:GetTable("English");
+
+CW_ENGLISH["WeaponSelectMulti"] = "Weapon Selection Multi";
+CW_ENGLISH["WeaponSelectMultiDesc"] = "Should the weapon selection be hidden if the player has only one weapon.";

@@ -10,8 +10,9 @@ local Clockwork = Clockwork;
 
 if (CLIENT) then
 	local SYSTEM = Clockwork.system:New();
-	SYSTEM.name = "Manage Bans";
-	SYSTEM.toolTip = "A method to unban players graphically.";
+	
+	SYSTEM.name = "ManageBans";
+	SYSTEM.toolTip = "ManageBansHelp";
 	SYSTEM.bannedPage = 1;
 	SYSTEM.bannedPlayers = nil;
 	SYSTEM.doesCreateForm = false;
@@ -35,7 +36,7 @@ if (CLIENT) then
 		if (self.bannedPlayers) then
 			if (#self.bannedPlayers > 0) then
 				for k, v in pairs(self.bannedPlayers) do
-					local timeLeftMessage = "This player is banned permanently.";
+					local timeLeftMessage = L("ManageBansBannedPerma");
 					local infoColor = "red";
 					
 					if (v.timeLeft > 0) then
@@ -43,11 +44,11 @@ if (CLIENT) then
 						local minutesLeft = math.Round(math.max(v.timeLeft / 60, 0));
 						
 						if (hoursLeft >= 1) then
-							timeLeftMessage = "Unbanned in "..hoursLeft.." hour(s).";
+							timeLeftMessage = L("ManageBansUnbannedInHours", hoursLeft);
 						elseif (minutesLeft >= 1) then
-							timeLeftMessage = "Unbanned in "..hoursLeft.." minute(s).";
+							timeLeftMessage = L("ManageBansUnbannedInMinutes", minutesLeft);
 						else
-							timeLeftMessage = "Unbanned in "..v.timeLeft.." second(s).";
+							timeLeftMessage = L("ManageBansUnbannedInSeconds", v.timeLeft);
 						end;
 						
 						infoColor = "orange";
@@ -56,14 +57,14 @@ if (CLIENT) then
 					local label = vgui.Create("cwInfoText", systemPanel);
 						label:SetText(v.steamName);
 						label:SetButton(true);
-						label:SetToolTip(v.identifier.."\n"..timeLeftMessage.."\nBanned for '"..v.reason.."'.");
+						label:SetToolTip(L("ManageBansBanInfo", v.identifier, timeLeftMessage, v.reason));
 						label:SetInfoColor(infoColor);
 						label:DockMargin(0, 0, 0, 8);
 					systemPanel.panelList:AddItem(label);
 					
 					-- Called when the button is clicked.
 					function label.DoClick(button)
-						Derma_Query("Are you sure that you want to unban "..v.steamName.."?", "Unban "..v.steamName..".", "Yes", function()
+						Derma_Query(L("ManageBansAreYouSure", v.steamName), L("ManageBansUnbanTitle", v.steamName), L("Yes"), function()
 							Clockwork.datastream:Start("SystemUnbanDo", v.identifier);
 						end, "No", function() end);
 					end;
@@ -71,12 +72,12 @@ if (CLIENT) then
 				
 				if (self.pageCount > 1) then
 					local pageForm = vgui.Create("DForm", systemPanel);
-						pageForm:SetName("Page "..self.bannedPage.."/"..self.pageCount);
+						pageForm:SetName(L("PageCount", self.bannedPage, self.pageCount));
 						pageForm:SetPadding(4);
 					systemPanel.panelList:AddItem(pageForm);
 					
 					if (self.isNext) then
-						local nextButton = pageForm:Button("Next");
+						local nextButton = pageForm:Button(L("Next"));
 						
 						-- Called when the button is clicked.
 						function nextButton.DoClick(button)
@@ -85,7 +86,7 @@ if (CLIENT) then
 					end;
 					
 					if (self.isBack) then
-						local backButton = pageForm:Button("Back");
+						local backButton = pageForm:Button(L("Back"));
 						
 						-- Called when the button is clicked.
 						function backButton.DoClick(button)
@@ -95,14 +96,14 @@ if (CLIENT) then
 				end;
 			else
 				local label = vgui.Create("cwInfoText", systemPanel);
-					label:SetText("There are no banned players to display.");
+					label:SetText(L("ManageBansNoPlayers"));
 					label:SetInfoColor("orange");
 					label:DockMargin(0, 0, 0, 8);
 				systemPanel.panelList:AddItem(label);
 			end;
 		else
 			local label = vgui.Create("cwInfoText", systemPanel);
-				label:SetText("Hold on while the banned player list is retrieved...");
+				label:SetText(L("ManageBansGettingBans"));
 				label:SetInfoColor("blue");
 				label:DockMargin(0, 0, 0, 8);
 			systemPanel.panelList:AddItem(label);
@@ -112,7 +113,7 @@ if (CLIENT) then
 	SYSTEM:Register();
 	
 	Clockwork.datastream:Hook("SystemUnbanRebuild", function(data)
-		local systemTable = Clockwork.system:FindByID("Manage Bans");
+		local systemTable = Clockwork.system:FindByID("ManageBans");
 		
 		if (systemTable and systemTable:IsActive()) then
 			systemTable:Rebuild();
@@ -121,7 +122,7 @@ if (CLIENT) then
 	
 	Clockwork.datastream:Hook("SystemUnbanGet", function(data)
 		if (type(data) == "table") then
-			local systemTable = Clockwork.system:FindByID("Manage Bans");
+			local systemTable = Clockwork.system:FindByID("ManageBans");
 			
 			if (systemTable) then
 				systemTable.bannedPlayers = data.players;
@@ -133,7 +134,7 @@ if (CLIENT) then
 				systemTable:Rebuild();
 			end;
 		else
-			local systemTable = Clockwork.system:FindByID("Manage Bans");
+			local systemTable = Clockwork.system:FindByID("ManageBans");
 			
 			if (systemTable) then
 				systemTable.bannedPlayers = {};

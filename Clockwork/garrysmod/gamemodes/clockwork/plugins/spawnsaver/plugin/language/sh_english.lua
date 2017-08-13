@@ -6,4 +6,7 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
-Clockwork.config:AddToSystem("SpawnWhereLeft", "spawn_where_left", "SpawnWhereLeftDesc");
+CW_ENGLISH = Clockwork.lang:GetTable("English");
+
+CW_ENGLISH["SpawnWhereLeft"] = "Spawn Where Left";
+CW_ENGLISH["SpawnWhereLeftDesc"] = "Whether or not players spawn where they disconnected.";

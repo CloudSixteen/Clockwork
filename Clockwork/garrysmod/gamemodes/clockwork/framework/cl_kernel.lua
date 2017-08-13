@@ -890,8 +890,6 @@ function Clockwork:Initialize()
 	CW_CONVAR_TABX = cwKernel:CreateClientConVar("cwTabPosX", 56, true, true);
 	CW_CONVAR_TABY = cwKernel:CreateClientConVar("cwTabPosY", 112, true, true);
 	CW_CONVAR_FADEPANEL = cwKernel:CreateClientConVar("cwFadePanels", 1, true, true);
-	CW_CONVAR_CHARSTRING = cwKernel:CreateClientConVar("cwCharString", "CHARACTERS", true, true);
-	CW_CONVAR_CLOSESTRING = cwKernel:CreateClientConVar("cwCloseString", "CLOSE MENU", true, true);
 	CW_CONVAR_MATERIAL = cwKernel:CreateClientConVar("cwMaterial", "hunter/myplastic", true, true);
 	CW_CONVAR_BACKX = cwKernel:CreateClientConVar("cwBackX", 61, true, true);
 	CW_CONVAR_BACKY = cwKernel:CreateClientConVar("cwBackY", 109, true, true);
@@ -2610,23 +2608,23 @@ function Clockwork:GetPlayerScoreboardOptions(player, options, menu)
 	local plyBan = cwCommand:FindByID("PlyBan");
 	
 	if (charBan and cwPly:HasFlags(cwClient, charBan.access)) then
-		options["Ban Character"] = function()
+		options["BanCharacter"] = function()
 			RunConsoleCommand("cwCmd", "CharBan", player:Name());
 		end;
 	end;
 	
 	if (plyKick and cwPly:HasFlags(cwClient, plyKick.access)) then
-		options["Kick Player"] = function()
-			Derma_StringRequest(player:Name(), "What is your reason for kicking them?", nil, function(text)
+		options["KickPlayer"] = function()
+			Derma_StringRequest(player:Name(), L("KickPlayerReason"), nil, function(text)
 				cwKernel:RunCommand("PlyKick", player:Name(), text);
 			end);
 		end;
 	end;
 	
 	if (plyBan and cwPly:HasFlags(cwClient, cwCommand:FindByID("PlyBan").access)) then
-		options["Ban Player"] = function()
-			Derma_StringRequest(player:Name(), "How many minutes would you like to ban them for?", nil, function(minutes)
-				Derma_StringRequest(player:Name(), "What is your reason for banning them?", nil, function(reason)
+		options["BanPlayer"] = function()
+			Derma_StringRequest(player:Name(), L("BanPlayerTime"), nil, function(minutes)
+				Derma_StringRequest(player:Name(), L("BanPlayerReason"), nil, function(reason)
 					cwKernel:RunCommand("PlyBan", player:Name(), minutes, reason);
 				end);
 			end);
@@ -2634,46 +2632,46 @@ function Clockwork:GetPlayerScoreboardOptions(player, options, menu)
 	end;
 	
 	if (charGiveFlags and cwPly:HasFlags(cwClient, charGiveFlags.access)) then
-		options["Give Flags"] = function()
-			Derma_StringRequest(player:Name(), "What flags would you like to give them?", nil, function(text)
+		options["GiveFlags"] = function()
+			Derma_StringRequest(player:Name(), L("GiveFlagsHelp"), nil, function(text)
 				cwKernel:RunCommand("CharGiveFlags", player:Name(), text);
 			end);
 		end;
 	end;
 	
 	if (charTakeFlags and cwPly:HasFlags(cwClient,charTakeFlags.access)) then
-		options["Take Flags"] = function()
-			Derma_StringRequest(player:Name(), "What flags would you like to take from them?", player:GetSharedVar("Flags"), function(text)
+		options["TakeFlags"] = function()
+			Derma_StringRequest(player:Name(), L("TakeFlagsHelp"), player:GetSharedVar("Flags"), function(text)
 				cwKernel:RunCommand("CharTakeFlags", player:Name(), text);
 			end);
 		end;
 	end;
 	
 	if (charSetName and cwPly:HasFlags(cwClient, charSetName.access)) then
-		options["Set Name"] = function()
-			Derma_StringRequest(player:Name(), "What would you like to set their name to?", player:Name(), function(text)
+		options["SetName"] = function()
+			Derma_StringRequest(player:Name(), L("SetNameHelp"), player:Name(), function(text)
 				cwKernel:RunCommand("CharSetName", player:Name(), text);
 			end);
 		end;
 	end;
 	
 	if (charGiveItem and cwPly:HasFlags(cwClient, charGiveItem.access)) then
-		options["Give Item"] = function()
-			Derma_StringRequest(player:Name(), "What item would you like to give them?", nil, function(text)
+		options["GiveItem"] = function()
+			Derma_StringRequest(player:Name(), L("GiveItemHelp"), nil, function(text)
 				cwKernel:RunCommand("CharGiveItem", player:Name(), text);
 			end);
 		end;
 	end;
 	
 	if (plySetGroup and cwPly:HasFlags(cwClient, plySetGroup.access)) then
-		options["Set Group"] = {};
-		options["Set Group"]["Super Admin"] = function()
+		options["SetGroup"] = {};
+		options["SetGroup"]["SuperAdmin"] = function()
 			cwKernel:RunCommand("PlySetGroup", player:Name(), "superadmin");
 		end;
-		options["Set Group"]["Admin"] = function()
+		options["SetGroup"]["Admin"] = function()
 			cwKernel:RunCommand("PlySetGroup", player:Name(), "admin");
 		end;
-		options["Set Group"]["Operator"] = function()
+		options["SetGroup"]["Operator"] = function()
 			cwKernel:RunCommand("PlySetGroup", player:Name(), "operator");
 		end;
 	end;
@@ -2755,7 +2753,7 @@ function Clockwork:GetDoorInfo(door, information)
 			if (!cwEntity:IsDoorHidden(door)
 			and !cwEntity:IsDoorFalse(door)) then
 				if (text == "") then
-					return "This door is unownable.";
+					return "UnownableDoorText";
 				else
 					return text;
 				end;
@@ -2765,23 +2763,23 @@ function Clockwork:GetDoorInfo(door, information)
 		elseif (text != "") then
 			if (!IsValid(owner)) then
 				if (doorCost > 0) then
-					return "This door can be purchased.";
+					return "PurchasableDoorText";
 				else
-					return "This door can be owned.";
+					return "OwnableDoorText";
 				end;
 			else
 				return text;
 			end;
 		elseif (IsValid(owner)) then
 			if (doorCost > 0) then
-				return "This door has been purchased.";
+				return "PurchasedDoorText";
 			else
-				return "This door has been owned.";
+				return "OwnedDoorText";
 			end;
 		elseif (doorCost > 0) then
-			return "This door can be purchased.";
+			return "PurchasedDoorText";
 		else
-			return "This door can be owned.";
+			return "OwnableDoorText";
 		end;
 	end;
 end;
@@ -2876,7 +2874,7 @@ function Clockwork:RenderScreenspaceEffects()
 		self.ColorModify["$pp_colour_mulg"] = 0;
 		self.ColorModify["$pp_colour_mulb"] = 0;
 		
-		local systemTable = self.system:FindByID("Color Modify")
+		local systemTable = self.system:FindByID("ColorModify")
 		local overrideColorMod = systemTable:GetModifyTable();
 
 		if (overrideColorMod and overrideColorMod.enabled) then

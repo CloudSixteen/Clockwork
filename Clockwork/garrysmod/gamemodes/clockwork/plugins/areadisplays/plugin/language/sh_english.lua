@@ -13,3 +13,6 @@ CW_ENGLISH["AreaDisplayAdded"] = "You have successfully added the '#1' area disp
 CW_ENGLISH["AreaDisplayMinimum"] = "You have added the minimum point, now add the maximum point.";
 CW_ENGLISH["AreaDisplayMaximum"] = "You have added the maximum point, now point at where the text will show.";
 CW_ENGLISH["AreaDisplayNoneNearPosition"] = "There are no area displays near this position.";
+
+CW_ENGLISH["EnableAreaDisplay"] = "Enable Area Display";
+CW_ENGLISH["EnableAreaDisplayDesc"] = "Whether or not to show areas as you enter them.";

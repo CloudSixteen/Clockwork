@@ -17,3 +17,6 @@ CW_ENGLISH["NoNameSpawnpoints"] = "There are currently no #1 spawn points.";
 CW_ENGLISH["NotValidClassOrFaction"] = "This is not a valid class or faction!";
 CW_ENGLISH["YouAddedNameSpawnpoint"] = "You have added a spawn point for #1.";
 CW_ENGLISH["YouAddedDefaultSpawnpoint"] = "You have added a default spawn point.";
+
+CW_ENGLISH["ShowSpawnPoints"] = "Show Spawn Points";
+CW_ENGLISH["ShowSpawnPointsDesc"] = "Whether or not to show spawn points in the admin ESP.";

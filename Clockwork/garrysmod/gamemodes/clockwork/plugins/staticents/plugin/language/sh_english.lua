@@ -25,3 +25,6 @@ CW_ENGLISH["ToggledStaticModeTo"] = "You have toggled the static mode to #1.";
 CW_ENGLISH["RemovedStaticInRadius"] = "You have removed #1 static entities within #2 unit(s) around you.";
 CW_ENGLISH["AddedStaticInRadius"] = "You have added #1 static entities within #2 unit(s) around you.";
 CW_ENGLISH["StaticMustEnterRadius"] = "You must enter a number for the radius!";
+
+CW_ENGLISH["ShowStaticEntities"] = "Show Static Entities";
+CW_ENGLISH["ShowStaticEntitiesDesc"] = "Whether or not to show static entities in the admin ESP.";

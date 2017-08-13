@@ -9,8 +9,9 @@
 local Clockwork = Clockwork;
 
 if (CLIENT) then
-	local SYSTEM = Clockwork.system:New("Manage Config");
-	SYSTEM.toolTip = "An easier way of editing the Clockwork config.";
+	local SYSTEM = Clockwork.system:New("ManageConfig");
+	
+	SYSTEM.toolTip = "ManageConfigHelp";
 	SYSTEM.doesCreateForm = false;
 	
 	-- Called to get whether the local player has access to the system.
@@ -29,13 +30,13 @@ if (CLIENT) then
 		self.adminValues = nil;
 		
 		self.infoText = vgui.Create("cwInfoText", systemPanel);
-			self.infoText:SetText("Click on a config key to begin editing the config value.");
+			self.infoText:SetText(L("ConfigMenuHelp"));
 			self.infoText:SetInfoColor("blue");
 			self.infoText:DockMargin(0, 0, 0, 8);
 		systemPanel.panelList:AddItem(self.infoText);
 		
 		self.configForm = vgui.Create("DForm", systemPanel);
-			self.configForm:SetName("Config");
+			self.configForm:SetName(L("ConfigMenuTitle"));
 			self.configForm:SetPadding(4);
 		systemPanel.panelList:AddItem(self.configForm);
 
@@ -50,9 +51,9 @@ if (CLIENT) then
 		end;
 
 		self.listView = vgui.Create("DListView");
-			self.listView:AddColumn("Name");
-			self.listView:AddColumn("Key");
-			self.listView:AddColumn("Added By");
+			self.listView:AddColumn(L("ConfigMenuListName"));
+			self.listView:AddColumn(L("ConfigMenuListKey"));
+			self.listView:AddColumn(L("ConfigMenuListAddedBy"));
 			self.listView:SetMultiSelect(false);
 			self.listView:SetTall(256);
 		self:PopulateComboBox();
@@ -70,7 +71,7 @@ if (CLIENT) then
 		if (self.activeKey) then
 			self.adminValues = Clockwork.config:GetFromSystem(self.activeKey.name);
 			
-			self.infoText:SetText("Now you can start to edit the config value, or click another config key.");
+			self.infoText:SetText(L("ConfigMenuStartToEdit"));
 		end;
 
 		if (self.editForm and !self.editForm:IsVisible()) then
@@ -82,16 +83,16 @@ if (CLIENT) then
 				self.editForm:Help(v);
 			end;
 			
-			self.editForm:SetName(self.activeKey.name);
+			self.editForm:SetName(L(self.activeKey.name));
 			
 			if (self.activeKey.value != nil) then
-				local mapEntry = self.editForm:TextEntry("Map");
+				local mapEntry = self.editForm:TextEntry(L("ConfigMenuMapText"));
 				local valueType = type(self.activeKey.value);
 				
 				if (valueType == "string") then
-					local textEntry = self.editForm:TextEntry("Value");
+					local textEntry = self.editForm:TextEntry(L("ConfigMenuValueText"));
 						textEntry:SetValue(self.activeKey.value);
-					local okayButton = self.editForm:Button("Okay");
+					local okayButton = self.editForm:Button(L("ConfigMenuOkayText"));
 						
 					-- Called when the button is clicked.
 					function okayButton.DoClick(okayButton)
@@ -102,10 +103,9 @@ if (CLIENT) then
 						});
 					end;
 				elseif (valueType == "number") then
-					local numSlider = self.editForm:NumSlider("Value", nil, self.adminValues.minimum,
-					self.adminValues.maximum, self.adminValues.decimals);
+					local numSlider = self.editForm:NumSlider("Value", nil, self.adminValues.minimum, self.adminValues.maximum, self.adminValues.decimals);
 						numSlider:SetValue(self.activeKey.value);
-					local okayButton = self.editForm:Button("Okay");
+					local okayButton = self.editForm:Button(L("ConfigMenuOkayText"));
 						
 					-- Called when the button is clicked.
 					function okayButton.DoClick(okayButton)
@@ -116,9 +116,9 @@ if (CLIENT) then
 						});
 					end;
 				elseif (valueType == "boolean") then
-					local checkBox = self.editForm:CheckBox("On");
+					local checkBox = self.editForm:CheckBox(L("ConfigMenuOnText"));
 						checkBox:SetValue(self.activeKey.value);
-					local okayButton = self.editForm:Button("Okay");
+					local okayButton = self.editForm:Button(L("ConfigMenuOkayText"));
 						
 					-- Called when the button is clicked.
 					function okayButton.DoClick(okayButton)
@@ -144,9 +144,10 @@ if (CLIENT) then
 				local adminValues = Clockwork.config:GetFromSystem(v);
 				
 				if (adminValues) then
-					local comboBoxItem = self.listView:AddLine(adminValues.name, v, adminValues.category);
-						comboBoxItem:SetToolTip(adminValues.help);
-						comboBoxItem.key = v;
+					local comboBoxItem = self.listView:AddLine(L(adminValues.name), v, adminValues.category);
+					
+					comboBoxItem:SetToolTip(L(adminValues.help));
+					comboBoxItem.key = v;
 					
 					if (self.activeKey and self.activeKey.name == v) then
 						defaultConfigItem = comboBoxItem;
@@ -165,7 +166,7 @@ if (CLIENT) then
 	SYSTEM:Register();
 	
 	Clockwork.datastream:Hook("SystemCfgKeys", function(data)
-		local systemTable = Clockwork.system:FindByID("Manage Config");
+		local systemTable = Clockwork.system:FindByID("ManageConfig");
 		
 		if (systemTable) then
 			systemTable.configKeys = data;
@@ -174,7 +175,7 @@ if (CLIENT) then
 	end);
 	
 	Clockwork.datastream:Hook("SystemCfgValue", function(data)
-		local systemTable = Clockwork.system:FindByID("Manage Config");
+		local systemTable = Clockwork.system:FindByID("ManageConfig");
 		
 		if (systemTable) then
 			systemTable.activeKey = { name = data[1], value = data[2] };

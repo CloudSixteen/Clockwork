@@ -6,4 +6,7 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
-Clockwork.config:AddToSystem("SpawnWhereLeft", "spawn_where_left", "SpawnWhereLeftDesc");
+CW_ENGLISH = Clockwork.lang:GetTable("English");
+
+CW_ENGLISH["ObserverReset"] = "Observer Reset";
+CW_ENGLISH["ObserverResetDesc"] = "Whether or not observer mode resets the player's position to where they were originally.";

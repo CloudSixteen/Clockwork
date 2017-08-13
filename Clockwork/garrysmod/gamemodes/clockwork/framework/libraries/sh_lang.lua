@@ -16,10 +16,6 @@ Clockwork.lang.stored = Clockwork.lang.stored or {};
 
 CW_LANGUAGE_CLASS = {__index = CW_LANGUAGE_CLASS};
 
-function CW_LANGUAGE_CLASS:Add(identifier, value)
-	self[identifier] = value;
-end;
-
 --[[
 	@codebase Shared
 	@details Get the language table for the given language (or create if it doesn't exist.)

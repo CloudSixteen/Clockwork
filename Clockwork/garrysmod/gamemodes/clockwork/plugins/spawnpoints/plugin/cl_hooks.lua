@@ -14,7 +14,7 @@ local cwClass = Clockwork.class;
 function cwSpawnPoints:Initialize()
 	CW_CONVAR_SPAWNPOINTESP = Clockwork.kernel:CreateClientConVar("cwSpawnPointESP", 0, true, true);
 	
-	Clockwork.setting:AddCheckBox("Admin ESP", "Show Spawn Points.", "cwSpawnPointESP", "Whether or not to show spawn points in the admin ESP.", function()
+	Clockwork.setting:AddCheckBox("AdminESP", "ShowSpawnPoints", "cwSpawnPointESP", "ShowSpawnPointsDesc", function()
 		return Clockwork.player:IsAdmin(Clockwork.Client);
 	end);
 end;

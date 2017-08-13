@@ -6,4 +6,7 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
-Clockwork.config:AddToSystem("SpawnWhereLeft", "spawn_where_left", "SpawnWhereLeftDesc");
+CW_ENGLISH = Clockwork.lang:GetTable("English");
+
+CW_ENGLISH["TakePhyscannon"] = "Take Physcannon";
+CW_ENGLISH["TakePhyscannonDesc"] = "Whether or not the player is stripped of the physics cannon.";

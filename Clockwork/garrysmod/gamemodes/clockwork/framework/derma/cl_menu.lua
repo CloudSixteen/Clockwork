@@ -84,23 +84,23 @@ function PANEL:Rebuild(change)
 		
 		self.closeMenu = vgui.Create("cwLabelButton", self);
 		self.closeMenu:SetFont(smallTextFont);
-		self.closeMenu:SetText(CW_CONVAR_CLOSESTRING:GetString() or "CLOSE MENU");
+		self.closeMenu:SetText(L("TabMenuClose"));
 		self.closeMenu:SetCallback(function(button)
 			self:SetOpen(false);
 		end);
-		self.closeMenu:SetToolTip("Click here to close the menu.");
+		self.closeMenu:SetToolTip(L("TabMenuCloseDesc"));
 		self.closeMenu:SizeToContents();
 		self.closeMenu:SetMouseInputEnabled(true);
 		self.closeMenu:SetPos(self.tabX, self.tabY);
 		
 		self.characterMenu = vgui.Create("cwLabelButton", self);
 		self.characterMenu:SetFont(smallTextFont);
-		self.characterMenu:SetText(CW_CONVAR_CHARSTRING:GetString() or "CHARACTERS");
+		self.characterMenu:SetText(L("TabMenuCharacters"));
 		self.characterMenu:SetCallback(function(button)
 			self:SetOpen(false);
 			Clockwork.character:SetPanelOpen(true);
 		end);
-		self.characterMenu:SetToolTip("Click here to view the character menu.");
+		self.characterMenu:SetToolTip(L("TabMenuCharactersDesc"));
 		self.characterMenu:SizeToContents();
 		self.characterMenu:SetMouseInputEnabled(true);
 		self.characterMenu:SetPos(self.closeMenu.x, self.closeMenu.y + self.closeMenu:GetTall() + 8);	
@@ -362,15 +362,8 @@ function PANEL:Think()
 		if (self.tabX != GetConVarNumber("cwTabPosX") or self.tabY != GetConVarNumber("cwTabPosY")) then
 			self.tabX = GetConVarNumber("cwTabPosX");
 			self.tabY = GetConVarNumber("cwTabPosY");
+			
 			self:Rebuild(true);
-		end;
-		
-		if (self.closeMenu:GetText() and self.closeMenu:GetText() != CW_CONVAR_CLOSESTRING:GetString()) then
-			self.closeMenu:SetText(CW_CONVAR_CLOSESTRING:GetString());
-		end;
-		
-		if (self.characterMenu:GetText() and self.characterMenu:GetText() != CW_CONVAR_CHARSTRING:GetString()) then
-			self.characterMenu:SetText(CW_CONVAR_CHARSTRING:GetString());
 		end;
 		
 		Clockwork.menu.height = ScrH() * 0.75;

@@ -11,10 +11,12 @@ local Clockwork = Clockwork;
 local ACCESS_FLAG = "a";
 
 if (CLIENT) then
-	local SYSTEM = Clockwork.system:New("Color Modify");
+	local SYSTEM = Clockwork.system:New("ColorModify");
+	
 	SYSTEM.access = ACCESS_FLAG;
-	SYSTEM.toolTip = "Edit the schema's global color to suit your needs.";
+	SYSTEM.toolTip = "ColorModifyHelp";
 	SYSTEM.doesCreateForm = false;
+	
 	Clockwork.OverrideColorMod = Clockwork.kernel:RestoreSchemaData("color", false);
 	
 	-- A function to get the modification values.
@@ -97,7 +99,7 @@ if (CLIENT) then
 	Clockwork.datastream:Hook("SystemColSet", function(data)
 		Clockwork.OverrideColorMod[data.key] = data.value;
 			Clockwork.kernel:SaveSchemaData("color", Clockwork.OverrideColorMod);
-		local systemTable = Clockwork.system:FindByID("Color Modify");
+		local systemTable = Clockwork.system:FindByID("ColorModify");
 		
 		if (systemTable) then
 			systemTable:Rebuild();

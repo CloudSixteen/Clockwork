@@ -9,8 +9,9 @@
 local Clockwork = Clockwork;
 
 if (CLIENT) then
-	local SYSTEM = Clockwork.system:New("Manage Plugins");
-	SYSTEM.toolTip = "You can load and unload plugins from here.";
+	local SYSTEM = Clockwork.system:New("ManagePlugins");
+	
+	SYSTEM.toolTip = "ManagePluginsHelp";
 	SYSTEM.doesCreateForm = false;
 	
 	-- Called to get whether the local player has access to the system.
@@ -136,7 +137,7 @@ if (CLIENT) then
 	SYSTEM:Register();
 	
 	Clockwork.datastream:Hook("SystemPluginGet", function(data)
-		local systemTable = Clockwork.system:FindByID("Manage Plugins");
+		local systemTable = Clockwork.system:FindByID("ManagePlugins");
 		local unloaded = data;
 		
 		for k, v in pairs(Clockwork.plugin:GetStored()) do
@@ -153,7 +154,7 @@ if (CLIENT) then
 	end);
 	
 	Clockwork.datastream:Hook("SystemPluginSet", function(data)
-		local systemTable = Clockwork.system:FindByID("Manage Plugins");
+		local systemTable = Clockwork.system:FindByID("ManagePlugins");
 		local plugin = Clockwork.plugin:FindByID(data[1]);
 		
 		if (plugin) then

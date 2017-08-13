@@ -1798,9 +1798,10 @@ else
 		for k, v in pairs(options) do
 			if (type(v[2]) == "table" and !v[2].isArgTable) then
 				if (tableCount(v[2]) > 0) then
-					self:AddMenuFromData(menuPanel:AddSubMenu(v[1]), v[2], Callback);
+					self:AddMenuFromData(menuPanel:AddSubMenu(T(v[1])), v[2], Callback);
 				end;
 			elseif (type(v[2]) == "function") then
+				PrintTable(v);
 				menuPanel:AddOption(T(v[1]), v[2]);
 			elseif (Callback) then
 				Callback(menuPanel, v[1], v[2]);
@@ -1839,6 +1840,7 @@ else
 	--]]
 	function Clockwork.kernel:AddCenterHint(text, delay, color, bNoSound, showDuplicated)
 		local colorWhite = Clockwork.option:GetColor("white");
+		local localized = T(text);
 		
 		if (color) then
 			if (type(color) == "string") then
@@ -1850,7 +1852,7 @@ else
 		
 		if (!showDuplicated) then
 			for k, v in pairs(self.CenterHints) do
-				if (v.text == text) then
+				if (v.text == localized) then
 					return;
 				end;
 			end;
@@ -1875,7 +1877,7 @@ else
 			color = color,
 			delay = delay,
 			alpha = 0,
-			text = text,
+			text = localized,
 			y = ScrH() * 0.6,
 			x = ScrW() * 0.5
 		};
@@ -1939,6 +1941,7 @@ else
 	--]]
 	function Clockwork.kernel:AddTopHint(text, delay, color, bNoSound, showDuplicated)
 		local colorWhite = Clockwork.option:GetColor("white");
+		local localized = T(text);
 		
 		if (color) then
 			if (type(color) == "string") then
@@ -1950,7 +1953,7 @@ else
 		
 		if (!showDuplicated) then
 			for k, v in pairs(self.Hints) do
-				if (v.text == text) then
+				if (v.text == localized) then
 					return;
 				end;
 			end;
@@ -1975,7 +1978,7 @@ else
 			color = color,
 			delay = delay,
 			alpha = 0,
-			text = text,
+			text = localized,
 			y = ScrH() * 0.2,
 			x = ScrW()
 		};
@@ -2097,7 +2100,7 @@ else
 			local y = Clockwork.LastDateTimeInfo.y - height - 8;
 			
 			self:OverrideMainFont(Clockwork.option:GetFont("menu_text_tiny"));
-			self:DrawInfo("CHARACTER AND ROLEPLAY INFO", x, y + 4, colorInfo, nil, true, function(x, y, width, height)
+			self:DrawInfo(L("CharacterRoleplayInfo"), x, y + 4, colorInfo, nil, true, function(x, y, width, height)
 				return x, y - height;
 			end);
 			
@@ -2108,7 +2111,7 @@ else
 				local menuPanelX = x;
 				local menuPanelY = y;
 				
-				self:DrawInfo("SELECT A QUICK MENU OPTION", x, y, colorInfo, nil, true, function(x, y, width, height)
+				self:DrawInfo(L("SelectQuickMenuOption"), x, y, colorInfo, nil, true, function(x, y, width, height)
 					menuPanelY = menuPanelY + height + 8;
 					return x, y;
 				end);
@@ -3316,7 +3319,7 @@ else
 			hangTime = hangTime or 3,
 			color = color or colorWhite,
 			font = font,
-			text = text,
+			text = T(text),
 			add = 0
 		};
 		
@@ -3589,6 +3592,9 @@ else
 			local owner = Clockwork.entity:GetOwner(entity);
 			local name = Clockwork.plugin:Call("GetDoorInfo", entity, DOOR_INFO_NAME);
 			local text = Clockwork.plugin:Call("GetDoorInfo", entity, DOOR_INFO_TEXT);
+			
+			if (name) then name = L(name); end;
+			if (text) then text = L(text); end;
 			
 			if (name or text) then
 				local nameWidth, nameHeight = self:GetCachedTextSize(font, name or "");

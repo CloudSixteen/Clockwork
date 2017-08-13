@@ -22,7 +22,7 @@ function Clockwork.option:SetKey(key, value)
 end;
 
 -- A function to get a schema key translated.
-function Clockwork.option:GetTranslated(key)
+function Clockwork.option:Translate(key)
 	local value = T(self.keys[key]);
 	
 	if (lowerValue and type(value) == "string") then
@@ -68,34 +68,34 @@ end;
 
 Clockwork.option:SetKey("default_date", {month = 1, year = 2010, day = 1});
 Clockwork.option:SetKey("default_time", {minute = 0, hour = 0, day = 1});
-Clockwork.option:SetKey("default_days", {{"Monday"}, {"Tuesday"}, {"Wednesday"}, {"Thursday"}, {"Friday"}, {"Saturday"}, {"Sunday"}});
-Clockwork.option:SetKey("description_business", {"MenuDescBusiness"});
-Clockwork.option:SetKey("description_inventory", {"MenuDescInventory"});
-Clockwork.option:SetKey("description_directory", {"MenuDescDirectory"});
-Clockwork.option:SetKey("description_system", {"MenuDescSystem"});
-Clockwork.option:SetKey("description_scoreboard", {"MenuDescScoreboard"});
-Clockwork.option:SetKey("description_attributes", {"MenuDescAttributes"});
-Clockwork.option:SetKey("description_crafting", {"MenuDescCrafting"});
-Clockwork.option:SetKey("description_settings", {"MenuDescSettings"});
-Clockwork.option:SetKey("description_donations", {"MenuDescDonations"});
-Clockwork.option:SetKey("description_classes", {"MenuDescClasses"});
+Clockwork.option:SetKey("default_days", {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"});
+Clockwork.option:SetKey("description_business", "MenuDescBusiness");
+Clockwork.option:SetKey("description_inventory", "MenuDescInventory");
+Clockwork.option:SetKey("description_directory", "MenuDescDirectory");
+Clockwork.option:SetKey("description_system", "MenuDescSystem");
+Clockwork.option:SetKey("description_scoreboard", "MenuDescScoreboard");
+Clockwork.option:SetKey("description_attributes", "MenuDescAttributes");
+Clockwork.option:SetKey("description_crafting", "MenuDescCrafting");
+Clockwork.option:SetKey("description_settings", "MenuDescSettings");
+Clockwork.option:SetKey("description_donations", "MenuDescDonations");
+Clockwork.option:SetKey("description_classes", "MenuDescClasses");
 Clockwork.option:SetKey("intro_background_url", "");
 Clockwork.option:SetKey("intro_logo_url", "");
 Clockwork.option:SetKey("model_shipment", "models/items/item_item_crate.mdl");
 Clockwork.option:SetKey("model_cash", "models/props_c17/briefcase001a.mdl");
 Clockwork.option:SetKey("format_singular_cash", "$%a");
 Clockwork.option:SetKey("format_cash", "$%a");
-Clockwork.option:SetKey("name_attributes", {"MenuNameAttributes"});
-Clockwork.option:SetKey("name_attribute", {"MenuNameAttribute"});
-Clockwork.option:SetKey("name_system", {"MenuNameSystem"});
-Clockwork.option:SetKey("name_scoreboard", {"MenuNameScoreboard"});
-Clockwork.option:SetKey("name_directory", {"MenuNameDirectory"});
-Clockwork.option:SetKey("name_inventory", {"MenuNameInventory"});
-Clockwork.option:SetKey("name_business", {"MenuNameBusiness"});
-Clockwork.option:SetKey("name_crafting", {"MenuNameCrafting"});
-Clockwork.option:SetKey("name_donations", {"MenuNameDonations"});
-Clockwork.option:SetKey("name_settings", {"MenuNameSettings"});
-Clockwork.option:SetKey("name_classes", {"MenuNameClasses"});
+Clockwork.option:SetKey("name_attributes", "MenuNameAttributes");
+Clockwork.option:SetKey("name_attribute", "MenuNameAttribute");
+Clockwork.option:SetKey("name_system", "MenuNameSystem");
+Clockwork.option:SetKey("name_scoreboard", "MenuNameScoreboard");
+Clockwork.option:SetKey("name_directory", "MenuNameDirectory");
+Clockwork.option:SetKey("name_inventory", "MenuNameInventory");
+Clockwork.option:SetKey("name_business", "MenuNameBusiness");
+Clockwork.option:SetKey("name_crafting", "MenuNameCrafting");
+Clockwork.option:SetKey("name_donations", "MenuNameDonations");
+Clockwork.option:SetKey("name_settings", "MenuNameSettings");
+Clockwork.option:SetKey("name_classes", "MenuNameClasses");
 Clockwork.option:SetKey("schema_logo", "");
 Clockwork.option:SetKey("intro_image", "");
 Clockwork.option:SetKey("intro_sound", "music/HL2_song25_Teleporter.mp3");

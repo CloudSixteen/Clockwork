@@ -70,7 +70,7 @@ function PANEL:Rebuild()
 	
 	if (table.Count(classes) > 0) then
 		local label = vgui.Create("cwInfoText", self);
-			label:SetText("Click on a player's model icon to bring up available commands.");
+			label:SetText(L("ScoreboardMenuHelp"));
 			label:SetInfoColor("blue");
 		self.panelList:AddItem(label);
 		
@@ -117,7 +117,7 @@ function PANEL:Rebuild()
 		end;
 	else
 		local label = vgui.Create("cwInfoText", self);
-			label:SetText("There are no players to display.");
+			label:SetText(L("ScoreboardMenuNoPlayers"));
 			label:SetInfoColor("orange");
 		self.panelList:AddItem(label);
 	end;
@@ -224,7 +224,7 @@ function PANEL:Init()
 	self.avatarButton:SetDrawBackground(false);
 
 	if (info.avatarImage) then
-		self.avatarButton:SetToolTip("This player's name is "..info.steamName..".\nThis player's Steam ID is "..info.player:SteamID()..".");
+		self.avatarButton:SetToolTip(L("PlayerNameAndSteamID", info.steamName, info.player:SteamID()));
 		self.avatarButton.DoClick = function(button)
 			if (IsValid(info.player)) then
 				info.player:ShowProfile();
@@ -249,7 +249,7 @@ function PANEL:Think()
 		if (self.toolTip) then
 			self.spawnIcon:SetToolTip(self.toolTip);
 		else
-			self.spawnIcon:SetToolTip("This player's ping is "..self.player:Ping()..".");
+			self.spawnIcon:SetToolTip(L("ScoreboardMenuPing", self.player:Ping()));
 		end;
 	end;
 	

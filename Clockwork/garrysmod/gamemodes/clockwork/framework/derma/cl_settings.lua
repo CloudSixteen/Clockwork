@@ -68,20 +68,21 @@ function PANEL:Rebuild()
 	
 	if (table.Count(categories) > 0) then
 		local label = vgui.Create("cwInfoText", self);
-			label:SetText("These settings are client-side to help you personalise Clockwork.");
+			label:SetText(L("SettingsMenuHelp"));
 			label:SetInfoColor("blue");
 		self.panelList:AddItem(label);
 		
 		for k, v in pairs(categories) do
 			local form = vgui.Create("cwBasicForm", self);
+			
 			form:SetPadding(8);
 			form:SetSpacing(8);
 			form:SetAutoSize(true);
-			form:SetText(v.category, nil, "basic_form_highlight", 25);
+			form:SetText(L(v.category), nil, "basic_form_highlight", 25);
 			
 			for k2, v2 in pairs(v.settings) do
 				if (v2.class == "numberSlider") then
-					panel = form:NumSlider(v2.text, v2.conVar, v2.minimum, v2.maximum, v2.decimals);
+					panel = form:NumSlider(L(v2.text), v2.conVar, v2.minimum, v2.maximum, v2.decimals);
 				elseif (v2.class == "multiChoice") then
 					local conVar = GetConVar(v2.conVar);
 					
@@ -92,16 +93,16 @@ function PANEL:Rebuild()
 						panel:AddChoice(v3);
 					end;
 				elseif (v2.class == "numberWang") then
-					panel = form:NumberWang(v2.text, v2.conVar, v2.minimum, v2.maximum, v2.decimals);
+					panel = form:NumberWang(L(v2.text), v2.conVar, v2.minimum, v2.maximum, v2.decimals);
 				elseif (v2.class == "textEntry") then
-					panel = form:TextEntry(v2.text, v2.conVar);
+					panel = form:TextEntry(L(v2.text), v2.conVar);
 				elseif (v2.class == "checkBox") then
-					panel = form:CheckBox(v2.text, v2.conVar);
+					panel = form:CheckBox(L(v2.text), v2.conVar);
 				elseif (v2.class == "colorMixer") then
 					local mixer = vgui.Create("DColorMixer");
 					local label = vgui.Create("DLabel");
 					
-					label:SetText(v2.text);
+					label:SetText(L(v2.text));
 					label:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
 					label:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
 					mixer:SetPalette(true);
@@ -131,7 +132,7 @@ function PANEL:Rebuild()
 		end;
 	else
 		local label = vgui.Create("cwInfoText", self);
-			label:SetText("You do not have access to any settings!");
+			label:SetText(L("SettingsMenuNoAccess"));
 			label:SetInfoColor("red");
 		self.panelList:AddItem(label);
 	end;
