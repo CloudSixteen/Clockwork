@@ -25,6 +25,7 @@ Clockwork.config:ShareKey("enable_heartbeat");
 Clockwork.config:ShareKey("cash_enabled");
 Clockwork.config:ShareKey("default_physdesc");
 Clockwork.config:ShareKey("enable_vignette");
+Clockwork.config:ShareKey("force_language");
 Clockwork.config:ShareKey("cash_weight");
 Clockwork.config:ShareKey("cash_space");
 Clockwork.config:ShareKey("block_inv_binds");

@@ -124,6 +124,7 @@ CW_ENGLISH["YouHaveTiedPlayer"] = "You have tied up the target character.";
 CW_ENGLISH["YouWereUntiedByPlayer"] = "You have been untied by another character.";
 CW_ENGLISH["YouWereTiedByPlayer"] = "You have been tied up by another character.";
 
+CW_ENGLISH["NoAccessToAny"] = "You do not have access to any #1!";
 CW_ENGLISH["NoAccessToCommand"] = "You do not have access to this command, #1.";
 CW_ENGLISH["NotValidCommandOrAlias"] = "That is not a valid command or alias!";
 CW_ENGLISH["CannotUseCommandsYet"] = "You cannot use commands yet!";
@@ -165,6 +166,9 @@ CW_ENGLISH["PlayerSlainBy"] = "#1 was slain by #2.";
 
 CW_ENGLISH["YouAreAlreadySearchingCharacter"] = "You are already searching a character!";
 CW_ENGLISH["PlayerAlreadyBeingSearched"] = "#1 is already being searched!";
+
+CW_ENGLISH["EntityIsNotPhysics"] = "This entity is not a physics entity!";
+CW_ENGLISH["YouDoNotOwnThis"] = "You are not the owner of this!";
 
 CW_ENGLISH["PlayerTeleportedPlayerTo"] = "#1 has teleported #2 to #3!";
 CW_ENGLISH["PlayerTeleportedPlayerToLocation"] = "#1 has teleported #2 to their target location!";
@@ -218,6 +222,7 @@ CW_ENGLISH["FaultNameInvalid"] = "You did not choose a name, or the name that yo
 CW_ENGLISH["FaultPhysDescNeeded"] = "You did not enter a physical description!";
 CW_ENGLISH["FaultNeedModel"] = "You did not choose a model, or the model that you chose is not valid!";
 CW_ENGLISH["FaultNeedGender"] = "You did not choose a gender, or the gender that you chose is not valid!";
+CW_ENGLISH["FaultNeedClass"] = "You did not choose a class, or the class that you chose is not valid!";
 CW_ENGLISH["FaultNotOnWhitelist"] = "You are not on the #1 whitelist!";
 CW_ENGLISH["FaultTooManyInFaction"] = "You cannot create any more characters in this faction.";
 CW_ENGLISH["FaultTooManyCharacters"] = "You cannot create any more characters !";
@@ -291,6 +296,14 @@ CW_ENGLISH["Name"] = "Name";
 CW_ENGLISH["Use"] = "Use";
 CW_ENGLISH["Yes"] = "Yes";
 CW_ENGLISH["No"] = "No";
+
+CW_ENGLISH["Weightless"] = "Weightless";
+CW_ENGLISH["Spaceless"] = "Takes no space";
+CW_ENGLISH["Information"] = "Information";
+CW_ENGLISH["Category"] = "Category";
+CW_ENGLISH["RecipeNumber"] = "Recipe #1";
+CW_ENGLISH["Requirements"] = "Requirements";
+CW_ENGLISH["Price"] = "Price";
 
 CW_ENGLISH["CharacterRoleplayInfo"] = "CHARACTER AND ROLEPLAY INFO";
 CW_ENGLISH["SelectQuickMenuOption"] = "SELECT A QUICK MENU OPTION";
@@ -531,6 +544,8 @@ CW_ENGLISH["DataSaveInterval"] = "Data Save Interval";
 CW_ENGLISH["DataSaveIntervalDesc"] = "The time that it takes for data to be saved (seconds).";
 CW_ENGLISH["ViewPunchOnDamage"] = "View Punch On Damage";
 CW_ENGLISH["ViewPunchOnDamageDesc"] = "Whether or not a player's view gets punched when they take damage.";
+CW_ENGLISH["ForceLanguage"] = "Force Language";
+CW_ENGLISH["ForceLanguageDesc"] = "Set this to a valid language string to force players to use that language. Leave blank to let the players decide.";
 CW_ENGLISH["UnrecognisedName"] = "Unrecognised Name";
 CW_ENGLISH["UnrecognisedNameDesc"] = "The name that is given to unrecognised players.";
 CW_ENGLISH["LimbDamageSystemEnabled"] = "Limb Damage System Enabled";
@@ -673,3 +688,23 @@ CW_ENGLISH["CraftingEnabled"] = "Crafting Enabled";
 CW_ENGLISH["CraftingEnabledDesc"] = "Whether or not the crafting menu is enabled.";
 CW_ENGLISH["CraftingName"] = "Crafting Name";
 CW_ENGLISH["CraftingNameDesc"] = "The name of the button to open the crafting menu.";
+
+CW_ENGLISH["HintOOC"] = "Type // before your message to talk out-of-character.";
+CW_ENGLISH["HintLOOC"] = "Type .// or [[before your message to talk out-of-character locally.";
+CW_ENGLISH["HintDucking"] = "Toggle ducking by holding :+speed: and pressing :+walk: while standing still.";
+CW_ENGLISH["HintJogging"] = "Toggle jogging by pressing :+walk: while moving.";
+CW_ENGLISH["HintDirectory"] = "Hold down :+showscores: and click *name_directory* to get help.";
+CW_ENGLISH["HintHotkeyF1"] = "Hold :gm_showhelp: to view your character and roleplay information.";
+CW_ENGLISH["HintHotkeyF2"] = "Press :gm_showteam: while looking at a door to view the door menu.";
+CW_ENGLISH["HintHotkeyTab"] = "Press :+showscores: to view the main menu, or hold :+showscores: to temporarily view it.";
+CW_ENGLISH["HintContextMenu"] = "Hold :+menu_context: and click on an entity to open its menu.";
+CW_ENGLISH["HintEntityMenu"] = "Press :+use: on an entity to open its menu.";
+CW_ENGLISH["HintPhysDesc"] = "Change your character's physical description by typing $command_prefix$CharPhysDesc.";
+CW_ENGLISH["HintGiveName"] = "Press :gm_showteam: to allow characters within a specific range to recognise you.";
+CW_ENGLISH["HintTargetRecognises"] = "A character's name will flash white if they do not recognise you.";
+
+CW_ENGLISH["YouHaveNotCompletedThe"] = "You have not completed the #3!";
+CW_ENGLISH["MenuQuizTitle"] = "Entry Exam";
+CW_ENGLISH["MenuQuizHelp"] = "If any answers are incorrect, you may be kicked from the server.";
+CW_ENGLISH["MenuDisconnect"] = "DISCONNECT";
+CW_ENGLISH["MenuContinue"] = "CONTINUE";

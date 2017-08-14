@@ -1833,11 +1833,11 @@ else
 	end;
 	
 	--[[
-		A function to add a center hint. If bNoSound is false then no
+		A function to add a center hint. If noSound is false then no
 		sound will play, otherwise if it is a string then it will
 		play that sound.
 	--]]
-	function Clockwork.kernel:AddCenterHint(text, delay, color, bNoSound, showDuplicated)
+	function Clockwork.kernel:AddCenterHint(text, delay, color, noSound, showDuplicated)
 		local colorWhite = Clockwork.option:GetColor("white");
 		local localized = T(text);
 		
@@ -1861,9 +1861,9 @@ else
 			tableRemove(self.CenterHints, 10);
 		end;
 		
-		if (type(bNoSound) == "string") then
-			surface.PlaySound(bNoSound);
-		elseif (bNoSound == nil) then
+		if (type(noSound) == "string") then
+			surface.PlaySound(noSound);
+		elseif (noSound == nil) then
 			surface.PlaySound("hl1/fvox/blip.wav");
 		end;
 		
@@ -1934,11 +1934,11 @@ else
 	end;
 	
 	--[[
-		A function to add a top hint. If bNoSound is false then no
+		A function to add a top hint. If noSound is false then no
 		sound will play, otherwise if it is a string then it will
 		play that sound.
 	--]]
-	function Clockwork.kernel:AddTopHint(text, delay, color, bNoSound, showDuplicated)
+	function Clockwork.kernel:AddTopHint(text, delay, color, noSound, showDuplicated)
 		local colorWhite = Clockwork.option:GetColor("white");
 		local localized = T(text);
 		
@@ -1962,9 +1962,9 @@ else
 			tableRemove(self.Hints, 10);
 		end;
 		
-		if (type(bNoSound) == "string") then
-			surface.PlaySound(bNoSound);
-		elseif (bNoSound == nil) then
+		if (type(noSound) == "string") then
+			surface.PlaySound(noSound);
+		elseif (noSound == nil) then
 			surface.PlaySound("hl1/fvox/blip.wav");
 		end;
 		

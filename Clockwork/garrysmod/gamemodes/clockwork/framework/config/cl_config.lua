@@ -27,6 +27,7 @@ Clockwork.config:AddToSystem("DefaultInventorySpace", "default_inv_space", "Defa
 Clockwork.config:AddToSystem("DataSaveInterval", "save_data_interval", "DataSaveIntervalDesc", 0, 7200);
 Clockwork.config:AddToSystem("ViewPunchOnDamage", "damage_view_punch", "ViewPunchOnDamageDesc");
 Clockwork.config:AddToSystem("UnrecognisedName", "unrecognised_name", "UnrecognisedNameDesc");
+Clockwork.config:AddToSystem("ForceLanguage", "force_language", "ForceLanguageDesc");
 Clockwork.config:AddToSystem("LimbDamageSystemEnabled", "limb_damage_system", "LimbDamageSystemEnabledDesc");
 Clockwork.config:AddToSystem("FallDamageScale", "scale_fall_damage", "FallDamageScaleDesc");
 Clockwork.config:AddToSystem("StartingCurrency", "default_cash", "StartingCurrencyDesc", 0, 10000);

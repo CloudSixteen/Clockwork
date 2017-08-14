@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local ITEM = Clockwork.item:New(nil, true);
+
 ITEM.name = "Generator Base";
 ITEM.model = "models/props_combine/combine_mine01.mdl";
 ITEM.batch = 1;

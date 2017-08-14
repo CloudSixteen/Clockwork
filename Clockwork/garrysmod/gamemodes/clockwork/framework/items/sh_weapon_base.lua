@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local ITEM = Clockwork.item:New(nil, true);
+
 ITEM.name = "Weapon Base";
 ITEM.useText = "Equip";
 ITEM.useSound = false;

@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local ITEM = Clockwork.item:New(nil, true);
+
 ITEM.name = "Clothes Base";
 ITEM.model = "models/props_c17/suitcase_passenger_physics.mdl";
 ITEM.weight = 2;

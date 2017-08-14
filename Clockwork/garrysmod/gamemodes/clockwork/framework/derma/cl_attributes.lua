@@ -93,6 +93,7 @@ function PANEL:Rebuild()
 		
 		for k, v in pairs(miscellaneous) do
 			local categoryForm = vgui.Create("cwBasicForm", self);
+			
 			categoryForm:SetPadding(0);
 			categoryForm:SetSpacing(0);
 			categoryForm:SetAutoSize(true);
@@ -109,10 +110,11 @@ function PANEL:Rebuild()
 		
 		for k, v in pairs(categories) do
 			local categoryForm = vgui.Create("cwBasicForm", self);
+			
 			categoryForm:SetPadding(0);
 			categoryForm:SetSpacing(8);
 			categoryForm:SetAutoSize(true);
-			categoryForm:SetText(v.category, nil, "basic_form_highlight", 25);
+			categoryForm:SetText(L(v.category), nil, "basic_form_highlight", 25);
 			
 			local panelList = vgui.Create("DPanelList", self);
 			
@@ -122,10 +124,11 @@ function PANEL:Rebuild()
 			
 			for k2, v2 in pairs(v.attributes) do
 				local attributeForm = vgui.Create("cwBasicForm", self);
+				
 				attributeForm:SetPadding(0);
 				attributeForm:SetSpacing(4);
 				attributeForm:SetAutoSize(true);
-				attributeForm:SetText(v2[2], nil, nil, 18);
+				attributeForm:SetText(L(v2[2]), nil, nil, 18);
 				
 				self.currentAttribute = v2[1];
 				
@@ -146,7 +149,7 @@ function PANEL:Rebuild()
 		end;
 	else
 		local label = vgui.Create("cwInfoText", self);
-			label:SetText("You do not have access to any "..Clockwork.option:Translate("name_attributes", true).."!");
+			label:SetText(L("NoAccessToAttributes", Clockwork.option:Translate("name_attributes", true)));
 			label:SetInfoColor("red");
 		self.panelList:AddItem(label);
 	end;
@@ -377,9 +380,7 @@ end;
 
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
-	local x, y = 0, 0;
-	
-	Clockwork.kernel:DrawSimpleGradientBox(4, x, y, w, h, self:GetBackgroundColor());
+	Clockwork.kernel:DrawSimpleGradientBox(4, 0, 0, w, h, self:GetBackgroundColor());
 	
 	return true;
 end;

@@ -20,7 +20,7 @@ end;
 
 -- A function to get the quiz name.
 function Clockwork.quiz:GetName()
-	return self.name or "Questions";
+	return self.name or "MenuQuizTitle";
 end;
 
 -- A function to set whether the quiz is enabled.

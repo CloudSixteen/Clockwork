@@ -53,6 +53,7 @@ Clockwork.config:Add("custom_weapon_color", true);
 Clockwork.config:Add("save_data_interval", 180);
 Clockwork.config:Add("damage_view_punch", true);
 Clockwork.config:Add("enable_heartbeat", true, true);
+Clockwork.config:Add("force_language", "", true);
 Clockwork.config:Add("unrecognised_name", "Somebody you do not recognise.", true);
 Clockwork.config:Add("scale_fall_damage", 1);
 Clockwork.config:Add("limb_damage_system", true, true);

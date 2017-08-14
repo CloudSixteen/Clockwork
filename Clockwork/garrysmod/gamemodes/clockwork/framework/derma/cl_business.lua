@@ -57,8 +57,10 @@ function PANEL:Rebuild()
 	
 	if (#categories == 0) then
 		local label = vgui.Create("cwInfoText", self);
-			label:SetText(L("NoAccessToMenu", Clockwork.option:GetKey("name_business", true)));
-			label:SetInfoColor("red");
+		
+		label:SetText(L("NoAccessToMenu", Clockwork.option:GetKey("name_business", true)));
+		label:SetInfoColor("red");
+		
 		self.panelList:AddItem(label);
 		
 		Clockwork.plugin:Call("PlayerBusinessRebuilt", self, categories);
@@ -67,16 +69,19 @@ function PANEL:Rebuild()
 		
 		for k, v in pairs(categories) do
 			local categoryForm = vgui.Create("cwBasicForm", self);
+			
 			categoryForm:SetPadding(8);
 			categoryForm:SetSpacing(8);
 			categoryForm:SetAutoSize(true);
 			categoryForm:SetText(v.category, nil, "basic_form_highlight")
 			
 			local categoryList = vgui.Create("DPanelList", categoryForm);
-				categoryList:EnableHorizontal(true);
-				categoryList:SetAutoSize(true);
-				categoryList:SetPadding(4);
-				categoryList:SetSpacing(4);
+			
+			categoryList:EnableHorizontal(true);
+			categoryList:SetAutoSize(true);
+			categoryList:SetPadding(4);
+			categoryList:SetSpacing(4);
+			
 			categoryForm:AddItem(categoryList);
 			
 			table.sort(v.itemsList, function(a, b)
@@ -91,9 +96,7 @@ function PANEL:Rebuild()
 			end);
 			
 			for k2, v2 in pairs(v.itemsList) do
-				self.itemData = {
-					itemTable = v2
-				};
+				self.itemData = {itemTable = v2};
 				
 				categoryList:AddItem(vgui.Create("cwBusinessItem", self));
 			end;
@@ -153,13 +156,13 @@ function PANEL:Init()
 	self.nameLabel = vgui.Create("DLabel", self);
 	self.nameLabel:SetPos(48, 6);
 	self.nameLabel:SetDark(true);
-	self.nameLabel:SetText(customData.name);
+	self.nameLabel:SetText(L(customData.name));
 	self.nameLabel:SizeToContents();
 	
 	self.infoLabel = vgui.Create("DLabel", self);
 	self.infoLabel:SetPos(48, 6);
 	self.infoLabel:SetDark(true);
-	self.infoLabel:SetText(customData.information);
+	self.infoLabel:SetText(L(customData.information));
 	self.infoLabel:SizeToContents();
 	
 	self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("cwSpawnIcon", self));
@@ -206,8 +209,10 @@ function PANEL:Init()
 	local CLASS = Clockwork.class:FindByID(Clockwork.Client:Team());
 	local costScale = CLASS.costScale or FACTION.costScale or 1;
 	local itemData = self:GetParent().itemData;
-		self:SetSize(48, 48);
-		self.itemTable = itemData.itemTable;
+	
+	self:SetSize(48, 48);
+	self.itemTable = itemData.itemTable;
+	
 	Clockwork.plugin:Call("PlayerAdjustBusinessItemTable", self.itemTable);
 	
 	if (!self.itemTable.originalCost) then
@@ -227,9 +232,7 @@ function PANEL:Init()
 	
 	-- Called when the spawn icon is clicked.
 	function self.spawnIcon.DoClick(spawnIcon)
-		Clockwork.kernel:RunCommand(
-			"OrderShipment", self.itemTable("uniqueID")
-		);
+		Clockwork.kernel:RunCommand("OrderShipment", self.itemTable("uniqueID"));
 	end;
 	
 	self.spawnIcon:SetModel(model, skin);

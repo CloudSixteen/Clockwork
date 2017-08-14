@@ -625,21 +625,21 @@ if (CLIENT) then
 		
 		if (displayInfo.toolTip) then
 			markupObject:Add(description);
-			markupObject:Title("Information");
+			markupObject:Title(L("Information"));
 			markupObject:Add(displayInfo.toolTip);
 		else
 			markupObject:Add(description);
 		end;
 		
 		if (blueprintTable("takeCash") > 0) then
-			markupObject:Title("Cost", informationColor);
+			markupObject:Title(L("Cost"), informationColor);
 			markupObject:Add(blueprintTable("takeCash"));
 		end;
 		
-		markupObject:Title("Requirements", informationColor);
+		markupObject:Title(L("Requirements"), informationColor);
 		markupObject:Add(Clockwork.crafting:FormatRequirements(Clockwork.inventory.client, blueprintTable));
 		
-		markupObject:Title("Category");
+		markupObject:Title(L("Category"));
 		markupObject:Add(blueprintTable("category"));
 		
 		return markupObject:GetText();

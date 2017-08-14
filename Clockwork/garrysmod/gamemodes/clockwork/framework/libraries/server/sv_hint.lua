@@ -162,30 +162,30 @@ function Clockwork.hint:Get()
 	end;
 end;
 
-Clockwork.hint:Add("OOC", "Type // before your message to talk out-of-character.");
-Clockwork.hint:Add("LOOC", "Type .// or [[before your message to talk out-of-character locally.");
-Clockwork.hint:Add("Ducking", "Toggle ducking by holding :+speed: and pressing :+walk: while standing still.");
-Clockwork.hint:Add("Jogging", "Toggle jogging by pressing :+walk: while moving.");
-Clockwork.hint:Add("Directory", "Hold down :+showscores: and click *name_directory* to get help.");
-Clockwork.hint:Add("F1 Hotkey", "Hold :gm_showhelp: to view your character and roleplay information.");
-Clockwork.hint:Add("F2 Hotkey", "Press :gm_showteam: while looking at a door to view the door menu.");
-Clockwork.hint:Add("Tab Hotkey", "Press :+showscores: to view the main menu, or hold :+showscores: to temporarily view it.");
+Clockwork.hint:Add("OOC", "HintOOC");
+Clockwork.hint:Add("LOOC", "HintLOOC");
+Clockwork.hint:Add("Ducking", "HintDucking");
+Clockwork.hint:Add("Jogging", "HintJogging");
+Clockwork.hint:Add("Directory", "HintDirectory");
+Clockwork.hint:Add("HotkeyF1", "HintHotkeyF1");
+Clockwork.hint:Add("HotkeyF2", "HintHotkeyF2");
+Clockwork.hint:Add("HotkeyTab", "HintHotkeyTab");
 
-Clockwork.hint:Add("Context Menu", "Hold :+menu_context: and click on an entity to open its menu.", function(player)
+Clockwork.hint:Add("ContextMenu", "HintContextMenu", function(player)
 	return !Clockwork.config:Get("use_opens_entity_menus"):Get();
 end);
-Clockwork.hint:Add("Entity Menu", "Press :+use: on an entity to open its menu.", function(player)
+Clockwork.hint:Add("EntityMenu", "HintEntityMenu", function(player)
 	return Clockwork.config:Get("use_opens_entity_menus"):Get();
 end);
-Clockwork.hint:Add("Phys Desc", "Change your character's physical description by typing $command_prefix$CharPhysDesc.", function(player)
+Clockwork.hint:Add("PhysDesc", "HintPhysDesc", function(player)
 	return Clockwork.command:FindByID("CharPhysDesc") != nil;
 end);
-Clockwork.hint:Add("Give Name", "Press :gm_showteam: to allow characters within a specific range to recognise you.", function(player)
+Clockwork.hint:Add("GiveName", "HintGiveName", function(player)
 	return Clockwork.config:Get("recognise_system"):Get();
 end);
-Clockwork.hint:Add("Raise Weapon", "Hold :+reload: to raise or lower your weapon.", function(player)
+Clockwork.hint:Add("RaiseWeapon", "Hold :+reload: to raise or lower your weapon.", function(player)
 	return Clockwork.config:Get("raised_weapon_system"):Get();
 end);
-Clockwork.hint:Add("Target Recognises", "A character's name will flash white if they do not recognise you.", function(player)
+Clockwork.hint:Add("TargetRecognises", "HintTargetRecognises", function(player)
 	return Clockwork.config:Get("recognise_system"):Get();
 end);

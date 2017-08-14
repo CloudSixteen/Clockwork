@@ -1277,7 +1277,7 @@ end;
 
 function Clockwork:PlayerCanInteractCharacter(player, action, character)
 	if (self.quiz:GetEnabled() and !self.quiz:GetCompleted(player)) then
-		return false, 'You have not completed the quiz!';
+		return false, {"YouHaveNotCompletedThe", self.quiz:GetName()};
 	else
 		return true;
 	end;
@@ -4125,7 +4125,7 @@ end);
 
 -- GetQuizStatus datastream callback.
 cwDatastream:Hook("GetQuizStatus", function(player, data)
-	if (!cwQuiz:GetEnabled() or cwQuiz:GetCompleted(player)) then
+	if (cwQuiz:GetCompleted(player)) then
 		cwDatastream:Start(player, "QuizCompleted", true);
 	else
 		cwDatastream:Start(player, "QuizCompleted", false);
@@ -4301,6 +4301,11 @@ end);
 
 -- QuizCompleted datastream callback.
 cwDatastream:Hook("QuizCompleted", function(player, data)
+	if (!cwQuiz:GetEnabled()) then
+		cwQuiz:SetCompleted(player, true);
+		return;
+	end;
+
 	if (player.cwQuizAnswers and !cwQuiz:GetCompleted(player)) then
 		local questionsAmount = cwQuiz:GetQuestionsAmount();
 		local correctAnswers = 0;

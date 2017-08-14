@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local ITEM = Clockwork.item:New("weapon_base", true);
+
 ITEM.name = "Grenade Base";
 ITEM.isThrowableWeapon = true;
 

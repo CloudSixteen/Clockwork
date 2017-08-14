@@ -773,14 +773,14 @@ else
 		if (weightText) then
 			weight = weightText;
 		elseif (itemTable("weight") == 0) then
-			weight = "Weightless";
+			weight = L("Weightless");
 		end;
 		
 		local spaceText = itemTable("spaceText");
 		if (spaceText) then
 			space = spaceText;
 		elseif (itemTable("space") == 0) then
-			space = "Takes no space";
+			space = L("Spaceless");
 		end;
 		
 		if (itemTable.GetClientSideName
@@ -836,7 +836,7 @@ else
 		
 		if (displayInfo.toolTip) then
 			markupObject:Add(description);
-			markupObject:Title("Information");
+			markupObject:Title(L("Information"));
 			markupObject:Add(displayInfo.toolTip);
 		else
 			markupObject:Add(description);
@@ -851,7 +851,7 @@ else
 				
 				for k, v in ipairs(itemTable.recipes) do
 					if (Clockwork.kernel:HasObjectAccess(Clockwork.Client, v)) then
-						markupObject:Title("Recipe "..numRecipe);
+						markupObject:Title(L("RecipeNumber", numRecipe));
 						
 						for k2, v2 in pairs(v.ingredients) do
 							local colorToUse = redColor;
@@ -894,12 +894,12 @@ else
 					colorToUse = greenColor;
 				end;
 				
-				markupObject:Title("Price");
+				markupObject:Title(L("Price"));
 				markupObject:Add(costString, colorToUse, 1);
 			end;
 		end;
 		
-		markupObject:Title("Category");
+		markupObject:Title(L("Category"));
 		markupObject:Add(itemTable("category"));
 		
 		return markupObject:GetText();

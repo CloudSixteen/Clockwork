@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local ITEM = Clockwork.item:New(nil, true);
+
 ITEM.name = "Alcohol Base";
 ITEM.useText = "Drink";
 ITEM.category = "Consumables";

@@ -1207,11 +1207,11 @@ function PANEL:Think()
 	self.addButton:SetPos(self.pointsUsed.x + self.pointsUsed:GetWide() + 8, 0);
 	
 	local markupObject = Clockwork.theme:GetMarkupObject();
-	local attributeName = self.attributeTable.name;
+	local attributeName = L(self.attributeTable.name);
 	local attributeMax = self.totalPoints.."/"..self.attributeTable.maximum;
 	
-	markupObject:Title(attributeName..", "..attributeMax);
-	markupObject:Add(self.attributeTable.description);
+	markupObject:Title(attributeName.." ("..attributeMax..")");
+	markupObject:Add(L(self.attributeTable.description));
 	
 	self:SetMarkupToolTip(markupObject:GetText());
 	self.pointsUsed:SetMarkupToolTip(markupObject:GetText());
@@ -1529,7 +1529,7 @@ end;
 -- Called when the next button is pressed.
 function PANEL:OnNext()
 	if (!self.info.class or !Clockwork.class:FindByID(self.info.class)) then
-		Clockwork.character:SetFault("You did not choose a class, or the class that you chose is not valid!");
+		Clockwork.character:SetFault(L("FaultNeedClass"));
 		return false;
 	end;
 end;

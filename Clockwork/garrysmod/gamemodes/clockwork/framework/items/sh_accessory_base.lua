@@ -9,6 +9,7 @@
 local Clockwork = Clockwork;
 
 local ITEM = Clockwork.item:New(nil, true);
+
 ITEM.name = "Accessory Base";
 ITEM.model = "models/gibs/hgibs.mdl";
 ITEM.weight = 1;
@@ -18,6 +19,7 @@ ITEM.description = "An accessory you can wear.";
 ITEM.isAttachment = true;
 ITEM.attachmentBone = "ValveBiped.Bip01_Head1";
 ITEM.attachmentOffsetAngles = Angle(270, 270, 0);
+
 ITEM.attachmentOffsetVector = Vector(0, 3, 3);
 
 -- Called when a player wears the accessory.
