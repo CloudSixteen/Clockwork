@@ -712,8 +712,6 @@ function Clockwork:ClockworkConVarChanged(name, previousValue, newValue)
 				GetConVarNumber("cwTextColorA")
 			)
 		);
-	elseif (name == "cwLang") then
-		cwClient:SetNWString("Language", newValue);
 	elseif (name == "cwActiveTheme") then
 		if (Clockwork.config:Get("modify_themes"):GetBoolean()) then
 			local newTheme = Clockwork.theme:FindByID(newValue);
@@ -924,9 +922,7 @@ function Clockwork:Initialize()
 	cwPlugin:ClearHookCache();
 
 	cwSetting:AddSettings();
-
-	cwClient:SetNWString("Language", CW_CONVAR_LANG:GetString());
-
+	
 	if (!cwTheme:IsFixed()) then
 		cwOption:SetColor(
 			"information",

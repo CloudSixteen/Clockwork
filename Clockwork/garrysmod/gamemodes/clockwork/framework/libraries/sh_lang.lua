@@ -97,7 +97,7 @@ if (CLIENT) then
 else
 	function L(player, identifier, ...)
 		if (player != nil) then
-			local language = player:GetNWString("Language");
+			local language = player:GetInfo("cwLang");
 			
 			return Clockwork.lang:GetString(language, identifier, ...);
 		else

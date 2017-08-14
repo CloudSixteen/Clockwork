@@ -133,7 +133,6 @@ end;
 Clockwork.kernel:IncludeDirectory("commands/", true);
 
 Clockwork.player:AddCharacterData("PhysDesc", NWTYPE_STRING, "");
-Clockwork.player:AddPlayerData("Language", NWTYPE_STRING, "English", true);
 
 -- Called when the Clockwork shared variables are added.
 function Clockwork:ClockworkAddSharedVars(globalVars, playerVars)

@@ -99,10 +99,6 @@ function PANEL:Populate()
 	self.languageForm:SetPadding(4);
 
 	local panel = vgui.Create("DComboBox", self.languageForm);
-
-	function panel:OnSelect(index, value, data)
-		Clockwork.Client:SetNWString("Language", index);
-	end;
 	
 	for k, v in pairs(langTable) do
 		panel:AddChoice(k);
