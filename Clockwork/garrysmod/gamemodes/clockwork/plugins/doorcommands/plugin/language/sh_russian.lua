@@ -6,6 +6,11 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
+--[[
+	Contributor(s):
+		ROSS <pootiswwe@gmail.com>
+--]]
+
 CW_RUSSIAN = Clockwork.lang:GetTable("Русский");
 
 CW_RUSSIAN["DoorToolNameText"] = "Управление дверьми";
@@ -42,3 +47,8 @@ CW_RUSSIAN["YouMadeDoorReal"] = "Вы успешно сделали эту дв�
 CW_RUSSIAN["YouMadeDoorUnhidden"] = "Вы успешно сделали эту дверь видимой.";
 CW_RUSSIAN["ThisIsNotAValidDoor"] = "Это не дверь!";
 CW_RUSSIAN["YouSetActiveParentDoor"] = "Вы установили 'родительскую' дверь. Родительская дверь отмечена оранжевой обводкой, а дочерние - синим.";
+
+CW_RUSSIAN["DoorsDefaultHidden"] = "Двери спрятаны по стандарту";
+CW_RUSSIAN["DoorsDefaultHiddenDesc"] = "Будут ли двери спрятаны и недоступны к покупке по стандарту.";
+CW_RUSSIAN["DoorsSaveState"] = "Сохранять статус двери";
+CW_RUSSIAN["DoorsSaveStateDesc"] = "Будет ли сохраняться статус двери, если та закрыта или открыта.";

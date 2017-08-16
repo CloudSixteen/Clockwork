@@ -6,6 +6,11 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
+--[[
+	Contributor(s):
+		ROSS <pootiswwe@gmail.com>
+--]]
+
 CW_RUSSIAN = Clockwork.lang:GetTable("Русский");
 
 CW_RUSSIAN["SurfaceTextToolDesc"] = "Добавить текст на карте. Его можно увеличить и перекрасить.";

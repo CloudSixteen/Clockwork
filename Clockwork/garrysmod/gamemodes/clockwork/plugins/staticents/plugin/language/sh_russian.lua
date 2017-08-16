@@ -5,6 +5,10 @@
 	Clockwork was created by Conna Wiles (also known as kurozael.)
 	http://cloudsixteen.com/license/clockwork.html
 --]]
+--[[
+   CONTRIBUTOR(s)
+   ROSS  pootiswwe@gmail.com 
+--]]
 
 CW_RUSSIAN = Clockwork.lang:GetTable("Русский");
 
@@ -25,3 +29,6 @@ CW_RUSSIAN["ToggledStaticModeTo"] = "Вы изменили статус стат
 CW_RUSSIAN["RemovedStaticInRadius"] = "Вы убрали #1 статических объектов в радиусе #2 юнит(ов) вокруг вас.";
 CW_RUSSIAN["AddedStaticInRadius"] = "Вы добавили #1 статических объектов в #2 юнит(ах) вокруг вас.";
 CW_RUSSIAN["StaticMustEnterRadius"] = "Вы должны ввести номер для радиуса!";
+
+CW_RUSSIAN["ShowStaticEntities"] = "Показывать статические объекты";
+CW_RUSSIAN["ShowStaticEntitiesDesc"] = "Будут ли прорисовываться статические объекты в ADMIN ESP.";

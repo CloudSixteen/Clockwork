@@ -5,6 +5,10 @@
 	Clockwork was created by Conna Wiles (also known as kurozael.)
 	http://cloudsixteen.com/license/clockwork.html
 --]]
+--[[
+   CONTRIBUTOR(s)
+   ROSS  pootiswwe@gmail.com 
+--]]
 
 CW_RUSSIAN = Clockwork.lang:GetTable("Русский");
 
@@ -17,3 +21,6 @@ CW_RUSSIAN["NoNameSpawnpoints"] = "Здесь нету #1 точек возро�
 CW_RUSSIAN["NotValidClassOrFaction"] = "Не валидный класс или фракция!";
 CW_RUSSIAN["YouAddedNameSpawnpoint"] = "Вы добавили точку возрождения для #1.";
 CW_RUSSIAN["YouAddedDefaultSpawnpoint"] = "Вы добавили стандартную точку спавна.";
+
+CW_RUSSIAN["ShowSpawnPoints"] = "Показать точки возрождения";
+CW_RUSSIAN["ShowSpawnPointsDesc"] = "Показывать точки возрождения в ADMIN ESP.";

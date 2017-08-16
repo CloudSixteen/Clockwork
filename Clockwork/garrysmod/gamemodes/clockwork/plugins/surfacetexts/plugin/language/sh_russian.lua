@@ -6,6 +6,11 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
+--[[
+	Contributor(s):
+		ROSS <pootiswwe@gmail.com>
+--]]
+
 CW_RUSSIAN = Clockwork.lang:GetTable("Русский");
 
 CW_RUSSIAN["YouAddedSurfaceText"] = "Вы добавили текст!";

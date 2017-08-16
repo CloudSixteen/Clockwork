@@ -36,3 +36,5 @@ CW_ENGLISH["AnimSit"] = "Sit";
 CW_ENGLISH["AnimThreat"] = "Threaten";
 CW_ENGLISH["AnimIdle"] = "Idle";
 CW_ENGLISH["AnimATW"] = "At The Wall";
+
+CW_ENGLISH["Emotes"] = "Emotes";

@@ -13,4 +13,5 @@
 
 CW_RUSSIAN = Clockwork.lang:GetTable("Русский");
 
-CW_RUSSIAN["PlayerReported"] = "Ваш донос на неблагоприятного участника сообщества принят! КГБ его обязательно рассмотрит!";
+CW_RUSSIAN["RemoveMapPhysics"] = "Убрать физику карты";
+CW_RUSSIAN["RemoveMapPhysicsDesc"] = "Должны ли физические объекты карты быть удалены при запуске.";

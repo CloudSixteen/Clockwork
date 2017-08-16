@@ -5,12 +5,12 @@
 	Clockwork was created by Conna Wiles (also known as kurozael.)
 	http://cloudsixteen.com/license/clockwork.html
 --]]
-
 --[[
-	Contributor(s):
-		ROSS <pootiswwe@gmail.com>
+   CONTRIBUTOR(s)
+   ROSS  pootiswwe@gmail.com 
 --]]
 
 CW_RUSSIAN = Clockwork.lang:GetTable("Русский");
 
-CW_RUSSIAN["PlayerReported"] = "Ваш донос на неблагоприятного участника сообщества принят! КГБ его обязательно рассмотрит!";
+CW_RUSSIAN["SpawnWhereLeft"] = "Сохранять позицию выхода";
+CW_RUSSIAN["SpawnWhereLeftDesc"] = "Будут ли игроки появляться там, где они вышли.";
