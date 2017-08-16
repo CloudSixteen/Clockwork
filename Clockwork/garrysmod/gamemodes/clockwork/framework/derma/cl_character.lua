@@ -504,10 +504,10 @@ function PANEL:Think()
 		end;
 		
 		if (Clockwork.Client:HasInitialized() and !Clockwork.character:IsMenuReset()) then
-			self.disconnectButton:SetText("CANCEL");
+			self.disconnectButton:SetText(L("CharacterMenuCancel"));
 			self.disconnectButton:SizeToContents();
 		else
-			self.disconnectButton:SetText("LEAVE");
+			self.disconnectButton:SetText(L("CharacterMenuLeave"));
 			self.disconnectButton:SizeToContents();
 		end;
 		
