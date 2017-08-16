@@ -709,4 +709,12 @@ CW_ENGLISH["MenuQuizHelp"] = "If any answers are incorrect, you may be kicked fr
 CW_ENGLISH["MenuDisconnect"] = "DISCONNECT";
 CW_ENGLISH["MenuContinue"] = "CONTINUE";
 
+CW_ENGLISH["InteractWithThisEntity"] = "INTERACT...";
 CW_ENGLISH["DevelopedBy"] = "DEVELOPED BY #1";
+CW_ENGLISH["Female"] = "Female";
+CW_ENGLISH["Male"] = "Male";
+
+CW_ENGLISH["AttributeBoost"] = "+#1 (Boosted)";
+CW_ENGLISH["AttributeHinder"] = "-#1 (Hindered)";
+CW_ENGLISH["YouReachedMaxOfAttribute"] = "You have reached the maximum of this #1!";
+CW_ENGLISH["Attributes"] = "Attributes";

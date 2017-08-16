@@ -688,3 +688,7 @@ CW_RUSSIAN["MenuQuizTitle"] = "Проходной тест";
 CW_RUSSIAN["MenuQuizHelp"] = "Если какие-либо из ответов будут не верны, вас выкинет с сервера.";
 CW_RUSSIAN["MenuDisconnect"] = "ОТКЛЮЧИТЬСЯ";
 CW_RUSSIAN["MenuContinue"] = "ПРОДОЛЖИТЬ";
+
+CW_RUSSIAN["Gender"] = "Пол";
+CW_RUSSIAN["Male"] = "мужчина";
+CW_RUSSIAN["Female"] = "женский";

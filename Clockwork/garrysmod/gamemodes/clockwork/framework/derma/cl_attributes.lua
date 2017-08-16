@@ -97,7 +97,7 @@ function PANEL:Rebuild()
 			categoryForm:SetPadding(0);
 			categoryForm:SetSpacing(0);
 			categoryForm:SetAutoSize(true);
-			categoryForm:SetText(v[2], nil, nil, 18);
+			categoryForm:SetText(L(v[2]), nil, nil, 18);
 			
 			self.currentAttribute = v[1];
 			
@@ -192,30 +192,40 @@ function PANEL:Init()
 
 	self:SetBackgroundColor(Color(80, 70, 60, 255));
 	self:SetToolTip(self.attribute.description);
-	self:SetSize(self:GetParent():GetWide() - 8, 32);
+	self:SetSize(self:GetParent():GetWide() - 8, 48);
+	
+	local fontName = Clockwork.fonts:GetSize(
+		Clockwork.option:GetFont("menu_text_tiny"),
+		size or 20
+	);
 	
 	self.baseBar = vgui.Create("DPanel", self);
 	self.baseBar:SetSize(self:GetWide() - 4, 20);
 	
-	self.progressBar = vgui.Create("DPanel", self);
-	self.progressBar:SetSize(self:GetWide() - 4, 8);
-	
 	self.percentageText = vgui.Create("DLabel", self);
 	self.percentageText:SetText("0%");
+	self.percentageText:SetFont(fontName);
 	self.percentageText:SetTextColor(Clockwork.option:GetColor("white"));
-	self.percentageText:SetExpensiveShadow(1, Color(0, 0, 0, 150));
 	self.percentageText:SizeToContents();
-	self.percentageText:SetPos(
-		self:GetWide() - self.percentageText:GetWide() - 16,
-		self.baseBar.y + (self.baseBar:GetTall() / 2) - (self.percentageText:GetTall() / 2)
+	self.percentageText:SetPos(8, self.baseBar.y + (self.baseBar:GetTall() / 2) - (self.percentageText:GetTall() / 2));
+	
+	self.boostText = vgui.Create("DLabel", self);
+	self.boostText:SetText(L("AttributeBoost", 0));
+	self.boostText:SetFont(fontName);
+	self.boostText:SetTextColor(Clockwork.option:GetColor("attribute_boost_color"));
+	self.boostText:SizeToContents();
+	self.boostText:SetVisible(false);
+	self.boostText:SetPos(
+		self.percentageText.x + self.percentageText:GetWide() + 16,
+		self.percentageText.y
 	);
+	
+	self.progressBar = vgui.Create("DPanel", self);
+	self.progressBar:SetSize(self:GetWide() - 16, 8);
 	
 	-- Called when the panel should be painted.
 	function self.baseBar.Paint(baseBar)
-		local hinderColor = Clockwork.option:GetColor("attribute_hinder_color");
-		local boostColor = Clockwork.option:GetColor("attribute_boost_color");
 		local attributes = Clockwork.attributes.panel.attributes;
-		local mainColor = Clockwork.option:GetColor("attribute_main_color");
 		local frameTime = FrameTime() * 10;
 		local uniqueID = self.attribute.uniqueID;
 		local curTime = CurTime();
@@ -236,9 +246,7 @@ function PANEL:Init()
 		end;
 		
 		if (default) then
-			attributes[uniqueID] = math.Approach(
-				attributes[uniqueID], default.amount, frameTime
-			);
+			attributes[uniqueID] = math.Approach(attributes[uniqueID], default.amount, frameTime);
 		else
 			attributes[uniqueID] = math.Approach(attributes[uniqueID], 0, frameTime);
 		end;
@@ -257,64 +265,7 @@ function PANEL:Init()
 		
 		boosts[uniqueID] = math.Approach(boosts[uniqueID], boost, frameTime);
 		
-		local color = Clockwork.option:GetColor("attribute_base_color");
-		local width = (baseBar:GetWide() / self.attribute.maximum) * attributes[uniqueID];
-		local boostData = {
-			negative = boosts[uniqueID] < 0,
-			boost = math.abs(boosts[uniqueID]),
-			width = math.ceil((baseBar:GetWide() / self.attribute.maximum) * math.abs(boosts[uniqueID]))
-		};
-		local barLineWidth = width;
-		
-		surface.SetDrawColor(color.r, color.g, color.b, color.a);
-		surface.DrawRect(0, 0, baseBar:GetWide(), baseBar:GetTall());
 		self:SetPercentageText(self.attribute.maximum, attributes[uniqueID], boosts[uniqueID]);
-		
-		if (boostData.negative) then
-			if (attributes[uniqueID] - boostData.boost >= 0) then
-				boostData.width = math.min(boostData.width, width);
-				barLineWidth = math.max(width - boostData.width, 0);
-				
-				surface.SetDrawColor(Clockwork.kernel:UnpackColor(mainColor));
-				surface.DrawRect(0, 0, barLineWidth, baseBar:GetTall());
-				
-				local hinderX = math.max(width - boostData.width, 0);
-					surface.SetDrawColor(Clockwork.kernel:UnpackColor(hinderColor));
-					surface.DrawRect(hinderX, 0, boostData.width, baseBar:GetTall());
-				surface.SetDrawColor(255, 255, 255, 255);
-				
-				if (boostData.width > 4 and hinderX + boostData.width < baseBar:GetWide() - 2) then
-					surface.DrawRect(hinderX + boostData.width, 0, 1, baseBar:GetTall());
-				end;
-			else
-				surface.SetDrawColor(Clockwork.kernel:UnpackColor(hinderColor));
-				surface.DrawRect(0, 0, boostData.width, baseBar:GetTall());
-				
-				if (boostData.width > 4 and boostData.width < baseBar:GetWide() - 2) then
-					surface.DrawRect(boostData.width, 0, 1, baseBar:GetTall());
-				end;
-			end;
-		else
-			surface.SetDrawColor(Clockwork.kernel:UnpackColor(mainColor));
-			surface.DrawRect(0, 0, width, baseBar:GetTall());
-			
-			local boostWidth = math.min(boostData.width, baseBar:GetWide());
-			surface.SetDrawColor(Clockwork.kernel:UnpackColor(boostColor));
-			surface.DrawRect(width, 0, boostWidth, baseBar:GetTall());
-			
-			if (boostData.width > 4 and boostWidth < baseBar:GetWide() - 2) then
-				surface.SetDrawColor(255, 255, 255, 255);
-				surface.DrawRect(width + boostWidth, 0, 1, baseBar:GetTall());
-			end;
-		end;
-		
-		if (barLineWidth > 4 and barLineWidth < baseBar:GetWide() - 2) then
-			surface.SetDrawColor(255, 255, 255, 255);
-			surface.DrawRect(barLineWidth, 0, 1, baseBar:GetTall());
-		end;
-		
-		surface.SetDrawColor(255, 255, 255, 255);
-		surface.DrawRect(0, baseBar:GetTall() - 1, baseBar:GetWide(), 1);
 	end;
 	
 	-- Called when the panel should be painted.
@@ -345,11 +296,6 @@ function PANEL:Init()
 		surface.DrawRect(0, 0, progressBar:GetWide(), progressBar:GetTall(), color);
 		surface.SetDrawColor(Clockwork.kernel:UnpackColor(progressColor));
 		surface.DrawRect(0, 0, width, progressBar:GetTall(), progressColor);
-		
-		if (width > 4 and width < progressBar:GetWide() - 2) then
-			surface.SetDrawColor(255, 255, 255, 255);
-			surface.DrawRect(width, 0, 1, progressBar:GetTall());
-		end;
 	end;
 	
 	if (self.attribute.image) then
@@ -359,10 +305,10 @@ function PANEL:Init()
 		self.spawnIcon:SetSize(32, 32);
 		
 		self.baseBar:SetPos(32, 2);
-		self.progressBar:SetPos(32, 22);
+		self.progressBar:SetPos(40, self.percentageText.y + self.percentageText:GetTall() + 8);
 	else
 		self.baseBar:SetPos(2, 2);
-		self.progressBar:SetPos(2, 22);
+		self.progressBar:SetPos(8, self.percentageText.y + self.percentageText:GetTall() + 8);
 	end;
 end;
 
@@ -370,17 +316,32 @@ end;
 function PANEL:SetPercentageText(maximum, default, boost)
 	local percentage = math.Clamp(math.Round((100 / maximum) * (default + boost)), -100, 100);
 	
-	self.percentageText:SetText(percentage.."%");
+	self.percentageText:SetText(math.floor(default + boost).."/"..maximum);
 	self.percentageText:SizeToContents();
-	self.percentageText:SetPos(
-		self:GetWide() - self.percentageText:GetWide() - 16,
-		self.baseBar.y + (self.baseBar:GetTall() / 2) - (self.percentageText:GetTall() / 2)
+	self.percentageText:SetPos(8, self.baseBar.y + (self.baseBar:GetTall() / 2) - (self.percentageText:GetTall() / 2));
+	
+	local hinderColor = Clockwork.option:GetColor("attribute_hinder_color");
+	local boostColor = Clockwork.option:GetColor("attribute_boost_color");
+	
+	if (boost == 0) then
+		self.boostText:SetVisible(false);
+	elseif (boost > 0) then
+		self.boostText:SetVisible(true);
+		self.boostText:SetText(L("AttributeBoost", math.ceil(boost)));
+	elseif (boost < 0) then
+		self.boostText:SetText(L("AttributeHinder", math.ceil(boost)));
+	end;
+	
+	self.boostText:SizeToContents();
+	self.boostText:SetPos(
+		self.percentageText.x + self.percentageText:GetWide() + 16,
+		self.percentageText.y
 	);
 end;
 
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
-	Clockwork.kernel:DrawSimpleGradientBox(4, 0, 0, w, h, self:GetBackgroundColor());
+	--Clockwork.kernel:DrawSimpleGradientBox(4, 0, 0, w, h, self:GetBackgroundColor());
 	
 	return true;
 end;
@@ -388,13 +349,13 @@ end;
 -- Called each frame.
 function PANEL:Think()
 	if (self.spawnIcon) then
-		self.progressBar:SetSize(self:GetWide() - 34, 8);
-		self.baseBar:SetSize(self:GetWide() - 34, 20);
+		self.progressBar:SetSize(self:GetWide() - 48, 8);
+		self.baseBar:SetSize(self:GetWide() - 48, 20);
 		self.spawnIcon:SetPos(1, 1);
 		self.spawnIcon:SetSize(30, 30);
 	else
-		self.progressBar:SetSize(self:GetWide() - 4, 8);
-		self.baseBar:SetSize(self:GetWide() - 4, 20);
+		self.progressBar:SetSize(self:GetWide() - 8, 8);
+		self.baseBar:SetSize(self:GetWide() - 8, 20);
 	end;
 end;
 

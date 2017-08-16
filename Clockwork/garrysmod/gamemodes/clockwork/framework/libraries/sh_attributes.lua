@@ -94,7 +94,7 @@ if (SERVER) then
 				attributes[attribute] = {amount = 0, progress = 0};
 			elseif (attributes[attribute].amount == attributeTable.maximum) then
 				if (amount and amount > 0) then
-					return false, "You have reached the maximum of this "..Clockwork.option:GetKey("name_attribute", true).."!";
+					return false, {"YouReachedMaxOfAttribute", Clockwork.option:Translate("name_attribute", true)};
 				end;
 			end;
 			

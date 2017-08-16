@@ -75,11 +75,13 @@ end;
 -- A function to create a text entry.
 function PANEL:TextEntry(strLabel, strConVar)
 	local left = vgui.Create("DLabel", self);
+	
 	left:SetText(strLabel);
 	left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
 	left:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
 	
 	local right = vgui.Create("DTextEntry", self);
+	
 	right:SetConVar(strConVar);
 	right:Dock(TOP);
 	
@@ -91,11 +93,13 @@ end
 -- A function to create a combo box.
 function PANEL:ComboBox(strLabel, strConVar)
 	local left = vgui.Create("DLabel", self);
+	
 	left:SetText(strLabel);
 	left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
 	left:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
 	
 	local right = vgui.Create("DComboBox", self);
+	
 	right:SetConVar(strConVar);
 	right:Dock(FILL);
 	
@@ -113,11 +117,13 @@ end;
 -- A function to create a number wang.
 function PANEL:NumberWang(strLabel, strConVar, numMin, numMax, numDecimals)
 	local left = vgui.Create("DLabel", self);
+	
 	left:SetText(strLabel);
 	left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
 	left:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
 	
 	local right = vgui.Create("DNumberWang", self);
+	
 	right:SetMinMax(numMin, numMax);
 	
 	if (numDecimals != nil) then
@@ -135,6 +141,7 @@ end
 -- A function to create a number slider.
 function PANEL:NumSlider(strLabel, strConVar, numMin, numMax, numDecimals)
 	local left = vgui.Create("DNumSlider", self);
+	
 	left:SetText(strLabel);
 	left:SetMinMax(numMin, numMax);
 	left.Label:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
@@ -155,6 +162,7 @@ end;
 -- A function to create a check box.
 function PANEL:CheckBox(strLabel, strConVar)
 	local left = vgui.Create("DCheckBoxLabel", self);
+	
 	left:SetText(strLabel);
 	left.Label:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
 	left.Label:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
@@ -188,11 +196,13 @@ end;
 -- A function to create a control help.
 function PANEL:ControlHelp(strHelp)
 	local panel = vgui.Create("DSizeToContents", self);
+	
 	panel:SetSizeX(false);
 	panel:Dock(TOP);
 	panel:InvalidateLayout();
 
 	local left = vgui.Create("DLabel", panel);
+	
 	left:SetDark(true);
 	left:SetWrap(true);
 	left:SetTextInset(0, 0);
@@ -226,7 +236,9 @@ end;
 -- A function to create a panel select.
 function PANEL:PanelSelect()
 	local left = vgui.Create("DPanelSelect", self);
+	
 	self:AddLeftRight(left);
+	
 	return left;
 end;
 
@@ -234,6 +246,7 @@ end;
 function PANEL:ListBox(strLabel)
 	if (strLabel) then
 		local left = vgui.Create("DLabel", self);
+		
 		left:SetText(strLabel);
 		left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
 		left:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
@@ -242,6 +255,7 @@ function PANEL:ListBox(strLabel)
 	end
 	
 	local right = vgui.Create("DListBox", self);
+	
 	right.Stretch = true;
 	
 	self:AddLeftRight(right);

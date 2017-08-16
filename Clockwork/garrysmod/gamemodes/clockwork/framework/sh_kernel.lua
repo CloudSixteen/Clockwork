@@ -1763,7 +1763,7 @@ else
 		end);
 			
 		self:RegisterBackgroundBlur(menuPanel, SysTime());
-		self:SetTitledMenu(menuPanel, "INTERACT WITH THIS ENTITY");
+		self:SetTitledMenu(menuPanel, L("InteractWithThisEntity"));
 		menuPanel.entity = entity;
 			
 		return menuPanel;

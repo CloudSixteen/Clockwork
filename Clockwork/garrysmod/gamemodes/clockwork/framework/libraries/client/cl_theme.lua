@@ -23,6 +23,7 @@ local type = type;
 --]]
 Clockwork.theme = Clockwork.kernel:NewLibrary("Theme");
 
+local newTheme = nil;
 local stored = {};
 
 --[[ Use a debug hack to get the panel factory. --]]
@@ -48,8 +49,8 @@ local oldRegister = vgui.Register;
 function vgui.Register(className, panelTable, baseName)
 	local backup = Clockwork.theme.backupFactory;
 
-	if (backup[className] and cwTHEME) then
-		backup = cwTHEME.factory;
+	if (backup[className] and newTheme) then
+		backup = newTheme.factory;
 	end;
 
 	backup[className] = {};
@@ -87,8 +88,8 @@ function Clockwork.theme:HookReplace(vguiName, functionName, callback)
 		return;
 	end;
 
-	if (cwTHEME) then
-		local factory = cwTHEME.factory;
+	if (newTheme) then
+		local factory = newTheme.factory;
 		
 		factory[vguiName] = factory[vguiName] or {};
 		factory[vguiName][functionName] = function(vguiObject, ...)
@@ -115,8 +116,8 @@ function Clockwork.theme:HookBefore(vguiName, functionName, callback)
 		return;
 	end;
 
-	if (cwTHEME) then
-		local factory = cwTHEME.factory;
+	if (newTheme) then
+		local factory = newTheme.factory;
 		
 		factory[vguiName] = factory[vguiName] or {};
 		factory[vguiName][functionName] = function(vguiObject, ...)
@@ -144,8 +145,8 @@ function Clockwork.theme:HookAfter(vguiName, functionName, callback)
 		return;
 	end;
 	
-	if (cwTHEME) then
-		local factory = cwTHEME.factory;
+	if (newTheme) then
+		local factory = newTheme.factory;
 
 		factory[vguiName] = factory[vguiName] or {};
 		factory[vguiName][functionName] = function(vguiObject, ...)
@@ -209,22 +210,22 @@ function Clockwork.theme:New(themeName, baseName, isFixed)
 		local base = self:FindByID(baseName);
 
 		if (base) then
-			cwTHEME = table.Copy(base);
+			newTheme = table.Copy(base);
 		end;
 
-		cwTHEME.base = baseName;
+		newTheme.base = baseName;
 	elseif (themeName != "Clockwork") then
 		local base = self:FindByID("Clockwork");
 
 		if (base) then
-			cwTHEME = table.Copy(base);
+			newTheme = table.Copy(base);
 		end;
 
-		cwTHEME.base = "Clockwork";
+		newTheme.base = "Clockwork";
 	end;
 
-	if (!cwTHEME) then
-		cwTHEME = {
+	if (!newTheme) then
+		newTheme = {
 			factory = {},
 			module = {},
 			hooks = {},
@@ -232,10 +233,10 @@ function Clockwork.theme:New(themeName, baseName, isFixed)
 		};
 	end;
 
-	cwTHEME.name = themeName or "Schema";
-	cwTHEME.isFixed = isFixed;
+	newTheme.name = themeName or "Schema";
+	newTheme.isFixed = isFixed;
 
-	return cwTHEME;
+	return newTheme;
 end;
 
 --[[
@@ -265,6 +266,10 @@ function Clockwork.theme:CopySkin()
 	
 	if (self.active and skinTable) then
 		for k, v in pairs(self.active.skin) do
+			if (!skinTable["__"..k]) then
+				skinTable["__"..k] = v;
+			end;
+			
 			skinTable[k] = v;
 		end;
 	end;
@@ -305,11 +310,11 @@ end;
 	@params Bool Whether or not you want to switch to the newly created theme upon creation.
 	@returns String The name of the new theme that was saved.
 --]]
-function Clockwork.theme:Register(bSwitchTo)
-	if (cwTHEME) then
-		local name = cwTHEME.name;
-	
-		Clockwork.theme:Finish(cwTHEME, !bSwitchTo);
+function Clockwork.theme:Register(switchTo)
+	if (newTheme) then
+		local name = newTheme.name;
+		
+		Clockwork.theme:Finish(newTheme, !switchTo);
 	
 		return name;
 	end;
@@ -321,14 +326,14 @@ end;
 	@params Table The theme table to be saved.
 	@params Bool Whether or not you want to switch to the newly created theme upon creation.
 --]]
-function Clockwork.theme:Finish(themeTable, bNoSwitch)
+function Clockwork.theme:Finish(themeTable, noSwitch)
 	stored[themeTable.name] = themeTable;
 
-	if (!bNoSwitch) then
+	if (!noSwitch) then
 		self:SetActive(themeTable);
 	end;
 
-	cwTHEME = nil;
+	newTheme = nil;
 end;
 
 --[[
@@ -344,10 +349,7 @@ function Clockwork.theme:SetActive(theme, firstLoad)
 		end;
 
 		self.active = theme;
-
-		if (!bNoLoad) then
-			self:LoadTheme(theme);
-		end;
+		self:LoadTheme(theme);
 	else
 		local themeTable = self:FindByID(theme);
 
@@ -437,6 +439,18 @@ function Clockwork.theme:UnloadTheme(theme, isBase)
 
 		self.active = nil;
 	end;
+	
+	local skinTable = derma.GetNamedSkin("Clockwork");
+	
+	if (skinTable) then
+		for k, v in pairs(themeTable.skin) do
+			if (skinTable["__"..k]) then
+				skinTable[k] = skinTable["__"..k];
+			end;
+		end;
+	end;
+	
+	derma.RefreshSkins();
 end;
 
 --[[

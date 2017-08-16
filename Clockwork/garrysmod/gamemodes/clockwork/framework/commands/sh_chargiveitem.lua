@@ -56,7 +56,7 @@ function COMMAND:OnRun(player, arguments)
 					end;
 				end;
 			else
-				Clockwork.player:Notify(player, {"ItemIsNotValid"});
+				Clockwork.player:Notify(player, {"ItemIsNotValid", arguments[2]});
 			end;
 		else
 			Clockwork.player:Notify(player, {"NotValidCharacter", arguments[1]});

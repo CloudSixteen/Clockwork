@@ -593,12 +593,7 @@ end;
 	@return String The name of the skin to be forced (nil if not forcing skin).
 --]]
 function Clockwork:ForceDermaSkin()
-	--[[
-		Disable the custom Derma skin as it needs updating to GWEN.
-		return "Clockwork";
-	--]]
-	
-	return nil;
+	return "Clockwork";
 end;
 
 --[[
