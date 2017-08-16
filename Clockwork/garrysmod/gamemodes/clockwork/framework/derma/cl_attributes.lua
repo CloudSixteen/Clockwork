@@ -316,7 +316,7 @@ end;
 function PANEL:SetPercentageText(maximum, default, boost)
 	local percentage = math.Clamp(math.Round((100 / maximum) * (default + boost)), -100, 100);
 	
-	self.percentageText:SetText(math.floor(default + boost).."/"..maximum);
+	self.percentageText:SetText(math.ceil(default + boost).."/"..maximum);
 	self.percentageText:SizeToContents();
 	self.percentageText:SetPos(8, self.baseBar.y + (self.baseBar:GetTall() / 2) - (self.percentageText:GetTall() / 2));
 	
