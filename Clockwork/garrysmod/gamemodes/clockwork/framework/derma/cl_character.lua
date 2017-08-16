@@ -63,17 +63,17 @@ function PANEL:Init()
 		self.authorLabel = vgui.Create("cwLabelButton", self);
 		self.authorLabel:SetDisabled(true);
 		self.authorLabel:SetFont(tinyTextFont);
-		self.authorLabel:SetText("DEVELOPED BY "..string.upper(Schema:GetAuthor()));
+		self.authorLabel:SetText(L("DevelopedBy", string.upper(Schema:GetAuthor())));
 		self.authorLabel:SizeToContents();
 		self.authorLabel:SetPos(self.subLabel.x + (self.subLabel:GetWide() - self.authorLabel:GetWide()), self.subLabel.y + self.subLabel:GetTall() + 4);
 		
 		self.createButton = vgui.Create("cwLabelButton", self);
 		self.createButton:SetFont(smallTextFont);
-		self.createButton:SetText("NEW");
+		self.createButton:SetText(L("CharacterMenuNew"));
 		self.createButton:FadeIn(0.5);
 		self.createButton:SetCallback(function(panel)
 			if (table.Count(Clockwork.character:GetAll()) >= Clockwork.player:GetMaximumCharacters()) then
-				return Clockwork.character:SetFault("You cannot create any more characters!");
+				return Clockwork.character:SetFault({"FaultTooManyCharacters"});
 			end;
 			
 			Clockwork.character:ResetCreationInfo();
@@ -85,7 +85,7 @@ function PANEL:Init()
 		
 		self.loadButton = vgui.Create("cwLabelButton", self);
 		self.loadButton:SetFont(smallTextFont);
-		self.loadButton:SetText("LOAD");
+		self.loadButton:SetText(L("CharacterMenuLoad"));
 		self.loadButton:FadeIn(0.5);
 		self.loadButton:SetCallback(function(panel)
 			self:OpenPanel("cwCharacterList", nil, function(panel)
@@ -98,7 +98,7 @@ function PANEL:Init()
 		
 		self.disconnectButton = vgui.Create("cwLabelButton", self);
 		self.disconnectButton:SetFont(smallTextFont);
-		self.disconnectButton:SetText("LEAVE");
+		self.disconnectButton:SetText(L("CharacterMenuLeave"));
 		self.disconnectButton:FadeIn(0.5);
 		self.disconnectButton:SetCallback(function(panel)
 			if (Clockwork.Client:HasInitialized() and !Clockwork.character:IsMenuReset()) then
@@ -114,7 +114,7 @@ function PANEL:Init()
 		
 		self.previousButton = vgui.Create("cwLabelButton", self);
 		self.previousButton:SetFont(tinyTextFont);
-		self.previousButton:SetText("PREVIOUS");
+		self.previousButton:SetText(L("CharacterMenuPrevious"));
 		self.previousButton:SetCallback(function(panel)
 			if (!Clockwork.character:IsCreationProcessActive()) then
 				local activePanel = Clockwork.character:GetActivePanel();
@@ -132,7 +132,7 @@ function PANEL:Init()
 		
 		self.nextButton = vgui.Create("cwLabelButton", self);
 		self.nextButton:SetFont(tinyTextFont);
-		self.nextButton:SetText("NEXT");
+		self.nextButton:SetText(L("CharacterMenuNext"));
 		self.nextButton:SetCallback(function(panel)
 			if (!Clockwork.character:IsCreationProcessActive()) then
 				local activePanel = Clockwork.character:GetActivePanel();
@@ -150,7 +150,7 @@ function PANEL:Init()
 		
 		self.cancelButton = vgui.Create("cwLabelButton", self);
 		self.cancelButton:SetFont(tinyTextFont);
-		self.cancelButton:SetText("CANCEL");
+		self.cancelButton:SetText(L("CharacterMenuCancel"));
 		self.cancelButton:SetCallback(function(panel)
 			self:ReturnToMainMenu();
 		end);

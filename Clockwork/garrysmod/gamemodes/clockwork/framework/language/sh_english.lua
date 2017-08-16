@@ -708,3 +708,5 @@ CW_ENGLISH["MenuQuizTitle"] = "Entry Exam";
 CW_ENGLISH["MenuQuizHelp"] = "If any answers are incorrect, you may be kicked from the server.";
 CW_ENGLISH["MenuDisconnect"] = "DISCONNECT";
 CW_ENGLISH["MenuContinue"] = "CONTINUE";
+
+CW_ENGLISH["DevelopedBy"] = "DEVELOPED BY #1";
