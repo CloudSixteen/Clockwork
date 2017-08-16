@@ -7,8 +7,8 @@
 --]]
 
 --[[
-Contributor(s):
-ROSS < pootiswwe@gmail.com >
+	Contributor(s):
+		ROSS <pootiswwe@gmail.com>
 --]]
 
 CW_RUSSIAN = Clockwork.lang:GetTable("Русский");
