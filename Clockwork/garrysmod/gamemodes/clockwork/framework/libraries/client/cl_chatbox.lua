@@ -853,7 +853,7 @@ function Clockwork.chatBox:Paint()
 			
 			if (k < #voiceCommands) then oY = oY - tHeight; end;
 			if (oY < y) then y = oY; end;
-					
+			
 			if (origY - oY > box.height) then
 				box.height = origY - oY;
 			end;
@@ -943,7 +943,7 @@ function Clockwork.chatBox:Add(filtered, icon, ...)
 					curColor = nil;
 					curOnHover = nil;
 				elseif (type(v) == "table") then
-					curColor = Color(v.r or 255, v.g or 255, v.b or 255);
+					curColor = Color(v.r or colorWhite.r, v.g or colorWhite.g, v.b or colorWhite.b);
 				end;
 			end;
 		end;
@@ -965,6 +965,40 @@ function Clockwork.chatBox:Add(filtered, icon, ...)
 	end;
 end;
 
+function Clockwork.chatBox:LangToTable(key, ...)
+	local subs = {};
+	local colors = {};
+	local varargs = {...};
+	
+	for k, v in ipairs(varargs) do
+		if (type(v) == "string") then
+			table.insert(subs, v);
+		else
+			table.insert(colors, v);
+		end;
+	end;
+	
+	local function process(input)
+		local split = Clockwork.kernel:SplitKeepDelim(input, "%:color.-%:");
+		
+		for k, v in ipairs(split) do
+			local index = tonumber(string.match(v, "%:color(.-)%:"));
+			
+			if (index) then
+				if (colors[index]) then
+					split[k] = colors[index];
+				else
+					split[k] = "";
+				end;
+			end;
+		end;
+		
+		return split;
+	end;
+	
+	return L(key, process, unpack(subs));
+end;
+
 Clockwork.chatBox:RegisterDefaultClass("ic", "ic", function(info)
 	if (info.shouldHear) then
 		local color = Color(255, 255, 150, 255);
@@ -973,22 +1007,26 @@ Clockwork.chatBox:RegisterDefaultClass("ic", "ic", function(info)
 			color = Color(175, 255, 150, 255);
 		end;
 		
-		Clockwork.chatBox:Add(info.filtered, nil, color, info.name.." says \""..info.text.."\"");
+		local localized = Clockwork.chatBox:LangToTable("ChatPlayerSays", color, info.name, info.text);
+		
+		Clockwork.chatBox:Add(info.filtered, nil, unpack(localized));
 	end;
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("me", "ic", function(info)
 	local color = Color(255, 255, 175, 255);
-						
+	
 	if (info.focusedOn) then
 		color = Color(175, 255, 175, 255);
 	end;
-						
-	if (string.utf8sub(info.text, 1, 1) == "'") then
-		Clockwork.chatBox:Add(info.filtered, nil, color, "*** "..info.name..info.text);
-	else
-		Clockwork.chatBox:Add(info.filtered, nil, color, "*** "..info.name.." "..info.text);
-	end;
+	
+	local localized = Clockwork.chatBox:LangToTable("ChatPlayerMe", color, info.name, info.text);
+	
+	--if (string.utf8sub(info.text, 1, 1) == "'") then
+		--Clockwork.chatBox:Add(info.filtered, nil, color, "*** "..info.name..info.text);
+	--else
+		Clockwork.chatBox:Add(info.filtered, nil, unpack(localized));
+	--end;
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("mec", "ic", function(info)
@@ -997,12 +1035,14 @@ Clockwork.chatBox:RegisterDefaultClass("mec", "ic", function(info)
 	if (info.focusedOn) then
 		color = Color(175, 255, 175, 255);
 	end;
-						
-	if (string.utf8sub(info.text, 1, 1) == "'") then
-		Clockwork.chatBox:Add(info.filtered, nil, color, "* "..info.name..info.text);
-	else
-		Clockwork.chatBox:Add(info.filtered, nil, color, "* "..info.name.." "..info.text);
-	end;
+	
+	local localized = Clockwork.chatBox:LangToTable("ChatPlayerMeC", color, info.name, info.text);
+	
+	--if (string.utf8sub(info.text, 1, 1) == "'") then
+		--Clockwork.chatBox:Add(info.filtered, nil, color, "* "..info.name..info.text);
+	--else
+		Clockwork.chatBox:Add(info.filtered, nil, unpack(localized));
+	--end;
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("mel", "ic", function(info)
@@ -1011,22 +1051,26 @@ Clockwork.chatBox:RegisterDefaultClass("mel", "ic", function(info)
 	if (info.focusedOn) then
 		color = Color(175, 255, 175, 255);
 	end;
-						
-	if (string.utf8sub(info.text, 1, 1) == "'") then
-		Clockwork.chatBox:Add(info.filtered, nil, color, "***** "..info.name..info.text);
-	else
-		Clockwork.chatBox:Add(info.filtered, nil, color, "***** "..info.name.." "..info.text);
-	end;
+	
+	local localized = Clockwork.chatBox:LangToTable("ChatPlayerMeL", color, info.name, info.text);
+	
+	--if (string.utf8sub(info.text, 1, 1) == "'") then
+		--Clockwork.chatBox:Add(info.filtered, nil, color, "***** "..info.name..info.text);
+	--else
+		Clockwork.chatBox:Add(info.filtered, nil, unpack(localized));
+	--end;
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("it", "ic", function(info)
 	local color = Color(255, 255, 175, 255);
-						
+	
 	if (info.focusedOn) then
 		color = Color(175, 255, 175, 255);
 	end;
-						
-	Clockwork.chatBox:Add(info.filtered, nil, color, "***' "..info.text);
+	
+	local localized = Clockwork.chatBox:LangToTable("ChatPlayerIt", color, info.text);
+	
+	Clockwork.chatBox:Add(info.filtered, nil, unpack(localized));
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("itl", "ic", function(info)
@@ -1035,64 +1079,68 @@ Clockwork.chatBox:RegisterDefaultClass("itl", "ic", function(info)
 	if (info.focusedOn) then
 		color = Color(175, 255, 175, 255);
 	end;
-						
-	Clockwork.chatBox:Add(info.filtered, nil, color, "*' "..info.text);
-end);
-
-Clockwork.chatBox:RegisterDefaultClass("itl", "ic", function(info)
-	local color = Color(255, 255, 150, 255);
-
-	if (info.focusedOn) then
-		color = Color(175, 255, 175, 255);
-	end;
-						
-	Clockwork.chatBox:Add(info.filtered, nil, color, "*****' "..info.text);
+	
+	local localized = Clockwork.chatBox:LangToTable("ChatPlayerItL", color, info.text);
+	
+	Clockwork.chatBox:Add(info.filtered, nil, unpack(localized));
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("yell", "ic", function(info)
 	local color = Color(255, 255, 175, 255);
-					
+	
 	if (info.focusedOn) then
 		color = Color(175, 255, 175, 255);
 	end;
+	
+	local localized = Clockwork.chatBox:LangToTable("ChatPlayerYells", color, info.name, info.text);
 
-	Clockwork.chatBox:Add(info.filtered, nil, color, info.name.." yells \""..info.text.."\"");
+	Clockwork.chatBox:Add(info.filtered, nil, unpack(localized));
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("whisper", "ic", function(info)
 	if (info.shouldHear) then
 		local color = Color(255, 255, 175, 255);
-							
+		
 		if (info.focusedOn) then
 			color = Color(175, 255, 175, 255);
 		end;
-							
-		Clockwork.chatBox:Add(info.filtered, nil, color, info.name.." whispers \""..info.text.."\"");
+		
+		local localized = Clockwork.chatBox:LangToTable("ChatPlayerWhispers", color, info.name, info.text);
+		
+		Clockwork.chatBox:Add(info.filtered, nil, unpack(localized));
 	end;
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("radio", "ic", function(info)
-	Clockwork.chatBox:Add(info.filtered, nil, Color(75, 150, 50, 255), info.name.." radios in \""..info.text.."\"");
+	local localized = Clockwork.chatBox:LangToTable("ChatPlayerRadios", Color(75, 150, 50, 255), info.name, info.text);
+
+	Clockwork.chatBox:Add(info.filtered, nil, unpack(localized));
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("radio_eavesdrop", "ic", function(info)
 	if (info.shouldHear) then
 		local color = Color(255, 255, 175, 255);
-							
+		
 		if (info.focusedOn) then
 			color = Color(175, 255, 175, 255);
 		end;
-						
-		Clockwork.chatBox:Add(info.filtered, nil, color, info.name.." radios in \""..info.text.."\"");
+		
+		local localized = Clockwork.chatBox:LangToTable("ChatPlayerRadio", color, info.name, info.text);
+		
+		Clockwork.chatBox:Add(info.filtered, nil, unpack(localized));
 	end;
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("localevent", "ic", function(info)
-	Clockwork.chatBox:Add(info.filtered, nil, Color(200, 100, 50, 255), "(LOCAL) "..info.text);
+	local localized = Clockwork.chatBox:LangToTable("ChatPlayerLocalEvent", Color(200, 100, 50, 255), info.text);
+
+	Clockwork.chatBox:Add(info.filtered, nil, unpack(localized));
 end);
 
-Clockwork.chatBox:RegisterDefaultClass("event", "ic", function(info)		
-	Clockwork.chatBox:Add(info.filtered, nil, Color(200, 100, 50, 255), info.text);
+Clockwork.chatBox:RegisterDefaultClass("event", "ic", function(info)
+	local localized = Clockwork.chatBox:LangToTable("ChatPlayerEvent", Color(200, 100, 50, 255), info.text);
+	
+	Clockwork.chatBox:Add(info.filtered, nil, unpack(localized));
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("looc", "ooc", function(info)
@@ -1100,38 +1148,48 @@ Clockwork.chatBox:RegisterDefaultClass("looc", "ooc", function(info)
 		info.icon = nil;
 	end;
 
-	Clockwork.chatBox:Add(info.filtered, info.icon, Color(225, 50, 50, 255), "[LOOC] ", Color(255, 255, 150, 255), info.name..": "..info.text);
+	local localized = Clockwork.chatBox:LangToTable("ChatPlayerLOOC", Color(225, 50, 50, 255), Color(255, 255, 150, 255), info.name, info.text);
+	
+	Clockwork.chatBox:Add(info.filtered, info.icon, unpack(localized));
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("priv", "ooc", function(info)
 	local classIndex = info.speaker:Team();
 	local classColor = cwTeam.GetColor(classIndex);
+	local localized = Clockwork.chatBox:LangToTable("ChatPlayerPriv", Color(255, 200, 50, 255), info.data.userGroup, classColor, info.name, info.text);
 
-	Clockwork.chatBox:Add(info.filtered, nil, Color(255, 200, 50, 255), "@"..info.data.userGroup.." ", classColor, info.name, ": ", info.text);
+	Clockwork.chatBox:Add(info.filtered, nil, unpack(localized));
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("roll", "ooc", function(info)
 	if (info.shouldHear) then
-		Clockwork.chatBox:Add(info.filtered, nil, Color(150, 75, 75, 255), "** "..info.name.." "..info.text);
+		local localized = Clockwork.chatBox:LangToTable("ChatPlayerRoll", Color(150, 75, 75, 255), info.name, info.text);
+		
+		Clockwork.chatBox:Add(info.filtered, nil, unpack(localized));
 	end;
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("ooc", "ooc", function(info)
 	local classIndex = info.speaker:Team();
 	local classColor = cwTeam.GetColor(classIndex);
+	local localized = Clockwork.chatBox:LangToTable("ChatPlayerOOC", Color(225, 50, 50, 255), classColor, info.name, info.text);
 
-	Clockwork.chatBox:Add(info.filtered, info.icon, Color(225, 50, 50, 255), "[OOC] ", classColor, info.name, ": ", info.text);
+	Clockwork.chatBox:Add(info.filtered, info.icon, unpack(localized));
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("pm", "ooc", function(info)
-	Clockwork.chatBox:Add(info.filtered, nil, "[PM] ", Color(125, 150, 75, 255), info.name..": "..info.text);
+	local localized = Clockwork.chatBox:LangToTable("ChatPlayerPM", Color(125, 150, 75, 255), info.name, info.text);
+
+	Clockwork.chatBox:Add(info.filtered, nil, unpack(localized));
+	
 	surface.PlaySound("hl1/fvox/bell.wav");
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("disconnect", "ooc", function(info)
 	local filtered = (CW_CONVAR_SHOWAURA:GetInt() == 0) or info.filtered;
-			
-	Clockwork.chatBox:Add(filtered, "icon16/user_delete.png", Color(200, 150, 200, 255), info.text);
+	local localized = Clockwork.chatBox:LangToTable("ChatPlayerDisconnect", Color(200, 150, 200, 255), info.text);
+	
+	Clockwork.chatBox:Add(filtered, "icon16/user_delete.png", unpack(localized));
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("notify_all", "ooc", function(info)
@@ -1147,15 +1205,17 @@ Clockwork.chatBox:RegisterDefaultClass("notify_all", "ooc", function(info)
 		icon = info.data.icon or "error";
 		color = Color(200, 175, 200, 255);
 	end;
+	
+	local localized = Clockwork.chatBox:LangToTable("ChatPlayerNotifyAll", color, info.text);
 
-	Clockwork.chatBox:Add(filtered, "icon16/"..icon..".png", color, info.text);
+	Clockwork.chatBox:Add(filtered, "icon16/"..icon..".png", unpack(ChatPlayerNotifyAll));
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("notify", "ooc", function(info)
 	if (Clockwork.kernel:GetNoticePanel()) then
 		Clockwork.kernel:AddCinematicText(info.text, Color(255, 255, 255, 255), 32, 6, Clockwork.option:GetFont("menu_text_tiny"), true);
 	end;
-			
+	
 	local filtered = (CW_CONVAR_SHOWAURA:GetInt() == 0) or info.filtered;
 	local icon = info.data.icon or "comment";
 	local color = Color(175, 200, 255, 255);
@@ -1164,14 +1224,17 @@ Clockwork.chatBox:RegisterDefaultClass("notify", "ooc", function(info)
 		icon = info.data.icon or "error";
 		color = Color(200, 175, 200, 255);
 	end;
+	
+	local localized = Clockwork.chatBox:LangToTable("ChatPlayerNotify", color, info.text);
 
-	Clockwork.chatBox:Add(filtered, "icon16/"..icon..".png", color, info.text);
+	Clockwork.chatBox:Add(filtered, "icon16/"..icon..".png", unpack(localized));
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("connect", "ooc", function(info)
 	local filtered = (CW_CONVAR_SHOWAURA:GetInt() == 0) or info.filtered;
+	local localized = Clockwork.chatBox:LangToTable("ChatPlayerConnect", Color(150, 150, 200, 255), info.text);
 
-	Clockwork.chatBox:Add(filtered, "icon16/user_add.png", Color(150, 150, 200, 255), info.text);
+	Clockwork.chatBox:Add(filtered, "icon16/user_add.png", unpack(localized));
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("chat", "ooc", function(info)
@@ -1180,10 +1243,9 @@ Clockwork.chatBox:RegisterDefaultClass("chat", "ooc", function(info)
 	if (speaker) then
 		local classIndex = speaker:Team();
 		local classColor = cwTeam.GetColor(classIndex);
+		local localized = Clockwork.chatBox:LangToTable("ChatPlayerChat", classColor, info.name, info.text);
 
-		Clockwork.chatBox:Add(info.filtered, nil, classColor, info.name, ": ", info.text, nil, info.filtered);
-	else
-		Clockwork.chatBox:Add(info.filtered, info.icon, Color(225, 50, 50, 255), "[OOC] ", Color(150, 150, 150, 255), name, ": ", info.text);
+		Clockwork.chatBox:Add(info.filtered, nil, unpack(localized));
 	end;	
 end);
 

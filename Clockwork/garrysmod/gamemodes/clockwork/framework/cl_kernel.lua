@@ -2417,26 +2417,26 @@ function Clockwork:GetProgressBarInfo()
 	local action, percentage = cwPly:GetAction(cwClient, true);
 	
 	if (!cwClient:Alive() and action == "spawn") then
-		return {text = "You will be respawned shortly.", percentage = percentage, flash = percentage < 10};
+		return {text = L("YouWillRespawnSoon"), percentage = percentage, flash = percentage < 10};
 	end;
 	
 	if (!cwClient:IsRagdolled()) then
 		if (action == "lock") then
-			return {text = "The entity is being locked.", percentage = percentage, flash = percentage < 10};
+			return {text = L("EntityBeingLocked"), percentage = percentage, flash = percentage < 10};
 		elseif (action == "unlock") then
-			return {text = "The entity is being unlocked.", percentage = percentage, flash = percentage < 10};
+			return {text = L("EntityBeingUnlocked"), percentage = percentage, flash = percentage < 10};
 		end;
 	elseif (action == "unragdoll") then
 		if (cwClient:GetRagdollState() == RAGDOLL_FALLENOVER) then
-			return {text = "You are regaining stability.", percentage = percentage, flash = percentage < 10};
+			return {text = L("YouAreGainingStability"), percentage = percentage, flash = percentage < 10};
 		else
-			return {text = "You are regaining conciousness.", percentage = percentage, flash = percentage < 10};
+			return {text = L("YouAreGainingConciousness"), percentage = percentage, flash = percentage < 10};
 		end;
 	elseif (cwClient:GetRagdollState() == RAGDOLL_FALLENOVER) then
 		local fallenOver = cwClient:GetSharedVar("FallenOver");
 		
 		if (fallenOver and cwPlugin:Call("PlayerCanGetUp")) then
-			return {text = "Press 'jump' to get up.", percentage = 100};
+			return {text = L("PressJumpToGetUp"), percentage = 100};
 		end;
 	end;
 end;

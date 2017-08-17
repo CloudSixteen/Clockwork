@@ -1,0 +1,8 @@
+Added Clockwork.lang:ReplaceSubs(language, input, subs)
+Added Clockwork.kernel:SplitKeepDelim(input, delim)
+Made 99% of the framework translatable
+Updated the Attributes menu and removed ugly outdated bars
+Updated all chat classes to use intelligent localization
+Fixed an error with factions
+Added the Russian language
+Added the French language

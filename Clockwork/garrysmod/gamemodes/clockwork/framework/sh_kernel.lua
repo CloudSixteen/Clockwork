@@ -90,6 +90,36 @@ Clockwork.SharedTables = Clockwork.SharedTables or {};
 
 --[[
 	@codebase Shared
+	@details A function to split a string but keep the delimiter.
+	@param String The string to split.
+	@returns String The delimiter pattern.
+--]]
+function Clockwork.kernel:SplitKeepDelim(input, delim)
+	local output = {};
+	local a = string.match(input, delim);
+
+	while (a) do
+		local b = string.find(input, a);
+		local upto = string.sub(input, 1, b - 1);
+		
+		table.insert(output, upto);
+		table.insert(output, a);
+
+		input = string.sub(input, b + string.len(a));
+		
+		a = string.match(input, delim);
+	end;
+
+	if (input ~= "") then
+		table.insert(output, input);
+	end;
+	
+	return output;
+end;
+
+
+--[[
+	@codebase Shared
 	@details A function to encode a URL.
 	@param String The URL to encode.
 	@returns String The encoded URL.

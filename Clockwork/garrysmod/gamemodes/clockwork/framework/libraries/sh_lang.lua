@@ -46,11 +46,11 @@ end;
 	@details Get the language string for the given identifier.
 	@param String The language which table to search.
 	@param String The identifier to search for.
-	@param Various A list of arguments to replace in the string.
+	@param Various A list of subs to replace in the string.
 	@returns The final string for the given identifier.
 --]]
 function Clockwork.lang:GetString(language, identifier, ...)
-	local arguments = {...};
+	local subs = {...};
 	local output = nil;
 	
 	if (self.stored[language]) then
@@ -61,19 +61,41 @@ function Clockwork.lang:GetString(language, identifier, ...)
 		output = self.stored["English"][identifier] or identifier;
 	end;
 	
-	for child in string.gmatch(output, "%{(.-)%}") do
-		output = string.gsub(output, "{"..child.."}", self:GetString(language, child));
+	if (type(subs[1]) == "function") then
+		local process = subs[1];
+		
+		output = process(output);
+		
+		table.remove(subs, 1);
 	end;
 	
-	for child in string.gmatch(output, "%~(.-)%~") do
-		output = string.gsub(output, "~"..child.."~", string.lower(self:GetString(language, child)));
+	if (type(output) == "table") then
+		for k, v in ipairs(output) do
+			if (type(v) == "string") then
+				output[k] = self:ReplaceSubs(language, v, subs);
+			end;
+		end;
+		
+		return output;
+	else
+		return self:ReplaceSubs(language, output, subs);
+	end;
+end;
+
+function Clockwork.lang:ReplaceSubs(language, input, subs)
+	for child in string.gmatch(input, "%{(.-)%}") do
+		input = string.gsub(input, "{"..child.."}", self:GetString(language, child));
 	end;
 	
-	for k, v in pairs(arguments) do
-		output = string.gsub(output, "#"..k, tostring(v), 1);
+	for child in string.gmatch(input, "%~(.-)%~") do
+		input = string.gsub(input, "~"..child.."~", string.lower(self:GetString(language, child)));
 	end;
 	
-	return output;
+	for k, v in ipairs(subs) do
+		input = string.gsub(input, "#"..k, tostring(v), 1);
+	end;
+	
+	return input;
 end;
 
 if (CLIENT) then
