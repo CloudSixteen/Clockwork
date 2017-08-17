@@ -20,7 +20,7 @@ CW_RUSSIAN["NoDefaultSpawnpoints"] = "Здесь нету точек возро�
 CW_RUSSIAN["NoNameSpawnpoints"] = "Здесь нету #1 точек возрождения.";
 CW_RUSSIAN["NotValidClassOrFaction"] = "Не валидный класс или фракция!";
 CW_RUSSIAN["YouAddedNameSpawnpoint"] = "Вы добавили точку возрождения для #1.";
-CW_RUSSIAN["YouAddedDefaultSpawnpoint"] = "Вы добавили стандартную точку спавна.";
+CW_RUSSIAN["YouAddedDefaultSpawnpoint"] = "Вы добавили стандартную точку возрождения.";
 
 CW_RUSSIAN["ShowSpawnPoints"] = "Показать точки возрождения";
 CW_RUSSIAN["ShowSpawnPointsDesc"] = "Показывать точки возрождения в ADMIN ESP.";

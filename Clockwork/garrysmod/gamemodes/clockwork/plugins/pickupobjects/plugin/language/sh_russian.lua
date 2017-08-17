@@ -5,6 +5,10 @@
 	Clockwork was created by Conna Wiles (also known as kurozael.)
 	http://cloudsixteen.com/license/clockwork.html
 --]]
+--[[
+    CONTRIBUTOR(s):
+    ROSS < pootiswwe@gmail.com >
+--]]
 
 CW_RUSSIAN = Clockwork.lang:GetTable("Русский");
 

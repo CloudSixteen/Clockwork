@@ -202,7 +202,7 @@ CW_RUSSIAN["RequiredIngredientsMissing"] = "У вас нету всех недо
 
 CW_RUSSIAN["NoBlueprintsForCraftingMenu"] = "Нету чертежей для меню {MenuNameCrafting}!";
 
-CW_RUSSIAN["NotValidAttribute"] = "Не валидный аттрибут: {AttributeName}!";
+CW_RUSSIAN["NotValidAttribute"] = "Не валидный атрибут: {AttributeName}!";
 CW_RUSSIAN["YouHaveMaxOfThis"] = "У вас максимум %1!";
 
 CW_RUSSIAN["PlayerAlreadyIsFaction"] = "#1 уже состоит во фракции #2!";
@@ -229,21 +229,21 @@ CW_RUSSIAN["FaultGenericError"] = "Невозможно создать перс�
 CW_RUSSIAN["FaultCharNameExists"] = "Персонаж по имени '#1' уже существует!";
 CW_RUSSIAN["YouAlreadyHaveCharName"] = "У вас уже есть персонаж по имени '#1'!";
 
-CW_RUSSIAN["MenuDescAttributes"] = "Посмотреть статус аттрибутов.";
+CW_RUSSIAN["MenuDescAttributes"] = "Посмотреть статус атрибутов.";
 CW_RUSSIAN["MenuDescScoreboard"] = "Посмотреть количество игроков на сервере.";
 CW_RUSSIAN["MenuDescDirectory"] = "Хранилище всей необходимой информации.";
 CW_RUSSIAN["MenuDescInventory"] = "Ваши предметы и снаряжение.";
 CW_RUSSIAN["MenuDescBusiness"] = "Предметы для бизнеса.";
 CW_RUSSIAN["MenuDescPluginCenter"] = "Посмотреть плагины на центре CloudSixteen.";
 CW_RUSSIAN["MenuDescCommunity"] = "Посетить сообщество 'великих людей'.";
-CW_RUSSIAN["MenuDescSystem"] = "Доступ к изменению конфига сервера.";
+CW_RUSSIAN["MenuDescSystem"] = "Здесь можно изменить конфигурацию сервера.";
 CW_RUSSIAN["MenuDescCrafting"] = "Создавайте предметы в этом меню.";
 CW_RUSSIAN["MenuDescDonations"] = "Просмотреть донат.";
 CW_RUSSIAN["MenuDescClasses"] = "Доступные вам классы.";
 CW_RUSSIAN["MenuDescSettings"] = "Изменить конфигурацию схемы для вас.";
 
-CW_RUSSIAN["MenuNameAttributes"] = "Аттрибуты";
-CW_RUSSIAN["MenuNameScoreboard"] = "Таблица игроков";
+CW_RUSSIAN["MenuNameAttributes"] = "Атрибуты";
+CW_RUSSIAN["MenuNameScoreboard"] = "Панель игроков";
 CW_RUSSIAN["MenuNamePluginCenter"] = "Плагины";
 CW_RUSSIAN["MenuNameDirectory"] = "Директория";
 CW_RUSSIAN["MenuNameBusiness"] = "Бизнес";
@@ -301,8 +301,8 @@ CW_RUSSIAN["QuickMenuDescription"] = "Физическое описание";
 
 CW_RUSSIAN["CharacterMenuNew"] = "НОВЫЙ ПЕРСОНАЖ";
 CW_RUSSIAN["CharacterMenuCancel"] = "НАЗАД";
-CW_RUSSIAN["CharacterMenuLoad"] = "ЗАГРУЗИТЬ";
-CW_RUSSIAN["CharacterMenuLeave"] = "УЙТИ";
+CW_RUSSIAN["CharacterMenuLoad"] = "ЗАГРУЗИТЬ ПЕРСОНАЖА";
+CW_RUSSIAN["CharacterMenuLeave"] = "ОТКЛЮЧИТЬСЯ";
 CW_RUSSIAN["CharacterMenuPrevious"] = "ПРОШЛЫЙ";
 CW_RUSSIAN["CharacterMenuNext"] = "СЛЕДУЮЩИЙ";
 
@@ -340,7 +340,7 @@ CW_RUSSIAN["Demote"] = "Понизить";
 
 CW_RUSSIAN["PageCount"] = "Страница #1/#2";
 
-CW_RUSSIAN["ScoreboardMenuHelp"] = "Нажмите на иконку модели игрока, чтобы увидеть команды.";
+CW_RUSSIAN["ScoreboardMenuHelp"] = "Нажмите на иконку модели игрока, чтобы увидеть доступные команды.";
 CW_RUSSIAN["ScoreboardMenuPing"] = "Пинг: #1.";
 CW_RUSSIAN["ScoreboardMenuNoPlayers"] = "На сервере нету игроков.";
 
@@ -432,7 +432,7 @@ CW_RUSSIAN["Door"] = "Дверь";
 CW_RUSSIAN["CreateCharacterStage1"] = "Принадлежность";
 CW_RUSSIAN["CreateCharacterStage2"] = "Описание";
 CW_RUSSIAN["CreateCharacterStage3"] = "Роль";
-CW_RUSSIAN["CreateCharacterStage4"] = "Аттрибуты";
+CW_RUSSIAN["CreateCharacterStage4"] = "Атрибуты";
 
 CW_RUSSIAN["ChatLines"] = "Линии чата";
 CW_RUSSIAN["ChatLinesDesc"] = "Сколько всего линий чата вам будет доступно при просмотре.";
@@ -470,12 +470,12 @@ CW_RUSSIAN["HeadbobAmount"] = "Сила покачивания";
 CW_RUSSIAN["HeadbobAmountDesc"] = "Как сильно у вас будет качаться экран.";
 CW_RUSSIAN["ThemeDesc"] = "Тема для отображения.";
 
-CW_RUSSIAN["AttributeProgressionScale"] = "Прогресс аттрибутов";
-CW_RUSSIAN["AttributeProgressionScaleDesc"] = "Количество, которое увеличит прогресс аттрибутов.";
+CW_RUSSIAN["AttributeProgressionScale"] = "Прогресс атрибутов";
+CW_RUSSIAN["AttributeProgressionScaleDesc"] = "Количество, которое увеличит прогресс атрибутов.";
 CW_RUSSIAN["MessagesMustSeePlayer"] = "Видеть игрока для сообщений";
 CW_RUSSIAN["MessagesMustSeePlayerDesc"] = "Должны ли вы смотреть на игрока, чтобы видеть некоторые IC сообщения.";
-CW_RUSSIAN["StartingAttributePoints"] = "Стартовые очки аттрибутов";
-CW_RUSSIAN["StartingAttributePointsDesc"] = "Стандартное количество очков аттрибутов, которые имеет игрок.";
+CW_RUSSIAN["StartingAttributePoints"] = "Стартовые очки атрибутов";
+CW_RUSSIAN["StartingAttributePointsDesc"] = "Стандартное количество очков атрибутов, которые имеет игрок.";
 CW_RUSSIAN["ClockworkIntroductionEnabled"] = "Включено ли интро";
 CW_RUSSIAN["ClockworkIntroductionEnabledDesc"] = "Включить интро CW для игроков.";
 CW_RUSSIAN["HealthRegenerationEnabled"] = "Включить регенерацию здоровья";
@@ -492,8 +492,8 @@ CW_RUSSIAN["UseClockworksAdminSystem"] = "Использовать админи�
 CW_RUSSIAN["UseClockworksAdminSystemDesc"] = "Использовать ли систему администрирования, предоставленное схемой.";
 CW_RUSSIAN["SavedRecognisedNames"] = "Сохранять узнанные имена";
 CW_RUSSIAN["SavedRecognisedNamesDesc"] = "Сохранять ли узнанные персонажем имена.";
-CW_RUSSIAN["SaveAttributeBoosts"] = "Сохранить бусты аттрибутов";
-CW_RUSSIAN["SaveAttributeBoostsDesc"] = "Сохранять ли бусты аттрибутов.";
+CW_RUSSIAN["SaveAttributeBoosts"] = "Сохранить бусты атрибутов";
+CW_RUSSIAN["SaveAttributeBoostsDesc"] = "Сохранять ли бусты атрибутов.";
 CW_RUSSIAN["RagdollDamageImmunityTime"] = "Иммунитет рэгдолла к урону";
 CW_RUSSIAN["RagdollDamageImmunityTimeDesc"] = "Сколько секунд рэгдолл игрока будет иметь иммунитет к урону.";
 CW_RUSSIAN["AdditionalCharacterCount"] = "Количество дополнительных персонажей";
@@ -689,6 +689,12 @@ CW_RUSSIAN["MenuQuizHelp"] = "Если какие-либо из ответов �
 CW_RUSSIAN["MenuDisconnect"] = "ОТКЛЮЧИТЬСЯ";
 CW_RUSSIAN["MenuContinue"] = "ПРОДОЛЖИТЬ";
 
-CW_RUSSIAN["Gender"] = "Пол";
-CW_RUSSIAN["Male"] = "мужчина";
-CW_RUSSIAN["Female"] = "женский";
+CW_RUSSIAN["InteractWithThisEntity"] = "ВЗАИМОДЕЙСТВОВАТЬ...";
+CW_RUSSIAN["DevelopedBy"] = "РАЗРАБОТАНО #1";
+CW_RUSSIAN["Female"] = "Женский";
+CW_RUSSIAN["Male"] = "Мужской";
+
+CW_RUSSIAN["AttributeBoost"] = "+#1 (Усилен)";
+CW_RUSSIAN["AttributeHinder"] = "-#1 (Понижен)";
+CW_RUSSIAN["YouReachedMaxOfAttribute"] = "Вы достигли максимум #1!";
+CW_RUSSIAN["Attributes"] = "Аттрибуты";

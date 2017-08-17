@@ -42,4 +42,4 @@ CW_RUSSIAN["AnimThreat"] = "Угроза";
 CW_RUSSIAN["AnimIdle"] = "Ожидание";
 CW_RUSSIAN["AnimATW"] = "Возле стены";
 
-CW_ENGLISH["Emotes"] = "Действия";
+CW_RUSSIAN["Emotes"] = "Действия";
