@@ -7,7 +7,7 @@
 --]]
 
 --[[
-	Contributor(s):
+    Contributor(s):
 		ROSS <pootiswwe@gmail.com>
 --]]
 
@@ -83,6 +83,7 @@ CW_RUSSIAN["MustLookAtValidTarget"] = "Вы должны смотреть на �
 CW_RUSSIAN["ThisNotValidWeapon"] = "Не валидное оружие!";
 CW_RUSSIAN["Framework"] = "Framework";
 CW_RUSSIAN["ChatBox"] = "Чат";
+CW_RUSSIAN["AdminESP"] = "Admin ESP";
 CW_RUSSIAN["Theme"] = "Тема";
 CW_RUSSIAN["Language"] = "Язык";
 CW_RUSSIAN["LangDesc"] = "Выбранный язык.";
@@ -128,6 +129,7 @@ CW_RUSSIAN["YouHaveTiedPlayer"] = "Вы связали персонажа.";
 CW_RUSSIAN["YouWereUntiedByPlayer"] = "Вас развязал друго персонаж.";
 CW_RUSSIAN["YouWereTiedByPlayer"] = "Вас связал другой персонаж.";
 
+CW_RUSSIAN["NoAccessToAny"] = "У вас нету доступа к каким-либо #1!";
 CW_RUSSIAN["NoAccessToCommand"] = "У тебя нету доступа к этой команде, #1.";
 CW_RUSSIAN["NotValidCommandOrAlias"] = "Не валидная команда!";
 CW_RUSSIAN["CannotUseCommandsYet"] = "Ты не можешь использовать команды сейчас!";
@@ -169,6 +171,9 @@ CW_RUSSIAN["PlayerSlainBy"] = "#1 был убит администратором
 
 CW_RUSSIAN["YouAreAlreadySearchingCharacter"] = "Вы уже обыскиваете игрока!";
 CW_RUSSIAN["PlayerAlreadyBeingSearched"] = "#1 уже обыскивается!";
+
+CW_RUSSIAN["EntityIsNotPhysics"] = "Этот объект не физический!";
+CW_RUSSIAN["YouDoNotOwnThis"] = "Вы не владелец этого объекта!";
 
 CW_RUSSIAN["PlayerTeleportedPlayerTo"] = "#1 телепортировал #2 к #3!";
 CW_RUSSIAN["PlayerTeleportedPlayerToLocation"] = "#1 телепортировал #2 к себе!";
@@ -228,6 +233,12 @@ CW_RUSSIAN["FaultTooManyCharacters"] = "Вы не можете создават�
 CW_RUSSIAN["FaultGenericError"] = "Невозможно создать персонажа!";
 CW_RUSSIAN["FaultCharNameExists"] = "Персонаж по имени '#1' уже существует!";
 CW_RUSSIAN["YouAlreadyHaveCharName"] = "У вас уже есть персонаж по имени '#1'!";
+CW_RUSSIAN["FaultDidNotChooseFaction"] = "Вы не выбрали фракцию, или она не валидна!";
+CW_RUSSIAN["FaultDidNotFillPanel"] = "Вы не заполнили #1!";
+CW_RUSSIAN["FaultDidNotFillPanelWithNumber"] = "Вы не заполнили #1!";
+CW_RUSSIAN["FaultTextEntryHigherThan"] = "Вы не можете использовать больше, чем #1 в тексте #2!";
+CW_RUSSIAN["FaultTextEntryLowerThan"] = "Вы не можете использовать меньше, чем #1 в тексте #2!";
+CW_RUSSIAN["FaultNeedClass"] = "Вы не выбрали класс, или он не валиден!";
 
 CW_RUSSIAN["MenuDescAttributes"] = "Посмотреть статус атрибутов.";
 CW_RUSSIAN["MenuDescScoreboard"] = "Посмотреть количество игроков на сервере.";
@@ -255,7 +266,7 @@ CW_RUSSIAN["MenuNameDonations"] = "Донат";
 CW_RUSSIAN["MenuNameSettings"] = "Настройки";
 CW_RUSSIAN["MenuNameSystem"] = "Система";
 
-CW_RUSSIAN["AttributeName"] = "Атррибуты";
+CW_RUSSIAN["AttributeName"] = "Атрибуты";
 CW_RUSSIAN["EquipmentName"] = "Снаряжение";
 
 CW_RUSSIAN["Monday"] = "Понедельник";
@@ -272,10 +283,16 @@ CW_RUSSIAN["Delete"] = "Удалить";
 CW_RUSSIAN["Examine"] = "Описать";
 CW_RUSSIAN["Destroy"] = "Уничтожить";
 CW_RUSSIAN["Supply"] = "Перенаполнить";
+CW_RUSSIAN["Gender"] = "Пол";
+CW_RUSSIAN["Weight"] = "Вес";
+CW_RUSSIAN["Space"] = "Место";
+CW_RUSSIAN["Next"] = "Далее";
+CW_RUSSIAN["Back"] = "Обратно";
 CW_RUSSIAN["Drop"] = "Выбросить";
 CW_RUSSIAN["Open"] = "Открыть";
 CW_RUSSIAN["Take"] = "Взять";
 CW_RUSSIAN["Okay"] = "Хорошо";
+CW_RUSSIAN["Name"] = "Имя";
 CW_RUSSIAN["Use"] = "Использовать";
 CW_RUSSIAN["Yes"] = "Да";
 CW_RUSSIAN["No"] = "Нет";
@@ -698,3 +715,32 @@ CW_RUSSIAN["AttributeBoost"] = "+#1 (Усилен)";
 CW_RUSSIAN["AttributeHinder"] = "-#1 (Понижен)";
 CW_RUSSIAN["YouReachedMaxOfAttribute"] = "Вы достигли максимум #1!";
 CW_RUSSIAN["Attributes"] = "Аттрибуты";
+
+CW_RUSSIAN["YouWillRespawnSoon"] = "Вы скоро появитесь";
+CW_RUSSIAN["EntityBeingLocked"] = "Вы закрываете объект";
+CW_RUSSIAN["EntityBeingUnlocked"] = "Вы открываете объект";
+CW_RUSSIAN["YouAreGainingStability"] = "Вы поднимаетесь";
+CW_RUSSIAN["YouAreGainingConciousness"] = "Вы приходите в сознание";
+CW_RUSSIAN["PressJumpToGetUp"] = "Нажмите 'ПРЫЖОК', чтобы встать";
+
+CW_RUSSIAN["ChatPlayerNotifyAll"] = ":color1:#1";
+CW_RUSSIAN["ChatPlayerNotify"] = ":color1:#1";
+CW_RUSSIAN["ChatPlayerLocalEvent"] = ":color1:(ЛОКАЛЬНО) #1";
+CW_RUSSIAN["ChatPlayerConnect"] = ":color1:#1";
+CW_RUSSIAN["ChatPlayerChat"] = ":color1:#1: #2";
+CW_RUSSIAN["ChatPlayerDisconnect"] = ":color1:#1";
+CW_RUSSIAN["ChatPlayerEvent"] = ":color1:#1";
+CW_RUSSIAN["ChatPlayerPM"] = "[ЛС] :color1:#1: #2";
+CW_RUSSIAN["ChatPlayerPriv"] = ":color1:@#1 :color2:#2: #3";
+CW_RUSSIAN["ChatPlayerLOOC"] = ":color1:[LOOC] :color2:#1: #2";
+CW_RUSSIAN["ChatPlayerItL"] = ":color1:*****' #1";
+CW_RUSSIAN["ChatPlayerIt"] = ":color1:***' #1";
+CW_RUSSIAN["ChatPlayerMeL"] = ":color1:***** #1 #2";
+CW_RUSSIAN["ChatPlayerMeC"] = ":color1:* #1 #2";
+CW_RUSSIAN["ChatPlayerMe"] = ":color1:*** #1 #2";
+CW_RUSSIAN["ChatPlayerSays"] = ":color1:#1 говорит \"#2\"";
+CW_RUSSIAN["ChatPlayerRoll"] = ":color1:** #1 #2";
+CW_RUSSIAN["ChatPlayerOOC"] = ":color1:[OOC] :color2:#1: :color0:#2";
+CW_RUSSIAN["ChatPlayerWhispers"] = ":color1:#1 шепчет \"#2\"";
+CW_RUSSIAN["ChatPlayerRadios"] = ":color1:#1 по рации \"#2\"";
+CW_RUSSIAN["ChatPlayerYells"] = ":color1:#1 кричит \"#2\"";
