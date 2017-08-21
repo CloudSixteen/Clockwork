@@ -879,12 +879,12 @@ if (SERVER) then
 	
 	-- A function to get the schema gamemode info.
 	function Clockwork.kernel:GetSchemaGamemodeInfo()
-		if (SCHEMA_GAMEMODE_INFO) then return SCHEMA_GAMEMODE_INFO; end;
+		if (SCHEMA_GAMEMODE_INFO) then
+			return SCHEMA_GAMEMODE_INFO;
+		end;
 		
 		local schemaFolder = stringLower(self:GetSchemaFolder());
-		local schemaData = util.KeyValuesToTable(
-			Clockwork.file:Read("gamemodes/"..schemaFolder.."/"..schemaFolder..".txt")
-		);
+		local schemaData = util.KeyValuesToTable(Clockwork.file:Read("gamemodes/"..schemaFolder.."/"..schemaFolder..".txt"));
 		
 		if (not schemaData) then
 			schemaData = {};
@@ -895,22 +895,26 @@ if (SERVER) then
 		end;
 		
 		SCHEMA_GAMEMODE_INFO = {};
-			SCHEMA_GAMEMODE_INFO["name"] = schemaData["title"] or "Undefined";
-			SCHEMA_GAMEMODE_INFO["author"] = schemaData["author"] or "Undefined";
-			SCHEMA_GAMEMODE_INFO["description"] = schemaData["description"] or "Undefined";
-			SCHEMA_GAMEMODE_INFO["version"] = schemaData["version"] or "Undefined";
+		SCHEMA_GAMEMODE_INFO["name"] = schemaData["title"] or "Undefined";
+		SCHEMA_GAMEMODE_INFO["author"] = schemaData["author"] or "Undefined";
+		SCHEMA_GAMEMODE_INFO["description"] = schemaData["description"] or "Undefined";
+		SCHEMA_GAMEMODE_INFO["version"] = schemaData["version"] or "Undefined";
+		
 		return SCHEMA_GAMEMODE_INFO;
 	end;
 	
 	-- A function to get the schema gamemode name.
 	function Clockwork.kernel:GetSchemaGamemodeName()
 		local schemaInfo = self:GetSchemaGamemodeInfo();
+		
 		return schemaInfo["name"];
+
 	end;
 
 	-- A function to get the schema version.
 	function Clockwork.kernel:GetSchemaGamemodeVersion()
 		local schemaInfo = self:GetSchemaGamemodeInfo();
+		
 		return schemaInfo["version"];
 	end;
 	

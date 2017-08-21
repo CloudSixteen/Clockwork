@@ -83,7 +83,7 @@ end;
 PLUGIN_META = {__index = PLUGIN_META};
 PLUGIN_META.description = "An undescribed plugin or schema.";
 PLUGIN_META.hookOrder = 0;
-PLUGIN_META.version = 1.0;
+PLUGIN_META.version = "1.0";
 PLUGIN_META.author = "Unknown";
 PLUGIN_META.name = "Unknown";
 
@@ -357,18 +357,21 @@ function Clockwork.plugin:FindByID(identifier)
 	return stored[identifier];
 end;
 
--- A function to determine whether a plugin's version is higher than the framework's.
-function Clockwork.plugin:CompareVersion(version, name, cwVersion, cwBuild)
-	if (tostring(version) == Clockwork.kernel:GetVersionBuild()) then return false; end;
+-- A function to determine whether the framework supports a particular plugin.
+function Clockwork.plugin:CompareVersion(compatibility, name, version, build)
+	if (tostring(compatibility) == Clockwork.kernel:GetVersionBuild()) then
+		return false;
+	end;
 
-	local pluginVersion = string.Explode("-", version)[1] or {version};
-	local pluginBuild = string.Explode("-", version)[2];
+	local exploded = string.Explode("-", compatibility);
+	local pluginVersion = exploded[1] or {compatibility};
+	local pluginBuild = exploded[2];
 
-	if (pluginVersion > cwVersion) then
+	if (pluginVersion > version) then
 		return true;
-	elseif (pluginVersion == cwVersion) then
-		if (pluginBuild and cwBuild) then
-			if (pluginBuild > cwBuild) then
+	elseif (pluginVersion == version) then
+		if (pluginBuild and build) then
+			if (pluginBuild > build) then
 				return true;
 			end;
 		elseif (!pluginBuild) then
@@ -380,7 +383,7 @@ function Clockwork.plugin:CompareVersion(version, name, cwVersion, cwBuild)
 end;
 
 -- A function to include a plugin.
-function Clockwork.plugin:Include(directory, bIsSchema)
+function Clockwork.plugin:Include(directory, isSchema)
 	local schemaFolder = Clockwork.kernel:GetSchemaFolder();
 	local explodeDir = string.Explode("/", directory);
 	local folderName = explodeDir[#explodeDir - 1];
@@ -389,17 +392,17 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 	PLUGIN_BASE_DIR = directory;
 	PLUGIN_FOLDERNAME = folderName;
 	
-	if (bIsSchema) then
+	if (isSchema) then
 		PLUGIN = self:New(); Schema = PLUGIN;
 		
 		if (SERVER) then
 			local schemaInfo = Clockwork.kernel:GetSchemaGamemodeInfo();
-				table.Merge(Schema, schemaInfo);
+			
+			table.Merge(Schema, schemaInfo);
+			
 			CW_SCRIPT_SHARED.schemaData = schemaInfo;
 		elseif (CW_SCRIPT_SHARED.schemaData) then
 			table.Merge(Schema, CW_SCRIPT_SHARED.schemaData);
-		else
-			MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Plugin] The schema has no "..schemaFolder..".ini!\n");
 		end;
 		
 		if (cwFile.Exists(directory.."/sh_schema.lua", "LUA")) then
@@ -421,7 +424,9 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 				if (iniTable["Plugin"]) then
 					iniTable = iniTable["Plugin"];
 					iniTable.isUnloaded = self:IsUnloaded(PLUGIN_FOLDERNAME, true);
-						table.Merge(PLUGIN, iniTable);
+					
+					table.Merge(PLUGIN, iniTable);
+					
 					CW_SCRIPT_SHARED.plugins[pathCRC] = iniTable;
 				else
 					MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
@@ -429,16 +434,16 @@ function Clockwork.plugin:Include(directory, bIsSchema)
 
 				if (iniTable["compatibility"]) then
 					local compatibility = iniTable["compatibility"];
-					local Name = iniTable["name"] or PLUGIN_FOLDERNAME;
-					local cwVersion = Clockwork.kernel:GetVersion();
-					local cwBuild = Clockwork.kernel:GetBuild();
-					local cwVersBuild = Clockwork.kernel:GetVersionBuild();
+					local versionBuild = Clockwork.kernel:GetVersionBuild();
+					local version = Clockwork.kernel:GetVersion();
+					local build = Clockwork.kernel:GetBuild();
+					local name = iniTable["name"] or PLUGIN_FOLDERNAME;
 					
-					if (self:CompareVersion(compatibility, Name, cwVersion, cwBuild)) then
-						MsgC(Color(255, 165, 0), "\n[Clockwork:Plugin] The "..Name.." plugin ["..compatibility.."] may not be compatible with Clockwork "..cwVersBuild.."!\nYou might need to update your framework!\n");
+					if (self:CompareVersion(compatibility, name, version, build)) then
+						MsgC(Color(255, 165, 0), "[Clockwork:Plugin] The "..name.." plugin ["..compatibility.."] may not be compatible with Clockwork "..versionBuild.."!\nYou might need to update your framework!\n");
 					end;
 				else
-					MsgC(Color(255,165,0),"\n[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no compatibility value set!\n");
+					MsgC(Color(255,165,0),"[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no compatibility value set!\n");
 				end
 			end;
 		else
