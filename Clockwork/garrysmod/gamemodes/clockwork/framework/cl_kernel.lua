@@ -186,10 +186,7 @@ cwDatastream:Hook("CharacterInit", function(data)
 end);
 
 cwDatastream:Hook("Log", function(data)
-	local logType = data.logType;
-	local text = data.text;
-	
-	cwKernel:PrintColoredText(cwKernel:GetLogTypeColor(logType), text);
+	cwKernel:PrintColoredText(cwKernel:GetLogTypeColor(data.logType), T(text));
 end);
 
 cwDatastream:Hook("StartSound", function(data)

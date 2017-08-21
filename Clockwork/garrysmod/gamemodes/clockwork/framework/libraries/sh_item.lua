@@ -250,10 +250,10 @@ if (SERVER) then
 		
 		if (self("batch") > 1) then
 			Clockwork.player:GiveCash(player, -(self("cost") * self("batch")), self("batch").." "..Clockwork.kernel:Pluralize(self("name")));
-			Clockwork.kernel:PrintLog(LOGTYPE_MINOR, player:Name().." has ordered "..self("batch").." "..Clockwork.kernel:Pluralize(self("name"))..".");
+			Clockwork.kernel:PrintLog(LOGTYPE_MINOR, {"LogPlayerOrdered", player:Name(), self("batch"), Clockwork.kernel:Pluralize(self("name"))});
 		else
 			Clockwork.player:GiveCash(player, -(self("cost") * self("batch")), self("batch").." "..self("name"));
-			Clockwork.kernel:PrintLog(LOGTYPE_MINOR, player:Name().." has ordered "..self("batch").." "..self("name")..".");
+			Clockwork.kernel:PrintLog(LOGTYPE_MINOR, {"LogPlayerOrdered", player:Name(), self("batch"), self("name")});
 		end;
 	end;
 	

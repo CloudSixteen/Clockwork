@@ -137,9 +137,9 @@ function Clockwork.voices:ChatBoxAdjustInfo(info)
 
 							if (v2.phrase == nil or v2.phrase == "") then
 								info.visible = false;
-
+								
 								if (SERVER) then
-									Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, info.speaker:Name().." says: \""..info.text.."\"");
+									Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerSays", info.speaker:Name(), info.text});
 								end;
 							else
 								info.text = v2.phrase;

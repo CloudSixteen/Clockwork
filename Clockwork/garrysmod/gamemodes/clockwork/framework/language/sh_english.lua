@@ -747,3 +747,26 @@ CW_ENGLISH["ChatPlayerOOC"] = ":color1:[OOC] :color2:#1: :color0:#2";
 CW_ENGLISH["ChatPlayerWhispers"] = ":color1:#1 whispers \"#2\"";
 CW_ENGLISH["ChatPlayerRadios"] = ":color1:#1 radios in \"#2\"";
 CW_ENGLISH["ChatPlayerYells"] = ":color1:#1 yells \"#2\"";
+
+CW_ENGLISH["PlayerConnected"] = "#1 has connected from the server.";
+CW_ENGLISH["PlayerDisconnected"] = "#1 has disconnected from the server.";
+
+CW_ENGLISH["LogPlayerDisconnected"] = "#1 (#2/#3) has disconnected.";
+CW_ENGLISH["LogPlayerConnected"] = "#1 (#2/#3) has connected.";
+CW_ENGLISH["LogPlayerSpawnedModel"] = "#1 has spawned '#2'.";
+CW_ENGLISH["LogPlayerSaysLOOC"] = "[LOOC] #1: #2";
+CW_ENGLISH["LogPlayerSays"] = "#1 says \"#2\"";
+CW_ENGLISH["LogPlayerDealDamageWithKill"] = "#1 has dealt #2 damage to #3 with #4, killing them!";
+CW_ENGLISH["LogPlayerDealDamageKill"] = "#1 has dealt #2 damage to #3, killing them!";
+CW_ENGLISH["LogPlayerTakeDamageWith"] = "#1 has taken #2 damage from #3 with #4, leaving them at #5 health and #6 armor!";
+CW_ENGLISH["LogPlayerTakeDamage"] = "#1 has taken #2 damage from #3, leaving them at #4 health and #5 armor!";
+CW_ENGLISH["LogPlayerGainedItem"] = "#1 has gained a #2 #3.";
+CW_ENGLISH["LogPlayerLostItem"] = "#1 has lost a #2 #3.";
+CW_ENGLISH["LogPlayerOrdered"] = "#1 has ordered #1 #2.";
+CW_ENGLISH["LogPlayerDeletedChar", "#1 has deleted the character '#2'.";
+CW_ENGLISH["LogPlayerLoadedChar", "#1 has loaded the character '#2'.";
+CW_ENGLISH["LogPlayerUsedCommandArgs", "#1 has used '#2 #3'.";
+CW_ENGLISH["LogPlayerUsedCommand", "#1 has used '#2'.";
+CW_ENGLISH["LogPlayerRoll", "#1 has rolled #2 out #3.";
+
+CW_ENGLISH["PlayerRoll", "has rolled #1 out of #2!";

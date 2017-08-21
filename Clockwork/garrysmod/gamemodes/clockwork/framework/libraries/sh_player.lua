@@ -2348,7 +2348,7 @@ function Clockwork.player:ForceDeleteCharacter(player, characterID)
 		queryObj:Push();
 		
 		if (!cwPlugin:Call("PlayerDeleteCharacter", player, character)) then
-			cwKernel:PrintLog(LOGTYPE_GENERIC, player:SteamName().." has deleted the character '"..character.name.."'.");
+			cwKernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerDeletedChar", player:SteamName(), character.name});
 		end;
 		
 		player.cwCharacterList[characterID] = nil;
@@ -2419,7 +2419,7 @@ function Clockwork.player:UseCharacter(player, characterID)
 					end;
 				end;
 				
-				cwKernel:PrintLog(LOGTYPE_GENERIC, player:SteamName().." has loaded the character '"..character.name.."'.");
+				cwKernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerLoadedChar", player:SteamName(), character.name});
 				
 				if (isCharacterMenuReset) then
 					player.cwCharMenuReset = false;

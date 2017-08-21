@@ -397,8 +397,8 @@ function Clockwork:PlayerDisconnected(player)
 			cwPlugin:Call("PlayerSaveTempData", player, tempData);
 		end;
 		
-		cwKernel:PrintLog(LOGTYPE_MINOR, player:Name().." ("..player:SteamID().." / "..player:IPAddress()..") has disconnected.");
-		cwChatbox:Add(nil, nil, "disconnect", player:SteamName().." has disconnected from the server.");
+		cwKernel:PrintLog(LOGTYPE_MINOR, {"LogPlayerDisconnected", player:Name(), player:SteamID(), player:IPAddress()});
+		cwChatbox:Add(nil, nil, "disconnect", {"PlayerDisconnected", player:SteamName()});
 	end;
 end;
 
@@ -1341,8 +1341,8 @@ function Clockwork:PlayerInitialSpawn(player)
 	end;
 	
 	if (!player:IsKicked()) then
-		cwKernel:PrintLog(LOGTYPE_MINOR, player:SteamName().." ("..player:SteamID().." / "..player:IPAddress()..") has connected.");
-		cwChatbox:Add(nil, nil, 'connect', player:SteamName()..' has connected to the server.');
+		cwKernel:PrintLog(LOGTYPE_MINOR, {"LogPlayerConnected", player:SteamName(), player:SteamID(), player:IPAddress()});
+		cwChatbox:Add(nil, nil, "connect", {"PlayerConnected", player:SteamName()});
 	end;
 end;
 
@@ -2847,7 +2847,7 @@ function Clockwork:PlayerSpawnedProp(player, model, entity)
 			entity:SetOwnerKey(player:GetCharacterKey());
 			
 			if (IsValid(entity)) then
-				cwKernel:PrintLog(LOGTYPE_URGENT, player:Name().." has spawned '"..tostring(model).."'.");
+				cwKernel:PrintLog(LOGTYPE_URGENT, {"LogPlayerSpawnModel", player:Name(), tostring(model)});
 				
 				if (cwConfig:Get("prop_kill_protection"):Get()) then
 					entity.cwDamageImmunity = CurTime() + 60;
@@ -3290,9 +3290,9 @@ function Clockwork:PlayerAdjustDeathInfo(player, info) end;
 -- Called when chat box info should be adjusted.
 function Clockwork:ChatBoxAdjustInfo(info)
 	if (info.class == "ic") then
-		cwKernel:PrintLog(LOGTYPE_GENERIC, info.speaker:Name().." says: \""..info.text.."\"");
+		cwKernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerSays", info.speaker:Name(), info.text});
 	elseif (info.class == "looc") then
-		cwKernel:PrintLog(LOGTYPE_GENERIC, "[LOOC] "..info.speaker:Name()..": "..info.text);
+		cwKernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerSaysLOOC", info.speaker:Name(), info.text});
 	end;
 end;
 
@@ -3419,15 +3419,15 @@ function Clockwork:PlayerDeath(player, inflictor, attacker, damageInfo)
 				local itemTable = cwItem:GetByWeapon(weapon);
 			
 				if (IsValid(weapon) and itemTable) then
-					cwKernel:PrintLog(LOGTYPE_CRITICAL, attacker:Name().." has dealt "..tostring(math.ceil(damageInfo:GetDamage())).." damage to "..player:Name().." with "..itemTable("name")..", killing them!");
+					cwKernel:PrintLog(LOGTYPE_CRITICAL, {"LogPlayerDealDamageWithKill", attacker:Name(), tostring(math.ceil(damageInfo:GetDamage())), player:Name(), itemTable("name")});
 				else
-					cwKernel:PrintLog(LOGTYPE_CRITICAL, attacker:Name().." has dealt "..tostring(math.ceil(damageInfo:GetDamage())).." damage to "..player:Name().." with "..cwPly:GetWeaponClass(attacker)..", killing them!");
+					cwKernel:PrintLog(LOGTYPE_CRITICAL, {"LogPlayerDealDamageWithKill", attacker:Name(), tostring(math.ceil(damageInfo:GetDamage())), player:Name(), cwPly:GetWeaponClass(attacker)});
 				end;
 			else
-				cwKernel:PrintLog(LOGTYPE_CRITICAL, attacker:Name().." has dealt "..tostring(math.ceil(damageInfo:GetDamage())).." damage to "..player:Name()..", killing them!");
+				cwKernel:PrintLog(LOGTYPE_CRITICAL, {"LogPlayerDealDamageKill", attacker:Name(), tostring(math.ceil(damageInfo:GetDamage())), player:Name()});
 			end;
 		else
-			cwKernel:PrintLog(LOGTYPE_CRITICAL, attacker:GetClass().." has dealt "..tostring(math.ceil(damageInfo:GetDamage())).." damage to "..player:Name()..", killing them!");
+			cwKernel:PrintLog(LOGTYPE_CRITICAL, {"LogPlayerDealDamageKill", attacker:GetClass(), tostring(math.ceil(damageInfo:GetDamage())), player:Name()});
 		end;
 	end;
 end;
@@ -3710,9 +3710,9 @@ function Clockwork:EntityTakeDamage(entity, damageInfo)
 						end;
 						
 						if (attacker:IsPlayer()) then
-							cwKernel:PrintLog(LOGTYPE_MAJOR, player:Name().." has taken "..tostring(math.ceil(damageInfo:GetDamage())).." damage from "..attacker:Name().." with "..cwPly:GetWeaponClass(attacker, "an unknown weapon")..", leaving them at "..player:Health().." health"..armor);
+							cwKernel:PrintLog(LOGTYPE_MAJOR, {"LogPlayerTakeDamageWith", player:Name(), tostring(math.ceil(damageInfo:GetDamage())), attacker:Name(), cwPly:GetWeaponClass(attacker, "UNKNOWN"), player:Health(), player:Armor()});
 						else
-							cwKernel:PrintLog(LOGTYPE_MAJOR, player:Name().." has taken "..tostring(math.ceil(damageInfo:GetDamage())).." damage from "..attacker:GetClass()..", leaving them at "..player:Health().." health"..armor);
+							cwKernel:PrintLog(LOGTYPE_MAJOR, {"LogPlayerTakeDamage", player:Name(), tostring(math.ceil(damageInfo:GetDamage())), attacker:GetClass(), player:Health(), player:Armor()});
 						end;
 					end;
 				end;
@@ -3768,9 +3768,9 @@ function Clockwork:EntityTakeDamage(entity, damageInfo)
 					end;
 
 					if (attacker:IsPlayer()) then
-						cwKernel:PrintLog(LOGTYPE_MAJOR, player:Name().." has taken "..tostring(math.ceil(damageInfo:GetDamage())).." damage from "..attacker:Name().." with "..cwPly:GetWeaponClass(attacker, "an unknown weapon")..", leaving them at "..player:Health().." health"..armor);
+						cwKernel:PrintLog(LOGTYPE_MAJOR, {"LogPlayerTakeDamageWith", player:Name(), tostring(math.ceil(damageInfo:GetDamage())), attacker:Name(), cwPly:GetWeaponClass(attacker, "UNKNOWN"), player:Health(), player:Armor()});
 					else
-						cwKernel:PrintLog(LOGTYPE_MAJOR, player:Name().." has taken "..tostring(math.ceil(damageInfo:GetDamage())).." damage from "..attacker:GetClass()..", leaving them at "..player:Health().." health"..armor);
+						cwKernel:PrintLog(LOGTYPE_MAJOR, {"LogPlayerTakeDamage", player:Name(), tostring(math.ceil(damageInfo:GetDamage())), attacker:GetClass(), player:Health(), player:Armor()});
 					end;
 				end;
 			end;
@@ -5355,10 +5355,12 @@ function playerMeta:GiveItem(itemTable, isForced)
 			itemTable:OnGiveToPlayer(self);
 		end;
 		
-		cwKernel:PrintLog(LOGTYPE_GENERIC, self:Name().." has gained a "..itemTable("name").." "..itemTable("itemID")..".");
+		cwKernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerGainedItem", self:Name(), itemTable("name"), itemTable("itemID")});
 		
 		cwInventory:AddInstance(inventory, itemTable);
-			cwDatastream:Start(self, "InvGive", cwItem:GetDefinition(itemTable, true));
+		
+		cwDatastream:Start(self, "InvGive", cwItem:GetDefinition(itemTable, true));
+		
 		cwPlugin:Call("PlayerItemGiven", self, itemTable, isForced);
 		
 		return itemTable;
@@ -5380,11 +5382,14 @@ function playerMeta:TakeItem(itemTable)
 		itemTable:OnTakeFromPlayer(self);
 	end;
 	
-	cwKernel:PrintLog(LOGTYPE_GENERIC, self:Name().." has lost a "..itemTable("name").." "..itemTable("itemID")..".");
+	cwKernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerLostItem", self:Name(), itemTable("name"), itemTable("itemID")});
 	
 	cwPlugin:Call("PlayerItemTaken", self, itemTable);
-		cwInventory:RemoveInstance(inventory, itemTable);
+	
+	cwInventory:RemoveInstance(inventory, itemTable);
+	
 	cwDatastream:Start(self, "InvTake", {itemTable("index"), itemTable("itemID")});
+	
 	return true;
 end;
 

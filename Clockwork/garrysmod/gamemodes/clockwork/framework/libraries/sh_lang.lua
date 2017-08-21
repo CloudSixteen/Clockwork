@@ -13,6 +13,7 @@
 --]]
 Clockwork.lang = Clockwork.kernel:NewLibrary("Lang");
 Clockwork.lang.stored = Clockwork.lang.stored or {};
+Clockwork.lang.default = "English";
 
 CW_LANGUAGE_CLASS = {__index = CW_LANGUAGE_CLASS};
 
@@ -53,12 +54,16 @@ function Clockwork.lang:GetString(language, identifier, ...)
 	local subs = {...};
 	local output = nil;
 	
+	if (!language) then
+		language = self.default;
+	end;
+	
 	if (self.stored[language]) then
 		output = self.stored[language][identifier];
 	end;
 	
 	if (!output) then
-		output = self.stored["English"][identifier] or identifier;
+		output = self.stored[self.default][identifier] or identifier;
 	end;
 	
 	if (type(subs[1]) == "function") then
@@ -123,13 +128,15 @@ else
 			
 			return Clockwork.lang:GetString(language, identifier, ...);
 		else
-			return Clockwork.lang:GetString("English", identifier, ...);
+			return Clockwork.lang:GetString(nil, identifier, ...);
 		end;
 	end;
 	
 	function T(player, data)
 		if (type(player) == "table") then
-			return player;
+			return L(nil, unpack(player));
+		elseif (type(player) == "string") then
+			return L(nil, player);
 		elseif (type(data) == "table") then
 			return L(player, unpack(data));
 		else

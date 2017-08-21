@@ -199,9 +199,9 @@ if (SERVER) then
 
 										if (wasSuccess) then
 											if (table.concat(arguments, " ") != "") then
-												Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, player:Name().." has used '"..commandPrefix..commandTable.name.." "..table.concat(arguments, " ").."'.");
+												Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerUsedCommandArgs", player:Name(), commandPrefix..commandTable.name, table.concat(arguments, " ")});
 											else
-												Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, player:Name().." has used '"..commandPrefix..commandTable.name.."'.");
+												Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerUsedCommand", player:Name(), commandPrefix..commandTable.name});
 											end;
 
 											return value;

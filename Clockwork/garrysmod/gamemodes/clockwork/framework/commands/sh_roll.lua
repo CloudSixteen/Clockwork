@@ -17,10 +17,10 @@ COMMAND.text = "[number Range]";
 function COMMAND:OnRun(player, arguments)
 	local number = math.Clamp(math.floor(tonumber(arguments[1]) or 100), 0, 1000000000);
 	local roll = math.random(0, number)
-		
-	Clockwork.chatBox:AddInRadius(player, "roll", "has rolled "..roll.." out of "..number..".",
-		player:GetPos(), Clockwork.config:Get("talk_radius"):Get());
-	Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, player:Name().." has rolled "..roll.." out of "..number.."!");
+	
+	Clockwork.chatBox:AddInRadius(player, "roll", {"PlayerRoll", roll, number}, player:GetPos(), Clockwork.config:Get("talk_radius"):Get());
+	
+	Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerRoll", player:Name(), roll, number});
 end;
 
 COMMAND:Register();

@@ -26,17 +26,17 @@ function Clockwork.storage:CanGiveTo(itemTable)
 	local isPlayer = (entity and entity:IsPlayer());
 	
 	if (itemTable) then
-		local bAllowPlayerStorage = (!isPlayer or itemTable("allowPlayerStorage") != false);
-		local bAllowEntityStorage = (isPlayer or itemTable("allowEntityStorage") != false);
-		local bAllowPlayerGive = (!isPlayer or itemTable("allowPlayerGive") != false);
-		local bAllowEntityGive = (isPlayer or itemTable("allowEntityGive") != false);
-		local bAllowStorage = (itemTable("allowStorage") != false);
-		local bIsShipment = (entity and entity:GetClass() == "cw_shipment");
-		local bAllowGive = (itemTable("allowGive") != false);
+		local allowPlayerStorage = (!isPlayer or itemTable("allowPlayerStorage") != false);
+		local allowEntityStorage = (isPlayer or itemTable("allowEntityStorage") != false);
+		local allowPlayerGive = (!isPlayer or itemTable("allowPlayerGive") != false);
+		local allowEntityGive = (isPlayer or itemTable("allowEntityGive") != false);
+		local allowStorage = (itemTable("allowStorage") != false);
+		local isShipment = (entity and entity:GetClass() == "cw_shipment");
+		local allowGive = (itemTable("allowGive") != false);
 		
-		if (bIsShipment or (bAllowPlayerStorage and bAllowPlayerGive
-		and bAllowEntityStorage and bAllowStorage and bAllowGive
-		and bAllowEntityGive)) then
+		if (isShipment or (allowPlayerStorage and allowPlayerGive
+		and allowEntityStorage and allowStorage and allowGive
+		and allowEntityGive)) then
 			return true;
 		end;
 	end;
@@ -48,17 +48,17 @@ function Clockwork.storage:CanTakeFrom(itemTable)
 	local isPlayer = (entity and entity:IsPlayer());
 	
 	if (itemTable) then
-		local bAllowPlayerStorage = (!isPlayer or itemTable("allowPlayerStorage") != false);
-		local bAllowEntityStorage = (isPlayer or itemTable("allowEntityStorage") != false);
-		local bAllowPlayerTake = (!isPlayer or itemTable("allowPlayerTake") != false);
-		local bAllowEntityTake = (isPlayer or itemTable("allowEntityTake") != false);
-		local bAllowStorage = (itemTable("allowStorage") != false);
-		local bIsShipment = (entity and entity:GetClass() == "cw_shipment");
-		local bAllowTake = (itemTable("allowTake") != false);
+		local allowPlayerStorage = (!isPlayer or itemTable("allowPlayerStorage") != false);
+		local allowEntityStorage = (isPlayer or itemTable("allowEntityStorage") != false);
+		local allowPlayerTake = (!isPlayer or itemTable("allowPlayerTake") != false);
+		local allowEntityTake = (isPlayer or itemTable("allowEntityTake") != false);
+		local allowStorage = (itemTable("allowStorage") != false);
+		local isShipment = (entity and entity:GetClass() == "cw_shipment");
+		local allowTake = (itemTable("allowTake") != false);
 		
-		if (bIsShipment or (bAllowPlayerStorage and bAllowPlayerTake
-		and bAllowEntityStorage and bAllowStorage and bAllowTake
-		and bAllowEntityTake)) then
+		if (isShipment or (allowPlayerStorage and allowPlayerTake
+		and allowEntityStorage and allowStorage and allowTake
+		and allowEntityTake)) then
 			return true;
 		end;
 	end;

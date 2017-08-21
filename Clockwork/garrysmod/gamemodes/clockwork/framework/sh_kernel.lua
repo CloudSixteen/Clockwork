@@ -1513,11 +1513,12 @@ if (SERVER) then
 		end;
 		
 		Clockwork.datastream:Start(listeners, "Log", {
-			logType = (logType or 5), text = text
+			logType = (logType or 5),
+			text = text
 		});
 		
 		if (CW_CONVAR_LOG:GetInt() == 1 and game.IsDedicated()) then
-			self:ServerLog(text);
+			self:ServerLog(T(text));
 		end;
 	end;
 	
@@ -1534,13 +1535,16 @@ if (SERVER) then
 			if (dateInfo.hour < 10) then dateInfo.hour = "0"..dateInfo.hour; end;
 			if (dateInfo.min < 10) then dateInfo.min = "0"..dateInfo.min; end;
 			if (dateInfo.sec < 10) then dateInfo.sec = "0"..dateInfo.sec; end;
+			
 			local time = dateInfo.hour..":"..dateInfo.min..":"..dateInfo.sec;
 			local logText = time..": "..stringGsub(text, "\n", "");
 
 			Clockwork.file:Append("logs/clockwork/"..fileName..".log", logText.."\n");
 		end;
 	
-		ServerLog(text.."\n"); Clockwork.plugin:Call("ClockworkLog", text, unixTime);
+		ServerLog(text.."\n");
+		
+		Clockwork.plugin:Call("ClockworkLog", text, unixTime);
 	end;
 else
 	local CreateClientConVar = CreateClientConVar;
