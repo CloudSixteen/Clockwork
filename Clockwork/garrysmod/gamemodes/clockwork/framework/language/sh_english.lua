@@ -763,10 +763,10 @@ CW_ENGLISH["LogPlayerTakeDamage"] = "#1 has taken #2 damage from #3, leaving the
 CW_ENGLISH["LogPlayerGainedItem"] = "#1 has gained a #2 #3.";
 CW_ENGLISH["LogPlayerLostItem"] = "#1 has lost a #2 #3.";
 CW_ENGLISH["LogPlayerOrdered"] = "#1 has ordered #1 #2.";
-CW_ENGLISH["LogPlayerDeletedChar", "#1 has deleted the character '#2'.";
-CW_ENGLISH["LogPlayerLoadedChar", "#1 has loaded the character '#2'.";
-CW_ENGLISH["LogPlayerUsedCommandArgs", "#1 has used '#2 #3'.";
-CW_ENGLISH["LogPlayerUsedCommand", "#1 has used '#2'.";
-CW_ENGLISH["LogPlayerRoll", "#1 has rolled #2 out #3.";
+CW_ENGLISH["LogPlayerDeletedChar"] = "#1 has deleted the character '#2'.";
+CW_ENGLISH["LogPlayerLoadedChar"] = "#1 has loaded the character '#2'.";
+CW_ENGLISH["LogPlayerUsedCommandArgs"] = "#1 has used '#2 #3'.";
+CW_ENGLISH["LogPlayerUsedCommand"] = "#1 has used '#2'.";
+CW_ENGLISH["LogPlayerRoll"] = "#1 has rolled #2 out #3.";
 
-CW_ENGLISH["PlayerRoll", "has rolled #1 out of #2!";
+CW_ENGLISH["PlayerRoll"] = "has rolled #1 out of #2!";

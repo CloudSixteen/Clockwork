@@ -25,9 +25,7 @@ CW_LANGUAGE_CLASS = {__index = CW_LANGUAGE_CLASS};
 --]]
 function Clockwork.lang:GetTable(name)
 	if (!Clockwork.lang.stored[name]) then
-		Clockwork.lang.stored[name] = Clockwork.kernel:NewMetaTable(
-			CW_LANGUAGE_CLASS
-		);
+		Clockwork.lang.stored[name] = Clockwork.kernel:NewMetaTable(CW_LANGUAGE_CLASS);
 	end;
 	
 	return Clockwork.lang.stored[name];
