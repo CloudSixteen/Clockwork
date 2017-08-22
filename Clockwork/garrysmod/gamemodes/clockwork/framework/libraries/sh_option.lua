@@ -96,6 +96,8 @@ Clockwork.option:SetKey("name_crafting", "MenuNameCrafting");
 Clockwork.option:SetKey("name_donations", "MenuNameDonations");
 Clockwork.option:SetKey("name_settings", "MenuNameSettings");
 Clockwork.option:SetKey("name_classes", "MenuNameClasses");
+Clockwork.option:SetKey("name_traits", "MenuNameTraits");
+Clockwork.option:SetKey("name_trait", "MenuNameTrait");
 Clockwork.option:SetKey("schema_logo", "");
 Clockwork.option:SetKey("intro_image", "");
 Clockwork.option:SetKey("intro_sound", "music/HL2_song25_Teleporter.mp3");

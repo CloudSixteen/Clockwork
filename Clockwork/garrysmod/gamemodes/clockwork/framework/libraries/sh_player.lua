@@ -41,6 +41,7 @@ if (!Clockwork.inventory) then include("sh_inventory.lua"); end;
 
 local cwCfg = Clockwork.config;
 local cwAttribute = Clockwork.attribute;
+local cwTrait = Clockwork.trait;
 local cwFaction = Clockwork.faction;
 local cwClass = Clockwork.class;
 local cwCommand = Clockwork.command;
@@ -783,28 +784,36 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 	local minimumPhysDesc = cwCfg:Get("minimum_physdesc"):Get();
 	local attributesTable = cwAttribute:GetAll();
 	local factionTable = cwFaction:FindByID(data.faction);
-	local attributes = nil;
+	local traitsTable = cwTrait:GetAll();
+	local hasAttributes = nil;
+	local hasTraits = nil;
 	local info = {};
 	
 	if (table.Count(attributesTable) > 0) then
 		for k, v in pairs(attributesTable) do
 			if (v.isOnCharScreen) then
-				attributes = true;
+				hasAttributes = true;
 				break;
 			end;
 		end;
 	end;
 	
+	if (table.Count(traitsTable) > 0) then
+		for k, v in pairs(traitsTable) do
+			hasTraits = true;
+			break;
+		end;
+	end;
+	
 	if (!factionTable) then
-		return self:SetCreateFault(
-			player, "You did not choose a faction, or the faction that you chose is not valid!"
-		);
+		return self:SetCreateFault(player, {"FaultDidNotChooseFaction"});
 	end;
 	
 	info.attributes = {};
 	info.faction = factionTable.name;
 	info.gender = data.gender;
 	info.model = data.model;
+	info.traits = {};
 	info.data = {};
 	
 	if (data.plugin) then
@@ -826,15 +835,25 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 		local classTable = cwClass:FindByID(data.class);
 		
 		if (!classTable) then
-			return self:SetCreateFault(
-				player, "You did not choose a class, or the class that you chose is not valid!"
-			);
+			return self:SetCreateFault(player, {"FaultNeedClass"});
 		else
 			info.data["class"] = classTable.name;
 		end;
 	end;
 	
-	if (attributes and type(data.attributes) == "table") then
+	if (hasTraits and type(data.traits) == "table") then
+		for k, v in pairs(data.traits) do
+			local traitTable = cwTrait:FindByID(v);
+			
+			if (traitTable) then
+				table.insert(info.traits, traitTable.uniqueID);
+			end;
+		end;
+	elseif (hasTraits) then
+		return self:SetCreateFault(player, {"FaultDidNotChooseTraits", cwOption:Translate("name_traits", true)});
+	end;
+	
+	if (hasAttributes and type(data.attributes) == "table") then
 		local maximumPoints = cwCfg:Get("default_attribute_points"):Get();
 		local pointsSpent = 0;
 		
@@ -865,7 +884,7 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 		if (pointsSpent > maximumPoints) then
 			return self:SetCreateFault(player, {"FaultMorePointsThanCanSpend", cwOption:GetKey("name_attribute", true)});
 		end;
-	elseif (attributes) then
+	elseif (hasAttributes) then
 		return self:SetCreateFault(player, {"FaultDidNotChooseAttributes", cwOption:GetKey("name_attributes", true)});
 	end;
 	
@@ -986,6 +1005,7 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 								attributes = info.attributes,
 								faction = info.faction,
 								gender = info.gender,
+								traits = info.traits,
 								model = info.model,
 								name = info.name,
 								data = info.data
@@ -3963,8 +3983,8 @@ function Clockwork.player:LoadData(player, Callback)
 end;
 
 -- A function to save a players's data.
-function Clockwork.player:SaveData(player, bCreate)
-	if (!bCreate) then
+function Clockwork.player:SaveData(player, shouldCreate)
+	if (!shouldCreate) then
 		local schemaFolder = cwKernel:GetSchemaFolder();
 		local steamName = cwDatabase:Escape(player:SteamName());
 		local ipAddress = player:IPAddress();
@@ -4013,8 +4033,8 @@ function Clockwork.player:UpdateCharacter(player)
 end;
 
 -- A function to save a player's character.
-function Clockwork.player:SaveCharacter(player, bCreate, character, Callback)
-	if (bCreate) then
+function Clockwork.player:SaveCharacter(player, shouldCreate, character, Callback)
+	if (shouldCreate) then
 		local charactersTable = cwCfg:Get("mysql_characters_table"):Get();
 		local values = "";
 		local amount = 1;
@@ -4032,6 +4052,8 @@ function Clockwork.player:SaveCharacter(player, bCreate, character, Callback)
 					queryObj:SetValue(tableKey, cwJson:Encode(character.recognisedNames));
 				elseif (k == "attributes") then
 					queryObj:SetValue(tableKey, cwJson:Encode(character.attributes));
+				elseif (k == "traits") then
+					queryObj:SetValue(tableKey, cwJson:Encode(character.traits));
 				elseif (k == "inventory") then
 					queryObj:SetValue(tableKey, cwJson:Encode(cwInventory:ToSaveable(character.inventory)));
 				elseif (k == "ammo") then
@@ -4079,6 +4101,7 @@ function Clockwork.player:SaveCharacter(player, bCreate, character, Callback)
 			queryObj:SetValue("_Faction", character.faction);
 			queryObj:SetValue("_Gender", character.gender);
 			queryObj:SetValue("_Schema", character.schema);
+			queryObj:SetValue("_Traits", cwJson:Encode(character.traits));
 			queryObj:SetValue("_Model", character.model);
 			queryObj:SetValue("_Flags", character.flags);
 			queryObj:SetValue("_Cash", character.cash);

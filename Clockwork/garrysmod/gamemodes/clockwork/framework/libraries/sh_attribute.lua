@@ -73,19 +73,19 @@ function Clockwork.attribute:FindByID(identifier)
 		return self.stored[identifier];
 	end;
 	
-	local tAttributeTab = nil;
+	local attribute = nil;
 	
 	for k, v in pairs(self.stored) do
 		if (string.find(string.lower(v.name), string.lower(identifier))) then
-			if (tAttributeTab) then
-				if (string.utf8len(v.name) < string.utf8len(tAttributeTab.name)) then
-					tAttributeTab = v;
+			if (attribute) then
+				if (string.utf8len(v.name) < string.utf8len(attribute.name)) then
+					attribute = v;
 				end;
 			else
-				tAttributeTab = v;
+				attribute = v;
 			end;
 		end;
 	end;
 	
-	return tAttributeTab;
+	return attribute;
 end;
