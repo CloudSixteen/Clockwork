@@ -750,7 +750,7 @@ end;
 function Clockwork:PlayerTakeFromStorage(player, storageTable, itemTable) end;
 
 -- Called when a player is given an item.
-function Clockwork:PlayerItemGiven(player, itemTable, bForce)
+function Clockwork:PlayerItemGiven(player, itemTable, shouldForce)
 	cwStorage:SyncItem(player, itemTable);
 end;
 
@@ -965,7 +965,7 @@ function Clockwork:PlayerPunchEntity(player, entity) end;
 function Clockwork:PlayerOrderShipment(player, itemTable, entity, itemTables) end;
 
 -- Called when a player holsters a weapon.
-function Clockwork:PlayerHolsterWeapon(player, itemTable, weapon, bForce) end;
+function Clockwork:PlayerHolsterWeapon(player, itemTable, weapon, shouldForce) end;
 
 -- Called when a player attempts to save a recognised name.
 function Clockwork:PlayerCanSaveRecognisedName(player, target)
@@ -1498,6 +1498,7 @@ function Clockwork:PlayerDataStreamInfoSent(player)
 				if (characters) then
 					for k, v in pairs(characters) do
 						cwPly:ConvertCharacterMySQL(v);
+						
 						player.cwCharacterList[v.characterID] = {};
 						
 						for k2, v2 in pairs(v) do
@@ -1518,9 +1519,9 @@ function Clockwork:PlayerDataStreamInfoSent(player)
 					end;
 					
 					for k, v in pairs(player.cwCharacterList) do
-						local bDelete = cwPlugin:Call("PlayerAdjustCharacterTable", player, v);
+						local shouldDelete = cwPlugin:Call("PlayerAdjustCharacterTable", player, v);
 						
-						if (!bDelete) then
+						if (!shouldDelete) then
 							cwPly:CharacterScreenAdd(player, v);
 						else
 							cwPly:ForceDeleteCharacter(player, k);
@@ -2036,7 +2037,7 @@ function Clockwork:PlayerCanViewDoor(player, door)
 end;
 
 -- Called when a player attempts to holster a weapon.
-function Clockwork:PlayerCanHolsterWeapon(player, itemTable, weapon, bForce, bNoMsg)
+function Clockwork:PlayerCanHolsterWeapon(player, itemTable, weapon, shouldForce, bNoMsg)
 	if (cwPly:GetSpawnWeapon(player, itemTable("weaponClass"))) then
 		if (!bNoMsg) then
 			cwPly:Notify(player, {"CannotHolsterWeapon"});
@@ -2044,7 +2045,7 @@ function Clockwork:PlayerCanHolsterWeapon(player, itemTable, weapon, bForce, bNo
 		
 		return false;
 	elseif (itemTable.CanHolsterWeapon) then
-		return itemTable:CanHolsterWeapon(player, weapon, bForce, bNoMsg);
+		return itemTable:CanHolsterWeapon(player, weapon, shouldForce, bNoMsg);
 	else
 		return true;
 	end;

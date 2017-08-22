@@ -772,5 +772,6 @@ CW_ENGLISH["LogPlayerRoll"] = "#1 has rolled #2 out #3.";
 CW_ENGLISH["PlayerRoll"] = "has rolled #1 out of #2!";
 
 CW_ENGLISH["FaultDidNotChooseTraits"] = "You did not choose any of the available #1!";
+CW_ENGLISH["YouCannotCreateThisChar"] = "You cannot create this character!";
 CW_ENGLISH["MenuNameTraits"] = "Traits";
 CW_ENGLISH["MenuNameTrait"] = "Trait";

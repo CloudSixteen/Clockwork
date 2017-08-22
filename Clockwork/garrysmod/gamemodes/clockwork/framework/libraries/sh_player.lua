@@ -58,7 +58,6 @@ local cwInventory = Clockwork.inventory;
 Clockwork.player = cwKernel:NewLibrary("Player");
 
 if (CLIENT) then
-
 -- A function to get whether the local player can hold a weight.
 function Clockwork.player:CanHoldWeight(weight)
 	local inventoryWeight = Clockwork.inventory:CalculateWeight(
@@ -2187,7 +2186,7 @@ function Clockwork.player:GiveDeathCode(player)
 end;
 
 -- A function to take a door from a player.
-function Clockwork.player:TakeDoor(player, door, bForce, bThisDoorOnly, bChildrenOnly)
+function Clockwork.player:TakeDoor(player, door, shouldForce, bThisDoorOnly, bChildrenOnly)
 	local doorCost = cwCfg:Get("door_cost"):Get();
 	
 	if (!bThisDoorOnly) then
@@ -2200,7 +2199,7 @@ function Clockwork.player:TakeDoor(player, door, bForce, bThisDoorOnly, bChildre
 				end;
 			end;
 		else
-			return self:TakeDoor(player, doorParent, bForce);
+			return self:TakeDoor(player, doorParent, shouldForce);
 		end;
 	end;
 	
@@ -2533,7 +2532,7 @@ function Clockwork.player:RestoreRecognisedNames(player)
 end;
 
 -- A function to set whether a player recognises a player.
-function Clockwork.player:SetRecognises(player, target, status, bForce)
+function Clockwork.player:SetRecognises(player, target, status, shouldForce)
 	local recognisedNames = player:GetRecognisedNames();
 	local name = target:Name();
 	local key = target:GetCharacterKey();
@@ -2551,7 +2550,7 @@ function Clockwork.player:SetRecognises(player, target, status, bForce)
 		end;
 	end;
 	
-	if (!status or bForce or !self:DoesRecognise(player, target, status)) then
+	if (!status or shouldForce or !self:DoesRecognise(player, target, status)) then
 		recognisedNames[key] = status or nil;
 		
 		cwDatastream:Start(player, "RecognisedName", {
@@ -3692,9 +3691,8 @@ function Clockwork.player:ConvertCharacterMySQL(baseTable)
 	baseTable.recognisedNames = self:ConvertCharacterRecognisedNamesString(baseTable.recognisedNames);
 	baseTable.characterID = tonumber(baseTable.characterID);
 	baseTable.attributes = self:ConvertCharacterDataString(baseTable.attributes);
-	baseTable.inventory = cwInventory:ToLoadable(
-		self:ConvertCharacterDataString(baseTable.inventory)
-	);
+	baseTable.inventory = cwInventory:ToLoadable(self:ConvertCharacterDataString(baseTable.inventory));
+	baseTable.traits = self:ConvertCharacterDataString(baseTable.traits);
 	baseTable.cash = tonumber(baseTable.cash);
 	baseTable.ammo = self:ConvertCharacterDataString(baseTable.ammo);
 	baseTable.data = self:ConvertCharacterDataString(baseTable.data);
@@ -3715,11 +3713,11 @@ function Clockwork.player:GetCharacterID(player)
 end;
 
 -- A function to load a player's character.
-function Clockwork.player:LoadCharacter(player, characterID, tMergeCreate, Callback, bForce)
+function Clockwork.player:LoadCharacter(player, characterID, mergeCreate, Callback, shouldForce)
 	local character = {};
 	local unixTime = os.time();
 	
-	if (tMergeCreate) then
+	if (mergeCreate) then
 		character = {};
 		character.name = name;
 		character.data = {};
@@ -3727,6 +3725,7 @@ function Clockwork.player:LoadCharacter(player, characterID, tMergeCreate, Callb
 		character.cash = cwCfg:Get("default_cash"):Get();
 		character.model = "models/police.mdl";
 		character.flags = "b";
+		character.traits = {};
 		character.schema = cwKernel:GetSchemaFolder();
 		character.gender = GENDER_MALE;
 		character.faction = FACTION_CITIZEN;
@@ -3741,19 +3740,18 @@ function Clockwork.player:LoadCharacter(player, characterID, tMergeCreate, Callb
 		character.recognisedNames = {};
 		
 		if (!player.cwCharacterList[characterID]) then
-			table.Merge(character, tMergeCreate);
+			table.Merge(character, mergeCreate);
 			
 			if (character and type(character) == "table") then
 				character.inventory = {};
-				cwPlugin:Call(
-					"GetPlayerDefaultInventory", player, character, character.inventory
-				);
 				
-				if (!bForce) then
+				cwPlugin:Call("GetPlayerDefaultInventory", player, character, character.inventory);
+				
+				if (!shouldForce) then
 					local fault = cwPlugin:Call("PlayerCanCreateCharacter", player, character, characterID);
 					
 					if (fault == false or type(fault) == "string") then
-						return self:SetCreateFault(player, fault or "You cannot create this character!");
+						return self:SetCreateFault(player, fault or {"YouCannotCreateThisChar"});
 					end;
 				end;
 				
@@ -3762,6 +3760,7 @@ function Clockwork.player:LoadCharacter(player, characterID, tMergeCreate, Callb
 					player.cwCharacterList[characterID].key = key;
 					
 					cwPlugin:Call("PlayerCharacterCreated", player, character);
+					
 					self:CharacterScreenAdd(player, character);
 					
 					if (Callback) then
@@ -3789,6 +3788,7 @@ function Clockwork.player:LoadCharacter(player, characterID, tMergeCreate, Callb
 			
 			if (self:SetBasicSharedVars(player)) then
 				cwPlugin:Call("PlayerCharacterLoaded", player);
+				
 				player:SaveCharacter();
 			end;
 		end;
