@@ -5,6 +5,7 @@
 	Clockwork was created by Conna Wiles (also known as kurozael.)
 	http://cloudsixteen.com/license/clockwork.html
 	
+	Translated by Tensa.
 --]]
 
 CW_KOREAN = Clockwork.lang:GetTable("Korean");
@@ -95,7 +96,7 @@ CW_KOREAN["YouHaveGivenAnItem"] = "당신은 #1 을(를) #2 에게 주었습니�
 
 CW_KOREAN["YouWereGivenSomeItem"] = "#1 님이 당신에게 약간의 #2 을(를) 주었습니다.";
 CW_KOREAN["YouWereGivenItemAmount"] = "#1 님이 당신에게 #2 만큼의 #3 을(를) 주었습니다.";
-CW_KOREAN["YouWereGivenAnItem"] = "#1 has given you a #2.";
+CW_KOREAN["YouWereGivenAnItem"] = "#1 님이 #2 을(를) 주었습니다.";
 
 CW_KOREAN["YouGaveCashTo"] = "당신은 #1 을(를) #2 에개 주었습니다.";
 CW_KOREAN["YouWereGivenCashBy"] = "당신은 #1 님으로 부터 #2 을(를) 받았습니다.";
@@ -111,8 +112,8 @@ CW_KOREAN["PluginCouldNotBeLoaded"] = "해당 플러그인을 활성화할 수 �
 CW_KOREAN["PluginDependsOnAnother"] = "해당 플러그인은 다른 플러그인과 의존성이 있습니다!";
 CW_KOREAN["PlayerUnloadedPlugin"] = "#1 님이 다음 재시작 때 #2 플러그인을 비활성화하도록 설정했습니다.";
 CW_KOREAN["PlayerLoadedPlugin"] = "#1 님이 다음 재시작 때 #2 플러그인을 활성화하도록 설정했습니다.";
-CW_KOREAN["PlayerRestartingMapIn"] = "#1 is restarting the map in #2 second(s)!";
-CW_KOREAN["PlayerChangingMapIn"] = "#1 is changing the map to #2 in #3 second(s)!";
+CW_KOREAN["PlayerRestartingMapIn"] = "#1 님이 #2 초 뒤에 맵을 재시작하도록 설정했습니다!";
+CW_KOREAN["PlayerChangingMapIn"] = "#1 님이 #2 맵으로 #3 초 뒤에 변경하도록 설정했습니다!";
 
 CW_KOREAN["MapNameIsNotValid"] = "#1 는 올바르지 않은 맵입니다!";
 CW_KOREAN["ConfigKeyIsStatic"] = "#1 는 정적 설정 입니다!";
@@ -724,7 +725,7 @@ CW_KOREAN["EntityBeingLocked"] = "잠구는 중입니다...";
 CW_KOREAN["EntityBeingUnlocked"] = "잠금 해제 하는 중입니다...";
 CW_KOREAN["YouAreGainingStability"] = "일어나는 중입니다...";
 CW_KOREAN["YouAreGainingConciousness"] = "의식을 되찾고 있는 중입니다...";
-CW_KOREAN["PressJumpToGetUp"] = "'jump' 키를 눌러 일어납니다.";
+CW_KOREAN["PressJumpToGetUp"] = "점프 키를 눌러 일어납니다.";
 
 CW_KOREAN["ChatPlayerNotifyAll"] = ":color1:#1";
 CW_KOREAN["ChatPlayerNotify"] = ":color1:#1";
@@ -747,3 +748,31 @@ CW_KOREAN["ChatPlayerOOC"] = ":color1:[OOC] :color2:#1: :color0:#2";
 CW_KOREAN["ChatPlayerWhispers"] = ":color1:#1 님의 속삭임 \"#2\"";
 CW_KOREAN["ChatPlayerRadios"] = ":color1:#1 님의 라디오 \"#2\"";
 CW_KOREAN["ChatPlayerYells"] = ":color1:#1 님의 외침 \"#2\"";
+
+CW_KOREAN["PlayerConnected"] = "#1 님이 서버에 접속하였습니다.";
+CW_KOREAN["PlayerDisconnected"] = "#1 님이 서버에서 나갔습니다.";
+
+CW_KOREAN["LogPlayerDisconnected"] = "#1 (#2/#3) 님이 연결 해체됨.";
+CW_KOREAN["LogPlayerConnected"] = "#1 (#2/#3) 님이 접속함.";
+CW_KOREAN["LogPlayerSpawnedModel"] = "#1 님이 스폰됨. '#2'.";
+CW_KOREAN["LogPlayerSaysLOOC"] = "[LOOC] #1: #2";
+CW_KOREAN["LogPlayerSays"] = "#1 님의 말 \"#2\"";
+CW_KOREAN["LogPlayerDealDamageWithKill"] = "#1 님이 #4 으로 #3 님에게 #2 만큼의 데미지를 입혀 #3 님을 살해하였습니다.";
+CW_KOREAN["LogPlayerDealDamageKill"] = "#1 님이 #3 님에게 #2 만큼의 데미지를 입혀 #3 님을 살해하였습니다.";
+CW_KOREAN["LogPlayerTakeDamageWith"] = "#1 님이 #3 님으로 부터 #2 만큼의 데미지를 #4 로 입었으며 #5 만큼의 체력과 #6 만큼의 아머가 남았습니다.";
+CW_KOREAN["LogPlayerTakeDamage"] = "#1 님이 #3 님으로 부터 #2 만큼의 데미지를 입었으며 #4 만큼의 체력과 #5 만큼의 아머가 남았습니다.";
+CW_KOREAN["LogPlayerGainedItem"] = "#1 님이 #2 (#3) 아이템을 획득하였습니다.";
+CW_KOREAN["LogPlayerLostItem"] = "#1 님이 #2 (#3) 아이템을 잃었습니다..";
+CW_KOREAN["LogPlayerOrdered"] = "#1 님이 #1 (#2) 아이템을 주문하였습니다.";
+CW_KOREAN["LogPlayerDeletedChar"] = "#1 님이 '#2' 캐릭터를 제거하였습니다.";
+CW_KOREAN["LogPlayerLoadedChar"] = "#1 님이 '#2' 캐릭터를 로드하였습니다.";
+CW_KOREAN["LogPlayerUsedCommandArgs"] = "#1 님이 '#2 #3' 명령어를 사용하였습니다.";
+CW_KOREAN["LogPlayerUsedCommand"] = "#1 님이 '#2' 명령어를 사용하였습니다.";
+CW_KOREAN["LogPlayerRoll"] = "#1 님이 주사위를 굴려 #3 까지의 값 중 #2 가 나왔습니다.";
+
+CW_KOREAN["PlayerRoll"] = "님이 주사위를 굴려 #2 까지의 값 중 #1 이 나왔습니다.";
+
+CW_KOREAN["FaultDidNotChooseTraits"] = "아직 사용 가능한 #1 중 하나를 선택하지 않았습니다!";
+CW_KOREAN["YouCannotCreateThisChar"] = "당신은 이 캐릭터를 생성 할 수 없습니다!";
+CW_KOREAN["MenuNameTraits"] = "트레잇";
+CW_KOREAN["MenuNameTrait"] = "트레잇";
