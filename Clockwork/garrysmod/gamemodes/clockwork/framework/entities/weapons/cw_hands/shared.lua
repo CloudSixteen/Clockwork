@@ -1,5 +1,5 @@
 --[[
-	© 2016 CloudSixteen.com do not share, re-distribute or modify
+	© 2017 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -9,11 +9,11 @@
 if (SERVER) then
 	AddCSLuaFile("shared.lua");
 
-	SWEP.Weight				= 5;
+	--[[SWEP.Weight			= 5;
 	SWEP.AutoSwitchTo		= false;
-	SWEP.AutoSwitchFrom		= false;
+	SWEP.AutoSwitchFrom		= false;--]] -- Clockwork doesn't use this.
 
-	resource.AddFile("models/weapons/w_fists_t.mdl");
+	--resource.AddFile("models/weapons/w_fists_t.mdl");
 	
 	SWEP.ActivityTranslate = {
 		[ACT_HL2MP_GESTURE_RANGE_ATTACK] = ACT_HL2MP_GESTURE_RANGE_ATTACK_FIST,
@@ -37,71 +37,53 @@ if (CLIENT) then
 
 	SWEP.DrawAmmo 			= false;
 	SWEP.DrawCrosshair 		= false;
-	SWEP.DrawSecondaryAmmo	= false;
+	SWEP.DrawSecondaryAmmo		= false;
 	SWEP.ViewModelFOV		= 55;
 	SWEP.ViewModelFlip		= false;
-	SWEP.CSMuzzleFlashes	= false;
-	
-	SWEP.Slot				= 1;
-	SWEP.SlotPos			= 1;
-	SWEP.IconLetter			= "j";
 end;
 
-SWEP.Category				= "Backsword";
+SWEP.Category				= "Backsword 2";
 
 SWEP.HoldType				= "fist";
 
-SWEP.Spawnable				= true;
-SWEP.AdminSpawnable			= true;
+SWEP.Spawnable				= false;
+SWEP.AdminSpawnable			= false;
 
 SWEP.ViewModel 				= "models/weapons/c_arms.mdl";
 SWEP.WorldModel 			= "" ;
 SWEP.UseHands				= true;
 
-SWEP.Weight					= 5;
-SWEP.AutoSwitchTo			= false;
-SWEP.AutoSwitchFrom			= false;
-
-SWEP.Primary.ClipSize		= -1;
+SWEP.Primary.ClipSize			= -1;
 SWEP.Primary.Damage			= 6;
-SWEP.Primary.DefaultClip	= -1;
-SWEP.Primary.Automatic		= false;
+SWEP.Primary.DefaultClip		= -1;
+SWEP.Primary.Automatic			= false;
 SWEP.Primary.Ammo			="none";
 SWEP.DrawAmmo 				= false;
 
-SWEP.Secondary.ClipSize		= -1;
-SWEP.Secondary.DefaultClip	= -1;
-SWEP.Secondary.Damage		= 100;
-SWEP.Secondary.Automatic	= false;
+SWEP.Secondary.ClipSize			= -1;
+SWEP.Secondary.DefaultClip		= -1;
+SWEP.Secondary.Damage			= 100;
+SWEP.Secondary.Automatic		= false;
 SWEP.Secondary.Ammo			= "";
 
 SWEP.WallSound 				= Sound("Flesh.ImpactHard");
 SWEP.SwingSound				= Sound("WeaponFrag.Throw");
 SWEP.HitDistance			= 38;
-SWEP.LoweredAngles 			= Angle(0.000, 0.000, -22.000)
+SWEP.LoweredAngles 			= Angle(0.000, 0.000, -90.000)
 
-/*---------------------------------------------------------
-Initialize
----------------------------------------------------------*/
 function SWEP:Initialize() 
 	self:SetWeaponHoldType(self.HoldType);
 end;
 
-/*---------------------------------------------------------
-Deploy
----------------------------------------------------------*/
 function SWEP:Deploy()
 	local vm = self.Owner:GetViewModel();
 
-	--vm:SendViewModelMatchingSequence(vm:LookupSequence("fists_draw"));
+	vm:SendViewModelMatchingSequence(vm:LookupSequence("fists_draw"));
 	self.Weapon:SetNextPrimaryFire(CurTime() + 1);
 
 	return true;
 end;
 
-/*---------------------------------------------------------
-PrimaryAttack
----------------------------------------------------------*/
 function SWEP:PrimaryAttack()
 	if (SERVER) then
 		if (Clockwork.plugin:Call("PlayerCanThrowPunch", self.Owner)) then
@@ -165,9 +147,6 @@ function SWEP:PrimaryAttack()
 	end;
 end;
 
-/*---------------------------------------------------------
-SecondaryAttack
----------------------------------------------------------*/
 function SWEP:SecondaryAttack() 
 		if (SERVER) then
 		local trace = self.Owner:GetEyeTraceNoCursor();
@@ -187,9 +166,6 @@ function SWEP:SecondaryAttack()
 	end;
 end;
 
-/*---------------------------------------------------------
-KnockSound
----------------------------------------------------------*/
 function SWEP:PlayKnockSound()
 	if (SERVER) then
 		self.Weapon:CallOnClient("PlayKnockSound", "");
@@ -198,63 +174,38 @@ function SWEP:PlayKnockSound()
 	self.Weapon:EmitSound("physics/wood/wood_crate_impact_hard2.wav");
 end;
 
-
-/*---------------------------------------------------------
-Reload
----------------------------------------------------------*/
 function SWEP:Reload()
 
 	return false;
 end;
 
-/*---------------------------------------------------------
-OnRemove
----------------------------------------------------------*/
 function SWEP:OnRemove()
 
 	return true;
 end;
 
-/*---------------------------------------------------------
-Holster
----------------------------------------------------------*/
 function SWEP:Holster()
 
 	return true;
 end;
 
-/*---------------------------------------------------------
-ShootEffects
----------------------------------------------------------*/
 function SWEP:ShootEffects() end;
 
-/*---------------------------------------------------------
-OnDrop
----------------------------------------------------------*/
 function SWEP:OnDrop()
 	self:Remove();
 end;
 
-/*---------------------------------------------------------
-SetupDataTables
----------------------------------------------------------*/
 function SWEP:SetupDataTables()  
 	self:NetworkVar( "Float", 0, "NextMeleeAttack" ) 
  	self:NetworkVar( "Float", 1, "NextIdle" )
 end;
 
-/*---------------------------------------------------------
-UpdateNextIdle
----------------------------------------------------------*/
 function SWEP:UpdateNextIdle() 
  	local vm = self.Owner:GetViewModel();
 
  	self:SetNextIdle(CurTime() + vm:SequenceDuration());
 end;
 
-/*---------------------------------------------------------
-PunchEntity
----------------------------------------------------------*/
 function SWEP:PunchEntity()
 	local bounds = Vector(0, 0, 0);
 	local startPosition = self.Owner:GetShootPos();
@@ -278,10 +229,6 @@ function SWEP:PunchEntity()
 	end;
 end;
 
--- A function to play the punch animation.
-/*---------------------------------------------------------
-PunchingAnimation
----------------------------------------------------------*/
 function SWEP:PlayPunchAnimation()
 	if (SERVER) then
 		self.Weapon:CallOnClient("PlayPunchAnimation", "");
@@ -294,7 +241,6 @@ function SWEP:PlayPunchAnimation()
  
  	if (self.left) then
 		anim = "fists_left";
-		--ownerAnim = PLAYER_ATTACK2;
 	end;
  
  	local vm = self.Owner:GetViewModel();
