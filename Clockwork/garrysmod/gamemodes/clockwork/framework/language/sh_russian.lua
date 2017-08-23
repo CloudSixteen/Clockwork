@@ -208,10 +208,10 @@ CW_RUSSIAN["RequiredIngredientsMissing"] = "У вас нету всех недо
 CW_RUSSIAN["NoBlueprintsForCraftingMenu"] = "Нету чертежей для меню {MenuNameCrafting}!";
 
 CW_RUSSIAN["NotValidAttribute"] = "Не валидный атрибут: {AttributeName}!";
-CW_RUSSIAN["YouHaveMaxOfThis"] = "У вас максимум %1!";
+CW_RUSSIAN["YouHaveMaxOfThis"] = "У вас максимум #1!";
 
 CW_RUSSIAN["PlayerAlreadyIsFaction"] = "#1 уже состоит во фракции #2!";
-CW_RUSSIAN["PlayerNotCorrectGenderForFaction"] = "#1 не валидный пол для фракции #1!";
+CW_RUSSIAN["PlayerNotCorrectGenderForFaction"] = "#1 не валидный пол для фракции #2!";
 CW_RUSSIAN["PlayerTransferredPlayer"] = "#1 перенес #2 во фракцию #3.";
 CW_RUSSIAN["PlayerCannotTransferToFaction"] = "#1 не может быть перенесен во фракцию #2!";
 CW_RUSSIAN["PlayerCouldNotBeTransferred"] = "#1 не может быть перенесен во фракцию #2!";
@@ -482,7 +482,7 @@ CW_RUSSIAN["ShowItemEntitiesDesc"] = "Показывать ли предметы
 CW_RUSSIAN["ShowSalesmenEntities"] = "Показывать NPC Продавцов";
 CW_RUSSIAN["ShowSalesmenEntitiesDesc"] = "Показывать ли продавцов в ADMIN ESP.";
 CW_RUSSIAN["ESPInterval"] = "Интервал ESP";
-CW_RUSSIAN["ESPInterval"] = "Количество времени между проверками ESP.";
+CW_RUSSIAN["ESPIntervalDesc"] = "Количество времени между проверками ESP.";
 CW_RUSSIAN["HeadbobAmount"] = "Сила покачивания";
 CW_RUSSIAN["HeadbobAmountDesc"] = "Как сильно у вас будет качаться экран.";
 CW_RUSSIAN["ThemeDesc"] = "Тема для отображения.";
