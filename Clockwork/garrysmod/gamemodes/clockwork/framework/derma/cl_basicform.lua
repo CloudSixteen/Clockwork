@@ -101,6 +101,7 @@ function PANEL:TextEntry(strLabel, strConVar)
 	left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
 	left:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
 	left:SizeToContents();
+	left:SetWide(left:GetWide() + 12);
 	
 	local right = vgui.Create("DTextEntry", self);
 	
