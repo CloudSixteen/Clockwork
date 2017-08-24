@@ -42,8 +42,8 @@ function PANEL:Init()
 	
 	if (table.Count(Clockwork.salesmenu:GetSells()) > 0) then
 		self.sellsPanel = vgui.Create("cwPanelList");
-		self.sellsPanel:SetPadding(2);
-		self.sellsPanel:SetSpacing(3);
+		self.sellsPanel:SetPadding(4);
+		self.sellsPanel:SetSpacing(4);
 		self.sellsPanel:SizeToContents();
 		self.sellsPanel:EnableVerticalScrollbar();
 		
@@ -52,8 +52,8 @@ function PANEL:Init()
 	
 	if (table.Count(Clockwork.salesmenu:GetBuys()) > 0) then
 		self.buysPanel = vgui.Create("cwPanelList");
-		self.buysPanel:SetPadding(2);
-		self.buysPanel:SetSpacing(3);
+		self.buysPanel:SetPadding(4);
+		self.buysPanel:SetSpacing(4);
 		self.buysPanel:SizeToContents();
 		self.buysPanel:EnableVerticalScrollbar();
 		

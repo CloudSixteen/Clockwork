@@ -6,6 +6,26 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
+local cwConfig = Clockwork.config;
+local cwPly = Clockwork.player;
+local cwPlugin = Clockwork.plugin;
+local cwStorage = Clockwork.storage;
+local cwEvent = Clockwork.event;
+local cwLimb = Clockwork.limb;
+local cwItem = Clockwork.item;
+local cwEntity = Clockwork.entity;
+local cwKernel = Clockwork.kernel;
+local cwOption = Clockwork.option;
+local cwBans = Clockwork.bans;
+local cwDatabase = Clockwork.database;
+local cwDatastream = Clockwork.datastream;
+local cwFaction = Clockwork.faction;
+local cwInventory = Clockwork.inventory;
+local cwHint = Clockwork.hint;
+local cwCommand = Clockwork.command;
+local cwClass = Clockwork.class;
+local cwVoice = Clockwork.voice;
+
 local playerMeta = FindMetaTable("Player");
 
 playerMeta.ClockworkSetCrouchedWalkSpeed = playerMeta.ClockworkSetCrouchedWalkSpeed or playerMeta.SetCrouchedWalkSpeed;

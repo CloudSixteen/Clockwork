@@ -56,26 +56,26 @@ function PANEL:Init()
 	end;
 	
 	self.sellsPanel = vgui.Create("cwPanelList");
- 	self.sellsPanel:SetPadding(2);
- 	self.sellsPanel:SetSpacing(3);
+ 	self.sellsPanel:SetPadding(4);
+ 	self.sellsPanel:SetSpacing(4);
  	self.sellsPanel:SizeToContents();
 	self.sellsPanel:EnableVerticalScrollbar();
 	
 	self.buysPanel = vgui.Create("cwPanelList");
- 	self.buysPanel:SetPadding(2);
- 	self.buysPanel:SetSpacing(3);
+ 	self.buysPanel:SetPadding(4);
+ 	self.buysPanel:SetSpacing(4);
  	self.buysPanel:SizeToContents();
 	self.buysPanel:EnableVerticalScrollbar();
 	
 	self.itemsPanel = vgui.Create("cwPanelList");
- 	self.itemsPanel:SetPadding(2);
- 	self.itemsPanel:SetSpacing(3);
+ 	self.itemsPanel:SetPadding(4);
+ 	self.itemsPanel:SetSpacing(4);
  	self.itemsPanel:SizeToContents();
 	self.itemsPanel:EnableVerticalScrollbar();
 	
 	self.settingsPanel = vgui.Create("cwPanelList");
- 	self.settingsPanel:SetPadding(2);
- 	self.settingsPanel:SetSpacing(3);
+ 	self.settingsPanel:SetPadding(4);
+ 	self.settingsPanel:SetSpacing(4);
  	self.settingsPanel:SizeToContents();
 	self.settingsPanel:EnableVerticalScrollbar();
 	

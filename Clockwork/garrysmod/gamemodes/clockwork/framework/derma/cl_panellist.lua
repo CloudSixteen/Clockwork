@@ -43,7 +43,6 @@ function PANEL:AddItem(item, bottomMargin)
 	
 	DCategoryList.AddItem(self, item);
 	
-	-- TODO: Maybe not have this.
 	self:InvalidateLayout(true);
 end;
 

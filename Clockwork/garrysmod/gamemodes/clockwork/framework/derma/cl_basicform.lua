@@ -43,11 +43,33 @@ function PANEL:SetText(text, fontName, color, size)
 	
 	label:SetText(text);
 	label:SizeToContents();
+	label:SetTall(label:GetTall() + 8);
 	
 	if (wasCreated) then
 		self:AddItem(label);
 	end;
 end;
+
+-- A function to clear (and remove) the form's children.
+function PANEL:Clear(shouldDelete)
+	for k, panel in pairs(self.Items) do
+		if (!IsValid(panel)) then
+			continue;
+		end
+		
+		if (panel == self.Label) then
+			continue;
+		end;
+
+		panel:SetVisible(false);
+
+		if (shouldDelete) then
+			panel:Remove();
+		end;
+	end;
+
+	self.Items = {self.Label};
+end
 
 -- A function to add an item (left and right).
 function PANEL:AddLeftRight(left, right)
@@ -60,7 +82,6 @@ function PANEL:AddLeftRight(left, right)
 		left:SetParent(panel);
 		left:Dock(LEFT);
 		left:InvalidateLayout(true);
-	--	left:SetSize(100, 20)
 		
 		right:SetParent(panel);
 		right:SetPos(110, 0);
@@ -79,6 +100,7 @@ function PANEL:TextEntry(strLabel, strConVar)
 	left:SetText(strLabel);
 	left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
 	left:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
+	left:SizeToContents();
 	
 	local right = vgui.Create("DTextEntry", self);
 	
@@ -184,7 +206,7 @@ function PANEL:Help(strHelp)
 	left:SetAutoStretchVertical(true);
 	left:DockMargin(8, 0, 8, 8);
 	left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 14));
-	left:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
+	left:SetTextColor(Clockwork.option:GetColor("basic_form_color_help"));
 	
 	self:AddLeftRight(left, nil);
 	

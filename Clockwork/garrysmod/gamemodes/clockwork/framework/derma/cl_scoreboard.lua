@@ -197,11 +197,11 @@ function PANEL:Init()
 	end;
 	
 	if (info.doesRecognise) then
-		self.spawnIcon = vgui.Create("cwSpawnIcon", self);
+		self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("cwSpawnIcon", self));
 		self.spawnIcon:SetModel(info.model, info.skin);
 		self.spawnIcon:SetSize(40, 40);
 	else
-		self.spawnIcon = vgui.Create("DImageButton", self);
+		self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
 		self.spawnIcon:SetImage("clockwork/unknown.png");
 		self.spawnIcon:SetSize(40, 40);
 	end;

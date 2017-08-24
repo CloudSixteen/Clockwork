@@ -30,14 +30,14 @@ function PANEL:Init()
 	end;
 	
 	self.settingsPanel = vgui.Create("cwPanelList");
- 	self.settingsPanel:SetPadding(2);
- 	self.settingsPanel:SetSpacing(3);
+ 	self.settingsPanel:SetPadding(4);
+ 	self.settingsPanel:SetSpacing(4);
  	self.settingsPanel:SizeToContents();
 	self.settingsPanel:EnableVerticalScrollbar();
 	
 	self.playersPanel = vgui.Create("cwPanelList");
- 	self.playersPanel:SetPadding(2);
- 	self.playersPanel:SetSpacing(3);
+ 	self.playersPanel:SetPadding(4);
+ 	self.playersPanel:SetSpacing(4);
  	self.playersPanel:SizeToContents();
 	self.playersPanel:EnableVerticalScrollbar();
 	

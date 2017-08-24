@@ -30,6 +30,7 @@ if (!Clockwork.config) then include("sh_config.lua"); end;
 if (!Clockwork.attribute) then include("sh_attribute.lua"); end;
 if (!Clockwork.faction) then include("sh_faction.lua"); end;
 if (!Clockwork.class) then include("sh_class.lua"); end;
+if (!Clockwork.trait) then include("sh_trait.lua"); end;
 if (!Clockwork.command) then include("sh_command.lua"); end;
 if (!Clockwork.attribute) then include("sh_attribute.lua"); end;
 if (!Clockwork.option) then include("sh_option.lua"); end;

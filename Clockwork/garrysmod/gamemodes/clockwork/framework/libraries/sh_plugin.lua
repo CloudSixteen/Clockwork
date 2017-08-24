@@ -711,6 +711,7 @@ Clockwork.plugin:AddExtra("/directory/");
 Clockwork.plugin:AddExtra("/system/");
 Clockwork.plugin:AddExtra("/factions/");
 Clockwork.plugin:AddExtra("/classes/");
+Clockwork.plugin:AddExtra("/traits/");
 Clockwork.plugin:AddExtra("/attributes/");
 Clockwork.plugin:AddExtra("/items/");
 Clockwork.plugin:AddExtra("/derma/");

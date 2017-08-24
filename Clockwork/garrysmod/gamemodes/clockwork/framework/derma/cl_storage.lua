@@ -34,15 +34,15 @@ function PANEL:Init()
 	end;
 	
 	self.containerPanel = vgui.Create("cwPanelList", self);
- 	self.containerPanel:SetPadding(2);
- 	self.containerPanel:SetSpacing(3);
+ 	self.containerPanel:SetPadding(4);
+ 	self.containerPanel:SetSpacing(4);
  	self.containerPanel:SizeToContents();
  	self.containerPanel:EnableVerticalScrollbar();	
 	
 	if (!Clockwork.storage:GetIsOneSided()) then
 		self.inventoryPanel = vgui.Create("cwPanelList", self);
-		self.inventoryPanel:SetPadding(2);
-		self.inventoryPanel:SetSpacing(3);
+		self.inventoryPanel:SetPadding(4);
+		self.inventoryPanel:SetSpacing(4);
 		self.inventoryPanel:SizeToContents();
 		self.inventoryPanel:EnableVerticalScrollbar();
 	end;

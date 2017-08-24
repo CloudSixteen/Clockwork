@@ -149,6 +149,7 @@ if (CLIENT) then
 	Clockwork.option:SetColor("attribute_main_color", Color(100, 100, 100, 255));
 	
 	Clockwork.option:SetColor("basic_form_highlight", Color(0, 0, 0, 255));
+	Clockwork.option:SetColor("basic_form_color_help", Color(50, 50, 50, 255));
 	Clockwork.option:SetColor("basic_form_color", Color(0, 0, 0, 255));
 	
 	Clockwork.option:SetKey("icon_data_classes", {path = "", size = nil});

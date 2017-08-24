@@ -1566,6 +1566,10 @@ function Clockwork:PlayerRestoreCharacterData(player, data)
 	if (!data["Accessories"]) then
 		data["Accessories"] = {};
 	end;
+	
+	if (!data["Traits"]) then
+		data["Traits"] = {};
+	end;
 end;
 
 -- Called when a player's limb damage is bIsHealed.
@@ -4370,6 +4374,10 @@ cwDatastream:Hook("QuizAnswer", function(player, data)
 		player.cwQuizAnswers[question] = answer;
 	end;
 end);
+
+AddCSLuaFile("meta/cl_player.lua");
+AddCSLuaFile("meta/cl_entity.lua");
+AddCSLuaFile("meta/cl_weapon.lua");
 
 Clockwork.kernel:IncludePrefixed("meta/sv_entity.lua");
 Clockwork.kernel:IncludePrefixed("meta/sv_player.lua");

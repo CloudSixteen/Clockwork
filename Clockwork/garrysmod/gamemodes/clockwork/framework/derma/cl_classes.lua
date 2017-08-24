@@ -169,12 +169,12 @@ function PANEL:Init()
 	Clockwork.plugin:Call("PlayerAdjustClassModelInfo", self.classTable.index, info);
 	
 	if (!self.classTable.image) then
-		self.spawnIcon = vgui.Create("cwSpawnIcon", self);
+		self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("cwSpawnIcon", self));
 		self.spawnIcon:SetModel(info.model, info.skin);
 		self.spawnIcon:SetToolTip(self.classTable.description);
 		self.spawnIcon:SetSize(32, 32);
 	else
-		self.spawnIcon = vgui.Create("DImageButton", self);
+		self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
 		self.spawnIcon:SetToolTip(self.classTable.description);
 		self.spawnIcon:SetImage(self.classTable.image..".png");
 		self.spawnIcon:SetSize(32, 32);

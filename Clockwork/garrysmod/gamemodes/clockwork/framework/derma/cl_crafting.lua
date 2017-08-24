@@ -19,7 +19,7 @@ function PANEL:Init()
 	self:SetSize(Clockwork.menu:GetWidth(), Clockwork.menu:GetHeight());
 	
 	self.panelList = vgui.Create("cwPanelList", self);
- 	self.panelList:SetPadding(2);
+ 	self.panelList:SetPadding(4);
  	self.panelList:SetSpacing(2);
  	self.panelList:SizeToContents();
 	self.panelList:EnableVerticalScrollbar();
@@ -62,6 +62,7 @@ function PANEL:Rebuild()
 	else
 		for k, v in pairs(categories) do
 			local categoryForm = vgui.Create("cwBasicForm", self);
+			
 			categoryForm:SetPadding(8);
 			categoryForm:SetSpacing(8);
 			categoryForm:SetAutoSize(true);

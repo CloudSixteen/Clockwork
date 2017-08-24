@@ -790,3 +790,6 @@ CW_ENGLISH["YourCharLostCashReason"] = "Your character has lost #1 (#2).";
 CW_ENGLISH["YourCharLostCash"] = "Your character has lost #1.";
 CW_ENGLISH["YourCharGainedCashReason"] = "Your character has gained #1 (#2).";
 CW_ENGLISH["YourCharGainedCash"] = "Your character has gained #1.";
+
+CW_ENGLISH["CharacterMenuTraits"] = "Traits";
+CW_ENGLISH["CreateCharacterStage5"] = "Traits";

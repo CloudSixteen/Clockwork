@@ -3252,7 +3252,7 @@ else
 		
 		local collapsibleCategory = vgui.Create("DCollapsibleCategory", parent);
 			collapsibleCategory:SetExpanded(true);
-			collapsibleCategory:SetPadding(2);
+			collapsibleCategory:SetPadding(4);
 			collapsibleCategory:SetLabel(categoryName);
 		parent.CategoryList[#parent.CategoryList + 1] = collapsibleCategory;
 		

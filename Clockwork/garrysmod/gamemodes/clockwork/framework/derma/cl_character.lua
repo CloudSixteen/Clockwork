@@ -809,26 +809,24 @@ function PANEL:Init()
 		modelPanel.Entity:ResetSequence(sequence);
 	end;
 	
-	self.useButton = vgui.Create("DImageButton", self);
+	self.useButton = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
 	self.useButton:SetToolTip(L("UseThisCharacter"));
 	self.useButton:SetImage("icon16/tick.png");
 	self.useButton:SetSize(16, 16);
 	self.useButton:SetPos(0, buttonY);
 	self.useButton:SetMouseInputEnabled(true);
 	
-	self.deleteButton = vgui.Create("DImageButton", self);
+	self.deleteButton = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
 	self.deleteButton:SetToolTip(L("DeleteThisCharacter"));
 	self.deleteButton:SetImage("icon16/cross.png");
 	self.deleteButton:SetSize(16, 16);
 	self.deleteButton:SetPos(20, buttonY);
 	self.deleteButton:SetMouseInputEnabled(true);
 	
-	Clockwork.plugin:Call(
-		"GetCustomCharacterButtons", self.customData.charTable, buttonsList
-	);
+	Clockwork.plugin:Call("GetCustomCharacterButtons", self.customData.charTable, buttonsList);
 	
 	for k, v in pairs(buttonsList) do
-		local button = vgui.Create("DImageButton", self);
+		local button = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
 			buttonX = buttonX + 20;
 			button:SetToolTip(v.toolTip);
 			button:SetImage(v.image);
@@ -1148,7 +1146,7 @@ function PANEL:Init()
 	
 	Clockwork.kernel:CreateMarkupToolTip(self);
 	
-	self.addButton = vgui.Create("DImageButton", self);
+	self.addButton = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
 	self.addButton:SetMaterial("icon16/add.png");
 	self.addButton:SizeToContents();
 	
@@ -1157,7 +1155,7 @@ function PANEL:Init()
 		self:AddPoint();
 	end;
 	
-	self.removeButton = vgui.Create("DImageButton", self);
+	self.removeButton = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
 	self.removeButton:SetMaterial("icon16/exclamation.png");
 	self.removeButton:SizeToContents();
 	
@@ -1289,12 +1287,15 @@ function PANEL:Init()
 		maximumPoints = factionTable.maximumAttributePoints;
 	end;
 	
-	self.attributesForm = vgui.Create("DForm");
-	self.attributesForm:SetName(Clockwork.option:Translate("name_attributes"));
-	self.attributesForm:SetPadding(4);
+	self.attributesForm = vgui.Create("cwBasicForm");
+	self.attributesForm:SetAutoSize(true);
+	self.attributesForm:SetText(Clockwork.option:Translate("name_attributes"));
+	self.attributesForm:SetPadding(8);
+	self.attributesForm:SetSpacing(8);
 	
-	self.categoryList = vgui.Create("DCategoryList", self);
- 	self.categoryList:SetPadding(2);
+	self.categoryList = vgui.Create("cwPanelList", self);
+ 	self.categoryList:SetPadding(8);
+	self.categoryList:SetSpacing(8);
  	self.categoryList:SizeToContents();
 	
 	for k, v in pairs(Clockwork.attribute:GetAll()) do
@@ -1433,8 +1434,9 @@ function PANEL:Init()
 	self.classesForm:SetName(L("MenuNameClasses"));
 	self.classesForm:SetPadding(4);
 	
-	self.categoryList = vgui.Create("DCategoryList", self);
- 	self.categoryList:SetPadding(2);
+	self.categoryList = vgui.Create("cwPanelList", self);
+ 	self.categoryList:SetPadding(8);
+	self.categoryList:SetSpacing(8);
  	self.categoryList:SizeToContents();
 	
 	for k, v in pairs(Clockwork.class:GetAll()) do
@@ -1549,8 +1551,9 @@ function PANEL:Init()
 	local smallTextFont = Clockwork.option:GetFont("menu_text_small");
 	local panel = Clockwork.character:GetPanel();
 	
-	self.categoryList = vgui.Create("DCategoryList", self);
- 	self.categoryList:SetPadding(2);
+	self.categoryList = vgui.Create("cwPanelList", self);
+ 	self.categoryList:SetPadding(8);
+	self.categoryList:SetSpacing(8);
  	self.categoryList:SizeToContents();
 	
 	self.overrideModel = nil;
@@ -1574,9 +1577,11 @@ function PANEL:Init()
 	end;
 	
 	if (!Clockwork.faction.stored[self.info.faction].GetName) then
-		self.nameForm = vgui.Create("DForm", self);
-		self.nameForm:SetPadding(4);
-		self.nameForm:SetName(L("Name"));
+		self.nameForm = vgui.Create("cwBasicForm", self);
+		self.nameForm:SetAutoSize(true);
+		self.nameForm:SetPadding(8);
+		self.nameForm:SetSpacing(8);
+		self.nameForm:SetText(L("Name"));
 		
 		if (Clockwork.faction.stored[self.info.faction].useFullName) then
 			self.fullNameTextEntry = self.nameForm:TextEntry(L("CharacterMenuFullName"));
@@ -1591,9 +1596,11 @@ function PANEL:Init()
 	end;
 	
 	if (self.hasSelectedModel or self.hasPhysDesc) then
-		self.appearanceForm = vgui.Create("DForm");
-		self.appearanceForm:SetPadding(4);
-		self.appearanceForm:SetName(L("CharacterMenuAppearance"));
+		self.appearanceForm = vgui.Create("cwBasicForm");
+		self.appearanceForm:SetAutoSize(true);
+		self.appearanceForm:SetPadding(8);
+		self.appearanceForm:SetSpacing(8);
+		self.appearanceForm:SetText(L("CharacterMenuAppearance"));
 		
 		if (self.hasPhysDesc and self.hasSelectedModel) then
 			self.appearanceForm:Help(L("CharacterMenuPhysDescHelpAndModel"));
@@ -1828,13 +1835,16 @@ function PANEL:Init()
 	self.forcedFaction = nil;
 	self.info = Clockwork.character:GetCreationInfo();
 	
-	self.categoryList = vgui.Create("DCategoryList", self);
- 	self.categoryList:SetPadding(2);
+	self.categoryList = vgui.Create("cwPanelList", self);
+ 	self.categoryList:SetPadding(8);
+	self.categoryList:SetSpacing(8);
  	self.categoryList:SizeToContents();
 	
-	self.settingsForm = vgui.Create("DForm");
-	self.settingsForm:SetName(L("CreateCharacterStage1"));
-	self.settingsForm:SetPadding(4);
+	self.settingsForm = vgui.Create("cwBasicForm");
+	self.settingsForm:SetAutoSize(true);
+	self.settingsForm:SetText(L("CreateCharacterStage1"));
+	self.settingsForm:SetPadding(8);
+	self.settingsForm:SetSpacing(8);
 	
 	if (#factions > 1) then
 		self.settingsForm:Help(L("CharacterMenuFactionHelp"));
@@ -2059,6 +2069,151 @@ end;
 
 vgui.Register("cwCharacterStageOne", PANEL, "EditablePanel");
 
+local PANEL = {};
+
+-- Called when the panel is initialized.
+function PANEL:Init()
+	local smallTextFont = Clockwork.option:GetFont("menu_text_small");
+	local panel = Clockwork.character:GetPanel();
+	
+	self.categoryList = vgui.Create("cwPanelList", self);
+ 	self.categoryList:SetPadding(8);
+	self.categoryList:SetSpacing(8);
+ 	self.categoryList:SizeToContents();
+	
+	self.info = Clockwork.character:GetCreationInfo();
+	
+	self.traitForm = vgui.Create("cwBasicForm");
+	self.traitForm:SetAutoSize(true);
+	self.traitForm:SetPadding(8);
+	self.traitForm:SetSpacing(8);
+	self.traitForm:SetText(L("CharacterMenuTraits"));
+	
+	self.traitItemsList = vgui.Create("DPanelList", self);
+		self.traitItemsList:SetPadding(4);
+		self.traitItemsList:SetSpacing(16);
+		self.traitItemsList:EnableHorizontal(true);
+		self.traitItemsList:EnableVerticalScrollbar(true);
+	self.traitForm:AddItem(self.traitItemsList);
+	
+	self.categoryList:AddItem(self.traitForm);
+	
+	local informationColor = Clockwork.option:GetColor("information");
+	
+	for k, v in pairs(Clockwork.trait:GetAll()) do
+		local traitButton = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
+		
+		traitButton:SetToolTip(v.description);
+		traitButton:SetImage(v.image..".png");
+		traitButton:SetSize(64, 64);
+		
+		-- Called when the spawn icon is clicked.
+		function traitButton.DoClick(spawnIcon)
+			if (self.selectedTraitIcon) then
+				--self.selectedSpawnIcon:SetColor(nil);
+			end;
+			
+			--traitButton:SetColor(informationColor);
+			
+			self.selectedTraitIcon = traitButton;
+			self.selectedTrait = v2;
+		end;
+		
+		self.traitItemsList:AddItem(traitButton);
+	end;
+end;
+
+-- Called when the next button is pressed.
+function PANEL:OnNext()
+	
+end;
+
+-- Called when the panel is painted.
+function PANEL:Paint(w, h) end;
+
+-- A function to make the panel fade out.
+function PANEL:FadeOut(speed, Callback)
+	if (self:GetAlpha() > 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
+		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
+			panel:SetAlpha(255 - (delta * 255));
+			
+			if (animation.Finished) then
+				panel:SetVisible(false);
+			end;
+			
+			if (animation.Finished and Callback) then
+				Callback();
+			end;
+		end);
+		
+		if (self.animation) then
+			self.animation:Start(speed);
+		end;
+		
+		Clockwork.option:PlaySound("rollover");
+	else
+		self:SetVisible(false);
+		self:SetAlpha(0);
+		
+		if (Callback) then
+			Callback();
+		end;
+	end;
+end;
+
+-- A function to make the panel fade in.
+function PANEL:FadeIn(speed, Callback)
+	if (self:GetAlpha() == 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
+		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
+			panel:SetVisible(true);
+			panel:SetAlpha(delta * 255);
+			
+			if (animation.Finished) then
+				self.animation = nil;
+			end;
+			
+			if (animation.Finished and Callback) then
+				Callback();
+			end;
+		end);
+		
+		if (self.animation) then
+			self.animation:Start(speed);
+		end;
+		
+		Clockwork.option:PlaySound("click_release");
+	else
+		self:SetVisible(true);
+		self:SetAlpha(255);
+		
+		if (Callback) then
+			Callback();
+		end;
+	end;
+end;
+
+-- Called each frame.
+function PANEL:Think()
+	self:InvalidateLayout(true);
+	
+	if (self.animation) then
+		self.animation:Run();
+	end;
+end;
+
+-- Called when the layout should be performed.
+function PANEL:PerformLayout(w, h)
+	self.categoryList:StretchToParent(0, 0, 0, 0);
+	
+	if (IsValid(self.traitItemsList)) then
+		self.traitItemsList:SetTall(256);
+	end;
+	
+	self:SetSize(512, math.min(self.categoryList.pnlCanvas:GetTall() + 8, ScrH() * 0.6));
+end;
+
+vgui.Register("cwCharacterStageFive", PANEL, "EditablePanel");
+
 Clockwork.datastream:Hook("CharacterRemove", function(data)
 	local characters = Clockwork.character:GetAll();
 	local characterID = data;
@@ -2177,6 +2332,21 @@ Clockwork.character:RegisterCreationPanel("CreateCharacterStage4", "cwCharacterS
 		if (table.Count(attributeTable) > 0) then
 			for k, v in pairs(attributeTable) do
 				if (v.isOnCharScreen) then
+					return true;
+				end;
+			end;
+		end;
+		
+		return false;
+	end
+);
+
+Clockwork.character:RegisterCreationPanel("CreateCharacterStage5", "cwCharacterStageFive", nil, function(info)
+		local traitTable = Clockwork.trait:GetAll();
+		
+		if (table.Count(traitTable) > 0) then
+			for k, v in pairs(traitTable) do
+				if (!v.factions or table.HasValue(v.factions, info.faction)) then
 					return true;
 				end;
 			end;

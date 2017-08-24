@@ -20,7 +20,7 @@ function PANEL:Init()
 	self:SetSize(Clockwork.menu:GetWidth(), Clockwork.menu:GetHeight());
 	
 	self.treeNode = vgui.Create("DTree", self);
-	self.treeNode:SetPadding(2);
+	self.treeNode:SetPadding(4);
 	self.htmlPanel = vgui.Create("HTML", self);
 	
 	Clockwork.directory.panel = self;

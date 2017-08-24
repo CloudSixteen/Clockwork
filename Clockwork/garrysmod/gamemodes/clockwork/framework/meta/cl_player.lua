@@ -6,6 +6,25 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
+local cwDatastream = Clockwork.datastream;
+local cwCharacter = Clockwork.character;
+local cwCommand = Clockwork.command;
+local cwSetting = Clockwork.setting;
+local cwFaction = Clockwork.faction;
+local cwChatBox = Clockwork.chatBox;
+local cwEntity = Clockwork.entity;
+local cwOption = Clockwork.option;
+local cwConfig = Clockwork.config;
+local cwKernel = Clockwork.kernel;
+local cwPlugin = Clockwork.plugin;
+local cwTheme = Clockwork.theme;
+local cwEvent = Clockwork.event;
+local cwPly = Clockwork.player;
+local cwMenu = Clockwork.menu;
+local cwQuiz = Clockwork.quiz;
+local cwItem = Clockwork.item;
+local cwLimb = Clockwork.limb;
+
 local playerMeta = FindMetaTable("Player");
 
 playerMeta.SteamName = playerMeta.SteamName or playerMeta.Name;
@@ -119,8 +138,7 @@ end;
 function playerMeta:GetData(key, default)
 	local playerData = cwPly.playerData[key];
 	
-	if (playerData and (!playerData.playerOnly
-	or self == cwClient)) then
+	if (playerData and (!playerData.playerOnly or self == Clockwork.Client)) then
 		return self:GetSharedVar(key);
 	end;
 	
@@ -131,8 +149,7 @@ end;
 function playerMeta:GetCharacterData(key, default)
 	local characterData = cwPly.characterData[key];
 	
-	if (characterData and (!characterData.playerOnly
-	or self == cwClient)) then
+	if (characterData and (!characterData.playerOnly or self == Clockwork.Client)) then
 		return self:GetSharedVar(key);
 	end;
 	

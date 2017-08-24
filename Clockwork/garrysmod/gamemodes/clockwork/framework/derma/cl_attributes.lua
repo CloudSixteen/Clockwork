@@ -101,9 +101,7 @@ function PANEL:Rebuild()
 			
 			self.currentAttribute = v[1];
 			
-			categoryForm:AddItem(
-				vgui.Create("cwAttributesItem", self)
-			);
+			categoryForm:AddItem(vgui.Create("cwAttributesItem", self));
 			
 			self.panelList:AddItem(categoryForm);
 		end;
@@ -299,7 +297,7 @@ function PANEL:Init()
 	end;
 	
 	if (self.attribute.image) then
-		self.spawnIcon = vgui.Create("DImageButton", self);
+		self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
 		self.spawnIcon:SetToolTip(self.attribute.description);
 		self.spawnIcon:SetImage(self.attribute.image..".png");
 		self.spawnIcon:SetSize(32, 32);
