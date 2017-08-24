@@ -81,13 +81,13 @@ end;
 	@option Bool:String Specify a custom sound or false for no sound.
 	@option Bool Specify wether to display duplicates of this hint.
 --]]
-function Clockwork.hint:SendCenter(player, text, delay, color, bNoSound, showDuplicated)
+function Clockwork.hint:SendCenter(player, text, delay, color, noSound, showDuplicated)
 	Clockwork.datastream:Start(player, "Hint", {
-		text = Clockwork.kernel:ParseData(text),
+		text = text,
 		delay = delay,
 		color = color,
 		center = true,
-		noSound = bNoSound,
+		noSound = noSound,
 		showDuplicates = showDuplicated
 	});
 end;
@@ -117,9 +117,14 @@ end;
 	@option Bool:String Specify a custom sound or false for no sound.
 	@option Bool Specify wether to display duplicates of this hint.
 --]]
-function Clockwork.hint:Send(player, text, delay, color, bNoSound, showDuplicated)
+function Clockwork.hint:Send(player, text, delay, color, noSound, showDuplicated)
 	Clockwork.datastream:Start(player, "Hint", {
-		text = Clockwork.kernel:ParseData(text), delay = delay, color = color, noSound = bNoSound, showDuplicates = showDuplicated
+		text = text,
+		delay = delay,
+		color = color,
+		noSound = noSound,
+		showDuplicates =
+		showDuplicated
 	});
 end;
 

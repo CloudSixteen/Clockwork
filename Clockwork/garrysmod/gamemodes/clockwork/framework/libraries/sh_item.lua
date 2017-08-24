@@ -564,7 +564,7 @@ if (SERVER) then
 	Clockwork.item.entities = {};
 	
 	-- A function to use an item for a player.
-	function Clockwork.item:Use(player, itemTable, bNoSound)
+	function Clockwork.item:Use(player, itemTable, noSound)
 		local itemEntity = player:GetItemEntity();
 		
 		if (player:HasItemInstance(itemTable)) then
@@ -581,7 +581,7 @@ if (SERVER) then
 					return false;
 				end;
 				
-				if (!bNoSound) then
+				if (!noSound) then
 					local useSound = itemTable("useSound");
 					
 					if (useSound) then
@@ -603,7 +603,7 @@ if (SERVER) then
 	end;
 	
 	-- A function to drop an item from a player.
-	function Clockwork.item:Drop(player, itemTable, position, bNoSound, bNoTake)
+	function Clockwork.item:Drop(player, itemTable, position, noSound, bNoTake)
 		if (itemTable and (bNoTake or player:HasItemInstance(itemTable))) then
 			local traceLine = nil;
 			local entity = nil;
@@ -636,7 +636,7 @@ if (SERVER) then
 					end;
 				end;
 				
-				if (!bNoSound) then
+				if (!noSound) then
 					local dropSound = itemTable("dropSound");
 					
 					if (dropSound) then
@@ -658,7 +658,7 @@ if (SERVER) then
 	end;
 	
 	-- A function to destroy a player's item.
-	function Clockwork.item:Destroy(player, itemTable, bNoSound)
+	function Clockwork.item:Destroy(player, itemTable, noSound)
 		if (player:HasItemInstance(itemTable) and itemTable.OnDestroy) then
 			if (itemTable:OnDestroy(player) == false) then
 				return false;
@@ -666,7 +666,7 @@ if (SERVER) then
 			
 			player:TakeItem(itemTable);
 			
-			if (!bNoSound) then
+			if (!noSound) then
 				local destroySound = itemTable("destroySound");
 				
 				if (destroySound) then

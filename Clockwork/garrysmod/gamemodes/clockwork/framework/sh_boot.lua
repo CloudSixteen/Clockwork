@@ -165,10 +165,9 @@ function Clockwork:ClockworkAddSharedVars(globalVars, playerVars)
 	playerVars:String("Clothes", true);
 	playerVars:String("Model", true);
 	playerVars:String("ActName");
-	playerVars:String("flags");
 	playerVars:String("Flags");
 	playerVars:String("Name");
-	playerVars:String("icon");
+	playerVars:String("Icon");
 	playerVars:Entity("Ragdoll");
 	playerVars:Float("StartActTime");
 	globalVars:String("NoMySQL");

@@ -72,8 +72,8 @@ function ITEM:GetClientSideModel()
 end;
 
 -- Called when a player changes clothes.
-function ITEM:OnChangeClothes(player, bIsWearing)
-	if (bIsWearing) then
+function ITEM:OnChangeClothes(player, isWearing)
+	if (isWearing) then
 		local replacement = nil;
 		
 		if (self.GetReplacement) then
@@ -93,7 +93,7 @@ function ITEM:OnChangeClothes(player, bIsWearing)
 	end;
 	
 	if (self.OnChangedClothes) then
-		self:OnChangedClothes(player, bIsWearing);
+		self:OnChangedClothes(player, isWearing);
 	end;
 end;
 
@@ -142,10 +142,10 @@ if (CLIENT) then
 	function ITEM:GetClientSideInfo()
 		if (!self:IsInstance()) then return; end;
 		
-		if (Clockwork.player:IsWearingItem(self)) then
-			return "Is Wearing: Yes";
+		if (Clockwork.player:IsWearingAccessory(self)) then
+			return L("ItemInfoIsWearingYes");
 		else
-			return "Is Wearing: No";
+			return L("ItemInfoIsWearingNo");
 		end;
 	end;
 end;

@@ -8,12 +8,8 @@
 
 if (SERVER) then
 	AddCSLuaFile("shared.lua");
-
-	--[[SWEP.Weight			= 5;
-	SWEP.AutoSwitchTo		= false;
-	SWEP.AutoSwitchFrom		= false;--]] -- Clockwork doesn't use this.
-
-	--resource.AddFile("models/weapons/w_fists_t.mdl");
+	
+	resource.AddFile("models/weapons/w_fists_t.mdl");
 	
 	SWEP.ActivityTranslate = {
 		[ACT_HL2MP_GESTURE_RANGE_ATTACK] = ACT_HL2MP_GESTURE_RANGE_ATTACK_FIST,
@@ -34,36 +30,32 @@ if (CLIENT) then
 	SWEP.Instructions		= "Primary Fire: Hit.\nSecondary Fire: Knock on a door.\nR: Drop an item.";
 	SWEP.Purpose			= "Harming characters and knocking on doors.";
 	SWEP.Contact			= "CloudSixteen.com";
-
 	SWEP.DrawAmmo 			= false;
 	SWEP.DrawCrosshair 		= false;
-	SWEP.DrawSecondaryAmmo		= false;
+	SWEP.DrawSecondaryAmmo	= false;
 	SWEP.ViewModelFOV		= 55;
 	SWEP.ViewModelFlip		= false;
 end;
 
-SWEP.Category				= "Backsword 2";
-
+SWEP.Category				= "Clockwork";
 SWEP.HoldType				= "fist";
-
 SWEP.Spawnable				= false;
 SWEP.AdminSpawnable			= false;
-
 SWEP.ViewModel 				= "models/weapons/c_arms.mdl";
 SWEP.WorldModel 			= "" ;
 SWEP.UseHands				= true;
 
-SWEP.Primary.ClipSize			= -1;
+SWEP.Primary.ClipSize		= -1;
 SWEP.Primary.Damage			= 6;
-SWEP.Primary.DefaultClip		= -1;
-SWEP.Primary.Automatic			= false;
-SWEP.Primary.Ammo			="none";
+SWEP.Primary.DefaultClip	= -1;
+SWEP.Primary.Automatic		= false;
+SWEP.Primary.Ammo			= "none";
 SWEP.DrawAmmo 				= false;
 
-SWEP.Secondary.ClipSize			= -1;
-SWEP.Secondary.DefaultClip		= -1;
-SWEP.Secondary.Damage			= 100;
-SWEP.Secondary.Automatic		= false;
+SWEP.Secondary.ClipSize		= -1;
+SWEP.Secondary.DefaultClip	= -1;
+SWEP.Secondary.Damage		= 100;
+SWEP.Secondary.Automatic	= false;
 SWEP.Secondary.Ammo			= "";
 
 SWEP.WallSound 				= Sound("Flesh.ImpactHard");
@@ -79,6 +71,7 @@ function SWEP:Deploy()
 	local vm = self.Owner:GetViewModel();
 
 	vm:SendViewModelMatchingSequence(vm:LookupSequence("fists_draw"));
+	
 	self.Weapon:SetNextPrimaryFire(CurTime() + 1);
 
 	return true;
@@ -91,7 +84,10 @@ function SWEP:PrimaryAttack()
 			self.Owner:SetAnimation(PLAYER_ATTACK1);
 			self.Weapon:SetNextPrimaryFire(CurTime() + 0.5)
 			self.Weapon:SetNextSecondaryFire(CurTime() + 0.7)
-			timer.Simple(0.10, function ()self.Weapon:EmitSound( self.SwingSound ); end);	
+			
+			timer.Simple(0.1, function()
+				self.Weapon:EmitSound(self.SwingSound);
+			end);	
 			
 			local trace = self.Owner:GetEyeTraceNoCursor();
 			
@@ -148,7 +144,7 @@ function SWEP:PrimaryAttack()
 end;
 
 function SWEP:SecondaryAttack() 
-		if (SERVER) then
+	if (SERVER) then
 		local trace = self.Owner:GetEyeTraceNoCursor();
 		
 		if (IsValid(trace.Entity) and Clockwork.entity:IsDoor(trace.Entity)) then
@@ -175,17 +171,14 @@ function SWEP:PlayKnockSound()
 end;
 
 function SWEP:Reload()
-
 	return false;
 end;
 
 function SWEP:OnRemove()
-
 	return true;
 end;
 
 function SWEP:Holster()
-
 	return true;
 end;
 
@@ -196,8 +189,8 @@ function SWEP:OnDrop()
 end;
 
 function SWEP:SetupDataTables()  
-	self:NetworkVar( "Float", 0, "NextMeleeAttack" ) 
- 	self:NetworkVar( "Float", 1, "NextIdle" )
+	self:NetworkVar("Float", 0, "NextMeleeAttack") 
+ 	self:NetworkVar("Float", 1, "NextIdle")
 end;
 
 function SWEP:UpdateNextIdle() 
@@ -216,7 +209,7 @@ function SWEP:PunchEntity()
 		filter = self.Owner
 	});
 
-	timer.Simple(0.32, function ()self.Weapon:EmitSound( self.WallSound ); end);
+	timer.Simple(0.32, function ()self.Weapon:EmitSound(self.WallSound); end);
 	
 	if (SERVER) then
 		self.Weapon:CallOnClient("PunchEntity", "");
@@ -234,7 +227,11 @@ function SWEP:PlayPunchAnimation()
 		self.Weapon:CallOnClient("PlayPunchAnimation", "");
 	end;
 
- 	if (self.left == nil) then self.left = true; else self.left = !self.left; end;
+ 	if (self.left == nil) then
+		self.left = true;
+	else
+		self.left = !self.left;
+	end;
 
 	local anim = "fists_right";
 	local ownerAnim = PLAYER_ATTACK1;
@@ -246,5 +243,6 @@ function SWEP:PlayPunchAnimation()
  	local vm = self.Owner:GetViewModel();
 
  	self.Owner:SetAnimation(ownerAnim);
+	
  	vm:SendViewModelMatchingSequence(vm:LookupSequence(anim));
 end;

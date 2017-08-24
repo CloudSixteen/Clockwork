@@ -633,7 +633,7 @@ function Clockwork:PlayerFlagsGiven(player, flags)
 		cwPly:GiveSpawnWeapon(player, "gmod_tool");
 	end;
 	
-	player:SetSharedVar("flags", player:GetFlags());
+	player:SetSharedVar("Flags", player:GetFlags());
 end;
 
 -- Called when a player has had flags taken.
@@ -650,7 +650,7 @@ function Clockwork:PlayerFlagsTaken(player, flags)
 		end;
 	end;
 	
-	player:SetSharedVar("flags", player:GetFlags());
+	player:SetSharedVar("Flags", player:GetFlags());
 end;
 
 -- Called when a player's phys desc override is needed.
@@ -1566,8 +1566,6 @@ function Clockwork:PlayerRestoreCharacterData(player, data)
 	if (!data["Accessories"]) then
 		data["Accessories"] = {};
 	end;
-	
-	cwPly:RestoreCharacterData(player, data);
 end;
 
 -- Called when a player's limb damage is bIsHealed.
@@ -1857,6 +1855,12 @@ function Clockwork:PlayerDestroyGenerator(player, entity, generator) end;
 function Clockwork:PlayerRestoreData(player, data)
 	if (!data["Whitelisted"]) then
 		data["Whitelisted"] = {};
+	end;
+	
+	--[[ Backwards Compatability... --]]
+	if (data["serverwhitelist"]) then
+		data["ServerWhitelist"] = data["serverwhitelist"];
+		data["serverwhitelist"] = nil;
 	end;
 end;
 
@@ -2605,12 +2609,12 @@ function Clockwork:EntityRemoved(entity)
 				if (entity.cwIsBelongings and entity.cwInventory and entity.cwCash
 				and (table.Count(entity.cwInventory) > 0 or entity.cwCash > 0)) then
 					local belongings = ents.Create("cw_belongings");
-						
+					
 					belongings:SetAngles(Angle(0, 0, -90));
 					belongings:SetData(entity.cwInventory, entity.cwCash);
 					belongings:SetPos(entity:GetPos() + Vector(0, 0, 32));
 					belongings:Spawn();
-						
+					
 					entity.cwInventory = nil;
 					entity.cwCash = nil;
 				end;
@@ -2622,13 +2626,13 @@ function Clockwork:EntityRemoved(entity)
 			if (entity.cwGiveRefundTab
 			and CurTime() <= entity.cwGiveRefundTab[1]) then
 				if (IsValid(entity.cwGiveRefundTab[2])) then
-					cwPly:GiveCash(entity.cwGiveRefundTab[2], entity.cwGiveRefundTab[3], "Prop Refund");
+					cwPly:GiveCash(entity.cwGiveRefundTab[2], entity.cwGiveRefundTab[3], {"CashPropRefund"});
 				end;
 			end;
 			
 			allProperty[entIndex] = nil;
 			
-			if (entity:GetClass() == "csItem") then
+			if (entity:GetClass() == "cw_item") then
 				cwItem:RemoveItemEntity(entity);
 			end;
 		end;

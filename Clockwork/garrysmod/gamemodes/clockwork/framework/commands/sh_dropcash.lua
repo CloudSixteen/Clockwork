@@ -25,7 +25,7 @@ function COMMAND:OnRun(player, arguments)
 		
 		if (player:GetShootPos():Distance(trace.HitPos) <= 192) then
 			if (Clockwork.player:CanAfford(player, cash)) then
-				Clockwork.player:GiveCash(player, -cash, "Dropping "..Clockwork.option:GetKey("name_cash"));
+				Clockwork.player:GiveCash(player, -cash, {"CashDroppingCash", Clockwork.option:GetKey("name_cash")});
 				
 				local entity = Clockwork.entity:CreateCash(player, cash, trace.HitPos);
 				

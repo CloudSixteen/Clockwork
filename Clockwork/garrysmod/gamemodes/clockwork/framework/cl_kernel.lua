@@ -411,13 +411,9 @@ end);
 cwDatastream:Hook("Hint", function(data)
 	if (data and type(data) == "table") then
 		if (data.center) then
-			cwKernel:AddCenterHint(
-				cwKernel:ParseData(data.text), data.delay, data.color, data.noSound, data.showDuplicates
-			);
+			cwKernel:AddCenterHint(cwKernel:ParseData(T(data.text)), data.delay, data.color, data.noSound, data.showDuplicates);
 		else
-			cwKernel:AddTopHint(
-				cwKernel:ParseData(data.text), data.delay, data.color, data.noSound, data.showDuplicates
-			);
+			cwKernel:AddTopHint(cwKernel:ParseData(T(data.text)), data.delay, data.color, data.noSound, data.showDuplicates);
 		end;
 	end;
 end);
@@ -967,7 +963,7 @@ function Clockwork:PopulateToolMenu()
 		toolGun.Tool[v.Mode] = v;
 
 		if (v.AddToMenu != false) then		
-			spawnmenu.AddToolMenuOption( v.Tab or "Main",
+			spawnmenu.AddToolMenuOption(v.Tab or "Main",
 				v.Category or "New Category", 
 				k, 
 				v.Name or "#"..k, 

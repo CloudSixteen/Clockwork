@@ -177,8 +177,8 @@ function playerMeta:IsRunning()
 end;
 
 -- A function to get whether a player is jogging.
-function playerMeta:IsJogging(bTestSpeed)
-	if (!self:IsRunning() and (self:GetSharedVar("IsJogMode") or bTestSpeed)) then
+function playerMeta:IsJogging(testSpeed)
+	if (!self:IsRunning() and (self:GetSharedVar("IsJogMode") or testSpeed)) then
 		if (self:Alive() and !self:IsRagdolled() and !self:InVehicle() and !self:Crouching()) then
 			if (self:GetVelocity():Length() > 0) then
 				return true;
@@ -429,7 +429,9 @@ function playerMeta:GetFaction() return self:QueryCharacter("Faction"); end;
 function playerMeta:GetGender() return self:QueryCharacter("Gender"); end;
 
 -- A function to get a player's traits.
-function playerMeta:GetTraits() return self:QueryCharacter("Traits"); end;
+function playerMeta:GetTraits()
+	return self:GetCharacterData("Traits");
+end;
 
 -- A function to get a player's inventory.
 function playerMeta:GetInventory() return self:QueryCharacter("Inventory"); end;
@@ -1080,14 +1082,15 @@ function playerMeta:GetAccessoryData()
 end;
 
 -- A function to remove a player's clothes.
-function playerMeta:RemoveClothes(bRemoveItem)
+function playerMeta:RemoveClothes(shouldRemoveItem)
 	self:SetClothesData(nil);
 	
-	if (bRemoveItem) then
+	if (shouldRemoveItem) then
 		local clothesItem = self:GetClothesItem();
 		
 		if (clothesItem) then
 			self:TakeItem(clothesItem);
+			
 			return clothesItem;
 		end;
 	end;
@@ -1099,9 +1102,7 @@ function playerMeta:GetClothesItem()
 	
 	if (type(clothesData) == "table") then
 		if (clothesData.itemID != nil and clothesData.uniqueID != nil) then
-			return self:FindItemByID(
-				clothesData.uniqueID, clothesData.itemID
-			);
+			return self:FindItemByID(clothesData.uniqueID, clothesData.itemID);
 		end;
 	end;
 end;

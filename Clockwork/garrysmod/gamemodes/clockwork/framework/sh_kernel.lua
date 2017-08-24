@@ -499,7 +499,7 @@ function Clockwork:PlayerFootstep(player, position, foot, sound, volume, recipie
 		local itemTable = player:GetClothesItem();
 			
 		if (itemTable) then
-			if ( player:IsRunning() or player:IsJogging() ) then
+			if (player:IsRunning() or player:IsJogging()) then
 				if (itemTable.runSound) then
 					if (type(itemTable.runSound) == "table") then
 						sound = itemTable.runSound[ mathRandom(1, #itemTable.runSound) ];
@@ -2155,7 +2155,7 @@ else
 				
 				self:CreateInfoMenuPanel(menuPanelX, menuPanelY, width);
 				
-				SLICED_INFO_MENU_INSIDE:Draw( Clockwork.InfoMenuPanel.x - 4, Clockwork.InfoMenuPanel.y - 4, Clockwork.InfoMenuPanel:GetWide() + 8, Clockwork.InfoMenuPanel:GetTall() + 8, 8, backgroundColor);
+				SLICED_INFO_MENU_INSIDE:Draw(Clockwork.InfoMenuPanel.x - 4, Clockwork.InfoMenuPanel.y - 4, Clockwork.InfoMenuPanel:GetWide() + 8, Clockwork.InfoMenuPanel:GetTall() + 8, 8, backgroundColor);
 				
 				--[[ Override the menu's width to fit nicely. --]]
 				Clockwork.InfoMenuPanel:SetSize(width, Clockwork.InfoMenuPanel:GetTall());

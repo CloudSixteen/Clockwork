@@ -812,7 +812,6 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 	info.faction = factionTable.name;
 	info.gender = data.gender;
 	info.model = data.model;
-	info.traits = {};
 	info.data = {};
 	
 	if (data.plugin) then
@@ -836,16 +835,18 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 		if (!classTable) then
 			return self:SetCreateFault(player, {"FaultNeedClass"});
 		else
-			info.data["class"] = classTable.name;
+			info.data["Class"] = classTable.name;
 		end;
 	end;
 	
 	if (hasTraits and type(data.traits) == "table") then
+		info.data["Traits"] = {};
+	
 		for k, v in pairs(data.traits) do
 			local traitTable = cwTrait:FindByID(v);
 			
 			if (traitTable) then
-				table.insert(info.traits, traitTable.uniqueID);
+				table.insert(info.data["Traits"], traitTable.uniqueID);
 			end;
 		end;
 	elseif (hasTraits) then
@@ -993,7 +994,9 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 				queryObj:AddWhere("_Schema = ?", schemaFolder);
 				queryObj:AddWhere("_Name = ?", info.name);
 				queryObj:SetCallback(function(result)
-					if (!IsValid(player)) then return; end;
+					if (!IsValid(player)) then
+						return;
+					end;
 					
 					if (cwDatabase:IsResult(result)) then
 						self:SetCreateFault(player, {"FaultCharNameExists", info.name});
@@ -1004,15 +1007,12 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 								attributes = info.attributes,
 								faction = info.faction,
 								gender = info.gender,
-								traits = info.traits,
 								model = info.model,
 								name = info.name,
 								data = info.data
 							},
 							function()
-								cwKernel:PrintLog(LOGTYPE_MINOR,
-									player:SteamName().." has created a "..info.faction.." character called '"..info.name.."'."
-								);
+								cwKernel:PrintLog(LOGTYPE_MINOR, {"LogPlayerCreateChar", player:SteamName(), info.faction, info.name});
 								
 								cwDatastream:Start(player, "CharacterFinish", {wasSuccess = true});
 								
@@ -1037,11 +1037,11 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 end;
 
 -- A function to open the character menu.
-function Clockwork.player:SetCharacterMenuOpen(player, bReset)
+function Clockwork.player:SetCharacterMenuOpen(player, shouldReset)
 	if (player:HasInitialized()) then
-		cwDatastream:Start(player, "CharacterOpen", (bReset == true));
+		cwDatastream:Start(player, "CharacterOpen", (shouldReset == true));
 		
-		if (bReset) then
+		if (shouldReset) then
 			player.cwCharMenuReset = true;
 			player:KillSilent();
 		end;
@@ -1099,7 +1099,7 @@ function Clockwork.player:StripGear(player)
 end;
 
 -- A function to create a player's gear.
-function Clockwork.player:CreateGear(player, gearClass, itemTable, bMustHave)
+function Clockwork.player:CreateGear(player, gearClass, itemTable, mustHave)
 	if (!player.cwGearTab) then
 		player.cwGearTab = {};
 	end;
@@ -1134,7 +1134,7 @@ function Clockwork.player:CreateGear(player, gearClass, itemTable, bMustHave)
 		
 		if (IsValid(player.cwGearTab[gearClass])) then
 			player.cwGearTab[gearClass]:SetOwner(player);
-			player.cwGearTab[gearClass]:SetMustHave(bMustHave);
+			player.cwGearTab[gearClass]:SetMustHave(mustHave);
 			player.cwGearTab[gearClass]:SetItemTable(gearClass, itemTable);
 		end;
 	end;
@@ -1297,13 +1297,13 @@ end;
 
 -- A function to update whether a player's weapon is raised.
 function Clockwork.player:UpdateWeaponRaised(player)
-	local bIsRaised = self:GetWeaponRaised(player);
+	local isRaised = self:GetWeaponRaised(player);
 	local weapon = player:GetActiveWeapon();
 	
-	player:SetSharedVar("IsWepRaised", bIsRaised);
+	player:SetSharedVar("IsWepRaised", isRaised);
 	
 	if (IsValid(weapon)) then
-		cwKernel:HandleWeaponFireDelay(player, bIsRaised, weapon, CurTime());
+		cwKernel:HandleWeaponFireDelay(player, isRaised, weapon, CurTime());
 	end;
 end;
 
@@ -1317,10 +1317,10 @@ function Clockwork.player:GetWeaponRaised(player, bIsCached)
 	
 	if (IsValid(weapon) and !weapon.NeverRaised) then
 		if (weapon.GetRaised) then
-			local bIsRaised = weapon:GetRaised();
+			local isRaised = weapon:GetRaised();
 			
-			if (bIsRaised != nil) then
-				return bIsRaised;
+			if (isRaised != nil) then
+				return isRaised;
 			end;
 		end;
 		
@@ -1336,21 +1336,21 @@ function Clockwork.player:ToggleWeaponRaised(player)
 end;
 
 -- A function to set whether a player's weapon is raised.
-function Clockwork.player:SetWeaponRaised(player, bIsRaised)
+function Clockwork.player:SetWeaponRaised(player, isRaised)
 	local weapon = player:GetActiveWeapon();
 	
 	if (IsValid(weapon)) then
-		if (type(bIsRaised) == "number") then
+		if (type(isRaised) == "number") then
 			player.cwAutoWepRaised = weapon:GetClass();
 			player:UpdateWeaponRaised();
 			
-			cwKernel:CreateTimer("WeaponRaised"..player:UniqueID(), bIsRaised, 1, function()
+			cwKernel:CreateTimer("WeaponRaised"..player:UniqueID(), isRaised, 1, function()
 				if (IsValid(player)) then
 					player.cwAutoWepRaised = nil;
 					player:UpdateWeaponRaised();
 				end;
 			end);
-		elseif (bIsRaised) then
+		elseif (isRaised) then
 			if (!player.cwWeaponRaiseClass) then
 				if (weapon.OnRaised) then
 					weapon:OnRaised();
@@ -1375,7 +1375,7 @@ function Clockwork.player:SetWeaponRaised(player, bIsRaised)
 end;
 
 -- A function to setup a player's remove property delays.
-function Clockwork.player:SetupRemovePropertyDelays(player, bAllCharacters)
+function Clockwork.player:SetupRemovePropertyDelays(player, doAllCharacters)
 	local uniqueID = player:UniqueID();
 	local key = player:GetCharacterKey();
 	
@@ -1384,7 +1384,7 @@ function Clockwork.player:SetupRemovePropertyDelays(player, bAllCharacters)
 		
 		if (IsValid(v) and removeDelay) then
 			if (uniqueID == cwEntity:QueryProperty(v, "uniqueID")
-			and (bAllCharacters or key == cwEntity:QueryProperty(v, "key"))) then
+			and (doAllCharacters or key == cwEntity:QueryProperty(v, "key"))) then
 				cwKernel:CreateTimer("RemoveDelay"..v:EntIndex(), removeDelay, 1, function(entity)
 					if (IsValid(entity)) then
 						entity:Remove();
@@ -1396,13 +1396,13 @@ function Clockwork.player:SetupRemovePropertyDelays(player, bAllCharacters)
 end;
 
 -- A function to disable a player's property.
-function Clockwork.player:DisableProperty(player, bCharacterOnly)
+function Clockwork.player:DisableProperty(player, characterOnly)
 	local uniqueID = player:UniqueID();
 	local key = player:GetCharacterKey();
 	
 	for k, v in pairs(self:GetAllProperty()) do
 		if (IsValid(v) and uniqueID == cwEntity:QueryProperty(v, "uniqueID")
-		and (!bCharacterOnly or key == cwEntity:QueryProperty(v, "key"))) then
+		and (!characterOnly or key == cwEntity:QueryProperty(v, "key"))) then
 			cwEntity:SetPropertyVar(v, "owner", NULL);
 			
 			if (cwEntity:QueryProperty(v, "networked")) then
@@ -1503,7 +1503,7 @@ function Clockwork.player:GivePropertyOffline(key, uniqueID, entity, networked, 
 end;
 
 -- A function to take property from an offline player.
-function Clockwork.player:TakePropertyOffline(key, uniqueID, entity, bAnyCharacter)
+function Clockwork.player:TakePropertyOffline(key, uniqueID, entity, anyCharacter)
 	if (key and uniqueID) then
 		local owner = player.GetByUniqueID(uniqueID);
 		
@@ -2186,13 +2186,13 @@ function Clockwork.player:GiveDeathCode(player)
 end;
 
 -- A function to take a door from a player.
-function Clockwork.player:TakeDoor(player, door, shouldForce, bThisDoorOnly, bChildrenOnly)
+function Clockwork.player:TakeDoor(player, door, shouldForce, thisDoorOnly, childrenOnly)
 	local doorCost = cwCfg:Get("door_cost"):Get();
 	
-	if (!bThisDoorOnly) then
+	if (!thisDoorOnly) then
 		local doorParent = cwEntity:GetDoorParent(door);
 		
-		if (!doorParent or bChildrenOnly) then
+		if (!doorParent or childrenOnly) then
 			for k, v in pairs(cwEntity:GetDoorChildren(door)) do
 				if (IsValid(v)) then
 					self:TakeDoor(player, v, true, true);
@@ -2220,7 +2220,7 @@ function Clockwork.player:TakeDoor(player, door, shouldForce, bThisDoorOnly, bCh
 	end;
 	
 	if (!force and doorCost > 0) then
-		self:GiveCash(player, doorCost / 2, "selling a door");
+		self:GiveCash(player, doorCost / 2, {"CashSellDoor"});
 	end;
 end;
 
@@ -2859,7 +2859,7 @@ function Clockwork.player:CanAfford(player, amount)
 end;
 
 -- A function to give a player an amount of cash.
-function Clockwork.player:GiveCash(player, amount, reason, bNoMsg)
+function Clockwork.player:GiveCash(player, amount, reason, noMsg)
 	if (cwCfg:Get("cash_enabled"):Get()) then
 		local positiveHintColor = "positive_hint";
 		local negativeHintColor = "negative_hint";
@@ -2872,32 +2872,24 @@ function Clockwork.player:GiveCash(player, amount, reason, bNoMsg)
 		if (roundedAmount < 0) then
 			roundedAmount = math.abs(roundedAmount);
 			
-			if (!bNoMsg) then
+			if (!noMsg) then
 				if (reason) then
-					cwHint:Send(
-						player, "Your character has lost the sum of "..cwKernel:FormatCash(roundedAmount).." ("..reason..").", 4, negativeHintColor
-					);
+					cwHint:Send(player, {"YourCharLostCashReason", cwKernel:FormatCash(roundedAmount), reason}, 4, negativeHintColor);
 				else
-					cwHint:Send(
-						player, "Your character has lost the sum of "..cwKernel:FormatCash(roundedAmount)..".", 4, negativeHintColor
-					);
+					cwHint:Send(player, {"YourCharLostCash", cwKernel:FormatCash(roundedAmount)}, 4, negativeHintColor);
 				end;
 			end;
 		elseif (roundedAmount > 0) then
-			if (!bNoMsg) then
+			if (!noMsg) then
 				if (reason) then
-					cwHint:Send(
-						player, "Your character has gained the sum of  "..cwKernel:FormatCash(roundedAmount).." ("..reason..").", 4, positiveHintColor
-					);
+					cwHint:Send(player, {"YourCharGainedCashReason", cwKernel:FormatCash(roundedAmount), reason}, 4, positiveHintColor);
 				else
-					cwHint:Send(
-						player, "Your character has gained the sum of "..cwKernel:FormatCash(roundedAmount)..".", 4, positiveHintColor
-					);
+					cwHint:Send(player, {"YourCharGainedCash", cwKernel:FormatCash(roundedAmount)}, 4, positiveHintColor);
 				end;
 			end;
 		end;
 		
-		cwPlugin:Call("PlayerCashUpdated", player, roundedAmount, reason, bNoMsg);
+		cwPlugin:Call("PlayerCashUpdated", player, roundedAmount, reason, noMsg);
 	end;
 end;
 
@@ -3042,13 +3034,11 @@ end;
 Clockwork.player:AddToMetaTable("Player", "Notify");
 
 -- A function to set a player's weapons list from a table.
-function Clockwork.player:SetWeapons(player, weapons, bForceReturn)
+function Clockwork.player:SetWeapons(player, weapons, forceReturn)
 	for k, v in pairs(weapons) do
 		if (!player:HasWeapon(v.weaponData["class"])) then
 			if (!v.teamIndex or player:Team() == v.teamIndex) then
-				player:Give(
-					v.weaponData["class"], v.weaponData["itemTable"], bForceReturn
-				);
+				player:Give(v.weaponData["class"], v.weaponData["itemTable"], forceReturn);
 			end;
 		end;
 	end;
@@ -3056,16 +3046,20 @@ end;
 
 -- A function to give ammo to a player from a table.
 function Clockwork.player:GiveAmmo(player, ammo)
-	for k, v in pairs(ammo) do player:GiveAmmo(v, k); end;
+	for k, v in pairs(ammo) do
+		player:GiveAmmo(v, k);
+	end;
 end;
 
 -- A function to set a player's ammo list from a table.
 function Clockwork.player:SetAmmo(player, ammo)
-	for k, v in pairs(ammo) do player:SetAmmo(v, k); end;
+	for k, v in pairs(ammo) do
+		player:SetAmmo(v, k);
+	end;
 end;
 
 -- A function to get a player's ammo list as a table.
-function Clockwork.player:GetAmmo(player, bDoStrip)
+function Clockwork.player:GetAmmo(player, doStrip)
 	local spawnAmmo = self:GetSpawnAmmo(player);
 	local ammoTypes = {};
 	local ammo = {};
@@ -3094,7 +3088,7 @@ function Clockwork.player:GetAmmo(player, bDoStrip)
 		end;
 	end;
 	
-	if (bDoStrip) then
+	if (doStrip) then
 		player:RemoveAllAmmo();
 	end;
 
@@ -3102,7 +3096,7 @@ function Clockwork.player:GetAmmo(player, bDoStrip)
 end;
 
 -- A function to get a player's weapons list as a table.
-function Clockwork.player:GetWeapons(player, bDoKeep)
+function Clockwork.player:GetWeapons(player, shouldKeep)
 	local weapons = {};
 	
 	for k, v in pairs(player:GetWeapons()) do
@@ -3122,7 +3116,7 @@ function Clockwork.player:GetWeapons(player, bDoKeep)
 			teamIndex = teamIndex
 		};
 		
-		if (!bDoKeep) then
+		if (!shouldKeep) then
 			player:StripWeapon(class);
 		end;
 	end;
@@ -3545,8 +3539,8 @@ function Clockwork.player:DropWeapons(player)
 end;
 
 -- A function to lightly spawn a player.
-function Clockwork.player:LightSpawn(player, weapons, ammo, bForceReturn)
-	if (player:IsRagdolled() and !bForceReturn) then
+function Clockwork.player:LightSpawn(player, weapons, ammo, forceReturn)
+	if (player:IsRagdolled() and !forceReturn) then
 		self:SetRagdollState(player, RAGDOLL_NONE);
 	end;
 	
@@ -3583,7 +3577,7 @@ function Clockwork.player:LightSpawn(player, weapons, ammo, bForceReturn)
 		if (weapons) then
 			Clockwork:PlayerLoadout(player);
 			
-			self:SetWeapons(player, weapons, bForceReturn);
+			self:SetWeapons(player, weapons, forceReturn);
 			
 			if (type(weapon) == "string") then
 				player:SelectWeapon(weapon);
@@ -3692,7 +3686,6 @@ function Clockwork.player:ConvertCharacterMySQL(baseTable)
 	baseTable.characterID = tonumber(baseTable.characterID);
 	baseTable.attributes = self:ConvertCharacterDataString(baseTable.attributes);
 	baseTable.inventory = cwInventory:ToLoadable(self:ConvertCharacterDataString(baseTable.inventory));
-	baseTable.traits = self:ConvertCharacterDataString(baseTable.traits);
 	baseTable.cash = tonumber(baseTable.cash);
 	baseTable.ammo = self:ConvertCharacterDataString(baseTable.ammo);
 	baseTable.data = self:ConvertCharacterDataString(baseTable.data);
@@ -3819,7 +3812,7 @@ function Clockwork.player:SetBasicSharedVars(player)
 end;
 
 -- A function to get the character's ammo as a string.
-function Clockwork.player:GetCharacterAmmoString(player, character, bRawTable)
+function Clockwork.player:GetCharacterAmmoString(player, character, rawTable)
 	local ammo = table.Copy(character.ammo);
 	
 	for k, v in pairs(self:GetAmmo(player)) do
@@ -3828,7 +3821,7 @@ function Clockwork.player:GetCharacterAmmoString(player, character, bRawTable)
 		end;
 	end;
 	
-	if (!bRawTable) then
+	if (!rawTable) then
 		return cwJson:Encode(ammo);
 	else
 		return ammo;
@@ -3836,11 +3829,11 @@ function Clockwork.player:GetCharacterAmmoString(player, character, bRawTable)
 end;
 
 -- A function to get the character's data as a string.
-function Clockwork.player:GetCharacterDataString(player, character, bRawTable)
+function Clockwork.player:GetCharacterDataString(player, character, rawTable)
 	local data = table.Copy(character.data);
 	cwPlugin:Call("PlayerSaveCharacterData", player, data);
 	
-	if (!bRawTable) then
+	if (!rawTable) then
 		return cwJson:Encode(data);
 	else
 		return data;
@@ -3861,13 +3854,13 @@ function Clockwork.player:GetCharacterRecognisedNamesString(player, character)
 end;
 
 -- A function to get the character's inventory as a string.
-function Clockwork.player:GetCharacterInventoryString(player, character, bRawTable)
+function Clockwork.player:GetCharacterInventoryString(player, character, rawTable)
 	local inventory = cwInventory:CreateDuplicate(character.inventory);
 	cwPlugin:Call("PlayerAddToSavedInventory", player, character, function(itemTable)
 		cwInventory:AddInstance(inventory, itemTable);
 	end);
 	
-	if (!bRawTable) then
+	if (!rawTable) then
 		return cwJson:Encode(cwInventory:ToSaveable(inventory));
 	else
 		return inventory;
@@ -4052,8 +4045,6 @@ function Clockwork.player:SaveCharacter(player, shouldCreate, character, Callbac
 					queryObj:SetValue(tableKey, cwJson:Encode(character.recognisedNames));
 				elseif (k == "attributes") then
 					queryObj:SetValue(tableKey, cwJson:Encode(character.attributes));
-				elseif (k == "traits") then
-					queryObj:SetValue(tableKey, cwJson:Encode(character.traits));
 				elseif (k == "inventory") then
 					queryObj:SetValue(tableKey, cwJson:Encode(cwInventory:ToSaveable(character.inventory)));
 				elseif (k == "ammo") then
@@ -4101,7 +4092,6 @@ function Clockwork.player:SaveCharacter(player, shouldCreate, character, Callbac
 			queryObj:SetValue("_Faction", character.faction);
 			queryObj:SetValue("_Gender", character.gender);
 			queryObj:SetValue("_Schema", character.schema);
-			queryObj:SetValue("_Traits", cwJson:Encode(character.traits));
 			queryObj:SetValue("_Model", character.model);
 			queryObj:SetValue("_Flags", character.flags);
 			queryObj:SetValue("_Cash", character.cash);
@@ -4185,7 +4175,7 @@ function Clockwork.player:SetFactionRank(player, rank)
 		if (faction and istable(faction.ranks)) then
 			for k, v in pairs(faction.ranks) do
 				if (k == rank) then
-					player:SetCharacterData("factionrank", k);
+					player:SetCharacterData("FactionRank", k);
 
 					if (v.class and cwClass:GetAll()[v.class]) then
 						cwClass:Set(player, v.class);
@@ -4210,7 +4200,7 @@ end;
 
 -- A function which returns the unique ID of any diseases a player has.
 function Clockwork.player:GetDiseases(player)
-	local diseases = player:GetCharacterData("diseases");
+	local diseases = player:GetCharacterData("Diseases");
 
 	if (diseases and istable(diseases)) then
 		return diseases;
@@ -4252,7 +4242,7 @@ function Clockwork.player:AddDisease(player, uniqueID)
 
 			table.insert(diseases, uniqueID);
 
-			player:SetCharacterData("diseases", diseases);
+			player:SetCharacterData("Diseases", diseases);
 		else
 			ErrorNoHalt("Attempting to give player invalid disease '"..uniqueID.."'.");
 		end;
@@ -4263,7 +4253,7 @@ end;
 
 -- A function which cures a player of all diseases.
 function Clockwork.player:CureAll(player)
-	player:SetCharacterData("diseases", {});
+	player:SetCharacterData("Diseases", {});
 end;
 
 -- A function which cures a player of a disease.
@@ -4274,7 +4264,7 @@ function Clockwork.player:Cure(player, uniqueID)
 
 			table.RemoveByValue(diseases, uniqueID);
 
-			player:SetCharacterData("diseases", diseases);
+			player:SetCharacterData("Diseases", diseases);
 		else
 			ErrorNoHalt("Attempting to cure of invalid disease '"..uniqueID.."'.");
 		end;
@@ -4342,13 +4332,13 @@ function Clockwork.player:GetFactionRank(player, character)
 			local rank;
 			
 			for k, v in pairs(faction.ranks) do
-				if (k == character.data["factionrank"]) then
+				if (k == character.data["FactionRank"]) then
 					rank = v;
 					break;
 				end;
 			end;
 			
-			return character.data["factionrank"], rank;
+			return character.data["FactionRank"], rank;
 		end;
 	else
 		local faction = Clockwork.faction:FindByID(player:GetFaction());
@@ -4357,13 +4347,13 @@ function Clockwork.player:GetFactionRank(player, character)
 			local rank;
 			
 			for k, v in pairs(faction.ranks) do
-				if (k == player:GetCharacterData("factionrank")) then
+				if (k == player:GetCharacterData("FactionRank")) then
 					rank = v;
 					break;
 				end;
 			end;
 			
-			return player:GetCharacterData("factionrank"), rank;
+			return player:GetCharacterData("FactionRank"), rank;
 		end;
 	end;
 end;

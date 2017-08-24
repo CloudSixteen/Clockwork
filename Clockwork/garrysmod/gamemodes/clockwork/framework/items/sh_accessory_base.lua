@@ -23,8 +23,8 @@ ITEM.attachmentOffsetAngles = Angle(270, 270, 0);
 ITEM.attachmentOffsetVector = Vector(0, 3, 3);
 
 -- Called when a player wears the accessory.
-function ITEM:OnWearAccessory(player, bIsWearing)
-	if (bIsWearing) then
+function ITEM:OnWearAccessory(player, isWearing)
+	if (isWearing) then
 	else
 	end;
 end;
@@ -70,9 +70,9 @@ if (CLIENT) then
 		if (!self:IsInstance()) then return; end;
 		
 		if (Clockwork.player:IsWearingAccessory(self)) then
-			return "Is Wearing: Yes";
+			return L("ItemInfoIsWearingYes");
 		else
-			return "Is Wearing: No";
+			return L("ItemInfoIsWearingNo");
 		end;
 	end;
 end;

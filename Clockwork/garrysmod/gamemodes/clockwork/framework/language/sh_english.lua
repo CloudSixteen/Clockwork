@@ -774,3 +774,19 @@ CW_ENGLISH["FaultDidNotChooseTraits"] = "You did not choose any of the available
 CW_ENGLISH["YouCannotCreateThisChar"] = "You cannot create this character!";
 CW_ENGLISH["MenuNameTraits"] = "Traits";
 CW_ENGLISH["MenuNameTrait"] = "Trait";
+
+CW_ENGLISH["LogPlayerCreateChar"] = "#1 has created a #2 character called '#3'."
+
+CW_ENGLISH["ItemInfoIsWearingYes"] = "Is Wearing: Yes";
+CW_ENGLISH["ItemInfoIsWearingNo"] = "Is Wearing: No";
+CW_ENGLISH["ItemInfoClipOne"] = "Clip One: #1";
+CW_ENGLISH["ItemInfoClipTwo"] = "Clip Two: #1";
+
+CW_ENGLISH["CashSellDoor"] = "selling a door";
+CW_ENGLISH["CashPropRefund"] = "prop refund";
+CW_ENGLISH["CashDroppingCash"] = "dropping #1";
+
+CW_ENGLISH["YourCharLostCashReason"] = "Your character has lost #1 (#2).";
+CW_ENGLISH["YourCharLostCash"] = "Your character has lost #1.";
+CW_ENGLISH["YourCharGainedCashReason"] = "Your character has gained #1 (#2).";
+CW_ENGLISH["YourCharGainedCash"] = "Your character has gained #1.";

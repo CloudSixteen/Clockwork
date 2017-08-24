@@ -31,10 +31,11 @@ if (CLIENT) then
 end
 
 SWEP.Instructions 			= "Primary Fire: Lock.\nSecondary Fire: Unlock.";
-SWEP.Contact 				= "Cloudsixteen.com";
+SWEP.Contact 				= "CloudSixteen.com";
 SWEP.Purpose 				= "Locking and unlocking entities that you have access to.";
 SWEP.Author					= "Cloud Sixteen";
 
+SWEP.Category				= "Clockwork";
 SWEP.WorldModel 			= "";
 SWEP.ViewModel 				= "models/weapons/c_arms.mdl";
 SWEP.HoldType 				= "fist";
@@ -59,8 +60,6 @@ SWEP.IronSightPos 			= Vector(0, 0, 0);
 SWEP.IronSightAng 			= Vector(0, 0, 0);
 SWEP.NeverRaised 			= true;
 SWEP.LoweredAngles 			= Angle(0.000, 0.000, -22.000)
-
---[[Bunch of key functionality bullshit.]]--
 
 -- Called when the SWEP is deployed.
 function SWEP:Deploy()

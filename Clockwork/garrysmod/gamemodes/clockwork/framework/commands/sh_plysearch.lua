@@ -38,29 +38,10 @@ function COMMAND:OnRun(player, arguments)
 						end;
 					end,
 					OnTakeItem = function(player, storageTable, itemTable)
-						local target = Clockwork.entity:GetPlayer(storageTable.entity);
-						if (target) then
-							if (target:GetCharacterData("clothes") == itemTable.index) then
-								if (!target:HasItemByID(itemTable.index)) then
-									target:SetCharacterData("clothes", nil);
-									
-									if (itemTable.OnChangeClothes) then
-										itemTable:OnChangeClothes(target, false);
-									end;
-								end;
-							end;
-						end;
+						
 					end,
 					OnGiveItem = function(player, storageTable, itemTable)
-						if (player:GetCharacterData("clothes") == itemTable.index) then
-							if (!player:HasItemByID(itemTable.index)) then
-								player:SetCharacterData("clothes", nil);
-								
-								if (itemTable.OnChangeClothes) then
-									itemTable:OnChangeClothes(player, false);
-								end;
-							end;
-						end;
+						
 					end
 				});
 			else

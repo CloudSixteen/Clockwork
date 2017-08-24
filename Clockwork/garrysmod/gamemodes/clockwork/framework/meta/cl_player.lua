@@ -45,8 +45,8 @@ function playerMeta:IsRunning(bNoWalkSpeed)
 end;
 
 -- A function to get whether a player is jogging.
-function playerMeta:IsJogging(bTestSpeed)
-	if (!self:IsRunning() and (self:GetSharedVar("IsJogMode") or bTestSpeed)) then
+function playerMeta:IsJogging(testSpeed)
+	if (!self:IsRunning() and (self:GetSharedVar("IsJogMode") or testSpeed)) then
 		if (self:Alive() and !self:IsRagdolled() and !self:InVehicle() and !self:Crouching()) then
 			if (self:GetVelocity():Length() > 0) then
 				return true;

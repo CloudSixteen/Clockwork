@@ -305,11 +305,11 @@ if (CLIENT) then
 		local clipTwo = self:GetData("ClipTwo");
 		
 		if (clipOne > 0) then
-			clientSideInfo = Clockwork.kernel:AddMarkupLine(clientSideInfo, "Clip One: "..clipOne);
+			clientSideInfo = Clockwork.kernel:AddMarkupLine(clientSideInfo, L("ItemInfoClipOne", clipOne));
 		end;
 		
 		if (clipTwo > 0) then
-			clientSideInfo = Clockwork.kernel:AddMarkupLine(clientSideInfo, "Clip Two: "..clipTwo);
+			clientSideInfo = Clockwork.kernel:AddMarkupLine(clientSideInfo, L("ItemInfoClipTwo", clipTwo));
 		end;
 		
 		return (clientSideInfo != "" and clientSideInfo);
