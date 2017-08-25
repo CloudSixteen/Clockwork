@@ -196,6 +196,9 @@ function PANEL:Think()
 		if (quizEnabled) then
 			self:AddQuestions();
 		end;
+		
+		self.disconnectButton:SetText(L("MenuDisconnect"));
+		self.continueButton:SetText(L("MenuContinue"));
 	end;
 
 	self:InvalidateLayout(true);

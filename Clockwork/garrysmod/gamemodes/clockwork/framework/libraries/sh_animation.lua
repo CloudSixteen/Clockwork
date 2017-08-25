@@ -912,7 +912,8 @@ end;
 
 -- A function to adjust the hands info with checks for if a model is set to use the black skin.
 function Clockwork.animation:AdjustHandsInfo(model, info)
-	if (info.model == "models/weapons/c_arms_citizen.mdl" or info.model == "models/weapons/c_arms_refugee.mdl") then
+	if (info.model == "models/weapons/c_arms_citizen.mdl"
+	or info.model == "models/weapons/c_arms_refugee.mdl") then
 		for k, v in pairs(blackModels) do
 			if (string.find(model, k)) then
 				info.skin = 1;

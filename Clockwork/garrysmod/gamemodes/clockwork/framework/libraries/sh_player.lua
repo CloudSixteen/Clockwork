@@ -841,6 +841,9 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 	end;
 	
 	if (hasTraits and type(data.traits) == "table") then
+		local maximumPoints = cwCfg:Get("max_trait_points"):Get();
+		local pointsSpent = 0;
+		
 		info.data["Traits"] = {};
 	
 		for k, v in pairs(data.traits) do
@@ -848,7 +851,12 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 			
 			if (traitTable) then
 				table.insert(info.data["Traits"], traitTable.uniqueID);
+				pointsSpent = pointsSpent + traitTable.points;
 			end;
+		end;
+		
+		if (pointsSpent > maximumPoints) then
+			return self:SetCreateFault(player, {"FaultMorePointsThanCanSpend", cwOption:Translate("name_trait", true)});
 		end;
 	elseif (hasTraits) then
 		return self:SetCreateFault(player, {"FaultDidNotChooseTraits", cwOption:Translate("name_traits", true)});

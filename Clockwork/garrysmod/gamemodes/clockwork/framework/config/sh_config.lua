@@ -22,6 +22,7 @@ Clockwork.config:ShareKey("recognise_system");
 Clockwork.config:ShareKey("max_chat_length");
 Clockwork.config:ShareKey("use_free_aiming");
 Clockwork.config:ShareKey("enable_heartbeat");
+Clockwork.config:ShareKey("max_trait_points");
 Clockwork.config:ShareKey("cash_enabled");
 Clockwork.config:ShareKey("default_physdesc");
 Clockwork.config:ShareKey("enable_vignette");

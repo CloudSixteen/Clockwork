@@ -38,6 +38,7 @@ end;
 function Clockwork.trait:Register(trait)
 	trait.uniqueID = trait.uniqueID or string.lower(string.gsub(trait.name, "%s", "_"));
 	trait.index = Clockwork.kernel:GetShortCRC(trait.name);
+	trait.points = trait.points or 1;
 	
 	self.stored[trait.uniqueID] = trait;
 	self.buffer[trait.index] = trait;

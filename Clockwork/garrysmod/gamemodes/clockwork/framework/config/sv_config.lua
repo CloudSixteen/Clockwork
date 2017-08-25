@@ -26,6 +26,7 @@ Clockwork.config:Add("scale_attribute_progress", 1);
 Clockwork.config:Add("messages_must_see_player", false, true);
 Clockwork.config:Add("bash_in_door_enabled", false);
 Clockwork.config:Add("default_attribute_points", 30, true);
+Clockwork.config:Add("max_trait_points", 3, true);
 Clockwork.config:Add("health_regeneration_enabled", true);
 Clockwork.config:Add("enable_prop_protection", true);
 Clockwork.config:Add("use_local_machine_date", false, nil, nil, nil, nil, true);

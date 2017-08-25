@@ -78,8 +78,7 @@ function PANEL:OnMouseReleased(code)
 		return;
 	end;
 	
-	if (code == MOUSE_LEFT and self.DoClick
-	and !self:GetDisabled()) then
+	if (code == MOUSE_LEFT and self.DoClick and !self:GetDisabled()) then
 		self.DoClick(self);
 	end;
 end;

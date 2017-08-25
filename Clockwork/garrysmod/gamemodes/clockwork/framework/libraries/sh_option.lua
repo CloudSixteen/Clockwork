@@ -152,6 +152,9 @@ if (CLIENT) then
 	Clockwork.option:SetColor("basic_form_color_help", Color(50, 50, 50, 255));
 	Clockwork.option:SetColor("basic_form_color", Color(0, 0, 0, 255));
 	
+	Clockwork.option:SetColor("trait_gain_color", Color(50, 255, 50, 255));
+	Clockwork.option:SetColor("trait_loss_color", Color(255, 50, 50, 255));
+	
 	Clockwork.option:SetKey("icon_data_classes", {path = "", size = nil});
 	Clockwork.option:SetKey("icon_data_settings", {path = "", size = nil});
 	Clockwork.option:SetKey("icon_data_donations", {path = "", size = nil});

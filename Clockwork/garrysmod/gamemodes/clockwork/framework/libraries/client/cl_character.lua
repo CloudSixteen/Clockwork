@@ -141,7 +141,7 @@ end;
 	@returns Float A percentage of the creation progress.
 --]]
 function Clockwork.character:GetCreationProgress()
-	return (100 / #self.creationPanels) * self:GetCreationInfo().index;
+	return (100 / #self:GetCreationPanels(true)) * self:GetCreationInfo().index;
 end;
 
 -- A function to get whether the creation process is active.
@@ -198,7 +198,20 @@ function Clockwork.character:OpenNextCreationPanel()
 end;
 
 -- A function to get the creation panels.
-function Clockwork.character:GetCreationPanels()
+function Clockwork.character:GetCreationPanels(availableOnly)
+	if (availableOnly) then
+		local info = self:GetCreationInfo();
+		local availablePanels = {};
+		
+		for k, v in ipairs(self.creationPanels) do
+			if (!v.Condition or v.Condition(info)) then
+				table.insert(availablePanels, v);
+			end;
+		end;
+		
+		return availablePanels;
+	end;
+
 	return self.creationPanels;
 end;
 

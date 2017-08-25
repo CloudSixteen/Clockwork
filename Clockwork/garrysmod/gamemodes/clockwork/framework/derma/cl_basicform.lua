@@ -95,20 +95,28 @@ end;
 
 -- A function to create a text entry.
 function PANEL:TextEntry(strLabel, strConVar)
-	local left = vgui.Create("DLabel", self);
+	local left = nil;
 	
-	left:SetText(strLabel);
-	left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
-	left:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
-	left:SizeToContents();
-	left:SetWide(left:GetWide() + 12);
+	if (strLabel) then
+		left = vgui.Create("DLabel", self);
+		left:SetText(strLabel);
+		left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
+		left:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
+		left:SizeToContents();
+		left:SetWide(left:GetWide() + 12);
+	end;
 	
 	local right = vgui.Create("DTextEntry", self);
 	
 	right:SetConVar(strConVar);
-	right:Dock(TOP);
 	
-	self:AddLeftRight(left, right);
+	if (left) then
+		right:Dock(TOP);
+		
+		self:AddLeftRight(left, right);
+	else
+		self:AddLeftRight(right);
+	end;
 	
 	return right, left;
 end
@@ -206,7 +214,7 @@ function PANEL:Help(strHelp)
 	left:SetContentAlignment(7);
 	left:SetAutoStretchVertical(true);
 	left:DockMargin(8, 0, 8, 8);
-	left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 14));
+	left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
 	left:SetTextColor(Clockwork.option:GetColor("basic_form_color_help"));
 	
 	self:AddLeftRight(left, nil);
@@ -234,7 +242,7 @@ function PANEL:ControlHelp(strHelp)
 	left:SetAutoStretchVertical(true);
 	left:DockMargin(32, 0, 32, 8);
 	left:Dock(TOP);
-	left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 14));
+	left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
 	left:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
 
 	table.insert(self.Items, panel);

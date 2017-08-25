@@ -197,10 +197,7 @@ function Clockwork.kernel:FormatCash(amount, singular, lowerName)
 	end;
 end;
 
---[[
-	Define the default library class.
---]]
-
+--[[ Define the default library class. --]]
 local LIBRARY = {};
 
 -- A function to add a library function to a metatable.

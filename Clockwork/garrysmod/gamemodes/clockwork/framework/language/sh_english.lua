@@ -325,7 +325,6 @@ CW_ENGLISH["CharacterMenuNext"] = "NEXT";
 
 CW_ENGLISH["CharacterMenuFactionHelp"] = "The faction defines the overall character and can most likely be unchanged.";
 CW_ENGLISH["CharacterMenuPhysDescHelp"] = "Write a physical description for your character in full English.";
-CW_ENGLISH["CharacterMenuPhysDescHelpAndModel"] = "Write a physical description for your character in full English, and select an appropriate model.";
 CW_ENGLISH["CharacterMenuPhysDesc"] = "Description";
 CW_ENGLISH["CharacterMenuFullName"] = "Full Name";
 CW_ENGLISH["CharacterMenuAppearance"] = "Appearance";
@@ -793,3 +792,11 @@ CW_ENGLISH["YourCharGainedCash"] = "Your character has gained #1.";
 
 CW_ENGLISH["CharacterMenuTraits"] = "Traits";
 CW_ENGLISH["CreateCharacterStage5"] = "Traits";
+
+CW_ENGLISH["MaxTraitPoints"] = "Max Traits";
+CW_ENGLISH["MaxTraitPointsDesc"] = "The maximum amount of traits each character can have.";
+
+CW_ENGLISH["TraitPointsGain"] = "Points: +#1";
+CW_ENGLISH["TraitPointsLoss"] = "Points: -#1";
+
+CW_ENGLISH["CharacterMenuModelHelp"] = "Select an appropriate model for your character.";

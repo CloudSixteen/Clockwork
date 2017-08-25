@@ -12,14 +12,14 @@ Clockwork.icon = Clockwork.kernel:NewLibrary("Icon");
 Clockwork.icon.stored = Clockwork.icon.stored or {};
 	
 -- A function to add a chat icon.
-function Clockwork.icon:Add(uniqueID, path, callback, bIsPlayer)
+function Clockwork.icon:Add(uniqueID, path, callback, isPlayer)
 	if (uniqueID) then
 		if (path) then
 			if (callback) then
 				self.stored[uniqueID] = {
 					path = path,
 					callback = callback,
-					isPlayer = bIsPlayer
+					isPlayer = isPlayer
 				};
 			else
 				MsgC(Color(255, 100, 0, 255), "[Clockwork:Icon] Error: Attempting to add icon without providing a callback.\n");

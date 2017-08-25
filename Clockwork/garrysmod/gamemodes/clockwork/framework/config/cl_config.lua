@@ -12,6 +12,7 @@ Clockwork.config:AddToSystem("UseClockworksAdminSystem", "use_own_group_system",
 Clockwork.config:AddToSystem("SavedRecognisedNames", "save_recognised_names", "SavedRecognisedNamesDesc");
 Clockwork.config:AddToSystem("SaveAttributeBoosts", "save_attribute_boosts", "SaveAttributeBoostsDesc");
 Clockwork.config:AddToSystem("RagdollDamageImmunityTime", "ragdoll_immunity_time", "RagdollDamageImmunityTimeDesc");
+Clockwork.config:AddToSystem("MaxTraitPoints", "max_trait_points", "MaxTraitPointsDesc");
 Clockwork.config:AddToSystem("AdditionalCharacterCount", "additional_characters", "AdditionalCharacterCountDesc");
 Clockwork.config:AddToSystem("ClassChangingInterval", "change_class_interval", "ClassChangingIntervalDesc", 0, 7200);
 Clockwork.config:AddToSystem("SprintingLowersWeapon", "sprint_lowers_weapon", "SprintingLowersWeaponDesc");

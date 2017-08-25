@@ -158,7 +158,7 @@ function PANEL:Init()
 		self.cancelButton:SetMouseInputEnabled(true);
 		self.cancelButton:SetPos((scrW * 0.5) - (self.cancelButton:GetWide() / 2), scrH * 0.9);
 		
-		local modelSize = math.min(ScrW() * 0.25, ScrH() * 0.9);
+		local modelSize = math.min(ScrW() * 0.4, ScrH() * 0.9);
 		
 		self.characterModel = vgui.Create("cwCharacterModel", self);
 		self.characterModel:SetSize(modelSize, modelSize);
@@ -180,7 +180,8 @@ function PANEL:FadeInModelPanel(model)
 	local x, y = ScrW() - self.characterModel:GetWide() - 8, 16;
 	
 	if (panel) then
-		x, y = panel.x + panel:GetWide() - 16, panel.y - 80;
+		x = panel.x + panel:GetWide() - 16;
+		y = (panel.y + (panel:GetTall() / 2)) - (self.characterModel:GetTall() / 2);
 	end;
 	
 	self.characterModel:SetPos(x, y);
@@ -206,12 +207,8 @@ function PANEL:SetModelPanelModel(model)
 	end;
 	
 	local modelPanel = self.characterModel;
-	local weaponModel = Clockwork.plugin:Call(
-		"GetModelSelectWeaponModel", model
-	);
-	local sequence = Clockwork.plugin:Call(
-		"GetModelSelectSequence", modelPanel.Entity, model
-	);
+	local weaponModel = Clockwork.plugin:Call("GetModelSelectWeaponModel", model);
+	local sequence = Clockwork.plugin:Call("GetModelSelectSequence", modelPanel.Entity, model);
 	
 	if (weaponModel) then
 		self.characterModel:SetWeaponModel(weaponModel);
@@ -368,21 +365,16 @@ function PANEL:Paint(w, h)
 		local height = (self.createButton.y * 2) + self.createButton:GetTall();
 		local x, y = x, 0;
 		
-		Clockwork.kernel:DrawSimpleGradientBox(0, 0, y, scrW, height, Color(
-			backgroundColor.r, backgroundColor.g, backgroundColor.b, 100
-		));
+		Clockwork.kernel:DrawSimpleGradientBox(0, 0, y, scrW, height, Color(backgroundColor.r, backgroundColor.g, backgroundColor.b, 100));
 		
-		surface.SetDrawColor(
-			foregroundColor.r, foregroundColor.g, foregroundColor.b, 200
-		);
+		surface.SetDrawColor(foregroundColor.r, foregroundColor.g, foregroundColor.b, 200);
 		surface.DrawRect(0, y + height, scrW, 1);
 		
 		if (Clockwork.character:IsCreationProcessActive()) then
-			local creationPanels = Clockwork.character:GetCreationPanels();
+			local creationPanels = Clockwork.character:GetCreationPanels(true);
 			local numCreationPanels = #creationPanels;
 			local creationProgress = Clockwork.character:GetCreationProgress();
 			local progressHeight = 20;
-			local creationInfo = Clockwork.character:GetCreationInfo();
 			local progressY = y + height + 1;
 			local boxColor = Color(
 				math.min(backgroundColor.r + 50, 255),
@@ -392,39 +384,28 @@ function PANEL:Paint(w, h)
 			);
 			
 			Clockwork.kernel:DrawSimpleGradientBox(0, 0, progressY, scrW, progressHeight, boxColor);
-				for i = 1, numCreationPanels do
-					surface.SetDrawColor(
-						foregroundColor.r, foregroundColor.g, foregroundColor.b, 150
-					);
-					surface.DrawRect((scrW / numCreationPanels) * i, progressY, 1, progressHeight);
-				end;
-			Clockwork.kernel:DrawSimpleGradientBox(
-				0, 0, progressY, (scrW / 100) * creationProgress, progressHeight, colorTargetID
-			);
+			
+			for i = 1, numCreationPanels do
+				surface.SetDrawColor(foregroundColor.r, foregroundColor.g, foregroundColor.b, 150);
+				surface.DrawRect((scrW / numCreationPanels) * i, progressY, 1, progressHeight);
+			end;
+			
+			Clockwork.kernel:DrawSimpleGradientBox(0, 0, progressY, (scrW / 100) * creationProgress, progressHeight, colorTargetID);
 			
 			if (creationProgress > 0 and creationProgress < 100) then
-				surface.SetDrawColor(
-					foregroundColor.r, foregroundColor.g, foregroundColor.b, 200
-				);
+				surface.SetDrawColor(foregroundColor.r, foregroundColor.g, foregroundColor.b, 200);
 				surface.DrawRect((scrW / 100) * creationProgress, progressY, 1, progressHeight);
 			end;
 			
 			for i = 1, numCreationPanels do
-				local Condition = creationPanels[i].Condition;
 				local textX = (scrW / numCreationPanels) * (i - 0.5);
 				local textY = progressY + (progressHeight / 2);
 				local color = Color(colorWhite.r, colorWhite.g, colorWhite.b, 200);
 				
-				if (Condition and !Condition(creationInfo)) then
-					color = Color(colorWhite.r, colorWhite.g, colorWhite.b, 100);
-				end;
-				
 				Clockwork.kernel:DrawSimpleText(L(creationPanels[i].friendlyName), textX, textY - 1, color, 1, 1);
 			end;
 			
-			surface.SetDrawColor(
-				foregroundColor.r, foregroundColor.g, foregroundColor.b, 200
-			);
+			surface.SetDrawColor(foregroundColor.r, foregroundColor.g, foregroundColor.b, 200);
 			surface.DrawRect(0, progressY + progressHeight, scrW, 1);
 		end;
 
@@ -752,10 +733,6 @@ function PANEL:Init()
 	local buttonY = 0;
 	local labels = {};
 	
-	if (not WOW) then
-		WOW = self;
-	end;
-	
 	self.customData = self:GetParent().customData;
 	self.buttonPanels = {};
 	self:SetPaintBackground(false);
@@ -790,20 +767,20 @@ function PANEL:Init()
 	end;
 	
 	self.factionLabel:OverrideTextColor(color)
-		
+	
+	local modelSize = math.min(ScrW() * 0.3, ScrH() * 0.7);
+	
 	self.characterModel = vgui.Create("cwCharacterModel", self);
 	self.characterModel:SetModel(self.customData.model);
-	self.characterModel:SetSize(512, 512);
+	self.characterModel:SetSize(modelSize, modelSize);
 	self.characterModel:SetMouseInputEnabled(true);
 	
 	buttonY = self.factionLabel.y + self.factionLabel:GetTall() + 4;
 	
 	self.characterModel:SetPos(0, buttonY + 24);
-		
+	
 	local modelPanel = self.characterModel;
-	local sequence = Clockwork.plugin:Call(
-		"GetCharacterPanelSequence", modelPanel.Entity, self.customData.charTable
-	);
+	local sequence = Clockwork.plugin:Call("GetCharacterPanelSequence", modelPanel.Entity, self.customData.charTable);
 	
 	if (sequence) then
 		modelPanel.Entity:ResetSequence(sequence);
@@ -951,11 +928,9 @@ function PANEL:Init()
 end;
 
 -- A function to set whether the panel is active.
-function PANEL:SetActive(bActive)
-	if (bActive) then
-		self.nameLabel:OverrideTextColor(
-			Clockwork.option:GetColor("information")
-		);
+function PANEL:SetActive(isActive)
+	if (isActive) then
+		self.nameLabel:OverrideTextColor(Clockwork.option:GetColor("information"));
 	else
 		self.nameLabel:OverrideTextColor(false);
 	end;
@@ -964,18 +939,11 @@ end;
 -- Called each frame.
 function PANEL:Think()
 	local markupObject = Clockwork.theme:GetMarkupObject();
-	local weaponModel = Clockwork.plugin:Call(
-		"GetCharacterPanelWeaponModel", self, self.customData.charTable
-	);
-	local toolTip = Clockwork.plugin:Call(
-		"GetCharacterPanelToolTip", self, self.customData.charTable
-	);
+	local weaponModel = Clockwork.plugin:Call("GetCharacterPanelWeaponModel", self, self.customData.charTable);
+	local toolTip = Clockwork.plugin:Call("GetCharacterPanelToolTip", self, self.customData.charTable);
 	
 	markupObject:Title("Details");
-	
-	markupObject:Add(
-		self.customData.details or "This character has no details to display."
-	);
+	markupObject:Add(self.customData.details or "This character has no details to display.");
 	
 	if (toolTip and toolTip != "") then
 		details = markupObject:Title(self.customData.name);
@@ -1166,6 +1134,7 @@ function PANEL:Init()
 	
 	self.pointsUsed = vgui.Create("DPanel", self);
 	self.pointsUsed:SetPos(self.addButton:GetWide() + 8, 0);
+	
 	Clockwork.kernel:CreateMarkupToolTip(self.pointsUsed);
 	
 	self.pointsLabel = vgui.Create("DLabel", self);
@@ -1173,6 +1142,7 @@ function PANEL:Init()
 	self.pointsLabel:SetTextColor(colorWhite);
 	self.pointsLabel:SizeToContents();
 	self.pointsLabel:SetExpensiveShadow(1, Color(0, 0, 0, 150));
+	
 	Clockwork.kernel:CreateMarkupToolTip(self.pointsLabel);
 	
 	-- Called when the panel should be painted.
@@ -1596,27 +1566,30 @@ function PANEL:Init()
 	end;
 	
 	if (self.hasSelectedModel or self.hasPhysDesc) then
-		self.appearanceForm = vgui.Create("cwBasicForm");
-		self.appearanceForm:SetAutoSize(true);
-		self.appearanceForm:SetPadding(8);
-		self.appearanceForm:SetSpacing(8);
-		self.appearanceForm:SetText(L("CharacterMenuAppearance"));
-		
-		if (self.hasPhysDesc and self.hasSelectedModel) then
-			self.appearanceForm:Help(L("CharacterMenuPhysDescHelpAndModel"));
-		elseif (self.hasPhysDesc) then
-			self.appearanceForm:Help(L("CharacterMenuPhysDescHelp"));
-		end;
-		
 		if (self.hasPhysDesc) then
-			self.physDescTextEntry = self.appearanceForm:TextEntry(L("CharacterMenuPhysDesc"));
+			self.physDescForm = vgui.Create("cwBasicForm");
+			self.physDescForm:SetAutoSize(true);
+			self.physDescForm:SetPadding(8);
+			self.physDescForm:SetSpacing(8);
+			self.physDescForm:SetText(L("CharacterMenuPhysDesc"));
+			self.physDescForm:Help(L("CharacterMenuPhysDescHelp"));
+			
+			self.physDescTextEntry = self.physDescForm:TextEntry();
 			self.physDescTextEntry:SetAllowNonAsciiCharacters(true);
 		end;
 		
 		if (self.hasSelectedModel) then
+			self.appearanceForm = vgui.Create("cwBasicForm");
+			self.appearanceForm:SetAutoSize(true);
+			self.appearanceForm:SetPadding(8);
+			self.appearanceForm:SetSpacing(8);
+			self.appearanceForm:SetText(L("CharacterMenuAppearance"));
+			self.appearanceForm:Help(L("CharacterMenuModelHelp"));
+		
 			self.modelItemsList = vgui.Create("DPanelList", self);
 				self.modelItemsList:SetPadding(4);
 				self.modelItemsList:SetSpacing(16);
+				self.modelItemsList:SetAutoSize(true);
 				self.modelItemsList:EnableHorizontal(true);
 				self.modelItemsList:EnableVerticalScrollbar(true);
 			self.appearanceForm:AddItem(self.modelItemsList);
@@ -1625,6 +1598,10 @@ function PANEL:Init()
 	
 	if (self.nameForm) then
 		self.categoryList:AddItem(self.nameForm);
+	end;
+	
+	if (self.physDescForm) then
+		self.categoryList:AddItem(self.physDescForm);
 	end;
 	
 	if (self.appearanceForm) then
@@ -1803,10 +1780,6 @@ end;
 -- Called when the layout should be performed.
 function PANEL:PerformLayout(w, h)
 	self.categoryList:StretchToParent(0, 0, 0, 0);
-	
-	if (IsValid(self.modelItemsList)) then
-		self.modelItemsList:SetTall(256);
-	end;
 	
 	self:SetSize(512, math.min(self.categoryList.pnlCanvas:GetTall() + 8, ScrH() * 0.6));
 end;
@@ -2081,6 +2054,8 @@ function PANEL:Init()
 	self.categoryList:SetSpacing(8);
  	self.categoryList:SizeToContents();
 	
+	self.maximumPoints = Clockwork.config:Get("max_trait_points"):Get();
+	self.selectedTraits = {};
 	self.info = Clockwork.character:GetCreationInfo();
 	
 	self.traitForm = vgui.Create("cwBasicForm");
@@ -2088,10 +2063,12 @@ function PANEL:Init()
 	self.traitForm:SetPadding(8);
 	self.traitForm:SetSpacing(8);
 	self.traitForm:SetText(L("CharacterMenuTraits"));
+	self.helpText = self.traitForm:Help(L("YouCanSpendMorePoints", maximumPoints));
 	
 	self.traitItemsList = vgui.Create("DPanelList", self);
 		self.traitItemsList:SetPadding(4);
 		self.traitItemsList:SetSpacing(16);
+		self.traitItemsList:SetAutoSize(true);
 		self.traitItemsList:EnableHorizontal(true);
 		self.traitItemsList:EnableVerticalScrollbar(true);
 	self.traitForm:AddItem(self.traitItemsList);
@@ -2101,22 +2078,36 @@ function PANEL:Init()
 	local informationColor = Clockwork.option:GetColor("information");
 	
 	for k, v in pairs(Clockwork.trait:GetAll()) do
-		local traitButton = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
+		local traitTable = v;
+		local markupObject = Clockwork.theme:GetMarkupObject();
 		
-		traitButton:SetToolTip(v.description);
+		markupObject:Title(L(v.name));
+		markupObject:Add(L(v.description));
+		
+		if (v.points < 0) then
+			markupObject:Add(L("TraitPointsGain", v.points), Clockwork.option:GetColor("trait_gain_color"));
+		else
+			markupObject:Add(L("TraitPointsLoss", v.points), Clockwork.option:GetColor("trait_loss_color"));
+		end;
+		
+		local traitButton = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("cwImageButtonBorder", self));
+		
+		traitButton:SetToolTip(markupObject:GetText());
 		traitButton:SetImage(v.image..".png");
 		traitButton:SetSize(64, 64);
 		
 		-- Called when the spawn icon is clicked.
 		function traitButton.DoClick(spawnIcon)
-			if (self.selectedTraitIcon) then
-				--self.selectedSpawnIcon:SetColor(nil);
+			if (table.HasValue(self.selectedTraits, traitTable)) then
+				table.RemoveByValue(self.selectedTraits, traitTable);
+				traitButton:SetColor(nil);
+				return;
 			end;
 			
-			--traitButton:SetColor(informationColor);
-			
-			self.selectedTraitIcon = traitButton;
-			self.selectedTrait = v2;
+			if (traitTable.points < self:GetPointsLeft()) then
+				traitButton:SetColor(Clockwork.option:GetColor("information_color"));
+				table.insert(self.selectedTraits, traitTable);
+			end;
 		end;
 		
 		self.traitItemsList:AddItem(traitButton);
@@ -2192,9 +2183,23 @@ function PANEL:FadeIn(speed, Callback)
 	end;
 end;
 
+function PANEL:GetPointsLeft()
+	local pointsLeft = self.maximumPoints;
+	
+	for k, v in pairs(self.selectedTraits) do
+		pointsLeft = pointsLeft - v.points;
+	end;
+	
+	return pointsLeft;
+end;
+
 -- Called each frame.
 function PANEL:Think()
 	self:InvalidateLayout(true);
+	
+	if (self.helpText) then
+		self.helpText:SetText(L("YouCanSpendMorePoints", self:GetPointsLeft()));
+	end;
 	
 	if (self.animation) then
 		self.animation:Run();
@@ -2204,10 +2209,6 @@ end;
 -- Called when the layout should be performed.
 function PANEL:PerformLayout(w, h)
 	self.categoryList:StretchToParent(0, 0, 0, 0);
-	
-	if (IsValid(self.traitItemsList)) then
-		self.traitItemsList:SetTall(256);
-	end;
 	
 	self:SetSize(512, math.min(self.categoryList.pnlCanvas:GetTall() + 8, ScrH() * 0.6));
 end;
