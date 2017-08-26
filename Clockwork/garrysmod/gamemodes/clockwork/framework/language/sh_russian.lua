@@ -11,6 +11,7 @@
 		ROSS <pootiswwe@gmail.com>
 --]]
 
+
 CW_RUSSIAN = Clockwork.lang:GetTable("Русский");
 
 CW_RUSSIAN["CannotChangeClassFor"] = "Вы не можете менять класс еще #1 секунд(ы)!";
@@ -744,3 +745,58 @@ CW_RUSSIAN["ChatPlayerOOC"] = ":color1:[OOC] :color2:#1: :color0:#2";
 CW_RUSSIAN["ChatPlayerWhispers"] = ":color1:#1 шепчет \"#2\"";
 CW_RUSSIAN["ChatPlayerRadios"] = ":color1:#1 по рации \"#2\"";
 CW_RUSSIAN["ChatPlayerYells"] = ":color1:#1 кричит \"#2\"";
+
+CW_RUSSIAN["PlayerConnected"] = "#1 присоединился к серверу.";
+CW_RUSSIAN["PlayerDisconnected"] = "#1 отключился от сервера.";
+
+CW_RUSSIAN["LogPlayerDisconnected"] = "#1 (#2/#3) отключился.";
+CW_RUSSIAN["LogPlayerConnected"] = "#1 (#2/#3) подключился.";
+CW_RUSSIAN["LogPlayerSpawnedModel"] = "#1 создал '#2'.";
+CW_RUSSIAN["LogPlayerSaysLOOC"] = "[LOOC] #1: #2";
+CW_RUSSIAN["LogPlayerSays"] = "#1 says \"#2\"";
+CW_RUSSIAN["LogPlayerDealDamageWithKill"] = "#1 нанес #2 урона игроку #3, используя #4, убивая его!";
+CW_RUSSIAN["LogPlayerDealDamageKill"] = "#1 нанес #2 урона игроку #3, убивая его!";
+CW_RUSSIAN["LogPlayerTakeDamageWith"] = "#1 получил #2 урона от игрока #3, который использует #4, оставляя ему #5 здоровья и #6 брони!";
+CW_RUSSIAN["LogPlayerTakeDamage"] = "#1 получил #2 урона от игрока #3, оставляя ему #4 здоровья и #5 брони!";
+CW_RUSSIAN["LogPlayerGainedItem"] = "#1 получил #2 #3.";
+CW_RUSSIAN["LogPlayerLostItem"] = "#1 потерял #2 #3.";
+CW_RUSSIAN["LogPlayerOrdered"] = "#1 заказал #1 #2.";
+CW_RUSSIAN["LogPlayerDeletedChar"] = "#1 удалил персонажа '#2'.";
+CW_RUSSIAN["LogPlayerLoadedChar"] = "#1 загрузил персонажа '#2'.";
+CW_RUSSIAN["LogPlayerUsedCommandArgs"] = "#1 использовал '#2 #3'.";
+CW_RUSSIAN["LogPlayerUsedCommand"] = "#1 использовал '#2'.";
+CW_RUSSIAN["LogPlayerRoll"] = "#1 получил #2 из #3.";
+
+CW_RUSSIAN["PlayerRoll"] = "получил #1 из #2!";
+
+CW_RUSSIAN["FaultDidNotChooseTraits"] = "Вы не выбрали никаких #1!";
+CW_RUSSIAN["YouCannotCreateThisChar"] = "Вы не можете создать этого персонажа!";
+CW_RUSSIAN["MenuNameTraits"] = "Навыки";
+CW_RUSSIAN["MenuNameTrait"] = "Навык";
+
+CW_RUSSIAN["LogPlayerCreateChar"] = "#1 создал #2 персонажа, именуя его '#3'."
+
+CW_RUSSIAN["ItemInfoIsWearingYes"] = "Одето: Да.";
+CW_RUSSIAN["ItemInfoIsWearingNo"] = "Одето: Нет.";
+CW_RUSSIAN["ItemInfoClipOne"] = "Обойма: #1";
+CW_RUSSIAN["ItemInfoClipTwo"] = "В запасе: #1";
+
+CW_RUSSIAN["CashSellDoor"] = "продажа двери.";
+CW_RUSSIAN["CashPropRefund"] = "возврат за проп";
+CW_RUSSIAN["CashDroppingCash"] = "за выброс #1";
+
+CW_RUSSIAN["YourCharLostCashReason"] = "Ваш персонаж потерял #1 (#2).";
+CW_RUSSIAN["YourCharLostCash"] = "Ваш персонаж потерял #1.";
+CW_RUSSIAN["YourCharGainedCashReason"] = "Ваш персонаж получил #1 (#2).";
+CW_RUSSIAN["YourCharGainedCash"] = "Ваш персонаж получил #1.";
+
+CW_RUSSIAN["CharacterMenuTraits"] = "Навыки";
+CW_RUSSIAN["CreateCharacterStage5"] = "Навыки";
+
+CW_RUSSIAN["MaxTraitPoints"] = "Максимальное количество навыков:";
+CW_RUSSIAN["MaxTraitPointsDesc"] = "Максимальное количество навыков, которое может иметь каждый.";
+
+CW_RUSSIAN["TraitPointsGain"] = "Очки: +#1";
+CW_RUSSIAN["TraitPointsLoss"] = "Очки: -#1";
+
+CW_RUSSIAN["CharacterMenuModelHelp"] = "Выберите внешность для вашего персонажа.";
