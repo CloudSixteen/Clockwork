@@ -776,3 +776,22 @@ CW_KOREAN["FaultDidNotChooseTraits"] = "아직 사용 가능한 #1 중 하나를
 CW_KOREAN["YouCannotCreateThisChar"] = "당신은 이 캐릭터를 생성 할 수 없습니다!";
 CW_KOREAN["MenuNameTraits"] = "트레잇";
 CW_KOREAN["MenuNameTrait"] = "트레잇";
+
+CW_ENGLISH["LogPlayerCreateChar"] = "#1 님이 #2 팩션의 '#3' 캐릭터를 생성하였습니다."
+
+CW_ENGLISH["ItemInfoIsWearingYes"] = "입고 있음";
+CW_ENGLISH["ItemInfoIsWearingNo"] = "안 입고 있음";
+CW_ENGLISH["ItemInfoClipOne"] = "주 탄약: #1";
+CW_ENGLISH["ItemInfoClipTwo"] = "보조 탄약: #1";
+
+CW_ENGLISH["CashSellDoor"] = "문 판매";
+CW_ENGLISH["CashPropRefund"] = "프롭 환불";
+CW_ENGLISH["CashDroppingCash"] = "#1 을(를) 버림";
+
+CW_ENGLISH["YourCharLostCashReason"] = "#1 만큼의 돈을 잃었습니다. (사유 : #2).";
+CW_ENGLISH["YourCharLostCash"] = "#1 만큼의 돈을 잃었습니다.";
+CW_ENGLISH["YourCharGainedCashReason"] = "#1 만큼의 돈을 얻었습니다. (사유 : #2)";
+CW_ENGLISH["YourCharGainedCash"] = "#1 만큼의 돈을 얻었습니다.";
+
+CW_ENGLISH["CharacterMenuTraits"] = "트레잇";
+CW_ENGLISH["CreateCharacterStage5"] = "트레잇";
