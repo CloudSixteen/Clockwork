@@ -774,5 +774,32 @@ CW_KOREAN["PlayerRoll"] = "님이 주사위를 굴려 #2 까지의 값 중 #1 �
 
 CW_KOREAN["FaultDidNotChooseTraits"] = "아직 사용 가능한 #1 중 하나를 선택하지 않았습니다!";
 CW_KOREAN["YouCannotCreateThisChar"] = "당신은 이 캐릭터를 생성 할 수 없습니다!";
-CW_KOREAN["MenuNameTraits"] = "트레잇";
-CW_KOREAN["MenuNameTrait"] = "트레잇";
+CW_KOREAN["MenuNameTraits"] = "특성들";
+CW_KOREAN["MenuNameTrait"] = "특성";
+
+CW_KOREAN["LogPlayerCreateChar"] = "#1 님이 #2 팩션의 '#3' 캐릭터를 생성하였습니다."
+
+CW_KOREAN["ItemInfoIsWearingYes"] = "입고 있음";
+CW_KOREAN["ItemInfoIsWearingNo"] = "안 입고 있음";
+CW_KOREAN["ItemInfoClipOne"] = "주 탄약: #1";
+CW_KOREAN["ItemInfoClipTwo"] = "보조 탄약: #1";
+
+CW_KOREAN["CashSellDoor"] = "문 판매";
+CW_KOREAN["CashPropRefund"] = "프롭 환불";
+CW_KOREAN["CashDroppingCash"] = "#1 을(를) 버림";
+
+CW_KOREAN["YourCharLostCashReason"] = "#1 만큼의 돈을 잃었습니다. (사유 : #2).";
+CW_KOREAN["YourCharLostCash"] = "#1 만큼의 돈을 잃었습니다.";
+CW_KOREAN["YourCharGainedCashReason"] = "#1 만큼의 돈을 얻었습니다. (사유 : #2)";
+CW_KOREAN["YourCharGainedCash"] = "#1 만큼의 돈을 얻었습니다.";
+
+CW_KOREAN["CharacterMenuTraits"] = "특성들";
+CW_KOREAN["CreateCharacterStage5"] = "특성";
+
+CW_KOREAN["MaxTraitPoints"] = "최대 특성";
+CW_KOREAN["MaxTraitPointsDesc"] = "캐릭터가 가질 수 있는 최대 특성 갯수입니다.";
+
+CW_KOREAN["TraitPointsGain"] = "특성 점수: +#1";
+CW_KOREAN["TraitPointsLoss"] = "특성 점수: -#1";
+
+CW_KOREAN["CharacterMenuModelHelp"] = "당신의 캐릭터에 적합한 캐릭터의 모델을 선택하십시요.";
