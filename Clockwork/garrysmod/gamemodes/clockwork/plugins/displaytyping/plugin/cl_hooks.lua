@@ -106,17 +106,17 @@ function cwDisplayTyping:PostDrawTranslucentRenderables()
 							eyeAngles:RotateAroundAxis(eyeAngles:Right(), 90);
 							
 							if (typing == TYPING_WHISPER) then
-								drawText = "Whispering...";
+								drawText = L("DisplayTypingWhisper");
 							elseif (typing == TYPING_PERFORM) then
-								drawText = "Performing...";
+								drawText = L("DisplayTypingPerform");
 							elseif (typing == TYPING_NORMAL) then
-								drawText = "Talking...";
+								drawText = L("DisplayTypingTalk");
 							elseif (typing == TYPING_RADIO) then
-								drawText = "Radioing...";
+								drawText = L("DisplayTypingRadio");
 							elseif (typing == TYPING_YELL) then
-								drawText = "Yelling...";
+								drawText = L("DisplayTypingYell");
 							elseif (typing == TYPING_OOC) then
-								drawText = "Typing...";
+								drawText = L("DisplayTypingType");
 							end;
 							
 							if (drawText != "") then
