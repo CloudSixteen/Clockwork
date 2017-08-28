@@ -147,39 +147,32 @@ function cwDisplayTyping:ChatBoxClosed(textTyped)
 	end;
 end;
 
+-- A function to get whether a string starts with a command.
+function cwDisplayTyping:DoesStartWithCommand(text, command)
+	if (string.utf8sub(newText, 1, string.utf8len(command)) == command) then
+		return true;
+	else
+		return false;
+	end;
+end;
+
 -- Called when the chat box text has changed.
 function cwDisplayTyping:ChatBoxTextChanged(previousText, newText)
 	local prefix = cwConfig:Get("command_prefix"):Get();
 	
-	if (string.utf8sub(newText, 1, string.utf8len(prefix) + 6) == prefix.."radio") then
-		if (string.utf8sub(previousText, 1, string.utf8len(prefix) + 6) != prefix.."radio") then
-			RunConsoleCommand("cwTypingStart", "r");
+	for k, v in pairs(self.typingCodes) do
+		if (self:DoesStartWithCommand(newText, prefix..k)) then
+			if (!self:DoesStartWithCommand(previousText, prefix..k)) then
+				RunConsoleCommand("cwTypingStart", v);
+			end;
+			
+			return;
 		end;
-	elseif (string.utf8sub(newText, 1, string.utf8len(prefix) + 3) == prefix.."me") then
-		if (string.utf8sub(previousText, 1, string.utf8len(prefix) + 3) != prefix.."me") then
-			RunConsoleCommand("cwTypingStart", "p");
+	end;
+	
+	if (newText != "" and previousText != "") then
+		if (string.utf8len(newText) >= 4 and string.utf8len(previousText) < 4) then
+			RunConsoleCommand("cwTypingStart", "n");
 		end;
-	elseif (string.utf8sub(newText, 1, string.utf8len(prefix) + 3) == prefix.."pm") then
-		if (string.utf8sub(previousText, 1, string.utf8len(prefix) + 3) != prefix.."pm") then
-			RunConsoleCommand("cwTypingStart", "o");
-		end;
-	elseif (string.utf8sub(newText, 1, string.utf8len(prefix) + 2) == prefix.."w") then
-		if (string.utf8sub(previousText, 1, string.utf8len(prefix) + 2) != prefix.."w") then
-			RunConsoleCommand("cwTypingStart", "w");
-		end;
-	elseif (string.utf8sub(newText, 1, string.utf8len(prefix) + 2) == prefix.."y") then
-		if (string.utf8sub(previousText, 1, string.utf8len(prefix) + 2) != prefix.."y") then
-			RunConsoleCommand("cwTypingStart", "y");
-		end;
-	elseif (string.utf8sub(newText, 1, 2) == "//") then
-		if (string.utf8sub(previousText, 1, 2) != prefix.."//") then
-			RunConsoleCommand("cwTypingStart", "o");
-		end;
-	elseif (string.utf8sub(newText, 1, 3) == ".//") then
-		if (string.utf8sub(previousText, 1, 3) != prefix..".//") then
-			RunConsoleCommand("cwTypingStart", "o");
-		end;
-	elseif (newText != "" and string.utf8len(newText) >= 4 and previousText != "" and string.utf8len(previousText) < 4) then
-		RunConsoleCommand("cwTypingStart", "n");
 	end;
 end;
