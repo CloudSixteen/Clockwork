@@ -196,7 +196,7 @@ CW_SPANISH["PhysDescMinimumLength"] = "La descripcion fisica debe ser de al meno
 CW_SPANISH["RequestAdminRedirect"] = "Eres un admin usa /a mejor.";
 
 CW_SPANISH["NoAccessToOrderItem"] = "No tienes acceso a pedir ese objeto";
-CW_SPANISHCW_SPANISH["NoAccessToMenu"] = "NO tienes permiso para entrar al menu #1";
+CW_SPANISH["NoAccessToMenu"] = "NO tienes permiso para entrar al menu #1";
 CW_SPANISH["CannotOrderThatFarAway"] = "no puedes ordenar ese objeto tan lejos";
 CW_SPANISH["RequiredIngredientsMissing"] = "No tienes los objetos necesarios!";
 
