@@ -267,7 +267,7 @@ function PANEL:Think()
 					(self.itemTable("cost") * priceScale) * math.max(amount, 1)
 				);
 			else
-				displayInfo.weight = "Free";
+				displayInfo.weight = L("Priceless");
 			end;
 			
 			local overrideCash = Clockwork.salesmenu.sells[self.itemTable("uniqueID")];
@@ -283,22 +283,20 @@ function PANEL:Think()
 		
 		if (self.typeName == "Sells") then
 			if (amount > 1) then
-				displayInfo.name = amount.." "..Clockwork.kernel:Pluralize(self.itemTable("name"));
+				displayInfo.name = L("AmountOfThing", amount, L(self.itemTable("name")));
 			else
-				displayInfo.name = self.itemTable("name");
+				displayInfo.name = L(self.itemTable("name"));
 			end;
 		end;
 		
-		local iStockLeft = Clockwork.salesmenu.stock[self.itemTable("uniqueID")];
+		local stockLeft = Clockwork.salesmenu.stock[self.itemTable("uniqueID")];
 		
-		if (self.typeName == "Sells" and iStockLeft) then
-			displayInfo.itemTitle = "["..iStockLeft.."] ["..displayInfo.name..", "..displayInfo.weight.."]";
+		if (self.typeName == "Sells" and stockLeft) then
+			displayInfo.itemTitle = "["..stockLeft.."] ["..displayInfo.name..", "..displayInfo.weight.."]";
 		end;
 	end;
 	
-	self.spawnIcon:SetMarkupToolTip(
-		Clockwork.item:GetMarkupToolTip(self.itemTable, true, DisplayCallback)
-	);
+	self.spawnIcon:SetMarkupToolTip(Clockwork.item:GetMarkupToolTip(self.itemTable, true, DisplayCallback));
 	self.spawnIcon:SetColor(self.itemTable("color"));
 end;
 

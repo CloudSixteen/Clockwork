@@ -248,13 +248,8 @@ if (SERVER) then
 			return;
 		end;
 		
-		if (self("batch") > 1) then
-			Clockwork.player:GiveCash(player, -(self("cost") * self("batch")), self("batch").." "..Clockwork.kernel:Pluralize(self("name")));
-			Clockwork.kernel:PrintLog(LOGTYPE_MINOR, {"LogPlayerOrdered", player:Name(), self("batch"), Clockwork.kernel:Pluralize(self("name"))});
-		else
-			Clockwork.player:GiveCash(player, -(self("cost") * self("batch")), self("batch").." "..self("name"));
-			Clockwork.kernel:PrintLog(LOGTYPE_MINOR, {"LogPlayerOrdered", player:Name(), self("batch"), self("name")});
-		end;
+		Clockwork.player:GiveCash(player, -(self("cost") * self("batch")), {"AmountOfThing", self("batch"), {self("name")}});
+		Clockwork.kernel:PrintLog(LOGTYPE_MINOR, {"LogPlayerOrdered", player:Name(), self("batch"), {self("name")}});
 	end;
 	
 	-- A function to get whether a player can afford to order the item.
@@ -763,13 +758,13 @@ else
 	-- A function to get an item's markup tooltip.
 	function Clockwork.item:GetMarkupToolTip(itemTable, isBusinessStyle, Callback)
 		local informationColor = Clockwork.option:GetColor("information");
-		local description = itemTable("description");
+		local description = L(itemTable("description"));
+		local weightText = itemTable("weightText");
 		local toolTip = itemTable("toolTip");
 		local weight = itemTable("weight").."kg";
 		local space = itemTable("space").."l";
-		local name = itemTable("name");
+		local name = L(itemTable("name"));
 		
-		local weightText = itemTable("weightText");
 		if (weightText) then
 			weight = weightText;
 		elseif (itemTable("weight") == 0) then
@@ -789,7 +784,7 @@ else
 		end;
 		
 		if (isBusinessStyle and itemTable("batch") > 1) then
-			name = itemTable("batch").." x "..Clockwork.kernel:Pluralize(name);
+			name = L("AmountOfThing", itemTable("batch"), name);
 		end;
 		
 		local toolTipTitle = ""
@@ -866,13 +861,8 @@ else
 									colorToUse = greenColor;
 								end;
 								
-								local itemName = requiredItem("name");
-								
-								if (v2 > 1) then
-									itemName = Clockwork.kernel:Pluralize(itemName);
-								end;
-								
-								local nameString = v2.." x "..itemName;
+								local itemName = L(requiredItem("name"));
+								local nameString = L("AmountOfThing", v2, itemName);
 								
 								markupObject:Add(nameString, colorToUse, 0.95);
 							end;

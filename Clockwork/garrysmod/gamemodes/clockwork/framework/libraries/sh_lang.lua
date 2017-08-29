@@ -95,7 +95,11 @@ function Clockwork.lang:ReplaceSubs(language, input, subs)
 	end;
 	
 	for k, v in ipairs(subs) do
-		input = string.gsub(input, "#"..k, tostring(v), 1);
+		if (isstable(v)) then
+			input = string.gsub(input, "#"..k, T(v), 1);
+		else
+			input = string.gsub(input, "#"..k, tostring(v), 1);
+		end;
 	end;
 	
 	return input;

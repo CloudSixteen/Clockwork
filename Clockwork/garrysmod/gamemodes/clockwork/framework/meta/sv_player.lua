@@ -920,7 +920,7 @@ function playerMeta:GiveItem(itemTable, isForced)
 			itemTable:OnGiveToPlayer(self);
 		end;
 		
-		cwKernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerGainedItem", self:Name(), itemTable("name"), itemTable("itemID")});
+		cwKernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerGainedItem", self:Name(), {itemTable("name")}, itemTable("itemID")});
 		
 		cwInventory:AddInstance(inventory, itemTable);
 		
@@ -947,7 +947,7 @@ function playerMeta:TakeItem(itemTable)
 		itemTable:OnTakeFromPlayer(self);
 	end;
 	
-	cwKernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerLostItem", self:Name(), itemTable("name"), itemTable("itemID")});
+	cwKernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerLostItem", self:Name(), {itemTable("name")}, itemTable("itemID")});
 	
 	cwPlugin:Call("PlayerItemTaken", self, itemTable);
 	

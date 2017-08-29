@@ -18,7 +18,7 @@ function ENT:HUDPaintTargetID(x, y, alpha)
 			local colorWhite = Clockwork.option:GetColor("white");
 			local color = itemTable("color") or colorTargetID;
 			
-			y = Clockwork.kernel:DrawInfo(itemTable("name"), x, y, color, alpha);
+			y = Clockwork.kernel:DrawInfo(L(itemTable("name")), x, y, color, alpha);
 			
 			if (itemTable.OnHUDPaintTargetID) then
 				local newY = itemTable:OnHUDPaintTargetID(self, x, y, alpha);

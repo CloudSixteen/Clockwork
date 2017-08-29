@@ -89,11 +89,11 @@ CW_ENGLISH["SuccessfulCraft"] = "You have successfully crafted a #1!";
 CW_ENGLISH["ErrorCraftingWithMsg"] = "Unable to craft a #1! #2";
 
 CW_ENGLISH["YouHaveGivenSomeItem"] = "You have given #1 some #2.";
-CW_ENGLISH["YouHaveGivenItemAmount"] = "You have given #1 #2 #3.";
+CW_ENGLISH["YouHaveGivenItemAmount"] = "You have given #1 #2x #3.";
 CW_ENGLISH["YouHaveGivenAnItem"] = "You have given #1 a #2.";
 
 CW_ENGLISH["YouWereGivenSomeItem"] = "#1 has given you some #2.";
-CW_ENGLISH["YouWereGivenItemAmount"] = "#1 has given you #2 #3.";
+CW_ENGLISH["YouWereGivenItemAmount"] = "#1 has given you #2x #3.";
 CW_ENGLISH["YouWereGivenAnItem"] = "#1 has given you a #2.";
 
 CW_ENGLISH["YouGaveCashTo"] = "You have given #1 to #2.";
@@ -803,3 +803,5 @@ CW_ENGLISH["CharacterMenuModelHelp"] = "Select an appropriate model for your cha
 
 CW_ENGLISH["RequestFromMsg"] = "[REQUEST] #1: #2";
 CW_ENGLISH["ConsoleUser"] = "Console";
+CW_ENGLISH["AmountOfThing"] = "#1x #2";
+CW_ENGLISH["Shipment"] = "Shipment";

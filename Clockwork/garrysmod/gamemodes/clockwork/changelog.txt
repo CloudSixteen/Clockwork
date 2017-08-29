@@ -6,3 +6,10 @@ Updated all chat classes to use intelligent localization
 Fixed an error with factions
 Added the Russian language
 Added the French language
+
+Fixed the request command language string
+Removed the temporary cwc command contribution
+Added OnConsoleRun method for commands
+Added OnConsoleRun method to PlySetGroup (example)
+Made item and blueprint names and descriptions translatable
+Added translatability of the weaponselect plugin

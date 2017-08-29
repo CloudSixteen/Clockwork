@@ -34,7 +34,7 @@ function weaponMeta:GetPrintName()
 	local itemTable = cwItem:GetByWeapon(self);
 	
 	if (itemTable) then
-		return itemTable("name");
+		return L(itemTable("name"));
 	else
 		return self:OldGetPrintName();
 	end;

@@ -3428,7 +3428,7 @@ function Clockwork:PlayerDeath(player, inflictor, attacker, damageInfo)
 				local itemTable = cwItem:GetByWeapon(weapon);
 			
 				if (IsValid(weapon) and itemTable) then
-					cwKernel:PrintLog(LOGTYPE_CRITICAL, {"LogPlayerDealDamageWithKill", attacker:Name(), tostring(math.ceil(damageInfo:GetDamage())), player:Name(), itemTable("name")});
+					cwKernel:PrintLog(LOGTYPE_CRITICAL, {"LogPlayerDealDamageWithKill", attacker:Name(), tostring(math.ceil(damageInfo:GetDamage())), player:Name(), {itemTable("name")}});
 				else
 					cwKernel:PrintLog(LOGTYPE_CRITICAL, {"LogPlayerDealDamageWithKill", attacker:Name(), tostring(math.ceil(damageInfo:GetDamage())), player:Name(), cwPly:GetWeaponClass(attacker)});
 				end;

@@ -8,7 +8,7 @@
 
 CW_ENGLISH = Clockwork.lang:GetTable("English");
 
-CW_ENGLISH["SalesmenYouPurchasedFrom"] = "You have purchased #1 #2 from #3.";
+CW_ENGLISH["SalesmenYouPurchasedFrom"] = "You have purchased #1 x #2 from #3.";
 CW_ENGLISH["SalesmenYouNeedAnother"] = "You need another #1!";
 CW_ENGLISH["SalesmenYouSold"] = "You sold #1 #2 to #3.";
 CW_ENGLISH["SalesmenCannotAfford"] = "I cannot afford to buy that item from you!";

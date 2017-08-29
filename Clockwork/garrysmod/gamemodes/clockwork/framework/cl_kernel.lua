@@ -2243,7 +2243,7 @@ function Clockwork:GetAdminESPInfo(info)
 					local itemTable = cwEntity:FetchItemTable(v);
 
 					if (itemTable) then
-						local itemName = itemTable("name");
+						local itemName = L(itemTable("name"));
 						local color = Color(0, 255, 255, 255);
 
 						table.insert(info, {
