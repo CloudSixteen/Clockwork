@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -800,3 +800,6 @@ CW_ENGLISH["TraitPointsGain"] = "Points: +#1";
 CW_ENGLISH["TraitPointsLoss"] = "Points: -#1";
 
 CW_ENGLISH["CharacterMenuModelHelp"] = "Select an appropriate model for your character.";
+
+CW_ENGLISH["RequestFromMsg"] = "[REQUEST] #1: #2";
+CW_ENGLISH["ConsoleUser"] = "Console";

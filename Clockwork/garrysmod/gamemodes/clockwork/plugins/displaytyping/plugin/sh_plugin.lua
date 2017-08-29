@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -23,7 +23,7 @@ Clockwork.kernel:IncludePrefixed("sh_enum.lua");
 	The command a player is typing corresponds
 	to a specific phrase code.
 --]]
-cwTypingDisplay.typingCodes = {
+cwDisplayTyping.typingCodes = {
 	["radio"] = "r",
 	["me"] = "p",
 	["pm"] = "o",

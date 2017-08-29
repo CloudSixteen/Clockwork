@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -17,6 +17,7 @@ local hook = hook;
 
 Clockwork.command = Clockwork.kernel:NewLibrary("Command");
 Clockwork.command.stored = Clockwork.command.stored or {};
+
 local hidden = {};
 local alias = {};
 
@@ -57,10 +58,10 @@ function Clockwork.command:RemoveByID(identifier)
 end;
 
 -- A function to set whether a command is hidden.
-function Clockwork.command:SetHidden(name, bHidden)
+function Clockwork.command:SetHidden(name, isHidden)
 	local uniqueID = string.lower(string.gsub(name, "%s", ""));
 
-	if (!bHidden and hidden[uniqueID]) then
+	if (!isHidden and hidden[uniqueID]) then
 		self.stored[uniqueID] = hidden[uniqueID];
 		hidden[uniqueID] = nil;
 	elseif (hidden and self.stored[uniqueID]) then
@@ -70,11 +71,12 @@ function Clockwork.command:SetHidden(name, bHidden)
 
 	if (SERVER) then
 		Clockwork.datastream:Start(nil, "HideCommand", {
-			index = Clockwork.kernel:GetShortCRC(uniqueID), hidden = bHidden
+			index = Clockwork.kernel:GetShortCRC(uniqueID), 
+			hidden = isHidden
 		});
-	elseif (bHidden and hidden[uniqueID]) then
+	elseif (isHidden and hidden[uniqueID]) then
 		self:RemoveHelp(hidden[uniqueID]);
-	elseif (!bHidden and self.stored[uniqueID]) then
+	elseif (!isHidden and self.stored[uniqueID]) then
 		self:AddHelp(self.stored[uniqueID]);
 	end;
 end;
@@ -89,9 +91,7 @@ function Clockwork.command:Register(data, name)
 			self:RemoveHelp(self.stored[uniqueID]);
 		end;
 	end;
-
-	-- We do that so the Command Interpreter can find the command
- 	-- if it's original, non-aliased name has been used.
+	
  	alias[uniqueID] = uniqueID;
  
  	if (data.alias and type(data.alias) == "table") then
@@ -122,7 +122,7 @@ end;
 --[[
  	@codebase Shared
  	@details Returns command's table by alias or unique id.
-	@param ID Identifier of the command to find. Can be alias or original command name.
+	@param String Identifier of the command to find. Can be alias or original command name.
 --]]
 function Clockwork.command:FindByAlias(identifier)
 	return self.stored[alias[string.lower(string.gsub(identifier, "%s", ""))]];
@@ -136,28 +136,75 @@ function Clockwork.command:GetAlias()
 	return alias;
 end;
 
+--[[
+	@codebase Shared
+	@details Whether or not the player has access to the command.
+	@param Userdata The player whose access to check.
+	@param Table|String The command name or command table to check against.
+--]]
+function Clockwork.command:HasAccess(player, command)
+	if (type(command) == "string") then
+		command = self:FindByAlias(command);
+	end;
+	
+	if (!Clockwork.player:HasFlags(player, command.access)) then
+		return false;
+	end;
+	
+	local faction = player:GetFaction();
+	local team = player:Team();
+	
+	if (command.factions) then
+		if (!table.HasValue(command.factions, faction)) then
+			return false;
+		end;
+	end;
+	
+	--[[ Backwards compatibility... --]]
+	if (command.faction) then
+		if (istable(command.faction)) then
+			if (!table.HasValue(command.factions, faction)) then
+				return false;
+			end;
+		elseif (command.faction != faction) then
+			return false;
+		end;
+	end;
+	
+	if (command.classes) then
+		local class = Clockwork.class:FindByID(team);
+		
+		if (class) then
+			if (!table.HasValue(command.classes, team)
+			and !table.HasValue(command.classes, class.name)) then
+				return false;
+			end;
+		end;
+	end;
+	
+	return true;
+end;
+
 if (SERVER) then
 	function Clockwork.command:ConsoleCommand(player, command, arguments)
-		if (IsValid(player)) then
-			if (player:HasInitialized()) then
-				if (arguments and arguments[1]) then
-					local realCommand = string.lower(arguments[1]);
-					local commandTable = self:FindByAlias(realCommand);
-					local commandPrefix = Clockwork.config:Get("command_prefix"):Get();
+		if (arguments and arguments[1]) then
+			local realCommand = string.lower(arguments[1]);
+			local commandTable = self:FindByAlias(realCommand);
+			local commandPrefix = Clockwork.config:Get("command_prefix"):Get();
 
-					if (commandTable) then
-						table.remove(arguments, 1);
+			if (commandTable) then
+				table.remove(arguments, 1);
 
-						for k, v in pairs(arguments) do
-							arguments[k] = Clockwork.kernel:Replace(arguments[k], " ' ", "'");
-							arguments[k] = Clockwork.kernel:Replace(arguments[k], " : ", ":");
-						end;
+				for k, v in pairs(arguments) do
+					arguments[k] = Clockwork.kernel:Replace(arguments[k], " ' ", "'");
+					arguments[k] = Clockwork.kernel:Replace(arguments[k], " : ", ":");
+				end;
 
+				if (IsValid(player)) then
+					if (player:HasInitialized()) then
 						if (Clockwork.plugin:Call("PlayerCanUseCommand", player, commandTable, arguments)) then
 							if (#arguments >= commandTable.arguments) then
-								if (Clockwork.player:HasFlags(player, commandTable.access) and ((!commandTable.faction)
-								or (commandTable.faction and (commandTable.faction == player:GetFaction())
-								or (istable(commandTable.faction) and table.HasValue(commandTable.faction, player:GetFaction()))))) then
+								if (Clockwork.command:HasAccess(player, commandTable)) then
 									local flags = commandTable.flags;
 
 									if (Clockwork.player:GetDeathCode(player, true)) then
@@ -217,28 +264,31 @@ if (SERVER) then
 							end;
 						end;
 					elseif (!Clockwork.player:GetDeathCode(player, true)) then
-						Clockwork.player:Notify(player, {"NotValidCommandOrAlias"});
+						Clockwork.player:Notify(player, {"CannotUseCommandsYet"});
 					end;
-				elseif (!Clockwork.player:GetDeathCode(player, true)) then
-					Clockwork.player:Notify(player, {"NotValidCommandOrAlias"});
-				end;
+					
+					if (Clockwork.player:GetDeathCode(player)) then
+						Clockwork.player:TakeDeathCode(player);
+					end;
+				elseif (commandTable.OnConsoleRun) then
+					local wasSuccess, value = pcall(commandTable.OnConsoleRun, commandTable, arguments);
 
-				if (Clockwork.player:GetDeathCode(player)) then
-					Clockwork.player:TakeDeathCode(player);
+					if (!wasSuccess) then
+						MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Command]\nThe '"..commandTable.name.."' command has failed to run.\n"..value.."\n");
+					end;
+				else
+					print(L("NotValidCommandOrAlias"));
 				end;
-			else
-				Clockwork.player:Notify(player, {"CannotUseCommandsYet"});
+			elseif (IsValid(player)) then
+				Clockwork.player:Notify(player, {"NotValidCommandOrAlias"});
 			end;
-		else
-			print("You cannot run commands from server console. If you did not attempt to, you can ignore this message.");
 		end;
 	end;
-
+	
 	concommand.Add("cwCmd", function(player, command, arguments)
 		Clockwork.command:ConsoleCommand(player, command, arguments);
 	end);
-
-
+	
 	hook.Add("PlayerInitialSpawn", "Clockwork.command:PlayerInitialSpawn", function(player)
 		local hiddenCommands = {};
 
