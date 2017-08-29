@@ -800,3 +800,8 @@ CW_SPANISH["TraitPointsGain"] = "Puntos: +#1";
 CW_SPANISH["TraitPointsLoss"] = "Puntos: -#1";
 
 CW_SPANISH["CharacterMenuModelHelp"] = "Escoge un modelo apropiado para tu personaje.";
+
+CW_SPANISH["RequestFromMsg"] = "[SOLICITUD] #1: #2";
+CW_SPANISH["ConsoleUser"] = "Consola";
+CW_SPANISH["AmountOfThing"] = "#1x #2";
+CW_SPANISH["Shipment"] = "Cargamento";
