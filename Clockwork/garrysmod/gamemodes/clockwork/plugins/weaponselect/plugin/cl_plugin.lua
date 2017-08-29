@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -21,13 +21,13 @@ function cwWeaponSelect:DrawWeaponInformation(itemTable, weapon, x, y, alpha)
 	
 	if (!weapon.Primary or !weapon.Primary.ClipSize or weapon.Primary.ClipSize > 0) then
 		if (clipOne >= 0) then
-			primaryAmmo = "Primary: "..clipOne.."/"..clipOneAmount..".";
+			primaryAmmo = L("PrimaryAmmoCount", clipOne, clipOneAmount);
 		end;
 	end;
 	
 	if (!weapon.Secondary or !weapon.Secondary.ClipSize or weapon.Secondary.ClipSize > 0) then
 		if (clipTwo >= 0) then
-			secondaryAmmo = "Secondary: "..clipTwo.."/"..clipTwoAmount..".";
+			secondaryAmmo = L("SecondaryAmmoCount", clipTwo, clipTwoAmount);
 		end;
 	end;
 	
@@ -48,11 +48,11 @@ function cwWeaponSelect:DrawWeaponInformation(itemTable, weapon, x, y, alpha)
 		end;
 		
 		if (itemTable and itemTable("description") != "") then
-			text = text..titleColor.."DESCRIPTIPON</color>\n"..textColor..Clockwork.config:Parse(itemTable("description")).."</color>\n";
+			text = text..titleColor..L("WeaponSelectDescription").."</color>\n"..textColor..Clockwork.config:Parse(L(itemTable("description"))).."</color>\n";
 		end;
 		
 		if (primaryAmmo or secondaryAmmo) then
-			text = text..titleColor.."AMMUNITION</color>\n";
+			text = text..titleColor..L("WeaponSelectAmmunition").."</color>\n";
 			
 			if (secondaryAmmo) then
 				text = text..textColor..secondaryAmmo.."</color>\n";
@@ -64,19 +64,19 @@ function cwWeaponSelect:DrawWeaponInformation(itemTable, weapon, x, y, alpha)
 		end;
 		
 		if (weapon.Instructions != "") then
-			text = text..titleColor.."INSTRUCTIONS</color>\n"..textColor..weapon.Instructions.."</color>\n";
+			text = text..titleColor..L("WeaponSelectInstructions").."</color>\n"..textColor..weapon.Instructions.."</color>\n";
 		end;
 		
 		if (weapon.Purpose != "") then
-			text = text..titleColor.."PURPOSE</color>\n"..textColor..weapon.Purpose.."</color>\n";
+			text = text..titleColor..L("WeaponSelectPurpose").."</color>\n"..textColor..weapon.Purpose.."</color>\n";
 		end;
 		
 		if (weapon.Contact != "") then
-			text = text..titleColor.."CONTACT</color>\n"..textColor..weapon.Contact.."</color>\n";
+			text = text..titleColor..L("WeaponSelectContact").."</color>\n"..textColor..weapon.Contact.."</color>\n";
 		end;
 		
 		if (weapon.Author != "") then
-			text = text..titleColor.."AUTHOR</color>\n"..textColor..weapon.Author.."</color>\n";
+			text = text..titleColor..L("WeaponSelectAuthor").."</color>\n"..textColor..weapon.Author.."</color>\n";
 		end;
 		
 		weapon.InfoMarkup = markup.Parse(text.."</font>", 248);

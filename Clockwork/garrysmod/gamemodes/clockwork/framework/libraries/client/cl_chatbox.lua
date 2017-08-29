@@ -1,5 +1,5 @@
 --[[ 
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -299,7 +299,7 @@ function Clockwork.chatBox:CreateDermaTextEntry()
 					
 					if (!exploded[2]) then
 						local commands = Clockwork.kernel:GetSortedCommands();
-						local bUseNext = false;
+						local useNextCmd = false;
 						local firstCmd = nil;
 						local command = string.utf8sub(exploded[1], string.utf8len(prefix) + 1);
 						
@@ -313,15 +313,15 @@ function Clockwork.chatBox:CreateDermaTextEntry()
 							end;
 							
 							if ((string.utf8len(command) < string.utf8len(v)
-							and string.find(v, command) == 1) or bUseNext) then
+							and string.find(v, command) == 1) or useNextCmd) then
 								textEntry:SetRealValue(prefix..v);
 								return;
 							elseif (v == string.lower(command)) then
-								bUseNext = true;
+								useNextCmd = true;
 							end
 						end
 						
-						if (bUseNext and firstCmd) then
+						if (useNextCmd and firstCmd) then
 							textEntry:SetRealValue(prefix..firstCmd);
 							return;
 						end
@@ -406,10 +406,10 @@ function Clockwork.chatBox:CreateDermaPanel()
 		
 		-- Called when the panel is scrolled with the mouse wheel.
 		self.scroll.OnMouseWheeled = function(panel, delta)
-			local bIsOpen = self:IsOpen();
+			local isOpen = self:IsOpen();
 			local maximumLines = math.Clamp(CW_CONVAR_MAXCHATLINES:GetInt(), 1, 10);
 			
-			if (bIsOpen) then
+			if (isOpen) then
 				if (delta > 0) then
 					delta = math.Clamp(delta, 1, maximumLines);
 					
@@ -611,7 +611,7 @@ end;
 function Clockwork.chatBox:Paint()
 	local chatBoxSyntaxFont = Clockwork.option:GetFont("chat_box_syntax");
 	local chatBoxTextFont = Clockwork.option:GetFont("chat_box_text");
-	local bIsOpen = Clockwork.chatBox:IsOpen();
+	local isOpen = Clockwork.chatBox:IsOpen();
 	
 	Clockwork.kernel:OverrideMainFont(chatBoxTextFont);
 	
@@ -619,19 +619,19 @@ function Clockwork.chatBox:Paint()
 		self.spaceWidths[chatBoxTextFont] = Clockwork.kernel:GetTextSize(chatBoxTextFont, " ");
 	end;
 	
-	local bIsTypingCommand = Clockwork.chatBox:IsTypingCommand();
+	local isTypingCommand = Clockwork.chatBox:IsTypingCommand();
 	local chatBoxSpacing = Clockwork.chatBox:GetSpacing();
 	local maximumLines = math.Clamp(CW_CONVAR_MAXCHATLINES:GetInt(), 1, 10);
 	local origX, origY = Clockwork.chatBox:GetPosition(4);
 	local onHoverData = nil;
 	local spaceWidth = self.spaceWidths[chatBoxTextFont];
 	local fontHeight = chatBoxSpacing - 4;
+	local isTypingVC, voiceCommands = Clockwork.chatBox:IsTypingVC();
 	local messages = self.messages;
 	local x, y = origX, origY;
 	local box = {width = 0, height = 0};
-	local bIsTypingVC, voiceCommands = Clockwork.chatBox:IsTypingVC();
 
-	if (!bIsOpen) then
+	if (!isOpen) then
 		if (#self.historyMsgs > 100) then
 			local amount = #self.historyMsgs - 100;
 			
@@ -662,7 +662,7 @@ function Clockwork.chatBox:Paint()
 			y = y - messages[k - 1].spacing;
 		end;
 		
-		if (!bIsOpen and k == 1) then
+		if (!isOpen and k == 1) then
 			y = y - ((chatBoxSpacing + v.spacing) * (v.lines - 1)) + 14;
 		else
 			y = y - ((chatBoxSpacing + v.spacing) * v.lines);
@@ -676,9 +676,9 @@ function Clockwork.chatBox:Paint()
 		local messageY = y;
 		local alpha = v.alpha;
 		
-		if (bIsTypingCommand or bIsTypingVC) then
+		if (isTypingCommand or isTypingVC) then
 			alpha = 25;
-		elseif (bIsOpen) then
+		elseif (isOpen) then
 			alpha = 255;
 		end;
 		
@@ -727,7 +727,7 @@ function Clockwork.chatBox:Paint()
 	
 	Clockwork.kernel:OverrideMainFont(false);
 	
-	if (bIsTypingCommand) then
+	if (isTypingCommand) then
 		local colorInformation = Clockwork.option:GetColor("information");
 		local currentText = Clockwork.chatBox:GetCurrentText();
 		local colorWhite = Clockwork.option:GetColor("white");
@@ -749,11 +749,9 @@ function Clockwork.chatBox:Paint()
 				and (!splitTable[2] or string.lower(command) == k)) then
 					local cmdTable = Clockwork.command:FindByAlias(v);
  					
- 					if (cmdTable and Clockwork.player:HasFlags(Clockwork.Client, cmdTable.access)) then
+ 					if (cmdTable and Clockwork.command:HasAccess(Clockwork.Client, cmdTable)) then
  						local shouldAdd = true;
- 
- 						-- It can so happen that multiple alias for the same command begin with the same string.
- 						-- We don't want to display the same command multiple times, so we check for that.
+						
  						for k, v in pairs(commands) do
  							if (v == cmdTable) then
  								shouldAdd = false;
@@ -783,9 +781,7 @@ function Clockwork.chatBox:Paint()
 						totalText = totalText.." "..v.text;
 					end;
 					
-					local tWidth, tHeight = Clockwork.kernel:GetCachedTextSize(
-						chatBoxSyntaxFont, totalText
-					);
+					local tWidth, tHeight = Clockwork.kernel:GetCachedTextSize(chatBoxSyntaxFont, totalText);
 					
 					if (k == 1) then
 						oY = oY - tHeight;
@@ -794,9 +790,7 @@ function Clockwork.chatBox:Paint()
 					Clockwork.kernel:DrawSimpleText(prefix..v.name, oX, oY, colorInformation);
 					
 					if (isSingleCommand) then
-						local pWidth = Clockwork.kernel:GetCachedTextSize(
-							chatBoxSyntaxFont, prefix..v.name
-						);
+						local pWidth = Clockwork.kernel:GetCachedTextSize(chatBoxSyntaxFont, prefix..v.name);
 						
 						if (v.tip and v.tip != "") then
 							Clockwork.kernel:DrawSimpleText(v.tip, oX, oY - tHeight - 8, colorWhite);
@@ -820,7 +814,7 @@ function Clockwork.chatBox:Paint()
 			
 			Clockwork.kernel:OverrideMainFont(false);
 		end;
-	elseif (bIsTypingVC) then
+	elseif (isTypingVC) then
 		local colorInformation = Clockwork.option:GetColor("information");
 		local isSingleCommand = (#voiceCommands == 1);
 		local colorWhite = Clockwork.option:GetColor("white");
@@ -832,10 +826,8 @@ function Clockwork.chatBox:Paint()
 			if (isSingleCommand) then
 				totalText = totalText.." "..v.phrase;
 			end;
-					
-			local tWidth, tHeight = Clockwork.kernel:GetCachedTextSize(
-				chatBoxSyntaxFont, totalText
-			);
+			
+			local tWidth, tHeight = Clockwork.kernel:GetCachedTextSize(chatBoxSyntaxFont, totalText);
 			
 			if (k == 1) then
 				oY = oY - tHeight;
@@ -844,10 +836,8 @@ function Clockwork.chatBox:Paint()
 			Clockwork.kernel:DrawSimpleText(v.command, oX, oY, colorInformation);
 			
 			if (isSingleCommand) then
-				local pWidth = Clockwork.kernel:GetCachedTextSize(
-					chatBoxSyntaxFont, v.command
-				);
-						
+				local pWidth = Clockwork.kernel:GetCachedTextSize(chatBoxSyntaxFont, v.command);
+				
 				Clockwork.kernel:DrawSimpleText(v.phrase, oX, oY - tHeight - 8, colorWhite);
 			end;
 			

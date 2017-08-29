@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -56,13 +56,8 @@ Clockwork.datastream:Hook("Salesmenu", function(player, data)
 							player:GiveItem(Clockwork.item:CreateInstance(itemUniqueID));
 						end;
 						
-						if (amount > 1) then
-							Clockwork.player:GiveCash(player, -(cost * amount), amount.." "..Clockwork.kernel:Pluralize(itemTable("name")));
-							Clockwork.player:Notify(player, {"SalesmenYouPurchasedFrom", Clockwork.kernel:Pluralize(itemTable("name")), data.entity:GetNetworkedString("Name")});
-						else
-							Clockwork.player:GiveCash(player, -(cost * amount), amount.." "..itemTable("name"));
-							Clockwork.player:Notify(player, {"SalesmenYouPurchasedFrom", amount, itemTable("name"), data.entity:GetNetworkedString("Name")});
-						end;
+						Clockwork.player:GiveCash(player, -(cost * amount), {"AmountOfThing", amount, {itemTable("name")}});
+						Clockwork.player:Notify(player, {"SalesmenYouPurchasedFrom", amount, {itemTable("name")}, data.entity:GetNetworkedString("Name")});
 						
 						data.entity.cwCash = data.entity.cwCash + cost;
 						
@@ -101,8 +96,8 @@ Clockwork.datastream:Hook("Salesmenu", function(player, data)
 								data.entity.cwCash = data.entity.cwCash - cost;
 							end;
 							
-							Clockwork.player:GiveCash(player, cost, "1 "..itemTable("name"));
-							Clockwork.player:Notify(player, {"SalesmenYouSold", "1", itemTable("name"), data.entity:GetNetworkedString("Name")});
+							Clockwork.player:GiveCash(player, cost, {"AmountOfThing", "1", {itemTable("name")}});
+							Clockwork.player:Notify(player, {"SalesmenYouSold", "1", {itemTable("name")}, data.entity:GetNetworkedString("Name")});
 						end;
 					else
 						data.entity:TalkToPlayer(player, data.entity.cwTextTab.cannotAfford, {"SalesmenCannotAfford"});

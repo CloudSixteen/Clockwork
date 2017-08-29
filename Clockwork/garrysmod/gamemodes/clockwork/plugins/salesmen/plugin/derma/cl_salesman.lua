@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -454,7 +454,7 @@ function PANEL:Think()
 					(self.itemTable("cost") * priceScale) * math.max(amount, 1)
 				);
 			else
-				displayInfo.weight = "Free";
+				displayInfo.weight = L("Priceless");
 			end;
 			
 			local overrideCash = Clockwork.salesman.sells[self.itemTable("uniqueID")];
@@ -470,9 +470,9 @@ function PANEL:Think()
 		
 		if (self.typeName == "Sells") then
 			if (amount > 1) then
-				displayInfo.name = amount.." "..Clockwork.kernel:Pluralize(self.itemTable("name"));
+				displayInfo.name = L("AmountOfThing", amount, L(self.itemTable("name")));
 			else
-				displayInfo.name = self.itemTable("name");
+				displayInfo.name = L(self.itemTable("name"));
 			end;
 		end;
 		

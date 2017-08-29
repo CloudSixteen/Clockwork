@@ -1,5 +1,5 @@
 --[[ 
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -2243,7 +2243,7 @@ function Clockwork:GetAdminESPInfo(info)
 					local itemTable = cwEntity:FetchItemTable(v);
 
 					if (itemTable) then
-						local itemName = itemTable("name");
+						local itemName = L(itemTable("name"));
 						local color = Color(0, 255, 255, 255);
 
 						table.insert(info, {

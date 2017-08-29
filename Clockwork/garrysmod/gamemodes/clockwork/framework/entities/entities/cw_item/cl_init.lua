@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -18,7 +18,7 @@ function ENT:HUDPaintTargetID(x, y, alpha)
 			local colorWhite = Clockwork.option:GetColor("white");
 			local color = itemTable("color") or colorTargetID;
 			
-			y = Clockwork.kernel:DrawInfo(itemTable("name"), x, y, color, alpha);
+			y = Clockwork.kernel:DrawInfo(L(itemTable("name")), x, y, color, alpha);
 			
 			if (itemTable.OnHUDPaintTargetID) then
 				local newY = itemTable:OnHUDPaintTargetID(self, x, y, alpha);

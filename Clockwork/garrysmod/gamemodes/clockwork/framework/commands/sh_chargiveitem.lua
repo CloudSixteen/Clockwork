@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -38,22 +38,10 @@ function COMMAND:OnRun(player, arguments)
 					end;
 				end;
 
-				if (string.utf8sub(itemTable("name"), -1) == "s" and amount == 1) then
-					Clockwork.player:Notify(player, {"YouHaveGivenSomeItem", target:Name(), itemTable("name")});
-				elseif (amount > 1) then
-					Clockwork.player:Notify(player, {"YouHaveGivenItemAmount", target:Name(), amount, Clockwork.kernel:Pluralize(itemTable("name"))});
-				else
-					Clockwork.player:Notify(player, {"YouHaveGivenAnItem", target:Name(), itemTable("name")});
-				end;
+				Clockwork.player:Notify(player, {"YouHaveGivenItemAmount", target:Name(), amount, {itemTable("name")}});
 				
 				if (player != target) then
-					if (string.utf8sub(itemTable("name"), -1) == "s" and amount == 1) then
-						Clockwork.player:Notify(target, {"YouWereGivenSomeItem", player:Name(), itemTable("name")});
-					elseif (amount > 1) then
-						Clockwork.player:Notify(target, {"YouWereGivenItemAmount", player:Name(), amount, Clockwork.kernel:Pluralize(itemTable("name"))});
-					else
-						Clockwork.player:Notify(target, {"YouWereGivenAnItem", player:Name(), itemTable("name")});
-					end;
+					Clockwork.player:Notify(target, {"YouWereGivenItemAmount", player:Name(), amount, {itemTable("name")}});
 				end;
 			else
 				Clockwork.player:Notify(player, {"ItemIsNotValid", arguments[2]});

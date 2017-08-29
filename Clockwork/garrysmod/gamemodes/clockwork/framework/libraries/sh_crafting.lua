@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -140,9 +140,9 @@ function Clockwork.crafting:Craft(player, blueprintTable)
 	
 	if (canCraft) then
 		if (message) then
-			message = {"SuccessfulCraftWithMsg", blueprintTable("name"), message};
+			message = {"SuccessfulCraftWithMsg", {blueprintTable("name")}, message};
 		else
-			message = {"SuccessfulCraft", blueprintTable("name")};
+			message = {"SuccessfulCraft", {blueprintTable("name")}};
 		end;
 		
 		blueprintTable:OnCraft(player);
@@ -157,7 +157,7 @@ function Clockwork.crafting:Craft(player, blueprintTable)
 		
 		Clockwork.player:Notify(player, message);
 	else
-		message = {"ErrorCraftingWithMsg", blueprintTable("name"), message};
+		message = {"ErrorCraftingWithMsg", {blueprintTable("name")}, message};
 		
 		blueprintTable:FailedCraft(player);
 		
@@ -298,15 +298,15 @@ function Clockwork.crafting:CheckFormatRequirements(inventory, uniqueID, amount)
 			
 			if (amount > 1) then
 				if (Clockwork.inventory:HasItemCountByID(inventory, uniqueID, amount)) then
-					requirement = Clockwork.kernel:MarkupTextWithColor(amount .. "x " .. itemTable("name"), positiveColor);
+					requirement = Clockwork.kernel:MarkupTextWithColor(L("AmountOfThing", amount, L(itemTable("name"))), positiveColor);
 				else
-					requirement = Clockwork.kernel:MarkupTextWithColor(amount .. "x " .. itemTable("name"), negativeColor);
+					requirement = Clockwork.kernel:MarkupTextWithColor(L("AmountOfThing", amount, L(itemTable("name"))), negativeColor);
 				end;
 			else
 				if (Clockwork.inventory:HasItemByID(inventory, uniqueID)) then
-					requirement = Clockwork.kernel:MarkupTextWithColor(amount .. "x " .. itemTable("name"), positiveColor);
+					requirement = Clockwork.kernel:MarkupTextWithColor(L("AmountOfThing", amount, L(itemTable("name"))), positiveColor);
 				else
-					requirement = Clockwork.kernel:MarkupTextWithColor(amount .. "x " .. itemTable("name"), negativeColor);
+					requirement = Clockwork.kernel:MarkupTextWithColor(L("AmountOfThing", amount, L(itemTable("name"))), negativeColor);
 				end;
 			end;
 		end;
@@ -381,7 +381,8 @@ function Clockwork.crafting:FindByID(identifier)
 		for k, v in pairs(self.stored) do
 			local blueprintName = v("name");
 			
-			if (string.find(string.lower(blueprintName), lowerName) and (!blueprintTable or string.len(blueprintName) < string.len(blueprintTable("name")))) then
+			if (string.find(string.lower(blueprintName), lowerName)
+			and (!blueprintTable or string.len(blueprintName) < string.len(blueprintTable("name")))) then
 				blueprintTable = v;
 			end;
 		end;
@@ -588,8 +589,8 @@ if (CLIENT) then
 	--]]
 	function Clockwork.crafting:GetMarkupToolTip(blueprintTable, isBusinessStyle, Callback)
 		local informationColor = Clockwork.option:GetColor("information");
-		local description = blueprintTable("description");
-		local name = blueprintTable("name");
+		local description = L(blueprintTable("description"));
+		local name = L(blueprintTable("name"));
 		
 		if (blueprintTable.GetClientSideName and blueprintTable:GetClientSideName()) then
 			name = blueprintTable:GetClientSideName();

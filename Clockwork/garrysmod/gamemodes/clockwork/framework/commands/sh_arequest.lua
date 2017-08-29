@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -17,11 +17,11 @@ COMMAND.arguments = 1;
 
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)
-   if (!Clockwork.player:IsAdmin(player)) then
-      Clockwork.player:NotifyAdmins("o", "REQUEST from "..player:Name()..": "..table.concat(arguments, " "), nil);
-   else
-      Clockwork.player:Notify(player, {"RequestAdminRedirect"});
-   end;
+	if (!Clockwork.player:IsAdmin(player)) then
+		Clockwork.player:NotifyAdmins("o", {"RequestFromMsg", player:Name(), table.concat(arguments, " ")});
+	else
+		Clockwork.player:Notify(player, {"RequestAdminRedirect"});
+	end;
 end;
 
 COMMAND:Register();

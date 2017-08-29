@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -21,12 +21,10 @@ function COMMAND:OnRun(player, arguments)
 	
 	if (string.utf8len(text) < 8) then
 		Clockwork.player:Notify(player, {"NotEnoughText"});
-		
 		return;
 	end;
 
-	Clockwork.chatBox:AddInTargetRadius(player, "itc", text, player:GetPos(), 
-		math.min(Clockwork.config:Get("talk_radius"):Get() / 3, 80));
+	Clockwork.chatBox:AddInTargetRadius(player, "itc", text, player:GetPos(), math.min(Clockwork.config:Get("talk_radius"):Get() / 3, 80));
 end;
 
 COMMAND:Register();

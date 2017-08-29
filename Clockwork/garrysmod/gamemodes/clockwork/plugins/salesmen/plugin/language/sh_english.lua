@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -8,7 +8,7 @@
 
 CW_ENGLISH = Clockwork.lang:GetTable("English");
 
-CW_ENGLISH["SalesmenYouPurchasedFrom"] = "You have purchased #1 #2 from #3.";
+CW_ENGLISH["SalesmenYouPurchasedFrom"] = "You have purchased #1 x #2 from #3.";
 CW_ENGLISH["SalesmenYouNeedAnother"] = "You need another #1!";
 CW_ENGLISH["SalesmenYouSold"] = "You sold #1 #2 to #3.";
 CW_ENGLISH["SalesmenCannotAfford"] = "I cannot afford to buy that item from you!";

@@ -1,5 +1,5 @@
 --[[
-	© 2015 CloudSixteen.com do not share, re-distribute or modify
+	© CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -920,7 +920,7 @@ function playerMeta:GiveItem(itemTable, isForced)
 			itemTable:OnGiveToPlayer(self);
 		end;
 		
-		cwKernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerGainedItem", self:Name(), itemTable("name"), itemTable("itemID")});
+		cwKernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerGainedItem", self:Name(), {itemTable("name")}, itemTable("itemID")});
 		
 		cwInventory:AddInstance(inventory, itemTable);
 		
@@ -947,7 +947,7 @@ function playerMeta:TakeItem(itemTable)
 		itemTable:OnTakeFromPlayer(self);
 	end;
 	
-	cwKernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerLostItem", self:Name(), itemTable("name"), itemTable("itemID")});
+	cwKernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerLostItem", self:Name(), {itemTable("name")}, itemTable("itemID")});
 	
 	cwPlugin:Call("PlayerItemTaken", self, itemTable);
 	
