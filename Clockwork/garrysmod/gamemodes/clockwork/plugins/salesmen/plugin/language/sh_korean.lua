@@ -8,7 +8,7 @@
 
 CW_KOREAN = Clockwork.lang:GetTable("Korean");
 
-CW_KOREAN["SalesmenYouPurchasedFrom"] = "#3 에게서 #1 #2 을(를) 구매하였습니다.";
+CW_KOREAN["SalesmenYouPurchasedFrom"] = "#3 에게서 #1 을(를) #2 개 구매하였습니다.";
 CW_KOREAN["SalesmenYouNeedAnother"] = "다른 #1 이 필요합니다!";
 CW_KOREAN["SalesmenYouSold"] = "당신은 #3 에게 #1 #2 를 팔았습니다.";
 CW_KOREAN["SalesmenCannotAfford"] = "난 당신에게서 그것을 살 수 없어!";

@@ -106,7 +106,7 @@ CW_KOREAN["NoAuthority"] = "당신은 이 행동을 할 권한이 없습니다!"
 CW_KOREAN["ErrorGiveNonInstance"] = "생성되지 않은 아이템을 줄 수 없습니다!";
 CW_KOREAN["YourInventoryFull"] = "인벤토리에 여유 공간이 없습니다!";
 
-CW_KOREAN["PluginNotValid"] = "해당 플러그인은  올바르지 않은 플러그인입니다!";
+CW_KOREAN["PluginNotValid"] = "해당 플러그인은 올바르지 않은 플러그인입니다!";
 CW_KOREAN["PluginCouldNotBeUnloaded"] = "해당 플러그인을 비활성화 할 수없습니다!";
 CW_KOREAN["PluginCouldNotBeLoaded"] = "해당 플러그인을 활성화할 수 없습니다!";
 CW_KOREAN["PluginDependsOnAnother"] = "해당 플러그인은 다른 플러그인과 의존성이 있습니다!";
@@ -204,7 +204,7 @@ CW_KOREAN["RequiredIngredientsMissing"] = "이 아이템을 제작하는데에 �
 
 CW_KOREAN["NoBlueprintsForCraftingMenu"] = "{MenuNameCrafting} 메뉴에 대한 청사진이 없습니다!";
 
-CW_KOREAN["NotValidAttribute"] = "{AttributeName} 는 올바르지 않은 속성입니다!";
+CW_KOREAN["NotValidAttribute"] = "{AttributeName} 는 올바르지 않은 능력치입니다!";
 CW_KOREAN["YouHaveMaxOfThis"] = "당신은 이것에 대한 #1 만큼의 최대치를 가지고 있습니다!";
 
 CW_KOREAN["PlayerAlreadyIsFaction"] = "#1 님은 이미 #2 팩션입니다!";
@@ -237,7 +237,7 @@ CW_KOREAN["FaultTextEntryHigherThan"] = "#2 항목은 #1 보다 높을 수 없�
 CW_KOREAN["FaultTextEntryLowerThan"] = "#2 항목은 #1 보다 낮을 수 없습니다!";
 CW_KOREAN["YouAlreadyHaveCharName"] = "당신은 이미 '#1' 이름을 가진 캐릭터가 있습니다!";
 
-CW_KOREAN["MenuDescAttributes"] = "당신의 속성의 상태를 표시합니다.";
+CW_KOREAN["MenuDescAttributes"] = "당신의 능력치의 상태를 표시합니다.";
 CW_KOREAN["MenuDescScoreboard"] = "서버 플레이어들의 정보를 표시합니다.";
 CW_KOREAN["MenuDescDirectory"] = "다양한 주제와 정보의 모음입니다.";
 CW_KOREAN["MenuDescInventory"] = "당신의 아이템과 인벤토리를 관리합니다.";
@@ -250,7 +250,7 @@ CW_KOREAN["MenuDescDonations"] = "기부와 후원을 표시합니다.";
 CW_KOREAN["MenuDescClasses"] = "사용 가능한 클래스를 표시합니다.";
 CW_KOREAN["MenuDescSettings"] = "Clockwork 의 개인 설정을 변경합니다.";
 
-CW_KOREAN["MenuNameAttributes"] = "속성";
+CW_KOREAN["MenuNameAttributes"] = "능력치";
 CW_KOREAN["MenuNameScoreboard"] = "스코어보드";
 CW_KOREAN["MenuNamePluginCenter"] = "플러그인 센터";
 CW_KOREAN["MenuNameDirectory"] = "도움말";
@@ -263,7 +263,7 @@ CW_KOREAN["MenuNameDonations"] = "후원";
 CW_KOREAN["MenuNameSettings"] = "설정";
 CW_KOREAN["MenuNameSystem"] = "시스템";
 
-CW_KOREAN["AttributeName"] = "속성";
+CW_KOREAN["AttributeName"] = "능력치";
 CW_KOREAN["EquipmentName"] = "장비";
 
 CW_KOREAN["Monday"] = "월요일";
@@ -451,7 +451,7 @@ CW_KOREAN["Door"] = "문";
 CW_KOREAN["CreateCharacterStage1"] = "설득";
 CW_KOREAN["CreateCharacterStage2"] = "설명";
 CW_KOREAN["CreateCharacterStage3"] = "팩션";
-CW_KOREAN["CreateCharacterStage4"] = "속성";
+CW_KOREAN["CreateCharacterStage4"] = "능력치";
 
 CW_KOREAN["ChatLines"] = "채팅 라인";
 CW_KOREAN["ChatLinesDesc"] = "한 번에 표시되는 채팅의 양입니다.";
@@ -489,12 +489,12 @@ CW_KOREAN["HeadbobAmount"] = "화면 흔들림 값";
 CW_KOREAN["HeadbobAmountDesc"] = "화면이 흔들리는 값을 조정합니다.";
 CW_KOREAN["ThemeDesc"] = "현재 활성화된 인터페이스 테마를 표시합니다.";
 
-CW_KOREAN["AttributeProgressionScale"] = "속성 진행도 스케일";
-CW_KOREAN["AttributeProgressionScaleDesc"] = "속성이 얼마나 빠르게 진행되는지에 대한 값입니다.";
+CW_KOREAN["AttributeProgressionScale"] = "능력치 진행도 스케일";
+CW_KOREAN["AttributeProgressionScaleDesc"] = "능력치가 얼마나 빠르게 상승하는지에 대한 값입니다.";
 CW_KOREAN["MessagesMustSeePlayer"] = "바라보는 플레이어 메세지 강조";
 CW_KOREAN["MessagesMustSeePlayerDesc"] = "바라보는 캐릭터가 말하는 IC 채팅을 강조하는지에 대한 여부입니다.";
-CW_KOREAN["StartingAttributePoints"] = "시작 속성 포인트";
-CW_KOREAN["StartingAttributePointsDesc"] = "캐릭터 생성 시 플레이어가 사용할 수 있는 속성 포인트에 대한 값입니다.";
+CW_KOREAN["StartingAttributePoints"] = "시작 능력치 포인트";
+CW_KOREAN["StartingAttributePointsDesc"] = "캐릭터 생성 시 플레이어가 사용할 수 있는 능력치 포인트에 대한 값입니다.";
 CW_KOREAN["ClockworkIntroductionEnabled"] = "Clockwork 인트로 활성화";
 CW_KOREAN["ClockworkIntroductionEnabledDesc"] = "새로운 플레이어들에게 Clockwork 의 인트로를 보여줄지에 대한 여부입니다.";
 CW_KOREAN["HealthRegenerationEnabled"] = "체력 재생 활성화";
@@ -513,8 +513,8 @@ CW_KOREAN["UseClockworksAdminSystem"] = "Clockwork 어드민 시스템 사용";
 CW_KOREAN["UseClockworksAdminSystemDesc"] = "Clockwork 의 어드민 시스템을 사용하는지에 대한 여부입니다.";
 CW_KOREAN["SavedRecognisedNames"] = "인식된 이름 저장";
 CW_KOREAN["SavedRecognisedNamesDesc"] = "인식한 캐릭터의 이름을 저장할지에 대한 여부입니다.";
-CW_KOREAN["SaveAttributeBoosts"] = "속성 부스팅 저장";
-CW_KOREAN["SaveAttributeBoostsDesc"] = "속성 부스팅을 저장할지에 대한 여부입니다.";
+CW_KOREAN["SaveAttributeBoosts"] = "능력치 부스팅 저장";
+CW_KOREAN["SaveAttributeBoostsDesc"] = "눙력치 부스팅을 저장할지에 대한 여부입니다.";
 CW_KOREAN["RagdollDamageImmunityTime"] = "레그돌 무 데미지 시간";
 CW_KOREAN["RagdollDamageImmunityTimeDesc"] = "플레이어가 레그돌로 변한 뒤 몇초 뒤 부터 데미지를 입을 수 있는지에 대한 여부입니다.";
 CW_KOREAN["AdditionalCharacterCount"] = "추가 캐릭터 갯수";
@@ -717,8 +717,8 @@ CW_KOREAN["Male"] = "남성";
 
 CW_KOREAN["AttributeBoost"] = "+#1 (부스팅됨)";
 CW_KOREAN["AttributeHinder"] = "-#1 (감소됨)";
-CW_KOREAN["YouReachedMaxOfAttribute"] = "당신의 #1 속성은 이미 최대치에 달했습니다!";
-CW_KOREAN["Attributes"] = "속성";
+CW_KOREAN["YouReachedMaxOfAttribute"] = "당신의 #1 능력치는 이미 최대치에 달했습니다!";
+CW_KOREAN["Attributes"] = "능력치";
 
 CW_KOREAN["YouWillRespawnSoon"] = "리스폰 하는 중입니다...";
 CW_KOREAN["EntityBeingLocked"] = "잠구는 중입니다...";
@@ -803,3 +803,11 @@ CW_KOREAN["TraitPointsGain"] = "특성 점수: +#1";
 CW_KOREAN["TraitPointsLoss"] = "특성 점수: -#1";
 
 CW_KOREAN["CharacterMenuModelHelp"] = "당신의 캐릭터에 적합한 캐릭터의 모델을 선택하십시요.";
+
+CW_KOREAN["RequestFromMsg"] = "[신고] #1: #2";
+CW_KOREAN["ConsoleUser"] = "콘솔";
+CW_KOREAN["AmountOfThing"] = "#1x #2";
+CW_KOREAN["Shipment"] = "수송품";
+
+CW_KOREAN["CharNoDetailsToDisplay"] = "이 캐릭터는 표시할 설명이 없습니다.";
+CW_KOREAN["CharTooltipDetailsTitle"] = "자세히";
