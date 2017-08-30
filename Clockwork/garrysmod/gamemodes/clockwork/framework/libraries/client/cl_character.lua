@@ -263,10 +263,8 @@ end;
 
 -- A function to set the character fault.
 function Clockwork.character:SetFault(fault)
-	if (type(fault) == "string") then
-		Clockwork.kernel:AddCinematicText(
-			fault, Color(255, 255, 255, 255), 32, 6, Clockwork.option:GetFont("menu_text_tiny"), true
-		);
+	if (fault) then
+		Clockwork.kernel:AddCinematicText(fault, Color(255, 255, 255, 255), 32, 6, Clockwork.option:GetFont("menu_text_tiny"), true);
 	end;
 	
 	self.fault = fault;

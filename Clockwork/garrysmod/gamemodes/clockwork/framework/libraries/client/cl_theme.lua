@@ -474,9 +474,7 @@ function MARKUP_OBJECT:Add(text, color, scale, noNewLine)
 		self.text = self.text.."\n";
 	end;
 	
-	self.text = self.text..Clockwork.kernel:MarkupTextWithColor(
-		Clockwork.config:Parse(text), color, scale
-	);
+	self.text = self.text..Clockwork.kernel:MarkupTextWithColor(Clockwork.config:Parse(text), color, scale);
 end;
 
 -- A function to add a new title to the markup object.

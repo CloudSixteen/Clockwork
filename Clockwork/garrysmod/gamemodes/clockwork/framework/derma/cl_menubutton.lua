@@ -14,7 +14,7 @@ local math = math;
 local PANEL = {};
 
 function PANEL:Init()
-	self.LabelButton = vgui.Create("cwLabelButton", self);
+	self.LabelButton = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("cwLabelButton", self));
 end;
 
 function PANEL:SetIcon(iconPath, size)
@@ -61,11 +61,18 @@ function PANEL:UpdatePositioning()
 	end;
 	
 	if (self.Icon) then
-		self:SetSize(200, self.LabelButton:GetTall() + math.max(16, self.Icon:GetTall() / 2));
 		self.Icon:SetPos(0, (self.LabelButton.y + (self.LabelButton:GetTall() / 2)) - (self.Icon:GetTall() / 2));
 		self.LabelButton:SetPos(self.Icon:GetWide() + 8, self.LabelButton.y);
+		
+		self:SetSize(
+			self.LabelButton.x + self.LabelButton:GetWide() + 8,
+			self.LabelButton:GetTall() + math.max(16, self.Icon:GetTall() / 2)
+		);
 	else
-		self:SetSize(200, self.LabelButton:GetTall() + 16);
+		self:SetSize(
+			self.LabelButton.x + self.LabelButton:GetWide() + 8,
+			self.LabelButton:GetTall() + 16
+		);
 	end;
 end;
 

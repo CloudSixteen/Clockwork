@@ -17,6 +17,7 @@ local cwEntity = Clockwork.entity;
 local cwKernel = Clockwork.kernel;
 local cwOption = Clockwork.option;
 local cwBans = Clockwork.bans;
+local cwAttributes = Clockwork.attributes;
 local cwDatabase = Clockwork.database;
 local cwDatastream = Clockwork.datastream;
 local cwFaction = Clockwork.faction;

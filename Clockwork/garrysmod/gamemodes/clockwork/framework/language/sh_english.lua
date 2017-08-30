@@ -805,3 +805,6 @@ CW_ENGLISH["RequestFromMsg"] = "[REQUEST] #1: #2";
 CW_ENGLISH["ConsoleUser"] = "Console";
 CW_ENGLISH["AmountOfThing"] = "#1x #2";
 CW_ENGLISH["Shipment"] = "Shipment";
+
+CW_ENGLISH["CharNoDetailsToDisplay"] = "This character has no details to display.";
+CW_ENGLISH["CharTooltipDetailsTitle"] = "Details";

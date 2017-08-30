@@ -21,7 +21,7 @@ local PANEL = {};
 
 -- Called when the panel is initialized.
 function PANEL:Init()
-	self.HoverColor = Clockwork.option:GetColor("information_color");
+	self.HoverColor = Clockwork.option:GetColor("information");
 end;
 
 -- Called when the panel is painted.

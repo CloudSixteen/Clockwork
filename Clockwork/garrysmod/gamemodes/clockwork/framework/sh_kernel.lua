@@ -3126,11 +3126,12 @@ else
 		end;
 		
 		self:DrawSimpleGradientBox(2, x - 8, y - 8, width + 16, height + 16, Color(50, 50, 50, alpha));
+		
 		markupObject:Draw(x, y, nil, nil, alpha);
 	end;
 	
 	-- A function to override a markup object's draw function.
-	function Clockwork.kernel:OverrideMarkupDraw(markupObject, sCustomFont)
+	function Clockwork.kernel:OverrideMarkupDraw(markupObject, customFont)
 		function markupObject:Draw(xOffset, yOffset, hAlign, vAlign, alphaOverride)
 			for k, v in pairs(self.blocks) do
 				if (!v.colour) then
@@ -3160,7 +3161,8 @@ else
 					alpha = alphaOverride;
 				end;
 				
-				Clockwork.kernel:OverrideMainFont(sCustomFont or v.font);
+				-- TODO: May need to revert back to using v.font for the backup font.
+				Clockwork.kernel:OverrideMainFont(customFont or v.font);
 					Clockwork.kernel:DrawSimpleText(v.text, x, y, Color(v.colour.r, v.colour.g, v.colour.b, alpha));
 				Clockwork.kernel:OverrideMainFont(false);
 			end;
@@ -3218,6 +3220,10 @@ else
 		
 		-- A function to set the panel's markup tool tip.
 		function panel.SetMarkupToolTip(panel, text)
+			if (!string.find(text, "</font>")) then
+				text = Clockwork.kernel:MarkupTextWithColor(text);
+			end;
+		
 			if (!panel.MarkupToolTip or panel.MarkupToolTip.text != text) then
 				panel.MarkupToolTip = {
 					object = markup.Parse(text, ScrW() * 0.25),

@@ -15,11 +15,11 @@ local table = table;
 	@details Provides an interface to the Menu Items.
 	@field stored A table containing a list of stored menu items.
 --]]
-Clockwork.menuitems = Clockwork.kernel:NewLibrary("MenuItems");
-Clockwork.menuitems.stored = Clockwork.menuitems.stored or {};
+Clockwork.MenuItems = Clockwork.kernel:NewLibrary("MenuItems");
+Clockwork.MenuItems.stored = Clockwork.MenuItems.stored or {};
 
 -- A function to get a menu item.
-function Clockwork.menuitems:Get(text)
+function Clockwork.MenuItems:Get(text)
 	for k, v in pairs(self.stored) do
 		if (v.text == text) then
 			return v;
@@ -28,12 +28,12 @@ function Clockwork.menuitems:Get(text)
 end;
 
 -- A function to add a menu item.
-function Clockwork.menuitems:Add(text, panel, tip, iconData)
+function Clockwork.MenuItems:Add(text, panel, tip, iconData)
 	self.stored[#self.stored + 1] = {text = text, panel = panel, tip = tip, iconData = iconData};
 end;
 
 -- A function to destroy a menu item.
-function Clockwork.menuitems:Destroy(text)
+function Clockwork.MenuItems:Destroy(text)
 	for k, v in pairs(self.stored) do
 		if (v.text == text) then
 			table.remove(self.stored, k);

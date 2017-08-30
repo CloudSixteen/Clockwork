@@ -80,6 +80,7 @@ function cwWeaponSelect:DrawWeaponInformation(itemTable, weapon, x, y, alpha)
 		end;
 		
 		weapon.InfoMarkup = markup.Parse(text.."</font>", 248);
+		
 		Clockwork.kernel:OverrideMarkupDraw(weapon.InfoMarkup);
 		
 		local weaponMarkupHeight = weapon.InfoMarkup:GetHeight();

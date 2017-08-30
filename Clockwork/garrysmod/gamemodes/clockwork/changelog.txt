@@ -13,3 +13,14 @@ Added OnConsoleRun method for commands
 Added OnConsoleRun method to PlySetGroup (example)
 Made item and blueprint names and descriptions translatable
 Added translatability of the weaponselect plugin
+
+Fixed not being able to get past the character creation screen
+Traits are now fully functional as a system
+Can set max_trait_points to 0 to disable traits
+Updated the attributes screen in character creation (first pass)
+Slightly adjusted distance between top tab menu items and lower ones
+Fixed a bug where tab menu buttons clipped the text inside them
+Updated tab menu items to use proper markup tooltips
+Added translatable character model tooltip
+Updated default tooltip text font to make it look nicer
+Added extra language strings to center text in HL2RP

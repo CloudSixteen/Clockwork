@@ -3727,7 +3727,6 @@ function Clockwork.player:LoadCharacter(player, characterID, mergeCreate, Callba
 		character.cash = cwCfg:Get("default_cash"):Get();
 		character.model = "models/police.mdl";
 		character.flags = "b";
-		character.traits = {};
 		character.schema = cwKernel:GetSchemaFolder();
 		character.gender = GENDER_MALE;
 		character.faction = FACTION_CITIZEN;

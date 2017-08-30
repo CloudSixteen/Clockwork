@@ -82,7 +82,7 @@ function PANEL:Rebuild(change)
 			self.characterMenu:Remove();
 		end;
 		
-		self.closeMenu = vgui.Create("cwLabelButton", self);
+		self.closeMenu = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("cwLabelButton", self));
 		self.closeMenu:SetFont(smallTextFont);
 		self.closeMenu:SetText(L("TabMenuClose"));
 		self.closeMenu:SetCallback(function(button)
@@ -93,7 +93,7 @@ function PANEL:Rebuild(change)
 		self.closeMenu:SetMouseInputEnabled(true);
 		self.closeMenu:SetPos(self.tabX, self.tabY);
 		
-		self.characterMenu = vgui.Create("cwLabelButton", self);
+		self.characterMenu = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("cwLabelButton", self));
 		self.characterMenu:SetFont(smallTextFont);
 		self.characterMenu:SetText(L("TabMenuCharacters"));
 		self.characterMenu:SetCallback(function(button)
@@ -117,11 +117,11 @@ function PANEL:Rebuild(change)
 			self:MoveTo(self.tabX, self.tabY, 0.4, 0, 4);
 		end;
 	
-		local bIsVisible = false;
+		local isVisible = false;
 		local width = self.characterMenu:GetWide();
 		local scrH = ScrH();
 		local scrW = ScrW();
-		local oy = self.characterMenu.y + self.characterMenu:GetTall() + 16;
+		local oy = self.characterMenu.y + (self.characterMenu:GetTall() * 3);
 		local ox = self.closeMenu.x;
 		local y = oy;
 		local x = ox;
@@ -132,15 +132,16 @@ function PANEL:Rebuild(change)
 			end;
 		end;
 		
-		Clockwork.menuitems.stored = {};
-		Clockwork.plugin:Call("MenuItemsAdd", Clockwork.menuitems);
-		Clockwork.plugin:Call("MenuItemsDestroy", Clockwork.menuitems);
+		Clockwork.MenuItems.stored = {};
 		
-		table.sort(Clockwork.menuitems.stored, function(a, b)
+		Clockwork.plugin:Call("MenuItemsAdd", Clockwork.MenuItems);
+		Clockwork.plugin:Call("MenuItemsDestroy", Clockwork.MenuItems);
+		
+		table.sort(Clockwork.MenuItems.stored, function(a, b)
 			return (a.text < b.text);
 		end);
 		
-		for k, v in pairs(Clockwork.menuitems.stored) do
+		for k, v in pairs(Clockwork.MenuItems.stored) do
 			local button, panel = nil, nil;
 			
 			if (Clockwork.menu.stored[v.panel]) then
@@ -149,7 +150,7 @@ function PANEL:Rebuild(change)
 				panel = vgui.Create(v.panel, self);
 				panel:SetVisible(false);
 				panel:SetSize(Clockwork.menu:GetWidth(), panel:GetTall());
-				panel:SetPos(self.tabX + (scrW - width - (scrW * 0.04)), self.tabY +(scrH * 0.1));
+				panel:SetPos(self.tabX + (scrW - width - (scrW * 0.04)), self.tabY + (scrH * 0.1));
 				panel.Name = v.text;
 			end;
 			
@@ -164,7 +165,7 @@ function PANEL:Rebuild(change)
 				
 				y = y + button:GetTall();
 				
-				bIsVisible = true;
+				isVisible = true;
 				
 				if (button:GetWide() > width) then
 					width = button:GetWide();
