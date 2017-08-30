@@ -14,5 +14,5 @@ CW_SPANISH["AreaDisplayMinimum"] = "Has añadido el punto mínimo, ahora añade 
 CW_SPANISH["AreaDisplayMaximum"] = "Has añadido el punto máximo, ahora apunta a donde quieres que el texto sea mostrado.";
 CW_SPANISH["AreaDisplayNoneNearPosition"] = "No hay áreas configuradas cerca de esta posición.";
 
-CW_SPANISH["EnableAreaDisplay"] = "Activar Notificación Áreas";
+CW_SPANISH["EnableAreaDisplay"] = "Activar notificación áreas";
 CW_SPANISH["EnableAreaDisplayDesc"] = "Mostrar o no mostrar áreas cuando se entra en ellas.";

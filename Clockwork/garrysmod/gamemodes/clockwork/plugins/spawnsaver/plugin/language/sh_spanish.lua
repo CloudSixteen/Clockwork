@@ -7,5 +7,5 @@
 
 CW_SPANISH = Clockwork.lang:GetTable("Spanish");
 
-CW_SPANISH["SpawnWhereLeft"] = "Spawn En Desconexión";
+CW_SPANISH["SpawnWhereLeft"] = "Spawn en desconexión";
 CW_SPANISH["SpawnWhereLeftDesc"] = "Activa o desactiva la reaparición de jugadores en la posición de su desconexión";

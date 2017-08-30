@@ -7,5 +7,5 @@
 
 CW_SPANISH = Clockwork.lang:GetTable("Spanish");
 
-CW_SPANISH["WeaponSelectMulti"] = "Mostrar Selección Arma";
+CW_SPANISH["WeaponSelectMulti"] = "Mostrar selección arma";
 CW_SPANISH["WeaponSelectMultiDesc"] = "Mostrar o no mostrar el menú de selección de arma cuando el jugador solo tiene una.";

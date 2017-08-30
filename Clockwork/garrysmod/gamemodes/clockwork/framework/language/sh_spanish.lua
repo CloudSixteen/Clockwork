@@ -7,27 +7,27 @@
 
 CW_SPANISH = Clockwork.lang:GetTable("Spanish");
 
-CW_SPANISH["CannotChangeClassFor"] = "No puedes cambiar de clase hasta dentro de #1 segundo(os)!";
-CW_SPANISH["CannotActionRightNow"] = "No puedes realizar esta acción en este momento!";
-CW_SPANISH["DroppedItemsOtherChar"] = "No puedes coger objetos que has tirado con otro personaje!";
-CW_SPANISH["DroppedCashOtherChar"] = "No puedes coger #1 que has tirado con otro personaje!";
-CW_SPANISH["CannotPurchaseAnotherDoor"] = "No puedes comprar otra puerta!";
-CW_SPANISH["EntityOptionWaitTime"] = "No puedes usar esa entidad tan rápido!";
-CW_SPANISH["CannotDropWeaponFar"] = "No puedes tirar tu arma tan lejos!";
-CW_SPANISH["CannotDropNameFar"] = "No puedes tirar #1 tan lejos!";
-CW_SPANISH["CannotDropItemFar"] = "No puedes tirar el objeto tan lejos!";
-CW_SPANISH["CannotUseItemInVehicle"] = "No puedes usar este objeto en un vehículo!";
-CW_SPANISH["YouNeedAnother"] = "Necesitas otro #1!";
-CW_SPANISH["NotEnoughText"] = "No has especificado suficiente texto!";
+CW_SPANISH["CannotChangeClassFor"] = "¡No puedes cambiar de clase hasta dentro de #1 segundo(os)!";
+CW_SPANISH["CannotActionRightNow"] = "¡No puedes realizar esta acción en este momento!";
+CW_SPANISH["DroppedItemsOtherChar"] = "¡No puedes coger objetos que has tirado con otro personaje!";
+CW_SPANISH["DroppedCashOtherChar"] = "¡No puedes coger #1 que has tirado con otro personaje!";
+CW_SPANISH["CannotPurchaseAnotherDoor"] = "¡No puedes comprar otra puerta!";
+CW_SPANISH["EntityOptionWaitTime"] = "¡No puedes usar esa entidad tan rápido!";
+CW_SPANISH["CannotDropWeaponFar"] = "¡No puedes tirar tu arma tan lejos!";
+CW_SPANISH["CannotDropNameFar"] = "¡No puedes tirar #1 tan lejos!";
+CW_SPANISH["CannotDropItemFar"] = "¡No puedes tirar el objeto tan lejos!";
+CW_SPANISH["CannotUseItemInVehicle"] = "¡No puedes usar este objeto en un vehículo!";
+CW_SPANISH["YouNeedAnother"] = "¡Necesitas otro #1!";
+CW_SPANISH["NotEnoughText"] = "¡No has especificado suficiente texto!";
 CW_SPANISH["ConfigVariablesPrinted"] = "Las variables de configuración han sido impresas en la consola.";
 
 CW_SPANISH["PlayerForceDemoted"] = "#1 ha degradado de rango de forma forzada a #2 al rango '#3'.";
 CW_SPANISH["PlayerDemotedPlayer"] = "#1 ha degradado de rango a #2 al rango '#3'.";
 CW_SPANISH["PlayerDemotedUserToGroup"] = "#1 ha degradado de rango a #2 del rango #3 al rango #4.";
 CW_SPANISH["DemotePermsNeeded"] = "No tienes permiso para degradar de rango a este jugador.";
-CW_SPANISH["DemoteFactionOnly"] = "Solo puedes degradar de rango a alguien de tu propia facción!";
-CW_SPANISH["YouCannotDemotePlayer"] = "No puedes degradar de rango a ese usuario!";
-CW_SPANISH["ForceDemoteAdminNeeded"] = "Tienes que ser administrador o superadministrador para degradar de rango a la fuerza!";
+CW_SPANISH["DemoteFactionOnly"] = "¡Solo puedes degradar de rango a alguien de tu propia facción!";
+CW_SPANISH["YouCannotDemotePlayer"] = "¡No puedes degradar de rango a ese usuario!";
+CW_SPANISH["ForceDemoteAdminNeeded"] = "¡Tienes que ser administrador o superadministrador para degradar de rango a la fuerza!";
 
 CW_SPANISH["PlayerUnbannedPlayer"] = "#1 ha desbaneado a #2.";
 
@@ -37,44 +37,44 @@ CW_SPANISH["PlayerSetConfig"] = "#1 ha cambiado la variable #2 a '#3'.";
 CW_SPANISH["PlayerForcePromoted"] = "#1 ha ascendido de forma forzada a #2 al rango '#3'.";
 CW_SPANISH["PlayerPromotedPlayer"] = "#1 ha ascendido a #2 a rango '#3'.";
 CW_SPANISH["PromotePermsNeeded"] = "No tienes permiso para ascender de rango a este usuario.";
-CW_SPANISH["PromoteFactionOnly"] = "Solo puedes ascender de rango a alguien de tu propia facción!";
-CW_SPANISH["YouCannotPromotePlayer"] = "No puedes ascender de rango a ese usuario!";
-CW_SPANISH["ForcePromoteAdminNeeded"] = "Tienes que ser administrador o superadministrador para ascender de rango a la fuerza!";
+CW_SPANISH["PromoteFactionOnly"] = "¡Solo puedes ascender de rango a alguien de tu propia facción!";
+CW_SPANISH["YouCannotPromotePlayer"] = "¡No puedes ascender de rango a ese usuario!";
+CW_SPANISH["ForcePromoteAdminNeeded"] = "¡Tienes que ser administrador o superadministrador para ascender de rango a la fuerza!";
 
 CW_SPANISH["PlayerRemovedFromWhitelist"] = "#1 ha eliminado a #2 de la facción #3 ";
 CW_SPANISH["PlayerAddedToWhitelist"] = "#1 ha añadido a #2 a la facción #3 .";
 CW_SPANISH["PlayerAlreadyOnWhitelist"] = "#1 ya pertenece a la facción #2 ";
-CW_SPANISH["FactionDoesNotHaveWhitelist"] = "#1 no pertenece a ninguna facción!";
+CW_SPANISH["FactionDoesNotHaveWhitelist"] = "¡#1 no pertenece a ninguna facción!";
 CW_SPANISH["PlayerNotOnWhitelist"] = "#1 no pertenece a la facción #2 ";
 
-CW_SPANISH["FactionIsNotValid"] = "#1 no es una facción válida!";
-CW_SPANISH["IdentifierIsNotValid"] = "#1 no es un identificador válido!";
-CW_SPANISH["DurationNotValid"] = "#1 no es una duración válida!";
-CW_SPANISH["ItemIsNotValid"] = "#1 no es un objeto válido!";
+CW_SPANISH["FactionIsNotValid"] = "¡#1 no es una facción válida!";
+CW_SPANISH["IdentifierIsNotValid"] = "¡#1 no es un identificador válido!";
+CW_SPANISH["DurationNotValid"] = "¡#1 no es una duración válida!";
+CW_SPANISH["ItemIsNotValid"] = "¡#1 no es un objeto válido!";
 
 CW_SPANISH["PlayerConfigSetNextRestart"] = "#1 ha cambiado la clave de configuración #2#3 a '#4'. Este cambio se aplicará en el próximo reinicio.";
 CW_SPANISH["PlayerConfigSet"] = "#1 ha cambiado la clave de configuración #2#3 a '#4'.";
 CW_SPANISH["PlayerBannedPlayer"] = "#1 ha baneado el personaje '#2'.";
-CW_SPANISH["PlayerHasFlags"] = "Este personaje tiene las flags #1 .";
+CW_SPANISH["PlayerHasFlags"] = "Este personaje tiene las flags #1.";
 CW_SPANISH["NotValidMap"] = "#1 no es un mapa válido";
-CW_SPANISH["CannotHolsterWeapon"] = "No puedes enfundar este arma!";
-CW_SPANISH["CannotDropWeapon"] = "No puedes tirar este arma!";
-CW_SPANISH["CannotUseWeapon"] = "No puedes usar ese arma!";
-CW_SPANISH["ConfigUnableToSet"] = "La clave de configuración #1 fue imposible de modificar!";
-CW_SPANISH["ConfigIsStaticKey"] = "#1 es una clave de configuración estática!";
-CW_SPANISH["ConfigKeyNotValid"] = "#1 no es una clave de configuración válida!";
-CW_SPANISH["NotValidCharacter"] = "#1 no es un personaje válido!";
+CW_SPANISH["CannotHolsterWeapon"] = "¡No puedes enfundar este arma!";
+CW_SPANISH["CannotDropWeapon"] = "¡No puedes tirar este arma!";
+CW_SPANISH["CannotUseWeapon"] = "¡No puedes usar ese arma!";
+CW_SPANISH["ConfigUnableToSet"] = "¡La clave de configuración #1 fue imposible de modificar!";
+CW_SPANISH["ConfigIsStaticKey"] = "¡#1 es una clave de configuración estática!";
+CW_SPANISH["ConfigKeyNotValid"] = "¡#1 no es una clave de configuración válida!";
+CW_SPANISH["NotValidCharacter"] = "¡#1 no es un personaje válido!";
 CW_SPANISH["NotValidPlayer"] = "¡#1 no es un usuario válido!";
-CW_SPANISH["Notválidamount"] = "Esa no es una cantidad válida!";
+CW_SPANISH["Notválidamount"] = "¡Esa no es una cantidad válida!";
 CW_SPANISH["NotValidTarget"] = "¡#1 no es un objetivo válido!";
 CW_SPANISH["PlayerHasProtectionStatus"] = "¡#1 tiene un estado de protección y no puede ser modificado!";
-CW_SPANISH["PlayerHasProtectionOffline"] = "Ese jugador tiene un estado de protección y no puede ser modificado!";
-CW_SPANISH["CannotGiveAdminFlags"] = "No puedes dar las flags 'o', 'a', y/o 's'!";
-CW_SPANISH["CannotTakeAdminFlags"] = "No puedes quitar las flags 'o', 'a', y/o 's' !";
-CW_SPANISH["PlayerIsOnlyAUser"] = "Ese jugador es solo un usuario y no puede ser degradado!";
-CW_SPANISH["TargetIsTooFarAway"] = "Ese objetivo está muy lejos!";
-CW_SPANISH["MustLookAtValidTarget"] = "Tienes que mirar a un objetivo válido!";
-CW_SPANISH["ThisNotValidWeapon"] = "No es un arma válida!";
+CW_SPANISH["PlayerHasProtectionOffline"] = "¡Ese jugador tiene un estado de protección y no puede ser modificado!";
+CW_SPANISH["CannotGiveAdminFlags"] = "¡No puedes dar las flags 'o', 'a', y/o 's'!";
+CW_SPANISH["CannotTakeAdminFlags"] = "¡No puedes quitar las flags 'o', 'a', y/o 's' !";
+CW_SPANISH["PlayerIsOnlyAUser"] = "¡Ese jugador es solo un usuario y no puede ser degradado!";
+CW_SPANISH["TargetIsTooFarAway"] = "¡Ese objetivo está muy lejos!";
+CW_SPANISH["MustLookAtValidTarget"] = "¡Tienes que mirar a un objetivo válido!";
+CW_SPANISH["ThisNotValidWeapon"] = "¡No es un arma válida!";
 CW_SPANISH["Framework"] = "Framework";
 CW_SPANISH["ChatBox"] = "Chat";
 CW_SPANISH["AdminESP"] = "Admin ESP";
@@ -82,14 +82,14 @@ CW_SPANISH["Theme"] = "Apariencia";
 CW_SPANISH["Language"] = "Idioma";
 CW_SPANISH["LangDesc"] = "El idioma seleccionado actualmente.";
 
-CW_SPANISH["ErrorCraftingNonInstance"] = "Error al fabricar el objeto!";
-CW_SPANISH["SuccessfulCraftWithMsg"] = "Has fabricado satisfactoriamente un/a  #1! #2";
-CW_SPANISH["SuccessfulCraft"] = "Has fabricado satisfactoriamente un/a #1!";
-CW_SPANISH["ErrorCraftingWithMsg"] = "No puedes fabricar un/a #1! #2";
+CW_SPANISH["ErrorCraftingNonInstance"] = "¡Error al fabricar el objeto!";
+CW_SPANISH["SuccessfulCraftWithMsg"] = "¡Has fabricado satisfactoriamente un/a #1! #2";
+CW_SPANISH["SuccessfulCraft"] = "¡Has fabricado satisfactoriamente un/a #1!";
+CW_SPANISH["ErrorCraftingWithMsg"] = "¡No puedes fabricar un/a #1! #2";
 
 CW_SPANISH["YouHaveGivenSomeItem"] = "Le has dado #1 a #2.";
 CW_SPANISH["YouHaveGivenItemAmount"] = "Le has dado #1 #2 a #3.";
-CW_SPANISH["YouHaveGivenAnItem"] = "Tu has dado a #1  #2.";
+CW_SPANISH["YouHaveGivenAnItem"] = "Tu has dado a #1 #2.";
 
 CW_SPANISH["YouWereGivenSomeItem"] = "#1 te ha dado #2.";
 CW_SPANISH["YouWereGivenItemAmount"] = "#1 te ha dado #2 #3.";
@@ -98,15 +98,15 @@ CW_SPANISH["YouWereGivenAnItem"] = "#1 te ha dado un/a #2.";
 CW_SPANISH["YouGaveCashTo"] = "Le has dado #1 a #2.";
 CW_SPANISH["YouWereGivenCashBy"] = "Has recibido #1 de #2.";
 
-CW_SPANISH["NoAuthority"] = "No tienes la autoridad para hacer eso!";
+CW_SPANISH["NoAuthority"] = "¡No tienes la autoridad para hacer eso!";
 
-CW_SPANISH["ErrorGiveNonInstance"] = "No puedes darle ese objeto a ese usuario!";
-CW_SPANISH["YourInventoryFull"] = "Tu inventario está lleno!";
+CW_SPANISH["ErrorGiveNonInstance"] = "¡No puedes darle ese objeto a ese usuario!";
+CW_SPANISH["YourInventoryFull"] = "¡Tu inventario está lleno!";
 
-CW_SPANISH["PluginNotValid"] = "Ese plugin no es válido!";
-CW_SPANISH["PluginCouldNotBeUnloaded"] = "Ese plugin no puede ser deshabilitado!";
-CW_SPANISH["PluginCouldNotBeLoaded"] = "No se ha podido habilitar el plugin!";
-CW_SPANISH["PluginDependsOnAnother"] = "Ese plugin depende de otro plugin!";
+CW_SPANISH["PluginNotValid"] = "¡Ese plugin no es válido!";
+CW_SPANISH["PluginCouldNotBeUnloaded"] = "¡Ese plugin no puede ser deshabilitado!";
+CW_SPANISH["PluginCouldNotBeLoaded"] = "¡No se ha podido habilitar el plugin!";
+CW_SPANISH["PluginDependsOnAnother"] = "¡Ese plugin depende de otro plugin!";
 CW_SPANISH["PlayerUnloadedPlugin"] = "#1 ha deshabilitado el plugin #2 para el próximo reinicio.";
 CW_SPANISH["PlayerLoadedPlugin"] = "#1 ha habilitado el plugin #2 para el próximo reinicio.";
 CW_SPANISH["PlayerRestartingMapIn"] = "¡#1 va a reiniciar el mapa en #2 segundo(s)!";
@@ -117,35 +117,35 @@ CW_SPANISH["ConfigKeyIsStatic"] = "¡#1 es una clave de configuración estática
 CW_SPANISH["ConfigKeyIsNotValid"] = "¡#1 no es una clave de configuración válida!";
 CW_SPANISH["UnableToBeSet"] = "¡No se ha podido cambiar la clave de configuración #1!";
 
-CW_SPANISH["TieCommandNotFound"] = "Tu servidor no tiene el comando 'InvZipTie'!";
+CW_SPANISH["TieCommandNotFound"] = "¡Tu servidor no tiene el comando 'InvZipTie'!";
 CW_SPANISH["YouHaveUntiedPlayer"] = "Has desatado al personaje.";
 CW_SPANISH["YouHaveTiedPlayer"] = "Has atado al personaje.";
 CW_SPANISH["YouWereUntiedByPlayer"] = "Has sido desatado por otro personaje.";
 CW_SPANISH["YouWereTiedByPlayer"] = "Estás siendo atado por otro personaje.";
 
-CW_SPANISH["NoAccessToAny"] = "No tienes acceso a ningún #1!";
+CW_SPANISH["NoAccessToAny"] = "¡No tienes acceso a ningún #1!";
 CW_SPANISH["NoAccessToCommand"] = "No tienes acceso a este comando, #1.";
-CW_SPANISH["NotValidCommandOrAlias"] = "Este comando no es válido!";
-CW_SPANISH["CannotUseCommandsYet"] = "Todavía no puedes usar comandos!";
-CW_SPANISH["YouHaveMaxOfThese"] = "Has alcanzado el máximo de estos!";
+CW_SPANISH["NotValidCommandOrAlias"] = "¡Este comando no es válido!";
+CW_SPANISH["CannotUseCommandsYet"] = "¡Todavía no puedes usar comandos!";
+CW_SPANISH["YouHaveMaxOfThese"] = "¡Has alcanzado el máximo de estos!";
 
-CW_SPANISH["CannotDropWhileWearing"] = "No puedes tirar esto mientras lo estás vistiendo!";
-CW_SPANISH["FactionCannotWearThis"] = "Tu facción no puede vestir esto!";
+CW_SPANISH["CannotDropWhileWearing"] = "¡No puedes tirar esto mientras lo estás vistiendo!";
+CW_SPANISH["FactionCannotWearThis"] = "¡Tu facción no puede vestir esto!";
 
-CW_SPANISH["NeedWeaponThatUsesAmmo"] = "Necesitas equipar un arma que use esta munición!";
+CW_SPANISH["NeedWeaponThatUsesAmmo"] = "¡Necesitas equipar un arma que use esta munición!";
 
-CW_SPANISH["StorageHasNoInstance"] = "El contenedor no contiene este objeto!";
-CW_SPANISH["YouHaveNoStorageOpen"] = "No tienes ningún contenedor abierto!";
-CW_SPANISH["YouCannotGiveItemsToThisContainer"] = "No puedes guardar objetos en este contenedor!";
+CW_SPANISH["StorageHasNoInstance"] = "¡El contenedor no contiene una instancia de este objeto!";
+CW_SPANISH["YouHaveNoStorageOpen"] = "¡No tienes ningún contenedor abierto!";
+CW_SPANISH["YouCannotGiveItemsToThisContainer"] = "¡No puedes guardar objetos en este contenedor!";
 
 CW_SPANISH["YouRemovedVoicemail"] = "Has borrado tu mensaje de voz.";
 CW_SPANISH["YouSetVoicemail"] = "Has cambiado tu mensaje de voz a '#1'.";
 
-CW_SPANISH["YouHaveNoInstanceOfThisItem"] = "No tienes este objeto!";
+CW_SPANISH["YouHaveNoInstanceOfThisItem"] = "¡No tienes este objeto!";
 
-CW_SPANISH["YouHaveNoAccessToClass"] = "No tienes acceso a esta clase!";
-CW_SPANISH["TooManyCharactersWithClass"] = "Hay demasiados personajes con esta clase!";
-CW_SPANISH["ClassNotValid"] = "No es una clase válida!";
+CW_SPANISH["YouHaveNoAccessToClass"] = "¡No tienes acceso a esta clase!";
+CW_SPANISH["TooManyCharactersWithClass"] = "¡Hay demasiados personajes con esta clase!";
+CW_SPANISH["ClassNotValid"] = "¡No es una clase válida!";
 
 CW_SPANISH["YouSetPlayersCash"] = "Has cambiado los #2 de #1 a #3.";
 CW_SPANISH["YourCashSetBy"] = "Tus #1 han sido cambiados a #2 por #3.";
@@ -153,9 +153,9 @@ CW_SPANISH["YourCashSetBy"] = "Tus #1 han sido cambiados a #2 por #3.";
 CW_SPANISH["PlayerAlreadyBannedFromVoice"] = "¡#1 ya ha recibido una restricción del uso de voz!";
 CW_SPANISH["PlayerNotBannedFromVoice"] = "¡#1 no ha recibido una restricción del uso de voz!";
 
-CW_SPANISH["ThereAreNoBannedPlayersWithID"] = "No hay jugadores baneados con el identificador '#1'!";
+CW_SPANISH["ThereAreNoBannedPlayersWithID"] = "¡No hay jugadores baneados con el identificador '#1'!";
 
-CW_SPANISH["UserGroupMustBeAdminType"] = "El grupo de usuario debe ser 'superadmin', 'admin', o 'operator'!";
+CW_SPANISH["UserGroupMustBeAdminType"] = "¡El grupo de usuario debe ser 'superadmin', 'admin', o 'operator'!";
 CW_SPANISH["PlayerTookFlagsFrom"] = "#1 le ha quitado las flags '#2' a #3.";
 CW_SPANISH["PlayersHealthWasSet"] = "La salud de #1 ha sido cambiada a #2.";
 CW_SPANISH["YourHealthWasSet"] = "Tu salud ha sido cambiada a #1 por #2.";
@@ -163,20 +163,20 @@ CW_SPANISH["PlayerSetPlayerName"] = "#1 ha cambiado el nombre de #2 a #3.";
 CW_SPANISH["PlayerSetPlayerModel"] = "#1 ha cambiado el modelo de #2 a '#3'.";
 CW_SPANISH["PlayerSlainBy"] = "#1 ha sido asesinado por #2.";
 
-CW_SPANISH["YouAreAlreadySearchingCharacter"] = "Ya estás registrando a un personaje!";
+CW_SPANISH["YouAreAlreadySearchingCharacter"] = "¡Ya estás registrando a un personaje!";
 CW_SPANISH["PlayerAlreadyBeingSearched"] = "¡#1 ya está siendo registrado!";
 
-CW_SPANISH["EntityIsNotPhysics"] = "Esta entidad no es una entidad con físicas!";
+CW_SPANISH["EntityIsNotPhysics"] = "¡Esta entidad no es una entidad con físicas!";
 CW_SPANISH["YouDoNotOwnThis"] = "No eres el dueño de esto";
 
-CW_SPANISH["PlayerTeleportedPlayerTo"] = "#1 ha teletransportado a #2 hacia #3!";
-CW_SPANISH["PlayerTeleportedPlayerToLocation"] = "#1 ha teletransportado a #2 a su localización!";
-CW_SPANISH["PlayerWasRespawnedToTarget"] = "#1 ha resucitado y teletransportado a #2!";
+CW_SPANISH["PlayerTeleportedPlayerTo"] = "#1 ha teletransportado a #2 hacia #3.";
+CW_SPANISH["PlayerTeleportedPlayerToLocation"] = "#1 ha teletransportado a #2 a su localización.";
+CW_SPANISH["PlayerWasRespawnedToTarget"] = "#1 ha resucitado y teletransportado a #2.";
 CW_SPANISH["PlayerWasRespawnedToDeath"] = "#1 ha sido resucitado y teletransportado a su posición de muerte.";
 
 CW_SPANISH["PlayerSetPlayerGroupTo"] = "#1 ha cambiado el grupo de #2 a #3.";
 CW_SPANISH["PlayerSetPlayerFlagsTo"] = "#1 ha cambiado las flags de #2 a #3.";
-CW_SPANISH["PlayerKickedPlayer"] = "#1 ha expulsado a  #2 (#3).";
+CW_SPANISH["PlayerKickedPlayer"] = "#1 ha expulsado a #2 (#3).";
 CW_SPANISH["PlayerGoneToPlayer"] = "#1 se ha teletransportado hacia #2'.";
 CW_SPANISH["PlayerGavePlayerFlags"] = "#1 le ha dado las flags '#3' a #2.";
 CW_SPANISH["PlayerBroughtPlayerTo"] = "#1 ha teletransportado a #2 a su localización.";
@@ -194,15 +194,15 @@ CW_SPANISH["PhysDescMinimumLength"] = "La descripción física debe tener un mí
 
 CW_SPANISH["RequestAdminRedirect"] = "Eres un administrador, utiliza el comando /a.";
 
-CW_SPANISH["NoAccessToOrderItem"] = "No tienes permiso para comprar este objeto!";
-CW_SPANISH["NoAccessToMenu"] = "No tienes permiso para entrar al menú #1!";
-CW_SPANISH["CannotOrderThatFarAway"] = "No puedes comprar este objeto en una ubicación tan lejana!";
-CW_SPANISH["RequiredIngredientsMissing"] = "No tienes los objetos necesarios para fabricar esta receta!";
+CW_SPANISH["NoAccessToOrderItem"] = "¡No tienes permiso para comprar este objeto!";
+CW_SPANISH["NoAccessToMenu"] = "¡No tienes permiso para entrar al menú #1!";
+CW_SPANISH["CannotOrderThatFarAway"] = "¡No puedes comprar este objeto en una ubicación tan lejana!";
+CW_SPANISH["RequiredIngredientsMissing"] = "¡No tienes los objetos necesarios para fabricar esta receta!";
 
 CW_SPANISH["NoBlueprintsForCraftingMenu"] = "No hay recetas para el menú {MenuNameCrafting}";
 
 CW_SPANISH["Notválidattribute"] = "¡{AttributeName} no es un atributo válido!";
-CW_SPANISH["YouHaveMaxOfThis"] = "Has alcanzado el máximo de #1!";
+CW_SPANISH["YouHaveMaxOfThis"] = "¡Has alcanzado el máximo de #1!";
 
 CW_SPANISH["PlayerAlreadyIsFaction"] = "¡#1 ya pertenece a la facción #2!";
 CW_SPANISH["PlayerNotCorrectGenderForFaction"] = "¡#1 no es el sexo adecuado para pertenecer a la facción #2!";
@@ -211,28 +211,28 @@ CW_SPANISH["PlayerCannotTransferToFaction"] = "¡#1 no puede ser transferido a l
 CW_SPANISH["PlayerCouldNotBeTransferred"] = "¡#1 no puede ser transferido a la facción #2!";
 CW_SPANISH["PlayerNotOnFactionWhitelist"] = "¡#1 no pertenece a la facción #2!";
 
-CW_SPANISH["FaultMorePointsThanCanSpend"] = "Has utilizado mas puntos (#1) de los que puedes gastar!";
-CW_SPANISH["FaultDidNotChooseAttributes"] = "No has elegido ningún #1 o los que has elegido no son válidos!";
-CW_SPANISH["FaultNameNoSpecialChars"] = "Tu nombre y/o tu apellido no deben tener símbolos ni espacios!";
-CW_SPANISH["FaultNameHaveVowel"] = "Tu nombre y/o apellido tiene que tener al menos una vocal!";
-CW_SPANISH["FaultNameMinLength"] = "Tu nombre y/o apellido tiene que tener al menos 2 letras!";
-CW_SPANISH["FaultNameTooLong"] = "Tu nombre y/o tu apellido no puede tener mas de 16 letras!";
-CW_SPANISH["FaultNameInvalid"] = "No has elegido un nombre o no es válido!";
-CW_SPANISH["FaultPhysDescNeeded"] = "No has escrito una descripción física!";
-CW_SPANISH["FaultNeedModel"] = "No has escogido ningún modelo o el que has elegido no es válido!";
-CW_SPANISH["FaultNeedGender"] = "No has elegido ningún sexo o el que has elegido no es válido!";
-CW_SPANISH["FaultNeedClass"] = "No has elegido ninguna clase o la que has elegido no es válida!";
-CW_SPANISH["FaultNotOnWhitelist"] = "No estás en la facción #1!";
+CW_SPANISH["FaultMorePointsThanCanSpend"] = "¡Has utilizado mas puntos (#1) de los que puedes gastar!";
+CW_SPANISH["FaultDidNotChooseAttributes"] = "¡No has elegido ningún #1 o los que has elegido no son válidos!";
+CW_SPANISH["FaultNameNoSpecialChars"] = "¡Tu nombre y/o tu apellido no deben tener símbolos ni espacios!";
+CW_SPANISH["FaultNameHaveVowel"] = "¡Tu nombre y/o apellido tiene que tener al menos una vocal!";
+CW_SPANISH["FaultNameMinLength"] = "¡Tu nombre y/o apellido tiene que tener al menos 2 letras!";
+CW_SPANISH["FaultNameTooLong"] = "¡Tu nombre y/o tu apellido no puede tener mas de 16 letras!";
+CW_SPANISH["FaultNameInvalid"] = "¡No has elegido un nombre o no es válido!";
+CW_SPANISH["FaultPhysDescNeeded"] = "¡No has escrito una descripción física!";
+CW_SPANISH["FaultNeedModel"] = "¡No has escogido ningún modelo o el que has elegido no es válido!";
+CW_SPANISH["FaultNeedGender"] = "¡No has elegido ningún sexo o el que has elegido no es válido!";
+CW_SPANISH["FaultNeedClass"] = "¡No has elegido ninguna clase o la que has elegido no es válida!";
+CW_SPANISH["FaultNotOnWhitelist"] = "¡No estás en la facción #1!";
 CW_SPANISH["FaultTooManyInFaction"] = "No puedes crear más personajes en esta facción.";
-CW_SPANISH["FaultTooManyCharacters"] = "No puedes crear más personajes!";
-CW_SPANISH["FaultGenericError"] = "Ha ocurrido un error al crear este personaje!";
-CW_SPANISH["FaultCharNameExists"] = "Ya existe un personaje con el nombre '#1'!";
-CW_SPANISH["FaultDidNotChooseFaction"] = "No has elegido facción o la que has elegido no es válida!";
+CW_SPANISH["FaultTooManyCharacters"] = "¡No puedes crear más personajes!";
+CW_SPANISH["FaultGenericError"] = "¡Ha ocurrido un error al crear este personaje!";
+CW_SPANISH["FaultCharNameExists"] = "¡Ya existe un personaje con el nombre '#1'!";
+CW_SPANISH["FaultDidNotChooseFaction"] = "¡No has elegido facción o la que has elegido no es válida!";
 CW_SPANISH["FaultDidNotFillPanel"] = "¡No has rellenado el campo #1!";
-CW_SPANISH["FaultDidNotFillPanelWithNumber"] = "No has rellenado el campo #1 con un numero!";
-CW_SPANISH["FaultTextEntryHigherThan"] = "No puedes poner una cantidad superior en #1 que en #2 !";
-CW_SPANISH["FaultTextEntryLowerThan"] = "No puedes poner una cantidad inferior en #1 que en #2 !";
-CW_SPANISH["YouAlreadyHaveCharName"] = "Ya tienes un personaje con el nombre '#1'!";
+CW_SPANISH["FaultDidNotFillPanelWithNumber"] = "¡No has rellenado el campo #1 con un numero!";
+CW_SPANISH["FaultTextEntryHigherThan"] = "¡No puedes poner una cantidad superior en #1 que en #2!";
+CW_SPANISH["FaultTextEntryLowerThan"] = "¡No puedes poner una cantidad inferior en #1 que en #2!";
+CW_SPANISH["YouAlreadyHaveCharName"] = "¡Ya tienes un personaje con el nombre '#1'!";
 
 CW_SPANISH["MenuDescAttributes"] = "Mira el estado de tus atributos.";
 CW_SPANISH["MenuDescScoreboard"] = "Mira que jugadores están dentro del servidor.";
@@ -360,7 +360,7 @@ CW_SPANISH["ScoreboardMenuPing"] = "La latencia de este jugador es #1.";
 CW_SPANISH["ScoreboardMenuNoPlayers"] = "No hay jugadores en linea.";
 
 CW_SPANISH["SettingsMenuHelp"] = "Opciones del cliente para personalizar Clockwork.";
-CW_SPANISH["SettingsMenuNoAccess"] = "No tienes acceso a ninguna opción!";
+CW_SPANISH["SettingsMenuNoAccess"] = "¡No tienes acceso a ninguna opción!";
 
 CW_SPANISH["ManagePlugins"] = "Gestionar plugins";
 CW_SPANISH["ManagePluginsHelp"] = "Puedes habilitar y deshabilitar plugins en este menú.";
@@ -427,13 +427,13 @@ CW_SPANISH["TabMenuClose"] = "CONTINUAR ROL";
 
 
 CW_SPANISH["YouCanSpendMorePoints"] = "Puedes gastar #1 punto(s) más.";
-CW_SPANISH["CharacterDoesNotExist"] = "Este personaje no existe!";
-CW_SPANISH["YouCannotUseThisCharacter"] = "No puedes utilizar este personaje!";
-CW_SPANISH["YouCannotDeleteThisCharacter"] = "No puedes eliminar este personaje!";
-CW_SPANISH["AlreadyUsingThisCharacter"] = "Ya estás utilizando este personaje!";
-CW_SPANISH["YouCannotSwitchToCharacter"] = "No puedes cambiar a este personaje!";
-CW_SPANISH["CannotSwitchFactionFull"] = "La facción #1 está llena (#2/#3)!";
-CW_SPANISH["CannotDeleteCharacterUsing"] = "No puedes eliminar el personaje que estás utilizando!";
+CW_SPANISH["CharacterDoesNotExist"] = "¡Este personaje no existe!";
+CW_SPANISH["YouCannotUseThisCharacter"] = "¡No puedes utilizar este personaje!";
+CW_SPANISH["YouCannotDeleteThisCharacter"] = "¡No puedes eliminar este personaje!";
+CW_SPANISH["AlreadyUsingThisCharacter"] = "¡Ya estás utilizando este personaje!";
+CW_SPANISH["YouCannotSwitchToCharacter"] = "¡No puedes cambiar a este personaje!";
+CW_SPANISH["CannotSwitchFactionFull"] = "¡La facción #1 está llena (#2/#3)!";
+CW_SPANISH["CannotDeleteCharacterUsing"] = "¡No puedes eliminar el personaje que estás utilizando!";
 
 CW_SPANISH["UseThisCharacter"] = "Utilizar este personaje.";
 CW_SPANISH["DeleteThisCharacter"] = "Eliminar este personaje.";
@@ -469,7 +469,7 @@ CW_SPANISH["ShowClockworkMessagesDesc"] = "Mostrar o no mostrar los mensajes de 
 CW_SPANISH["ShowServerMessages"] = "Mostrar mensajes del servidor";
 CW_SPANISH["ShowServerMessagesDesc"] = "Mostrar o no mensajes del servidor.";
 CW_SPANISH["ShowOOCMessages"] = "Mostrar mensajes OOC";
-CW_SPANISH["ShowOOCMessagesDesc"] = "Mostrar o no  mostrarmensajes OOC.";
+CW_SPANISH["ShowOOCMessagesDesc"] = "Mostrar o no mostrar mensajes OOC.";
 CW_SPANISH["ShowICMessages"] = "Mostrar mensajes IC";
 CW_SPANISH["ShowICMessagesDesc"] = "Mostrar o no mostrar mensajes IC.";
 CW_SPANISH["EnableAdminESP"] = "Activar Admin ESP";
@@ -670,7 +670,7 @@ CW_SPANISH["PlayersChangeThemes"] = "Cambiado de temas";
 CW_SPANISH["PlayersChangeThemesDesc"] = "Permitir o prohibir el cambio del color de la apariencia de Clockwork.";
 CW_SPANISH["DefaultTheme"] = "Apariencia por defecto.";
 CW_SPANISH["DefaultThemeDesc"] = "La apariencia que los jugadores utilizarán de forma predeterminada.";
-CW_SPANISH["EnableDiseases"] = "Activar enfermedades.";
+CW_SPANISH["EnableDiseases"] = "Activar enfermedades";
 CW_SPANISH["EnableDiseasesDesc"] = "Activar o desactivar el sistema de enfermedades.";
 CW_SPANISH["DiseaseInterval"] = "Intervalo de enfermedades.";
 CW_SPANISH["DiseaseIntervalDesc"] = "El número de segundos entre cada síntoma de una enfermedad.";
@@ -682,7 +682,7 @@ CW_SPANISH["IronsightsSlowAmount"] = "Reducción de velocidad en mira";
 CW_SPANISH["IronsightsSlowAmountDesc"] = "La cantidad de velocidad reducida que se le aplicará a un jugador al utilizar la mira de un arma."; 
 CW_SPANISH["CraftingDescription"] = "Descripción menú fabricación"; 
 CW_SPANISH["CraftingDescriptionDesc"] = "Mostrar o no mostrar la descripción del menú de fabricación."; 
-CW_SPANISH["CraftingEnabled"] = "Fabricación"; 
+CW_SPANISH["CraftingEnabled"] = "Activar fabricación"; 
 CW_SPANISH["CraftingEnabledDesc"] = "Activar o desactivar el menú de fabricación."; --If you can read this. I love you <3.
 CW_SPANISH["CraftingName"] = "Nombre de fabricación"; 
 CW_SPANISH["CraftingNameDesc"] = "El nombre que se mostrará en el menú para acceder al sistema de fabricación."; 
@@ -701,7 +701,7 @@ CW_SPANISH["HintPhysDesc"] = "Cambia la descripción física de tu personaje esc
 CW_SPANISH["HintGiveName"] = "Pulsa :gm_showteam: para permitir a los personajes reconocerte en un área limitada.";
 CW_SPANISH["HintTargetRecognises"] = "El nombre de un personaje parpadeará en blanco si no te reconoce.";
 
-CW_SPANISH["YouHaveNotCompletedThe"] = "No has completado el #3!";
+CW_SPANISH["YouHaveNotCompletedThe"] = "¡No has completado el #3!";
 CW_SPANISH["MenuQuizTitle"] = "Empezar examen.";
 CW_SPANISH["MenuQuizHelp"] = "Si respondes de forma errónea una pregunta, serás expulsado del servidor.";
 CW_SPANISH["MenuDisconnect"] = "DESCONECTAR";
@@ -714,7 +714,7 @@ CW_SPANISH["Male"] = "Hombre";
 
 CW_SPANISH["AttributeBoost"] = "+#1 (Estimulado)";
 CW_SPANISH["AttributeHinder"] = "-#1 (Dificultado)";
-CW_SPANISH["YouReachedMaxOfAttribute"] = "Has alcanzado el nivel máximo de este #1!";
+CW_SPANISH["YouReachedMaxOfAttribute"] = "¡Has alcanzado el nivel máximo de este #1!";
 CW_SPANISH["Attributes"] = "Atributos";
 
 CW_SPANISH["YouWillRespawnSoon"] = "Reaparecerás pronto.";
@@ -754,10 +754,10 @@ CW_SPANISH["LogPlayerConnected"] = "#1 (#2/#3) se ha conectado.";
 CW_SPANISH["LogPlayerSpawnedModel"] = "#1 ha spawneado '#2'.";
 CW_SPANISH["LogPlayerSaysLOOC"] = "[LOOC] #1: #2";
 CW_SPANISH["LogPlayerSays"] = "#1 dice \"#2\"";
-CW_SPANISH["LogPlayerDealDamageWithKill"] = "#1 le ha hecho #2 de daño a #3 con #4, matándolo/a!";
-CW_SPANISH["LogPlayerDealDamageKill"] = "#1 le ha causado #2 de daño a #3, matándolo/a!";
-CW_SPANISH["LogPlayerTakeDamageWith"] = "#1 ha recibido #2 de daño #3 con #4, quedándose a #5 de vida y #6 de armadura!";
-CW_SPANISH["LogPlayerTakeDamage"] = "#1 ha recibido #2 de daño de #3, quedándose a #4 de vida y #5 de armadura!";
+CW_SPANISH["LogPlayerDealDamageWithKill"] = "¡#1 le ha hecho #2 de daño a #3 con #4, matándolo/a!";
+CW_SPANISH["LogPlayerDealDamageKill"] = "¡#1 le ha causado #2 de daño a #3, matándolo/a!";
+CW_SPANISH["LogPlayerTakeDamageWith"] = "¡#1 ha recibido #2 de daño #3 con #4, quedándose a #5 de vida y #6 de armadura!";
+CW_SPANISH["LogPlayerTakeDamage"] = "¡#1 ha recibido #2 de daño de #3, quedándose a #4 de vida y #5 de armadura!";
 CW_SPANISH["LogPlayerGainedItem"] = "#1 ha recibido un #2 #3.";
 CW_SPANISH["LogPlayerLostItem"] = "#1 ha perdido un #2 #3.";
 CW_SPANISH["LogPlayerOrdered"] = "#1 ha comprado #1 #2.";
@@ -765,14 +765,14 @@ CW_SPANISH["LogPlayerDeletedChar"] = "#1 ha eliminado el personaje '#2'.";
 CW_SPANISH["LogPlayerLoadedChar"] = "#1 ha cargado el personaje '#2'.";
 CW_SPANISH["LogPlayerUsedCommandArgs"] = "#1 ha usado '#2 #3'.";
 CW_SPANISH["LogPlayerUsedCommand"] = "#1 ha usado '#2'.";
-CW_SPANISH["LogPlayerRoll"] = "#1 tiró los dados y sacó #2 de #3.";
+CW_SPANISH["LogPlayerRoll"] = "#1 ha tirado los dados y ha sacado #2 sobre #3.";
 
-CW_SPANISH["PlayerRoll"] = "ha tirado los dados y sacado #1 de #2!";
+CW_SPANISH["PlayerRoll"] = "¡Ha tirado los dados y sacado #1 de #2!";
 
-CW_SPANISH["FaultDidNotChooseTraits"] = "No has escogido ninguno de los #1 disponibles!";
+CW_SPANISH["FaultDidNotChooseTraits"] = "¡No has escogido ninguno de los #1 disponibles!";
 CW_SPANISH["YouCannotCreateThisChar"] = "¡No puedes crear este personaje!";
-CW_SPANISH["MenuNameTraits"] = "Atributos";
-CW_SPANISH["MenuNameTrait"] = "Atributos";
+CW_SPANISH["MenuNameTraits"] = "Rasgos";
+CW_SPANISH["MenuNameTrait"] = "Rasgos";
 
 CW_SPANISH["LogPlayerCreateChar"] = "#1 ha creado el personaje #2 llamado '#3'."
 
@@ -805,3 +805,6 @@ CW_SPANISH["RequestFromMsg"] = "[SOLICITUD] #1: #2";
 CW_SPANISH["ConsoleUser"] = "Consola";
 CW_SPANISH["AmountOfThing"] = "#1x #2";
 CW_SPANISH["Shipment"] = "Cargamento";
+
+CW_SPANISH["CharNoDetailsToDisplay"] = "Este personaje no tiene detalles que mostrar.";
+CW_SPANISH["CharTooltipDetailsTitle"] = "Detalles";
