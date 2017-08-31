@@ -69,12 +69,12 @@ function PANEL:Init()
 		if (Clockwork.door:IsParent()) then
 			self.comboBox = self.settingsForm:ComboBox("What parent access options to use.");
 			self.comboBox:AddChoice("Share access to all children.");
-			self.comboBox:AddChoice("Seperate access between children.");
+			self.comboBox:AddChoice("Separate access between children.");
 			
 			if (Clockwork.door:HasSharedAccess()) then
 				self.comboBox:SetText("Share access to all children.");
 			else
-				self.comboBox:SetText("Seperate access between children.");
+				self.comboBox:SetText("Separate access between children.");
 			end;
 			
 			-- Called when an option is selected.
@@ -88,12 +88,12 @@ function PANEL:Init()
 			
 			self.parentText = self.settingsForm:ComboBox("What parent text options to use.");
 			self.parentText:AddChoice("Share text to all children.");
-			self.parentText:AddChoice("Seperate text between children.");
+			self.parentText:AddChoice("Separate text between children.");
 			
 			if (Clockwork.door:HasSharedText()) then
 				self.parentText:SetText("Share text to all children.");
 			else
-				self.parentText:SetText("Seperate text between children.");
+				self.parentText:SetText("Separate text between children.");
 			end;
 			
 			-- Called when an option is selected.

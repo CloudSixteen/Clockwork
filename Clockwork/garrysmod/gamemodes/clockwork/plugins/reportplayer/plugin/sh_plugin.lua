@@ -12,5 +12,5 @@ Alternatively, you can simply use the PLUGIN variable.
 --]]
 PLUGIN:SetGlobalAlias("cwPlayerReport");
 
---[[ You don't have to do this either, but I prefer to seperate the functions. --]]
+--[[ You don't have to do this either, but I prefer to separate the functions. --]]
 Clockwork.kernel:IncludePrefixed("sv_plugin.lua");

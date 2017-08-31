@@ -41,9 +41,7 @@ function cwPickupObjects:ForceDropEntity(player)
 		
 		if (Clockwork.config:Get("prop_kill_protection"):Get()
 		and entity.cwLastCollideGroup) then
-			Clockwork.entity:ReturnCollisionGroup(
-				entity, entity.cwLastCollideGroup
-			);
+			Clockwork.entity:ReturnCollisionGroup(entity, entity.cwLastCollideGroup);
 			
 			entity.cwLastCollideGroup = nil;
 		end;

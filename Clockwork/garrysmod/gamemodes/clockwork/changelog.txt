@@ -24,3 +24,6 @@ Updated tab menu items to use proper markup tooltips
 Added translatable character model tooltip
 Updated default tooltip text font to make it look nicer
 Added extra language strings to center text in HL2RP
+
+Added .traits as an option for HasObjectAccess so classes, or business items can require specific traits
+Replaced all instances of seperate with separate (my life is a lie)

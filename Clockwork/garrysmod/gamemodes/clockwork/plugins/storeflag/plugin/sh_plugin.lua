@@ -12,7 +12,7 @@ Alternatively, you can simply use the PLUGIN variable.
 --]]
 PLUGIN:SetGlobalAlias("cwStoreFlag");
 
---[[ You don't have to do this either, but I prefer to seperate the functions. --]]
+--[[ You don't have to do this either, but I prefer to separate the functions. --]]
 Clockwork.kernel:IncludePrefixed("sh_hooks.lua");
 
 Clockwork.flag:Add("N", "Store Flag", "Unlimited access to business items.");

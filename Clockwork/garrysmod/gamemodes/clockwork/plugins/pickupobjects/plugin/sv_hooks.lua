@@ -110,21 +110,21 @@ function cwPickupObjects:KeyPress(player, key)
 			if (key == IN_ATTACK2) then
 				local trace = player:GetEyeTraceNoCursor();
 				local entity = trace.Entity;
-				local bCanPickup = nil;
+				local canPickup = nil;
 
 				if (IsValid(entity) and trace.HitPos:Distance(player:GetShootPos()) <= 96
 				and !entity:IsPlayer() and !entity:IsNPC()) then
 					if (Clockwork.plugin:Call("CanHandsPickupEntity", player, entity, trace)) then
-						bCanPickup = true;
+						canPickup = true;
 					end;
 
-					local bIsDoor = Clockwork.entity:IsDoor(entity);
+					local isDoor = Clockwork.entity:IsDoor(entity);
 
-					if (bCanPickup and !bIsDoor and !player:InVehicle()) then
+					if (canPickup and !isDoor and !player:InVehicle()) then
 						self:ForcePickup(player, entity, trace);
-					elseif (bIsDoor) then
+					elseif (isDoor) then
 						local hands = player:GetActiveWeapon();
-												
+						
 						hands:SecondaryAttack();
 					end;
 				end;

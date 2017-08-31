@@ -97,6 +97,11 @@ function playerMeta:SetSharedVar(key, value)
 	cwPly:SetSharedVar(self, key, value);
 end;
 
+-- A function to get whether a player has a trait.
+function playerMeta:HasTrait(uniqueID)
+	return (self.cwTraits and table.HasValue(self.cwTraits, uniqueID));
+end;
+
 -- A function to get a player's shared variable.
 function playerMeta:GetSharedVar(key, sharedTable)
 	return cwPly:GetSharedVar(self, key, sharedTable);

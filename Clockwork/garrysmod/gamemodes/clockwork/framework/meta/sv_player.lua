@@ -84,6 +84,11 @@ end;
 
 -- A function to get whether a player has a trait.
 function playerMeta:HasTrait(uniqueID)
+	local traits = self:GetCharacterData("Traits");
+	
+	if (traits and table.HasValue(traits, uniqueID)) then
+		return true;
+	end;
 end;
 
 -- A function to give a weapon to a player.

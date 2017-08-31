@@ -12,6 +12,6 @@
 --]]
 PLUGIN:SetGlobalAlias("cwAnimatedLegs");
 
---[[ You don't have to do this either, but I prefer to seperate the functions. --]]
+--[[ You don't have to do this either, but I prefer to separate the functions. --]]
 Clockwork.kernel:IncludePrefixed("cl_plugin.lua");
 Clockwork.kernel:IncludePrefixed("cl_hooks.lua");

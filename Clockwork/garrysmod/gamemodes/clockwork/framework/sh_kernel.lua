@@ -4141,6 +4141,15 @@ function Clockwork.kernel:HasObjectAccess(player, object)
 		end;
 	end;
 	
+	if (object.traits) then
+		for k, v in ipairs(object.traits) do
+			if (player:HasTrait(v)) then
+				hasAccess = true;
+				break;
+			end;
+		end;
+	end;
+	
 	if (!object.access and !object.factions
 	and !object.classes) then
 		hasAccess = true;
