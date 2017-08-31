@@ -7,5 +7,5 @@
 
 CW_SPANISH = Clockwork.lang:GetTable("Spanish");
 
-CW_SPANISH["RemoveMapPhysics"] = "Eliminar Físicas Mapa";
+CW_SPANISH["RemoveMapPhysics"] = "Eliminar entidades físicas mapa";
 CW_SPANISH["RemoveMapPhysicsDesc"] = "Eliminar o no eliminar las entidades con físicas al realizar un cargado de mapa.";
