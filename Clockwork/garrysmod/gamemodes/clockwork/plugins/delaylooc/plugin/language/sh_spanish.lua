@@ -9,5 +9,5 @@ CW_SPANISH = Clockwork.lang:GetTable("Spanish");
 
 CW_SPANISH["WaitTalkInLOOC"] = "No puedes utilizar el chat LOOC hasta dentro de #1 segundo(s)!";
 
-CW_SPANISH["LocalOOCInterval"] = "Intervalo Chat LOOC";
+CW_SPANISH["LocalOOCInterval"] = "Intervalo chat LOOC";
 CW_SPANISH["LocalOOCIntervalDesc"] = "El tiempo que un jugador debe esperar para utilizar el canal de chat LOOC (en segundos).\nUtiliza 0 para prohibir el uso del chat.";

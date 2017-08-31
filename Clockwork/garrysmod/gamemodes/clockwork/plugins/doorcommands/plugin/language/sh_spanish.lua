@@ -42,7 +42,7 @@ CW_SPANISH["YouMadeDoorUnhidden"] = "Has quitado el estado 'oculto' a esta puert
 CW_SPANISH["ThisIsNotAValidDoor"] = "El objetivo no es una puerta válida!";
 CW_SPANISH["YouSetActiveParentDoor"] = "Has asignado esto como puerta 'principal'. La puerta principal ha sido resaltada en color naranja, y sus secundarias en azul.";
 
-CW_SPANISH["DoorsDefaultHidden"] = "Ocultar Puertas Por Defecto";
+CW_SPANISH["DoorsDefaultHidden"] = "Ocultar puertas por defecto";
 CW_SPANISH["DoorsDefaultHiddenDesc"] = "Activar o desactivar que la información de las puertas sea ocultada al realizar un cargado de mapa.";
-CW_SPANISH["DoorsSaveState"] = "Guardar Estado Puertas";
+CW_SPANISH["DoorsSaveState"] = "Guardar estado puertas";
 CW_SPANISH["DoorsSaveStateDesc"] = "Guardar o no guardar el estado actual de las puertas (abierto, cerrado...).";
