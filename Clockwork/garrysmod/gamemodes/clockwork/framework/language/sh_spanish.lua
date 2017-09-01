@@ -823,3 +823,18 @@ CW_SPANISH["HelpTipCommands"] = "Contiene un listado de comandos y sus respectiv
 
 CW_SPANISH["HelpFlagValue"] = "Flag";
 CW_SPANISH["HelpFlagDetails"] = "Detalles";
+
+CW_SPANISH["MenuNamePluginCenter"] = "Plugin Center";
+CW_SPANISH["MenuDescPluginCenter"] = "Busca y suscríbete a plugins de Clockwork para tu servidor.";
+
+CW_SPANISH["MenuNameCommunity"] = "Comunidad";
+CW_SPANISH["MenuDescCommunity"] = "Visita la comunidad oficial de Clockwork y sus foros.";
+
+CW_SPANISH["LimbStatus"] = "#1: #2%";
+CW_SPANISH["LimbRightArm"] = "Brazo derecho";
+CW_SPANISH["LimbRightLeg"] = "Pierna derecha";
+CW_SPANISH["LimbLeftArm"] = "Brazo izquierdo";
+CW_SPANISH["LimbLeftLeg"] = "Pierna izquierda";
+CW_SPANISH["LimbStomach"] = "Estómago";
+CW_SPANISH["LimbChest"] = "Torso";
+CW_SPANISH["LimbHead"] = "Cabeza";
