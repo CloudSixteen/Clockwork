@@ -746,7 +746,7 @@ CW_ENGLISH["ChatPlayerWhispers"] = ":color1:#1 whispers \"#2\"";
 CW_ENGLISH["ChatPlayerRadios"] = ":color1:#1 radios in \"#2\"";
 CW_ENGLISH["ChatPlayerYells"] = ":color1:#1 yells \"#2\"";
 
-CW_ENGLISH["PlayerConnected"] = "#1 has connected from the server.";
+CW_ENGLISH["PlayerConnected"] = "#1 has connected to the server.";
 CW_ENGLISH["PlayerDisconnected"] = "#1 has disconnected from the server.";
 
 CW_ENGLISH["LogPlayerDisconnected"] = "#1 (#2/#3) has disconnected.";

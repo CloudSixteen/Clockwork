@@ -27,3 +27,6 @@ Added extra language strings to center text in HL2RP
 
 Added .traits as an option for HasObjectAccess so classes, or business items can require specific traits
 Replaced all instances of seperate with separate (my life is a lie)
+
+Added Swedish translations (thanks Aberidius!)
+Fixed an English translation error (connected from instead of connected to)
