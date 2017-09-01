@@ -808,3 +808,18 @@ CW_SPANISH["Shipment"] = "Cargamento";
 
 CW_SPANISH["CharNoDetailsToDisplay"] = "Este personaje no tiene detalles que mostrar.";
 CW_SPANISH["CharTooltipDetailsTitle"] = "Detalles";
+
+CW_SPANISH["HelpCommands"] = "Comandos";
+CW_SPANISH["HelpPlugins"] = "Plugins";
+CW_SPANISH["HelpFlags"] = "Flags";
+CW_SPANISH["HelpCredits"] = "Créditos";
+CW_SPANISH["HelpClockwork"] = "Clockwork";
+
+CW_SPANISH["HelpSelectCategory"] = "Selecciona una categoría";
+CW_SPANISH["HelpPrivsMessage"] = "Algunas categorías solo estarán disponibles para usuarios con privilegios especiales.";
+
+CW_SPANISH["HelpTipClockwork"] = "Contiene información acerca de Clockwork.";
+CW_SPANISH["HelpTipCommands"] = "Contiene un listado de comandos y sus respectivas sintaxis.";
+
+CW_SPANISH["HelpFlagValue"] = "Flag";
+CW_SPANISH["HelpFlagDetails"] = "Detalles";
