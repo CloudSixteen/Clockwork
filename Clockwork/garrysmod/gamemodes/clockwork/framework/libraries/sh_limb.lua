@@ -150,13 +150,13 @@ else
 		[HITGROUP_HEAD] = Material("clockwork/limbs/head.png")
 	};
 	Clockwork.limb.names = {
-		[HITGROUP_RIGHTARM] = "Right Arm",
-		[HITGROUP_RIGHTLEG] = "Right Leg",
-		[HITGROUP_LEFTARM] = "Left Arm",
-		[HITGROUP_LEFTLEG] = "Left Leg",
-		[HITGROUP_STOMACH] = "Stomach",
-		[HITGROUP_CHEST] = "Chest",
-		[HITGROUP_HEAD] = "Head"
+		[HITGROUP_RIGHTARM] = "LimbRightArm",
+		[HITGROUP_RIGHTLEG] = "LimbRightLeg",
+		[HITGROUP_LEFTARM] = "LimbLeftArm",
+		[HITGROUP_LEFTLEG] = "LimbLeftLeg",
+		[HITGROUP_STOMACH] = "LimbStomach",
+		[HITGROUP_CHEST] = "LimbChest",
+		[HITGROUP_HEAD] = "LimbHead"
 	};
 	
 	-- A function to get a limb's texture.

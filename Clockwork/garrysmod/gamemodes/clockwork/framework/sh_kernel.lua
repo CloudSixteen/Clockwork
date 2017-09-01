@@ -2245,7 +2245,7 @@ else
 				
 				limbInfo[newIndex] = {
 					color = limbColor,
-					text = texInfo.names[k]..": "..limbHealth.."%"
+					text = L("LimbStatus", L(texInfo.names[k]), limbHealth)
 				};
 				
 				local textWidth, textHeight = self:GetCachedTextSize(mainTextFont, limbInfo[newIndex].text);

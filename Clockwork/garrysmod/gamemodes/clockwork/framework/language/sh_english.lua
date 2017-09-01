@@ -829,3 +829,12 @@ CW_ENGLISH["MenuDescPluginCenter"] = "Browse and Subscribe to Clockwork plugins 
 
 CW_ENGLISH["MenuNameCommunity"] = "Community";
 CW_ENGLISH["MenuDescCommunity"] = "Browse the official Clockwork forums and community.";
+
+CW_ENGLISH["LimbStatus"] = "#1: #2%";
+CW_ENGLISH["LimbRightArm"] = "Right Arm";
+CW_ENGLISH["LimbRightLeg"] = "Right Leg";
+CW_ENGLISH["LimbLeftArm"] = "Left Arm";
+CW_ENGLISH["LimbLeftLeg"] = "Left Leg";
+CW_ENGLISH["LimbStomach"] = "Stomach";
+CW_ENGLISH["LimbChest"] = "Chest";
+CW_ENGLISH["LimbHead"] = "Head";

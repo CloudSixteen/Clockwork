@@ -130,9 +130,7 @@ function PANEL:Rebuild()
 				
 				self.currentAttribute = v2[1];
 				
-				attributeForm:AddItem(
-					vgui.Create("cwAttributesItem", self)
-				);
+				attributeForm:AddItem(Clockwork.kernel:CreateMarkupToolTip(vgui.Create("cwAttributesItem", self)));
 				
 				panelList:AddItem(attributeForm);
 			end;
@@ -184,9 +182,7 @@ local PANEL = {};
 
 -- Called when the panel is initialized.
 function PANEL:Init()
-	self.attribute = Clockwork.attribute:FindByID(
-		self:GetParent().currentAttribute
-	);
+	self.attribute = Clockwork.attribute:FindByID(self:GetParent().currentAttribute);
 
 	self:SetBackgroundColor(Color(80, 70, 60, 255));
 	self:SetToolTip(self.attribute.description);

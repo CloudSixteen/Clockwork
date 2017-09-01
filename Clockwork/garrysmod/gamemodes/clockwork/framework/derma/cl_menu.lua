@@ -73,7 +73,6 @@ function PANEL:Rebuild(change)
 		
 		local activePanel = Clockwork.menu:GetActivePanel();		
 		local smallTextFont = Clockwork.option:GetFont("menu_text_small");
-		local tinyTextFont = Clockwork.option:GetFont("menu_text_tiny");
 		local scrW = ScrW();
 		local scrH = ScrH();
 		
