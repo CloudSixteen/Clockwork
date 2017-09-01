@@ -823,3 +823,9 @@ CW_ENGLISH["HelpTipCommands"] = "Contains a list of commands and their syntax.";
 
 CW_ENGLISH["HelpFlagValue"] = "Flag";
 CW_ENGLISH["HelpFlagDetails"] = "Details";
+
+CW_ENGLISH["MenuNamePluginCenter"] = "Plugin Center";
+CW_ENGLISH["MenuDescPluginCenter"] = "Browse and Subscribe to Clockwork plugins for your server.";
+
+CW_ENGLISH["MenuNameCommunity"] = "Community";
+CW_ENGLISH["MenuDescCommunity"] = "Browse the official Clockwork forums and community.";
