@@ -800,3 +800,26 @@ CW_RUSSIAN["TraitPointsGain"] = "Очки: +#1";
 CW_RUSSIAN["TraitPointsLoss"] = "Очки: -#1";
 
 CW_RUSSIAN["CharacterMenuModelHelp"] = "Выберите внешность для вашего персонажа.";
+
+CW_RUSSIAN["RequestFromMsg"] = "[ЗАПРОС] #1: #2";
+CW_RUSSIAN["ConsoleUser"] = "Консоль";
+CW_RUSSIAN["AmountOfThing"] = "#1x #2";
+CW_RUSSIAN["Shipment"] = "Разгрузка";
+
+CW_RUSSIAN["CharNoDetailsToDisplay"] = "Этот персонаж не имеет описания.";
+CW_RUSSIAN["CharTooltipDetailsTitle"] = "Детали";
+
+CW_RUSSIAN["HelpCommands"] = "Команды";
+CW_RUSSIAN["HelpPlugins"] = "Плагины";
+CW_RUSSIAN["HelpFlags"] = "Флаги";
+CW_RUSSIAN["HelpCredits"] = "Титры";
+CW_RUSSIAN["HelpClockwork"] = "Clockwork";
+
+CW_RUSSIAN["HelpSelectCategory"] = "Выберите категорию";
+CW_RUSSIAN["HelpPrivsMessage"] = "Некоторые категории могут быть доступны за имением спец. привелегий.";
+
+CW_RUSSIAN["HelpTipClockwork"] = "Содержит информацию о схеме.";
+CW_RUSSIAN["HelpTipCommands"] = "Содержит команды и их синтаксисы.";
+
+CW_RUSSIAN["HelpFlagValue"] = "Флаги";
+CW_RUSSIAN["HelpFlagDetails"] = "Детали";
