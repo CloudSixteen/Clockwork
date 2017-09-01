@@ -43,10 +43,10 @@ function PANEL:ShowCategory(category)
 		local finalCode = [[
 			<div class="cwContentBox">
 				<div class="cwContentTitle">
-					<img src="]]..PAGE_ICON..[["/>Select a Category
+					<img src="]]..PAGE_ICON..[["/><lang>HelpSelectCategory</lang>
 				</div>
 				<div class="cwContentText">
-					Some categories may only be available to users with special priviledges.
+					<lang>HelpPrivsMessage</lang>
 				</div>
 			</div>
 		]];
@@ -64,6 +64,7 @@ function PANEL:ShowCategory(category)
 		);
 		
 		finalCode = Clockwork.kernel:ParseData(finalCode);
+
 		self.htmlPanel:SetHTML(finalCode);
 	else
 		local categoryTable = Clockwork.directory:GetCategory(category);
@@ -85,7 +86,7 @@ function PANEL:ShowCategory(category)
 				if (table.Count(newPageData) > 0) then
 					local masterFormatting = Clockwork.directory:GetMasterFormatting();
 					local formatting = Clockwork.directory:GetCategoryFormatting(category);
-					local bFirstKey = true;
+					local firstKey = true;
 					local finalCode = "";
 				
 					for k, v in pairs(newPageData) do
@@ -96,7 +97,7 @@ function PANEL:ShowCategory(category)
 						end;
 						
 						if (htmlCode and htmlCode != "") then
-							if (!bFirstKey) then
+							if (!firstKey) then
 								if ((!formatting or !formatting.noLineBreaks)
 								and !v.noLineBreak) then
 									finalCode = finalCode.."<br>"..htmlCode;
@@ -107,7 +108,7 @@ function PANEL:ShowCategory(category)
 								finalCode = htmlCode;
 							end;
 							
-							bFirstKey = false;
+							firstKey = false;
 						end;
 					end;
 					
@@ -120,8 +121,8 @@ function PANEL:ShowCategory(category)
 					end;
 					
 					finalCode = Clockwork.directory:ReplaceMatches(category, finalCode);
-						finalCode = Clockwork.kernel:Replace(finalCode, "[category]", category);
-						finalCode = Clockwork.kernel:Replace(finalCode, "{category}", string.upper(category));
+					finalCode = Clockwork.kernel:Replace(finalCode, "[category]", category);
+					finalCode = Clockwork.kernel:Replace(finalCode, "{category}", string.upper(category));
 					finalCode = Clockwork.kernel:ParseData(finalCode);
 					
 					self.htmlPanel:SetHTML(finalCode);
@@ -140,8 +141,8 @@ function PANEL:ShowCategory(category)
 				end;
 				
 				finalCode = Clockwork.directory:ReplaceMatches(category, finalCode);
-					finalCode = Clockwork.kernel:Replace(finalCode, "[category]", category);
-					finalCode = Clockwork.kernel:Replace(finalCode, "{category}", string.upper(category));
+				finalCode = Clockwork.kernel:Replace(finalCode, "[category]", category);
+				finalCode = Clockwork.kernel:Replace(finalCode, "{category}", string.upper(category));
 				finalCode = Clockwork.kernel:ParseData(finalCode);
 				
 				self.htmlPanel:SetHTML(finalCode);

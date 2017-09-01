@@ -3274,8 +3274,8 @@ function Clockwork:DestroyBars(bars) end;
 function Clockwork:GetCinematicIntroInfo()
 	return {
 		credits = "A roleplaying game designed by "..Schema:GetAuthor()..".",
-		title = Schema:GetName(),
-		text = Schema:GetDescription()
+		title = L(Schema:GetName()),
+		text = L(Schema:GetDescription())
 	};
 end;
 

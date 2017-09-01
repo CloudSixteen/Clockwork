@@ -1822,7 +1822,7 @@ function Clockwork:PlayerSetSharedVars(player, curTime)
 end;
 
 -- Called when a player picks an item up.
-function Clockwork:PlayerPickupItem(player, itemTable, itemEntity, bQuickUse) end;
+function Clockwork:PlayerPickupItem(player, itemTable, itemEntity, quickUse) end;
 
 -- Called when a player uses an item.
 function Clockwork:PlayerUseItem(player, itemTable, itemEntity) end;
@@ -2483,12 +2483,12 @@ end;
 
 -- Called when a player attempts to pickup an entity with the physics gun.
 function Clockwork:PhysgunPickup(player, entity)
-	local bCanPickup = nil;
+	local canPickup = nil;
 	local isAdmin = cwPly:IsAdmin(player);
 
 	if (!cwConfig:Get("enable_map_props_physgrab"):Get()) then
 		if (cwEntity:IsMapEntity(entity)) then
-			bCanPickup = false;
+			canPickup = false;
 		end;
 	end;
 	
@@ -2509,9 +2509,9 @@ function Clockwork:PhysgunPickup(player, entity)
 	end;
 	
 	if (!isAdmin) then
-		bCanPickup = self.BaseClass:PhysgunPickup(player, entity);
+		canPickup = self.BaseClass:PhysgunPickup(player, entity);
 	else
-		bCanPickup = true;
+		canPickup = true;
 	end;
 	
 	if (cwEntity:IsChairEntity(entity) and !isAdmin) then
@@ -2528,15 +2528,15 @@ function Clockwork:PhysgunPickup(player, entity)
 		local ownerKey = entity:GetOwnerKey();
 		
 		if (ownerKey and player:GetCharacterKey() != ownerKey) then
-			bCanPickup = false;
+			canPickup = false;
 		end;
 	end;
 	
 	if (entity:IsPlayer() and entity:InVehicle() or entity.cwObserverMode) then
-		bCanPickup = false;
+		canPickup = false;
 	end;
 	
-	if (bCanPickup) then
+	if (canPickup) then
 		player.cwIsHoldingEnt = entity;
 		entity.cwIsBeingHeld = player;
 		
@@ -2657,16 +2657,16 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 		end;
 		
 		local itemTable = entity.cwItemTable;
-		local bQuickUse = (arguments == "cwItemUse");
+		local quickUse = (arguments == "cwItemUse");
 		
 		if (itemTable) then
 			local didPickupItem = true;
-			local bCanPickup = (!itemTable.CanPickup or itemTable:CanPickup(player, bQuickUse, entity));
+			local canPickup = (!itemTable.CanPickup or itemTable:CanPickup(player, quickUse, entity));
 			
-			if (bCanPickup != false) then
+			if (canPickup != false) then
 				player:SetItemEntity(entity);
 				
-				if (bQuickUse) then
+				if (quickUse) then
 					itemTable = player:GiveItem(itemTable, true);
 					
 					if (!cwPly:InventoryAction(player, itemTable, "use")) then
@@ -2688,10 +2688,10 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 					end;
 				end;
 				
-				cwPlugin:Call("PlayerPickupItem", player, itemTable, entity, bQuickUse);
+				cwPlugin:Call("PlayerPickupItem", player, itemTable, entity, quickUse);
 				
 				if (didPickupItem) then
-					if (!itemTable.OnPickup or itemTable:OnPickup(player, bQuickUse, entity) != false) then
+					if (!itemTable.OnPickup or itemTable:OnPickup(player, quickUse, entity) != false) then
 						entity:Remove();
 					end;
 				end;
@@ -2710,7 +2710,7 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 		end;
 	elseif (class == "cw_item" and arguments == "cwItemExamine") then
 		local itemTable = entity.cwItemTable;
-		local examineText = itemTable.description;
+		local examineText = itemTable("description");
 		
 		if (itemTable.GetEntityExamineText) then
 			examineText = itemTable:GetEntityExamineText(entity);

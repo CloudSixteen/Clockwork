@@ -45,7 +45,7 @@ function PANEL:Init()
 		self.subLabel = vgui.Create("cwLabelButton", self);
 		self.subLabel:SetDisabled(true);
 		self.subLabel:SetFont(smallTextFont);
-		self.subLabel:SetText(string.upper(Schema:GetDescription()));
+		self.subLabel:SetText(L(string.upper(Schema:GetDescription())));
 		self.subLabel:SizeToContents();
 		
 		if (schemaLogo == "") then
@@ -2344,7 +2344,7 @@ Clockwork.character:RegisterCreationPanel("CreateCharacterStage4", "cwCharacterS
 		
 		if (table.Count(attributeTable) > 0) then
 			for k, v in pairs(attributeTable) do
-				if (v.isOnCharScreen) then
+				if (v.isOnCharScreen && (!v.factions or table.HasValue(v.factions, info.faction))) then
 					return true;
 				end;
 			end;

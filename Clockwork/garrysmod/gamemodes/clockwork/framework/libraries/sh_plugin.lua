@@ -321,15 +321,13 @@ function Clockwork.plugin:Register(pluginTable)
 		self:IncludeExtras(pluginTable:GetBaseDir());
 	
 		if (CLIENT and Schema != pluginTable) then
-			pluginTable.helpID = Clockwork.directory:AddCode("Plugins", [[
+			pluginTable.helpID = Clockwork.directory:AddCode("HelpPlugins", [[
 				<div class="cwTitleSeperator">
-					]]..string.upper(pluginTable:GetName())..[[
+					<lang>]]..pluginTable:GetName()..[[</lang>
 				</div>
 				<div class="cwContentText">
-					<div class="cwCodeText">
-						developed by ]]..pluginTable:GetAuthor()..[[
-					</div>
-					]]..pluginTable:GetDescription()..[[
+					<div class="cwCodeText">]]..pluginTable:GetAuthor()..[[</div>
+					<lang>]]..pluginTable:GetDescription()..[[</lang>
 				</div>
 			]], true, pluginTable:GetAuthor());
 		end;

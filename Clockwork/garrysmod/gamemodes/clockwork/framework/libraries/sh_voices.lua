@@ -26,13 +26,13 @@ function Clockwork.voices:GetVoices(id)
 end;
 
 -- A function to add a voice group.
-function Clockwork.voices:RegisterGroup(group, bGender, callback)
-	if (!bGender) then
-		bGender = false;
+function Clockwork.voices:RegisterGroup(group, gender, callback)
+	if (!gender) then
+		gender = false;
 	end;
 	
 	groups[group] = {
-		bGender = bGender,
+		gender = gender,
 		IsPlayerMember = callback,
 		voices = {};
 	};
@@ -89,15 +89,23 @@ function Clockwork.voices:ClockworkInitialized()
 	if (CLIENT) then
 		for k, v in pairs(groups) do
 			if (v.hasVoices) then
-				Clockwork.directory:AddCategory(k, "Commands");
+				Clockwork.directory:AddCategory(k, "HelpCommands");
+
 				table.sort(v.voices, function(a, b) return a.command < b.command; end);
+
 				for k2, v2 in pairs(v.voices) do
-					if (!v2.phrase) then v2.phrase = ""; end;
+					if (!v2.phrase) then
+						v2.phrase = "";
+					end;
 
 					Clockwork.directory:AddCode(k, [[
-						<div class="auraInfoTitle">]]..string.upper(v2.command)..[[</div>
-						<div class="auraInfoText">]]..v2.phrase..[[</div>
-					]], true);
+						<div class="cwTitleSeperator">
+							]]..string.upper(v2.name)..[[
+						</div>
+						<div class="cwContentText">
+							<lang>]]..v2.phrase..[[</lang>
+						</div>
+					]]);
 				end;
 			end;
 		end;
@@ -121,7 +129,7 @@ function Clockwork.voices:ChatBoxAdjustInfo(info)
 								pitch = v2.pitch
 							};
 							
-							if (v.bGender) then
+							if (v.gender) then
 								if (v2.female and info.speaker:QueryCharacter("Gender") == GENDER_FEMALE) then
 									voice.sound = string.Replace(voice.sound, "/male", "/female");
 								end;

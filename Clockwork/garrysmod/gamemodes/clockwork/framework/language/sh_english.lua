@@ -808,3 +808,18 @@ CW_ENGLISH["Shipment"] = "Shipment";
 
 CW_ENGLISH["CharNoDetailsToDisplay"] = "This character has no details to display.";
 CW_ENGLISH["CharTooltipDetailsTitle"] = "Details";
+
+CW_ENGLISH["HelpCommands"] = "Commands";
+CW_ENGLISH["HelpPlugins"] = "Plugins";
+CW_ENGLISH["HelpFlags"] = "Flags";
+CW_ENGLISH["HelpCredits"] = "Credits";
+CW_ENGLISH["HelpClockwork"] = "Clockwork";
+
+CW_ENGLISH["HelpSelectCategory"] = "Select a Category";
+CW_ENGLISH["HelpPrivsMessage"] = "Some categories may only be available to users with special priviledges.";
+
+CW_ENGLISH["HelpTipClockwork"] = "Contains topics about the Clockwork framework.";
+CW_ENGLISH["HelpTipCommands"] = "Contains a list of commands and their syntax.";
+
+CW_ENGLISH["HelpFlagValue"] = "Flag";
+CW_ENGLISH["HelpFlagDetails"] = "Details";

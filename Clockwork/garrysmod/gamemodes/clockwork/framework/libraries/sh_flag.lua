@@ -16,7 +16,7 @@ Clockwork.flag.stored = Clockwork.flag.stored or {};
 -- A function to add a new flag.
 function Clockwork.flag:Add(flag, name, details)
 	if (CLIENT and !self.stored[flag]) then
-		Clockwork.directory:AddCode("Flags", [[
+		Clockwork.directory:AddCode("HelpFlags", [[
 			<tr>
 				<td class="cwTableContent"><b><font color="red">]]..flag..[[</font></b></td>
 				<td class="cwTableContent"><i>]]..details..[[</i></td>

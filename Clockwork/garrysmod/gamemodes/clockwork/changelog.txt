@@ -30,3 +30,7 @@ Replaced all instances of seperate with separate (my life is a lie)
 
 Added Swedish translations (thanks Aberidius!)
 Fixed an English translation error (connected from instead of connected to)
+Fixed PermaKill mode (needs properly re-testing)
+Updated Directory to use language translations
+Updated some Directory pages to use proper CSS formatting
+Made plugin and schema descriptions (and names) translatable

@@ -303,13 +303,13 @@ else
 		local text = string.gsub(string.gsub(commandTable.text, ">", "&gt;"), "<", "&lt;");
 
 		if (!commandTable.helpID) then
-			commandTable.helpID = Clockwork.directory:AddCode("Commands", [[
+			commandTable.helpID = Clockwork.directory:AddCode("HelpCommands", [[
 				<div class="cwTitleSeperator">
 					$command_prefix$]]..string.upper(commandTable.name)..[[
 				</div>
 				<div class="cwContentText">
 					<div class="cwCodeText">
-						<i>]]..text..[[</i>
+						<i><lang>]]..text..[[</lang></i>
 					</div>
 					]]..commandTable.tip..[[
 				</div>
