@@ -125,7 +125,7 @@ Clockwork.config:Add("enable_ironsights", true, true);
 Clockwork.config:Add("ironsights_spread", 0.5, true);
 Clockwork.config:Add("ironsights_slow", 0.5, true);
 
-Clockwork.config:Add("char_name_limit", 32);
+Clockwork.config:Add("char_name_limit", 32, true);
 
 Clockwork.config:Add("description_crafting", "Combine various items to make new items.", true);
 Clockwork.config:Add("crafting_menu_enabled", false, true);
