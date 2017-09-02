@@ -1657,7 +1657,7 @@ function PANEL:OnNext()
 	
 	if (!Clockwork.faction.stored[self.info.faction].GetName) then
 		if (IsValid(self.fullNameTextEntry)) then
-			local limitCharName = Clockwork.config:Get("min_char_name"):Get();
+			local limitCharName = Clockwork.config:Get("max_char_name"):Get();
 			self.info.fullName = self.fullNameTextEntry:GetValue();
 			
 			if (self.info.fullName == "") then
