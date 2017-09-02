@@ -686,6 +686,8 @@ CW_ENGLISH["CraftingEnabled"] = "Crafting Enabled";
 CW_ENGLISH["CraftingEnabledDesc"] = "Whether or not the crafting menu is enabled.";
 CW_ENGLISH["CraftingName"] = "Crafting Name";
 CW_ENGLISH["CraftingNameDesc"] = "The name of the button to open the crafting menu.";
+CW_ENGLISH["MaxCharName"] = "Character Name Limit";
+CW_ENGLISH["MaxCharNameDesc"] = "The maximum amount of characters someone can use in their name.";
 
 CW_ENGLISH["HintOOC"] = "Type // before your message to talk out-of-character.";
 CW_ENGLISH["HintLOOC"] = "Type .// or [[before your message to talk out-of-character locally.";
