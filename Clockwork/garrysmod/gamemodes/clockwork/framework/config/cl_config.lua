@@ -96,7 +96,7 @@ Clockwork.config:AddToSystem("DiseaseInterval", "disease_interval", "DiseaseInte
 Clockwork.config:AddToSystem("EnableIronsights", "enable_ironsights", "EnableIronsightsDesc");
 Clockwork.config:AddToSystem("IronsightsSpreadReduction", "ironsights_spread", "IronsightsSpreadReductionDesc", 0, 1, 3);
 Clockwork.config:AddToSystem("IronsightsSlowAmount", "ironsights_slow", "IronsightsSlowAmountDesc", 0, 1, 3);
-Clockwork.config:AddToSystem("MinCharName", "min_char_name", "MinCharNameDesc", 1, 100);
+Clockwork.config:AddToSystem("MaxCharName", "max_char_name", "MaxCharNameDesc", 1, 100);
 Clockwork.config:AddToSystem("CraftingDescription", "description_crafting", "CraftingDescriptionDesc");
 Clockwork.config:AddToSystem("CraftingEnabled", "crafting_menu_enabled", "CraftingEnabledDesc");
 Clockwork.config:AddToSystem("CraftingName", "name_crafting", "CraftingNameDesc");
