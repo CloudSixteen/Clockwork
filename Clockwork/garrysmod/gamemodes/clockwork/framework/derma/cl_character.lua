@@ -1657,9 +1657,13 @@ function PANEL:OnNext()
 	
 	if (!Clockwork.faction.stored[self.info.faction].GetName) then
 		if (IsValid(self.fullNameTextEntry)) then
+			local limitCharName = Clockwork.config:Get("char_name_limit"):Get();
 			self.info.fullName = self.fullNameTextEntry:GetValue();
 			
 			if (self.info.fullName == "") then
+				Clockwork.character:SetFault({"FaultNameInvalid"});
+				return false;
+			elseif (string.utf8len(self.info.fullName) > limitCharName) then
 				Clockwork.character:SetFault({"FaultNameInvalid"});
 				return false;
 			end;
