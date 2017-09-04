@@ -1410,13 +1410,13 @@ function Clockwork:MenuItemsAdd(menuItems)
 	menuItems:Add(directoryName, "cwDirectory", cwOption:Translate("description_directory"), cwOption:GetKey("icon_data_directory"));
 	menuItems:Add(attributesName, "cwAttributes", cwOption:Translate("description_attributes"), cwOption:GetKey("icon_data_attributes"));
 
-	if (cwConfig:Get("show_business"):GetBoolean() == true) then
+	if (cwConfig:Get("show_business"):GetBoolean()) then
 		local businessName = cwOption:Translate("name_business");
 		
 		menuItems:Add(businessName, "cwBusiness", cwOption:Translate("description_business"), cwOption:GetKey("icon_data_business"));
 	end;
 	
-	if (cwConfig:Get("crafting_menu_enabled"):GetBoolean() == true) then
+	if (cwConfig:Get("crafting_menu_enabled"):GetBoolean()) then
 		local craftingName = cwOption:Translate("name_crafting");
 		
 		menuItems:Add(craftingName, "cwCrafting", cwOption:Translate("description_crafting"));

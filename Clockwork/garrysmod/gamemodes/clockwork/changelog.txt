@@ -40,6 +40,9 @@ Proper attribute language description for attributes
 Removed sh_fixes.lua file as it's no longer used in this update
 Localized Stamina attribute in the stamina plugin
 Moved Stamina plugin back to HL2RP because it's stupid that it was ever in the framework, the schema and its plugins should decide what attributes exist
+Added character name limit (thanks HappyGoLucky1!)
+Updated Korean translation files (thanks Tensa!)
+Removed a config option that was unused (name_crafting)
 
 04/09/2017 (HL2RP)
 Added descriptions for all attributes to the language file
