@@ -1,7 +1,0 @@
-1
-plugin.ini
-manifest.txt
-README.md
-plugin/sh_plugin.lua
-plugin/sv_plugin.lua
-plugin/commands/sh_plyreport.lua

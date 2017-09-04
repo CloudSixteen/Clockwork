@@ -43,6 +43,7 @@ end;
 function Clockwork.attribute:Register(attribute)
 	attribute.uniqueID = attribute.uniqueID or string.lower(string.gsub(attribute.name, "%s", "_"));
 	attribute.index = Clockwork.kernel:GetShortCRC(attribute.name);
+	attribute.image = attribute.image or "clockwork/attributes/default";
 	attribute.cache = {};
 	
 	if (not attribute.category) then
@@ -56,7 +57,7 @@ function Clockwork.attribute:Register(attribute)
 	self.stored[attribute.uniqueID] = attribute;
 	self.buffer[attribute.index] = attribute;
 	
-	if (SERVER and attribute.image) then
+	if (SERVER) then
 		Clockwork.kernel:AddFile("materials/"..attribute.image..".png");
 	end;
 	

@@ -1139,7 +1139,6 @@ function PANEL:Init()
 	end;
 	
 	self.pointsUsed = vgui.Create("DPanel", self);
-	self.pointsUsed:SetPos(self.removeButton:GetWide() + 8, 0);
 	
 	Clockwork.kernel:CreateMarkupToolTip(self.pointsUsed);
 	
@@ -1166,6 +1165,13 @@ end;
 
 -- Called each frame.
 function PANEL:Think()
+	self.removeButton.x = 0;
+	
+	if (self.spawnIcon) then
+		self.removeButton.x = self.spawnIcon.x + self.spawnIcon:GetWide() + 8;
+	end;
+	
+	self.pointsUsed:SetPos(self.removeButton.x + self.removeButton:GetWide() + 8, 0);
 	self.pointsUsed:SetSize(self:GetWide() - (self.pointsUsed.x * 2), 24);
 	self.pointsLabel:SetText(L(self.attributeTable.name));
 	self.pointsLabel:SetPos(self:GetWide() / 2 - self.pointsLabel:GetWide() / 2, self:GetTall() / 2 - self.pointsLabel:GetTall() / 2);
@@ -1176,7 +1182,7 @@ function PANEL:Think()
 		self.pointsUsed.y + (self.pointsUsed:GetTall() / 2) - (self.addButton:GetTall() / 2)
 	);
 	
-	self.removeButton:SetPos(self.removeButton.x, self.addButton.y);
+	self.removeButton.y = self.addButton.y;
 	
 	local markupObject = Clockwork.theme:GetMarkupObject();
 	local attributeName = L(self.attributeTable.name);
@@ -1234,6 +1240,14 @@ end;
 -- A function to set the panel's attribute table.
 function PANEL:SetAttributeTable(attributeTable)
 	self.attributeTable = attributeTable;
+	
+	if (attributeTable.image) then
+		self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
+		self.spawnIcon:SetToolTip(L(attributeTable.description));
+		self.spawnIcon:SetImage(attributeTable..".png");
+		self.spawnIcon:SetSize(24, 24);
+		self.spawnIcon:SetPos(0, 0);
+	end;
 end;
 
 -- A function to set the panel's maximum points.
@@ -1272,6 +1286,7 @@ function PANEL:Init()
  	self.categoryList:SetPadding(8);
 	self.categoryList:SetSpacing(8);
  	self.categoryList:SizeToContents();
+ 	self.categoryList:EnableVerticalScrollbar(true);
 	
 	for k, v in pairs(Clockwork.attribute:GetAll()) do
 		attributes[#attributes + 1] = v;
@@ -1288,9 +1303,11 @@ function PANEL:Init()
 	for k, v in pairs(attributes) do
 		if (v.isOnCharScreen) then
 			local characterAttribute = vgui.Create("cwCharacterAttribute", self.attributesForm);
-				characterAttribute:SetAttributeTable(v);
-				characterAttribute:SetMaximumPoints(maximumPoints);
-				characterAttribute:SetAttributePanels(self.attributePanels);
+			
+			characterAttribute:SetAttributeTable(v);
+			characterAttribute:SetMaximumPoints(maximumPoints);
+			characterAttribute:SetAttributePanels(self.attributePanels);
+			
 			self.attributesForm:AddItem(characterAttribute);
 			
 			self.attributePanels[#self.attributePanels + 1] = characterAttribute;
