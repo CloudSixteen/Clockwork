@@ -843,3 +843,8 @@ CW_ENGLISH["LimbHead"] = "Head";
 
 CW_ENGLISH["ConfigNoHelpProvided"] = "No information was provided for this config!";
 CW_ENGLISH["ConfigClockworkCategory"] = "Clockwork";
+
+CW_ENGLISH["HelpBugsIssues"] = "Bugs/Issues";
+CW_ENGLISH["HelpCloudSixteen"] = "Cloud Sixteen";
+CW_ENGLISH["HelpUpdates"] = "Cloud Sixteen";
+CW_ENGLISH["HelpCredits"] = "Credits";

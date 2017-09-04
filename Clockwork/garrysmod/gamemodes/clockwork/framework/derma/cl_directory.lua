@@ -116,8 +116,8 @@ function PANEL:ShowCategory(category)
 					end;
 					
 					finalCode = Clockwork.directory:ReplaceMatches(category, finalCode);
-					finalCode = Clockwork.kernel:Replace(finalCode, "[category]", category);
-					finalCode = Clockwork.kernel:Replace(finalCode, "{category}", string.upper(category));
+					finalCode = Clockwork.kernel:Replace(finalCode, "[category]", L(category));
+					finalCode = Clockwork.kernel:Replace(finalCode, "{category}", string.upper(L(category)));
 					finalCode = Clockwork.kernel:ParseData(finalCode);
 					
 					self.htmlPanel:SetHTML(finalCode);
@@ -136,8 +136,8 @@ function PANEL:ShowCategory(category)
 				end;
 				
 				finalCode = Clockwork.directory:ReplaceMatches(category, finalCode);
-				finalCode = Clockwork.kernel:Replace(finalCode, "[category]", category);
-				finalCode = Clockwork.kernel:Replace(finalCode, "{category}", string.upper(category));
+				finalCode = Clockwork.kernel:Replace(finalCode, "[category]", L(category));
+				finalCode = Clockwork.kernel:Replace(finalCode, "{category}", string.upper(L(category)));
 				finalCode = Clockwork.kernel:ParseData(finalCode);
 				
 				self.htmlPanel:SetHTML(finalCode);
@@ -197,7 +197,7 @@ function PANEL:Rebuild()
 				local tip = Clockwork.directory:GetCategoryTip(v.category);
 				
 				if (tip) then
-					nodeTable[v.category]:SetToolTip(tip);
+					nodeTable[v.category]:SetToolTip(L(tip));
 				end;
 				
 				nodeTable[v.category].Initialized = true;
