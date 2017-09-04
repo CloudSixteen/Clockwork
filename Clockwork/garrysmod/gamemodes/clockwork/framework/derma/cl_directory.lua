@@ -55,14 +55,9 @@ function PANEL:ShowCategory(category)
 			finalCode = Clockwork.kernel:Replace(masterFormatting, "[information]", finalCode);
 		end;
 		
-		finalCode = Clockwork.kernel:Replace(
-			finalCode, "[category]", Clockwork.option:Translate("name_directory")
-		);
-		
-		finalCode = Clockwork.kernel:Replace(
-			finalCode, "{category}", Clockwork.option:Translate("name_directory"):upper()
-		);
-		
+		finalCode = Clockwork.directory:ReplaceMatches(category, finalCode);
+		finalCode = Clockwork.kernel:Replace(finalCode, "[category]", Clockwork.option:Translate("name_directory"));
+		finalCode = Clockwork.kernel:Replace(finalCode, "{category}", Clockwork.option:Translate("name_directory"):upper());
 		finalCode = Clockwork.kernel:ParseData(finalCode);
 
 		self.htmlPanel:SetHTML(finalCode);
