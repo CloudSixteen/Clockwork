@@ -808,3 +808,33 @@ CW_SPANISH["Shipment"] = "Cargamento";
 
 CW_SPANISH["CharNoDetailsToDisplay"] = "Este personaje no tiene detalles que mostrar.";
 CW_SPANISH["CharTooltipDetailsTitle"] = "Detalles";
+
+CW_SPANISH["HelpCommands"] = "Comandos";
+CW_SPANISH["HelpPlugins"] = "Plugins";
+CW_SPANISH["HelpFlags"] = "Flags";
+CW_SPANISH["HelpCredits"] = "Créditos";
+CW_SPANISH["HelpClockwork"] = "Clockwork";
+
+CW_SPANISH["HelpSelectCategory"] = "Selecciona una categoría";
+CW_SPANISH["HelpPrivsMessage"] = "Algunas categorías solo estarán disponibles para usuarios con privilegios especiales.";
+
+CW_SPANISH["HelpTipClockwork"] = "Contiene información acerca de Clockwork.";
+CW_SPANISH["HelpTipCommands"] = "Contiene un listado de comandos y sus respectivas sintaxis.";
+
+CW_SPANISH["HelpFlagValue"] = "Flag";
+CW_SPANISH["HelpFlagDetails"] = "Detalles";
+
+CW_SPANISH["MenuNamePluginCenter"] = "Plugin Center";
+CW_SPANISH["MenuDescPluginCenter"] = "Busca y suscríbete a plugins de Clockwork para tu servidor.";
+
+CW_SPANISH["MenuNameCommunity"] = "Comunidad";
+CW_SPANISH["MenuDescCommunity"] = "Visita la comunidad oficial de Clockwork y sus foros.";
+
+CW_SPANISH["LimbStatus"] = "#1: #2%";
+CW_SPANISH["LimbRightArm"] = "Brazo derecho";
+CW_SPANISH["LimbRightLeg"] = "Pierna derecha";
+CW_SPANISH["LimbLeftArm"] = "Brazo izquierdo";
+CW_SPANISH["LimbLeftLeg"] = "Pierna izquierda";
+CW_SPANISH["LimbStomach"] = "Estómago";
+CW_SPANISH["LimbChest"] = "Torso";
+CW_SPANISH["LimbHead"] = "Cabeza";
