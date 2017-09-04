@@ -686,6 +686,8 @@ CW_SPANISH["CraftingEnabled"] = "Activar fabricación";
 CW_SPANISH["CraftingEnabledDesc"] = "Activar o desactivar el menú de fabricación."; --If you can read this. I love you <3.
 CW_SPANISH["CraftingName"] = "Nombre de fabricación"; 
 CW_SPANISH["CraftingNameDesc"] = "El nombre que se mostrará en el menú para acceder al sistema de fabricación."; 
+CW_ENGLISH["MaxCharName"] = "El límite de nombre de carácter";
+CW_ENGLISH["MaxCharNameDesc"] = "El número máximo de caracteres que alguien puede usar en su nombre.";
 
 CW_SPANISH["HintOOC"] = "Escribe // antes de tu mensaje para hablar OOC";
 CW_SPANISH["HintLOOC"] = "Escribe .// o [[ antes de tu mensaje para hablar OOC localmente.";
