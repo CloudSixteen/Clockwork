@@ -55,14 +55,9 @@ function PANEL:ShowCategory(category)
 			finalCode = Clockwork.kernel:Replace(masterFormatting, "[information]", finalCode);
 		end;
 		
-		finalCode = Clockwork.kernel:Replace(
-			finalCode, "[category]", Clockwork.option:Translate("name_directory")
-		);
-		
-		finalCode = Clockwork.kernel:Replace(
-			finalCode, "{category}", Clockwork.option:Translate("name_directory"):upper()
-		);
-		
+		finalCode = Clockwork.directory:ReplaceMatches(category, finalCode);
+		finalCode = Clockwork.kernel:Replace(finalCode, "[category]", Clockwork.option:Translate("name_directory"));
+		finalCode = Clockwork.kernel:Replace(finalCode, "{category}", Clockwork.option:Translate("name_directory"):upper());
 		finalCode = Clockwork.kernel:ParseData(finalCode);
 
 		self.htmlPanel:SetHTML(finalCode);
@@ -121,8 +116,8 @@ function PANEL:ShowCategory(category)
 					end;
 					
 					finalCode = Clockwork.directory:ReplaceMatches(category, finalCode);
-					finalCode = Clockwork.kernel:Replace(finalCode, "[category]", category);
-					finalCode = Clockwork.kernel:Replace(finalCode, "{category}", string.upper(category));
+					finalCode = Clockwork.kernel:Replace(finalCode, "[category]", L(category));
+					finalCode = Clockwork.kernel:Replace(finalCode, "{category}", string.upper(L(category)));
 					finalCode = Clockwork.kernel:ParseData(finalCode);
 					
 					self.htmlPanel:SetHTML(finalCode);
@@ -141,8 +136,8 @@ function PANEL:ShowCategory(category)
 				end;
 				
 				finalCode = Clockwork.directory:ReplaceMatches(category, finalCode);
-				finalCode = Clockwork.kernel:Replace(finalCode, "[category]", category);
-				finalCode = Clockwork.kernel:Replace(finalCode, "{category}", string.upper(category));
+				finalCode = Clockwork.kernel:Replace(finalCode, "[category]", L(category));
+				finalCode = Clockwork.kernel:Replace(finalCode, "{category}", string.upper(L(category)));
 				finalCode = Clockwork.kernel:ParseData(finalCode);
 				
 				self.htmlPanel:SetHTML(finalCode);
@@ -157,7 +152,9 @@ end;
 function PANEL:ClearNodes()
 	if (self.treeNode.Items) then
 		for k, v in pairs(self.treeNode.Items) do
-			if (IsValid(v)) then v:Remove(); end;
+			if (IsValid(v)) then
+				v:Remove();
+			end;
 		end;
 	end;
 	
@@ -184,15 +181,15 @@ function PANEL:Rebuild()
 		
 		for k, v in pairs(Clockwork.directory.stored) do
 			if (!v.parent) then
-				nodeTable[v.category] = self.treeNode:AddNode(v.category);
+				nodeTable[v.category] = self.treeNode:AddNode(L(v.category));
 			end;
 		end;
 		
 		for k, v in pairs(Clockwork.directory.stored) do
 			if (v.parent and nodeTable[v.parent]) then
-				nodeTable[v.category] = nodeTable[v.parent]:AddNode(v.category);
+				nodeTable[v.category] = nodeTable[v.parent]:AddNode(L(v.category));
 			elseif (!nodeTable[v.category]) then
-				nodeTable[v.category] = self.treeNode:AddNode(v.category);
+				nodeTable[v.category] = self.treeNode:AddNode(L(v.category));
 			end;
 			
 			if (!nodeTable[v.category].Initialized) then
@@ -200,11 +197,11 @@ function PANEL:Rebuild()
 				local tip = Clockwork.directory:GetCategoryTip(v.category);
 				
 				if (tip) then
-					nodeTable[v.category]:SetToolTip(tip);
+					nodeTable[v.category]:SetToolTip(L(tip));
 				end;
 				
 				nodeTable[v.category].Initialized = true;
-				nodeTable[v.category]:SetText(friendlyName);
+				nodeTable[v.category]:SetText(L(friendlyName));
 				nodeTable[v.category].DoClick = function(node)
 					for k2, v2 in pairs(Clockwork.directory.stored) do
 						if (v2.category == v.category and (v2.isWebsite

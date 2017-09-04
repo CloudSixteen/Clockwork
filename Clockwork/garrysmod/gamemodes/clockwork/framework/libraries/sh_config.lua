@@ -595,12 +595,13 @@ else
 		category = PLUGIN and PLUGIN:GetName();
 
 		self.system[key] = {
+			key = key,
 			name = name or key,
 			decimals = tonumber(decimals) or 0,
 			maximum = tonumber(maximum) or 100,
 			minimum = tonumber(minimum) or 0,
-			help = help or "No information was provided for this entry.",
-			category = category or "Clockwork"
+			help = help or "ConfigNoHelpProvided",
+			category = category or "ConfigClockworkCategory"
 		};
 	end;
 	

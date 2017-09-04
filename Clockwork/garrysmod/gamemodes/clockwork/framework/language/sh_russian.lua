@@ -823,3 +823,17 @@ CW_RUSSIAN["HelpTipCommands"] = "Содержит команды и их син�
 
 CW_RUSSIAN["HelpFlagValue"] = "Флаги";
 CW_RUSSIAN["HelpFlagDetails"] = "Детали";
+
+CW_RUSSIAN["MenuNamePluginCenter"] = "Плагины";
+CW_RUSSIAN["MenuDescPluginCenter"] = "Установить плагины для своей схемы.";
+
+CW_RUSSIAN["MenuNameCommunity"] = "Сообщество";
+CW_RUSSIAN["MenuDescCommunity"] = "Посмотреть сообщество схемы.";
+
+CW_RUSSIAN["LimbStatus"] = "#1: #2%";
+CW_RUSSIAN["LimbRightArm"] = "Правая рука";
+CW_RUSSIAN["LimbRightLeg"] = "Правая нога";
+CW_RUSSIAN["LimbLeftArm"] = "Левая рука";
+CW_RUSSIAN["LimbLeftLeg"] = "Левая нога";
+CW_RUSSIAN["LimbStomach"] = "Живот";
+CW_RUSSIAN["LimbChest"] = "Грудь";
