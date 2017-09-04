@@ -78,15 +78,17 @@ end;
 
 -- A function to replace a category's matches.
 function Clockwork.directory:ReplaceMatches(category, htmlCode)
-	if (!self.matches[category]) then return htmlCode; end;
+	htmlCode = string.gsub(htmlCode, "<lang>(.-)</lang>", function(target)
+		return L(target);
+	end);
+	
+	if (!self.matches[category]) then
+		return htmlCode;
+	end;
 	
 	for k, v in pairs(self.matches[category]) do
 		htmlCode = Clockwork.kernel:Replace(htmlCode, k, v);
 	end;
-
-	htmlCode = string.gsub(htmlCode, "<lang>(.-)</lang>", function(target)
-		return L(target);
-	end);
 	
 	return htmlCode;
 end;

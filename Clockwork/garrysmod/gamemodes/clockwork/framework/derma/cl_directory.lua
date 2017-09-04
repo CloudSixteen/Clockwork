@@ -152,7 +152,9 @@ end;
 function PANEL:ClearNodes()
 	if (self.treeNode.Items) then
 		for k, v in pairs(self.treeNode.Items) do
-			if (IsValid(v)) then v:Remove(); end;
+			if (IsValid(v)) then
+				v:Remove();
+			end;
 		end;
 	end;
 	
@@ -179,15 +181,15 @@ function PANEL:Rebuild()
 		
 		for k, v in pairs(Clockwork.directory.stored) do
 			if (!v.parent) then
-				nodeTable[v.category] = self.treeNode:AddNode(v.category);
+				nodeTable[v.category] = self.treeNode:AddNode(L(v.category));
 			end;
 		end;
 		
 		for k, v in pairs(Clockwork.directory.stored) do
 			if (v.parent and nodeTable[v.parent]) then
-				nodeTable[v.category] = nodeTable[v.parent]:AddNode(v.category);
+				nodeTable[v.category] = nodeTable[v.parent]:AddNode(L(v.category));
 			elseif (!nodeTable[v.category]) then
-				nodeTable[v.category] = self.treeNode:AddNode(v.category);
+				nodeTable[v.category] = self.treeNode:AddNode(L(v.category));
 			end;
 			
 			if (!nodeTable[v.category].Initialized) then
@@ -199,7 +201,7 @@ function PANEL:Rebuild()
 				end;
 				
 				nodeTable[v.category].Initialized = true;
-				nodeTable[v.category]:SetText(friendlyName);
+				nodeTable[v.category]:SetText(L(friendlyName));
 				nodeTable[v.category].DoClick = function(node)
 					for k2, v2 in pairs(Clockwork.directory.stored) do
 						if (v2.category == v.category and (v2.isWebsite
