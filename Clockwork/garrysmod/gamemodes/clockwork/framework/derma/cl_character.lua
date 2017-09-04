@@ -1244,7 +1244,7 @@ function PANEL:SetAttributeTable(attributeTable)
 	if (attributeTable.image) then
 		self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
 		self.spawnIcon:SetToolTip(L(attributeTable.description));
-		self.spawnIcon:SetImage(attributeTable..".png");
+		self.spawnIcon:SetImage(attributeTable.image..".png");
 		self.spawnIcon:SetSize(24, 24);
 		self.spawnIcon:SetPos(0, 0);
 	end;
