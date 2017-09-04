@@ -811,3 +811,33 @@ CW_KOREAN["Shipment"] = "수송품";
 
 CW_KOREAN["CharNoDetailsToDisplay"] = "이 캐릭터는 표시할 설명이 없습니다.";
 CW_KOREAN["CharTooltipDetailsTitle"] = "자세히";
+
+CW_KOREAN["HelpCommands"] = "명령어";
+CW_KOREAN["HelpPlugins"] = "플러그인";
+CW_KOREAN["HelpFlags"] = "플레그";
+CW_KOREAN["HelpCredits"] = "크레딧";
+CW_KOREAN["HelpClockwork"] = "Clockwork";
+
+CW_KOREAN["HelpSelectCategory"] = "카테고리를 선택하세요.";
+CW_KOREAN["HelpPrivsMessage"] = "일부 카테고리는 특정 권한을 필요로 할 수도 있습니다.";
+
+CW_KOREAN["HelpTipClockwork"] = "Clockwork 프레임워크와 관련된 토픽이 적혀 있습니다.";
+CW_KOREAN["HelpTipCommands"] = "명령어의 용도와 인자가 적혀 있습니다..";
+
+CW_KOREAN["HelpFlagValue"] = "플래그";
+CW_KOREAN["HelpFlagDetails"] = "설명";
+
+CW_KOREAN["MenuNamePluginCenter"] = "플러그인 센터";
+CW_KOREAN["MenuDescPluginCenter"] = "Clockwork 플러그인을 탐색하고 구독하여 서버에 적용하는 탭입니다.";
+
+CW_KOREAN["MenuNameCommunity"] = "커뮤니티";
+CW_KOREAN["MenuDescCommunity"] = "Clockwork 커뮤니티와 포럼을 탐색하는 탭입니다..";
+
+CW_KOREAN["LimbStatus"] = "#1: #2%";
+CW_KOREAN["LimbRightArm"] = "오른쪽 팔";
+CW_KOREAN["LimbRightLeg"] = "오른쪽 다리";
+CW_KOREAN["LimbLeftArm"] = "왼쪽 팔";
+CW_KOREAN["LimbLeftLeg"] = "왼쪽 다리";
+CW_KOREAN["LimbStomach"] = "복부";
+CW_KOREAN["LimbChest"] = "흉부";
+CW_KOREAN["LimbHead"] = "머리";
