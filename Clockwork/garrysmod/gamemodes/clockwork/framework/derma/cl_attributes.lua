@@ -185,7 +185,7 @@ function PANEL:Init()
 	self.attribute = Clockwork.attribute:FindByID(self:GetParent().currentAttribute);
 
 	self:SetBackgroundColor(Color(80, 70, 60, 255));
-	self:SetToolTip(self.attribute.description);
+	self:SetToolTip(L(self.attribute.description));
 	self:SetSize(self:GetParent():GetWide() - 8, 48);
 	
 	local fontName = Clockwork.fonts:GetSize(
@@ -294,7 +294,7 @@ function PANEL:Init()
 	
 	if (self.attribute.image) then
 		self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
-		self.spawnIcon:SetToolTip(self.attribute.description);
+		self.spawnIcon:SetToolTip(L(self.attribute.description));
 		self.spawnIcon:SetImage(self.attribute.image..".png");
 		self.spawnIcon:SetSize(32, 32);
 		
