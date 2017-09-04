@@ -840,3 +840,6 @@ CW_ENGLISH["LimbLeftLeg"] = "Left Leg";
 CW_ENGLISH["LimbStomach"] = "Stomach";
 CW_ENGLISH["LimbChest"] = "Chest";
 CW_ENGLISH["LimbHead"] = "Head";
+
+CW_ENGLISH["ConfigNoHelpProvided"] = "No information was provided for this config!";
+CW_ENGLISH["ConfigClockworkCategory"] = "Clockwork";

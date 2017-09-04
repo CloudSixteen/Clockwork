@@ -30,20 +30,27 @@ if (CLIENT) then
 		self.adminValues = nil;
 		
 		self.infoText = vgui.Create("cwInfoText", systemPanel);
-			self.infoText:SetText(L("ConfigMenuHelp"));
-			self.infoText:SetInfoColor("blue");
-			self.infoText:DockMargin(0, 0, 0, 8);
+		self.infoText:SetText(L("ConfigMenuHelp"));
+		self.infoText:SetInfoColor("blue");
+		self.infoText:DockMargin(0, 0, 0, 8);
+		
 		systemPanel.panelList:AddItem(self.infoText);
 		
-		self.configForm = vgui.Create("DForm", systemPanel);
-			self.configForm:SetName(L("ConfigMenuTitle"));
-			self.configForm:SetPadding(4);
+		self.configForm = vgui.Create("cwBasicForm", systemPanel);
+		self.configForm:SetName(L("ConfigMenuTitle"));
+		self.configForm:SetPadding(4);
+		self.configForm:SetSpacing(8);
+		self.configForm:SetAutoSize(true);
+		
 		systemPanel.panelList:AddItem(self.configForm);
 
-		self.editForm = vgui.Create("DForm", systemPanel);
-			self.editForm:SetName("");
-			self.editForm:SetPadding(4);
-			self.editForm:SetVisible(false);
+		self.editForm = vgui.Create("cwBasicForm", systemPanel);
+		self.editForm:SetName("");
+		self.editForm:SetPadding(4);
+		self.editForm:SetVisible(false);
+		self.editForm:SetSpacing(8);
+		self.editForm:SetAutoSize(true);
+		
 		systemPanel.panelList:AddItem(self.editForm);
 		
 		if (!self.activeKey) then
@@ -51,11 +58,11 @@ if (CLIENT) then
 		end;
 
 		self.listView = vgui.Create("DListView");
-			self.listView:AddColumn(L("ConfigMenuListName"));
-			self.listView:AddColumn(L("ConfigMenuListKey"));
-			self.listView:AddColumn(L("ConfigMenuListAddedBy"));
-			self.listView:SetMultiSelect(false);
-			self.listView:SetTall(256);
+		self.listView:AddColumn(L("ConfigMenuListName"));
+		self.listView:AddColumn(L("ConfigMenuListKey"));
+		self.listView:AddColumn(L("ConfigMenuListAddedBy"));
+		self.listView:SetMultiSelect(false);
+		self.listView:SetTall(256);
 		self:PopulateComboBox();
 			
 		function self.listView.OnRowSelected(parent, lineID, line)
@@ -70,7 +77,6 @@ if (CLIENT) then
 
 		if (self.activeKey) then
 			self.adminValues = Clockwork.config:GetFromSystem(self.activeKey.name);
-			
 			self.infoText:SetText(L("ConfigMenuStartToEdit"));
 		end;
 
@@ -79,7 +85,7 @@ if (CLIENT) then
 		end;
 
 		if (self.adminValues) then
-			for k, v in pairs(string.Explode("\n", self.adminValues.help)) do
+			for k, v in pairs(string.Explode("\n", L(self.adminValues.help))) do
 				self.editForm:Help(v);
 			end;
 			
@@ -91,13 +97,14 @@ if (CLIENT) then
 				
 				if (valueType == "string") then
 					local textEntry = self.editForm:TextEntry(L("ConfigMenuValueText"));
-						textEntry:SetValue(self.activeKey.value);
 					local okayButton = self.editForm:Button(L("ConfigMenuOkayText"));
-						
+					
+					textEntry:SetValue(self.activeKey.value);
+					
 					-- Called when the button is clicked.
 					function okayButton.DoClick(okayButton)
 						Clockwork.datastream:Start("SystemCfgSet", {
-							key = self.activeKey.name,
+							key = self.activeKey.key,
 							value = textEntry:GetValue(),
 							useMap = mapEntry:GetValue()
 						});
@@ -110,7 +117,7 @@ if (CLIENT) then
 					-- Called when the button is clicked.
 					function okayButton.DoClick(okayButton)
 						Clockwork.datastream:Start("SystemCfgSet", {
-							key = self.activeKey.name,
+							key = self.activeKey.key,
 							value = numSlider:GetValue(),
 							useMap = mapEntry:GetValue()
 						});
@@ -123,7 +130,7 @@ if (CLIENT) then
 					-- Called when the button is clicked.
 					function okayButton.DoClick(okayButton)
 						Clockwork.datastream:Start("SystemCfgSet", {
-							key = self.activeKey.name,
+							key = self.activeKey.key,
 							value = checkBox:GetChecked(),
 							useMap = mapEntry:GetValue()
 						});
@@ -144,12 +151,12 @@ if (CLIENT) then
 				local adminValues = Clockwork.config:GetFromSystem(v);
 				
 				if (adminValues) then
-					local comboBoxItem = self.listView:AddLine(L(adminValues.name), v, adminValues.category);
+					local comboBoxItem = self.listView:AddLine(L(adminValues.name), v, L(adminValues.category));
 					
 					comboBoxItem:SetToolTip(L(adminValues.help));
 					comboBoxItem.key = v;
 					
-					if (self.activeKey and self.activeKey.name == v) then
+					if (self.activeKey and self.activeKey.key == v) then
 						defaultConfigItem = comboBoxItem;
 					end;
 				end;
