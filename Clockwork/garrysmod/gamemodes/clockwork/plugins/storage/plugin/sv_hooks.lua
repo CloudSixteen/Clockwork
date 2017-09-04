@@ -8,7 +8,8 @@
 
 -- Called when Clockwork has loaded all of the entities.
 function cwStorage:ClockworkInitPostEntity()
-	self:LoadStorage(); self.randomItems = {};
+	self:LoadStorage();
+	self.randomItems = {};
 	
 	for k, v in pairs(Clockwork.item:GetAll()) do
 		if (!v("isRareItem") and !v("isBaseItem")) then

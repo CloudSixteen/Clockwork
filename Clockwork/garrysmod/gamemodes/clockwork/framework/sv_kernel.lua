@@ -73,6 +73,10 @@ resource.AddWorkshop("474315121");
 --[[ Do this internally, because it's one less step for schemas. --]]
 AddCSLuaFile(cwKernel:GetSchemaGamemodePath().."/cl_init.lua");
 
+--[[ Add any requires resource files from the server. --]]
+Clockwork.kernel:AddFile("materials/clockwork/decrease.png");
+Clockwork.kernel:AddFile("materials/clockwork/increase.png");
+
 --[[
 	Derive from Sandbox, because we want the spawn menu and such!
 	We also want the base Sandbox entities and weapons.

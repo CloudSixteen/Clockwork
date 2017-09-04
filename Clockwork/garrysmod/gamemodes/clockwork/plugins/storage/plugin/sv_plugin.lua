@@ -111,6 +111,7 @@ end;
 -- A function to load the storage.
 function cwStorage:LoadStorage()
 	local storage = Clockwork.kernel:RestoreSchemaData("plugins/storage/"..game.GetMap());
+	
 	self.storage = {};
 	
 	for k, v in pairs(storage) do

@@ -1111,7 +1111,7 @@ function PANEL:Init()
 	local colorTargetID = Clockwork.option:GetColor("target_id");
 	local font = Clockwork.fonts:GetSize(Clockwork.option:GetFont("info_text_font"), 16);
 	
-	self:SetSize(self:GetWide(), 24);
+	self:SetSize(self:GetWide(), 32);
 	self.totalPoints = 0;
 	self.maximumPoints = 0;
 	self.attributeTable = nil;
@@ -1121,8 +1121,8 @@ function PANEL:Init()
 	Clockwork.kernel:CreateMarkupToolTip(self);
 	
 	self.addButton = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
-	self.addButton:SetMaterial("icon16/add.png");
-	self.addButton:SizeToContents();
+	self.addButton:SetMaterial("clockwork/increase.png");
+	self.addButton:SetSize(32, 32);
 	
 	-- Called when the button is clicked.
 	function self.addButton.DoClick(imageButton)
@@ -1130,8 +1130,8 @@ function PANEL:Init()
 	end;
 	
 	self.removeButton = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
-	self.removeButton:SetMaterial("icon16/exclamation.png");
-	self.removeButton:SizeToContents();
+	self.removeButton:SetMaterial("clockwork/decrease.png");
+	self.removeButton:SetSize(32, 32);
 	
 	-- Called when the button is clicked.
 	function self.removeButton.DoClick(imageButton)
@@ -1172,9 +1172,9 @@ function PANEL:Think()
 	end;
 	
 	self.pointsUsed:SetPos(self.removeButton.x + self.removeButton:GetWide() + 8, 0);
-	self.pointsUsed:SetSize(self:GetWide() - (self.pointsUsed.x * 2), 24);
+	self.pointsUsed:SetSize(self:GetWide() - self.pointsUsed.x - self.addButton:GetWide() - 8, 32);
 	self.pointsLabel:SetText(L(self.attributeTable.name));
-	self.pointsLabel:SetPos(self:GetWide() / 2 - self.pointsLabel:GetWide() / 2, self:GetTall() / 2 - self.pointsLabel:GetTall() / 2);
+	self.pointsLabel:SetPos(self.pointsUsed.x + ((self.pointsUsed:GetWide() / 2) - (self.pointsLabel:GetWide() / 2)), self:GetTall() / 2 - self.pointsLabel:GetTall() / 2);
 	self.pointsLabel:SizeToContents();
 	
 	self.addButton:SetPos(
@@ -1245,7 +1245,7 @@ function PANEL:SetAttributeTable(attributeTable)
 		self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
 		self.spawnIcon:SetToolTip(L(attributeTable.description));
 		self.spawnIcon:SetImage(attributeTable.image..".png");
-		self.spawnIcon:SetSize(24, 24);
+		self.spawnIcon:SetSize(32, 32);
 		self.spawnIcon:SetPos(0, 0);
 	end;
 end;
