@@ -848,3 +848,6 @@ CW_ENGLISH["HelpBugsIssues"] = "Bugs/Issues";
 CW_ENGLISH["HelpCloudSixteen"] = "Cloud Sixteen";
 CW_ENGLISH["HelpUpdates"] = "Cloud Sixteen";
 CW_ENGLISH["HelpCredits"] = "Credits";
+
+CW_ENGLISH["StorageTransfer"] = "Transfer";
+CW_ENGLISH["ConfigMenuPluginInfo"] = "Red plugins are unloaded, green ones are loaded, and orange are disabled.";

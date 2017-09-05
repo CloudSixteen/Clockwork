@@ -41,11 +41,11 @@ CW_SPANISH["PromoteFactionOnly"] = "¡Solo puedes ascender de rango a alguien de
 CW_SPANISH["YouCannotPromotePlayer"] = "¡No puedes ascender de rango a ese usuario!";
 CW_SPANISH["ForcePromoteAdminNeeded"] = "¡Tienes que ser administrador o superadministrador para ascender de rango a la fuerza!";
 
-CW_SPANISH["PlayerRemovedFromWhitelist"] = "#1 ha eliminado a #2 de la facción #3 ";
-CW_SPANISH["PlayerAddedToWhitelist"] = "#1 ha añadido a #2 a la facción #3 .";
-CW_SPANISH["PlayerAlreadyOnWhitelist"] = "#1 ya pertenece a la facción #2 ";
+CW_SPANISH["PlayerRemovedFromWhitelist"] = "#1 ha eliminado a #2 de la facción #3.";
+CW_SPANISH["PlayerAddedToWhitelist"] = "#1 ha añadido a #2 a la facción #3.";
+CW_SPANISH["PlayerAlreadyOnWhitelist"] = "#1 ya pertenece a la facción #2.";
 CW_SPANISH["FactionDoesNotHaveWhitelist"] = "¡#1 no pertenece a ninguna facción!";
-CW_SPANISH["PlayerNotOnWhitelist"] = "#1 no pertenece a la facción #2 ";
+CW_SPANISH["PlayerNotOnWhitelist"] = "#1 no pertenece a la facción #2.";
 
 CW_SPANISH["FactionIsNotValid"] = "¡#1 no es una facción válida!";
 CW_SPANISH["IdentifierIsNotValid"] = "¡#1 no es un identificador válido!";
@@ -456,7 +456,7 @@ CW_SPANISH["EnableAdminConsoleLog"] = "Activar el registro en consola (Admin)";
 CW_SPANISH["EnableAdminConsoleLogDesc"] = "Mostrar o no los registros de administración en la consola.";
 CW_SPANISH["EnableTwelveHourClock"] = "Activar reloj de 12 horas";
 CW_SPANISH["EnableTwelveHourClockDesc"] = "Mostrar o no mostrar el reloj de 12 horas.";
-CW_SPANISH["ShowTopBars"] = "Mostrar líneas superiores";
+CW_SPANISH["ShowTopBars"] = "Dibujar barras en la esquina superior izquierda";
 CW_SPANISH["ShowTopBarsDesc"] = "Mostrar o no mostrar las barras superiores.";
 CW_SPANISH["EnableHintsSystem"] = "Activar sistema de consejos";
 CW_SPANISH["EnableHintsSystemDesc"] = "Mostrar o no mostrar los consejos del sistema.";
@@ -840,3 +840,14 @@ CW_SPANISH["LimbLeftLeg"] = "Pierna izquierda";
 CW_SPANISH["LimbStomach"] = "Estómago";
 CW_SPANISH["LimbChest"] = "Torso";
 CW_SPANISH["LimbHead"] = "Cabeza";
+
+CW_SPANISH["ConfigNoHelpProvided"] = "¡No se ha proporcionado información para esta clave de configuración!";
+CW_SPANISH["ConfigClockworkCategory"] = "Clockwork";
+
+CW_SPANISH["HelpBugsIssues"] = "Errores/Problemas";
+CW_SPANISH["HelpCloudSixteen"] = "Cloud Sixteen";
+CW_SPANISH["HelpUpdates"] = "Cloud Sixteen";
+CW_SPANISH["HelpCredits"] = "Créditos";
+
+CW_SPANISH["StorageTransfer"] = "Transferir";
+CW_SPANISH["ConfigMenuPluginInfo"] = "Los plugins en rojo no están cargados, los verdes están cargados, y los naranjas están deshabilitados.";

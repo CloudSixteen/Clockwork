@@ -63,7 +63,7 @@ if (CLIENT) then
 		
 		if (#mainPlugins > 0) then
 			local label = vgui.Create("cwInfoText", systemPanel);
-				label:SetText("Red plugins are unloaded, green ones are loaded, and orange are disabled.");
+				label:SetText(L("ConfigMenuPluginInfo"));
 				label:SetInfoColor("blue");
 				label:DockMargin(0, 0, 0, 8);
 			systemPanel.panelList:AddItem(label);
