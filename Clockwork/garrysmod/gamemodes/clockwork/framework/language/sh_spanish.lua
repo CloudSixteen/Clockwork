@@ -848,3 +848,5 @@ CW_SPANISH["HelpBugsIssues"] = "Errores/Problemas";
 CW_SPANISH["HelpCloudSixteen"] = "Cloud Sixteen";
 CW_SPANISH["HelpUpdates"] = "Cloud Sixteen";
 CW_SPANISH["HelpCredits"] = "Créditos";
+
+CW_SPANISH["StorageTransfer"] = "Transferir";
