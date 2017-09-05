@@ -17,5 +17,5 @@ CW_SPANISH["NotValidClassOrFaction"] = "Esta clase o facción no es válida!";
 CW_SPANISH["YouAddedNameSpawnpoint"] = "Has creado un punto de spawn para #1.";
 CW_SPANISH["YouAddedDefaultSpawnpoint"] = "Has creado un punto de spawn por defecto.";
 
-CW_SPANISH["ShowSpawnPoints"] = "Mostrar puntos spawn";
+CW_SPANISH["ShowSpawnPoints"] = "Mostrar puntos spawn (ESP)";
 CW_SPANISH["ShowSpawnPointsDesc"] = "Mostrar o ocultar los puntos de spawn en el Admin ESP.";
