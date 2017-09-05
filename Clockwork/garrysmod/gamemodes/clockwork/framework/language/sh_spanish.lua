@@ -841,6 +841,9 @@ CW_SPANISH["LimbStomach"] = "Estómago";
 CW_SPANISH["LimbChest"] = "Torso";
 CW_SPANISH["LimbHead"] = "Cabeza";
 
+CW_ENGLISH["ConfigNoHelpProvided"] = "¡No se ha proporcionado información para esta clave de configuración!";
+CW_ENGLISH["ConfigClockworkCategory"] = "Clockwork";
+
 CW_SPANISH["HelpBugsIssues"] = "Errores/Problemas";
 CW_SPANISH["HelpCloudSixteen"] = "Cloud Sixteen";
 CW_SPANISH["HelpUpdates"] = "Cloud Sixteen";
