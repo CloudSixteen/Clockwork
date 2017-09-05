@@ -11,6 +11,7 @@ local Clockwork = Clockwork;
 local SYSTEM = Clockwork.system:New("ManagePlayers");
 
 SYSTEM.toolTip = "ManagePlayersHelp";
+SYSTEM.image = "clockwork/system/players";
 SYSTEM.doesCreateForm = false;
 
 -- Called to get whether the local player has access to the system.
@@ -59,7 +60,7 @@ function SYSTEM:OnDisplay(systemPanel, systemForm)
 		systemPanel.panelList:AddItem(label);
 		
 		for k, v in pairs(classes) do
-			local characterForm = vgui.Create("DForm", systemPanel);
+			local characterForm = vgui.Create("cwBasicForm", systemPanel);
 			local panelList = vgui.Create("DPanelList", systemPanel);
 			
 			for k2, v2 in pairs(v.players) do
@@ -83,17 +84,19 @@ function SYSTEM:OnDisplay(systemPanel, systemForm)
 			systemPanel.panelList:AddItem(characterForm);
 			
 			panelList:SetAutoSize(true);
-			panelList:SetPadding(4);
+			panelList:SetPadding(8);
 			panelList:SetSpacing(4);
 			
-			characterForm:SetName(v.name);
+			characterForm:SetText(v.name);
 			characterForm:AddItem(panelList);
-			characterForm:SetPadding(4); 
+			characterForm:SetPadding(8); 
+			characterForm:SetAutoSize(true);
 		end;
 	else
 		local label = vgui.Create("cwInfoText", systemPanel);
-			label:SetText(L("ManagePlayersNoPlayers"));
-			label:SetInfoColor("orange");
+		label:SetText(L("ManagePlayersNoPlayers"));
+		label:SetInfoColor("orange");
+		
 		systemPanel.panelList:AddItem(label);
 	end;
 end;

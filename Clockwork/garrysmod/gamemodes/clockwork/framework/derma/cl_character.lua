@@ -1609,11 +1609,12 @@ function PANEL:Init()
 			self.appearanceForm:Help(L("CharacterMenuModelHelp"));
 		
 			self.modelItemsList = vgui.Create("DPanelList", self);
-				self.modelItemsList:SetPadding(4);
-				self.modelItemsList:SetSpacing(16);
-				self.modelItemsList:SetAutoSize(true);
-				self.modelItemsList:EnableHorizontal(true);
-				self.modelItemsList:EnableVerticalScrollbar(true);
+			self.modelItemsList:SetPadding(4);
+			self.modelItemsList:SetSpacing(16);
+			self.modelItemsList:SetAutoSize(true);
+			self.modelItemsList:EnableHorizontal(true);
+			self.modelItemsList:EnableVerticalScrollbar(true);
+			
 			self.appearanceForm:AddItem(self.modelItemsList);
 		end;
 	end;
@@ -2094,11 +2095,12 @@ function PANEL:Init()
 	self.helpText = self.traitForm:Help(L("YouCanSpendMorePoints", maximumPoints));
 	
 	self.traitItemsList = vgui.Create("DPanelList", self);
-		self.traitItemsList:SetPadding(4);
-		self.traitItemsList:SetSpacing(16);
-		self.traitItemsList:SetAutoSize(true);
-		self.traitItemsList:EnableHorizontal(true);
-		self.traitItemsList:EnableVerticalScrollbar(true);
+	self.traitItemsList:SetPadding(4);
+	self.traitItemsList:SetSpacing(16);
+	self.traitItemsList:SetAutoSize(true);
+	self.traitItemsList:EnableHorizontal(true);
+	self.traitItemsList:EnableVerticalScrollbar(true);
+	
 	self.traitForm:AddItem(self.traitItemsList);
 	
 	self.categoryList:AddItem(self.traitForm);

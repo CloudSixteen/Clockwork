@@ -100,7 +100,7 @@ function PANEL:TextEntry(strLabel, strConVar)
 	if (strLabel) then
 		left = vgui.Create("DLabel", self);
 		left:SetText(strLabel);
-		left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
+		left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 18));
 		left:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
 		left:SizeToContents();
 		left:SetWide(left:GetWide() + 12);
@@ -126,7 +126,7 @@ function PANEL:ComboBox(strLabel, strConVar)
 	local left = vgui.Create("DLabel", self);
 	
 	left:SetText(strLabel);
-	left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
+	left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 18));
 	left:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
 	
 	local right = vgui.Create("DComboBox", self);
@@ -150,7 +150,7 @@ function PANEL:NumberWang(strLabel, strConVar, numMin, numMax, numDecimals)
 	local left = vgui.Create("DLabel", self);
 	
 	left:SetText(strLabel);
-	left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
+	left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 18));
 	left:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
 	
 	local right = vgui.Create("DNumberWang", self);
@@ -175,7 +175,7 @@ function PANEL:NumSlider(strLabel, strConVar, numMin, numMax, numDecimals)
 	
 	left:SetText(strLabel);
 	left:SetMinMax(numMin, numMax);
-	left.Label:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
+	left.Label:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 18));
 	left.Label:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
 	
 	if (numDecimals != nil) then
@@ -195,7 +195,7 @@ function PANEL:CheckBox(strLabel, strConVar)
 	local left = vgui.Create("DCheckBoxLabel", self);
 	
 	left:SetText(strLabel);
-	left.Label:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
+	left.Label:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 18));
 	left.Label:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
 	left:SetConVar(strConVar);
 
@@ -214,7 +214,7 @@ function PANEL:Help(strHelp)
 	left:SetContentAlignment(7);
 	left:SetAutoStretchVertical(true);
 	left:DockMargin(8, 0, 8, 8);
-	left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
+	left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 18));
 	left:SetTextColor(Clockwork.option:GetColor("basic_form_color_help"));
 	
 	self:AddLeftRight(left, nil);
@@ -242,7 +242,7 @@ function PANEL:ControlHelp(strHelp)
 	left:SetAutoStretchVertical(true);
 	left:DockMargin(32, 0, 32, 8);
 	left:Dock(TOP);
-	left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
+	left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 18));
 	left:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
 
 	table.insert(self.Items, panel);
@@ -279,7 +279,7 @@ function PANEL:ListBox(strLabel)
 		local left = vgui.Create("DLabel", self);
 		
 		left:SetText(strLabel);
-		left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 16));
+		left:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 18));
 		left:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
 		
 		self:AddLeftRight(left);

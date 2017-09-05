@@ -16,6 +16,7 @@ local GROUP_USER = 4;
 if (CLIENT) then
 	local SYSTEM = Clockwork.system:New("ManageGroups");
 	
+	SYSTEM.image = "clockwork/system/groups";
 	SYSTEM.toolTip = "ManageGroupsHelp";
 	SYSTEM.groupType = GROUP_USER;
 	SYSTEM.groupPage = 1;
@@ -37,14 +38,17 @@ if (CLIENT) then
 	function SYSTEM:OnDisplay(systemPanel, systemForm)
 		if (self.groupType == GROUP_USER) then
 			local label = vgui.Create("cwInfoText", systemPanel);
-				label:SetText(L("ManageGroupsSelectingGroup"));
-				label:SetInfoColor("blue");
-				label:DockMargin(0, 0, 0, 8);
+			label:SetText(L("ManageGroupsSelectingGroup"));
+			label:SetInfoColor("blue");
+			label:DockMargin(0, 0, 0, 8);
+			
 			systemPanel.panelList:AddItem(label);
 			
-			local userGroupsForm = vgui.Create("DForm", systemPanel);
-				userGroupsForm:SetName(L("ManageGroupsUserGroups"));
-				userGroupsForm:SetPadding(4);
+			local userGroupsForm = vgui.Create("cwBasicForm", systemPanel);
+			userGroupsForm:SetText(L("ManageGroupsUserGroups"));
+			userGroupsForm:SetPadding(8);
+			userGroupsForm:SetAutoSize(true);
+			
 			systemPanel.panelList:AddItem(userGroupsForm);
 			
 			local userGroups = {
@@ -55,16 +59,17 @@ if (CLIENT) then
 			
 			for k, v in pairs(userGroups) do
 				local groupButton = vgui.Create("DButton", systemPanel);
-					groupButton:SetToolTip(L("ManageGroupsManageWithin", v));
-					groupButton:SetText(v);
-					groupButton:SetWide(systemPanel:GetParent():GetWide());
+				groupButton:SetToolTip(L("ManageGroupsManageWithin", v));
+				groupButton:SetText(v);
+				groupButton:SetWide(systemPanel:GetParent():GetWide());
+			
+				-- Called when the button is clicked.
+				function groupButton.DoClick(button)
+					self.groupPlayers = nil;
+					self.groupType = k;
+					self:Rebuild();
+				end;
 				
-					-- Called when the button is clicked.
-					function groupButton.DoClick(button)
-						self.groupPlayers = nil;
-						self.groupType = k;
-						self:Rebuild();
-					end;
 				userGroupsForm:AddItem(groupButton);
 			end;
 		else
@@ -108,9 +113,11 @@ if (CLIENT) then
 					end;
 					
 					if (self.pageCount > 1) then
-						local pageForm = vgui.Create("DForm", systemPanel);
-							pageForm:SetName(L("PageCount", self.groupPage, self.pageCount));
-							pageForm:SetPadding(4);
+						local pageForm = vgui.Create("cwBasicForm", systemPanel);
+						pageForm:SetText(L("PageCount", self.groupPage, self.pageCount));
+						pageForm:SetPadding(8);
+						pageForm:SetAutoSize(true);
+						
 						systemPanel.panelList:AddItem(pageForm);
 						
 						if (self.isNext) then

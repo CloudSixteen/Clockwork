@@ -14,6 +14,7 @@ if (CLIENT) then
 	local SYSTEM = Clockwork.system:New("ColorModify");
 	
 	SYSTEM.access = ACCESS_FLAG;
+	SYSTEM.image = "clockwork/system/colormodify";
 	SYSTEM.toolTip = "ColorModifyHelp";
 	SYSTEM.doesCreateForm = false;
 	
@@ -50,20 +51,24 @@ if (CLIENT) then
 	-- Called when the system should be displayed.
 	function SYSTEM:OnDisplay(systemPanel, systemForm)
 		local infoText = vgui.Create("cwInfoText", systemPanel);
-			infoText:SetText("Changing these values will affect the color for all players.");
-			infoText:SetInfoColor("blue");
-			infoText:DockMargin(0, 0, 0, 8);
+		infoText:SetText(L("SystemColorModHelpText"));
+		infoText:SetInfoColor("blue");
+		infoText:DockMargin(0, 0, 0, 8);
+		
 		systemPanel.panelList:AddItem(infoText);
 		
 		local infoText = vgui.Create("cwInfoText", systemPanel);
-			infoText:SetText("Please note that this is for advanced users only.");
-			infoText:SetInfoColor("orange");
-			infoText:DockMargin(0, 0, 0, 8);
+		infoText:SetText(L("SystemColorModAdvOnly"));
+		infoText:SetInfoColor("orange");
+		infoText:DockMargin(0, 0, 0, 8);
+		
 		systemPanel.panelList:AddItem(infoText);
 		
-		self.colorModForm = vgui.Create("DForm", systemPanel);
-			self.colorModForm:SetName("Color");
-			self.colorModForm:SetPadding(4);
+		self.colorModForm = vgui.Create("cwBasicForm", systemPanel);
+		self.colorModForm:SetText(L("Color"));
+		self.colorModForm:SetPadding(8);
+		self.colorModForm:SetAutoSize(true);
+		
 		systemPanel.panelList:AddItem(self.colorModForm);
 		
 		local checkBox = self.colorModForm:CheckBox("Enabled");

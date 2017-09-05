@@ -1198,7 +1198,7 @@ Clockwork.chatBox:RegisterDefaultClass("notify_all", "ooc", function(info)
 	
 	local localized = Clockwork.chatBox:LangToTable("ChatPlayerNotifyAll", color, info.text);
 
-	Clockwork.chatBox:Add(filtered, "icon16/"..icon..".png", unpack(ChatPlayerNotifyAll));
+	Clockwork.chatBox:Add(filtered, "icon16/"..icon..".png", unpack(localized));
 end);
 
 Clockwork.chatBox:RegisterDefaultClass("notify", "ooc", function(info)

@@ -149,7 +149,7 @@ end;
 
 -- A function to get whether a string starts with a command.
 function cwDisplayTyping:DoesStartWithCommand(text, command)
-	if (string.utf8sub(newText, 1, string.utf8len(command)) == command) then
+	if (string.utf8sub(text, 1, string.utf8len(command)) == command) then
 		return true;
 	else
 		return false;

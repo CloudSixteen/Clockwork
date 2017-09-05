@@ -848,3 +848,10 @@ CW_ENGLISH["HelpBugsIssues"] = "Bugs/Issues";
 CW_ENGLISH["HelpCloudSixteen"] = "Cloud Sixteen";
 CW_ENGLISH["HelpUpdates"] = "Cloud Sixteen";
 CW_ENGLISH["HelpCredits"] = "Credits";
+
+CW_ENGLISH["SystemPluginsHelpText"] = "Red plugins are unloaded, green ones are loaded and orange are disabled.";
+CW_ENGLISH["SystemPluginsNoneInstalled"] = "There are no plugins installed on your server.";
+CW_ENGLISH["SystemColorModHelpText"] = "Changing these values will affect the color for all players.";
+CW_ENGLISH["SystemColorModAdvOnly"] = "Please note that this is for advanced users only.";
+CW_ENGLISH["InvalidPluginAuthor"] = "Invalid Author Name";
+CW_ENGLISH["Color"] = "Color";

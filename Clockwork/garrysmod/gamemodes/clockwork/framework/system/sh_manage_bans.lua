@@ -12,6 +12,7 @@ if (CLIENT) then
 	local SYSTEM = Clockwork.system:New();
 	
 	SYSTEM.name = "ManageBans";
+	SYSTEM.image = "clockwork/system/bans";
 	SYSTEM.toolTip = "ManageBansHelp";
 	SYSTEM.bannedPage = 1;
 	SYSTEM.bannedPlayers = nil;
@@ -71,9 +72,11 @@ if (CLIENT) then
 				end;
 				
 				if (self.pageCount > 1) then
-					local pageForm = vgui.Create("DForm", systemPanel);
-						pageForm:SetName(L("PageCount", self.bannedPage, self.pageCount));
-						pageForm:SetPadding(4);
+					local pageForm = vgui.Create("cwBasicForm", systemPanel);
+					pageForm:SetText(L("PageCount", self.bannedPage, self.pageCount));
+					pageForm:SetPadding(8);
+					pageForm:SetAutoSize(true);
+					
 					systemPanel.panelList:AddItem(pageForm);
 					
 					if (self.isNext) then

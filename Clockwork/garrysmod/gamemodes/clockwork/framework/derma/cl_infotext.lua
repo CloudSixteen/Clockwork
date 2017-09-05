@@ -30,6 +30,8 @@ function PANEL:Init()
 	self.label:SetFont(font);
 	self.label:SetTextColor(Clockwork.option:GetColor("white"));
 	self.label:SetExpensiveShadow(1, Color(0, 0, 0, 150));
+	
+	Clockwork.kernel:CreateMarkupToolTip(self);
 end;
 
 -- Called when the layout should be performed.

@@ -12,6 +12,7 @@ if (CLIENT) then
 	local SYSTEM = Clockwork.system:New("ManagePlugins");
 	
 	SYSTEM.toolTip = "ManagePluginsHelp";
+	SYSTEM.image = "clockwork/system/plugins";
 	SYSTEM.doesCreateForm = false;
 	
 	-- Called to get whether the local player has access to the system.
@@ -39,8 +40,14 @@ if (CLIENT) then
 		
 		for k, v in pairs(Clockwork.plugin:GetStored()) do
 			if (v != Schema) then
-				categories[v.author] = categories[v.author] or {};
-				categories[v.author][#categories[v.author] + 1] = v;
+				local category = v.author;
+				
+				if (string.find(category, "<font")) then
+					category = L("InvalidPluginAuthor");
+				end;
+			
+				categories[category] = categories[category] or {};
+				categories[category][#categories[category] + 1] = v;
 			end;
 		end;
 		
@@ -63,20 +70,22 @@ if (CLIENT) then
 		
 		if (#mainPlugins > 0) then
 			local label = vgui.Create("cwInfoText", systemPanel);
-				label:SetText("Red plugins are unloaded, green ones are loaded, and orange are disabled.");
-				label:SetInfoColor("blue");
-				label:DockMargin(0, 0, 0, 8);
+			label:SetText(L("SystemPluginsHelpText"));
+			label:SetInfoColor("blue");
+			label:DockMargin(0, 0, 0, 8);
+			
 			systemPanel.panelList:AddItem(label);
 			
 			for k, v in pairs(mainPlugins) do
-				local pluginForm = vgui.Create("DForm", systemPanel);
+				local pluginForm = vgui.Create("cwBasicForm", systemPanel);
 				local panelList = vgui.Create("DPanelList", systemPanel);
 				
 				for k2, v2 in pairs(v.plugins) do
 					self.pluginButtons[v2.name] = vgui.Create("cwInfoText", systemPanel);
-						self.pluginButtons[v2.name]:SetText(v2.name);
-						self.pluginButtons[v2.name]:SetButton(true);
-						self.pluginButtons[v2.name]:SetToolTip(v2.description);
+					self.pluginButtons[v2.name]:SetText(L(v2.name));
+					self.pluginButtons[v2.name]:SetButton(true);
+					self.pluginButtons[v2.name]:SetToolTip(L(v2.description));
+					
 					panelList:AddItem(self.pluginButtons[v2.name]);
 					
 					if (Clockwork.plugin:IsDisabled(v2.name)) then
@@ -103,17 +112,19 @@ if (CLIENT) then
 				systemPanel.panelList:AddItem(pluginForm);
 				
 				panelList:SetAutoSize(true);
-				panelList:SetPadding(4);
+				panelList:SetPadding(8);
 				panelList:SetSpacing(4);
 				
-				pluginForm:SetName(v.category);
+				pluginForm:SetText(v.category);
 				pluginForm:AddItem(panelList);
-				pluginForm:SetPadding(4);
+				pluginForm:SetPadding(8);
+				pluginForm:SetAutoSize(true);
 			end;
 		else
 			local label = vgui.Create("cwInfoText", systemPanel);
-				label:SetText("There are no plugins installed on the server.");
-				label:SetInfoColor("red");
+			label:SetText(L("SystemPluginsNoneInstalled"));
+			label:SetInfoColor("red");
+			
 			systemPanel.panelList:AddItem(label);
 		end;
 	end;

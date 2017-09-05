@@ -11,6 +11,7 @@ local Clockwork = Clockwork;
 if (CLIENT) then
 	local SYSTEM = Clockwork.system:New("ManageConfig");
 	
+	SYSTEM.image = "clockwork/system/config";
 	SYSTEM.toolTip = "ManageConfigHelp";
 	SYSTEM.doesCreateForm = false;
 	
@@ -37,16 +38,16 @@ if (CLIENT) then
 		systemPanel.panelList:AddItem(self.infoText);
 		
 		self.configForm = vgui.Create("cwBasicForm", systemPanel);
-		self.configForm:SetName(L("ConfigMenuTitle"));
-		self.configForm:SetPadding(4);
+		self.configForm:SetText(L("ConfigMenuTitle"));
+		self.configForm:SetPadding(8);
 		self.configForm:SetSpacing(8);
 		self.configForm:SetAutoSize(true);
 		
 		systemPanel.panelList:AddItem(self.configForm);
 
 		self.editForm = vgui.Create("cwBasicForm", systemPanel);
-		self.editForm:SetName("");
-		self.editForm:SetPadding(4);
+		self.editForm:SetText("");
+		self.editForm:SetPadding(8);
 		self.editForm:SetVisible(false);
 		self.editForm:SetSpacing(8);
 		self.editForm:SetAutoSize(true);
@@ -89,7 +90,7 @@ if (CLIENT) then
 				self.editForm:Help(v);
 			end;
 			
-			self.editForm:SetName(L(self.activeKey.name));
+			self.editForm:SetText(L(self.adminValues.name));
 			
 			if (self.activeKey.value != nil) then
 				local mapEntry = self.editForm:TextEntry(L("ConfigMenuMapText"));
@@ -97,7 +98,7 @@ if (CLIENT) then
 				
 				if (valueType == "string") then
 					local textEntry = self.editForm:TextEntry(L("ConfigMenuValueText"));
-					local okayButton = self.editForm:Button(L("ConfigMenuOkayText"));
+					local okayButton = self:AddOkayButton(self.editForm);
 					
 					textEntry:SetValue(self.activeKey.value);
 					
@@ -111,9 +112,10 @@ if (CLIENT) then
 					end;
 				elseif (valueType == "number") then
 					local numSlider = self.editForm:NumSlider("Value", nil, self.adminValues.minimum, self.adminValues.maximum, self.adminValues.decimals);
-						numSlider:SetValue(self.activeKey.value);
-					local okayButton = self.editForm:Button(L("ConfigMenuOkayText"));
+					numSlider:SetValue(self.activeKey.value);
 						
+					local okayButton = self:AddOkayButton(self.editForm);
+					
 					-- Called when the button is clicked.
 					function okayButton.DoClick(okayButton)
 						Clockwork.datastream:Start("SystemCfgSet", {
@@ -124,9 +126,10 @@ if (CLIENT) then
 					end;
 				elseif (valueType == "boolean") then
 					local checkBox = self.editForm:CheckBox(L("ConfigMenuOnText"));
-						checkBox:SetValue(self.activeKey.value);
-					local okayButton = self.editForm:Button(L("ConfigMenuOkayText"));
-						
+					checkBox:SetValue(self.activeKey.value);
+					
+					local okayButton = self:AddOkayButton(self.editForm);
+					
 					-- Called when the button is clicked.
 					function okayButton.DoClick(okayButton)
 						Clockwork.datastream:Start("SystemCfgSet", {
@@ -138,6 +141,20 @@ if (CLIENT) then
 				end;
 			end;
 		end;
+	end;
+	
+	-- A function to add an okay button to a form.
+	function SYSTEM:AddOkayButton(form)
+		local okayButton = vgui.Create("cwInfoText", self);
+		
+		okayButton:SetText(L("ConfigMenuOkayText"));
+		okayButton:SetButton(true);
+		okayButton:SetInfoColor("green");
+		okayButton:SetShowIcon(false);
+		
+		form:AddItem(okayButton);
+		
+		return okayButton;
 	end;
 	
 	-- A function to populate the system's combo box.

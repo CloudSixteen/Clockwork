@@ -18,7 +18,7 @@ function PANEL:Init()
 	self:SetSize(Clockwork.menu:GetWidth(), Clockwork.menu:GetHeight());
 	
 	self.panelList = vgui.Create("cwPanelList", self);
- 	self.panelList:SetPadding(4);
+ 	self.panelList:SetPadding(8);
  	self.panelList:StretchToParent(4, 4, 4, 4);
 	
 	Clockwork.system.panel = self;
@@ -31,82 +31,67 @@ function PANEL:Rebuild()
 	self.panelList:Clear();
 	
 	if (self.system) then
-		self.navigationForm = vgui.Create("DForm", self);
-			self.navigationForm:SetPadding(4);
-			self.navigationForm:SetName(L("SystemMenuNavigation"));
-			self.navigationForm:SetTall(100);
+		self.navigationForm = vgui.Create("cwBasicForm", self);
+		self.navigationForm:SetPadding(0);
+		self.navigationForm:SetName(L("SystemMenuNavigation"));
+		self.navigationForm:SetAutoSize(true);
+		
 		self.panelList:AddItem(self.navigationForm);
-	
-		local backButton = vgui.Create("DButton", self);
-			backButton:SetText(L("SystemMenuBackToNavigation"));
-			backButton:SetWide(self:GetParent():GetWide());
-			
-			-- Called when the button is clicked.
-			function backButton.DoClick(button)
-				self.system = nil;
-				self:Rebuild();
-			end;
+		
+		local backButton = vgui.Create("cwInfoText", self);
+		backButton:SetText(L("SystemMenuBackToNavigation"));
+		--systemButton:SetTextToLeft(true);
+		backButton:SetButton(true);
+		backButton:SetInfoColor("green");
+		backButton:SetShowIcon(false);
+		
+		-- Called when the button is clicked.
+		function backButton.DoClick(button)
+			self.system = nil;
+			self:Rebuild();
+		end;
+		
 		self.navigationForm:AddItem(backButton);
 		
 		local systemTable = Clockwork.system:FindByID(self.system);
 		
 		if (systemTable) then
 			if (systemTable.doesCreateForm) then
-				self.systemForm = vgui.Create("DForm", self);
-					self.systemForm:SetPadding(4);
-					self.systemForm:SetName(L(systemTable.name));
-					self.systemForm:SetTall(100);
+				self.systemForm = vgui.Create("cwBasicForm", self);
+				self.systemForm:SetPadding(8);
+				self.systemForm:SetName(L(systemTable.name));
+				self.systemForm:SetAutoSize(true);
+				
 				self.panelList:AddItem(self.systemForm);
 			end;
 			
 			systemTable:OnDisplay(self, self.systemForm);
 		end;
 	else
-		local label = vgui.Create("cwInfoText", self);
-			label:SetText(L("MenuDescSystem"));
-			label:SetInfoColor("blue");
-		self.panelList:AddItem(label);
-		
-		local totalY = 0;
+		self.rootMenuList = vgui.Create("DPanelList", self);
+		self.rootMenuList:SetPadding(24);
+		self.rootMenuList:SetSpacing(48);
+		self.rootMenuList:SetAutoSize(true);
+		self.rootMenuList:EnableHorizontal(true);
 		
 		for k, v in pairs(Clockwork.system:GetAll()) do
-			self.systemCategoryForm = vgui.Create("DForm", self);
-				self.systemCategoryForm:SetPadding(4);
-				self.systemCategoryForm:SetName(L(v.name));
-				self.systemCategoryForm:SetTall(100);
-			self.panelList:AddItem(self.systemCategoryForm);
+			local item = vgui.Create("cwSystemItem", self);
 			
-			local tooltip = self.systemCategoryForm:Help(L(v.toolTip));
-
-			tooltip:SetFont(Clockwork.fonts:GetSize(Clockwork.option:GetFont("menu_text_tiny"), 18));
-			tooltip:SetTextColor(Clockwork.option:GetColor("basic_form_color"));
+			item:SetSystemTable(v);
 			
-			local systemButton = vgui.Create("cwInfoText", systemPanel);
-				systemButton:SetText(L("Open"));
-				systemButton:SetTextToLeft(true);
-				
-				if (v:HasAccess()) then
-					systemButton:SetButton(true);
-					systemButton:SetInfoColor("green");
-					systemButton:SetToolTip(L("ClickToOpenSystemPanel"));
-					
-					-- Called when the button is clicked.
-					function systemButton.DoClick(button)
-						self.system = v.name;
-						self:Rebuild();
-					end;
-				else
-					systemButton:SetInfoColor("red");
-					systemButton:SetToolTip(L("SystemMenuNoAccess"));
-				end;
-				
-				systemButton:SetShowIcon(false);
-			self.systemCategoryForm:AddItem(systemButton);
+			if (v:HasAccess()) then
+				item:SetOnPressed(function()
+					self.system = v.name;
+					self:Rebuild();
+				end);
+			else
+				item:SetColor(Color(255, 0, 0, 255));
+			end;
 			
-			--self.systemCategoryForm:SetPos(0, totalY);
-			
-			--totalY = totalY + 100;
+			self.rootMenuList:AddItem(item);
 		end;
+		
+		self.panelList:AddItem(self.rootMenuList);
 	end;
 	
 	self.panelList:InvalidateLayout(true);
