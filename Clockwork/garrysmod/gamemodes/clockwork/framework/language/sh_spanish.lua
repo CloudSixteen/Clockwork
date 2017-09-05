@@ -850,3 +850,4 @@ CW_SPANISH["HelpUpdates"] = "Cloud Sixteen";
 CW_SPANISH["HelpCredits"] = "Créditos";
 
 CW_SPANISH["StorageTransfer"] = "Transferir";
+CW_SPANISH["ConfigMenuPluginInfo"] = "Los plugins en rojo no están cargados, los verdes están cargados, y los naranjas están deshabilitados.";
