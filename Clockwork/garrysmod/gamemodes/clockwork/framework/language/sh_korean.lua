@@ -688,7 +688,9 @@ CW_KOREAN["CraftingDescriptionDesc"] = "제작 메뉴의 설명에 대한 값입
 CW_KOREAN["CraftingEnabled"] = "제작 활성화";
 CW_KOREAN["CraftingEnabledDesc"] = "제작을 사용할지에 대한 여부입니다.";
 CW_KOREAN["CraftingName"] = "제작 메뉴 이름";
-CW_KOREAN["CraftingNameDesc"] = "제작 메뉴를 여는 버튼의 이름에 대한 값입니다/";
+CW_KOREAN["CraftingNameDesc"] = "제작 메뉴를 여는 버튼의 이름에 대한 값입니다.";
+CW_KOREAN["MaxCharName"] = "캐릭터 이름 제한";
+CW_KOREAN["MaxCharNameDesc"] = "캐릭터의 이름의 최대 길이에 대한 값입니다.";
 
 CW_KOREAN["HintOOC"] = "OOC로 대화하려면 // 뒤에 할말을 붙혀 OOC 대화를 할 수 있습니다.";
 CW_KOREAN["HintLOOC"] = "LOOC로 대화하려면 .// 뒤에 할말을 붙혀 LOOC 대화를 할 수 있습니다.";
@@ -822,7 +824,7 @@ CW_KOREAN["HelpSelectCategory"] = "카테고리를 선택하세요.";
 CW_KOREAN["HelpPrivsMessage"] = "일부 카테고리는 특정 권한을 필요로 할 수도 있습니다.";
 
 CW_KOREAN["HelpTipClockwork"] = "Clockwork 프레임워크와 관련된 토픽이 적혀 있습니다.";
-CW_KOREAN["HelpTipCommands"] = "명령어의 용도와 인자가 적혀 있습니다..";
+CW_KOREAN["HelpTipCommands"] = "명령어의 용도와 인자가 적혀 있습니다.";
 
 CW_KOREAN["HelpFlagValue"] = "플래그";
 CW_KOREAN["HelpFlagDetails"] = "설명";
@@ -841,3 +843,11 @@ CW_KOREAN["LimbLeftLeg"] = "왼쪽 다리";
 CW_KOREAN["LimbStomach"] = "복부";
 CW_KOREAN["LimbChest"] = "흉부";
 CW_KOREAN["LimbHead"] = "머리";
+
+CW_KOREAN["ConfigNoHelpProvided"] = "이 설정에 대한 정보가 없습니다.";
+CW_KOREAN["ConfigClockworkCategory"] = "Clockwork";
+
+CW_KOREAN["HelpBugsIssues"] = "버그/이슈";
+CW_KOREAN["HelpCloudSixteen"] = "Cloud Sixteen";
+CW_KOREAN["HelpUpdates"] = "Cloud Sixteen";
+CW_KOREAN["HelpCredits"] = "크레딧";
