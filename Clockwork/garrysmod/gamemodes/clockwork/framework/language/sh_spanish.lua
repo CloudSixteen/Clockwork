@@ -456,7 +456,7 @@ CW_SPANISH["EnableAdminConsoleLog"] = "Activar el registro en consola (Admin)";
 CW_SPANISH["EnableAdminConsoleLogDesc"] = "Mostrar o no los registros de administración en la consola.";
 CW_SPANISH["EnableTwelveHourClock"] = "Activar reloj de 12 horas";
 CW_SPANISH["EnableTwelveHourClockDesc"] = "Mostrar o no mostrar el reloj de 12 horas.";
-CW_SPANISH["ShowTopBars"] = "Mostrar líneas superiores";
+CW_SPANISH["ShowTopBars"] = "Dibujar barras en esquina superior izquierda";
 CW_SPANISH["ShowTopBarsDesc"] = "Mostrar o no mostrar las barras superiores.";
 CW_SPANISH["EnableHintsSystem"] = "Activar sistema de consejos";
 CW_SPANISH["EnableHintsSystemDesc"] = "Mostrar o no mostrar los consejos del sistema.";
@@ -840,3 +840,20 @@ CW_SPANISH["LimbLeftLeg"] = "Pierna izquierda";
 CW_SPANISH["LimbStomach"] = "Estómago";
 CW_SPANISH["LimbChest"] = "Torso";
 CW_SPANISH["LimbHead"] = "Cabeza";
+
+CW_ENGLISH["ConfigNoHelpProvided"] = "¡No se ha proporcionado información para esta clave de configuración!";
+CW_ENGLISH["ConfigClockworkCategory"] = "Clockwork";
+
+CW_SPANISH["HelpBugsIssues"] = "Errores/Problemas";
+CW_SPANISH["HelpCloudSixteen"] = "Cloud Sixteen";
+CW_SPANISH["HelpUpdates"] = "Cloud Sixteen";
+CW_SPANISH["HelpCredits"] = "Créditos";
+
+CW_SPANISH["SystemPluginsHelpText"] = "Los plugins en rojo no están cargados, los verdes están cargados, y los naranjas están deshabilitados.";
+CW_SPANISH["SystemPluginsNoneInstalled"] = "No hay plugins instalados en tu servidor.";
+CW_SPANISH["SystemColorModHelpText"] = "Cambiar estos valores afectará el color para todos los jugadores.";
+CW_SPANISH["SystemColorModAdvOnly"] = "Ten en cuenta que estas opciones son únicamente para usuarios avanzados.";
+CW_SPANISH["InvalidPluginAuthor"] = "Nombre de autor inválido";
+CW_SPANISH["Color"] = "Color";
+
+CW_SPANISH["StorageTransfer"] = "Transferir";
