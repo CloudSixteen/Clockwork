@@ -156,7 +156,7 @@ function PANEL:RebuildPanel(storagePanel, storageType, usedWeight, weight, usedS
 		cashForm = vgui.Create("DForm", storagePanel);
 		button = vgui.Create("DButton", storagePanel);
 		
-		button:SetText("Transfer");
+		button:SetText(L("StorageTransfer"));
 		button.Stretch = true;
 		
 		-- Called when the button is clicked.
