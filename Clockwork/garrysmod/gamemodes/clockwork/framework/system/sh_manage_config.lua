@@ -111,7 +111,7 @@ if (CLIENT) then
 						});
 					end;
 				elseif (valueType == "number") then
-					local numSlider = self.editForm:NumSlider("Value", nil, self.adminValues.minimum, self.adminValues.maximum, self.adminValues.decimals);
+					local numSlider = self.editForm:NumSlider(L("ConfigMenuValueText"), nil, self.adminValues.minimum, self.adminValues.maximum, self.adminValues.decimals);
 					numSlider:SetValue(self.activeKey.value);
 						
 					local okayButton = self:AddOkayButton(self.editForm);
