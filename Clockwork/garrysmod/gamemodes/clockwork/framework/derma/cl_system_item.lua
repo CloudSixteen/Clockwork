@@ -10,6 +10,8 @@ local PANEL = {};
 
 -- A function to set the panel's system table.
 function PANEL:SetSystemTable(systemTable)
+	self:NoClipping(false);
+
 	self.backgroundButton:SetToolTip(L(systemTable.toolTip));
 	self.backgroundButton:SetImage(systemTable.image..".png");
 	self.backgroundButton:SetSize(128, 128);
@@ -18,6 +20,8 @@ function PANEL:SetSystemTable(systemTable)
 	self.titleLabel:SizeToContents();
 	self.titleLabel.x = (self.backgroundButton:GetWide() / 2) - (self.titleLabel:GetWide() / 2);
 	self.titleLabel.y = self.backgroundButton.y + self.backgroundButton:GetTall() + 8;
+	
+	self.titleLabel:NoClipping(false);
 	
 	self:SetSize(128, self.titleLabel.y + self.titleLabel:GetTall());
 end;

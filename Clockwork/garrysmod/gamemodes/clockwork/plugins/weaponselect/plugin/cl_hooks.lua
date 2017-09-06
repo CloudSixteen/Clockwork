@@ -29,7 +29,7 @@ function cwWeaponSelect:HUDPaintImportant()
 		return;
 	end;
 	
-	Clockwork.kernel:OverrideMainFont(Clockwork.option:GetFont("menu_text_tiny"));
+	Clockwork.kernel:OverrideMainFont(Clockwork.option:GetFont("target_id_text"));
 	
 	for k, v in pairs(weapons) do
 		newWeapons[#newWeapons + 1] = v;
@@ -132,7 +132,7 @@ function cwWeaponSelect:HUDPaintImportant()
 				
 				if (#newWeapons == 1) then
 					y = Clockwork.kernel:DrawInfo(
-						"There are no other weapons.", x, y, colorWhite, self.displayAlpha, true,
+						L("ThereAreNoOtherWeapons"), x, y, colorWhite, self.displayAlpha, true,
 						function(x, y, width, height)
 							Clockwork.plugin:Call("DrawWeaponList", x, y, width, height, self.displayAlpha, "current");
 							

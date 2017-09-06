@@ -858,3 +858,8 @@ CW_ENGLISH["Color"] = "Color";
 
 CW_ENGLISH["ChatPlayerItC"] = ":color1:*' #1";
 CW_ENGLISH["StorageTransfer"] = "Transfer";
+
+CW_ENGLISH["CraftErrorNotAllowed"] = "You do not have the required access to this!";
+CW_ENGLISH["YouCannotAffordToDoThat"] = "You cannot afford to do that!";
+CW_ENGLISH["MissingItemRequirements"] = "You are missing some requirements!";
+CW_ENGLISH["MissingItemRequirements"] = "You are missing some requirements!";

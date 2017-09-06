@@ -173,13 +173,13 @@ end;
 --]]
 function Clockwork.crafting:CanCraft(player, blueprintTable)
 	if (!Clockwork.kernel:HasObjectAccess(Clockwork.Client, blueprintTable)) then
-		return false, "You are not allowed to craft this!";
+		return false, {"CraftErrorNotAllowed"};
 	end;
-
+	
 	local requirements = blueprintTable.itemRequirements;
 	
 	if (player:GetCash() < blueprintTable.takeCash) then
-		return false, "Not enough cash.";
+		return false, {"YouCannotAffordToDoThat"};
 	end;
 	
 	local canCraft = false;
@@ -191,13 +191,13 @@ function Clockwork.crafting:CanCraft(player, blueprintTable)
 				canCraft, itemsChecked[#itemsChecked + 1] = Clockwork.crafting:CheckCanCraft(player, v, 1);
 				
 				if (!canCraft) then
-					return false, "Missing item requirements.";
+					return false, {"MissingItemRequirements"};
 				end;
 			elseif (type(k) == "string" and type(v) == "number") then
 				canCraft, itemsChecked[#itemsChecked + 1] = Clockwork.crafting:CheckCanCraft(player, k, v);
 				
 				if (!canCraft) then
-					return false, "Missing item requirements.";
+					return false, {"MissingItemRequirements"};
 				end;
 			elseif (type(v) == "table") then
 				local amount, item = nil;
@@ -206,13 +206,13 @@ function Clockwork.crafting:CanCraft(player, blueprintTable)
 					canCraft, itemsChecked[#itemsChecked + 1] = Clockwork.crafting:CheckCanCraft(player, v[2], v[1]);
 					
 					if (!canCraft) then
-						return false, "Missing item requirements.";
+						return false, {"MissingItemRequirements"};
 					end;
 				elseif (type(v[2]) == "number") then
 					canCraft, itemsChecked[#itemsChecked + 1] = Clockwork.crafting:CheckCanCraft(player, v[1], v[2]);
 					
 					if (!canCraft) then
-						return false, "Missing item requirements.";
+						return false, {"MissingItemRequirements"};
 					end;
 				end;
 			end;
@@ -221,7 +221,7 @@ function Clockwork.crafting:CanCraft(player, blueprintTable)
 		canCraft, itemsChecked[#itemsChecked + 1] = Clockwork.crafting:CheckCanCraft(player, requirements, 1);
 		
 		if (!canCraft) then
-			return false, "Missing item requirements.";
+			return false, {"MissingItemRequirements"};
 		end;
 	end;
 	
@@ -245,11 +245,11 @@ function Clockwork.crafting:CanCraft(player, blueprintTable)
 	end;
 	
 	if (!player:CanHoldWeight(itemsWeight)) then
-		return false, "Too heavy for inventory.";
+		return false, {"YourInventoryFull"};
 	end;
 	
 	if (!player:CanHoldSpace(itemsSpace)) then
-		return false, "Not enough inventory space.";
+		return false, {"YourInventoryFull"};
 	end;
 	
 	return true, "";
@@ -482,14 +482,14 @@ end;
 	@param Bool Whether blueprint being created is a base blueprint.
 	@returns {Table} Blueprint just created.
 --]]
-function Clockwork.crafting:New(baseBlueprint, bIsBaseBlueprint)
+function Clockwork.crafting:New(baseBlueprint, isBaseBlueprint)
 	local object = Clockwork.kernel:NewMetaTable(CLASS_TABLE);
 	
 	object.networkQueue = {};
 	object.networkData = {};
 	object.defaultData = {};
 	object.queryProxies = {};
-	object.isBaseBlueprint = bIsBaseBlueprint;
+	object.isBaseBlueprint = isBaseBlueprint;
 	object.baseBlueprint = baseBlueprint;
 	object.data = {};
 	
@@ -504,6 +504,7 @@ end;
 function Clockwork.crafting:Register(blueprintTable)
 	blueprintTable.uniqueID = string.lower(string.gsub(blueprintTable.uniqueID or string.gsub(blueprintTable.name, "%s", "_"), "['%.]", ""));
 	blueprintTable.index = Clockwork.kernel:GetShortCRC(blueprintTable.uniqueID);
+	
 	self.stored[blueprintTable.uniqueID] = blueprintTable;
 	self.buffer[blueprintTable.index] = blueprintTable;
 	
