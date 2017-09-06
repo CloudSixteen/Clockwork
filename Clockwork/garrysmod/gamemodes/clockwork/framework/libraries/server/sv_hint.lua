@@ -45,7 +45,7 @@ end;
 	@codebase Server
 	@details Find a hint by its identifier.
 	@param String A unique identifier.
-	@returns Table The hint table matching the identifier.
+	@returns {Table} The hint table matching the identifier.
 --]]
 function Clockwork.hint:Find(name)
 	return self.stored[name];
@@ -74,10 +74,10 @@ end;
 --[[
 	@codebase Server
 	@details Send customized and centered hint text to a player.
-	@param Player The recipient(s).
+	@param {Player} The recipient(s).
 	@param String The hint text to send.
-	@param Float The delay before it fades.
-	@param Color The color of the hint text.
+	@param {Float} The delay before it fades.
+	@param {Color} The color of the hint text.
 	@option Bool:String Specify a custom sound or false for no sound.
 	@option Bool Specify wether to display duplicates of this hint.
 --]]
@@ -96,8 +96,8 @@ end;
 	@codebase Server
 	@details Send customized and centered hint text to all players.
 	@param String The hint text to send.
-	@param Float The delay before it fades.
-	@param Color The color of the hint text.
+	@param {Float} The delay before it fades.
+	@param {Color} The color of the hint text.
 --]]
 function Clockwork.hint:SendCenterAll(text, delay, color)
 	for k, v in pairs(cwPlayer.GetAll()) do
@@ -110,10 +110,10 @@ end;
 --[[
 	@codebase Server
 	@details Send customized hint text to a player.
-	@param Player The recipient(s).
+	@param {Player} The recipient(s).
 	@param String The hint text to send.
-	@param Float The delay before it fades.
-	@param Color The color of the hint text.
+	@param {Float} The delay before it fades.
+	@param {Color} The color of the hint text.
 	@option Bool:String Specify a custom sound or false for no sound.
 	@option Bool Specify wether to display duplicates of this hint.
 --]]
@@ -132,8 +132,8 @@ end;
 	@codebase Server
 	@details Send customized hint text to all players.
 	@param String The hint text to send.
-	@param Float The delay before it fades.
-	@param Color The color of the hint text.
+	@param {Float} The delay before it fades.
+	@param {Color} The color of the hint text.
 --]]
 function Clockwork.hint:SendAll(text, delay, color)
 	for k, v in pairs(cwPlayer.GetAll()) do
@@ -146,8 +146,8 @@ end;
 --[[
 	@codebase Server
 	@details Pick a random hint from the list.
-	@returns String The random hint text.
-	@returns Function The random hint callback.
+	@returns {String} The random hint text.
+	@returns {Function} The random hint callback.
 --]]
 function Clockwork.hint:Get()
 	local hints = {};

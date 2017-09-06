@@ -5520,7 +5520,7 @@ Clockwork.player.characterData = Clockwork.player.characterData or {};
 	@codebase Shared
 	@details Add a new character data type that can be synced over the network.
 	@param String The name of the data type (can be pretty much anything.)
-	@param Int The type of the object (must be a type of NWTYPE_* enum).
+	@param {Number} The type of the object (must be a type of NWTYPE_* enum).
 	@param Various The default value of the data type.
 	@param Function Alter the value that gets networked.
 	@param Bool Whether or not the data is networked to the player only (defaults to false.)
@@ -5538,7 +5538,7 @@ end;
 	@codebase Shared
 	@details Add a new player data type that can be synced over the network.
 	@param String The name of the data type (can be pretty much anything.)
-	@param Int The type of the object (must be a type of NWTYPE_* enum).
+	@param {Number} The type of the object (must be a type of NWTYPE_* enum).
 	@param Various The default value of the data type.
 	@param Function Alter the value that gets networked.
 	@param Bool Whether or not the data is networked to the player only (defaults to false.)

@@ -716,7 +716,7 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to send an item update to it's observers.
-		@returns Table The table of observers.
+		@returns {Table} The table of observers.
 	--]]
 	function Clockwork.item:SendUpdate(itemTable, data)
 		local info = {

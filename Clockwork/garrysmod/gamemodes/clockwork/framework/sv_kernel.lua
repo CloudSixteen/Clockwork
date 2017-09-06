@@ -602,7 +602,7 @@ function Clockwork:ClockworkItemInitialized(itemTable) end;
 --[[
 	@codebase Server
 	@details Called after Clockwork items have been initialized.
-	@param Table The table of items that have been initialized.
+	@param {Table} The table of items that have been initialized.
 --]]
 function Clockwork:ClockworkPostItemsInitialized(itemsTable) end;
 
@@ -5164,7 +5164,7 @@ end;
 --[[
 	@codebase Server
 	@details Called when a player presses a button down.
-	@param Player The player that is pressing a button.
+	@param {Player} The player that is pressing a button.
 	@param Enum The button that was pressed.
 --]]
 function Clockwork:PlayerButtonDown(player, button)
@@ -5186,7 +5186,7 @@ end;
 --[[
 	@codebase Server
 	@details Called to determine whether or not a player can quickly raise their weapon by pressing the x button.
-	@param Player The player that is attempting to quickly raise their weapon.
+	@param {Player} The player that is attempting to quickly raise their weapon.
 	@param Weapon The player's current active weapon.
 --]]
 function Clockwork:PlayerCanQuickRaise(player, weapon) return true end;
@@ -5261,8 +5261,8 @@ end;
 --[[
 	@codebase Server
 	@details Called when an attribute is progressed to edit the amount it is progressed by.
-	@param Player The player that has progressed the attribute.
-	@param Table The attribute table of the attribute being progressed.
+	@param {Player} The player that has progressed the attribute.
+	@param {Table} The attribute table of the attribute being progressed.
 	@param Number The amount that is being progressed for editing purposes.
 --]]
 function Clockwork:OnAttributeProgress(player, attribute, amount)
@@ -5272,7 +5272,7 @@ end;
 --[[
 	@codebase Server
 	@details Called to add ammo types to be checked for and saved.
-	@param Table The table filled with the current ammo types.
+	@param {Table} The table filled with the current ammo types.
 --]]
 function Clockwork:AdjustAmmoTypes(ammoTable)
 	ammoTable["sniperpenetratedround"] = true;
@@ -5301,9 +5301,9 @@ end;
 --[[
 	@codebase Server
 	@details Called after a player uses a command.
-	@param Player The player that used the commmand.
-	@param Table The table of the command that is being used.
-	@param Table The arguments that have been given with the command, if any.
+	@param {Player} The player that used the commmand.
+	@param {Table} The table of the command that is being used.
+	@param {Table} The arguments that have been given with the command, if any.
 --]]
 function Clockwork:PostCommandUsed(player, command, arguments) end;
 

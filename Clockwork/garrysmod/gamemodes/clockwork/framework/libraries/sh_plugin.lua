@@ -38,7 +38,7 @@ local hookCache = {};
 --[[
 	@codebase Shared
 	@details A function to get the local stored table that contains all registered plugins.
-	@returns Table The local stored plugin table.
+	@returns {Table} The local stored plugin table.
 --]]
 function Clockwork.plugin:GetStored()
 	return stored;
@@ -47,7 +47,7 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get the local plugin module table that contains all registered plugin modules.
-	@returns Table The local plugin module table.
+	@returns {Table} The local plugin module table.
 --]]
 function Clockwork.plugin:GetModules()
 	return modules;
@@ -56,7 +56,7 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get the local unloaded table that contains all unloaded plugins.
-	@returns Table The local stored unloaded plugin table.
+	@returns {Table} The local stored unloaded plugin table.
 --]]
 function Clockwork.plugin:GetUnloaded()
 	return unloaded;
@@ -65,7 +65,7 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get the extras that will be included in each plugin.
-	@returns Table The local table of extras to be searched for in plugins.
+	@returns {Table} The local table of extras to be searched for in plugins.
 --]]
 function Clockwork.plugin:GetExtras()
 	return extras;
@@ -74,7 +74,7 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get the local plugin hook cache.
-	@returns Table The local plugin hook cache table.
+	@returns {Table} The local plugin hook cache table.
 --]]
 function Clockwork.plugin:GetHookCache()
 	return hookCache;

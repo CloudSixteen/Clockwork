@@ -32,10 +32,10 @@ if (CLIENT) then
 	--[[
 		@codebase Client
 		@details A function to get a weapon's muzzle position from its viewmodel.
-		@param Entity The player's current weapon.
-		@param Entity The player's attachment on the weapon.
-		@returns Vector The coordinates of weapon's muzzle position.
-		@returns Angle The angle of the weapon's muzzle position.
+		@param {Entity} The player's current weapon.
+		@param {Entity} The player's attachment on the weapon.
+		@returns {Vector} The coordinates of weapon's muzzle position.
+		@returns {Angle} The angle of the weapon's muzzle position.
 	--]]
 	function Clockwork.entity:GetMuzzlePos(weapon, attachment)
 		if (!IsValid(weapon)) then
@@ -69,7 +69,7 @@ else
 	--[[
 		@codebase Server
 		@details A function to get all door entities which are stored from server start.
-		@return Table A list of all door entities.
+		@returns {Table} A list of all door entities.
 	--]]
 	function Clockwork.entity:GetDoorEntities()
 		return self.DoorEntities or {};
@@ -79,8 +79,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to check if an entity is a door or not by seeing if its name includes "door" or if the entity is one of the following classes: "func_door", "func_door_rotating", "prop_door_rotating", "func_movelinear"
-	@param Entity The entity being check as a door.
-	@returns Bool Whether the entity is a door or not.
+	@param {Entity} The entity being check as a door.
+	@returns {Bool} Whether the entity is a door or not.
 --]]
 function Clockwork.entity:IsDoor(entity)
 	if (IsValid(entity)) then
@@ -106,8 +106,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get whether an entity is decaying by being in the process of fading out and being removed.
-	@param Entity The entity being checked as decaying or not.
-	@returns Bool Whether or not the entity is decaying.
+	@param {Entity} The entity being checked as decaying or not.
+	@returns {Bool} Whether or not the entity is decaying.
 --]]
 function Clockwork.entity:IsDecaying(entity)
 	return entity.cwIsDecaying;
@@ -116,8 +116,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get a door entity's partners which are doors that open along with it.
-	@param Entity The entity to get the door partners from.
-	@return Table A list of partners on the door entity.
+	@param {Entity} The entity to get the door partners from.
+	@returns {Table} A list of partners on the door entity.
 --]]
 function Clockwork.entity:GetDoorPartners(entity)
 	local doorPartners = {entity};
@@ -148,10 +148,10 @@ end;
 --[[
 	@codebase Shared
 	@details A function to check if an entity is in a specified box area.
-	@param Entity The entity to check if it's in a box.
-	@param Int Minimum position to check in.
-	@param Int Maximum position to check in.
-	@returns Bool Whether or not an entity is within the defined box.
+	@param {Entity} The entity to check if it's in a box.
+	@param {Number} Minimum position to check in.
+	@param {Number} Maximum position to check in.
+	@returns {Bool} Whether or not an entity is within the defined box.
 --]]
 function Clockwork.entity:IsInBox(entity, minimum, maximum)
 	local position = entity:GetPos();
@@ -172,8 +172,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get a ragdoll entity's pelvis position.
-	@param Entity The entity to get the pelvis position from.
-	@returns Vector Coordinates of the entity's pelvis.
+	@param {Entity} The entity to get the pelvis position from.
+	@returns {Vector} Coordinates of the entity's pelvis.
 --]]
 function Clockwork.entity:GetPelvisPosition(entity)
 	local position = entity:GetPos();
@@ -193,11 +193,11 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get whether an entity can see a position from its own position.
-	@param Entity The entity that's being checked on if it can see a position.
-	@param Vector Location being checked if the entity can see it.
-	@param Int Optional: Variance around the position being checked.
-	@param Entity Optional: Entities that should be ignored when checking if an entity can see a position.
-	@returns Bool Whether or not the entity can see a position.
+	@param {Entity} The entity that's being checked on if it can see a position.
+	@param {Vector} Location being checked if the entity can see it.
+	@param {Number} Optional: Variance around the position being checked.
+	@param {Entity} Optional: Entities that should be ignored when checking if an entity can see a position.
+	@returns {Bool} Whether or not the entity can see a position.
 --]]
 function Clockwork.entity:CanSeePosition(entity, position, iAllowance, tIgnoreEnts)
 	local trace = {};
@@ -225,11 +225,11 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get whether an entity can see an NPC from its own position.
-	@param Entity The entity that's being checked on if it can see an NPC.
-	@param Entity The NPC being check if it can be seen.
-	@param Int Optional: Variance around the position being checked.
-	@param Entity Optional: Entities that should be ignored when checking if an entity can see an NPC.
-	@returns Bool Whether or not the entity can see an NPC.
+	@param {Entity} The entity that's being checked on if it can see an NPC.
+	@param {Entity} The NPC being check if it can be seen.
+	@param {Number} Optional: Variance around the position being checked.
+	@param {Entity} Optional: Entities that should be ignored when checking if an entity can see an NPC.
+	@returns {Bool} Whether or not the entity can see an NPC.
 --]]
 function Clockwork.entity:CanSeeNPC(entity, target, iAllowance, tIgnoreEnts)
 	local trace = {};
@@ -257,11 +257,11 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get whether an entity can see a player from its own position.
-	@param Entity The entity that's being checked on if it can see a player.
-	@param Entity The player being checked if it can be seen.
-	@param Int Optional: Variance around the position being checked.
-	@param Entity Optional: Entities that should be ignored when checking if an entity can see a player.
-	@returns Bool Whether or not the entity can see a player.
+	@param {Entity} The entity that's being checked on if it can see a player.
+	@param {Entity} The player being checked if it can be seen.
+	@param {Number} Optional: Variance around the position being checked.
+	@param {Entity} Optional: Entities that should be ignored when checking if an entity can see a player.
+	@returns {Bool} Whether or not the entity can see a player.
 --]]
 function Clockwork.entity:CanSeePlayer(entity, target, iAllowance, tIgnoreEnts)
 	if (target:GetEyeTraceNoCursor().Entity == entity) then
@@ -293,11 +293,11 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get whether an entity can see an entity from its own position.
-	@param Entity The entity that's being checked on if it can see another entity.
-	@param Entity The entity being checked if it can be seen.
-	@param Int Optional: Variance around the entity being checked.
-	@param Entity Optional: Entities that should be ignored when checking if an entity can see another entity.
-	@returns Bool Whether or not the entity can see another entity.
+	@param {Entity} The entity that's being checked on if it can see another entity.
+	@param {Entity} The entity being checked if it can be seen.
+	@param {Number} Optional: Variance around the entity being checked.
+	@param {Entity} Optional: Entities that should be ignored when checking if an entity can see another entity.
+	@returns {Bool} Whether or not the entity can see another entity.
 --]]
 function Clockwork.entity:CanSeeEntity(entity, target, iAllowance, tIgnoreEnts)
 	local trace = {};
@@ -324,8 +324,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get whether a door is unownable by a player.
-	@param Entity Door being checked as unownable.
-	@returns Bool Whether or not the door is unownable.
+	@param {Entity} Door being checked as unownable.
+	@returns {Bool} Whether or not the door is unownable.
 --]]
 function Clockwork.entity:IsDoorUnownable(entity)
 	return entity:GetNetworkedBool("Unownable");
@@ -334,8 +334,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get whether a door is false.
-	@param Entity Door being check as false.
-	@returns Bool Whether or not the door is false or not.
+	@param {Entity} Door being check as false.
+	@returns {Bool} Whether or not the door is false or not.
 --]]
 function Clockwork.entity:IsDoorFalse(entity)
 	return self:IsDoorUnownable(entity) and self:GetDoorName(entity) == "false";
@@ -344,8 +344,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get whether a door is hidden.
-	@param Entity Door being checked as hidden.
-	@returns Bool Whether or not the door is hidden or not.
+	@param {Entity} Door being checked as hidden.
+	@returns {Bool} Whether or not the door is hidden or not.
 --]]
 function Clockwork.entity:IsDoorHidden(entity)
 	return self:IsDoorUnownable(entity) and self:GetDoorName(entity) == "hidden";
@@ -354,8 +354,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get a door's name.
-	@param Entity Door getting its name checked.
-	@returns String Name of the door.
+	@param {Entity} Door getting its name checked.
+	@returns {String} Name of the door.
 --]]
 function Clockwork.entity:GetDoorName(entity)
 	return entity:GetNetworkedString("Name");
@@ -364,8 +364,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get the text being displayed on a door.
-	@param Entity Door getting its text from.
-	@returns String Text being displayed on the door.
+	@param {Entity} Door getting its text from.
+	@returns {String} Text being displayed on the door.
 --]]
 function Clockwork.entity:GetDoorText(entity)
 	return entity:GetNetworkedString("Text");
@@ -374,8 +374,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get whether an entity is a player in ragdoll form.
-	@param Entity The entity getting checked as a player ragdoll.
-	@returns Bool Whether or not the entity is a player ragdoll.
+	@param {Entity} The entity getting checked as a player ragdoll.
+	@returns {Bool} Whether or not the entity is a player ragdoll.
 --]]
 function Clockwork.entity:IsPlayerRagdoll(entity)
 	local player = entity:GetNetworkedEntity("Player");
@@ -390,8 +390,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get a player from an entity.
-	@param Entity The entity getting the player from.
-	@returns Entity The player from the entity.
+	@param {Entity} The entity getting the player from.
+	@returns {Entity} The player from the entity.
 --]]
 function Clockwork.entity:GetPlayer(entity)
 	local player = entity:GetNetworkedEntity("Player");
@@ -406,8 +406,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get whether an entity is interactable.
-	@param Entity The entity being checked if it is interactable.
-	@returns Bool Whether or not the entity is interactable.
+	@param {Entity} The entity being checked if it is interactable.
+	@returns {Bool} Whether or not the entity is interactable.
 --]]
 function Clockwork.entity:IsInteractable(entity)
 	local class = entity:GetClass();
@@ -440,8 +440,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get whether an entity is a physics entity.
-	@param Entity The entity being checked if it is a physics entity.
-	@return Bool Whether or not the entity is a physicas entity.
+	@param {Entity} The entity being checked if it is a physics entity.
+	@returns {Bool} Whether or not the entity is a physicas entity.
 --]]
 function Clockwork.entity:IsPhysicsEntity(entity)
 	local class = string.lower(entity:GetClass());
@@ -454,8 +454,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get whether an entity is a pod.
-	@param Entity The entity being checked if it is a pod entity.
-	@returns Bool Whether or not the entity is a pod entity.
+	@param {Entity} The entity being checked if it is a pod entity.
+	@returns {Bool} Whether or not the entity is a pod entity.
 --]]
 function Clockwork.entity:IsPodEntity(entity)
 	local entityModel = string.lower(entity:GetModel());
@@ -468,8 +468,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get whether an entity is a chair.
-	@param Entity The Entity being checked if it is a chair entity.
-	@returns Bool Whether or not the entity is a chair entity.
+	@param {Entity} The Entity being checked if it is a chair entity.
+	@returns {Bool} Whether or not the entity is a chair entity.
 --]]
 function Clockwork.entity:IsChairEntity(entity)
 	if (entity:GetModel()) then
@@ -485,8 +485,8 @@ if (CLIENT) then
 	--[[
 		@codebase Client
 		@details A function to get whether an item's data has been fetched.
-		@param Entity The entity being checked if the item data has been fetched.
-		@returns Bool Whether or not the item data has been fetched.
+		@param {Entity} The entity being checked if the item data has been fetched.
+		@returns {Bool} Whether or not the item data has been fetched.
 	--]]
 	function Clockwork.entity:HasFetchedItemData(entity)
 		return (entity.cwFetchedItemData == true);
@@ -495,8 +495,8 @@ if (CLIENT) then
 	--[[
 		@codebase Client
 		@details A function to fetch the entity's item table.
-		@param Entity The entity getting the item table from.
-		@returns Table Contains the entity's item table.
+		@param {Entity} The entity getting the item table from.
+		@returns {Table} Contains the entity's item table.
 	--]]
 	function Clockwork.entity:FetchItemTable(entity)
 		return entity.cwItemTable;
@@ -505,7 +505,7 @@ if (CLIENT) then
 	--[[
 		@codebase Client
 		@details A function to fetch the entity's item data.
-		@param Entity The entity getting the item data from.
+		@param {Entity} The entity getting the item data from.
 	--]]
 	function Clockwork.entity:FetchItemData(entity)
 		local curTime = CurTime();
@@ -575,11 +575,11 @@ else
 	--[[
 		@codebase Server
 		@details A function to dissolve an entity using a Source effect.
-		@param Entity The entity that will be dissolved.
+		@param {Entity} The entity that will be dissolved.
 		@param String Dissolving effect to be applied to the entity.
-		@param Int Optional: Time until the entity is removed.
-		@param Entity Optional: The entity that is set as the dissolved entity's attacker.
-		@returns Entity Reference to the entity making the dissolving effects.
+		@param {Number} Optional: Time until the entity is removed.
+		@param {Entity} Optional: The entity that is set as the dissolved entity's attacker.
+		@returns {Entity} Reference to the entity making the dissolving effects.
 	--]]
 	function Clockwork.entity:Dissolve(entity, dissolveType, iRemoveDelay, attacker)
 		local dissolver = ents.Create("env_entity_dissolver");
@@ -621,7 +621,7 @@ else
 	--[[
 		@codebase Server
 		@details A function to temporarily set a door's speed to fast.
-		@param Entity The door getting its speed set to fast.
+		@param {Entity} The door getting its speed set to fast.
 	--]]
 	function Clockwork.entity:SetDoorSpeedFast(entity)
 		local curTime = CurTime();
@@ -644,9 +644,9 @@ else
 	--[[
 		@codebase Server
 		@details A function to blast down a door off its hinges.
-		@param Entity The door being blasted off its hinges.
-		@param Int The blast strength that should be applied to the door.
-		@param Entity The entity that is blasting the door off its hinges.
+		@param {Entity} The door being blasted off its hinges.
+		@param {Number} The blast strength that should be applied to the door.
+		@param {Entity} The entity that is blasting the door off its hinges.
 	--]]
 	function Clockwork.entity:BlastDownDoor(entity, force, attacker)
 		entity.cwIsBustedDown = true;
@@ -703,7 +703,7 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get an entity's door state.
-	@returns Table The state of the door.
+	@returns {Table} The state of the door.
 --]]
 function Clockwork.entity:GetDoorState(entity)
 	return entity:GetSaveTable().m_eDoorState or DOOR_STATE_CLOSED;
@@ -712,7 +712,7 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get whether a door is locked.
-	@returns Bool Whether or not the door is locked.
+	@returns {Bool} Whether or not the door is locked.
 --]]
 function Clockwork.entity:IsDoorLocked(entity)
 	return (entity:GetSaveTable().m_bLocked == true);
@@ -722,12 +722,12 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to open a door.
-		@param Entity The door to be opened.
-		@param Int Delay until the door should be opened.
+		@param {Entity} The door to be opened.
+		@param {Number} Delay until the door should be opened.
 		@param Bool Whether or not the door should be unlocked.
 		@param Bool Whether or not a sound should be played for unlocking the door.
-		@param Vector Postition that the info_target is created at.
-		@param Float Not implemented.
+		@param {Vector} Postition that the info_target is created at.
+		@param {Float} Not implemented.
 	--]]
 	function Clockwork.entity:OpenDoor(entity, delay, bUnlock, bSound, origin, fSpeed)
 		if (self:IsDoor(entity)) then
@@ -764,8 +764,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to bash in a door entity.
-		@param Entity The door being bashed in.
-		@param Entity The entity bashing in the door.
+		@param {Entity} The door being bashed in.
+		@param {Entity} The entity bashing in the door.
 	--]]
 	function Clockwork.entity:BashInDoor(entity, eBasher)
 		local curTime = CurTime();
@@ -793,9 +793,9 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to make an entity safe.
-		@param Entity The entity being made safe.
+		@param {Entity} The entity being made safe.
 		@param Bool Whether or not the entity should be safe from physguns.
-		@param Table List of tools that can't be used on the entity.
+		@param {Table} List of tools that can't be used on the entity.
 		@param Bool Whether or not the entity should be frozen.
 	--]]
 	function Clockwork.entity:MakeSafe(entity, bPhysgunProtect, tToolProtect, bFreezeEntity)
@@ -823,8 +823,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to statue a ragdoll.
-		@param Entity The entity being set as a statue.
-		@param Int How much force a bone can take before the weld breaks.
+		@param {Entity} The entity being set as a statue.
+		@param {Number} How much force a bone can take before the weld breaks.
 	--]]
 	function Clockwork.entity:StatueRagdoll(entity, forceLimit)
 		local bones = entity:GetPhysicsObjectCount()
@@ -868,10 +868,10 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to drop items and cash.
-		@param Table The inventory being dropped.
-		@param Int How much cash to drop.
-		@param Vector Where the items and cash should drop.
-		@param Entity The owner of the items and cash being dropped.
+		@param {Table} The inventory being dropped.
+		@param {Number} How much cash to drop.
+		@param {Vector} Where the items and cash should drop.
+		@param {Entity} The owner of the items and cash being dropped.
 	--]]
 	function Clockwork.entity:DropItemsAndCash(inventory, cash, position, entity)
 		if (!Clockwork.inventory:IsEmpty(inventory)) then
@@ -894,10 +894,10 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to make an entity into a ragdoll.
-		@param Entity The entity being made in to a ragdoll.
-		@param Int The amount of force applied to the entity upon being made in to a ragdoll.
-		@param Int What the entity's velocity should be forcibly set to.
-		@param Angle What the entity's angles should be set to.
+		@param {Entity} The entity being made in to a ragdoll.
+		@param {Number} The amount of force applied to the entity upon being made in to a ragdoll.
+		@param {Number} What the entity's velocity should be forcibly set to.
+		@param {Angle} What the entity's angles should be set to.
 	--]]
 	function Clockwork.entity:MakeIntoRagdoll(entity, force, overrideVelocity, overrideAngles)
 		local velocity = entity:GetVelocity() * 1.5;
@@ -960,8 +960,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to get whether a door is unsellable.
-		@param Entity The door being checked as unsellable.
-		@returns Bool Whether or not the door is unsellable.
+		@param {Entity} The door being checked as unsellable.
+		@returns {Bool} Whether or not the door is unsellable.
 	--]]
 	function Clockwork.entity:IsDoorUnsellable(door)
 		return door.unsellable;
@@ -970,8 +970,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to set a door's parent.
-		@param Entity The door being set as a child.
-		@param Entity The door being set as the parent for the child.
+		@param {Entity} The door being set as a child.
+		@param {Entity} The door being set as the parent for the child.
 	--]]
 	function Clockwork.entity:SetDoorParent(door, parent)
 		if (self:IsDoor(door)) then
@@ -1007,8 +1007,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to get whether a door is a parent or not.
-		@param Entity The door being checked as a parent.
-		@return Bool Whether or not the door has any children (thus making it a parent door if it does, otherwise if not).
+		@param {Entity} The door being checked as a parent.
+		@returns {Bool} Whether or not the door has any children (thus making it a parent door if it does, otherwise if not).
 	--]]
 	function Clockwork.entity:IsDoorParent(door)
 		return table.Count(self:GetDoorChildren(door)) > 0;
@@ -1017,8 +1017,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to get a door's parent.
-		@param Entity The door that the parent should be gotten from.
-		@returns Table The parent of the door (if it exists).
+		@param {Entity} The door that the parent should be gotten from.
+		@returns {Table} The parent of the door (if it exists).
 	--]]
 	function Clockwork.entity:GetDoorParent(door)
 		if (IsValid(door.doorParent)) then
@@ -1029,8 +1029,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to get a door's children.
-		@param Entity The door to get the children from.
-		@returns Table The children of the door.
+		@param {Entity} The door to get the children from.
+		@returns {Table} The children of the door.
 	--]]
 	function Clockwork.entity:GetDoorChildren(door)
 		return door.doorChildren or {};
@@ -1039,7 +1039,7 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to set a door as unownable.
-		@param Entity The door being set to unownable.
+		@param {Entity} The door being set to unownable.
 		@param Bool Whether or not the door should be set to unownable.
 	--]]
 	function Clockwork.entity:SetDoorUnownable(entity, unownable)
@@ -1061,7 +1061,7 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to set whether a door is false.
-		@param Entity The door being set to false.
+		@param {Entity} The door being set to false.
 		@param Bool Whether the door should be false or not.
 	--]]
 	function Clockwork.entity:SetDoorFalse(entity, isFalse)
@@ -1079,7 +1079,7 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to set whether a door is hidden.
-		@param Entity The door being set to hidden.
+		@param {Entity} The door being set to hidden.
 		@param Bool Whether or not the doro should be set to hidden.
 	--]]
 	function Clockwork.entity:SetDoorHidden(entity, hidden)
@@ -1097,8 +1097,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to set whether a door has shared access.
-		@param Entity The door being given shared access.
-		@param Entity What has shared access to the door.
+		@param {Entity} The door being given shared access.
+		@param {Entity} What has shared access to the door.
 	--]]
 	function Clockwork.entity:SetDoorSharedAccess(entity, sharedAccess)
 		if (self:IsDoorParent(entity)) then
@@ -1109,7 +1109,7 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to set a shared door's text
-		@param Entity The door having its shared text set.
+		@param {Entity} The door having its shared text set.
 		@param String The text that will be displayed on the shared door.
 	--]]
 	function Clockwork.entity:SetDoorSharedText(entity, sharedText)
@@ -1129,8 +1129,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to get whether a door has shared access.
-		@param Entity The door being checked if it has a shared access.
-		@returns Bool Whether or not the door has a shared access to another door.
+		@param {Entity} The door being checked if it has a shared access.
+		@returns {Bool} Whether or not the door has a shared access to another door.
 	--]]
 	function Clockwork.entity:DoorHasSharedAccess(entity)
 		return entity.cwDoorSharedAxs;
@@ -1139,8 +1139,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to get whether a door has shared text.
-		@param Entity The door being checked if it has shared text.
-		@returns Bool Whether or not the door has shared text.
+		@param {Entity} The door being checked if it has shared text.
+		@returns {Bool} Whether or not the door has shared text.
 	--]]
 	function Clockwork.entity:DoorHasSharedText(entity)
 		return entity.cwDoorSharedTxt;
@@ -1149,7 +1149,7 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to set a door's text.
-		@param Entity The door getting its text set.
+		@param {Entity} The door getting its text set.
 		@param String What the door's text will be set to.
 	--]]
 	function Clockwork.entity:SetDoorText(entity, text)
@@ -1177,7 +1177,7 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to set a door's name.
-		@param Entity The door getting its name set.
+		@param {Entity} The door getting its name set.
 		@param String What the door's name will be set to.
 	--]]
 	function Clockwork.entity:SetDoorName(entity, name)
@@ -1189,7 +1189,7 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to set an entity's chair animations.
-		@param Entity The entity having its animation set.
+		@param {Entity} The entity having its animation set.
 	--]]
 	function Clockwork.entity:SetChairAnimations(entity)
 		if (!entity.VehicleTable) then
@@ -1244,8 +1244,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to set an entity's start angles.
-		@param Entity The entity having its start angles being set.
-		@param Angle What the start angles are set to.
+		@param {Entity} The entity having its start angles being set.
+		@param {Angle} What the start angles are set to.
 	--]]
 	function Clockwork.entity:SetStartAngles(entity, angles)
 		entity.cwStartAng = angles;
@@ -1254,8 +1254,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to get an entity's start angles.
-		@param Entity The entity to get the angles from
-		@returns Angle Start angle for the entity.
+		@param {Entity} The entity to get the angles from
+		@returns {Angle} Start angle for the entity.
 	--]]
 	function Clockwork.entity:GetStartAngles(entity)
 		return entity.cwStartAng;
@@ -1264,8 +1264,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to set an entity's start position.
-		@param Entity The entity having its start position set.
-		@param Vector Start position the entity is set to.
+		@param {Entity} The entity having its start position set.
+		@param {Vector} Start position the entity is set to.
 	--]]
 	function Clockwork.entity:SetStartPosition(entity, position)
 		entity.cwStartPos = position;
@@ -1274,8 +1274,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to get an entity's start position.
-		@param Entity The entity getting the start position from.
-		@returns Vector The start position of the entity.
+		@param {Entity} The entity getting the start position from.
+		@returns {Vector} The start position of the entity.
 	--]]
 	function Clockwork.entity:GetStartPosition(entity)
 		return entity.cwStartPos;
@@ -1284,7 +1284,7 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to stop an entity's collision group restore.
-		@param Entity Which entity to stop the collision group restore on.
+		@param {Entity} Which entity to stop the collision group restore on.
 	--]]
 	function Clockwork.entity:StopCollisionGroupRestore(entity)
 		Clockwork.kernel:DestroyTimer("CollisionGroup"..entity:EntIndex());
@@ -1293,7 +1293,7 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to return an entity's collision group.
-		@param Entity Which entity to restore the collision group on.
+		@param {Entity} Which entity to restore the collision group on.
 		@param String What the collision group is set to on the entity.
 	--]]
 	function Clockwork.entity:ReturnCollisionGroup(entity, collisionGroup)
@@ -1316,7 +1316,7 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to set whether an entity is a map entity.
-		@param Entity The entity being set as a map entity or not.
+		@param {Entity} The entity being set as a map entity or not.
 		@param Bool Whether or not the entity is a map entity.
 	--]]
 	function Clockwork.entity:SetMapEntity(entity, isMapEntity)
@@ -1332,8 +1332,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to get whether an entity is a map entity.
-		@param Entity The entity being checked as a map entity.
-		@returns Bool Whether or not the entity is a map entity.
+		@param {Entity} The entity being checked as a map entity.
+		@returns {Bool} Whether or not the entity is a map entity.
 	--]]
 	function Clockwork.entity:IsMapEntity(entity)
 		return Clockwork.Entities[entity] or false;
@@ -1342,9 +1342,9 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to make an entity flush with the ground.
-		@param Entity The entity being flushed the the ground.
-		@param Vector Initial position of the entity being flushed.
-		@param Int Normalization for refining flushing.
+		@param {Entity} The entity being flushed the the ground.
+		@param {Vector} Initial position of the entity being flushed.
+		@param {Number} Normalization for refining flushing.
 	--]]
 	function Clockwork.entity:MakeFlushToGround(entity, position, normal)
 		entity:SetPos(position + (entity:GetPos() - entity:NearestPoint(position - (normal * 512))));
@@ -1353,9 +1353,9 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to make an entity disintegrate.
-		@param Entity The entity being disintegrated.
-		@param Int How long to wait until disintegrating the entity.
-		@param Int Optional: Adds speed to the entity once it gets disintegrated.
+		@param {Entity} The entity being disintegrated.
+		@param {Number} How long to wait until disintegrating the entity.
+		@param {Number} Optional: Adds speed to the entity once it gets disintegrated.
 		@param Function What to run after the entity disintegrates.
 	--]]
 	function Clockwork.entity:Disintegrate(entity, delay, velocity, Callback)
@@ -1417,8 +1417,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to set an entity's player.
-		@param Entity The entity being set to a player.
-		@param Entity What to set the entity's player to.
+		@param {Entity} The entity being set to a player.
+		@param {Entity} What to set the entity's player to.
 	--]]
 	function Clockwork.entity:SetPlayer(entity, player)
 		entity:SetNetworkedEntity("Player", player);
@@ -1427,8 +1427,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to make an entity decay.
-		@param Entity The entity being decayed.
-		@param Int How fast the entity should decay.
+		@param {Entity} The entity being decayed.
+		@param {Number} How fast the entity should decay.
 		@param Function What to run just before the entity is removed.
 	--]]
 	function Clockwork.entity:Decay(entity, seconds, Callback)
@@ -1469,10 +1469,10 @@ if (SERVER) then
 		@codebase Server
 		@details A function to create cash.
 		@param Entity:Table The owner(s) of the cash being created.
-		@param Int How much cash to create.
-		@param Vector Where to create the cash.
-		@param Angle Optional: Angles to set the created cash to.
-		@returns Entity Reference to the cash just created.
+		@param {Number} How much cash to create.
+		@param {Vector} Where to create the cash.
+		@param {Angle} Optional: Angles to set the created cash to.
+		@returns {Entity} Reference to the cash just created.
 	--]]
 	function Clockwork.entity:CreateCash(ownerObj, cash, position, angles)
 		if (Clockwork.config:Get("cash_enabled"):Get()) then
@@ -1507,9 +1507,9 @@ if (SERVER) then
 		@details A function to create generator.
 		@param Entity:Table The owner(s) of the generator being created.
 		@param String Entity class for the generator to be assigned to.
-		@param Vector Position the generator is set to.
-		@param Angle Optional: Angles the generator is set to.
-		@returns Entity Reference to the generator created.
+		@param {Vector} Position the generator is set to.
+		@param {Angle} Optional: Angles the generator is set to.
+		@returns {Entity} Reference to the generator created.
 	--]]
 	function Clockwork.entity:CreateGenerator(ownerObj, class, position, angles)
 		local entity = ents.Create(class);
@@ -1538,10 +1538,10 @@ if (SERVER) then
 		@details A function to create a shipment.
 		@param Entity:Table The owner(s) of the shipment being created.
 		@param String Unique ID of the item being stored in the shipment.
-		@param Int How many items stored in the shipment.
-		@param Vector Position the shipment is created at.
-		@param Angle Optional: Angles the shipment is set to.
-		@returns Entity Reference to the shipment that was created.
+		@param {Number} How many items stored in the shipment.
+		@param {Vector} Position the shipment is created at.
+		@param {Angle} Optional: Angles the shipment is set to.
+		@returns {Entity} Reference to the shipment that was created.
 	--]]
 	function Clockwork.entity:CreateShipment(ownerObj, uniqueID, batch, position, angles)
 		local entity = ents.Create("cw_shipment");
@@ -1571,9 +1571,9 @@ if (SERVER) then
 		@details A function to create an item.
 		@param Entity:Table The owner(s) of the item being created.
 		@param String ID for the item that is to be created.
-		@param Vector Position the item is set to when created.
-		@param Angle Optional: Angles the item is set to.
-		@returns Entity Reference to the item created.
+		@param {Vector} Position the item is set to when created.
+		@param {Angle} Optional: Angles the item is set to.
+		@returns {Entity} Reference to the item created.
 	--]]
 	function Clockwork.entity:CreateItem(ownerObj, itemTable, position, angles)
 		local entity = ents.Create("cw_item");
@@ -1619,8 +1619,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to copy an entity's owner.
-		@param Entity The entity getting the properties copied from.
-		@param Entity The entity getting the properties pasted to.
+		@param {Entity} The entity getting the properties copied from.
+		@param {Entity} The entity getting the properties pasted to.
 	--]]
 	function Clockwork.entity:CopyOwner(entity, target)
 		local removeDelay = self:QueryProperty(entity, "removeDelay");
@@ -1634,9 +1634,9 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to get whether an entity belongs to a player's other character.
-		@param Entity The player being checked if the item belongs to it.
-		@param Entity The entity being checked for ownership.
-		@returns Bool Whether or not the entity belongs to the player.
+		@param {Entity} The player being checked if the item belongs to it.
+		@param {Entity} The entity being checked for ownership.
+		@returns {Bool} Whether or not the entity belongs to the player.
 	--]]
 	function Clockwork.entity:BelongsToAnotherCharacter(player, entity)
 		local uniqueID = self:QueryProperty(entity, "uniqueID");
@@ -1654,7 +1654,7 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to set a property variable for an entity.
-		@param Entity The entity having its property var set.
+		@param {Entity} The entity having its property var set.
 		@param String ID for the property being set.
 		@param String Value the property is being set to.
 	--]]
@@ -1665,10 +1665,10 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to query an entity's property table.
-		@param Entity The entity getting the properties from.
+		@param {Entity} The entity getting the properties from.
 		@param String Which property is being queried.
 		@param String Fallback value to return if no property is found.
-		@returns String Value of the property that was queried.
+		@returns {String} Value of the property that was queried.
 	--]]
 	function Clockwork.entity:QueryProperty(entity, key, default)
 		if (entity.cwPropertyTab) then
@@ -1681,7 +1681,7 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to clear an entity as property.
-		@param Entity The entity being cleared from the properties
+		@param {Entity} The entity being cleared from the properties
 	--]]
 	function Clockwork.entity:ClearProperty(entity)
 		local owner = self:GetOwner(entity);
@@ -1699,8 +1699,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to get whether an entity has an owner.
-		@param Entity The entity being checked if it has an owner.
-		@returns Bool Whether or not the entity has an owner.
+		@param {Entity} The entity being checked if it has an owner.
+		@returns {Bool} Whether or not the entity has an owner.
 	--]]
 	function Clockwork.entity:HasOwner(entity)
 		return self:QueryProperty(entity, "owned");
@@ -1709,9 +1709,9 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to get an entity's owner.
-		@param Entity The entity getting the owner from.
+		@param {Entity} The entity getting the owner from.
 		@param Bool Whether or not to get the owner even if the entity has no entity key.
-		@returns Entity The owner of the entity.
+		@returns {Entity} The owner of the entity.
 	--]]
 	function Clockwork.entity:GetOwner(entity, bAnyCharacter)
 		local owner = self:QueryProperty(entity, "owner");
@@ -1725,8 +1725,8 @@ else
 	--[[
 		@codebase Client
 		@details A function to make an entity decay.
-		@param Entity The entity being decayed.
-		@param Int How fast the entity should decay.
+		@param {Entity} The entity being decayed.
+		@param {Number} How fast the entity should decay.
 		@param Function What to run just before the entity is removed.
 	--]]
 	function Clockwork.entity:Decay(entity, seconds, Callback)
@@ -1770,9 +1770,9 @@ else
 	--[[
 		@codebase Client
 		@details A function to calculate a door's text position.
-		@param Entity The door getting its text position calculated.
+		@param {Entity} The door getting its text position calculated.
 		@param Bool Optional: Whether or not the other side of the door text position is being calculated.
-		@returns Function Recall to this function.
+		@returns {Function} Recall to this function.
 	--]]
 	function Clockwork.entity:CalculateDoorTextPosition(door, reversed)
 		local traceData = {};
@@ -1857,7 +1857,7 @@ else
 	--[[
 		@codebase Client
 		@details A function to force a menu option.
-		@param Entity The entity having the menu option created on.
+		@param {Entity} The entity having the menu option created on.
 		@param String The name of the option to be displayed (not implemented?).
 		@param String Interaction action to be done (e.g. cwItemTake).
 	--]]
@@ -1868,8 +1868,8 @@ else
 	--[[
 		@codebase Client
 		@details A function to get whether an entity has an owner.
-		@param Entity The entity being checked if it has an owner.
-		@returns Bool Whether or not the entity has an owner.
+		@param {Entity} The entity being checked if it has an owner.
+		@returns {Bool} Whether or not the entity has an owner.
 	--]]
 	function Clockwork.entity:HasOwner(entity)
 		return entity:GetNetworkedBool("Owned");
@@ -1878,9 +1878,9 @@ else
 	--[[
 		@codebase Client
 		@details A function to get an entity's owner.
-		@param Entity The entity getting the owner from.
+		@param {Entity} The entity getting the owner from.
 		@param Bool Whether or not to get the owner even if the entity has no entity key.
-		@returns Entity The owner of the entity.
+		@returns {Entity} The owner of the entity.
 	--]]
 	function Clockwork.entity:GetOwner(entity, bAnyCharacter)
 		local owner = entity:GetNetworkedEntity("Owner");

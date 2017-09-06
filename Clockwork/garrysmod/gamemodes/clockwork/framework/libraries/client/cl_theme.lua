@@ -159,7 +159,7 @@ end;
 --[[
 	@codebase Client
 	@details A function to return all of the stored themes that have been created.
-	@returns Table The table containing all of the currently created themes.
+	@returns {Table} The table containing all of the currently created themes.
 --]] 
 function Clockwork.theme:GetAll()
 	return stored;
@@ -169,7 +169,7 @@ end;
 	@codebase Client
 	@details A function to find a specific theme by the name it was created with.
 	@params String The name to search for.
-	@returns Table The theme table if found, returns nil if it doesn't exist.
+	@returns {Table} The theme table if found, returns nil if it doesn't exist.
 --]] 
 function Clockwork.theme:FindByID(id)
 	return stored[id];
@@ -179,7 +179,7 @@ end;
 	@codebase Client
 	@details A function to find if a specific theme exists by the name it was created with.
 	@params String The name to search for.
-	@returns Bool Whether or not the theme searched for exists.
+	@returns {Bool} Whether or not the theme searched for exists.
 --]] 
 function Clockwork.theme:Exists(id)
 	return (IsValid(stored[id]));
@@ -191,7 +191,7 @@ end;
 	@params Bool Whether or not the theme will not allow players to change the information color in settings.
 	@params String The name of the new theme to be created.
 	@params String The name of the base theme to derive from.
-	@returns Table The newly created theme table.
+	@returns {Table} The newly created theme table.
 --]] 
 function Clockwork.theme:Begin(isFixed, name, baseName)
 	return self:New(name, baseName, isFixed);
@@ -203,7 +203,7 @@ end;
 	@params String The name of the new theme to be created.
 	@params String The name of the base theme to derive from.
 	@params Bool Whether or not the theme will not allow players to change the information color in settings.
-	@returns Table The newly created theme table.
+	@returns {Table} The newly created theme table.
 --]]
 function Clockwork.theme:New(themeName, baseName, isFixed)
 	if (baseName) then
@@ -242,7 +242,7 @@ end;
 --[[
 	@codebase Client
 	@details A function to get the currently active theme.
-	@returns Table The active theme currently in use.
+	@returns {Table} The active theme currently in use.
 --]]
 function Clockwork.theme:Get()
 	return self.active;
@@ -251,7 +251,7 @@ end;
 --[[
 	@codebase Client
 	@details A function to get whether the currently active theme allows clients to change the information color.
-	@returns Bool Whether or not the active theme has a fixed information color or not. Returns false if players can change the color.
+	@returns {Bool} Whether or not the active theme has a fixed information color or not. Returns false if players can change the color.
 --]]
 function Clockwork.theme:IsFixed()
 	return (self.active and self.active.isFixed);
@@ -308,7 +308,7 @@ end;
 	@codebase Client
 	@details A function to save a new theme into the theme library, uses the Finish method.
 	@params Bool Whether or not you want to switch to the newly created theme upon creation.
-	@returns String The name of the new theme that was saved.
+	@returns {String} The name of the new theme that was saved.
 --]]
 function Clockwork.theme:Register(switchTo)
 	if (newTheme) then
@@ -458,7 +458,7 @@ end;
 	@details A function call a hook from the currently active theme, along with any arguments.
 	@params String The name of the hook to call.
 	@params VarArg The arguments to call the hook with.
-	@returns Variable The results of the hook call.
+	@returns {Mixed} The results of the hook call.
 --]]
 function Clockwork.theme:Call(hookName, ...)
 	if (self.active and self.active.hooks[hookName]) then
@@ -509,7 +509,7 @@ end;
 --[[
 	@codebase Client
 	@details A function get a new markup object for rendering.
-	@returns MarkupObject The new markup object.
+	@returns {MarkupObject} The new markup object.
 --]]
 function Clockwork.theme:GetMarkupObject()
 	return Clockwork.kernel:NewMetaTable(MARKUP_OBJECT);

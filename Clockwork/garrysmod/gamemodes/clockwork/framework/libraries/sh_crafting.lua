@@ -69,7 +69,7 @@ end;
 --[[
 	@codebase Shared
 	@details Called when the item is converted to a string.
-	@returns String The blueprint converted to a string.
+	@returns {String} The blueprint converted to a string.
 --]]
 function CLASS_TABLE:__tostring()
 	return "BLUEPRINT[" ..self("blueprintID").. "]";
@@ -78,21 +78,21 @@ end;
 --[[
 	@codebase Shared
 	@details Called when crafting is unsuccessful.
-	@param Entity Player crafting the blueprint.
+	@param {Entity} Player crafting the blueprint.
 --]]
 function CLASS_TABLE:FailedCraft(player) end;
 
 --[[
 	@codebase Shared
 	@details A function to get whether the item is an instance.
-	@returns Whether the blueprint is an instance or not.
+	@returns {Bool} Whether the blueprint is an instance or not.
 --]]
 function CLASS_TABLE:IsInstance() return (self("itemID") != 0); end;
 
 --[[
 	@codebase Shared
 	@details Called just before crafting.
-	@param Entity Player crafting the blueprint.
+	@param {Entity} Player crafting the blueprint.
 --]]
 function CLASS_TABLE:OnCraft(player) end;
 
@@ -107,7 +107,7 @@ end;
 --[[
 	@codebase Shared
 	@details Called just after crafting.
-	@param Entity Player crafting the blueprint.
+	@param {Entity} Player crafting the blueprint.
 --]]
 function CLASS_TABLE:PostCraft(player) end;
 
@@ -122,8 +122,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to craft a blueprint.
-	@param Entity Player crafting the blueprint.
-	@param Table Blueprint being crafted.
+	@param {Entity} Player crafting the blueprint.
+	@param {Table} Blueprint being crafted.
 --]]
 function Clockwork.crafting:Craft(player, blueprintTable)
 	if (type(blueprintTable) == "string") then
@@ -168,8 +168,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to check if an item can be crafted.
-	@param Entity Player crafting the blueprint.
-	@param Table Blueprint being crafted.
+	@param {Entity} Player crafting the blueprint.
+	@param {Table} Blueprint being crafted.
 --]]
 function Clockwork.crafting:CanCraft(player, blueprintTable)
 	if (!Clockwork.kernel:HasObjectAccess(Clockwork.Client, blueprintTable)) then
@@ -258,11 +258,11 @@ end;
 --[[
 	@codebase Shared
 	@details Checks if the player has the items required to craft the blueprint.
-	@param Entity Player crafting the blueprint.
+	@param {Entity} Player crafting the blueprint.
 	@param String ID of the item being checked.
-	@param Int Amount of items the player needs to have.
-	@returns Bool Whether player can craft the blueprint.
-	@returns String ID of the item that was checked.
+	@param {Number} Amount of items the player needs to have.
+	@returns {Bool} Whether player can craft the blueprint.
+	@returns {String} ID of the item that was checked.
 --]]
 function Clockwork.crafting:CheckCanCraft(player, item, amount)
 	if (player and item and amount) then
@@ -281,10 +281,10 @@ end;
 --[[
 	@codebase Shared
 	@details Gets the formatted requirement dependent on whether an inventory has the required ingredients.
-	@param Table The inventory to check against.
+	@param {Table} The inventory to check against.
 	@param String ID of the item being checked.
-	@param Int Amount of items the player needs to have.
-	@return String Formatted requirement.
+	@param {Number} Amount of items the player needs to have.
+	@returns {String} Formatted requirement.
 --]]
 function Clockwork.crafting:CheckFormatRequirements(inventory, uniqueID, amount)
 	local requirement = nil;
@@ -318,9 +318,9 @@ end;
 --[[
 	@codebase Shared
 	@details Gives the player items crafted from the blueprint.
-	@param Entity Player being given the items.
+	@param {Entity} Player being given the items.
 	@param String ID of the item being given.
-	@param Int Amount of items to give.
+	@param {Number} Amount of items to give.
 --]]
 function Clockwork.crafting:CheckGiveItems(player, item, amount)
 	if (player and item and amount) then
@@ -341,9 +341,9 @@ end;
 --[[
 	@codebase Shared
 	@details Takes items from the player required to be taken by the blueprint that was crafted.
-	@param Entity Player having the items taken from.
+	@param {Entity} Player having the items taken from.
 	@param String ID of the item to take.
-	@param Int Amount of items to take.
+	@param {Number} Amount of items to take.
 --]]
 function Clockwork.crafting:CheckTakeItems(player, item, amount)
 	if (player and item and amount) then
@@ -365,7 +365,7 @@ end;
 	@codebase Shared
 	@details A function to get a blueprint by its ID.
 	@param ID of the blueprint being found.
-	@returns Table Blueprint that was found.
+	@returns {Table} Blueprint that was found.
 --]]
 function Clockwork.crafting:FindByID(identifier)
 	if (identifier and identifier != 0 and type(identifier) != "boolean") then
@@ -394,9 +394,9 @@ end;
 --[[
 	@codebase Shared
 	@details Formats the requirements to a specific way to improve readability when looking at the tooltip.
-	@param Table The inventory table to check against.
-	@param Table Blueprint having its requirements formatted.
-	@returns String Formatted requirements for the blueprint.
+	@param {Table} The inventory table to check against.
+	@param {Table} Blueprint having its requirements formatted.
+	@returns {String} Formatted requirements for the blueprint.
 --]]
 function Clockwork.crafting:FormatRequirements(inventory, blueprintTable)
 	local itemRequirements = blueprintTable.itemRequirements;
@@ -432,7 +432,7 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get all blueprints.
-	@returns Table All blueprints that are stored.
+	@returns {Table} All blueprints that are stored.
 --]]
 function Clockwork.crafting:GetAll()
 	return self.stored;
@@ -441,7 +441,7 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get the blueprint buffer.
-	@returns Table All blueprints in the buffer.
+	@returns {Table} All blueprints in the buffer.
 --]]
 function Clockwork.crafting:GetBuffer()
 	return self.buffer;
@@ -450,8 +450,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to give items to a player from crafting a blueprint.
-	@param Entity Player crafting the blueprint.
-	@param Table Blueprint being crafted.
+	@param {Entity} Player crafting the blueprint.
+	@param {Table} Blueprint being crafted.
 --]]
 function Clockwork.crafting:GiveItems(player, blueprintTable)
 	local giveItems = blueprintTable.giveItems;
@@ -480,7 +480,7 @@ end;
 	@details A function to create a new blueprint.
 	@param String Blueprint base to inherit from.
 	@param Bool Whether blueprint being created is a base blueprint.
-	@returns Table Blueprint just created.
+	@returns {Table} Blueprint just created.
 --]]
 function Clockwork.crafting:New(baseBlueprint, bIsBaseBlueprint)
 	local object = Clockwork.kernel:NewMetaTable(CLASS_TABLE);
@@ -499,7 +499,7 @@ end;
 --[[
 	@codebase Shared
 	@details A function to register a new blueprint.
-	@param Table Blueprint to register.
+	@param {Table} Blueprint to register.
 --]]
 function Clockwork.crafting:Register(blueprintTable)
 	blueprintTable.uniqueID = string.lower(string.gsub(blueprintTable.uniqueID or string.gsub(blueprintTable.name, "%s", "_"), "['%.]", ""));
@@ -519,8 +519,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to take items from a player from crafting a blueprint.
-	@param Entity Player crafting the blueprint.
-	@param Table Blueprint being crafted.
+	@param {Entity} Player crafting the blueprint.
+	@param {Table} Blueprint being crafted.
 --]]
 function Clockwork.crafting:TakeItems(player, blueprintTable)
 	local takeItems = blueprintTable.takeItems;
@@ -556,9 +556,9 @@ if (CLIENT) then
 	--[[
 		@codebase Client
 		@details Gets the appropriate icon for the blueprint when being displayed in the crafting menu.
-		@param Table Blueprint getting the icon for.
-		@returns String Model the blueprint will be set to.
-		@returns String Skin the model will be set to.
+		@param {Table} Blueprint getting the icon for.
+		@returns {String} Model the blueprint will be set to.
+		@returns {String} Skin the model will be set to.
 	--]]
 	function Clockwork.crafting:GetIconInfo(blueprintTable)
 		local model = blueprintTable("iconModel", blueprintTable("model"));
@@ -582,10 +582,10 @@ if (CLIENT) then
 	--[[
 		@codebase Client
 		@details A function to get an item's markup tool tip.
-		@param Table Blueprint getting the tooltip for.
+		@param {Table} Blueprint getting the tooltip for.
 		@param Bool Whether or not the tool tip wil be displayed in the business style.
 		@param Function Called when the tooltip is displayed.
-		@returns String The tool tip to be displayed.
+		@returns {String} The tool tip to be displayed.
 	--]]
 	function Clockwork.crafting:GetMarkupToolTip(blueprintTable, isBusinessStyle, Callback)
 		local informationColor = Clockwork.option:GetColor("information");

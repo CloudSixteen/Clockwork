@@ -115,7 +115,7 @@ end;
 	@details Add a new 9 Sliced sprite.
 	@param String A name to identify the sprite by.
 	@param String The file name of the sprite (.png only).
-	@param Int The size of the sprite's corners.
+	@param {Number} The size of the sprite's corners.
 	@returns The SliceObject created.
 --]]
 function Clockwork.render:AddSlice9(name, fileName, cornerSize)

@@ -92,7 +92,7 @@ Clockwork.SharedTables = Clockwork.SharedTables or {};
 	@codebase Shared
 	@details A function to split a string but keep the delimiter.
 	@param String The string to split.
-	@returns String The delimiter pattern.
+	@returns {String} The delimiter pattern.
 --]]
 function Clockwork.kernel:SplitKeepDelim(input, delim)
 	local output = {};
@@ -122,7 +122,7 @@ end;
 	@codebase Shared
 	@details A function to encode a URL.
 	@param String The URL to encode.
-	@returns String The encoded URL.
+	@returns {String} The encoded URL.
 --]]
 function Clockwork.kernel:URLEncode(url)
 	local output = "";
@@ -147,9 +147,9 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get whether two tables are equal.
-	@param Table The first unique table to compare.
-	@param Table The second unique table to compare.
-	@returns Bool Whether or not the tables are equal.
+	@param {Table} The first unique table to compare.
+	@param {Table} The second unique table to compare.
+	@returns {Bool} Whether or not the tables are equal.
 --]]
 function Clockwork.kernel:AreTablesEqual(tableA, tableB)
 	if (type(tableA) == "table" and type(tableB) == "table") then
@@ -168,8 +168,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get whether a weapon is a default weapon.
-	@param Entity The weapon entity.
-	@returns Bool Whether or not the weapon is a default weapon.
+	@param {Entity} The weapon entity.
+	@returns {Bool} Whether or not the weapon is a default weapon.
 --]]
 function Clockwork.kernel:IsDefaultWeapon(weapon)
 	if (IsValid(weapon)) then
@@ -338,7 +338,7 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get the kernel version.
-	@returns String The kernel version.
+	@returns {String} The kernel version.
 --]]
 function Clockwork.kernel:GetVersion()
 	return Clockwork.KernelVersion;
@@ -347,7 +347,7 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get the kernel build.
-	@returns String The kernel build.
+	@returns {String} The kernel build.
 --]]
 function Clockwork.kernel:GetBuild()
 	return Clockwork.KernelBuild;
@@ -356,7 +356,7 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get the kernel version and build.
-	@returns String The kernel version and build concatenated.
+	@returns {String} The kernel version and build concatenated.
 --]]
 function Clockwork.kernel:GetVersionBuild()
 	if (Clockwork.KernelBuild) then
@@ -369,7 +369,7 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get the schema folder.
-	@returns String The schema folder.
+	@returns {String} The schema folder.
 --]]
 function Clockwork.kernel:GetSchemaFolder(sFolderName)
 	if (sFolderName) then
@@ -382,7 +382,7 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get the schema gamemode path.
-	@returns String The schema gamemode path.
+	@returns {String} The schema gamemode path.
 --]]
 function Clockwork.kernel:GetSchemaGamemodePath()
 	return (stringGsub(Clockwork.SchemaFolder, "gamemodes/", "").."/gamemode");
@@ -391,7 +391,7 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get the Clockwork folder.
-	@returns String The Clockwork folder.
+	@returns {String} The Clockwork folder.
 --]]
 function Clockwork.kernel:GetClockworkFolder()
 	return (stringGsub(Clockwork.ClockworkFolder, "gamemodes/", ""));
@@ -400,7 +400,7 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get the Clockwork path.
-	@returns String The Clockwork path.
+	@returns {String} The Clockwork path.
 --]]
 function Clockwork.kernel:GetClockworkPath()
 	return (stringGsub(Clockwork.ClockworkFolder, "gamemodes/", "").."/framework");

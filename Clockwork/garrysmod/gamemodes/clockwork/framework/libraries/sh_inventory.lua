@@ -167,9 +167,9 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get the amount of items an entity has in its inventory by ID.
-	@param Table Inventory of the entity.
-	@param Int ID of item looked up in the inventory to get the amount.
-	@returns Int Number of items in the inventory that match the ID.
+	@param {Table} Inventory of the entity.
+	@param {Number} ID of item looked up in the inventory to get the amount.
+	@returns {Number} Number of items in the inventory that match the ID.
 --]]
 function Clockwork.inventory:GetItemCountByID(inventory, uniqueID)
 	local itemTable = Clockwork.item:FindByID(uniqueID);
@@ -195,10 +195,10 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get whether a player has a specific amount of items in their inventory by ID.
-	@param Table Inventory of the entity.
-	@param Int ID of the item being checked for its amount in the inventory.
-	@param Int Amount of items the entity needs to have in order to return true.
-	@returns Bool Whether the entity has a specific amount of items in its inventory or not.
+	@param {Table} Inventory of the entity.
+	@param {Number} ID of the item being checked for its amount in the inventory.
+	@param {Number} Amount of items the entity needs to have in order to return true.
+	@returns {Bool} Whether the entity has a specific amount of items in its inventory or not.
 --]]
 function Clockwork.inventory:HasItemCountByID(inventory, uniqueID, amount)
 	local amountInInventory = self:GetItemCountByID(inventory, uniqueID);

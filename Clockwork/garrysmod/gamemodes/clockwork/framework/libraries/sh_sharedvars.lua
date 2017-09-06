@@ -15,7 +15,7 @@ Clockwork.SharedVars.global = Clockwork.SharedVars.global or {vars = {}};
 --[[
 	@codebase Shared
 	@details A function to get the global shared variables.
-	@param Table The global shared variable object.
+	@param {Table} The global shared variable object.
 --]]
 function Clockwork.SharedVars:Global(bObject)
 	if (!bObject) then
@@ -28,7 +28,7 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get the player shared variables.
-	@param Table The player shared variable object.
+	@param {Table} The player shared variable object.
 --]]
 function Clockwork.SharedVars:Player(bObject)
 	if (!bObject) then

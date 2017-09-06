@@ -22,10 +22,10 @@ Clockwork.cooldown.sizes = Clockwork.cooldown.sizes or {};
 --[[
 	@codebase Client
 	@details Get a cooldown table from the list.
-	@param Int The width of the cooldown box.
-	@param Int The height of the cooldown box.
+	@param {Number} The width of the cooldown box.
+	@param {Number} The height of the cooldown box.
 	@param Bool Whether or not to add the size if it doesn't exist.
-	@returns Table The cooldown table matching the specified size.
+	@returns {Table} The cooldown table matching the specified size.
 --]]
 function Clockwork.cooldown:GetTable(width, height, bAdd)
 	local cooldownTable = self.sizes[width.." "..height];
@@ -40,9 +40,9 @@ end;
 --[[
 	@codebase Client
 	@details Add a new cooldown size to the list.
-	@param Int The width of the cooldown box.
-	@param Int The height of the cooldown box.
-	@returns Table The newly added cooldown table.
+	@param {Number} The width of the cooldown box.
+	@param {Number} The height of the cooldown box.
+	@returns {Table} The newly added cooldown table.
 --]]
 function Clockwork.cooldown:AddSize(width, height)
 	local verticies = {
@@ -109,13 +109,13 @@ end;
 --[[
 	@codebase Client
 	@details Draw a cooldown box at a position.
-	@param Int The horizontal position of the box.
-	@param Int The vertical position of the box.
-	@param Int The width of the cooldown box.
-	@param Int The height of the cooldown box.
-	@param Float The current progress of the cooldown.
-	@param Color The color of the cooldown box.
-	@param Int The texture ID to use when drawing.
+	@param {Number} The horizontal position of the box.
+	@param {Number} The vertical position of the box.
+	@param {Number} The width of the cooldown box.
+	@param {Number} The height of the cooldown box.
+	@param {Float} The current progress of the cooldown.
+	@param {Color} The color of the cooldown box.
+	@param {Number} The texture ID to use when drawing.
 	@param Bool Whether or not to center the box.
 --]]
 function Clockwork.cooldown:DrawBox(x, y, width, height, progress, color, textureID, bCenter)

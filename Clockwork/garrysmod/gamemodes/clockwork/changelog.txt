@@ -63,5 +63,8 @@ Added exception handling for /rankdemote and /rankpromote
 Fixed /itc not working at all (became undone?)
 Fixed /plyrespawntp erroring out when trying to TP somebody
 Removed anon (?) speaker character
-Proper codebase formatting for all function headers
+Proper Codebase formatting for ALL function headers
 Added Tools folder to repo with HookDoccer and ItemTranslator (for developers)
+Fixed PlySetFlags output text (thanks @robot)
+Fixed System - Manage Config NumSlider "Value" to support languages (thanks @robot)
+Updated the Korean translations (thanks @tensa)

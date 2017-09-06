@@ -19,7 +19,7 @@ Clockwork.file = Clockwork.kernel:NewLibrary("File");
 	@codebase Server
 	@details A function to read files.
 	@param String The file path.
-	@returns String The contents of the file.
+	@returns {String} The contents of the file.
 --]]
 function Clockwork.file:Read(filePath)
 	return fileio.Read(filePath);

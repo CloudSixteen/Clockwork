@@ -79,7 +79,7 @@ end;
 --[[
 	@codebase Client
 	@details Get the previous creation panel.
-	@returns Table The previous creation panel info.
+	@returns {Table} The previous creation panel info.
 --]]
 function Clockwork.character:GetPreviousCreationPanel()
 	local info = self:GetCreationInfo();
@@ -100,7 +100,7 @@ end;
 --[[
 	@codebase Client
 	@details Get the next creation panel.
-	@returns Table The next creation panel info.
+	@returns {Table} The next creation panel info.
 --]]
 function Clockwork.character:GetNextCreationPanel()
 	local info = self:GetCreationInfo();
@@ -129,7 +129,7 @@ end;
 --[[
 	@codebase Client
 	@details Get the active character creation info.
-	@returns Table The active character creation info.
+	@returns {Table} The active character creation info.
 --]]
 function Clockwork.character:GetCreationInfo()
 	return self:GetPanel().info;
