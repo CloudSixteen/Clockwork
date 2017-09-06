@@ -39,7 +39,7 @@ Made plugin and schema descriptions (and names) translatable
 Proper attribute language description for attributes
 Removed sh_fixes.lua file as it's no longer used in this update
 Localized Stamina attribute in the stamina plugin
-Moved Stamina plugin back to HL2RP because it's stupid that it was ever in the framework, the schema and its plugins should decide what attributes exist
+Moved Stamina plugin back to HL2RP because it's stupid that it was ever in the frameRwork, the schema and its plugins should decide what attributes exist
 Added character name limit (thanks HappyGoLucky1!)
 Updated Korean translation files (thanks Tensa!)
 Removed a config option that was unused (name_crafting)
@@ -55,3 +55,11 @@ Started work on an alternative version of the theme (slightly more plainer, diff
 Updated a whole bunch of derma related files
 Changed the way the System menu works and updated its styling
 Added System icons for each System type
+Fixed an error (null ref) with typing display
+Fixed an error with the notify all lang breaking the chatbox
+
+06/09/2017
+Added exception handling for /rankdemote and /rankpromote
+Fixed /itc not working at all (became undone?)
+Fixed /plyrespawntp erroring out when trying to TP somebody
+Removed anon (?) speaker character

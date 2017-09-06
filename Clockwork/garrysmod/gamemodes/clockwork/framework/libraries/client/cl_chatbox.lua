@@ -1063,6 +1063,18 @@ Clockwork.chatBox:RegisterDefaultClass("it", "ic", function(info)
 	Clockwork.chatBox:Add(info.filtered, nil, unpack(localized));
 end);
 
+Clockwork.chatBox:RegisterDefaultClass("itc", "ic", function(info)
+	local color = Color(255, 255, 175, 255);
+	
+	if (info.focusedOn) then
+		color = Color(175, 255, 175, 255);
+	end;
+	
+	local localized = Clockwork.chatBox:LangToTable("ChatPlayerItC", color, info.name, info.text);
+	
+	Clockwork.chatBox:Add(info.filtered, nil, unpack(localized));
+end);
+
 Clockwork.chatBox:RegisterDefaultClass("itl", "ic", function(info)
 	local color = Color(255, 255, 150, 255);
 
@@ -1284,7 +1296,7 @@ end);
 
 Clockwork.datastream:Hook("ChatBoxPlayerMessage", function(data)
 	if (data.speaker:IsPlayer()) then
-		Clockwork.chatBox:Decode(data.speaker, data.speaker:Name(), data.text, data.data, data.class, data.multiplier);
+		Clockwork.chatBox:Decode(data.speaker, data.speaker:Name(), T(data.text), data.data, data.class, data.multiplier);
 	end;
 end);
 

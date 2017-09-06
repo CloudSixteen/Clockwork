@@ -34,9 +34,11 @@ function COMMAND:OnRun(player, arguments)
 				
 				if (IsValid(entity)) then
 					Clockwork.entity:MakeFlushToGround(entity, trace.HitPos, trace.HitNormal);
-						player:TakeItem(itemTable, true);
-						player:StripWeapon(class);
-						player:SelectWeapon("cw_hands");
+					
+					player:TakeItem(itemTable, true);
+					player:StripWeapon(class);
+					player:SelectWeapon("cw_hands");
+					
 					Clockwork.plugin:Call("PlayerDropWeapon", player, itemTable, entity, weapon);
 				end;
 			else

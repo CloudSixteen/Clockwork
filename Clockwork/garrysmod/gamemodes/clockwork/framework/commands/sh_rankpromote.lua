@@ -16,6 +16,12 @@ COMMAND.optionalArguments = 1;
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)
 	local target = Clockwork.player:FindByID(arguments[1]);
+	
+	if (!target) then
+		Clockwork.player:Notify(player, {"NotValidCharacter", arguments[1]});
+		return;
+	end;
+	
 	local isForced = tobool(arguments[2]);
 
 	if (isForced) then

@@ -20,13 +20,13 @@ function COMMAND:OnRun(player, arguments)
 	local target = Clockwork.player:FindByID(arguments[1]);
 	local isSilent = Clockwork.kernel:ToBool(arguments[2]);
 	local trace = player:GetEyeTraceNoCursor();
-
+	
 	if (target) then
 		Clockwork.player:LightSpawn(target, true, true, true);
-		Clockwork.player:SetSafePosition(target, trace);
+		Clockwork.player:SetSafePosition(target, trace.endpos);
 		Clockwork.player:Notify(player, {"PlayerWasRespawnedToTarget", target:GetName()});
 	else
-		Clockwork.player:Notify(player, {"NotValidTarget", arguments[2]});
+		Clockwork.player:Notify(player, {"NotValidTarget", arguments[1]});
 	end;
 end;
 

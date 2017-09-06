@@ -855,3 +855,5 @@ CW_ENGLISH["SystemColorModHelpText"] = "Changing these values will affect the co
 CW_ENGLISH["SystemColorModAdvOnly"] = "Please note that this is for advanced users only.";
 CW_ENGLISH["InvalidPluginAuthor"] = "Invalid Author Name";
 CW_ENGLISH["Color"] = "Color";
+
+CW_ENGLISH["ChatPlayerItC"] = ":color1:*' #1";
