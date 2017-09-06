@@ -253,7 +253,7 @@ function Codebase.ProcessFile(fileName)
 	end;
 end;
 
-concommand.Add("codebase", function(player, command, arguments)
+concommand.Add("codebase2", function(player, command, arguments)
 	Codebase.fileManifest = {};
 	Codebase.outputTable = {};
 	Codebase.outputTable["empty_files.lua"] = {};
@@ -298,7 +298,13 @@ concommand.Add("codebase", function(player, command, arguments)
 			end;
 			--]]
 			
-			Clockwork.file:Write("codebase/generated.json", Clockwork.json:Encode(Codebase.outputTable));
+			local mergedOutput = {};
+			
+			for k, v in pairs(Codebase.outputTable) do
+				table.Merge(mergedOutput, v);
+			end;
+			
+			Clockwork.file:Write("codebase/generated.json", Clockwork.json:Encode(mergedOutput));
 			MsgC(Color(255, 200, 0), "@codebase has saved the generated JSON to codebase/generated.json\n");
 		end);
 	end;
