@@ -857,3 +857,4 @@ CW_ENGLISH["InvalidPluginAuthor"] = "Invalid Author Name";
 CW_ENGLISH["Color"] = "Color";
 
 CW_ENGLISH["ChatPlayerItC"] = ":color1:*' #1";
+CW_ENGLISH["StorageTransfer"] = "Transfer";

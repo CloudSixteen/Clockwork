@@ -25,5 +25,5 @@ CW_SPANISH["RemovedStaticInRadius"] = "Has eliminado un total de #1 entidades es
 CW_SPANISH["AddedStaticInRadius"] = "Has añadido un total de #1 entidades estáticas en un radio de #2 unidades(s) alrededor tuya.";
 CW_SPANISH["StaticMustEnterRadius"] = "Tienes que introducir un número para elegir el radio!";
 
-CW_SPANISH["ShowStaticEntities"] = "Mostrar entidades estáticas";
+CW_SPANISH["ShowStaticEntities"] = "Mostrar entidades estáticas (ESP)";
 CW_SPANISH["ShowStaticEntitiesDesc"] = "Mostrar o ocultar las entidades estáticas en el Admin ESP.";
