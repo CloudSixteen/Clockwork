@@ -856,4 +856,9 @@ CW_SPANISH["SystemColorModAdvOnly"] = "Ten en cuenta que estas opciones son úni
 CW_SPANISH["InvalidPluginAuthor"] = "Nombre de autor inválido";
 CW_SPANISH["Color"] = "Color";
 
+CW_SPANISH["ChatPlayerItC"] = ":color1:*' #1";
 CW_SPANISH["StorageTransfer"] = "Transferir";
+
+CW_SPANISH["CraftErrorNotAllowed"] = "¡No tienes el acceso requerido para hacer esto!";
+CW_SPANISH["YouCannotAffordToDoThat"] = "¡No puedes permitirte hacer eso!";
+CW_SPANISH["MissingItemRequirements"] = "¡No cumples todos los requisitos!";
