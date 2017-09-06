@@ -202,7 +202,7 @@ if (CLIENT) then
 		local systemTable = Clockwork.system:FindByID("ManageConfig");
 		
 		if (systemTable) then
-			systemTable.activeKey = { name = data[1], value = data[2] };
+			systemTable.activeKey = { key = data[1], value = data[2] };
 			systemTable:PopulateConfigBox();
 		end;
 	end);
