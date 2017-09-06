@@ -769,7 +769,7 @@ CW_SPANISH["LogPlayerUsedCommandArgs"] = "#1 ha usado '#2 #3'.";
 CW_SPANISH["LogPlayerUsedCommand"] = "#1 ha usado '#2'.";
 CW_SPANISH["LogPlayerRoll"] = "#1 ha tirado los dados y ha sacado #2 sobre #3.";
 
-CW_SPANISH["PlayerRoll"] = "¡Ha tirado los dados y sacado #1 de #2!";
+CW_SPANISH["PlayerRoll"] = "ha tirado los dados y ha sacado #1 sobre #2!";
 
 CW_SPANISH["FaultDidNotChooseTraits"] = "¡No has escogido ninguno de los #1 disponibles!";
 CW_SPANISH["YouCannotCreateThisChar"] = "¡No puedes crear este personaje!";
