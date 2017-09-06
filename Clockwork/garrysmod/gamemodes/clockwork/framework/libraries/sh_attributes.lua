@@ -145,7 +145,7 @@ if (SERVER) then
 		player.cwAttrBoosts = {};
 	end;
 	
-	---[[
+	--[[
 		@codebase Shared
 		@details A function to get whether a boost is active for a player.
 		@param {Unknown} Missing description for player.
