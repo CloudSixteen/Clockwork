@@ -1,45 +1,46 @@
 --[[
-	© 2013 CloudSixteen.com do not share, re-distribute or modify
+	© 2017 CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
 	https://creativecommons.org/licenses/by-nc-nd/3.0/legalcode
 --]]
 
-local FILE_MANIFEST = nil;
-local OUTPUT_TABLE = nil;
+Codebase = {};
+Codebase.fileManifest = nil;
+Codebase.outputTable = nil;
 
-local function AddFilesToManifest(directory)
+function Codebase.AddFilesToManifest(directory)
 	local files, folders = file.Find(directory.."/*", "GAME");
 	
 	for k, v in pairs(files) do
 		if (v != ".." and v != ".") then
-			FILE_MANIFEST[#FILE_MANIFEST + 1] = directory.."/"..v
+			Codebase.fileManifest[#Codebase.fileManifest + 1] = directory.."/"..v
 		end;
 	end;
 	
 	for k, v in pairs(folders) do
 		if (v != ".." and v != ".") then
-			AddFilesToManifest(directory.."/"..v);
+			Codebase.AddFilesToManifest(directory.."/"..v);
 		end;
 	end;
 end;
 
-local function ProcessFile(fileName)
+function Codebase.ProcessFile(fileName)
 	local fileData = file.Read(fileName, "GAME");
 	local fileLines = string.Explode("\n", fileData);
-	local bInComment = false;
+	local isInComment = false;
 	local codebase = nil;
 	local counter = {classes = 0, libraries = 0, functions = 0, hooks = 0};
 
-	OUTPUT_TABLE[fileName] = {functions = {}, classes = {}, libraries = {}, hooks = {}};
+	Codebase.outputTable[fileName] = {functions = {}, classes = {}, libraries = {}, hooks = {}};
 	
 	for k, v in ipairs(fileLines) do
 		if (string.find(v, "%-%-%[%[")) then
-			bInComment = true;
+			isInComment = true;
 		end;
 		
-		if (bInComment and !codebase) then
+		if (isInComment and !codebase) then
 			local scriptState = string.match(v, "@codebase%s([a-zA-Z0-9]+)");
 			
 			if (scriptState) then
@@ -58,11 +59,11 @@ local function ProcessFile(fileName)
 			local paramType, paramNote = string.match(v, "@param%s([a-zA-Z0-9]+)%s(.+)");
 			local returnType, returnNote = string.match(v, "@returns%s([a-zA-Z0-9]+)%s(.+)");
 			local optionType, optionNote = string.match(v, "@option%s([a-zA-Z0-9]+)%s(.+)");
-			local bIsValidField = false;
+			local isValidField = false;
 			
 			if (details) then
 				codebase.details = details;
-				bIsValidField = true;
+				isValidField = true;
 			end;
 			
 			if (fieldName and fieldNote) then
@@ -73,7 +74,7 @@ local function ProcessFile(fileName)
 					note = fieldNote
 				};
 				
-				bIsValidField = true;
+				isValidField = true;
 			end;
 			
 			if (optionType and optionNote) then
@@ -87,7 +88,7 @@ local function ProcessFile(fileName)
 					note = optionNote
 				};
 				
-				bIsValidField = true;
+				isValidField = true;
 			end;
 			
 			if (paramType and paramNote) then
@@ -105,7 +106,7 @@ local function ProcessFile(fileName)
 					note = paramNote
 				};
 				
-				bIsValidField = true;
+				isValidField = true;
 			end;
 			
 			if (returnType and returnNote) then
@@ -123,10 +124,10 @@ local function ProcessFile(fileName)
 					note = returnNote
 				};
 				
-				bIsValidField = true;
+				isValidField = true;
 			end;
 			
-			if (!bInComment) then
+			if (!isInComment) then
 				local funcName, paramString = string.match(v, "function%s(.+)%((.+)%)");
 				local className = string.match(v, "(.-)%s?=%s?{");
 				local libName, niceName = string.match(v, "(.+)%s=%sClockwork.kernel:NewLibrary%(\"(.+)\"%)");
@@ -180,39 +181,39 @@ local function ProcessFile(fileName)
 						end
 						
 						if (codebase.libName == "Clockwork" and syntax == ":") then
-							OUTPUT_TABLE[fileName]["hooks"][niceName] = codebase;
+							Codebase.outputTable[fileName]["hooks"][niceName] = codebase;
 							counter.hooks = counter.hooks + 1;
 						else
-							OUTPUT_TABLE[fileName]["functions"][libName] = OUTPUT_TABLE[fileName]["functions"][libName] or {};
-							OUTPUT_TABLE[fileName]["functions"][libName][niceName] = codebase;
+							Codebase.outputTable[fileName]["functions"][libName] = Codebase.outputTable[fileName]["functions"][libName] or {};
+							Codebase.outputTable[fileName]["functions"][libName][niceName] = codebase;
 							counter.functions = counter.functions + 1;
 						end;
 					end;
 					
-					bIsValidField = true;
+					isValidField = true;
 				elseif (libName and niceName) then
 					codebase.niceName = niceName;
 					codebase.libName = libName;
 					codebase.objType = "library";
-					OUTPUT_TABLE[fileName]["libraries"][libName] = codebase;
+					Codebase.outputTable[fileName]["libraries"][libName] = codebase;
 					counter.libraries = counter.libraries + 1;
 					
-					bIsValidField = true;
+					isValidField = true;
 				elseif (className) then
 					codebase.niceName = name or string.Trim(className);
 					codebase.objType = "class";
-					OUTPUT_TABLE[fileName]["classes"][codebase.niceName] = codebase;
+					Codebase.outputTable[fileName]["classes"][codebase.niceName] = codebase;
 					counter.classes = counter.classes + 1;
 					
-					bIsValidField = true;
+					isValidField = true;
 				end;
 				
 				codebase = nil;
 			end;
 			
 			if (string.find(v, "%-%-%]%]")) then
-				bInComment = false;
-			elseif (!bIsValidField and codebase) then
+				isInComment = false;
+			elseif (!isValidField and codebase) then
 				if (!codebase.details) then
 					codebase.details = "";
 				end;
@@ -246,27 +247,27 @@ local function ProcessFile(fileName)
 		MsgC(Color(150, 225, 150), "@codebase "..(string.gsub(fileName, "gamemodes/clockwork/framework/", "")).."\n");
 		MsgC(Color(150, 150, 150), "\t"..countString.."\n");
 	else
-		OUTPUT_TABLE[fileName] = nil;
-		table.insert(OUTPUT_TABLE["empty_files.lua"], fileName);
+		Codebase.outputTable[fileName] = nil;
+		table.insert(Codebase.outputTable["empty_files.lua"], fileName);
 		MsgC(Color(255, 128, 128), "@codebase "..(string.gsub(fileName, "gamemodes/clockwork/framework/", "")).."\n");
 	end;
 end;
 
 concommand.Add("codebase", function(player, command, arguments)
-	FILE_MANIFEST = {};
-	OUTPUT_TABLE = {};
-	OUTPUT_TABLE["empty_files.lua"] = {};
-
-	AddFilesToManifest("gamemodes/clockwork/framework");
+	Codebase.fileManifest = {};
+	Codebase.outputTable = {};
+	Codebase.outputTable["empty_files.lua"] = {};
+	
+	Codebase.AddFilesToManifest("gamemodes/clockwork/framework");
 
 	local delay = 0;
-	for k, v in ipairs(FILE_MANIFEST) do
+	for k, v in ipairs(Codebase.fileManifest) do
 		if (delay > 0) then
 			timer.Simple(delay, function()
-				ProcessFile(v);
+				Codebase.ProcessFile(v);
 			end);
 		else
-			ProcessFile(v);
+			Codebase.ProcessFile(v);
 		end;
 
 		delay = delay + 0.005;
@@ -274,28 +275,31 @@ concommand.Add("codebase", function(player, command, arguments)
 	
 	if (delay > 0) then
 		timer.Simple(delay, function()
-			for k, v in pairs(OUTPUT_TABLE) do
+			--[[
+			for k, v in pairs(Codebase.outputTable) do
 				local saveName = string.gsub(k, "gamemodes/clockwork/", "");
-					saveName = "codebase/"..string.gsub(saveName, ".lua", ".txt");
+				
+				saveName = "codebase/"..string.gsub(saveName, ".lua", ".txt");
+				
 				local dirString = "";
 				local explodeTable = string.Explode("/", saveName);
 
 				for k, v in ipairs(explodeTable) do
 					if (k != #explodeTable) then
 						dirString = dirString..v.."/";
-
-						file.CreateDir(dirString);
+						
+						Clockwork.file:MakeDirectory(dirString);
 					end;	
 				end;
-		
-				local success, err = pcall(file.Write, saveName, Clockwork.json:Encode(v));
-
-				if (!success) then
-					MsgC(Color(255, 128, 128), err.."\n");
-				else
-					MsgC(Color(255, 200, 0), "@codebase has saved the generated JSON to data/"..saveName.."\n");
-				end			
+				
+				Clockwork.file:Write(saveName, Clockwork.json:Encode(v));
+				
+				MsgC(Color(255, 200, 0), "@codebase has saved the generated JSON to data/"..saveName.."\n");
 			end;
+			--]]
+			
+			Clockwork.file:Write("codebase/generated.json", Clockwork.json:Encode(Codebase.outputTable));
+			MsgC(Color(255, 200, 0), "@codebase has saved the generated JSON to codebase/generated.json\n");
 		end);
 	end;
 end);

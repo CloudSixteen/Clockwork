@@ -42,12 +42,6 @@ if (!chat.ClockworkAddText) then
 	chat.ClockworkAddText = chat.AddText;
 end;
 
---[[
-	@codebase Client
-	@details A function to add text to the chat box.
-	@param {Unknown} Missing description for ....
-	@returns {Unknown}
---]]
 function chat.AddText(...)
 	local curColor = nil;
 	local text = {};

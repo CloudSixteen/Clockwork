@@ -3871,13 +3871,6 @@ else
 		panel.OldCursorExited = panel.OnCursorExited;
 		panel.OldCursorEntered = panel.OnCursorEntered;
 		
-		--[[
-			@codebase Shared
-			@details Called when the cursor enters the panel.
-			@param {Unknown} Missing description for panel.
-			@param {Unknown} Missing description for ....
-			@returns {Unknown}
-		--]]
 		function panel.OnCursorEntered(panel, ...)
 			if (panel.OldCursorEntered) then
 				panel:OldCursorEntered(...);
@@ -3886,13 +3879,6 @@ else
 			Clockwork.MarkupToolTip = panel;
 		end;
 
-		--[[
-			@codebase Shared
-			@details Called when the cursor exits the panel.
-			@param {Unknown} Missing description for panel.
-			@param {Unknown} Missing description for ....
-			@returns {Unknown}
-		--]]
 		function panel.OnCursorExited(panel, ...)
 			if (panel.OldCursorExited) then
 				panel:OldCursorExited(...);
@@ -3903,13 +3889,6 @@ else
 			end;
 		end;
 		
-		--[[
-			@codebase Shared
-			@details A function to set the panel's markup tool tip.
-			@param {Unknown} Missing description for panel.
-			@param {Unknown} Missing description for text.
-			@returns {Unknown}
-		--]]
 		function panel.SetMarkupToolTip(panel, text)
 			if (!string.find(text, "</font>")) then
 				text = Clockwork.kernel:MarkupTextWithColor(text);
@@ -3925,23 +3904,10 @@ else
 			end;
 		end;
 		
-		--[[
-			@codebase Shared
-			@details A function to get the panel's markup tool tip.
-			@param {Unknown} Missing description for panel.
-			@returns {Unknown}
-		--]]
 		function panel.GetMarkupToolTip(panel)
 			return panel.MarkupToolTip;
 		end;
 		
-		--[[
-			@codebase Shared
-			@details A function to set the panel's tool tip.
-			@param {Unknown} Missing description for panel.
-			@param {Unknown} Missing description for toolTip.
-			@returns {Unknown}
-		--]]
 		function panel.SetToolTip(panel, toolTip)
 			panel:SetMarkupToolTip(toolTip);
 		end;
