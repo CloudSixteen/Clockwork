@@ -59,7 +59,12 @@ local cwInventory = Clockwork.inventory;
 Clockwork.player = cwKernel:NewLibrary("Player");
 
 if (CLIENT) then
--- A function to get whether the local player can hold a weight.
+--[[
+	@codebase Shared
+	@details A function to get whether the local player can hold a weight.
+	@param {Unknown} Missing description for weight.
+	@returns {Unknown}
+--]]
 function Clockwork.player:CanHoldWeight(weight)
 	local inventoryWeight = Clockwork.inventory:CalculateWeight(
 		Clockwork.inventory:GetClient()
@@ -72,7 +77,12 @@ function Clockwork.player:CanHoldWeight(weight)
 	end;
 end;
 
--- A function to get whether the local player can fit a space.
+--[[
+	@codebase Shared
+	@details A function to get whether the local player can fit a space.
+	@param {Unknown} Missing description for space.
+	@returns {Unknown}
+--]]
 function Clockwork.player:CanHoldSpace(space)
 	local inventorySpace = Clockwork.inventory:CalculateSpace(
 		Clockwork.inventory:GetClient()
@@ -85,7 +95,11 @@ function Clockwork.player:CanHoldSpace(space)
 	end;
 end;
 
--- A function to get the maximum amount of weight the local player can carry.
+--[[
+	@codebase Shared
+	@details A function to get the maximum amount of weight the local player can carry.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetMaxWeight()
 	local itemsList = Clockwork.inventory:GetAsItemsList(
 		Clockwork.inventory:GetClient()
@@ -104,7 +118,11 @@ function Clockwork.player:GetMaxWeight()
 	return weight;
 end;
 
--- A function to get the maximum amount of space the local player can carry.
+--[[
+	@codebase Shared
+	@details A function to get the maximum amount of space the local player can carry.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetMaxSpace()
 	local itemsList = Clockwork.inventory:GetAsItemsList(
 		Clockwork.inventory:GetClient()
@@ -122,7 +140,12 @@ function Clockwork.player:GetMaxSpace()
 	return space;
 end;
 
--- A function to find a player by an identifier.
+--[[
+	@codebase Shared
+	@details A function to find a player by an identifier.
+	@param {Unknown} Missing description for identifier.
+	@returns {Unknown}
+--]]
 function Clockwork.player:FindByID(identifier)
 	for k, v in pairs(player.GetAll()) do
 		if (v:HasInitialized() and (v:SteamID() == identifier
@@ -132,17 +155,29 @@ function Clockwork.player:FindByID(identifier)
 	end;
 end;
 
--- A function to get the local player's clothes data.
+--[[
+	@codebase Shared
+	@details A function to get the local player's clothes data.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetClothesData()
 	return Clockwork.ClothesData;
 end;
 
--- A function to get the local player's accessory data.
+--[[
+	@codebase Shared
+	@details A function to get the local player's accessory data.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetAccessoryData()
 	return Clockwork.AccessoryData;
 end;
 
--- A function to get the local player's clothes item.
+--[[
+	@codebase Shared
+	@details A function to get the local player's clothes item.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetClothesItem()
 	local clothesData = self:GetClothesData();
 
@@ -154,12 +189,21 @@ function Clockwork.player:GetClothesItem()
 	end;
 end;
 
--- A function to get whether the local player is wearing clothes.
+--[[
+	@codebase Shared
+	@details A function to get whether the local player is wearing clothes.
+	@returns {Unknown}
+--]]
 function Clockwork.player:IsWearingClothes()
 	return (self:GetClothesItem() != nil);
 end;
 
--- A function to get whether the local player has an accessory.
+--[[
+	@codebase Shared
+	@details A function to get whether the local player has an accessory.
+	@param {Unknown} Missing description for uniqueID.
+	@returns {Unknown}
+--]]
 function Clockwork.player:HasAccessory(uniqueID)
 	local accessoryData = self:GetAccessoryData();
 	
@@ -172,7 +216,12 @@ function Clockwork.player:HasAccessory(uniqueID)
 	return false;
 end;
 
--- A function to get whether the local player is wearing an accessory.
+--[[
+	@codebase Shared
+	@details A function to get whether the local player is wearing an accessory.
+	@param {Unknown} Missing description for itemTable.
+	@returns {Unknown}
+--]]
 function Clockwork.player:IsWearingAccessory(itemTable)
 	local accessoryData = self:GetAccessoryData();
 	local itemID = itemTable("itemID");
@@ -184,13 +233,23 @@ function Clockwork.player:IsWearingAccessory(itemTable)
 	end;
 end;
 
--- A function to get whether the local player is wearing an item.
+--[[
+	@codebase Shared
+	@details A function to get whether the local player is wearing an item.
+	@param {Unknown} Missing description for itemTable.
+	@returns {Unknown}
+--]]
 function Clockwork.player:IsWearingItem(itemTable)
 	local clothesItem = self:GetClothesItem();
 	return (clothesItem and clothesItem:IsTheSameAs(itemTable));
 end;
 
--- A function to get whether a player is noclipping.
+--[[
+	@codebase Shared
+	@details A function to get whether a player is noclipping.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:IsNoClipping(player)
 	if (player:GetMoveType() == MOVETYPE_NOCLIP
 	and !player:InVehicle()) then
@@ -198,19 +257,35 @@ function Clockwork.player:IsNoClipping(player)
 	end;
 end;
 
--- A function to get whether a player is an admin.
+--[[
+	@codebase Shared
+	@details A function to get whether a player is an admin.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:IsAdmin(player)
 	if (self:HasFlags(player, "o")) then
 		return true;
 	end;
 end;
 
--- A function to get whether the local player's data has streamed.
+--[[
+	@codebase Shared
+	@details A function to get whether the local player's data has streamed.
+	@returns {Unknown}
+--]]
 function Clockwork.player:HasDataStreamed()
 	return Clockwork.DataHasStreamed;
 end;
 
--- A function to get whether a player can hear another player.
+--[[
+	@codebase Shared
+	@details A function to get whether a player can hear another player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for target.
+	@param {Unknown} Missing description for allowance.
+	@returns {Unknown}
+--]]
 function Clockwork.player:CanHearPlayer(player, target, allowance)
 	if (Clockwork.config:Get("messages_must_see_player"):Get()) then
 		return self:CanSeePlayer(player, target, (allowance or 0.5), true);
@@ -219,7 +294,11 @@ function Clockwork.player:CanHearPlayer(player, target, allowance)
 	end;
 end;
 	
--- A function to get whether the target recognises the local player.
+--[[
+	@codebase Shared
+	@details A function to get whether the target recognises the local player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:DoesTargetRecognise()
 	if (Clockwork.config:Get("recognise_system"):Get()) then
 		return Clockwork.Client:GetSharedVar("TargetKnows");
@@ -228,7 +307,13 @@ function Clockwork.player:DoesTargetRecognise()
 	end;
 end;
 
--- A function to get a player's real trace.
+--[[
+	@codebase Shared
+	@details A function to get a player's real trace.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for useFilterTrace.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetRealTrace(player, useFilterTrace)
 	if (!IsValid(player)) then
 		return;
@@ -262,7 +347,13 @@ function Clockwork.player:GetRealTrace(player, useFilterTrace)
 	return trace;
 end;
 
--- A function to get the local player's action.
+--[[
+	@codebase Shared
+	@details A function to get the local player's action.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for percentage.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetAction(player, percentage)
 	local startActionTime = player:GetSharedVar("StartActTime");
 	local actionDuration = player:GetSharedVar("ActDuration");
@@ -280,7 +371,11 @@ function Clockwork.player:GetAction(player, percentage)
 	end;
 end;
 
--- A function to get the local player's maximum characters.
+--[[
+	@codebase Shared
+	@details A function to get the local player's maximum characters.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetMaximumCharacters()
 	local whitelisted = Clockwork.character:GetWhitelisted();
 	local maximum = Clockwork.config:Get("additional_characters"):Get(2);
@@ -294,12 +389,22 @@ function Clockwork.player:GetMaximumCharacters()
 	return maximum;
 end;
 
--- A function to get whether a player's weapon is raised.
+--[[
+	@codebase Shared
+	@details A function to get whether a player's weapon is raised.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetWeaponRaised(player)
 	return player:GetSharedVar("IsWepRaised");
 end;
 
--- A function to get a player's unrecognised name.
+--[[
+	@codebase Shared
+	@details A function to get a player's unrecognised name.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetUnrecognisedName(player)
 	local unrecognisedPhysDesc = self:GetPhysDesc(player);
 	local unrecognisedName = Clockwork.config:Get("unrecognised_name"):Get();
@@ -313,7 +418,15 @@ function Clockwork.player:GetUnrecognisedName(player)
 	return unrecognisedName, usedPhysDesc;
 end;
 
--- A function to get whether a player can see an NPC.
+--[[
+	@codebase Shared
+	@details A function to get whether a player can see an NPC.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for target.
+	@param {Unknown} Missing description for allowance.
+	@param {Unknown} Missing description for ignoreEnts.
+	@returns {Unknown}
+--]]
 function Clockwork.player:CanSeeNPC(player, target, allowance, ignoreEnts)
 	if (player:GetEyeTraceNoCursor().Entity == target) then
 		return true;
@@ -341,7 +454,15 @@ function Clockwork.player:CanSeeNPC(player, target, allowance, ignoreEnts)
 	end;
 end;
 
--- A function to get whether a player can see a player.
+--[[
+	@codebase Shared
+	@details A function to get whether a player can see a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for target.
+	@param {Unknown} Missing description for allowance.
+	@param {Unknown} Missing description for ignoreEnts.
+	@returns {Unknown}
+--]]
 function Clockwork.player:CanSeePlayer(player, target, allowance, ignoreEnts)
 	if (player:GetEyeTraceNoCursor().Entity == target) then
 		return true;
@@ -371,7 +492,15 @@ function Clockwork.player:CanSeePlayer(player, target, allowance, ignoreEnts)
 	end;
 end;
 
--- A function to get whether a player can see an entity.
+--[[
+	@codebase Shared
+	@details A function to get whether a player can see an entity.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for target.
+	@param {Unknown} Missing description for allowance.
+	@param {Unknown} Missing description for ignoreEnts.
+	@returns {Unknown}
+--]]
 function Clockwork.player:CanSeeEntity(player, target, allowance, ignoreEnts)
 	if (player:GetEyeTraceNoCursor().Entity == target) then
 		return true;
@@ -399,7 +528,15 @@ function Clockwork.player:CanSeeEntity(player, target, allowance, ignoreEnts)
 	end;
 end;
 
--- A function to get whether a player can see a position.
+--[[
+	@codebase Shared
+	@details A function to get whether a player can see a position.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for position.
+	@param {Unknown} Missing description for allowance.
+	@param {Unknown} Missing description for ignoreEnts.
+	@returns {Unknown}
+--]]
 function Clockwork.player:CanSeePosition(player, position, allowance, ignoreEnts)
 	local trace = {};
 	
@@ -423,12 +560,24 @@ function Clockwork.player:CanSeePosition(player, position, allowance, ignoreEnts
 	end;
 end;
 
--- A function to get a player's wages name.
+--[[
+	@codebase Shared
+	@details A function to get a player's wages name.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetWagesName(player)
 	return Clockwork.class:Query(player:Team(), "wagesName", Clockwork.config:Get("wages_name"):Get());
 end;
 
--- A function to check whether a player is ragdolled
+--[[
+	@codebase Shared
+	@details A function to check whether a player is ragdolled
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for exception.
+	@param {Unknown} Missing description for entityless.
+	@returns {Unknown}
+--]]
 function Clockwork.player:IsRagdolled(player, exception, entityless)
 	if (player:GetRagdollEntity() or entityless) then
 		if (player:GetSharedVar("IsRagdoll") == 0) then
@@ -441,7 +590,14 @@ function Clockwork.player:IsRagdolled(player, exception, entityless)
 	end;
 end;
 
--- A function to get whether the local player recognises another player.
+--[[
+	@codebase Shared
+	@details A function to get whether the local player recognises another player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for status.
+	@param {Unknown} Missing description for isAccurate.
+	@returns {Unknown}
+--]]
 function Clockwork.player:DoesRecognise(player, status, isAccurate)
 	if (!status) then
 		return self:DoesRecognise(player, RECOGNISE_PARTIAL);
@@ -465,14 +621,24 @@ function Clockwork.player:DoesRecognise(player, status, isAccurate)
 	end;
 end;
 
--- A function to get a player's character key.
+--[[
+	@codebase Shared
+	@details A function to get a player's character key.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetCharacterKey(player)
 	if (IsValid(player)) then
 		return player:GetSharedVar("Key");
 	end;
 end;
 
--- A function to get a player's ragdoll state.
+--[[
+	@codebase Shared
+	@details A function to get a player's ragdoll state.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetRagdollState(player)
 	if (player:GetSharedVar("IsRagdoll") == 0) then
 		return false;
@@ -481,7 +647,12 @@ function Clockwork.player:GetRagdollState(player)
 	end;
 end;
 
--- A function to get a player's physical description.
+--[[
+	@codebase Shared
+	@details A function to get a player's physical description.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetPhysDesc(player)
 	if (!player) then
 		player = Clockwork.Client;
@@ -513,17 +684,30 @@ function Clockwork.player:GetPhysDesc(player)
 	return physDesc;
 end;
 
--- A function to get the local player's wages.
+--[[
+	@codebase Shared
+	@details A function to get the local player's wages.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetWages()
 	return Clockwork.Client:GetSharedVar("Wages");
 end;
 
--- A function to get the local player's cash.
+--[[
+	@codebase Shared
+	@details A function to get the local player's cash.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetCash()
 	return Clockwork.Client:GetSharedVar("Cash");
 end;
 
--- A function to get a player's ragdoll entity.
+--[[
+	@codebase Shared
+	@details A function to get a player's ragdoll entity.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetRagdollEntity(player)
 	local ragdollEntity = player:GetSharedVar("Ragdoll");
 	
@@ -532,20 +716,37 @@ function Clockwork.player:GetRagdollEntity(player)
 	end;
 end;
 
--- A function to get a player's default skin.
+--[[
+	@codebase Shared
+	@details A function to get a player's default skin.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetDefaultSkin(player)
 	local model, skin = Clockwork.class:GetAppropriateModel(player:Team(), player);
 	
 	return skin;
 end;
 
--- A function to get a player's default model.
+--[[
+	@codebase Shared
+	@details A function to get a player's default model.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetDefaultModel(player)
 	local model, skin = Clockwork.class:GetAppropriateModel(player:Team(), player);
 	return model;
 end;
 
--- A function to check if a player has any flags.
+--[[
+	@codebase Shared
+	@details A function to check if a player has any flags.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for flags.
+	@param {Unknown} Missing description for byDefault.
+	@returns {Unknown}
+--]]
 function Clockwork.player:HasAnyFlags(player, flags, byDefault)
 	local playerFlags = player:GetSharedVar("Flags")
 	
@@ -593,7 +794,14 @@ function Clockwork.player:HasAnyFlags(player, flags, byDefault)
 	end;
 end;
 
--- A function to check if a player has access.
+--[[
+	@codebase Shared
+	@details A function to check if a player has access.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for flags.
+	@param {Unknown} Missing description for byDefault.
+	@returns {Unknown}
+--]]
 function Clockwork.player:HasFlags(player, flags, byDefault)
 	local playerFlags = player:GetSharedVar("Flags")
 	
@@ -643,7 +851,14 @@ function Clockwork.player:HasFlags(player, flags, byDefault)
 	end;
 end;
 
--- A function to set a shared variable for a player.
+--[[
+	@codebase Shared
+	@details A function to set a shared variable for a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for key.
+	@param {Unknown} Missing description for value.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetSharedVar(player, key, value)
 	if (IsValid(player)) then
 		local sharedVars = Clockwork.kernel:GetSharedVars():Player();
@@ -672,7 +887,14 @@ function Clockwork.player:SetSharedVar(player, key, value)
 	end;
 end;
 
--- A function to get a player's shared variable.
+--[[
+	@codebase Shared
+	@details A function to get a player's shared variable.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for key.
+	@param {Unknown} Missing description for sharedTable.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetSharedVar(player, key, sharedTable)
 	if (IsValid(player)) then
 		if (!sharedTable) then
@@ -709,7 +931,11 @@ function Clockwork.player:GetSharedVar(player, key, sharedTable)
 	end;
 end;
 
--- A function to get whether the local player is drunk.
+--[[
+	@codebase Shared
+	@details A function to get whether the local player is drunk.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetDrunk()
 	local isDrunk = Clockwork.Client:GetSharedVar("IsDrunk");
 	
@@ -718,7 +944,12 @@ function Clockwork.player:GetDrunk()
 	end;
 end;
 
--- A function to get a player's chat icon.
+--[[
+	@codebase Shared
+	@details A function to get a player's chat icon.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetChatIcon(player)
 	local icon;
 	
@@ -763,19 +994,38 @@ local cwDatabase = Clockwork.database;
 Clockwork.player.property = Clockwork.player.property or {};
 Clockwork.player.stored = Clockwork.player.stored or {};
 
--- A function to run an inventory action for a player.
+--[[
+	@codebase Shared
+	@details A function to run an inventory action for a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for itemTable.
+	@param {Unknown} Missing description for action.
+	@returns {Unknown}
+--]]
 function Clockwork.player:InventoryAction(player, itemTable, action)
 	return self:RunClockworkCommand(player, "InvAction", action, itemTable("uniqueID"), tostring(itemTable("itemID")));
 end;
 
--- A function to get a player's gear.
+--[[
+	@codebase Shared
+	@details A function to get a player's gear.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for gearClass.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetGear(player, gearClass)
 	if (player.cwGearTab and IsValid(player.cwGearTab[gearClass])) then
 		return player.cwGearTab[gearClass];
 	end;
 end;
 
--- A function to create a character from data.
+--[[
+	@codebase Shared
+	@details A function to create a character from data.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for data.
+	@returns {Unknown}
+--]]
 function Clockwork.player:CreateCharacterFromData(player, data)
 	if (player.cwIsCreatingChar) then
 		return;
@@ -1045,7 +1295,13 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 	end;
 end;
 
--- A function to open the character menu.
+--[[
+	@codebase Shared
+	@details A function to open the character menu.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for shouldReset.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetCharacterMenuOpen(player, shouldReset)
 	if (player:HasInitialized()) then
 		cwDatastream:Start(player, "CharacterOpen", (shouldReset == true));
@@ -1057,7 +1313,15 @@ function Clockwork.player:SetCharacterMenuOpen(player, shouldReset)
 	end;
 end;
 
--- A function to start a sound for a player.
+--[[
+	@codebase Shared
+	@details A function to start a sound for a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for uniqueID.
+	@param {Unknown} Missing description for sound.
+	@param {Unknown} Missing description for fVolume.
+	@returns {Unknown}
+--]]
 function Clockwork.player:StartSound(player, uniqueID, sound, fVolume)
 	if (!player.cwSoundsPlaying) then
 		player.cwSoundsPlaying = {};
@@ -1073,7 +1337,14 @@ function Clockwork.player:StartSound(player, uniqueID, sound, fVolume)
 	end;
 end;
 
--- A function to stop a sound for a player.
+--[[
+	@codebase Shared
+	@details A function to stop a sound for a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for uniqueID.
+	@param {Unknown} Missing description for iFadeOut.
+	@returns {Unknown}
+--]]
 function Clockwork.player:StopSound(player, uniqueID, iFadeOut)
 	if (!player.cwSoundsPlaying) then
 		player.cwSoundsPlaying = {};
@@ -1088,7 +1359,13 @@ function Clockwork.player:StopSound(player, uniqueID, iFadeOut)
 	end;
 end;
 
--- A function to remove a player's gear.
+--[[
+	@codebase Shared
+	@details A function to remove a player's gear.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for gearClass.
+	@returns {Unknown}
+--]]
 function Clockwork.player:RemoveGear(player, gearClass)
 	if (player.cwGearTab and IsValid(player.cwGearTab[gearClass])) then
 		player.cwGearTab[gearClass]:Remove();
@@ -1096,7 +1373,12 @@ function Clockwork.player:RemoveGear(player, gearClass)
 	end;
 end;
 
--- A function to strip all of a player's gear.
+--[[
+	@codebase Shared
+	@details A function to strip all of a player's gear.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:StripGear(player)
 	if (!player.cwGearTab) then return; end;
 	
@@ -1107,7 +1389,15 @@ function Clockwork.player:StripGear(player)
 	player.cwGearTab = {};
 end;
 
--- A function to create a player's gear.
+--[[
+	@codebase Shared
+	@details A function to create a player's gear.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for gearClass.
+	@param {Unknown} Missing description for itemTable.
+	@param {Unknown} Missing description for mustHave.
+	@returns {Unknown}
+--]]
 function Clockwork.player:CreateGear(player, gearClass, itemTable, mustHave)
 	if (!player.cwGearTab) then
 		player.cwGearTab = {};
@@ -1149,7 +1439,12 @@ function Clockwork.player:CreateGear(player, gearClass, itemTable, mustHave)
 	end;
 end;
 
--- A function to get whether a player is noclipping.
+--[[
+	@codebase Shared
+	@details A function to get whether a player is noclipping.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:IsNoClipping(player)
 	if (player:GetMoveType() == MOVETYPE_NOCLIP
 	and !player:InVehicle()) then
@@ -1157,14 +1452,26 @@ function Clockwork.player:IsNoClipping(player)
 	end;
 end;
 
--- A function to get whether a player is an admin.
+--[[
+	@codebase Shared
+	@details A function to get whether a player is an admin.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:IsAdmin(player)
 	if (self:HasFlags(player, "o")) then
 		return true;
 	end;
 end;
 
--- A function to get whether a player can hear another player.
+--[[
+	@codebase Shared
+	@details A function to get whether a player can hear another player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for target.
+	@param {Unknown} Missing description for iAllowance.
+	@returns {Unknown}
+--]]
 function Clockwork.player:CanHearPlayer(player, target, iAllowance)
 	if (cwCfg:Get("messages_must_see_player"):Get()) then
 		return self:CanSeePlayer(player, target, (iAllowance or 0.5), true);
@@ -1173,7 +1480,11 @@ function Clockwork.player:CanHearPlayer(player, target, iAllowance)
 	end;
 end;
 
--- A functon to get all property.
+--[[
+	@codebase Shared
+	@details A functon to get all property.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetAllProperty()
 	for k, v in pairs(self.property) do
 		if (!IsValid(v)) then
@@ -1184,7 +1495,16 @@ function Clockwork.player:GetAllProperty()
 	return self.property;
 end;
 
--- A function to set a player's action.
+--[[
+	@codebase Shared
+	@details A function to set a player's action.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for action.
+	@param {Unknown} Missing description for duration.
+	@param {Unknown} Missing description for priority.
+	@param {Unknown} Missing description for Callback.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetAction(player, action, duration, priority, Callback)
 	local currentAction = self:GetAction(player);
 	
@@ -1232,12 +1552,24 @@ function Clockwork.player:SetAction(player, action, duration, priority, Callback
 	end;
 end;
 
--- A function to set the player's character menu state.
+--[[
+	@codebase Shared
+	@details A function to set the player's character menu state.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for state.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetCharacterMenuState(player, state)
 	cwDatastream:Start(player, "CharacterMenu", state);
 end;
 
--- A function to get a player's action.
+--[[
+	@codebase Shared
+	@details A function to get a player's action.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for percentage.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetAction(player, percentage)
 	local startActionTime = player:GetSharedVar("StartActTime");
 	local actionDuration = player:GetSharedVar("ActDuration");
@@ -1255,17 +1587,37 @@ function Clockwork.player:GetAction(player, percentage)
 	end;
 end;
 
--- A function to run a Clockwork command on a player.
+--[[
+	@codebase Shared
+	@details A function to run a Clockwork command on a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for command.
+	@param {Unknown} Missing description for ....
+	@returns {Unknown}
+--]]
 function Clockwork.player:RunClockworkCommand(player, command, ...)
 	return cwCommand:ConsoleCommand(player, "cwCmd", {command, ...});
 end;
 
--- A function to get a player's wages name.
+--[[
+	@codebase Shared
+	@details A function to get a player's wages name.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetWagesName(player)
 	return cwClass:Query(player:Team(), "wagesName", cwCfg:Get("wages_name"):Get());
 end;
 
--- A function to get whether a player can see an entity.
+--[[
+	@codebase Shared
+	@details A function to get whether a player can see an entity.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for target.
+	@param {Unknown} Missing description for iAllowance.
+	@param {Unknown} Missing description for tIgnoreEnts.
+	@returns {Unknown}
+--]]
 function Clockwork.player:CanSeeEntity(player, target, iAllowance, tIgnoreEnts)
 	if (player:GetEyeTraceNoCursor().Entity != target) then
 		return self:CanSeePosition(player, target:LocalToWorld(target:OBBCenter()), iAllowance, tIgnoreEnts, target);
@@ -1280,7 +1632,16 @@ end;
 Clockwork.player.CanSeePlayer = Clockwork.player.CanSeeEntity;
 Clockwork.player.CanSeeNPC = Clockwork.player.CanSeeEntity;
 
--- A function to get whether a player can see a position.
+--[[
+	@codebase Shared
+	@details A function to get whether a player can see a position.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for position.
+	@param {Unknown} Missing description for iAllowance.
+	@param {Unknown} Missing description for tIgnoreEnts.
+	@param {Unknown} Missing description for targetEnt.
+	@returns {Unknown}
+--]]
 function Clockwork.player:CanSeePosition(player, position, iAllowance, tIgnoreEnts, targetEnt)
 	local trace = {};
 	
@@ -1304,7 +1665,12 @@ function Clockwork.player:CanSeePosition(player, position, iAllowance, tIgnoreEn
 	end;
 end;
 
--- A function to update whether a player's weapon is raised.
+--[[
+	@codebase Shared
+	@details A function to update whether a player's weapon is raised.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:UpdateWeaponRaised(player)
 	local isRaised = self:GetWeaponRaised(player);
 	local weapon = player:GetActiveWeapon();
@@ -1316,7 +1682,13 @@ function Clockwork.player:UpdateWeaponRaised(player)
 	end;
 end;
 
--- A function to get whether a player's weapon is raised.
+--[[
+	@codebase Shared
+	@details A function to get whether a player's weapon is raised.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for bIsCached.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetWeaponRaised(player, bIsCached)
 	if (bIsCached) then
 		return player:GetSharedVar("IsWepRaised");
@@ -1339,12 +1711,23 @@ function Clockwork.player:GetWeaponRaised(player, bIsCached)
 	return false;
 end;
 
--- A function to toggle whether a player's weapon is raised.
+--[[
+	@codebase Shared
+	@details A function to toggle whether a player's weapon is raised.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:ToggleWeaponRaised(player)
 	self:SetWeaponRaised(player, !player.cwWeaponRaiseClass);
 end;
 
--- A function to set whether a player's weapon is raised.
+--[[
+	@codebase Shared
+	@details A function to set whether a player's weapon is raised.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for isRaised.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetWeaponRaised(player, isRaised)
 	local weapon = player:GetActiveWeapon();
 	
@@ -1383,7 +1766,13 @@ function Clockwork.player:SetWeaponRaised(player, isRaised)
 	end;
 end;
 
--- A function to setup a player's remove property delays.
+--[[
+	@codebase Shared
+	@details A function to setup a player's remove property delays.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for doAllCharacters.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetupRemovePropertyDelays(player, doAllCharacters)
 	local uniqueID = player:UniqueID();
 	local key = player:GetCharacterKey();
@@ -1404,7 +1793,13 @@ function Clockwork.player:SetupRemovePropertyDelays(player, doAllCharacters)
 	end;
 end;
 
--- A function to disable a player's property.
+--[[
+	@codebase Shared
+	@details A function to disable a player's property.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for characterOnly.
+	@returns {Unknown}
+--]]
 function Clockwork.player:DisableProperty(player, characterOnly)
 	local uniqueID = player:UniqueID();
 	local key = player:GetCharacterKey();
@@ -1431,7 +1826,15 @@ function Clockwork.player:DisableProperty(player, characterOnly)
 	end;
 end;
 
--- A function to give property to a player.
+--[[
+	@codebase Shared
+	@details A function to give property to a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for entity.
+	@param {Unknown} Missing description for networked.
+	@param {Unknown} Missing description for removeDelay.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GiveProperty(player, entity, networked, removeDelay)
 	cwKernel:DestroyTimer("RemoveDelay"..entity:EntIndex());
 	cwEntity:ClearProperty(entity);
@@ -1464,7 +1867,16 @@ function Clockwork.player:GiveProperty(player, entity, networked, removeDelay)
 	cwPlugin:Call("PlayerPropertyGiven", player, entity, networked, removeDelay);
 end;
 
--- A function to give property to an offline player.
+--[[
+	@codebase Shared
+	@details A function to give property to an offline player.
+	@param {Unknown} Missing description for key.
+	@param {Unknown} Missing description for uniqueID.
+	@param {Unknown} Missing description for entity.
+	@param {Unknown} Missing description for networked.
+	@param {Unknown} Missing description for removeDelay.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GivePropertyOffline(key, uniqueID, entity, networked, removeDelay)
 	cwEntity:ClearProperty(entity);
 	
@@ -1511,7 +1923,15 @@ function Clockwork.player:GivePropertyOffline(key, uniqueID, entity, networked, 
 	end;
 end;
 
--- A function to take property from an offline player.
+--[[
+	@codebase Shared
+	@details A function to take property from an offline player.
+	@param {Unknown} Missing description for key.
+	@param {Unknown} Missing description for uniqueID.
+	@param {Unknown} Missing description for entity.
+	@param {Unknown} Missing description for anyCharacter.
+	@returns {Unknown}
+--]]
 function Clockwork.player:TakePropertyOffline(key, uniqueID, entity, anyCharacter)
 	if (key and uniqueID) then
 		local owner = player.GetByUniqueID(uniqueID);
@@ -1541,7 +1961,13 @@ function Clockwork.player:TakePropertyOffline(key, uniqueID, entity, anyCharacte
 	end;
 end;
 
--- A function to take property from a player.
+--[[
+	@codebase Shared
+	@details A function to take property from a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for entity.
+	@returns {Unknown}
+--]]
 function Clockwork.player:TakeProperty(player, entity)
 	if (cwEntity:GetOwner(entity) == player) then
 		entity.cwPropertyTab = nil;
@@ -1562,32 +1988,63 @@ function Clockwork.player:TakeProperty(player, entity)
 	end;
 end;
 
--- A function to set a player to their default skin.
+--[[
+	@codebase Shared
+	@details A function to set a player to their default skin.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetDefaultSkin(player)
 	player:SetSkin(self:GetDefaultSkin(player));
 end;
 
--- A function to get a player's default skin.
+--[[
+	@codebase Shared
+	@details A function to get a player's default skin.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetDefaultSkin(player)
 	return cwPlugin:Call("GetPlayerDefaultSkin", player);
 end;
 
--- A function to set a player to their default model.
+--[[
+	@codebase Shared
+	@details A function to set a player to their default model.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetDefaultModel(player)
 	player:SetModel(self:GetDefaultModel(player));
 end;
 
--- A function to get a player's default model.
+--[[
+	@codebase Shared
+	@details A function to get a player's default model.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetDefaultModel(player)
 	return cwPlugin:Call("GetPlayerDefaultModel", player);
 end;
 
--- A function to get whether a player is drunk.
+--[[
+	@codebase Shared
+	@details A function to get whether a player is drunk.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetDrunk(player)
 	if (player.cwDrunkTab) then return #player.cwDrunkTab; end;
 end;
 
--- A function to set whether a player is drunk.
+--[[
+	@codebase Shared
+	@details A function to set whether a player is drunk.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for expire.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetDrunk(player, expire)
 	local curTime = CurTime();
 	
@@ -1602,7 +2059,14 @@ function Clockwork.player:SetDrunk(player, expire)
 	player:SetSharedVar("IsDrunk", self:GetDrunk(player) or 0);
 end;
 
--- A function to strip a player's default ammo.
+--[[
+	@codebase Shared
+	@details A function to strip a player's default ammo.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for weapon.
+	@param {Unknown} Missing description for itemTable.
+	@returns {Unknown}
+--]]
 function Clockwork.player:StripDefaultAmmo(player, weapon, itemTable)
 	if (!itemTable) then
 		itemTable = cwItem:GetByWeapon(weapon);
@@ -1642,12 +2106,25 @@ function Clockwork.player:StripDefaultAmmo(player, weapon, itemTable)
 	end;
 end;
 
--- A function to check if a player is whitelisted for a faction.
+--[[
+	@codebase Shared
+	@details A function to check if a player is whitelisted for a faction.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for faction.
+	@returns {Unknown}
+--]]
 function Clockwork.player:IsWhitelisted(player, faction)
 	return table.HasValue(player:GetData("Whitelisted"), faction);
 end;
 
--- A function to set whether a player is whitelisted for a faction.
+--[[
+	@codebase Shared
+	@details A function to set whether a player is whitelisted for a faction.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for faction.
+	@param {Unknown} Missing description for isWhitelisted.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetWhitelisted(player, faction, isWhitelisted)
 	local whitelisted = player:GetData("Whitelisted");
 	
@@ -1668,7 +2145,15 @@ function Clockwork.player:SetWhitelisted(player, faction, isWhitelisted)
 	);
 end;
 
--- A function to create a Condition timer.
+--[[
+	@codebase Shared
+	@details A function to create a Condition timer.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for delay.
+	@param {Unknown} Missing description for Condition.
+	@param {Unknown} Missing description for Callback.
+	@returns {Unknown}
+--]]
 function Clockwork.player:ConditionTimer(player, delay, Condition, Callback)
 	local realDelay = CurTime() + delay;
 	local uniqueID = player:UniqueID();
@@ -1703,7 +2188,18 @@ function Clockwork.player:ConditionTimer(player, delay, Condition, Callback)
 	end);
 end;
 
--- A function to create an entity Condition timer.
+--[[
+	@codebase Shared
+	@details A function to create an entity Condition timer.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for target.
+	@param {Unknown} Missing description for entity.
+	@param {Unknown} Missing description for delay.
+	@param {Unknown} Missing description for distance.
+	@param {Unknown} Missing description for Condition.
+	@param {Unknown} Missing description for Callback.
+	@returns {Unknown}
+--]]
 function Clockwork.player:EntityConditionTimer(player, target, entity, delay, distance, Condition, Callback)
 	local realEntity = entity or target;
 	local realDelay = CurTime() + delay;
@@ -1743,7 +2239,13 @@ function Clockwork.player:EntityConditionTimer(player, target, entity, delay, di
 	end);
 end;
 
--- A function to get a player's spawn ammo.
+--[[
+	@codebase Shared
+	@details A function to get a player's spawn ammo.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for ammo.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetSpawnAmmo(player, ammo)
 	if (ammo) then
 		return player.cwSpawnAmmo[ammo];
@@ -1752,7 +2254,13 @@ function Clockwork.player:GetSpawnAmmo(player, ammo)
 	end;
 end;
 
--- A function to get a player's spawn weapon.
+--[[
+	@codebase Shared
+	@details A function to get a player's spawn weapon.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for weapon.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetSpawnWeapon(player, weapon)
 	if (weapon) then
 		return player.cwSpawnWeps[weapon];
@@ -1761,7 +2269,14 @@ function Clockwork.player:GetSpawnWeapon(player, weapon)
 	end;
 end;
 
--- A function to take spawn ammo from a player.
+--[[
+	@codebase Shared
+	@details A function to take spawn ammo from a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for ammo.
+	@param {Unknown} Missing description for amount.
+	@returns {Unknown}
+--]]
 function Clockwork.player:TakeSpawnAmmo(player, ammo, amount)
 	if (player.cwSpawnAmmo[ammo]) then
 		if (player.cwSpawnAmmo[ammo] < amount) then
@@ -1776,7 +2291,14 @@ function Clockwork.player:TakeSpawnAmmo(player, ammo, amount)
 	end;
 end;
 
--- A function to give the player spawn ammo.
+--[[
+	@codebase Shared
+	@details A function to give the player spawn ammo.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for ammo.
+	@param {Unknown} Missing description for amount.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GiveSpawnAmmo(player, ammo, amount)
 	if (player.cwSpawnAmmo[ammo]) then
 		player.cwSpawnAmmo[ammo] = player.cwSpawnAmmo[ammo] + amount;
@@ -1787,19 +2309,37 @@ function Clockwork.player:GiveSpawnAmmo(player, ammo, amount)
 	player:GiveAmmo(amount, ammo);
 end;
 
--- A function to take a player's spawn weapon.
+--[[
+	@codebase Shared
+	@details A function to take a player's spawn weapon.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for class.
+	@returns {Unknown}
+--]]
 function Clockwork.player:TakeSpawnWeapon(player, class)
 	player.cwSpawnWeps[class] = nil;
 	player:StripWeapon(class);
 end;
 
--- A function to give a player a spawn weapon.
+--[[
+	@codebase Shared
+	@details A function to give a player a spawn weapon.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for class.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GiveSpawnWeapon(player, class)
 	player.cwSpawnWeps[class] = true;
 	player:Give(class);
 end;
 
--- A function to give a player an item weapon.
+--[[
+	@codebase Shared
+	@details A function to give a player an item weapon.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for itemTable.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GiveItemWeapon(player, itemTable)
 	if (cwItem:IsWeapon(itemTable)) then
 		player:Give(itemTable("weaponClass"), itemTable);
@@ -1807,7 +2347,13 @@ function Clockwork.player:GiveItemWeapon(player, itemTable)
 	end;
 end;
 
--- A function to give a player a spawn item weapon.
+--[[
+	@codebase Shared
+	@details A function to give a player a spawn item weapon.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for itemTable.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GiveSpawnItemWeapon(player, itemTable)
 	if (cwItem:IsWeapon(itemTable)) then
 		player.cwSpawnWeps[itemTable("weaponClass")] = true;
@@ -1817,7 +2363,13 @@ function Clockwork.player:GiveSpawnItemWeapon(player, itemTable)
 	end;
 end;
 
--- A function to give flags to a character.
+--[[
+	@codebase Shared
+	@details A function to give flags to a character.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for flags.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GiveFlags(player, flags)
 	for i = 1, #flags do
 		local flag = string.utf8sub(flags, i, i);
@@ -1830,7 +2382,13 @@ function Clockwork.player:GiveFlags(player, flags)
 	end;
 end;
 
--- A function to give flags to a player.
+--[[
+	@codebase Shared
+	@details A function to give flags to a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for flags.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GivePlayerFlags(player, flags)
 	for i = 1, #flags do
 		local flag = string.utf8sub(flags, i, i);
@@ -1843,12 +2401,23 @@ function Clockwork.player:GivePlayerFlags(player, flags)
 	end;
 end;
 
--- A function to play a sound to a player.
+--[[
+	@codebase Shared
+	@details A function to play a sound to a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for sound.
+	@returns {Unknown}
+--]]
 function Clockwork.player:PlaySound(player, sound)
 	cwDatastream:Start(player, "PlaySound",sound);
 end;
 
--- A function to get a player's maximum characters.
+--[[
+	@codebase Shared
+	@details A function to get a player's maximum characters.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetMaximumCharacters(player)
 	local maximum = cwCfg:Get("additional_characters"):Get();
 	
@@ -1861,7 +2430,14 @@ function Clockwork.player:GetMaximumCharacters(player)
 	return maximum;
 end;
 
--- A function to query a player's character.
+--[[
+	@codebase Shared
+	@details A function to query a player's character.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for key.
+	@param {Unknown} Missing description for default.
+	@returns {Unknown}
+--]]
 function Clockwork.player:Query(player, key, default)
 	local character = player:GetCharacter();
 	
@@ -1876,7 +2452,14 @@ function Clockwork.player:Query(player, key, default)
 	return default;
 end;
 
--- A function to set a player to a safe position.
+--[[
+	@codebase Shared
+	@details A function to set a player to a safe position.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for position.
+	@param {Unknown} Missing description for filter.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetSafePosition(player, position, filter)
 	position = self:GetSafePosition(player, position, filter);
 	
@@ -1892,7 +2475,14 @@ function Clockwork.player:SetSafePosition(player, position, filter)
 	end;
 end;
 
--- A function to get the safest position near a position.
+--[[
+	@codebase Shared
+	@details A function to get the safest position near a position.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for position.
+	@param {Unknown} Missing description for filter.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetSafePosition(player, position, filter)
 	local closestPosition = nil;
 	local distanceAmount = 8;
@@ -2003,7 +2593,13 @@ function Clockwork.player:GetSafePosition(player, position, filter)
 	return position;
 end;
 
--- Called to convert a player's data to a string.
+--[[
+	@codebase Shared
+	@details Called to convert a player's data to a string.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for data.
+	@returns {Unknown}
+--]]
 function Clockwork.player:ConvertDataString(player, data)
 	local wasSuccess, value = pcall(cwJson.Decode, cwJson, data);
 	
@@ -2014,7 +2610,12 @@ function Clockwork.player:ConvertDataString(player, data)
 	end;
 end;
 
--- A function to return a player's property.
+--[[
+	@codebase Shared
+	@details A function to return a player's property.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:ReturnProperty(player)
 	local uniqueID = player:UniqueID();
 	local key = player:GetCharacterKey();
@@ -2032,7 +2633,13 @@ function Clockwork.player:ReturnProperty(player)
 	cwPlugin:Call("PlayerReturnProperty", player);
 end;
 
--- A function to take flags from a character.
+--[[
+	@codebase Shared
+	@details A function to take flags from a character.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for flags.
+	@returns {Unknown}
+--]]
 function Clockwork.player:TakeFlags(player, flags)
 	for i = 1, #flags do
 		local flag = string.utf8sub(flags, i, i);
@@ -2045,7 +2652,13 @@ function Clockwork.player:TakeFlags(player, flags)
 	end;
 end;
 
--- A function to take flags from a player.
+--[[
+	@codebase Shared
+	@details A function to take flags from a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for flags.
+	@returns {Unknown}
+--]]
 function Clockwork.player:TakePlayerFlags(player, flags)
 	for i = 1, #flags do
 		local flag = string.utf8sub(flags, i, i);
@@ -2058,17 +2671,36 @@ function Clockwork.player:TakePlayerFlags(player, flags)
 	end;
 end;
 
--- A function to set whether a player's menu is open.
+--[[
+	@codebase Shared
+	@details A function to set whether a player's menu is open.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for isOpen.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetMenuOpen(player, isOpen)
 	cwDatastream:Start(player, "MenuOpen", isOpen);
 end;
 
--- A function to set whether a player has intialized.
+--[[
+	@codebase Shared
+	@details A function to set whether a player has intialized.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for initialized.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetInitialized(player, initialized)
 	player:SetSharedVar("Initialized", initialized);
 end;
 
--- A function to check if a player has any flags.
+--[[
+	@codebase Shared
+	@details A function to check if a player has any flags.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for flags.
+	@param {Unknown} Missing description for byDefault.
+	@returns {Unknown}
+--]]
 function Clockwork.player:HasAnyFlags(player, flags, byDefault)
 	if (player:GetCharacter()) then
 		local playerFlags = player:GetFlags();
@@ -2116,7 +2748,14 @@ function Clockwork.player:HasAnyFlags(player, flags, byDefault)
 	end;
 end;
 
--- A function to check if a player has flags.
+--[[
+	@codebase Shared
+	@details A function to check if a player has flags.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for flags.
+	@param {Unknown} Missing description for byDefault.
+	@returns {Unknown}
+--]]
 function Clockwork.player:HasFlags(player, flags, byDefault)
 	if (player:GetCharacter()) then
 		local playerFlags = player:GetFlags();
@@ -2166,27 +2805,50 @@ function Clockwork.player:HasFlags(player, flags, byDefault)
 	end;
 end;
 
--- A function to use a player's death code.
+--[[
+	@codebase Shared
+	@details A function to use a player's death code.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for commandTable.
+	@param {Unknown} Missing description for arguments.
+	@returns {Unknown}
+--]]
 function Clockwork.player:UseDeathCode(player, commandTable, arguments)
 	cwPlugin:Call("PlayerDeathCodeUsed", player, commandTable, arguments);
 	
 	self:TakeDeathCode(player);
 end;
 
--- A function to get whether a player has a death code.
+--[[
+	@codebase Shared
+	@details A function to get whether a player has a death code.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for authenticated.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetDeathCode(player, authenticated)
 	if (player.cwDeathCodeIdx and (!authenticated or player.cwDeathCodeAuth)) then
 		return player.cwDeathCodeIdx;
 	end;
 end;
 
--- A function to take a player's death code.
+--[[
+	@codebase Shared
+	@details A function to take a player's death code.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:TakeDeathCode(player)
 	player.cwDeathCodeAuth = nil;
 	player.cwDeathCodeIdx = nil;
 end;
 
--- A function to give a player their death code.
+--[[
+	@codebase Shared
+	@details A function to give a player their death code.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GiveDeathCode(player)
 	player.cwDeathCodeIdx = math.random(0, 99999);
 	player.cwDeathCodeAuth = nil;
@@ -2194,7 +2856,16 @@ function Clockwork.player:GiveDeathCode(player)
 	cwDatastream:Start(player, "ChatBoxDeathCode", player.cwDeathCodeIdx);
 end;
 
--- A function to take a door from a player.
+--[[
+	@codebase Shared
+	@details A function to take a door from a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for door.
+	@param {Unknown} Missing description for shouldForce.
+	@param {Unknown} Missing description for thisDoorOnly.
+	@param {Unknown} Missing description for childrenOnly.
+	@returns {Unknown}
+--]]
 function Clockwork.player:TakeDoor(player, door, shouldForce, thisDoorOnly, childrenOnly)
 	local doorCost = cwCfg:Get("door_cost"):Get();
 	
@@ -2233,7 +2904,15 @@ function Clockwork.player:TakeDoor(player, door, shouldForce, thisDoorOnly, chil
 	end;
 end;
 
--- A function to make a player say text as a radio broadcast.
+--[[
+	@codebase Shared
+	@details A function to make a player say text as a radio broadcast.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for check.
+	@param {Unknown} Missing description for noEavesdrop.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SayRadio(player, text, check, noEavesdrop)
 	local eavesdroppers = {};
 	local listeners = {};
@@ -2275,12 +2954,26 @@ function Clockwork.player:SayRadio(player, text, check, noEavesdrop)
 	end;
 end;
 
--- A function to get a player's faction table.
+--[[
+	@codebase Shared
+	@details A function to get a player's faction table.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetFactionTable(player)
 	return cwFaction:GetAll()[player:GetFaction()];
 end;
 
--- A function to give a door to a player.
+--[[
+	@codebase Shared
+	@details A function to give a door to a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for door.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for unsellable.
+	@param {Unknown} Missing description for override.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GiveDoor(player, door, name, unsellable, override)
 	if (cwEntity:IsDoor(door)) then
 		local doorParent = cwEntity:GetDoorParent(door);
@@ -2310,7 +3003,13 @@ function Clockwork.player:GiveDoor(player, door, name, unsellable, override)
 	end;
 end;
 
--- A function to get a player's real trace.
+--[[
+	@codebase Shared
+	@details A function to get a player's real trace.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for useFilterTrace.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetRealTrace(player, useFilterTrace)
 	local eyePos = player:EyePos();
 	local trace = player:GetEyeTraceNoCursor();
@@ -2330,7 +3029,15 @@ function Clockwork.player:GetRealTrace(player, useFilterTrace)
 	return trace;
 end;
 
--- A function to check if a player recognises another player.
+--[[
+	@codebase Shared
+	@details A function to check if a player recognises another player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for target.
+	@param {Unknown} Missing description for status.
+	@param {Unknown} Missing description for isAccurate.
+	@returns {Unknown}
+--]]
 function Clockwork.player:DoesRecognise(player, target, status, isAccurate)
 	if (!status) then
 		return self:DoesRecognise(player, target, RECOGNISE_PARTIAL);
@@ -2353,7 +3060,13 @@ function Clockwork.player:DoesRecognise(player, target, status, isAccurate)
 	end;
 end;
 
--- A function to send a player a creation fault.
+--[[
+	@codebase Shared
+	@details A function to send a player a creation fault.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for fault.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetCreateFault(player, fault)
 	if (!fault) then
 		fault = "There has been an unknown error, please contact the administrator!";
@@ -2362,7 +3075,13 @@ function Clockwork.player:SetCreateFault(player, fault)
 	cwDatastream:Start(player, "CharacterFinish", {wasSuccess = false, fault = fault});
 end;
 
--- A function to force a player to delete a character.
+--[[
+	@codebase Shared
+	@details A function to force a player to delete a character.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for characterID.
+	@returns {Unknown}
+--]]
 function Clockwork.player:ForceDeleteCharacter(player, characterID)
 	local charactersTable = cwCfg:Get("mysql_characters_table"):Get();
 	local schemaFolder = cwKernel:GetSchemaFolder();
@@ -2385,7 +3104,13 @@ function Clockwork.player:ForceDeleteCharacter(player, characterID)
 	end;
 end;
 
--- A function to delete a player's character.
+--[[
+	@codebase Shared
+	@details A function to delete a player's character.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for characterID.
+	@returns {Unknown}
+--]]
 function Clockwork.player:DeleteCharacter(player, characterID)
 	local character = player.cwCharacterList[characterID];
 	
@@ -2410,7 +3135,13 @@ function Clockwork.player:DeleteCharacter(player, characterID)
 	end;
 end;
 
--- A function to use a player's character.
+--[[
+	@codebase Shared
+	@details A function to use a player's character.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for characterID.
+	@returns {Unknown}
+--]]
 function Clockwork.player:UseCharacter(player, characterID)
 	local isCharacterMenuReset = player:IsCharacterMenuReset();
 	local currentCharacter = player:GetCharacter();
@@ -2466,12 +3197,23 @@ function Clockwork.player:UseCharacter(player, characterID)
 	end;
 end;
 
--- A function to get a player's character.
+--[[
+	@codebase Shared
+	@details A function to get a player's character.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetCharacter(player)
 	return player.cwCharacter;
 end;
 
--- A function to get a player's unrecognised name.
+--[[
+	@codebase Shared
+	@details A function to get a player's unrecognised name.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for bFormatted.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetUnrecognisedName(player, bFormatted)
 	local unrecognisedPhysDesc = self:GetPhysDesc(player);
 	local unrecognisedName = cwCfg:Get("unrecognised_name"):Get();
@@ -2493,7 +3235,14 @@ function Clockwork.player:GetUnrecognisedName(player, bFormatted)
 	return unrecognisedName, usedPhysDesc;
 end;
 
--- A function to format text based on a relationship.
+--[[
+	@codebase Shared
+	@details A function to format text based on a relationship.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for ....
+	@returns {Unknown}
+--]]
 function Clockwork.player:FormatRecognisedText(player, text, ...)
 	local arguments = {...};
 
@@ -2512,7 +3261,13 @@ function Clockwork.player:FormatRecognisedText(player, text, ...)
 	return text;
 end;
 
--- A function to restore a recognised name.
+--[[
+	@codebase Shared
+	@details A function to restore a recognised name.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for target.
+	@returns {Unknown}
+--]]
 function Clockwork.player:RestoreRecognisedName(player, target)
 	local recognisedNames = player:GetRecognisedNames();
 	local key = target:GetCharacterKey();
@@ -2526,7 +3281,12 @@ function Clockwork.player:RestoreRecognisedName(player, target)
 	end;
 end;
 
--- A function to restore a player's recognised names.
+--[[
+	@codebase Shared
+	@details A function to restore a player's recognised names.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:RestoreRecognisedNames(player)
 	cwDatastream:Start(player, "ClearRecognisedNames", true);
 	
@@ -2540,7 +3300,15 @@ function Clockwork.player:RestoreRecognisedNames(player)
 	end;
 end;
 
--- A function to set whether a player recognises a player.
+--[[
+	@codebase Shared
+	@details A function to set whether a player recognises a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for target.
+	@param {Unknown} Missing description for status.
+	@param {Unknown} Missing description for shouldForce.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetRecognises(player, target, status, shouldForce)
 	local recognisedNames = player:GetRecognisedNames();
 	local name = target:Name();
@@ -2568,7 +3336,12 @@ function Clockwork.player:SetRecognises(player, target, status, shouldForce)
 	end;
 end;
 
--- A function to get a player's physical description.
+--[[
+	@codebase Shared
+	@details A function to get a player's physical description.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetPhysDesc(player)
 	local physDesc = player:GetSharedVar("PhysDesc");
 	local team = player:Team();
@@ -2596,7 +3369,14 @@ function Clockwork.player:GetPhysDesc(player)
 	return physDesc;
 end;
 
--- A function to clear a player's recognised names list.
+--[[
+	@codebase Shared
+	@details A function to clear a player's recognised names list.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for status.
+	@param {Unknown} Missing description for isAccurate.
+	@returns {Unknown}
+--]]
 function Clockwork.player:ClearRecognisedNames(player, status, isAccurate)
 	if (!status) then
 		local character = player:GetCharacter();
@@ -2619,7 +3399,14 @@ function Clockwork.player:ClearRecognisedNames(player, status, isAccurate)
 	cwPlugin:Call("PlayerRecognisedNamesCleared", player, status, isAccurate);
 end;
 
--- A function to clear a player's name from being recognised.
+--[[
+	@codebase Shared
+	@details A function to clear a player's name from being recognised.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for status.
+	@param {Unknown} Missing description for isAccurate.
+	@returns {Unknown}
+--]]
 function Clockwork.player:ClearName(player, status, isAccurate)
 	for k, v in pairs(cwPlayer.GetAll()) do
 		if (v:HasInitialized()) then
@@ -2632,7 +3419,12 @@ function Clockwork.player:ClearName(player, status, isAccurate)
 	cwPlugin:Call("PlayerNameCleared", player, status, isAccurate);
 end;
 
--- A function to holsters all of a player's weapons.
+--[[
+	@codebase Shared
+	@details A function to holsters all of a player's weapons.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:HolsterAll(player)
 	for k, v in pairs(player:GetWeapons()) do
 		local class = v:GetClass();
@@ -2648,7 +3440,15 @@ function Clockwork.player:HolsterAll(player)
 	player:SelectWeapon("cw_hands");
 end;
 
--- A function to set a shared variable for a player.
+--[[
+	@codebase Shared
+	@details A function to set a shared variable for a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for key.
+	@param {Unknown} Missing description for value.
+	@param {Unknown} Missing description for sharedTable.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetSharedVar(player, key, value, sharedTable)
 	if (IsValid(player)) then
 		if (!sharedTable) then
@@ -2695,7 +3495,13 @@ function Clockwork.player:SetSharedVar(player, key, value, sharedTable)
 	end;
 end;
 
--- A function to get a player's shared variable.
+--[[
+	@codebase Shared
+	@details A function to get a player's shared variable.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for key.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetSharedVar(player, key)
 	if (IsValid(player)) then
 		local sharedVars = cwKernel:GetSharedVars():Player();
@@ -2728,14 +3534,27 @@ function Clockwork.player:GetSharedVar(player, key)
 	end;
 end;
 
--- A function to set whether a player's character is banned.
+--[[
+	@codebase Shared
+	@details A function to set whether a player's character is banned.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for banned.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetBanned(player, banned)
 	player:SetCharacterData("CharBanned", banned);
 	player:SaveCharacter();
 	player:SetSharedVar("CharBanned", banned);
 end;
 
--- A function to set a player's name.
+--[[
+	@codebase Shared
+	@details A function to set a player's name.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for saveless.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetName(player, name, saveless)
 	local previousName = player:Name();
 	local newName = name;
@@ -2752,7 +3571,12 @@ function Clockwork.player:SetName(player, name, saveless)
 	end;
 end;
 
--- A function to get a player's generator count.
+--[[
+	@codebase Shared
+	@details A function to get a player's generator count.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetGeneratorCount(player)
 	local generators = cwGenerator:GetAll();
 	local count = 0;
@@ -2764,7 +3588,13 @@ function Clockwork.player:GetGeneratorCount(player)
 	return count;
 end;
 
--- A function to get a player's property entities.
+--[[
+	@codebase Shared
+	@details A function to get a player's property entities.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for class.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetPropertyEntities(player, class)
 	local uniqueID = player:UniqueID();
 	local entities = {};
@@ -2783,7 +3613,13 @@ function Clockwork.player:GetPropertyEntities(player, class)
 	return entities;
 end;
 
--- A function to get a player's property count.
+--[[
+	@codebase Shared
+	@details A function to get a player's property count.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for class.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetPropertyCount(player, class)
 	local uniqueID = player:UniqueID();
 	local count = 0;
@@ -2802,7 +3638,12 @@ function Clockwork.player:GetPropertyCount(player, class)
 	return count;
 end;
 
--- A function to get a player's door count.
+--[[
+	@codebase Shared
+	@details A function to get a player's door count.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetDoorCount(player)
 	local uniqueID = player:UniqueID();
 	local count = 0;
@@ -2821,14 +3662,27 @@ function Clockwork.player:GetDoorCount(player)
 	return count;
 end;
 
--- A function to take a player's door access.
+--[[
+	@codebase Shared
+	@details A function to take a player's door access.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for door.
+	@returns {Unknown}
+--]]
 function Clockwork.player:TakeDoorAccess(player, door)
 	if (door.accessList) then
 		door.accessList[player:GetCharacterKey()] = false;
 	end;
 end;
 
--- A function to give a player door access.
+--[[
+	@codebase Shared
+	@details A function to give a player door access.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for door.
+	@param {Unknown} Missing description for access.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GiveDoorAccess(player, door, access)
 	local key = player:GetCharacterKey();
 	
@@ -2841,7 +3695,15 @@ function Clockwork.player:GiveDoorAccess(player, door, access)
 	end;
 end;
 
--- A function to check if a player has door access.
+--[[
+	@codebase Shared
+	@details A function to check if a player has door access.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for door.
+	@param {Unknown} Missing description for access.
+	@param {Unknown} Missing description for isAccurate.
+	@returns {Unknown}
+--]]
 function Clockwork.player:HasDoorAccess(player, door, access, isAccurate)
 	if (!access) then
 		return self:HasDoorAccess(player, door, DOOR_ACCESS_BASIC, isAccurate);
@@ -2858,7 +3720,13 @@ function Clockwork.player:HasDoorAccess(player, door, access, isAccurate)
 	end;
 end;
 
--- A function to check if a player can afford an amount.
+--[[
+	@codebase Shared
+	@details A function to check if a player can afford an amount.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for amount.
+	@returns {Unknown}
+--]]
 function Clockwork.player:CanAfford(player, amount)
 	if (cwCfg:Get("cash_enabled"):Get()) then
 		return (player:GetCash() >= amount);
@@ -2867,7 +3735,15 @@ function Clockwork.player:CanAfford(player, amount)
 	end;
 end;
 
--- A function to give a player an amount of cash.
+--[[
+	@codebase Shared
+	@details A function to give a player an amount of cash.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for amount.
+	@param {Unknown} Missing description for reason.
+	@param {Unknown} Missing description for noMsg.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GiveCash(player, amount, reason, noMsg)
 	if (cwCfg:Get("cash_enabled"):Get()) then
 		local positiveHintColor = "positive_hint";
@@ -2904,7 +3780,16 @@ end;
 
 Clockwork.player:AddToMetaTable("Player", "GiveCash");
 
--- A function to show cinematic text to a player.
+--[[
+	@codebase Shared
+	@details A function to show cinematic text to a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for color.
+	@param {Unknown} Missing description for barLength.
+	@param {Unknown} Missing description for hangTime.
+	@returns {Unknown}
+--]]
 function Clockwork.player:CinematicText(player, text, color, barLength, hangTime)
 	cwDatastream:Start(player, "CinematicText", {
 		text = text,
@@ -2914,7 +3799,14 @@ function Clockwork.player:CinematicText(player, text, color, barLength, hangTime
 	});
 end;
 
--- A function to show cinematic text to each player.
+--[[
+	@codebase Shared
+	@details A function to show cinematic text to each player.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for color.
+	@param {Unknown} Missing description for hangTime.
+	@returns {Unknown}
+--]]
 function Clockwork.player:CinematicTextAll(text, color, hangTime)
 	for k, v in pairs(cwPlayer.GetAll()) do
 		if (v:HasInitialized()) then
@@ -2923,7 +3815,12 @@ function Clockwork.player:CinematicTextAll(text, color, hangTime)
 	end;
 end;
 
--- A function to find a player by an identifier.
+--[[
+	@codebase Shared
+	@details A function to find a player by an identifier.
+	@param {Unknown} Missing description for identifier.
+	@returns {Unknown}
+--]]
 function Clockwork.player:FindByID(identifier)
 	for k, v in pairs(player.GetAll()) do
 		if (v:HasInitialized() and (v:SteamID() == identifier or v:UniqueID() == identifier
@@ -2933,7 +3830,12 @@ function Clockwork.player:FindByID(identifier)
 	end;
 end;
 
--- A function to get if a player is protected.
+--[[
+	@codebase Shared
+	@details A function to get if a player is protected.
+	@param {Unknown} Missing description for identifier.
+	@returns {Unknown}
+--]]
 function Clockwork.player:IsProtected(identifier)
 	local steamID = nil;
 	local ownerSteamID = cwCfg:Get("owner_steamid"):Get();
@@ -2967,7 +3869,15 @@ function Clockwork.player:IsProtected(identifier)
 	return false;
 end;
 
--- A function to notify each player in a radius.
+--[[
+	@codebase Shared
+	@details A function to notify each player in a radius.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for class.
+	@param {Unknown} Missing description for position.
+	@param {Unknown} Missing description for radius.
+	@returns {Unknown}
+--]]
 function Clockwork.player:NotifyInRadius(text, class, position, radius)
 	local listeners = {};
 	
@@ -2982,7 +3892,13 @@ function Clockwork.player:NotifyInRadius(text, class, position, radius)
 	self:Notify(listeners, text, class);
 end;
 
--- A function to notify each player.
+--[[
+	@codebase Shared
+	@details A function to notify each player.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for icon.
+	@returns {Unknown}
+--]]
 function Clockwork.player:NotifyAll(text, icon)
 	self:Notify(nil, text, true, icon);
 end;
@@ -3012,7 +3928,15 @@ function Clockwork.player:NotifyAdmins(adminLevel, text, icon)
 	end;
 end;
 
--- A function to notify a player.
+--[[
+	@codebase Shared
+	@details A function to notify a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for class.
+	@param {Unknown} Missing description for icon.
+	@returns {Unknown}
+--]]
 function Clockwork.player:Notify(player, text, class, icon)
 	if (type(player) == "table") then
 		for k, v in pairs(player) do
@@ -3042,7 +3966,14 @@ end;
 
 Clockwork.player:AddToMetaTable("Player", "Notify");
 
--- A function to set a player's weapons list from a table.
+--[[
+	@codebase Shared
+	@details A function to set a player's weapons list from a table.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for weapons.
+	@param {Unknown} Missing description for forceReturn.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetWeapons(player, weapons, forceReturn)
 	for k, v in pairs(weapons) do
 		if (!player:HasWeapon(v.weaponData["class"])) then
@@ -3053,21 +3984,39 @@ function Clockwork.player:SetWeapons(player, weapons, forceReturn)
 	end;
 end;
 
--- A function to give ammo to a player from a table.
+--[[
+	@codebase Shared
+	@details A function to give ammo to a player from a table.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for ammo.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GiveAmmo(player, ammo)
 	for k, v in pairs(ammo) do
 		player:GiveAmmo(v, k);
 	end;
 end;
 
--- A function to set a player's ammo list from a table.
+--[[
+	@codebase Shared
+	@details A function to set a player's ammo list from a table.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for ammo.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetAmmo(player, ammo)
 	for k, v in pairs(ammo) do
 		player:SetAmmo(v, k);
 	end;
 end;
 
--- A function to get a player's ammo list as a table.
+--[[
+	@codebase Shared
+	@details A function to get a player's ammo list as a table.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for doStrip.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetAmmo(player, doStrip)
 	local spawnAmmo = self:GetSpawnAmmo(player);
 	local ammoTypes = {};
@@ -3104,7 +4053,13 @@ function Clockwork.player:GetAmmo(player, doStrip)
 	return ammo;
 end;
 
--- A function to get a player's weapons list as a table.
+--[[
+	@codebase Shared
+	@details A function to get a player's weapons list as a table.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for shouldKeep.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetWeapons(player, shouldKeep)
 	local weapons = {};
 	
@@ -3133,7 +4088,12 @@ function Clockwork.player:GetWeapons(player, shouldKeep)
 	return weapons;
 end;
 
--- A function to get the total weight of a player's equipped weapons.
+--[[
+	@codebase Shared
+	@details A function to get the total weight of a player's equipped weapons.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetEquippedWeight(player)
 	local weight = 0;
 	
@@ -3148,7 +4108,12 @@ function Clockwork.player:GetEquippedWeight(player)
 	return weight;
 end;
 
--- A function to get the total space of a player's equipped weapons.
+--[[
+	@codebase Shared
+	@details A function to get the total space of a player's equipped weapons.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetEquippedSpace(player)
 	local space = 0;
 	
@@ -3163,7 +4128,12 @@ function Clockwork.player:GetEquippedSpace(player)
 	return space;
 end;
 
--- A function to get a player's holstered weapon.
+--[[
+	@codebase Shared
+	@details A function to get a player's holstered weapon.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetHolsteredWeapon(player)
 	for k, v in pairs(player:GetWeapons()) do
 		local itemTable = cwItem:GetByWeapon(v);
@@ -3177,7 +4147,14 @@ function Clockwork.player:GetHolsteredWeapon(player)
 	end;
 end;
 
--- A function to check whether a player is ragdolled.
+--[[
+	@codebase Shared
+	@details A function to check whether a player is ragdolled.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for exception.
+	@param {Unknown} Missing description for bNoEntity.
+	@returns {Unknown}
+--]]
 function Clockwork.player:IsRagdolled(player, exception, bNoEntity)
 	if (player:GetRagdollEntity() or bNoEntity) then
 		local ragdolled = player:GetSharedVar("IsRagdoll");
@@ -3190,7 +4167,13 @@ function Clockwork.player:IsRagdolled(player, exception, bNoEntity)
 	end;
 end;
 
--- A function to set a player's unragdoll time.
+--[[
+	@codebase Shared
+	@details A function to set a player's unragdoll time.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for delay.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetUnragdollTime(player, delay)
 	player.cwRagdollPaused = nil;
 	
@@ -3205,7 +4188,12 @@ function Clockwork.player:SetUnragdollTime(player, delay)
 	end;
 end;
 
--- A function to pause a player's unragdoll time.
+--[[
+	@codebase Shared
+	@details A function to pause a player's unragdoll time.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:PauseUnragdollTime(player)
 	if (!player.cwRagdollPaused) then
 		local unragdollTime = self:GetUnragdollTime(player);
@@ -3220,7 +4208,12 @@ function Clockwork.player:PauseUnragdollTime(player)
 	end;
 end;
 
--- A function to start a player's unragdoll time.
+--[[
+	@codebase Shared
+	@details A function to start a player's unragdoll time.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:StartUnragdollTime(player)
 	if (player.cwRagdollPaused) then
 		if (player:IsRagdolled()) then
@@ -3231,7 +4224,12 @@ function Clockwork.player:StartUnragdollTime(player)
 	end;
 end;
 
--- A function to get a player's unragdoll time.
+--[[
+	@codebase Shared
+	@details A function to get a player's unragdoll time.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetUnragdollTime(player)
 	local action, actionDuration, startActionTime = self:GetAction(player);
 	
@@ -3242,12 +4240,22 @@ function Clockwork.player:GetUnragdollTime(player)
 	end;
 end;
 
--- A function to get a player's ragdoll state.
+--[[
+	@codebase Shared
+	@details A function to get a player's ragdoll state.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetRagdollState(player)
 	return player:GetSharedVar("IsRagdoll");
 end;
 
--- A function to get a player's ragdoll entity.
+--[[
+	@codebase Shared
+	@details A function to get a player's ragdoll entity.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetRagdollEntity(player)
 	if (player.cwRagdollTab) then
 		if (IsValid(player.cwRagdollTab.entity)) then
@@ -3256,12 +4264,23 @@ function Clockwork.player:GetRagdollEntity(player)
 	end;
 end;
 
--- A function to get a player's ragdoll table.
+--[[
+	@codebase Shared
+	@details A function to get a player's ragdoll table.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetRagdollTable(player)
 	return player.cwRagdollTab;
 end;
 
--- A function to do a player's ragdoll decay check.
+--[[
+	@codebase Shared
+	@details A function to do a player's ragdoll decay check.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for ragdoll.
+	@returns {Unknown}
+--]]
 function Clockwork.player:DoRagdollDecayCheck(player, ragdoll)
 	local index = ragdoll:EntIndex();
 	
@@ -3285,7 +4304,13 @@ function Clockwork.player:DoRagdollDecayCheck(player, ragdoll)
 	end);
 end;
 
--- A function to set a player's ragdoll immunity.
+--[[
+	@codebase Shared
+	@details A function to set a player's ragdoll immunity.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for delay.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetRagdollImmunity(player, delay)
 	if (delay) then
 		player:GetRagdollTable().immunity = CurTime() + delay;
@@ -3294,7 +4319,18 @@ function Clockwork.player:SetRagdollImmunity(player, delay)
 	end;
 end;
 
--- A function to set a player's ragdoll state.
+--[[
+	@codebase Shared
+	@details A function to set a player's ragdoll state.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for state.
+	@param {Unknown} Missing description for delay.
+	@param {Unknown} Missing description for decay.
+	@param {Unknown} Missing description for force.
+	@param {Unknown} Missing description for multiplier.
+	@param {Unknown} Missing description for velocityCallback.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetRagdollState(player, state, delay, decay, force, multiplier, velocityCallback)
 	if (state == RAGDOLL_KNOCKEDOUT or state == RAGDOLL_FALLENOVER) then
 		if (player:IsRagdolled()) then
@@ -3491,7 +4527,12 @@ function Clockwork.player:SetRagdollState(player, state, delay, decay, force, mu
 	end;
 end;
 
--- A function to make a player drop their weapons.
+--[[
+	@codebase Shared
+	@details A function to make a player drop their weapons.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:DropWeapons(player)
 	local ragdollEntity = player:GetRagdollEntity();
 	
@@ -3547,7 +4588,15 @@ function Clockwork.player:DropWeapons(player)
 	end;
 end;
 
--- A function to lightly spawn a player.
+--[[
+	@codebase Shared
+	@details A function to lightly spawn a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for weapons.
+	@param {Unknown} Missing description for ammo.
+	@param {Unknown} Missing description for forceReturn.
+	@returns {Unknown}
+--]]
 function Clockwork.player:LightSpawn(player, weapons, ammo, forceReturn)
 	if (player:IsRagdolled() and !forceReturn) then
 		self:SetRagdollState(player, RAGDOLL_NONE);
@@ -3621,7 +4670,12 @@ function Clockwork.player:LightSpawn(player, weapons, ammo, forceReturn)
 	player:Spawn();
 end;
 
--- A function to convert a table to camel case.
+--[[
+	@codebase Shared
+	@details A function to convert a table to camel case.
+	@param {Unknown} Missing description for baseTable.
+	@returns {Unknown}
+--]]
 function Clockwork.player:ConvertToCamelCase(baseTable)
 	local newTable = {};
 	
@@ -3636,7 +4690,13 @@ function Clockwork.player:ConvertToCamelCase(baseTable)
 	return newTable;
 end;
 
--- A function to get a player's characters.
+--[[
+	@codebase Shared
+	@details A function to get a player's characters.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for Callback.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetCharacters(player, Callback)
 	if (!IsValid(player)) then return; end;
 	
@@ -3663,7 +4723,13 @@ function Clockwork.player:GetCharacters(player, Callback)
 	queryObj:Pull();
 end;
 
--- A function to add a character to the character screen.
+--[[
+	@codebase Shared
+	@details A function to add a character to the character screen.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for character.
+	@returns {Unknown}
+--]]
 function Clockwork.player:CharacterScreenAdd(player, character)
 	local info = {
 		name = character.name,
@@ -3689,7 +4755,12 @@ function Clockwork.player:CharacterScreenAdd(player, character)
 	cwDatastream:Start(player, "CharacterAdd", info);
 end;
 
--- A function to convert a character's MySQL variables to Lua variables.
+--[[
+	@codebase Shared
+	@details A function to convert a character's MySQL variables to Lua variables.
+	@param {Unknown} Missing description for baseTable.
+	@returns {Unknown}
+--]]
 function Clockwork.player:ConvertCharacterMySQL(baseTable)
 	baseTable.recognisedNames = self:ConvertCharacterRecognisedNamesString(baseTable.recognisedNames);
 	baseTable.characterID = tonumber(baseTable.characterID);
@@ -3701,7 +4772,12 @@ function Clockwork.player:ConvertCharacterMySQL(baseTable)
 	baseTable.key = tonumber(baseTable.key);
 end;
 
--- A function to get a player's character ID.
+--[[
+	@codebase Shared
+	@details A function to get a player's character ID.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetCharacterID(player)
 	local character = player:GetCharacter();
 	
@@ -3714,7 +4790,16 @@ function Clockwork.player:GetCharacterID(player)
 	end;
 end;
 
--- A function to load a player's character.
+--[[
+	@codebase Shared
+	@details A function to load a player's character.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for characterID.
+	@param {Unknown} Missing description for mergeCreate.
+	@param {Unknown} Missing description for Callback.
+	@param {Unknown} Missing description for shouldForce.
+	@returns {Unknown}
+--]]
 function Clockwork.player:LoadCharacter(player, characterID, mergeCreate, Callback, shouldForce)
 	local character = {};
 	local unixTime = os.time();
@@ -3796,7 +4881,12 @@ function Clockwork.player:LoadCharacter(player, characterID, mergeCreate, Callba
 	end;
 end;
 
--- A function to set a player's basic shared variables.
+--[[
+	@codebase Shared
+	@details A function to set a player's basic shared variables.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetBasicSharedVars(player)
 	local gender = player:GetGender();
 	local faction = player:GetFaction();
@@ -3819,7 +4909,14 @@ function Clockwork.player:SetBasicSharedVars(player)
 	return true;
 end;
 
--- A function to get the character's ammo as a string.
+--[[
+	@codebase Shared
+	@details A function to get the character's ammo as a string.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for character.
+	@param {Unknown} Missing description for rawTable.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetCharacterAmmoString(player, character, rawTable)
 	local ammo = table.Copy(character.ammo);
 	
@@ -3836,7 +4933,14 @@ function Clockwork.player:GetCharacterAmmoString(player, character, rawTable)
 	end;
 end;
 
--- A function to get the character's data as a string.
+--[[
+	@codebase Shared
+	@details A function to get the character's data as a string.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for character.
+	@param {Unknown} Missing description for rawTable.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetCharacterDataString(player, character, rawTable)
 	local data = table.Copy(character.data);
 	cwPlugin:Call("PlayerSaveCharacterData", player, data);
@@ -3848,7 +4952,13 @@ function Clockwork.player:GetCharacterDataString(player, character, rawTable)
 	end;
 end;
 
--- A function to get the character's recognised names as a string.
+--[[
+	@codebase Shared
+	@details A function to get the character's recognised names as a string.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for character.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetCharacterRecognisedNamesString(player, character)
 	local recognisedNames = {};
 	
@@ -3861,7 +4971,14 @@ function Clockwork.player:GetCharacterRecognisedNamesString(player, character)
 	return cwJson:Encode(recognisedNames);
 end;
 
--- A function to get the character's inventory as a string.
+--[[
+	@codebase Shared
+	@details A function to get the character's inventory as a string.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for character.
+	@param {Unknown} Missing description for rawTable.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetCharacterInventoryString(player, character, rawTable)
 	local inventory = cwInventory:CreateDuplicate(character.inventory);
 	cwPlugin:Call("PlayerAddToSavedInventory", player, character, function(itemTable)
@@ -3875,7 +4992,12 @@ function Clockwork.player:GetCharacterInventoryString(player, character, rawTabl
 	end;
 end;
 
--- A function to convert a character's recognised names string to a table.
+--[[
+	@codebase Shared
+	@details A function to convert a character's recognised names string to a table.
+	@param {Unknown} Missing description for data.
+	@returns {Unknown}
+--]]
 function Clockwork.player:ConvertCharacterRecognisedNamesString(data)
 	local wasSuccess, value = pcall(cwJson.Decode, cwJson, data);
 	
@@ -3892,7 +5014,12 @@ function Clockwork.player:ConvertCharacterRecognisedNamesString(data)
 	end;
 end;
 
--- A function to convert a character's data string to a table.
+--[[
+	@codebase Shared
+	@details A function to convert a character's data string to a table.
+	@param {Unknown} Missing description for data.
+	@returns {Unknown}
+--]]
 function Clockwork.player:ConvertCharacterDataString(data)
 	local wasSuccess, value = pcall(cwJson.Decode, cwJson, data);
 	
@@ -3903,7 +5030,13 @@ function Clockwork.player:ConvertCharacterDataString(data)
 	end;
 end;
 
--- A function to load a player's data.
+--[[
+	@codebase Shared
+	@details A function to load a player's data.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for Callback.
+	@returns {Unknown}
+--]]
 function Clockwork.player:LoadData(player, Callback)
 	local playersTable = cwCfg:Get("mysql_players_table"):Get();
 	local schemaFolder = cwKernel:GetSchemaFolder();
@@ -3983,7 +5116,13 @@ function Clockwork.player:LoadData(player, Callback)
 	end);
 end;
 
--- A function to save a players's data.
+--[[
+	@codebase Shared
+	@details A function to save a players's data.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for shouldCreate.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SaveData(player, shouldCreate)
 	if (!shouldCreate) then
 		local schemaFolder = cwKernel:GetSchemaFolder();
@@ -4026,14 +5165,27 @@ function Clockwork.player:SaveData(player, shouldCreate)
 	end;
 end;
 
--- A function to update a player's character.
+--[[
+	@codebase Shared
+	@details A function to update a player's character.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:UpdateCharacter(player)
 	player.cwCharacter.inventory = self:GetCharacterInventoryString(player, player.cwCharacter, true);
 	player.cwCharacter.ammo = self:GetCharacterAmmoString(player, player.cwCharacter, true);
 	player.cwCharacter.data = self:GetCharacterDataString(player, player.cwCharacter, true);
 end;
 
--- A function to save a player's character.
+--[[
+	@codebase Shared
+	@details A function to save a player's character.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for shouldCreate.
+	@param {Unknown} Missing description for character.
+	@param {Unknown} Missing description for Callback.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SaveCharacter(player, shouldCreate, character, Callback)
 	if (shouldCreate) then
 		local charactersTable = cwCfg:Get("mysql_characters_table"):Get();
@@ -4121,7 +5273,13 @@ function Clockwork.player:SaveCharacter(player, shouldCreate, character, Callbac
 	end;
 end;
 
--- A function to get the class of a player's active weapon.
+--[[
+	@codebase Shared
+	@details A function to get the class of a player's active weapon.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for safe.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetWeaponClass(player, safe)
 	if (IsValid(player:GetActiveWeapon())) then
 		return player:GetActiveWeapon():GetClass();
@@ -4130,7 +5288,14 @@ function Clockwork.player:GetWeaponClass(player, safe)
 	end;
 end;
 
--- A function to call a player's think hook.
+--[[
+	@codebase Shared
+	@details A function to call a player's think hook.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for setSharedVars.
+	@param {Unknown} Missing description for curTime.
+	@returns {Unknown}
+--]]
 function Clockwork.player:CallThinkHook(player, setSharedVars, curTime)
 	local infoTable = player.cwInfoTable;
 
@@ -4158,24 +5323,47 @@ function Clockwork.player:CallThinkHook(player, setSharedVars, curTime)
 	player.cwNextThink = nil;
 end;
 
--- A function to get a player's wages.
+--[[
+	@codebase Shared
+	@details A function to get a player's wages.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetWages(player)
 	return player:GetSharedVar("Wages");
 end;
 
--- A function to set a character's flags.
+--[[
+	@codebase Shared
+	@details A function to set a character's flags.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for flags.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetFlags(player, flags)
 	self:TakeFlags(player, player:GetFlags());
 	self:GiveFlags(player, flags);
 end;
 
--- A function to set a player's flags.
+--[[
+	@codebase Shared
+	@details A function to set a player's flags.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for flags.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetPlayerFlags(player, flags)
 	self:TakePlayerFlags(player, player:GetPlayerFlags());
 	self:GivePlayerFlags(player, flags);
 end;
 
--- A function to set a player's rank within their faction.
+--[[
+	@codebase Shared
+	@details A function to set a player's rank within their faction.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for rank.
+	@returns {Unknown}
+--]]
 function Clockwork.player:SetFactionRank(player, rank)
 	if (rank) then
 		local faction = cwFaction:FindByID(player:GetFaction());
@@ -4206,7 +5394,12 @@ function Clockwork.player:SetFactionRank(player, rank)
 	end;
 end;
 
--- A function which returns the unique ID of any diseases a player has.
+--[[
+	@codebase Shared
+	@details A function which returns the unique ID of any diseases a player has.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetDiseases(player)
 	local diseases = player:GetCharacterData("Diseases");
 
@@ -4217,14 +5410,24 @@ function Clockwork.player:GetDiseases(player)
 	end;
 end;
 
--- A function to get if a player has any diseases.
+--[[
+	@codebase Shared
+	@details A function to get if a player has any diseases.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:HasDiseases(player)
 	local diseases = self:GetDiseases(player);
 
 	return (#diseases > 0);
 end;
 
--- A function which returns the unique ID and callbacks of any symptoms a player suffers.
+--[[
+	@codebase Shared
+	@details A function which returns the unique ID and callbacks of any symptoms a player suffers.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetSymptoms(player)
 	local diseases = self:GetDiseases(player);
 	local symptoms = {};
@@ -4242,7 +5445,13 @@ function Clockwork.player:GetSymptoms(player)
 	return symptoms;
 end;
 
--- A function which gives a player a disease.
+--[[
+	@codebase Shared
+	@details A function which gives a player a disease.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for uniqueID.
+	@returns {Unknown}
+--]]
 function Clockwork.player:AddDisease(player, uniqueID)
 	if (uniqueID) then
 		if (Clockwork.disease:IsValid(uniqueID)) then
@@ -4259,12 +5468,23 @@ function Clockwork.player:AddDisease(player, uniqueID)
 	end;
 end;
 
--- A function which cures a player of all diseases.
+--[[
+	@codebase Shared
+	@details A function which cures a player of all diseases.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:CureAll(player)
 	player:SetCharacterData("Diseases", {});
 end;
 
--- A function which cures a player of a disease.
+--[[
+	@codebase Shared
+	@details A function which cures a player of a disease.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for uniqueID.
+	@returns {Unknown}
+--]]
 function Clockwork.player:Cure(player, uniqueID)
 	if (uniqueID) then
 		if (Clockwork.disease:IsValid(uniqueID)) then
@@ -4281,7 +5501,12 @@ function Clockwork.player:Cure(player, uniqueID)
 	end;
 end;
 
--- A function to get a player's global flags.
+--[[
+	@codebase Shared
+	@details A function to get a player's global flags.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.player:GetPlayerFlags(player)
 	return player:GetData("Flags") or "";
 end;

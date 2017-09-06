@@ -13,7 +13,19 @@ local table = table;
 Clockwork.setting = Clockwork.kernel:NewLibrary("Setting");
 Clockwork.setting.stored = Clockwork.setting.stored or {};
 
--- A function to add a number slider setting.
+--[[
+	@codebase Client
+	@details A function to add a number slider setting.
+	@param {Unknown} Missing description for category.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for conVar.
+	@param {Unknown} Missing description for minimum.
+	@param {Unknown} Missing description for maximum.
+	@param {Unknown} Missing description for decimals.
+	@param {Unknown} Missing description for toolTip.
+	@param {Unknown} Missing description for Condition.
+	@returns {Unknown}
+--]]
 function Clockwork.setting:AddNumberSlider(category, text, conVar, minimum, maximum, decimals, toolTip, Condition)
 	local index = #self.stored + 1;
 
@@ -32,7 +44,17 @@ function Clockwork.setting:AddNumberSlider(category, text, conVar, minimum, maxi
 	return index;
 end;
 
--- A function to add a multi-choice setting.
+--[[
+	@codebase Client
+	@details A function to add a multi-choice setting.
+	@param {Unknown} Missing description for category.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for conVar.
+	@param {Unknown} Missing description for options.
+	@param {Unknown} Missing description for toolTip.
+	@param {Unknown} Missing description for Condition.
+	@returns {Unknown}
+--]]
 function Clockwork.setting:AddMultiChoice(category, text, conVar, options, toolTip, Condition)
 	local index = #self.stored + 1;
 
@@ -55,7 +77,19 @@ function Clockwork.setting:AddMultiChoice(category, text, conVar, options, toolT
 	return index;
 end;
 
--- A function to add a number wang setting.
+--[[
+	@codebase Client
+	@details A function to add a number wang setting.
+	@param {Unknown} Missing description for category.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for conVar.
+	@param {Unknown} Missing description for minimum.
+	@param {Unknown} Missing description for maximum.
+	@param {Unknown} Missing description for decimals.
+	@param {Unknown} Missing description for toolTip.
+	@param {Unknown} Missing description for Condition.
+	@returns {Unknown}
+--]]
 function Clockwork.setting:AddNumberWang(category, text, conVar, minimum, maximum, decimals, toolTip, Condition)
 	local index = #self.stored + 1;
 
@@ -74,7 +108,16 @@ function Clockwork.setting:AddNumberWang(category, text, conVar, minimum, maximu
 	return index;
 end;
 
--- A function to add a text entry setting.
+--[[
+	@codebase Client
+	@details A function to add a text entry setting.
+	@param {Unknown} Missing description for category.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for conVar.
+	@param {Unknown} Missing description for toolTip.
+	@param {Unknown} Missing description for Condition.
+	@returns {Unknown}
+--]]
 function Clockwork.setting:AddTextEntry(category, text, conVar, toolTip, Condition)
 	local index = #self.stored + 1;
 
@@ -90,7 +133,16 @@ function Clockwork.setting:AddTextEntry(category, text, conVar, toolTip, Conditi
 	return index;
 end;
 
--- A function to add a check box setting.
+--[[
+	@codebase Client
+	@details A function to add a check box setting.
+	@param {Unknown} Missing description for category.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for conVar.
+	@param {Unknown} Missing description for toolTip.
+	@param {Unknown} Missing description for Condition.
+	@returns {Unknown}
+--]]
 function Clockwork.setting:AddCheckBox(category, text, conVar, toolTip, Condition)
 	local index = #self.stored + 1;
 
@@ -106,7 +158,16 @@ function Clockwork.setting:AddCheckBox(category, text, conVar, toolTip, Conditio
 	return index;
 end;
 
--- A function to add a color mixer setting.
+--[[
+	@codebase Client
+	@details A function to add a color mixer setting.
+	@param {Unknown} Missing description for category.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for conVar.
+	@param {Unknown} Missing description for toolTip.
+	@param {Unknown} Missing description for Condition.
+	@returns {Unknown}
+--]]
 function Clockwork.setting:AddColorMixer(category, text, conVar, toolTip, Condition)
 	local index = #self.stored + 1;
 
@@ -122,12 +183,22 @@ function Clockwork.setting:AddColorMixer(category, text, conVar, toolTip, Condit
 	return index;
 end;
 
--- A function to remove a setting by its index.
+--[[
+	@codebase Client
+	@details A function to remove a setting by its index.
+	@param {Unknown} Missing description for index.
+	@returns {Unknown}
+--]]
 function Clockwork.setting:RemoveByIndex(index)
 	self.stored[index] = nil;
 end;
 
--- A function to remove a setting by its convar.
+--[[
+	@codebase Client
+	@details A function to remove a setting by its convar.
+	@param {Unknown} Missing description for conVar.
+	@returns {Unknown}
+--]]
 function Clockwork.setting:RemoveByConVar(conVar)
 	for k, v in pairs(self.stored) do
 		if (v.conVar == conVar) then
@@ -136,7 +207,15 @@ function Clockwork.setting:RemoveByConVar(conVar)
 	end;
 end;
 
--- A function to remove a setting.
+--[[
+	@codebase Client
+	@details A function to remove a setting.
+	@param {Unknown} Missing description for category.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for class.
+	@param {Unknown} Missing description for conVar.
+	@returns {Unknown}
+--]]
 function Clockwork.setting:Remove(category, text, class, conVar)
 	for k, v in pairs(self.stored) do
 		if ((!category or v.category == category)

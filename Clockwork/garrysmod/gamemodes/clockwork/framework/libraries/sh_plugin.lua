@@ -147,7 +147,13 @@ if (SERVER) then
 		return false;
 	end;
 	
-	-- A function to get whether a plugin is disabled.
+	--[[
+		@codebase Shared
+		@details A function to get whether a plugin is disabled.
+		@param {Unknown} Missing description for name.
+		@param {Unknown} Missing description for bFolder.
+		@returns {Unknown}
+	--]]
 	function Clockwork.plugin:IsDisabled(name, bFolder)
 		if (!bFolder) then
 			local plugin = self:FindByID(name);
@@ -179,7 +185,13 @@ if (SERVER) then
 		return false;
 	end;
 	
-	-- A function to get whether a plugin is unloaded.
+	--[[
+		@codebase Shared
+		@details A function to get whether a plugin is unloaded.
+		@param {Unknown} Missing description for name.
+		@param {Unknown} Missing description for bFolder.
+		@returns {Unknown}
+	--]]
 	function Clockwork.plugin:IsUnloaded(name, bFolder)
 		if (!bFolder) then
 			local plugin = self:FindByID(name);
@@ -196,7 +208,13 @@ if (SERVER) then
 else
 	Clockwork.plugin.override = Clockwork.plugin.override or {};
 	
-	-- A function to set whether a plugin is unloaded.
+	--[[
+		@codebase Shared
+		@details A function to set whether a plugin is unloaded.
+		@param {Unknown} Missing description for name.
+		@param {Unknown} Missing description for isUnloaded.
+		@returns {Unknown}
+	--]]
 	function Clockwork.plugin:SetUnloaded(name, isUnloaded)
 		local plugin = self:FindByID(name);
 		
@@ -205,7 +223,13 @@ else
 		end;
 	end;
 	
-	-- A function to get whether a plugin is disabled.
+	--[[
+		@codebase Shared
+		@details A function to get whether a plugin is disabled.
+		@param {Unknown} Missing description for name.
+		@param {Unknown} Missing description for bFolder.
+		@returns {Unknown}
+	--]]
 	function Clockwork.plugin:IsDisabled(name, bFolder)
 		if (!bFolder) then
 			local plugin = self:FindByID(name);
@@ -238,7 +262,13 @@ else
 		return false;
 	end;
 	
-	-- A function to get whether a plugin is unloaded.
+	--[[
+		@codebase Shared
+		@details A function to get whether a plugin is unloaded.
+		@param {Unknown} Missing description for name.
+		@param {Unknown} Missing description for bFolder.
+		@returns {Unknown}
+	--]]
 	function Clockwork.plugin:IsUnloaded(name, bFolder)
 		if (!bFolder) then
 			local plugin = self:FindByID(name);
@@ -262,17 +292,30 @@ else
 	end;
 end;
 
--- A function to set if the plugin system is initialized.
+--[[
+	@codebase Shared
+	@details A function to set if the plugin system is initialized.
+	@param {Unknown} Missing description for bInitialized.
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:SetInitialized(bInitialized)
 	self.cwInitialized = bInitialized;
 end;
 
--- A function to get whether the config has initialized.
+--[[
+	@codebase Shared
+	@details A function to get whether the config has initialized.
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:HasInitialized()
 	return self.cwInitialized;
 end;
 
--- A function to initialize the plugin system.
+--[[
+	@codebase Shared
+	@details A function to initialize the plugin system.
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:Initialize()
 	if (self:HasInitialized()) then
 		return;
@@ -285,7 +328,11 @@ function Clockwork.plugin:Initialize()
 	self:SetInitialized(true);
 end;
 
--- A function to check Schema function mismatches.
+--[[
+	@codebase Shared
+	@details A function to check Schema function mismatches.
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:CheckMismatches()
 	if (Schema) then
 		local funcIdxMismatches = {};
@@ -303,7 +350,12 @@ function Clockwork.plugin:CheckMismatches()
 	end;
 end;
 
--- A function to register a new plugin.
+--[[
+	@codebase Shared
+	@details A function to register a new plugin.
+	@param {Unknown} Missing description for pluginTable.
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:Register(pluginTable)
 	local newBaseDir = Clockwork.kernel:RemoveTextFromEnd(pluginTable.baseDir, "/schema");
 	local files, pluginFolders = cwFile.Find(newBaseDir.."/plugins/*", "LUA", "namedesc");
@@ -350,12 +402,25 @@ function Clockwork.plugin:Register(pluginTable)
 	self:IncludePlugins(newBaseDir);
 end;
 
--- A function to find a plugin by an ID.
+--[[
+	@codebase Shared
+	@details A function to find a plugin by an ID.
+	@param {Unknown} Missing description for identifier.
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:FindByID(identifier)
 	return stored[identifier];
 end;
 
--- A function to determine whether the framework supports a particular plugin.
+--[[
+	@codebase Shared
+	@details A function to determine whether the framework supports a particular plugin.
+	@param {Unknown} Missing description for compatibility.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for version.
+	@param {Unknown} Missing description for build.
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:CompareVersion(compatibility, name, version, build)
 	if (tostring(compatibility) == Clockwork.kernel:GetVersionBuild()) then
 		return false;
@@ -380,7 +445,13 @@ function Clockwork.plugin:CompareVersion(compatibility, name, version, build)
 	return false;
 end;
 
--- A function to include a plugin.
+--[[
+	@codebase Shared
+	@details A function to include a plugin.
+	@param {Unknown} Missing description for directory.
+	@param {Unknown} Missing description for isSchema.
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:Include(directory, isSchema)
 	local schemaFolder = Clockwork.kernel:GetSchemaFolder();
 	local explodeDir = string.Explode("/", directory);
@@ -480,7 +551,11 @@ function Clockwork.plugin:Include(directory, isSchema)
 	end;
 end;
 
--- A function to create a new plugin.
+--[[
+	@codebase Shared
+	@details A function to create a new plugin.
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:New()
 	local pluginTable = Clockwork.kernel:NewMetaTable(PLUGIN_META);
 	pluginTable.baseDir = PLUGIN_BASE_DIR;
@@ -489,7 +564,12 @@ function Clockwork.plugin:New()
 	return pluginTable;
 end;
 
--- A function to sort a list of plugins storted by k, v.
+--[[
+	@codebase Shared
+	@details A function to sort a list of plugins storted by k, v.
+	@param {Unknown} Missing description for pluginList.
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:SortList(pluginList)
 	local sortedTable = {};
 	
@@ -504,7 +584,12 @@ function Clockwork.plugin:SortList(pluginList)
 	return sortedTable;
 end;
 
--- A function to clear the hook cache for all hooks or a specific one.
+--[[
+	@codebase Shared
+	@details A function to clear the hook cache for all hooks or a specific one.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:ClearHookCache(name)
 	if (!name) then
 		hookCache = {};
@@ -515,7 +600,14 @@ function Clockwork.plugin:ClearHookCache(name)
 	end;
 end;
 
--- A function to run the plugin hooks.
+--[[
+	@codebase Shared
+	@details A function to run the plugin hooks.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for bGamemode.
+	@param {Unknown} Missing description for ....
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 	if (not self.sortedModules) then
 		self.sortedModules = self:SortList(modules);
@@ -569,17 +661,35 @@ function Clockwork.plugin:RunHooks(name, bGamemode, ...)
 	end;
 end;
 
--- A function to call a function for all plugins.
+--[[
+	@codebase Shared
+	@details A function to call a function for all plugins.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for ....
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:Call(name, ...)
 	return self:RunHooks(name, true, ...);
 end;
 
--- A function to remove a module by name.
+--[[
+	@codebase Shared
+	@details A function to remove a module by name.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:Remove(name)
 	modules[name] = nil;
 end;
 
--- A function to add a table as a module.
+--[[
+	@codebase Shared
+	@details A function to add a table as a module.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for moduleTable.
+	@param {Unknown} Missing description for hookOrder.
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:Add(name, moduleTable, hookOrder)
 	if (not moduleTable.name) then
 		moduleTable.name = name;
@@ -590,7 +700,12 @@ function Clockwork.plugin:Add(name, moduleTable, hookOrder)
 	modules[name] = moduleTable;
 end;
 
--- A function to include a plugin's entities.
+--[[
+	@codebase Shared
+	@details A function to include a plugin's entities.
+	@param {Unknown} Missing description for directory.
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:IncludeEntities(directory)
 	local files, entityFolders = cwFile.Find(directory.."/entities/entities/*", "LUA", "namedesc");
 
@@ -619,7 +734,12 @@ function Clockwork.plugin:IncludeEntities(directory)
 	end;
 end;
 
--- A function to include a plugin's effects.
+--[[
+	@codebase Shared
+	@details A function to include a plugin's effects.
+	@param {Unknown} Missing description for directory.
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:IncludeEffects(directory)
 	local files, effectFolders = cwFile.Find(directory.."/entities/effects/*", "LUA", "namedesc");
 	
@@ -644,7 +764,12 @@ function Clockwork.plugin:IncludeEffects(directory)
 	end;
 end;
 
--- A function to include a plugin's weapons.
+--[[
+	@codebase Shared
+	@details A function to include a plugin's weapons.
+	@param {Unknown} Missing description for directory.
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:IncludeWeapons(directory)
 	local files, weaponFolders = cwFile.Find(directory.."/entities/weapons/*", "LUA");
 
@@ -673,7 +798,12 @@ function Clockwork.plugin:IncludeWeapons(directory)
 	end;
 end;
 
--- A function to include a plugin's plugins.
+--[[
+	@codebase Shared
+	@details A function to include a plugin's plugins.
+	@param {Unknown} Missing description for directory.
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:IncludePlugins(directory)
 	local files, pluginFolders = cwFile.Find(directory.."/plugins/*", "LUA", "namedesc");
 	
@@ -686,14 +816,24 @@ function Clockwork.plugin:IncludePlugins(directory)
 	end;
 end;
 
--- A function to add an extra folder to include for plugins.
+--[[
+	@codebase Shared
+	@details A function to add an extra folder to include for plugins.
+	@param {Unknown} Missing description for folderName.
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:AddExtra(folderName)
 	if (!table.HasValue(extras, folderName)) then
 		extras[#extras + 1] = folderName;
 	end;
 end;
 
--- A function to include a plugin's extras.
+--[[
+	@codebase Shared
+	@details A function to include a plugin's extras.
+	@param {Unknown} Missing description for directory.
+	@returns {Unknown}
+--]]
 function Clockwork.plugin:IncludeExtras(directory)
 	self:IncludeEffects(directory);
 	self:IncludeWeapons(directory);

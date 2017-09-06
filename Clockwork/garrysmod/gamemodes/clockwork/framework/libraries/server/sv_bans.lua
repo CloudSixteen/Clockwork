@@ -48,7 +48,11 @@ local function BANS_LOAD_CALLBACK(result)
 	end;
 end
 
--- A function to load the bans.
+--[[
+	@codebase Server
+	@details A function to load the bans.
+	@returns {Unknown}
+--]]
 function Clockwork.bans:Load()
 	local bansTable = Clockwork.config:Get("mysql_bans_table"):Get();
 	local schemaFolder = Clockwork.kernel:GetSchemaFolder();
@@ -70,7 +74,16 @@ function Clockwork.bans:Load()
 	end;
 end;
 
--- A function to add a ban.
+--[[
+	@codebase Server
+	@details A function to add a ban.
+	@param {Unknown} Missing description for identifier.
+	@param {Unknown} Missing description for duration.
+	@param {Unknown} Missing description for reason.
+	@param {Unknown} Missing description for Callback.
+	@param {Unknown} Missing description for bSaveless.
+	@returns {Unknown}
+--]]
 function Clockwork.bans:Add(identifier, duration, reason, Callback, bSaveless)
 	local steamName = nil;
 	local playerGet = Clockwork.player:FindByID(identifier);
@@ -265,7 +278,13 @@ function Clockwork.bans:Add(identifier, duration, reason, Callback, bSaveless)
 	end;
 end;
 
--- A function to remove a ban.
+--[[
+	@codebase Server
+	@details A function to remove a ban.
+	@param {Unknown} Missing description for identifier.
+	@param {Unknown} Missing description for bSaveless.
+	@returns {Unknown}
+--]]
 function Clockwork.bans:Remove(identifier, bSaveless)
 	local bansTable = Clockwork.config:Get("mysql_bans_table"):Get();
 	local schemaFolder = Clockwork.kernel:GetSchemaFolder();

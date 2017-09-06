@@ -10,22 +10,43 @@ Clockwork.voices = Clockwork.kernel:NewLibrary("CWVoices");
 
 local groups = {};
 
--- A function to get the local stored voice groups.
+--[[
+	@codebase Shared
+	@details A function to get the local stored voice groups.
+	@returns {Unknown}
+--]]
 function Clockwork.voices:GetAll()
 	return groups;
 end;
 
--- A function to get a certain group by ID.
+--[[
+	@codebase Shared
+	@details A function to get a certain group by ID.
+	@param {Unknown} Missing description for id.
+	@returns {Unknown}
+--]]
 function Clockwork.voices:FindByID(id)
 	return groups[id];
 end;
 
--- A function to get the voices of a certain group by ID.
+--[[
+	@codebase Shared
+	@details A function to get the voices of a certain group by ID.
+	@param {Unknown} Missing description for id.
+	@returns {Unknown}
+--]]
 function Clockwork.voices:GetVoices(id)
 	return groups[id].voices;
 end;
 
--- A function to add a voice group.
+--[[
+	@codebase Shared
+	@details A function to add a voice group.
+	@param {Unknown} Missing description for group.
+	@param {Unknown} Missing description for gender.
+	@param {Unknown} Missing description for callback.
+	@returns {Unknown}
+--]]
 function Clockwork.voices:RegisterGroup(group, gender, callback)
 	if (!gender) then
 		gender = false;
@@ -38,7 +59,19 @@ function Clockwork.voices:RegisterGroup(group, gender, callback)
 	};
 end;
 
--- A function to add a voice.
+--[[
+	@codebase Shared
+	@details A function to add a voice.
+	@param {Unknown} Missing description for groupName.
+	@param {Unknown} Missing description for command.
+	@param {Unknown} Missing description for phrase.
+	@param {Unknown} Missing description for sound.
+	@param {Unknown} Missing description for female.
+	@param {Unknown} Missing description for menu.
+	@param {Unknown} Missing description for pitch.
+	@param {Unknown} Missing description for volume.
+	@returns {Unknown}
+--]]
 function Clockwork.voices:Add(groupName, command, phrase, sound, female, menu, pitch, volume)
 	local group = groups[groupName];
 	
@@ -58,7 +91,11 @@ function Clockwork.voices:Add(groupName, command, phrase, sound, female, menu, p
 	end;
 end;
 
--- Called when the framework initializes.
+--[[
+	@codebase Shared
+	@details Called when the framework initializes.
+	@returns {Unknown}
+--]]
 function Clockwork.voices:ClockworkInitialized()
 	for k, v in pairs(Clockwork.faction:GetAll()) do
 		local FACTION = Clockwork.faction:FindByID(v.name);
@@ -112,7 +149,12 @@ function Clockwork.voices:ClockworkInitialized()
 	end;
 end;
 
--- Called when chat box info should be adjusted.
+--[[
+	@codebase Shared
+	@details Called when chat box info should be adjusted.
+	@param {Unknown} Missing description for info.
+	@returns {Unknown}
+--]]
 function Clockwork.voices:ChatBoxAdjustInfo(info)
 	if (info.class == "ic" or info.class == "yell" or info.class == "whisper") then
 		if (IsValid(info.speaker) and info.speaker:HasInitialized()) then
@@ -162,7 +204,12 @@ function Clockwork.voices:ChatBoxAdjustInfo(info)
 	end;
 end;
 
--- Called when a chat box message has been added.
+--[[
+	@codebase Shared
+	@details Called when a chat box message has been added.
+	@param {Unknown} Missing description for info.
+	@returns {Unknown}
+--]]
 function Clockwork.voices:ChatBoxMessageAdded(info)
 	if (info.voice) then
 		if (IsValid(info.speaker) and info.speaker:HasInitialized()) then

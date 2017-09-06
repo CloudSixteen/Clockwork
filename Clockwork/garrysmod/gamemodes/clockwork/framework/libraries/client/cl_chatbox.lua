@@ -42,7 +42,12 @@ if (!chat.ClockworkAddText) then
 	chat.ClockworkAddText = chat.AddText;
 end;
 
--- A function to add text to the chat box.
+--[[
+	@codebase Client
+	@details A function to add text to the chat box.
+	@param {Unknown} Missing description for ....
+	@returns {Unknown}
+--]]
 function chat.AddText(...)
 	local curColor = nil;
 	local text = {};
@@ -64,7 +69,14 @@ function chat.AddText(...)
 	Clockwork.chatBox:Add(nil, nil, unpack(text));
 end;
 
--- A function to register a chat box class.
+--[[
+	@codebase Client
+	@details A function to register a chat box class.
+	@param {Unknown} Missing description for class.
+	@param {Unknown} Missing description for filter.
+	@param {Unknown} Missing description for Callback.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:RegisterClass(class, filter, Callback)
 	self.classes[class] = {
 		Callback = Callback,
@@ -72,7 +84,14 @@ function Clockwork.chatBox:RegisterClass(class, filter, Callback)
 	};
 end;
 
--- A function to register a default chat box class.
+--[[
+	@codebase Client
+	@details A function to register a default chat box class.
+	@param {Unknown} Missing description for class.
+	@param {Unknown} Missing description for filter.
+	@param {Unknown} Missing description for Callback.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:RegisterDefaultClass(class, filter, Callback)
 	self.defaultClasses[class] = {
 		Callback = Callback,
@@ -80,7 +99,12 @@ function Clockwork.chatBox:RegisterDefaultClass(class, filter, Callback)
 	};
 end;
 
--- A function to get all the registered types of text, returns default ones or not based on bool argument.
+--[[
+	@codebase Client
+	@details A function to get all the registered types of text, returns default ones or not based on bool argument.
+	@param {Unknown} Missing description for bDefault.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:GetClasses(bDefault)
 	if (bDefault) then
 		return self.defaultClasses;
@@ -89,12 +113,23 @@ function Clockwork.chatBox:GetClasses(bDefault)
 	end;
 end;
 
--- A function to get a chatbox class by identifier to modify.
+--[[
+	@codebase Client
+	@details A function to get a chatbox class by identifier to modify.
+	@param {Unknown} Missing description for id.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:FindByID(id)
 	return self:GetClasses()[id] or self:GetClasses(true)[id];
 end;
 
--- A function to set the chat box's custom position.
+--[[
+	@codebase Client
+	@details A function to set the chat box's custom position.
+	@param {Unknown} Missing description for x.
+	@param {Unknown} Missing description for y.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:SetCustomPosition(x, y)
 	self.position = {
 		x = x,
@@ -102,17 +137,31 @@ function Clockwork.chatBox:SetCustomPosition(x, y)
 	};
 end;
 
--- A function to get the chat box's custom position.
+--[[
+	@codebase Client
+	@details A function to get the chat box's custom position.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:GetCustomPosition()
 	return self.position or {};
 end;
 
--- A function to reset the chat box's custom position.
+--[[
+	@codebase Client
+	@details A function to reset the chat box's custom position.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:ResetCustomPosition()
 	self.position = nil;
 end;
 
--- A function to get the position of the chat area.
+--[[
+	@codebase Client
+	@details A function to get the position of the chat area.
+	@param {Unknown} Missing description for addX.
+	@param {Unknown} Missing description for addY.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:GetPosition(addX, addY)
 	local customPosition = self:GetCustomPosition();
 	local x = 8;
@@ -129,26 +178,42 @@ function Clockwork.chatBox:GetPosition(addX, addY)
 	return x + (addX or 0), y + (addY or 0);
 end;
 
--- A function to get the chat box panel.
+--[[
+	@codebase Client
+	@details A function to get the chat box panel.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:GetPanel()
 	if (IsValid(self.panel)) then
 		return self.panel;
 	end;
 end;
 
--- A function to get the x position of the chat area.
+--[[
+	@codebase Client
+	@details A function to get the x position of the chat area.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:GetX()
 	local x, y = Clockwork.chatBox:GetPosition();
 	return x;
 end;
 
--- A function to get the y position of the chat area.
+--[[
+	@codebase Client
+	@details A function to get the y position of the chat area.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:GetY()
 	local x, y = Clockwork.chatBox:GetPosition();
 	return y;
 end;
 
--- A function to get the current text.
+--[[
+	@codebase Client
+	@details A function to get the current text.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:GetCurrentText()
 	local textEntry = self.textEntry;
 	
@@ -159,7 +224,11 @@ function Clockwork.chatBox:GetCurrentText()
 	end;
 end;
 
--- A function to get whether the player is typing a command.
+--[[
+	@codebase Client
+	@details A function to get whether the player is typing a command.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:IsTypingCommand()
 	local currentText = Clockwork.chatBox:GetCurrentText();
 	local prefix = Clockwork.config:Get("command_prefix"):Get();
@@ -171,7 +240,11 @@ function Clockwork.chatBox:IsTypingCommand()
 	return false;
 end;
 
--- A function to get whether the player is typing a voice command.
+--[[
+	@codebase Client
+	@details A function to get whether the player is typing a voice command.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:IsTypingVC()
 	local currentText = Clockwork.chatBox:GetCurrentText();
 	local groups = Clockwork.voices:GetAll();
@@ -203,7 +276,12 @@ function Clockwork.chatBox:IsTypingVC()
 	return (#commands > 0), commands;
 end;
 
--- A function to get the spacing between messages.
+--[[
+	@codebase Client
+	@details A function to get the spacing between messages.
+	@param {Unknown} Missing description for fontName.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:GetSpacing(fontName)
 	local chatBoxTextFont = fontName or Clockwork.option:GetFont("chat_box_text");
 	local textWidth, textHeight = Clockwork.kernel:GetCachedTextSize(chatBoxTextFont, "U");
@@ -213,7 +291,11 @@ function Clockwork.chatBox:GetSpacing(fontName)
 	end;
 end;
 
--- A function to create all of the derma.
+--[[
+	@codebase Client
+	@details A function to create all of the derma.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:CreateDermaAll()
 	Clockwork.chatBox:CreateDermaPanel();
 	Clockwork.chatBox:CreateDermaTextEntry();
@@ -221,7 +303,11 @@ function Clockwork.chatBox:CreateDermaAll()
 	self.panel:Hide();
 end;
 
--- A function to create a derma text entry.
+--[[
+	@codebase Client
+	@details A function to create a derma text entry.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:CreateDermaTextEntry()
 	if (!self.textEntry) then
 		self.textEntry = vgui.Create("DTextEntry", self.panel);
@@ -344,7 +430,11 @@ function Clockwork.chatBox:CreateDermaTextEntry()
 	end;
 end;
 
--- A function to create the derma panel.
+--[[
+	@codebase Client
+	@details A function to create the derma panel.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:CreateDermaPanel()
 	if (!self.panel) then
 		self.panel = vgui.Create("EditablePanel");
@@ -430,12 +520,26 @@ function Clockwork.chatBox:CreateDermaPanel()
 	end;
 end;
 
--- A function to get whether the chat box is open.
+--[[
+	@codebase Client
+	@details A function to get whether the chat box is open.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:IsOpen()
 	return self.panel and self.panel:IsVisible();
 end;
 
--- A function to decode a message.
+--[[
+	@codebase Client
+	@details A function to decode a message.
+	@param {Unknown} Missing description for speaker.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for data.
+	@param {Unknown} Missing description for class.
+	@param {Unknown} Missing description for multiplier.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 	local filtered = nil;
 	local filter = nil;
@@ -559,7 +663,16 @@ function Clockwork.chatBox:Decode(speaker, name, text, data, class, multiplier)
 	end;
 end;
 
--- A function to add and wrap text to a message.
+--[[
+	@codebase Client
+	@details A function to add and wrap text to a message.
+	@param {Unknown} Missing description for newLine.
+	@param {Unknown} Missing description for message.
+	@param {Unknown} Missing description for color.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for OnHover.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:WrappedText(newLine, message, color, text, OnHover)
 	local chatBoxTextFont = Clockwork.option:GetFont("chat_box_text");
 	local width, height = Clockwork.kernel:GetTextSize(chatBoxTextFont, text);
@@ -607,7 +720,11 @@ function Clockwork.chatBox:WrappedText(newLine, message, color, text, OnHover)
 	end;
 end;
 
--- A function to paint the chat box.
+--[[
+	@codebase Client
+	@details A function to paint the chat box.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:Paint()
 	local chatBoxSyntaxFont = Clockwork.option:GetFont("chat_box_syntax");
 	local chatBoxTextFont = Clockwork.option:GetFont("chat_box_text");
@@ -864,12 +981,24 @@ function Clockwork.chatBox:Paint()
 	end;
 end;
 
--- A function to set the size (multiplier) of the next message.
+--[[
+	@codebase Client
+	@details A function to set the size (multiplier) of the next message.
+	@param {Unknown} Missing description for multiplier.
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:SetMultiplier(multiplier)
 	self.multiplier = multiplier;
 end;
 
--- A function to add a message to the chat box.
+--[[
+	@codebase Client
+	@details A function to add a message to the chat box.
+	@param {Unknown} Missing description for filtered.
+	@param {Unknown} Missing description for icon.
+	@param {Unknown} Missing description for ....
+	@returns {Unknown}
+--]]
 function Clockwork.chatBox:Add(filtered, icon, ...)
 	if (ScrW() == 160 or ScrH() == 27) then
 		return;

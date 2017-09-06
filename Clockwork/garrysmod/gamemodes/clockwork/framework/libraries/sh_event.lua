@@ -12,7 +12,14 @@ local type = type;
 Clockwork.event = Clockwork.kernel:NewLibrary("Event");
 Clockwork.event.stored = Clockwork.event.stored or {};
 
--- A function to hook into an event.
+--[[
+	@codebase Shared
+	@details A function to hook into an event.
+	@param {Unknown} Missing description for eventClass.
+	@param {Unknown} Missing description for eventName.
+	@param {Unknown} Missing description for isAllowed.
+	@returns {Unknown}
+--]]
 function Clockwork.event:Hook(eventClass, eventName, isAllowed)
 	if (eventName) then
 		self.stored[eventClass] = {};
@@ -22,7 +29,13 @@ function Clockwork.event:Hook(eventClass, eventName, isAllowed)
 	end;
 end;
 
--- A function to get whether an event can run.
+--[[
+	@codebase Shared
+	@details A function to get whether an event can run.
+	@param {Unknown} Missing description for eventClass.
+	@param {Unknown} Missing description for eventName.
+	@returns {Unknown}
+--]]
 function Clockwork.event:CanRun(eventClass, eventName)
 	local eventTable = self.stored[eventClass];
 	

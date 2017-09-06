@@ -13,7 +13,15 @@ local os = os;
 Clockwork.donation = Clockwork.kernel:NewLibrary("Donation");
 Clockwork.donation.stored = Clockwork.donation.stored or {};
 
--- A function to register a new donation subscription.
+--[[
+	@codebase Shared
+	@details A function to register a new donation subscription.
+	@param {Unknown} Missing description for uniqueID.
+	@param {Unknown} Missing description for friendlyName.
+	@param {Unknown} Missing description for description.
+	@param {Unknown} Missing description for imageName.
+	@returns {Unknown}
+--]]
 function Clockwork.donation:Register(uniqueID, friendlyName, description, imageName)
 	self.stored[uniqueID] = {
 		friendlyName = friendlyName,
@@ -26,7 +34,12 @@ function Clockwork.donation:Register(uniqueID, friendlyName, description, imageN
 	end;
 end;
 
--- A function to get a donation subscription table.
+--[[
+	@codebase Shared
+	@details A function to get a donation subscription table.
+	@param {Unknown} Missing description for uniqueID.
+	@returns {Unknown}
+--]]
 function Clockwork.donation:Get(uniqueID)
 	return self.stored[uniqueID];
 end;
@@ -45,12 +58,21 @@ else
 	Clockwork.donation.active = Clockwork.donation.active or {};
 	Clockwork.donation.hasDonated = false;
 	
-	-- A function to get whether the local player is subscribed to a donation.
+	--[[
+		@codebase Shared
+		@details A function to get whether the local player is subscribed to a donation.
+		@param {Unknown} Missing description for uniqueID.
+		@returns {Unknown}
+	--]]
 	function Clockwork.donation:IsSubscribed(uniqueID)
 		return self.active[uniqueID] or false;
 	end;
 	
-	-- A function to get whether the local player has donated at all.
+	--[[
+		@codebase Shared
+		@details A function to get whether the local player has donated at all.
+		@returns {Unknown}
+	--]]
 	function Clockwork.donation:HasDonated()
 		return self.hasDonated;
 	end;

@@ -58,7 +58,12 @@ Clockwork.directory.formatDefault = {
 	htmlCode = DEFAULT_FORMATTING
 };
 
--- A function to get a category.
+--[[
+	@codebase Client
+	@details A function to get a category.
+	@param {Unknown} Missing description for category.
+	@returns {Unknown}
+--]]
 function Clockwork.directory:GetCategory(category)
 	for k, v in pairs(self.stored) do
 		if (v.category == category) then
@@ -67,7 +72,14 @@ function Clockwork.directory:GetCategory(category)
 	end;
 end;
 
--- A function to add a category match.
+--[[
+	@codebase Client
+	@details A function to add a category match.
+	@param {Unknown} Missing description for category.
+	@param {Unknown} Missing description for findText.
+	@param {Unknown} Missing description for replaceText.
+	@returns {Unknown}
+--]]
 function Clockwork.directory:AddCategoryMatch(category, findText, replaceText)
 	if (!self.matches[category]) then
 		self.matches[category] = {};
@@ -76,7 +88,13 @@ function Clockwork.directory:AddCategoryMatch(category, findText, replaceText)
 	self.matches[category][findText] = replaceText;
 end;
 
--- A function to replace a category's matches.
+--[[
+	@codebase Client
+	@details A function to replace a category's matches.
+	@param {Unknown} Missing description for category.
+	@param {Unknown} Missing description for htmlCode.
+	@returns {Unknown}
+--]]
 function Clockwork.directory:ReplaceMatches(category, htmlCode)
 	htmlCode = string.gsub(htmlCode, "<lang>(.-)</lang>", function(target)
 		return L(target);
@@ -93,43 +111,90 @@ function Clockwork.directory:ReplaceMatches(category, htmlCode)
 	return htmlCode;
 end;
 
--- A function to set a category tip.
+--[[
+	@codebase Client
+	@details A function to set a category tip.
+	@param {Unknown} Missing description for category.
+	@param {Unknown} Missing description for tip.
+	@returns {Unknown}
+--]]
 function Clockwork.directory:SetCategoryTip(category, tip)
 	self.tips[category] = tip;
 end;
 
--- A function to get a category tip.
+--[[
+	@codebase Client
+	@details A function to get a category tip.
+	@param {Unknown} Missing description for category.
+	@returns {Unknown}
+--]]
 function Clockwork.directory:GetCategoryTip(category)
 	return self.tips[category];
 end;
 
--- A function to add a category page.
+--[[
+	@codebase Client
+	@details A function to add a category page.
+	@param {Unknown} Missing description for category.
+	@param {Unknown} Missing description for parent.
+	@param {Unknown} Missing description for htmlCode.
+	@param {Unknown} Missing description for isWebsite.
+	@returns {Unknown}
+--]]
 function Clockwork.directory:AddCategoryPage(category, parent, htmlCode, isWebsite)
 	self:AddCategory(category, parent);
 	self:AddPage(category, htmlCode, isWebsite);
 end;
 
--- A function to set a friendly name.
+--[[
+	@codebase Client
+	@details A function to set a friendly name.
+	@param {Unknown} Missing description for category.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.directory:SetFriendlyName(category, name)
 	self.friendlyNames[category] = name;
 end;
 
--- A function to get a friendly name.
+--[[
+	@codebase Client
+	@details A function to get a friendly name.
+	@param {Unknown} Missing description for category.
+	@returns {Unknown}
+--]]
 function Clockwork.directory:GetFriendlyName(category)
 	return self.friendlyNames[category] or category;
 end;
 
--- A function to set the master formatting.
+--[[
+	@codebase Client
+	@details A function to set the master formatting.
+	@param {Unknown} Missing description for htmlCode.
+	@returns {Unknown}
+--]]
 function Clockwork.directory:SetMasterFormatting(htmlCode)
 	self.formatMaster = htmlCode;
 end;
 
--- A function to get the master formatting.
+--[[
+	@codebase Client
+	@details A function to get the master formatting.
+	@returns {Unknown}
+--]]
 function Clockwork.directory:GetMasterFormatting()
 	return self.formatMaster;
 end;
 
--- A function to set category formatting.
+--[[
+	@codebase Client
+	@details A function to set category formatting.
+	@param {Unknown} Missing description for category.
+	@param {Unknown} Missing description for htmlCode.
+	@param {Unknown} Missing description for noLineBreaks.
+	@param {Unknown} Missing description for noMasterFormatting.
+	@returns {Unknown}
+--]]
 function Clockwork.directory:SetCategoryFormatting(category, htmlCode, noLineBreaks, noMasterFormatting)
 	self.formatting[category] = {
 		noMasterFormatting = (noMasterFormatting == true),
@@ -138,22 +203,43 @@ function Clockwork.directory:SetCategoryFormatting(category, htmlCode, noLineBre
 	};
 end;
 
--- A function to get category formatting.
+--[[
+	@codebase Client
+	@details A function to get category formatting.
+	@param {Unknown} Missing description for category.
+	@returns {Unknown}
+--]]
 function Clockwork.directory:GetCategoryFormatting(category)
 	return self.formatting[category] or self.formatDefault;
 end;
 
--- A function to set category sorting.
+--[[
+	@codebase Client
+	@details A function to set category sorting.
+	@param {Unknown} Missing description for category.
+	@param {Unknown} Missing description for Callback.
+	@returns {Unknown}
+--]]
 function Clockwork.directory:SetCategorySorting(category, Callback)
 	self.sorting[category] = Callback;
 end;
 
--- A function to get category sorting.
+--[[
+	@codebase Client
+	@details A function to get category sorting.
+	@param {Unknown} Missing description for category.
+	@returns {Unknown}
+--]]
 function Clockwork.directory:GetCategorySorting(category)
 	return self.sorting[category];
 end;
 
--- A function to get whether a category exists.
+--[[
+	@codebase Client
+	@details A function to get whether a category exists.
+	@param {Unknown} Missing description for category.
+	@returns {Unknown}
+--]]
 function Clockwork.directory:CategoryExists(category)
 	for k, v in pairs(self.stored) do
 		if (v.category == category) then
@@ -162,7 +248,13 @@ function Clockwork.directory:CategoryExists(category)
 	end;
 end;
 
--- A function to add a category.
+--[[
+	@codebase Client
+	@details A function to add a category.
+	@param {Unknown} Missing description for category.
+	@param {Unknown} Missing description for parent.
+	@returns {Unknown}
+--]]
 function Clockwork.directory:AddCategory(category, parent)
 	if (parent) then
 		self:AddCategory(parent, false);
@@ -187,7 +279,16 @@ function Clockwork.directory:AddCategory(category, parent)
 	return category, parent;
 end;
 
--- A function to add some code.
+--[[
+	@codebase Client
+	@details A function to add some code.
+	@param {Unknown} Missing description for category.
+	@param {Unknown} Missing description for htmlCode.
+	@param {Unknown} Missing description for noLineBreak.
+	@param {Unknown} Missing description for sortData.
+	@param {Unknown} Missing description for Callback.
+	@returns {Unknown}
+--]]
 function Clockwork.directory:AddCode(category, htmlCode, noLineBreak, sortData, Callback)
 	self:AddCategory(category, false);
 	
@@ -213,7 +314,14 @@ function Clockwork.directory:AddCode(category, htmlCode, noLineBreak, sortData, 
 	return uniqueID;
 end;
 
--- A function to remove some code.
+--[[
+	@codebase Client
+	@details A function to remove some code.
+	@param {Unknown} Missing description for category.
+	@param {Unknown} Missing description for uniqueID.
+	@param {Unknown} Missing description for forceRemove.
+	@returns {Unknown}
+--]]
 function Clockwork.directory:RemoveCode(category, uniqueID, forceRemove)
 	local panel = self:GetPanel();
 	
@@ -254,7 +362,14 @@ function Clockwork.directory:RemoveCode(category, uniqueID, forceRemove)
 	end;
 end;
 
--- A function to add a page.
+--[[
+	@codebase Client
+	@details A function to add a page.
+	@param {Unknown} Missing description for category.
+	@param {Unknown} Missing description for htmlCode.
+	@param {Unknown} Missing description for isWebsite.
+	@returns {Unknown}
+--]]
 function Clockwork.directory:AddPage(category, htmlCode, isWebsite)
 	self:AddCategory(category, false);
 	
@@ -272,7 +387,11 @@ function Clockwork.directory:AddPage(category, htmlCode, isWebsite)
 	end;
 end;
 
--- A function to get the directory panel.
+--[[
+	@codebase Client
+	@details A function to get the directory panel.
+	@returns {Unknown}
+--]]
 function Clockwork.directory:GetPanel()
 	return self.panel;
 end;

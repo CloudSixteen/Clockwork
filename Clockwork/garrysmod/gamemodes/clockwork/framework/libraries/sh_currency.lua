@@ -58,7 +58,14 @@ function CLASS_TABLE:SetDefault(amount)
 	self:SetData("default", amount);
 end;
 
--- A function to add a currency.
+--[[
+	@codebase Shared
+	@details A function to add a currency.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for model.
+	@param {Unknown} Missing description for defaultValue.
+	@returns {Unknown}
+--]]
 function Clockwork.currency:Add(name, model, defaultValue)
 	local key = string.lower(string.gsub(name, "%s", "_"));
 
@@ -81,7 +88,12 @@ function Clockwork.currency:Add(name, model, defaultValue)
 	end;
 end;
 
--- A function to get a currency table.
+--[[
+	@codebase Shared
+	@details A function to get a currency table.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.currency:Get(name)
 	if (Clockwork.config:Get("cash_enabled"):Get()) then
 		local key = string.lower(string.gsub(name, "%s", "_"));
@@ -96,7 +108,11 @@ function Clockwork.currency:Get(name)
 	end;
 end;
 
--- A function to get all of the stored currencies.
+--[[
+	@codebase Shared
+	@details A function to get all of the stored currencies.
+	@returns {Unknown}
+--]]
 function Clockwork.currency:GetAll()
 	if (Clockwork.config:Get("cash_enabled"):Get()) then
 		return self.stored;

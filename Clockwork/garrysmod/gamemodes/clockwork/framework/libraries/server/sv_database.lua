@@ -8,37 +8,81 @@
 
 Clockwork.database = Clockwork.kernel:NewLibrary("Database");
 
--- A function to begin a database update.
+--[[
+	@codebase Server
+	@details A function to begin a database update.
+	@returns {Unknown}
+--]]
 function Clockwork.database:Update(tableName) end;
 
--- A function to begin a database insert.
+--[[
+	@codebase Server
+	@details A function to begin a database insert.
+	@returns {Unknown}
+--]]
 function Clockwork.database:Insert(tableName) end;
 
--- A function to begin a database select.
+--[[
+	@codebase Server
+	@details A function to begin a database select.
+	@returns {Unknown}
+--]]
 function Clockwork.database:Select(tableName) end;
 
--- A function to begin a database delete.
+--[[
+	@codebase Server
+	@details A function to begin a database delete.
+	@returns {Unknown}
+--]]
 function Clockwork.database:Delete(tableName) end;
 
--- Called when a MySQL error occurs.
+--[[
+	@codebase Server
+	@details Called when a MySQL error occurs.
+	@returns {Unknown}
+--]]
 function Clockwork.database:Error(errText) end;
 
--- A function to query the database.
+--[[
+	@codebase Server
+	@details A function to query the database.
+	@returns {Unknown}
+--]]
 function Clockwork.database:Query(query, Callback, flag, bRawQuery) end;
 
--- A function to get whether a result is valid.
+--[[
+	@codebase Server
+	@details A function to get whether a result is valid.
+	@returns {Unknown}
+--]]
 function Clockwork.database:IsResult(result) end;
 
--- A function to make a string safe for SQL.
+--[[
+	@codebase Server
+	@details A function to make a string safe for SQL.
+	@returns {Unknown}
+--]]
 function Clockwork.database:Escape(text) end;
 
--- Called when the database is connected.
+--[[
+	@codebase Server
+	@details Called when the database is connected.
+	@returns {Unknown}
+--]]
 function Clockwork.database:OnConnected() end;
 
--- Called when the database connection fails.
+--[[
+	@codebase Server
+	@details Called when the database connection fails.
+	@returns {Unknown}
+--]]
 function Clockwork.database:OnConnectionFailed(errText) end;
 
--- A function to connect to the database.
+--[[
+	@codebase Server
+	@details A function to connect to the database.
+	@returns {Unknown}
+--]]
 function Clockwork.database:Connect(host, username, password, database, port) end;
 
 --[[

@@ -14,7 +14,13 @@ Clockwork.bitFlags.stored = {};
 	consecutively, starting from 1.
 --]]
 
--- A function to add some flags.
+--[[
+	@codebase Shared
+	@details A function to add some flags.
+	@param {Unknown} Missing description for field.
+	@param {Unknown} Missing description for ....
+	@returns {Unknown}
+--]]
 function Clockwork.bitFlags:Add(field, ...)
 	local flags = {...};
 
@@ -25,7 +31,13 @@ function Clockwork.bitFlags:Add(field, ...)
 	return field;
 end;
 
--- A function to remove some flags.
+--[[
+	@codebase Shared
+	@details A function to remove some flags.
+	@param {Unknown} Missing description for field.
+	@param {Unknown} Missing description for ....
+	@returns {Unknown}
+--]]
 function Clockwork.bitFlags:Remove(field, ...)
 	local flags = {...};
 
@@ -36,7 +48,13 @@ function Clockwork.bitFlags:Remove(field, ...)
 	return field;
 end;
 
--- A function to check if some flags are set.
+--[[
+	@codebase Shared
+	@details A function to check if some flags are set.
+	@param {Unknown} Missing description for field.
+	@param {Unknown} Missing description for ....
+	@returns {Unknown}
+--]]
 function Clockwork.bitFlags:Has(field, ...)
 	local flags = {...};
 
@@ -49,7 +67,13 @@ function Clockwork.bitFlags:Has(field, ...)
 	return true;
 end;
 
--- A function to check if any flags are set.
+--[[
+	@codebase Shared
+	@details A function to check if any flags are set.
+	@param {Unknown} Missing description for field.
+	@param {Unknown} Missing description for ....
+	@returns {Unknown}
+--]]
 function Clockwork.bitFlags:HasAny(field, ...)
 	local flags = {...};
 
@@ -62,12 +86,23 @@ function Clockwork.bitFlags:HasAny(field, ...)
 	return false;
 end;
 
--- A function to combine some flags.
+--[[
+	@codebase Shared
+	@details A function to combine some flags.
+	@param {Unknown} Missing description for ....
+	@returns {Unknown}
+--]]
 function Clockwork.bitFlags:Combine(...)
 	return self:Add(0, ...);
 end;
 
--- A function to define some bit flags.
+--[[
+	@codebase Shared
+	@details A function to define some bit flags.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for flagsTable.
+	@returns {Unknown}
+--]]
 function Clockwork.bitFlags:Define(name, flagsTable)
 	self.stored[name] = flagsTable;
 

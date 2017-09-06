@@ -18,7 +18,12 @@ local table = table;
 Clockwork.MenuItems = Clockwork.kernel:NewLibrary("MenuItems");
 Clockwork.MenuItems.stored = Clockwork.MenuItems.stored or {};
 
--- A function to get a menu item.
+--[[
+	@codebase Client
+	@details A function to get a menu item.
+	@param {Unknown} Missing description for text.
+	@returns {Unknown}
+--]]
 function Clockwork.MenuItems:Get(text)
 	for k, v in pairs(self.stored) do
 		if (v.text == text) then
@@ -27,12 +32,25 @@ function Clockwork.MenuItems:Get(text)
 	end;
 end;
 
--- A function to add a menu item.
+--[[
+	@codebase Client
+	@details A function to add a menu item.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for panel.
+	@param {Unknown} Missing description for tip.
+	@param {Unknown} Missing description for iconData.
+	@returns {Unknown}
+--]]
 function Clockwork.MenuItems:Add(text, panel, tip, iconData)
 	self.stored[#self.stored + 1] = {text = text, panel = panel, tip = tip, iconData = iconData};
 end;
 
--- A function to destroy a menu item.
+--[[
+	@codebase Client
+	@details A function to destroy a menu item.
+	@param {Unknown} Missing description for text.
+	@returns {Unknown}
+--]]
 function Clockwork.MenuItems:Destroy(text)
 	for k, v in pairs(self.stored) do
 		if (v.text == text) then

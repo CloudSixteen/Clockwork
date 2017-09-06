@@ -29,17 +29,32 @@ Clockwork.config.map = Clockwork.config.map or {};
 --[[ Set the __index meta function of the class. --]]
 local CLASS_TABLE = {__index = CLASS_TABLE};
 
--- Called when the config is invoked as a function.
+--[[
+	@codebase Shared
+	@details Called when the config is invoked as a function.
+	@param {Unknown} Missing description for parameter.
+	@param {Unknown} Missing description for failSafe.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:__call(parameter, failSafe)
 	return self:Query(parameter, failSafe);
 end;
 
--- Called when the config is converted to a string.
+--[[
+	@codebase Shared
+	@details Called when the config is converted to a string.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE.__tostring()
 	return "CONFIG["..self("key").."]";
 end;
 
--- A function to create a new config object.
+--[[
+	@codebase Shared
+	@details A function to create a new config object.
+	@param {Unknown} Missing description for key.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:Create(key)
 	local config = Clockwork.kernel:NewMetaTable(CLASS_TABLE);
 		config.data = Clockwork.config.stored[key];
@@ -47,12 +62,22 @@ function CLASS_TABLE:Create(key)
 	return config;
 end;
 
--- A function to check if the config is valid.
+--[[
+	@codebase Shared
+	@details A function to check if the config is valid.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:IsValid()
 	return self.data != nil;
 end;
 
--- A function to query the config.
+--[[
+	@codebase Shared
+	@details A function to query the config.
+	@param {Unknown} Missing description for key.
+	@param {Unknown} Missing description for failSafe.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:Query(key, failSafe)
 	if (self.data and self.data[key] != nil) then
 		return self.data[key];
@@ -61,7 +86,12 @@ function CLASS_TABLE:Query(key, failSafe)
 	end;
 end;
 
--- A function to get the config's value as a boolean.
+--[[
+	@codebase Shared
+	@details A function to get the config's value as a boolean.
+	@param {Unknown} Missing description for failSafe.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:GetBoolean(failSafe)
 	if (self.data) then
 		return (self.data.value == true or self.data.value == "true"
@@ -73,7 +103,12 @@ function CLASS_TABLE:GetBoolean(failSafe)
 	end;
 end;
 
--- A function to get a config's value as a number.
+--[[
+	@codebase Shared
+	@details A function to get a config's value as a number.
+	@param {Unknown} Missing description for failSafe.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:GetNumber(failSafe)
 	if (self.data) then
 		return tonumber(self.data.value) or failSafe or 0;
@@ -82,7 +117,12 @@ function CLASS_TABLE:GetNumber(failSafe)
 	end;
 end;
 
--- A function to get a config's value as a string.
+--[[
+	@codebase Shared
+	@details A function to get a config's value as a string.
+	@param {Unknown} Missing description for failSafe.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:GetString(failSafe)
 	if (self.data) then
 		return tostring(self.data.value);
@@ -91,7 +131,12 @@ function CLASS_TABLE:GetString(failSafe)
 	end;
 end;
 
--- A function to get a config's default value.
+--[[
+	@codebase Shared
+	@details A function to get a config's default value.
+	@param {Unknown} Missing description for failSafe.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:GetDefault(failSafe)
 	if (self.data) then
 		return self.data.default;
@@ -100,7 +145,12 @@ function CLASS_TABLE:GetDefault(failSafe)
 	end;
 end;
 
--- A function to get the config's next value.
+--[[
+	@codebase Shared
+	@details A function to get the config's next value.
+	@param {Unknown} Missing description for failSafe.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:GetNext(failSafe)
 	if (self.data and self.data.nextValue != nil) then
 		return self.data.nextValue;
@@ -109,7 +159,12 @@ function CLASS_TABLE:GetNext(failSafe)
 	end;
 end;
 
--- A function to get the config's value.
+--[[
+	@codebase Shared
+	@details A function to get the config's value.
+	@param {Unknown} Missing description for failSafe.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:Get(failSafe)
 	if (self.data and self.data.value != nil) then
 		return self.data.value;
@@ -118,22 +173,41 @@ function CLASS_TABLE:Get(failSafe)
 	end;
 end;
 
--- A function to set whether the config has initialized.
+--[[
+	@codebase Shared
+	@details A function to set whether the config has initialized.
+	@param {Unknown} Missing description for bInitalized.
+	@returns {Unknown}
+--]]
 function Clockwork.config:SetInitialized(bInitalized)
 	self.cwInitialized = bInitalized;
 end;
 
--- A function to get whether the config has initialized.
+--[[
+	@codebase Shared
+	@details A function to get whether the config has initialized.
+	@returns {Unknown}
+--]]
 function Clockwork.config:HasInitialized()
 	return self.cwInitialized;
 end;
 
--- A function to get whether a config value is valid.
+--[[
+	@codebase Shared
+	@details A function to get whether a config value is valid.
+	@param {Unknown} Missing description for value.
+	@returns {Unknown}
+--]]
 function Clockwork.config:IsValidValue(value)
 	return type(value) == "string" or type(value) == "number" or type(value) == "boolean";
 end;
 
--- A function to share a config key.
+--[[
+	@codebase Shared
+	@details A function to share a config key.
+	@param {Unknown} Missing description for key.
+	@returns {Unknown}
+--]]
 function Clockwork.config:ShareKey(key)
 	local shortCRC = Clockwork.kernel:GetShortCRC(key);
 	
@@ -144,12 +218,21 @@ function Clockwork.config:ShareKey(key)
 	end;
 end;
 
--- A function to get the stored config.
+--[[
+	@codebase Shared
+	@details A function to get the stored config.
+	@returns {Unknown}
+--]]
 function Clockwork.config:GetStored()
 	return self.stored;
 end;
 
--- A function to import a config file.
+--[[
+	@codebase Shared
+	@details A function to import a config file.
+	@param {Unknown} Missing description for fileName.
+	@returns {Unknown}
+--]]
 function Clockwork.config:Import(fileName)
 	local data = cwFile.Read(fileName, "GAME") or "";
 	
@@ -187,7 +270,14 @@ function Clockwork.config:Import(fileName)
 	end;
 end;
 
--- A function to load an INI file.
+--[[
+	@codebase Shared
+	@details A function to load an INI file.
+	@param {Unknown} Missing description for fileName.
+	@param {Unknown} Missing description for bFromGame.
+	@param {Unknown} Missing description for bStripQuotes.
+	@returns {Unknown}
+--]]
 function Clockwork.config:LoadINI(fileName, bFromGame, bStripQuotes)
 	local wasSuccess, value = pcall(file.Read, fileName, (bFromGame and "GAME" or "DATA"));
 	
@@ -255,7 +345,12 @@ function Clockwork.config:LoadINI(fileName, bFromGame, bStripQuotes)
 	end;
 end;
 
--- A function to parse config keys.
+--[[
+	@codebase Shared
+	@details A function to parse config keys.
+	@param {Unknown} Missing description for text.
+	@returns {Unknown}
+--]]
 function Clockwork.config:Parse(text)
 	for key in string.gmatch(text, "%$(.-)%$") do
 		local value = self:Get(key):Get();
@@ -268,7 +363,12 @@ function Clockwork.config:Parse(text)
 	return text;
 end;
 
--- A function to get a config object.
+--[[
+	@codebase Shared
+	@details A function to get a config object.
+	@param {Unknown} Missing description for key.
+	@returns {Unknown}
+--]]
 function Clockwork.config:Get(key)
 	if (!self.cache[key]) then
 		local configObject = CLASS_TABLE:Create(key);
@@ -320,7 +420,13 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to send the config to a player.
+	--[[
+		@codebase Shared
+		@details A function to send the config to a player.
+		@param {Unknown} Missing description for player.
+		@param {Unknown} Missing description for key.
+		@returns {Unknown}
+	--]]
 	function Clockwork.config:Send(player, key)
 		if (player and player:IsBot()) then
 			Clockwork.plugin:Call("PlayerConfigInitialized", player);
@@ -365,7 +471,13 @@ if (SERVER) then
 		end;
 	end;
 
-	-- A function to load config from a file.
+	--[[
+		@codebase Shared
+		@details A function to load config from a file.
+		@param {Unknown} Missing description for fileName.
+		@param {Unknown} Missing description for loadGlobal.
+		@returns {Unknown}
+	--]]
 	function Clockwork.config:Load(fileName, loadGlobal)
 		if (!fileName) then
 			local configClasses = {"default", "map"};
@@ -410,7 +522,18 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to add a new config key.
+	--[[
+		@codebase Shared
+		@details A function to add a new config key.
+		@param {Unknown} Missing description for key.
+		@param {Unknown} Missing description for value.
+		@param {Unknown} Missing description for isShared.
+		@param {Unknown} Missing description for isGlobal.
+		@param {Unknown} Missing description for isStatic.
+		@param {Unknown} Missing description for isPrivate.
+		@param {Unknown} Missing description for needsRestart.
+		@returns {Unknown}
+	--]]
 	function Clockwork.config:Add(key, value, isShared, isGlobal, isStatic, isPrivate, needsRestart)
 		if (self:IsValidValue(value)) then
 			if (!self.stored[key]) then
@@ -456,7 +579,15 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to set the config's value.
+	--[[
+		@codebase Shared
+		@details A function to set the config's value.
+		@param {Unknown} Missing description for value.
+		@param {Unknown} Missing description for map.
+		@param {Unknown} Missing description for forceSet.
+		@param {Unknown} Missing description for temporary.
+		@returns {Unknown}
+	--]]
 	function CLASS_TABLE:Set(value, map, forceSet, temporary)
 		if (map) then
 			map = string.lower(map);
@@ -580,17 +711,37 @@ else
 		end;
 	end);
 	
-	-- A function to get whether the config has sent initialized.
+	--[[
+		@codebase Shared
+		@details A function to get whether the config has sent initialized.
+		@param {Unknown} Missing description for sentInitialized.
+		@returns {Unknown}
+	--]]
 	function Clockwork.config:SetSentInitialized(sentInitialized)
 		self.sentInitialized = sentInitialized;
 	end;
 
-	-- A function to get whether the config has sent initialized.
+	--[[
+		@codebase Shared
+		@details A function to get whether the config has sent initialized.
+		@returns {Unknown}
+	--]]
 	function Clockwork.config:HasSentInitialized()
 		return self.sentInitialized;
 	end;
 	
-	-- A function to add a config key entry to the system.
+	--[[
+		@codebase Shared
+		@details A function to add a config key entry to the system.
+		@param {Unknown} Missing description for name.
+		@param {Unknown} Missing description for key.
+		@param {Unknown} Missing description for help.
+		@param {Unknown} Missing description for minimum.
+		@param {Unknown} Missing description for maximum.
+		@param {Unknown} Missing description for decimals.
+		@param {Unknown} Missing description for category.
+		@returns {Unknown}
+	--]]
 	function Clockwork.config:AddToSystem(name, key, help, minimum, maximum, decimals, category)
 		category = PLUGIN and PLUGIN:GetName();
 
@@ -605,12 +756,23 @@ else
 		};
 	end;
 	
-	-- A function to get a config key's system entry.
+	--[[
+		@codebase Shared
+		@details A function to get a config key's system entry.
+		@param {Unknown} Missing description for key.
+		@returns {Unknown}
+	--]]
 	function Clockwork.config:GetFromSystem(key)
 		return self.system[key];
 	end;
 	
-	-- A function to add a new config key.
+	--[[
+		@codebase Shared
+		@details A function to add a new config key.
+		@param {Unknown} Missing description for key.
+		@param {Unknown} Missing description for value.
+		@returns {Unknown}
+	--]]
 	function Clockwork.config:Add(key, value)
 		if (self:IsValidValue(value)) then
 			if (!self.stored[key]) then
@@ -624,7 +786,12 @@ else
 		end;
 	end;
 	
-	-- A function to set the config's value.
+	--[[
+		@codebase Shared
+		@details A function to set the config's value.
+		@param {Unknown} Missing description for value.
+		@returns {Unknown}
+	--]]
 	function CLASS_TABLE:Set(value)
 		if (tostring(value) == "-1.#IND") then
 			value = 0;

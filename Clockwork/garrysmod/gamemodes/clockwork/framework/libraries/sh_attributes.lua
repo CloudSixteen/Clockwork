@@ -82,7 +82,14 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to update a player's attribute.
+	--[[
+		@codebase Shared
+		@details A function to update a player's attribute.
+		@param {Unknown} Missing description for player.
+		@param {Unknown} Missing description for attribute.
+		@param {Unknown} Missing description for amount.
+		@returns {Unknown}
+	--]]
 	function Clockwork.attributes:Update(player, attribute, amount)
 		local attributeTable = Clockwork.attribute:FindByID(attribute);
 		local attributes = player:GetAttributes();
@@ -126,14 +133,28 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to clear a player's attribute boosts.
+	--[[
+		@codebase Shared
+		@details A function to clear a player's attribute boosts.
+		@param {Unknown} Missing description for player.
+		@returns {Unknown}
+	--]]
 	function Clockwork.attributes:ClearBoosts(player)
 		Clockwork.datastream:Start(player, "AttrBoostClear", true);
 		
 		player.cwAttrBoosts = {};
 	end;
 	
-	--- A function to get whether a boost is active for a player.
+	---[[
+		@codebase Shared
+		@details A function to get whether a boost is active for a player.
+		@param {Unknown} Missing description for player.
+		@param {Unknown} Missing description for identifier.
+		@param {Unknown} Missing description for attribute.
+		@param {Unknown} Missing description for amount.
+		@param {Unknown} Missing description for duration.
+		@returns {Unknown}
+	--]]
 	function Clockwork.attributes:IsBoostActive(player, identifier, attribute, amount, duration)
 		if (player.cwAttrBoosts) then
 			local attributeTable = Clockwork.attribute:FindByID(attribute);
@@ -160,7 +181,16 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to boost a player's attribute.
+	--[[
+		@codebase Shared
+		@details A function to boost a player's attribute.
+		@param {Unknown} Missing description for player.
+		@param {Unknown} Missing description for identifier.
+		@param {Unknown} Missing description for attribute.
+		@param {Unknown} Missing description for amount.
+		@param {Unknown} Missing description for duration.
+		@returns {Unknown}
+	--]]
 	function Clockwork.attributes:Boost(player, identifier, attribute, amount, duration)
 		local attributeTable = Clockwork.attribute:FindByID(attribute);
 		
@@ -228,7 +258,15 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to get a player's attribute as a fraction.
+	--[[
+		@codebase Shared
+		@details A function to get a player's attribute as a fraction.
+		@param {Unknown} Missing description for player.
+		@param {Unknown} Missing description for attribute.
+		@param {Unknown} Missing description for fraction.
+		@param {Unknown} Missing description for negative.
+		@returns {Unknown}
+	--]]
 	function Clockwork.attributes:Fraction(player, attribute, fraction, negative)
 		local attributeTable = Clockwork.attribute:FindByID(attribute);
 		
@@ -248,7 +286,15 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to get whether a player has an attribute.
+	--[[
+		@codebase Shared
+		@details A function to get whether a player has an attribute.
+		@param {Unknown} Missing description for player.
+		@param {Unknown} Missing description for attribute.
+		@param {Unknown} Missing description for boostless.
+		@param {Unknown} Missing description for negative.
+		@returns {Unknown}
+	--]]
 	function Clockwork.attributes:Get(player, attribute, boostless, negative)
 		local attributeTable = Clockwork.attribute:FindByID(attribute);
 		
@@ -294,12 +340,23 @@ else
 	Clockwork.attributes.stored = Clockwork.attributes.stored or {};
 	Clockwork.attributes.boosts = Clockwork.attributes.boosts or {};
 	
-	-- A function to get the attributes panel.
+	--[[
+		@codebase Shared
+		@details A function to get the attributes panel.
+		@returns {Unknown}
+	--]]
 	function Clockwork.attributes:GetPanel()
 		return self.panel;
 	end;
 	
-	-- A function to get the local player's attribute as a fraction.
+	--[[
+		@codebase Shared
+		@details A function to get the local player's attribute as a fraction.
+		@param {Unknown} Missing description for attribute.
+		@param {Unknown} Missing description for fraction.
+		@param {Unknown} Missing description for negative.
+		@returns {Unknown}
+	--]]
 	function Clockwork.attributes:Fraction(attribute, fraction, negative)
 		local attributeTable = Clockwork.attribute:FindByID(attribute);
 		
@@ -319,7 +376,14 @@ else
 		end;
 	end;
 	
-	-- A function to get whether the local player has an attribute.
+	--[[
+		@codebase Shared
+		@details A function to get whether the local player has an attribute.
+		@param {Unknown} Missing description for attribute.
+		@param {Unknown} Missing description for boostless.
+		@param {Unknown} Missing description for negative.
+		@returns {Unknown}
+	--]]
 	function Clockwork.attributes:Get(attribute, boostless, negative)
 		local attributeTable = Clockwork.attribute:FindByID(attribute);
 		

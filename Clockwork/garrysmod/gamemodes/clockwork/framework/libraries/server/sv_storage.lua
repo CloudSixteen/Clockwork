@@ -12,7 +12,12 @@ local pairs = pairs;
 
 Clockwork.storage = Clockwork.kernel:NewLibrary("Storage");
 
--- A function to get a player's storage entity.
+--[[
+	@codebase Server
+	@details A function to get a player's storage entity.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:GetEntity(player)
 	if (player:GetStorageTable()) then
 		local entity = self:Query(player, "entity");
@@ -23,12 +28,23 @@ function Clockwork.storage:GetEntity(player)
 	end;
 end;
 
--- A function to get a player's storage table.
+--[[
+	@codebase Server
+	@details A function to get a player's storage table.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:GetTable(player)
 	return player.cwStorageTab;
 end;
 
--- A function to get whether a player's storage has an item.
+--[[
+	@codebase Server
+	@details A function to get whether a player's storage has an item.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for itemTable.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:HasItem(player, itemTable)
 	local inventory = self:Query(player, "inventory");
 	
@@ -41,7 +57,14 @@ function Clockwork.storage:HasItem(player, itemTable)
 	return false;
 end;
 
--- A function to query a player's storage.
+--[[
+	@codebase Server
+	@details A function to query a player's storage.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for key.
+	@param {Unknown} Missing description for default.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:Query(player, key, default)
 	local storageTable = player:GetStorageTable();
 	
@@ -52,7 +75,13 @@ function Clockwork.storage:Query(player, key, default)
 	end;
 end;
 
--- A function to close storage for a player.
+--[[
+	@codebase Server
+	@details A function to close storage for a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for bServer.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:Close(player, bServer)
 	local storageTable = player:GetStorageTable();
 	local OnClose = self:Query(player, "OnClose");
@@ -69,7 +98,12 @@ function Clockwork.storage:Close(player, bServer)
 	player.cwStorageTab = nil;
 end;
 
--- A function to get the weight of a player's storage.
+--[[
+	@codebase Server
+	@details A function to get the weight of a player's storage.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:GetWeight(player)
 	if (player:GetStorageTable()) then
 		local cash = self:Query(player, "cash");
@@ -90,7 +124,12 @@ function Clockwork.storage:GetWeight(player)
 	end;
 end;
 
--- A function to get the space of a player's storage.
+--[[
+	@codebase Server
+	@details A function to get the space of a player's storage.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:GetSpace(player)
 	if (player:GetStorageTable()) then
 		local cash = self:Query(player, "cash");
@@ -111,7 +150,13 @@ function Clockwork.storage:GetSpace(player)
 	end;
 end;
 
--- A function to open storage for a player.
+--[[
+	@codebase Server
+	@details A function to open storage for a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for data.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:Open(player, data)
 	local storageTable = player:GetStorageTable();
 	local OnClose = self:Query(player, "OnClose");
@@ -158,7 +203,13 @@ function Clockwork.storage:Open(player, data)
 	end;
 end;
 
--- A function to update a player's storage cash.
+--[[
+	@codebase Server
+	@details A function to update a player's storage cash.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for cash.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:UpdateCash(player, cash)
 	if (Clockwork.config:Get("cash_enabled"):Get()) then
 		local storageTable = player:GetStorageTable();
@@ -179,7 +230,13 @@ function Clockwork.storage:UpdateCash(player, cash)
 	end;
 end;
 
--- A function to update a player's storage weight.
+--[[
+	@codebase Server
+	@details A function to update a player's storage weight.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for weight.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:UpdateWeight(player, weight)
 	if (player:GetStorageTable()) then
 		local inventory = self:Query(player, "inventory");
@@ -196,7 +253,13 @@ function Clockwork.storage:UpdateWeight(player, weight)
 	end;
 end;
 
--- A function to update a player's storage space.
+--[[
+	@codebase Server
+	@details A function to update a player's storage space.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for space.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:UpdateSpace(player, space)
 	if (player:GetStorageTable()) then
 		local inventory = self:Query(player, "inventory");
@@ -213,7 +276,13 @@ function Clockwork.storage:UpdateSpace(player, space)
 	end;
 end;
 
--- A function to get whether a player can give to storage.
+--[[
+	@codebase Server
+	@details A function to get whether a player can give to storage.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for itemTable.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:CanGiveTo(player, itemTable)
 	local entity = self:Query(player, "entity");
 	local isPlayer = (entity and entity:IsPlayer());
@@ -235,7 +304,13 @@ function Clockwork.storage:CanGiveTo(player, itemTable)
 	end;
 end;
 
--- A function to get whether a player can take from storage.
+--[[
+	@codebase Server
+	@details A function to get whether a player can take from storage.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for itemTable.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:CanTakeFrom(player, itemTable)
 	local entity = self:Query(player, "entity");
 	local isPlayer = (entity and entity:IsPlayer());
@@ -257,7 +332,12 @@ function Clockwork.storage:CanTakeFrom(player, itemTable)
 	end;
 end;
 
--- A function to sync a player's cash.
+--[[
+	@codebase Server
+	@details A function to sync a player's cash.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:SyncCash(player)
 	local recipients = {};
 	local inventory = player:GetInventory();
@@ -276,7 +356,13 @@ function Clockwork.storage:SyncCash(player)
 	Clockwork.datastream:Start(recipients, "StorageCash", cash);
 end;
 
--- A function to sync a player's item.
+--[[
+	@codebase Server
+	@details A function to sync a player's item.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for itemTable.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:SyncItem(player, itemTable)
 	local inventory = player:GetInventory();
 	
@@ -299,7 +385,13 @@ function Clockwork.storage:SyncItem(player, itemTable)
 	end;
 end;
 
--- A function to give an item to a player's storage.
+--[[
+	@codebase Server
+	@details A function to give an item to a player's storage.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for itemTable.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:GiveTo(player, itemTable)
 	local storageTable = player:GetStorageTable();
 	if (!storageTable) then return false; end;
@@ -369,7 +461,13 @@ function Clockwork.storage:GiveTo(player, itemTable)
 	return true;
 end;
 
--- A function to take an item from a player's storage.
+--[[
+	@codebase Server
+	@details A function to take an item from a player's storage.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for itemTable.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:TakeFrom(player, itemTable)
 	local storageTable = player:GetStorageTable();
 	if (!storageTable) then return false; end;
@@ -432,7 +530,13 @@ function Clockwork.storage:TakeFrom(player, itemTable)
 	end;
 end;
 
--- A function to update storage for a player.
+--[[
+	@codebase Server
+	@details A function to update storage for a player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for uniqueID.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:UpdateByID(player, uniqueID)
 	if (!player:GetStorageTable()) then return; end;
 	

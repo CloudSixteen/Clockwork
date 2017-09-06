@@ -13,7 +13,15 @@ local table = table;
 Clockwork.TargetPlayerText = Clockwork.kernel:NewLibrary("TargetPlayerText");
 Clockwork.TargetPlayerText.stored = Clockwork.TargetPlayerText.stored or {};
 
--- A function to add some target player text.
+--[[
+	@codebase Client
+	@details A function to add some target player text.
+	@param {Unknown} Missing description for uniqueID.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for color.
+	@param {Unknown} Missing description for scale.
+	@returns {Unknown}
+--]]
 function Clockwork.TargetPlayerText:Add(uniqueID, text, color, scale)
 	self.stored[#self.stored + 1] = {
 		uniqueID = uniqueID,
@@ -23,7 +31,12 @@ function Clockwork.TargetPlayerText:Add(uniqueID, text, color, scale)
 	};
 end;
 	
--- A function to get some target player text.
+--[[
+	@codebase Client
+	@details A function to get some target player text.
+	@param {Unknown} Missing description for uniqueID.
+	@returns {Unknown}
+--]]
 function Clockwork.TargetPlayerText:Get(uniqueID)
 	for k, v in pairs(self.stored) do
 		if (v.uniqueID == uniqueID) then
@@ -32,7 +45,12 @@ function Clockwork.TargetPlayerText:Get(uniqueID)
 	end;
 end;
 
--- A function to destroy some target player text.
+--[[
+	@codebase Client
+	@details A function to destroy some target player text.
+	@param {Unknown} Missing description for uniqueID.
+	@returns {Unknown}
+--]]
 function Clockwork.TargetPlayerText:Destroy(uniqueID)
 	for k, v in pairs(self.stored) do
 		if (v.uniqueID == uniqueID) then

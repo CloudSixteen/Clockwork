@@ -17,24 +17,42 @@ Clockwork.trait.buffer = Clockwork.trait.buffer or {};
 --[[ Set the __index meta function of the class. --]]
 local CLASS_TABLE = {__index = CLASS_TABLE};
 
--- A function to register a new trait.
+--[[
+	@codebase Shared
+	@details A function to register a new trait.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:Register()
 	return Clockwork.trait:Register(self);
 end;
 
--- A function to get a new trait.
+--[[
+	@codebase Shared
+	@details A function to get a new trait.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.trait:New(name)
 	local object = Clockwork.kernel:NewMetaTable(CLASS_TABLE);
 		object.name = name or "Unknown";
 	return object;
 end;
 
--- A function to get all traits.
+--[[
+	@codebase Shared
+	@details A function to get all traits.
+	@returns {Unknown}
+--]]
 function Clockwork.trait:GetAll()
 	return self.stored;
 end;
 
--- A function to register a new trait.
+--[[
+	@codebase Shared
+	@details A function to register a new trait.
+	@param {Unknown} Missing description for trait.
+	@returns {Unknown}
+--]]
 function Clockwork.trait:Register(trait)
 	trait.uniqueID = trait.uniqueID or string.lower(string.gsub(trait.name, "%s", "_"));
 	trait.index = Clockwork.kernel:GetShortCRC(trait.name);
@@ -50,7 +68,12 @@ function Clockwork.trait:Register(trait)
 	return trait.uniqueID;
 end;
 
--- A function to find an trait by an identifier.
+--[[
+	@codebase Shared
+	@details A function to find an trait by an identifier.
+	@param {Unknown} Missing description for identifier.
+	@returns {Unknown}
+--]]
 function Clockwork.trait:FindByID(identifier)
 	if (!identifier) then return; end;
 	

@@ -45,7 +45,14 @@ end;
 if (SERVER) then
 	util.AddNetworkString("cwDataDS");
 
-	-- A function to start a data stream.
+	--[[
+		@codebase Shared
+		@details A function to start a data stream.
+		@param {Unknown} Missing description for player.
+		@param {Unknown} Missing description for name.
+		@param {Unknown} Missing description for data.
+		@returns {Unknown}
+	--]]
 	function Clockwork.datastream:Start(player, name, data)
 		local recipients = {};
 		local bShouldSend = false;
@@ -84,7 +91,13 @@ if (SERVER) then
 		end;
 	end;
 
-	-- A function to listen for a request.
+	--[[
+		@codebase Shared
+		@details A function to listen for a request.
+		@param {Unknown} Missing description for name.
+		@param {Unknown} Missing description for Callback.
+		@returns {Unknown}
+	--]]
 	function Clockwork.datastream:Listen(name, Callback)
 		self:Hook(name, function(player, data)
 			local bShouldReply, reply = Callback(player, data);
@@ -125,7 +138,13 @@ if (SERVER) then
 		CW_DS_NAME, CW_DS_DATA, CW_DS_LENGTH = nil, nil, nil;
 	end);
 else
-	-- A function to start a data stream.
+	--[[
+		@codebase Shared
+		@details A function to start a data stream.
+		@param {Unknown} Missing description for name.
+		@param {Unknown} Missing description for data.
+		@returns {Unknown}
+	--]]
 	function Clockwork.datastream:Start(name, data)
 		if (data == nil) then data = 0; end;
 		
@@ -141,7 +160,14 @@ else
 		end;
 	end;
 
-	-- A function to send a request.
+	--[[
+		@codebase Shared
+		@details A function to send a request.
+		@param {Unknown} Missing description for name.
+		@param {Unknown} Missing description for data.
+		@param {Unknown} Missing description for Callback.
+		@returns {Unknown}
+	--]]
 	function Clockwork.datastream:Request(name, data, Callback)
 		self:Hook(name, Callback);		
 		self:Start(name, data);

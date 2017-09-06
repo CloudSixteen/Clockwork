@@ -13,7 +13,14 @@ local string = string;
 Clockwork.flag = Clockwork.kernel:NewLibrary("Flag");
 Clockwork.flag.stored = Clockwork.flag.stored or {};
 
--- A function to add a new flag.
+--[[
+	@codebase Shared
+	@details A function to add a new flag.
+	@param {Unknown} Missing description for flag.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for details.
+	@returns {Unknown}
+--]]
 function Clockwork.flag:Add(flag, name, details)
 	if (CLIENT and !self.stored[flag]) then
 		Clockwork.directory:AddCode("HelpFlags", [[
@@ -36,17 +43,32 @@ function Clockwork.flag:Add(flag, name, details)
 	};
 end;
 
--- A function to get a flag.
+--[[
+	@codebase Shared
+	@details A function to get a flag.
+	@param {Unknown} Missing description for flag.
+	@returns {Unknown}
+--]]
 function Clockwork.flag:Get(flag)
 	return self.stored[flag];
 end;
 
--- A function to get the stored flags.
+--[[
+	@codebase Shared
+	@details A function to get the stored flags.
+	@returns {Unknown}
+--]]
 function Clockwork.flag:GetStored()
 	return self.stored;
 end;
 
--- A function to get a flag's name.
+--[[
+	@codebase Shared
+	@details A function to get a flag's name.
+	@param {Unknown} Missing description for flag.
+	@param {Unknown} Missing description for default.
+	@returns {Unknown}
+--]]
 function Clockwork.flag:GetName(flag, default)
 	if (self.stored[flag]) then
 		return self.stored[flag].name;
@@ -55,7 +77,13 @@ function Clockwork.flag:GetName(flag, default)
 	end;
 end;
 
--- A function to get a flag's details.
+--[[
+	@codebase Shared
+	@details A function to get a flag's details.
+	@param {Unknown} Missing description for flag.
+	@param {Unknown} Missing description for default.
+	@returns {Unknown}
+--]]
 function Clockwork.flag:GetDescription(flag, default)
 	if (self.stored[flag]) then
 		return self.stored[flag].details;
@@ -64,7 +92,13 @@ function Clockwork.flag:GetDescription(flag, default)
 	end;
 end;
 
--- A function to get a flag by it's name.
+--[[
+	@codebase Shared
+	@details A function to get a flag by it's name.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for default.
+	@returns {Unknown}
+--]]
 function Clockwork.flag:GetFlagByName(name, default)
 	local lowerName = string.lower(name);
 	

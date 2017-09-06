@@ -468,7 +468,15 @@ end;
 
 local MARKUP_OBJECT = {__index = MARKUP_OBJECT, text = ""};
 
--- A function to add new text to the markup object.
+--[[
+	@codebase Client
+	@details A function to add new text to the markup object.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for color.
+	@param {Unknown} Missing description for scale.
+	@param {Unknown} Missing description for noNewLine.
+	@returns {Unknown}
+--]]
 function MARKUP_OBJECT:Add(text, color, scale, noNewLine)
 	if (self.text != "" and !noNewLine) then
 		self.text = self.text.."\n";
@@ -477,12 +485,23 @@ function MARKUP_OBJECT:Add(text, color, scale, noNewLine)
 	self.text = self.text..Clockwork.kernel:MarkupTextWithColor(Clockwork.config:Parse(text), color, scale);
 end;
 
--- A function to add a new title to the markup object.
+--[[
+	@codebase Client
+	@details A function to add a new title to the markup object.
+	@param {Unknown} Missing description for title.
+	@param {Unknown} Missing description for color.
+	@param {Unknown} Missing description for scale.
+	@returns {Unknown}
+--]]
 function MARKUP_OBJECT:Title(title, color, scale)
 	self:Add(title, Clockwork.option:GetColor("information"), 1.2);
 end;
 
--- A function to get the markup object's text.
+--[[
+	@codebase Client
+	@details A function to get the markup object's text.
+	@returns {Unknown}
+--]]
 function MARKUP_OBJECT:GetText()
 	return self.text;
 end;

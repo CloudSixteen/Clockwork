@@ -611,7 +611,11 @@ function Clockwork:PlayerItemTaken(itemTable)
 	end;
 end;
 
--- Called when the local player's character has initialized.
+--[[
+	@codebase Client
+	@details Called when the local player's character has initialized.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCharacterInitialized(iCharacterKey) end;
 
 --[[
@@ -1031,10 +1035,21 @@ end;
 --]]
 function Clockwork:PlayerCanZoom() return true; end;
 
--- Called when the local player attempts to see a business item.
+--[[
+	@codebase Client
+	@details Called when the local player attempts to see a business item.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanSeeBusinessItem(itemTable) return true; end;
 
--- Called when a player presses a bind.
+--[[
+	@codebase Client
+	@details Called when a player presses a bind.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for bind.
+	@param {Unknown} Missing description for bPress.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerBindPress(player, bind, bPress)
 	if (player:GetRagdollState() == RAGDOLL_FALLENOVER and string.find(bind, "+jump")) then
 		cwKernel:RunCommand("CharGetUp");
@@ -1062,17 +1077,33 @@ function Clockwork:PlayerBindPress(player, bind, bPress)
 	return cwPlugin:Call("TopLevelPlayerBindPress", player, bind, bPress);
 end;
 
--- Called when a player presses a bind at the top level.
+--[[
+	@codebase Client
+	@details Called when a player presses a bind at the top level.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for bind.
+	@param {Unknown} Missing description for bPress.
+	@returns {Unknown}
+--]]
 function Clockwork:TopLevelPlayerBindPress(player, bind, bPress)
 	return self.BaseClass:PlayerBindPress(player, bind, bPress);
 end;
 
--- Called when the local player attempts to see while unconscious.
+--[[
+	@codebase Client
+	@details Called when the local player attempts to see while unconscious.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanSeeUnconscious()
 	return false;
 end;
 
--- Called when the local player's move data is created.
+--[[
+	@codebase Client
+	@details Called when the local player's move data is created.
+	@param {Unknown} Missing description for userCmd.
+	@returns {Unknown}
+--]]
 function Clockwork:CreateMove(userCmd)
 	local ragdollEyeAngles = cwKernel:GetRagdollEyeAngles();
 	
@@ -1096,7 +1127,15 @@ end;
 
 local LAST_RAISED_TARGET = 0;
 
--- Called when the view should be calculated.
+--[[
+	@codebase Client
+	@details Called when the view should be calculated.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for origin.
+	@param {Unknown} Missing description for angles.
+	@param {Unknown} Missing description for fov.
+	@returns {Unknown}
+--]]
 function Clockwork:CalcView(player, origin, angles, fov)
 	local scale = math.Clamp(CW_CONVAR_HEADBOBSCALE:GetFloat(),0,1) or 1;
 
@@ -1308,19 +1347,39 @@ function Clockwork:CalcViewModelView(weapon, viewModel, oldEyePos, oldEyeAngles,
 	return oldEyePos, eyeAngles;
 end;
 
--- Called when the local player's limb damage is received.
+--[[
+	@codebase Client
+	@details Called when the local player's limb damage is received.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerLimbDamageReceived() end;
 
--- Called when the local player's limb damage is reset.
+--[[
+	@codebase Client
+	@details Called when the local player's limb damage is reset.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerLimbDamageReset() end;
 
--- Called when the local player's limb damage is bIsHealed.
+--[[
+	@codebase Client
+	@details Called when the local player's limb damage is bIsHealed.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerLimbDamageHealed(hitGroup, amount) end;
 
--- Called when the local player's limb takes damage.
+--[[
+	@codebase Client
+	@details Called when the local player's limb takes damage.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerLimbTakeDamage(hitGroup, damage) end;
 
--- Called when a weapon's lowered view info is needed.
+--[[
+	@codebase Client
+	@details Called when a weapon's lowered view info is needed.
+	@returns {Unknown}
+--]]
 function Clockwork:GetWeaponLoweredViewInfo(itemTable, weapon, viewInfo) end;
 
 local blockedElements = {
@@ -1334,7 +1393,12 @@ local blockedElements = {
 	CHudChat = true
 };
 
--- Called when a HUD element should be drawn.
+--[[
+	@codebase Client
+	@details Called when a HUD element should be drawn.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork:HUDShouldDraw(name)
 	if (!IsValid(cwClient) or !cwClient:HasInitialized() or cwKernel:IsChoosingCharacter()) then
 		if (name != "CHudGMod") then
@@ -1347,7 +1411,11 @@ function Clockwork:HUDShouldDraw(name)
 	return self.BaseClass:HUDShouldDraw(name);
 end
 
--- Called when the menu is opened.
+--[[
+	@codebase Client
+	@details Called when the menu is opened.
+	@returns {Unknown}
+--]]
 function Clockwork:MenuOpened()
 	for k, v in pairs(cwMenu:GetItems()) do
 		if (v.panel.OnMenuOpened) then
@@ -1356,7 +1424,11 @@ function Clockwork:MenuOpened()
 	end;
 end;
 
--- Called when the menu is closed.
+--[[
+	@codebase Client
+	@details Called when the menu is closed.
+	@returns {Unknown}
+--]]
 function Clockwork:MenuClosed()
 	for k, v in pairs(cwMenu:GetItems()) do
 		if (v.panel.OnMenuClosed) then
@@ -1368,12 +1440,26 @@ function Clockwork:MenuClosed()
 	cwKernel:CloseActiveDermaMenus();
 end;
 
--- Called when the character screen's faction characters should be sorted.
+--[[
+	@codebase Client
+	@details Called when the character screen's faction characters should be sorted.
+	@param {Unknown} Missing description for faction.
+	@param {Unknown} Missing description for a.
+	@param {Unknown} Missing description for b.
+	@returns {Unknown}
+--]]
 function Clockwork:CharacterScreenSortFactionCharacters(faction, a, b)
 	return a.name < b.name;
 end;
 
--- Called when the scoreboard's class players should be sorted.
+--[[
+	@codebase Client
+	@details Called when the scoreboard's class players should be sorted.
+	@param {Unknown} Missing description for class.
+	@param {Unknown} Missing description for a.
+	@param {Unknown} Missing description for b.
+	@returns {Unknown}
+--]]
 function Clockwork:ScoreboardSortClassPlayers(class, a, b)
 	local recogniseA = cwPly:DoesRecognise(a);
 	local recogniseB = cwPly:DoesRecognise(b);
@@ -1387,10 +1473,19 @@ function Clockwork:ScoreboardSortClassPlayers(class, a, b)
 	end;
 end;
 
--- Called when the scoreboard's player info should be adjusted.
+--[[
+	@codebase Client
+	@details Called when the scoreboard's player info should be adjusted.
+	@returns {Unknown}
+--]]
 function Clockwork:ScoreboardAdjustPlayerInfo(info) end;
 
--- Called when the menu's items should be adjusted.
+--[[
+	@codebase Client
+	@details Called when the menu's items should be adjusted.
+	@param {Unknown} Missing description for menuItems.
+	@returns {Unknown}
+--]]
 function Clockwork:MenuItemsAdd(menuItems)
 	local attributesName = cwOption:Translate("name_attributes");
 	local systemName = cwOption:Translate("name_system");
@@ -1423,13 +1518,25 @@ function Clockwork:MenuItemsAdd(menuItems)
 	end;
 end;
 
--- Called when the menu's items should be destroyed.
+--[[
+	@codebase Client
+	@details Called when the menu's items should be destroyed.
+	@returns {Unknown}
+--]]
 function Clockwork:MenuItemsDestroy(menuItems) end;
 
--- Called when a generator's target ID is drawn.
+--[[
+	@codebase Client
+	@details Called when a generator's target ID is drawn.
+	@returns {Unknown}
+--]]
 function Clockwork:DrawGeneratorTargetID(entity, info) end;
 
--- Called each tick.
+--[[
+	@codebase Client
+	@details Called each tick.
+	@returns {Unknown}
+--]]
 function Clockwork:Tick()
 	local realCurTime = CurTime();
 	local curTime = UnPredictedCurTime();
@@ -1610,7 +1717,11 @@ function Clockwork:InitPostEntity()
 	end;
 end;
 
--- Called each frame.
+--[[
+	@codebase Client
+	@details Called each frame.
+	@returns {Unknown}
+--]]
 function Clockwork:Think()
 	cwKernel:CallTimerThink(CurTime());
 	cwKernel:CalculateHints();
@@ -1628,22 +1739,43 @@ function Clockwork:Think()
 	end;
 end;
 
--- Called when the character loading HUD should be painted.
+--[[
+	@codebase Client
+	@details Called when the character loading HUD should be painted.
+	@returns {Unknown}
+--]]
 function Clockwork:HUDPaintCharacterLoading(alpha) end;
 
--- Called when the character selection HUD should be painted.
+--[[
+	@codebase Client
+	@details Called when the character selection HUD should be painted.
+	@returns {Unknown}
+--]]
 function Clockwork:HUDPaintCharacterSelection() end;
 
--- Called when the important HUD should be painted.
+--[[
+	@codebase Client
+	@details Called when the important HUD should be painted.
+	@returns {Unknown}
+--]]
 function Clockwork:HUDPaintImportant() end;
 
--- Called when the top screen HUD should be painted.
+--[[
+	@codebase Client
+	@details Called when the top screen HUD should be painted.
+	@returns {Unknown}
+--]]
 function Clockwork:HUDPaintTopScreen(info) end;
 
 local SCREEN_DAMAGE_OVERLAY = cwKernel:GetMaterial("clockwork/screendamage.png");
 local VIGNETTE_OVERLAY = cwKernel:GetMaterial("clockwork/vignette.png");
 
--- Called when the local player's screen damage should be drawn.
+--[[
+	@codebase Client
+	@details Called when the local player's screen damage should be drawn.
+	@param {Unknown} Missing description for damageFraction.
+	@returns {Unknown}
+--]]
 function Clockwork:DrawPlayerScreenDamage(damageFraction)
 	local scrW, scrH = ScrW(), ScrH();
 
@@ -1667,7 +1799,11 @@ function Clockwork:AddEntityOutlines(outlines)
 	end;
 end;
 
--- Called when the local player's vignette should be drawn.
+--[[
+	@codebase Client
+	@details Called when the local player's vignette should be drawn.
+	@returns {Unknown}
+--]]
 function Clockwork:DrawPlayerVignette()
 	local curTime = CurTime();
 	
@@ -1703,7 +1839,11 @@ function Clockwork:DrawPlayerVignette()
 	surface.DrawTexturedRect(0, 0, scrW, scrH);
 end;
 
--- Called when the foreground HUD should be painted.
+--[[
+	@codebase Client
+	@details Called when the foreground HUD should be painted.
+	@returns {Unknown}
+--]]
 function Clockwork:HUDPaintForeground()
 	local backgroundColor = cwOption:GetColor("background");
 	local colorWhite = cwOption:GetColor("white");
@@ -1772,25 +1912,55 @@ function Clockwork:HUDPaintForeground()
 	cwPlugin:Call("HUDPaintTopScreen", info);
 end;
 
--- Called each frame that an item entity exists.
+--[[
+	@codebase Client
+	@details Called each frame that an item entity exists.
+	@returns {Unknown}
+--]]
 function Clockwork:ItemEntityThink(itemTable, entity) end;
 
--- Called when an item entity is drawn.
+--[[
+	@codebase Client
+	@details Called when an item entity is drawn.
+	@returns {Unknown}
+--]]
 function Clockwork:ItemEntityDraw(itemTable, entity) end;
 
--- Called when a cash entity is drawn.
+--[[
+	@codebase Client
+	@details Called when a cash entity is drawn.
+	@returns {Unknown}
+--]]
 function Clockwork:CashEntityDraw(entity) end;
 
--- Called when a gear entity is drawn.
+--[[
+	@codebase Client
+	@details Called when a gear entity is drawn.
+	@returns {Unknown}
+--]]
 function Clockwork:GearEntityDraw(entity) end;
 
--- Called when a generator entity is drawn.
+--[[
+	@codebase Client
+	@details Called when a generator entity is drawn.
+	@returns {Unknown}
+--]]
 function Clockwork:GeneratorEntityDraw(entity) end;
 
--- Called when a shipment entity is drawn.
+--[[
+	@codebase Client
+	@details Called when a shipment entity is drawn.
+	@returns {Unknown}
+--]]
 function Clockwork:ShipmentEntityDraw(entity) end;
 
--- Called when an item's network data has been updated.
+--[[
+	@codebase Client
+	@details Called when an item's network data has been updated.
+	@param {Unknown} Missing description for itemTable.
+	@param {Unknown} Missing description for newData.
+	@returns {Unknown}
+--]]
 function Clockwork:ItemNetworkDataUpdated(itemTable, newData)
 	if (itemTable.OnNetworkDataUpdated) then
 		itemTable:OnNetworkDataUpdated(newData);
@@ -1803,7 +1973,11 @@ end;
 --]]
 function Clockwork:ClockworkKernelLoaded() end;
 
--- Called to get the screen text info.
+--[[
+	@codebase Client
+	@details Called to get the screen text info.
+	@returns {Unknown}
+--]]
 function Clockwork:GetScreenTextInfo()
 	local blackFadeAlpha = cwKernel:GetBlackFadeAlpha();
 	
@@ -1817,7 +1991,11 @@ function Clockwork:GetScreenTextInfo()
 end;
 
 
--- Called after the VGUI has been rendered.
+--[[
+	@codebase Client
+	@details Called after the VGUI has been rendered.
+	@returns {Unknown}
+--]]
 function Clockwork:PostRenderVGUI()
 	local cinematic = self.Cinematics[1];
 	
@@ -1838,15 +2016,28 @@ function Clockwork:PostRenderVGUI()
 	end;
 end;
 
--- Called to get whether the local player can see the admin ESP.
+--[[
+	@codebase Client
+	@details Called to get whether the local player can see the admin ESP.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanSeeAdminESP()
 	return (CW_CONVAR_ADMINESP:GetInt() == 1);
 end;
 
--- Called when the local player attempts to get up.
+--[[
+	@codebase Client
+	@details Called when the local player attempts to get up.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanGetUp() return true; end;
 
--- Called when the local player attempts to see the top bars.
+--[[
+	@codebase Client
+	@details Called when the local player attempts to see the top bars.
+	@param {Unknown} Missing description for class.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanSeeBars(class)
 	if (class == "tab") then
 		if (CW_CONVAR_TOPBARS) then
@@ -1865,35 +2056,64 @@ function Clockwork:PlayerCanSeeBars(class)
 	end;
 end;
 
--- Called when the local player's limb info is needed.
+--[[
+	@codebase Client
+	@details Called when the local player's limb info is needed.
+	@returns {Unknown}
+--]]
 function Clockwork:GetPlayerLimbInfo(info) end;
 
--- Called when the local player attempts to see the top hints.
+--[[
+	@codebase Client
+	@details Called when the local player attempts to see the top hints.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanSeeHints()
 	return true;
 end;
 
--- Called when the local player attempts to see the center hints.
+--[[
+	@codebase Client
+	@details Called when the local player attempts to see the center hints.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanSeeCenterHints()
 	return true;
 end;
 
--- Called when the local player attempts to see their limb damage.
+--[[
+	@codebase Client
+	@details Called when the local player attempts to see their limb damage.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanSeeLimbDamage()
 	return (cwKernel:IsInfoMenuOpen() and cwConfig:Get("limb_damage_system"):Get());
 end;
 
--- Called when the local player attempts to see the date and time.
+--[[
+	@codebase Client
+	@details Called when the local player attempts to see the date and time.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanSeeDateTime()
 	return cwKernel:IsInfoMenuOpen();
 end;
 
--- Called when the local player attempts to see a class.
+--[[
+	@codebase Client
+	@details Called when the local player attempts to see a class.
+	@param {Unknown} Missing description for class.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanSeeClass(class)
 	return true;
 end;
 
--- Called when the local player attempts to see the player info.
+--[[
+	@codebase Client
+	@details Called when the local player attempts to see the player info.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanSeePlayerInfo()
 	return cwKernel:IsInfoMenuOpen();
 end;
@@ -1912,7 +2132,11 @@ function Clockwork:AddNotify(text, class, length)
 	return cwKernel:AddNotify(text, class, length);
 end;
 
--- Called when the target ID HUD should be drawn.
+--[[
+	@codebase Client
+	@details Called when the target ID HUD should be drawn.
+	@returns {Unknown}
+--]]
 function Clockwork:HUDDrawTargetID()
 	local targetIDTextFont = cwOption:GetFont("target_id_text");
 	local traceEntity = NULL;
@@ -2127,7 +2351,15 @@ function Clockwork:HUDDrawTargetID()
 	end;
 end;
 
--- Called when the target's status should be drawn.
+--[[
+	@codebase Client
+	@details Called when the target's status should be drawn.
+	@param {Unknown} Missing description for target.
+	@param {Unknown} Missing description for alpha.
+	@param {Unknown} Missing description for x.
+	@param {Unknown} Missing description for y.
+	@returns {Unknown}
+--]]
 function Clockwork:DrawTargetPlayerStatus(target, alpha, x, y)
 	local informationColor = cwOption:GetColor("information");
 	local gender = "He";
@@ -2143,10 +2375,20 @@ function Clockwork:DrawTargetPlayerStatus(target, alpha, x, y)
 	end;
 end;
 
--- Called when the local player's character creation info should be adjusted.
+--[[
+	@codebase Client
+	@details Called when the local player's character creation info should be adjusted.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAdjustCharacterCreationInfo(panel, info) end;
 
--- Called when the character panel tool tip is needed.
+--[[
+	@codebase Client
+	@details Called when the character panel tool tip is needed.
+	@param {Unknown} Missing description for panel.
+	@param {Unknown} Missing description for character.
+	@returns {Unknown}
+--]]
 function Clockwork:GetCharacterPanelToolTip(panel, character)
 	if (table.Count(cwFaction:GetAll()) > 1) then
 		local numPlayers = #cwFaction:GetPlayers(character.faction);
@@ -2155,16 +2397,32 @@ function Clockwork:GetCharacterPanelToolTip(panel, character)
 	end;
 end;
 
--- Called when the character panel weapon model is needed.
+--[[
+	@codebase Client
+	@details Called when the character panel weapon model is needed.
+	@returns {Unknown}
+--]]
 function Clockwork:GetCharacterPanelSequence(entity, character) end;
 
--- Called when the character panel weapon model is needed.
+--[[
+	@codebase Client
+	@details Called when the character panel weapon model is needed.
+	@returns {Unknown}
+--]]
 function Clockwork:GetCharacterPanelWeaponModel(panel, character) end;
 
--- Called when a model selection's weapon model is needed.
+--[[
+	@codebase Client
+	@details Called when a model selection's weapon model is needed.
+	@returns {Unknown}
+--]]
 function Clockwork:GetModelSelectWeaponModel(model) end;
 
--- Called when a model selection's sequence is needed.
+--[[
+	@codebase Client
+	@details Called when a model selection's sequence is needed.
+	@returns {Unknown}
+--]]
 function Clockwork:GetModelSelectSequence(entity, model) end;
 
 --[[
@@ -2266,7 +2524,13 @@ function Clockwork:GetAdminESPInfo(info)
 	end;
 end;
 
--- Called when a player's status info is needed.
+--[[
+	@codebase Client
+	@details Called when a player's status info is needed.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for text.
+	@returns {Unknown}
+--]]
 function Clockwork:GetStatusInfo(player, text)
 	local action = cwPly:GetAction(player, true);
 	
@@ -2299,7 +2563,13 @@ function Clockwork:GetStatusInfo(player, text)
 	end;
 end;
 
--- Called when extra player info is needed.
+--[[
+	@codebase Client
+	@details Called when extra player info is needed.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for text.
+	@returns {Unknown}
+--]]
 function Clockwork:GetPlayerESPInfo(player, text)
 	if (player:IsValid()) then
 		local weapon = player:GetActiveWeapon();
@@ -2366,7 +2636,12 @@ function Clockwork:GetPlayerESPInfo(player, text)
 	end;
 end;
 
--- A function to get the color of a value from green to red.
+--[[
+	@codebase Client
+	@details A function to get the color of a value from green to red.
+	@param {Unknown} Missing description for value.
+	@returns {Unknown}
+--]]
 function Clockwork:GetValueColor(value)
 	local red = math.floor(255 - (value * 2.55));
 	local green = math.floor(value * 2.55);
@@ -2434,13 +2709,25 @@ function Clockwork:GetProgressBarInfo()
 	end;
 end;
 
--- Called just before the local player's information is drawn.
+--[[
+	@codebase Client
+	@details Called just before the local player's information is drawn.
+	@returns {Unknown}
+--]]
 function Clockwork:PreDrawPlayerInfo(boxInfo, information, subInformation) end;
 
--- Called just after the local player's information is drawn.
+--[[
+	@codebase Client
+	@details Called just after the local player's information is drawn.
+	@returns {Unknown}
+--]]
 function Clockwork:PostDrawPlayerInfo(boxInfo, information, subInformation) end;
 
--- Called just after the date time box is drawn.
+--[[
+	@codebase Client
+	@details Called just after the date time box is drawn.
+	@returns {Unknown}
+--]]
 function Clockwork:PostDrawDateTimeBox(info) end;
 
 --[[
@@ -2495,7 +2782,11 @@ function Clockwork:GetTargetPlayerFadeDistance(player)
 	return 4096;
 end;
 
--- Called when the player info text should be destroyed.
+--[[
+	@codebase Client
+	@details Called when the player info text should be destroyed.
+	@returns {Unknown}
+--]]
 function Clockwork:DestroyPlayerInfoText(playerInfoText) end;
 
 --[[
@@ -2525,10 +2816,19 @@ function Clockwork:GetTargetPlayerText(player, targetPlayerText)
 	end;
 end;
 
--- Called when the target player's text should be destroyed.
+--[[
+	@codebase Client
+	@details Called when the target player's text should be destroyed.
+	@returns {Unknown}
+--]]
 function Clockwork:DestroyTargetPlayerText(player, targetPlayerText) end;
 
--- Called when a player's scoreboard text is needed.
+--[[
+	@codebase Client
+	@details Called when a player's scoreboard text is needed.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:GetPlayerScoreboardText(player)
 	local thirdPerson = "him";
 	
@@ -2549,12 +2849,22 @@ function Clockwork:GetPlayerScoreboardText(player)
 	end;
 end;
 
--- Called when the local player's character screen faction is needed.
+--[[
+	@codebase Client
+	@details Called when the local player's character screen faction is needed.
+	@param {Unknown} Missing description for character.
+	@returns {Unknown}
+--]]
 function Clockwork:GetPlayerCharacterScreenFaction(character)
 	return character.faction;
 end;
 
--- Called to get whether the local player's character screen is visible.
+--[[
+	@codebase Client
+	@details Called to get whether the local player's character screen is visible.
+	@param {Unknown} Missing description for panel.
+	@returns {Unknown}
+--]]
 function Clockwork:GetPlayerCharacterScreenVisible(panel)
 	if (!cwQuiz:GetEnabled() or cwQuiz:GetCompleted()) then
 		return true;
@@ -2563,7 +2873,11 @@ function Clockwork:GetPlayerCharacterScreenVisible(panel)
 	end;
 end;
 
--- Called to get whether the character menu should be created.
+--[[
+	@codebase Client
+	@details Called to get whether the character menu should be created.
+	@returns {Unknown}
+--]]
 function Clockwork:ShouldCharacterMenuBeCreated()
 	if (self.ClockworkIntroFadeOut) then
 		return false;
@@ -2572,19 +2886,36 @@ function Clockwork:ShouldCharacterMenuBeCreated()
 	return true;
 end;
 
--- Called when the local player's character screen is created.
+--[[
+	@codebase Client
+	@details Called when the local player's character screen is created.
+	@param {Unknown} Missing description for panel.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCharacterScreenCreated(panel)
 	if (cwQuiz:GetEnabled()) then
 		cwDatastream:Start("GetQuizStatus", true);
 	end;
 end;
 
--- Called when a player's scoreboard class is needed.
+--[[
+	@codebase Client
+	@details Called when a player's scoreboard class is needed.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:GetPlayerScoreboardClass(player)
 	return _team.GetName(player:Team());
 end;
 
--- Called when a player's scoreboard options are needed.
+--[[
+	@codebase Client
+	@details Called when a player's scoreboard options are needed.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for options.
+	@param {Unknown} Missing description for menu.
+	@returns {Unknown}
+--]]
 function Clockwork:GetPlayerScoreboardOptions(player, options, menu)
 	local charTakeFlags = cwCommand:FindByID("CharTakeFlags");
 	local charGiveFlags = cwCommand:FindByID("CharGiveFlags");
@@ -2721,7 +3052,13 @@ function Clockwork:GetPlayerScoreboardOptions(player, options, menu)
 	end;
 end;
 
--- Called when information about a door is needed.
+--[[
+	@codebase Client
+	@details Called when information about a door is needed.
+	@param {Unknown} Missing description for door.
+	@param {Unknown} Missing description for information.
+	@returns {Unknown}
+--]]
 function Clockwork:GetDoorInfo(door, information)
 	local doorCost = cwConfig:Get("door_cost"):Get();
 	local owner = cwEntity:GetOwner(door);
@@ -2773,12 +3110,23 @@ function Clockwork:GetDoorInfo(door, information)
 	end;
 end;
 
--- Called to get whether or not a post process is permitted.
+--[[
+	@codebase Client
+	@details Called to get whether or not a post process is permitted.
+	@param {Unknown} Missing description for class.
+	@returns {Unknown}
+--]]
 function Clockwork:PostProcessPermitted(class)
 	return false;
 end;
 
--- Called just after the translucent renderables have been drawn.
+--[[
+	@codebase Client
+	@details Called just after the translucent renderables have been drawn.
+	@param {Unknown} Missing description for bDrawingDepth.
+	@param {Unknown} Missing description for bDrawingSkybox.
+	@returns {Unknown}
+--]]
 function Clockwork:PostDrawTranslucentRenderables(bDrawingDepth, bDrawingSkybox)
 	if (bDrawingSkybox or bDrawingDepth) then return; end;
 	
@@ -2801,7 +3149,11 @@ function Clockwork:PostDrawTranslucentRenderables(bDrawingDepth, bDrawingSkybox)
 	end;
 end;
 
--- Called when screen space effects should be rendered.
+--[[
+	@codebase Client
+	@details Called when screen space effects should be rendered.
+	@returns {Unknown}
+--]]
 function Clockwork:RenderScreenspaceEffects()
 	if (IsValid(cwClient)) then
 		local frameTime = FrameTime();
@@ -2909,13 +3261,26 @@ function Clockwork:RenderScreenspaceEffects()
 	end;
 end;
 
--- Called when the chat box is opened.
+--[[
+	@codebase Client
+	@details Called when the chat box is opened.
+	@returns {Unknown}
+--]]
 function Clockwork:ChatBoxOpened() end;
 
--- Called when the chat box is closed.
+--[[
+	@codebase Client
+	@details Called when the chat box is closed.
+	@returns {Unknown}
+--]]
 function Clockwork:ChatBoxClosed(textTyped) end;
 
--- Called when the chat box text has been typed.
+--[[
+	@codebase Client
+	@details Called when the chat box text has been typed.
+	@param {Unknown} Missing description for text.
+	@returns {Unknown}
+--]]
 function Clockwork:ChatBoxTextTyped(text)
 	if (self.LastChatBoxText) then
 		if (self.LastChatBoxText[1] == text) then
@@ -2932,16 +3297,34 @@ function Clockwork:ChatBoxTextTyped(text)
 	table.insert(self.LastChatBoxText, 1, text);
 end;
 
--- Called when the calc view table should be adjusted.
+--[[
+	@codebase Client
+	@details Called when the calc view table should be adjusted.
+	@returns {Unknown}
+--]]
 function Clockwork:CalcViewAdjustTable(view) end;
 
--- Called when the chat box info should be adjusted.
+--[[
+	@codebase Client
+	@details Called when the chat box info should be adjusted.
+	@returns {Unknown}
+--]]
 function Clockwork:ChatBoxAdjustInfo(info) end;
 
--- Called when the chat box text has changed.
+--[[
+	@codebase Client
+	@details Called when the chat box text has changed.
+	@returns {Unknown}
+--]]
 function Clockwork:ChatBoxTextChanged(previousText, newText) end;
 
--- Called when the chat box has had a key code typed in.
+--[[
+	@codebase Client
+	@details Called when the chat box has had a key code typed in.
+	@param {Unknown} Missing description for code.
+	@param {Unknown} Missing description for text.
+	@returns {Unknown}
+--]]
 function Clockwork:ChatBoxKeyCodeTyped(code, text)
 	if (code == KEY_UP) then
 		if (self.LastChatBoxText) then
@@ -2970,18 +3353,36 @@ function Clockwork:ChatBoxKeyCodeTyped(code, text)
 	end;
 end;
 
--- Called when a notification should be adjusted.
+--[[
+	@codebase Client
+	@details Called when a notification should be adjusted.
+	@param {Unknown} Missing description for info.
+	@returns {Unknown}
+--]]
 function Clockwork:NotificationAdjustInfo(info)
 	return true;
 end;
 
--- Called when the local player's business item should be adjusted.
+--[[
+	@codebase Client
+	@details Called when the local player's business item should be adjusted.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAdjustBusinessItemTable(itemTable) end;
 
--- Called when the local player's class model info should be adjusted.
+--[[
+	@codebase Client
+	@details Called when the local player's class model info should be adjusted.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAdjustClassModelInfo(class, info) end;
 
--- Called when the local player's headbob info should be adjusted.
+--[[
+	@codebase Client
+	@details Called when the local player's headbob info should be adjusted.
+	@param {Unknown} Missing description for info.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAdjustHeadbobInfo(info)
 	local bisDrunk = cwPly:GetDrunk();
 	local scale = math.Clamp(CW_CONVAR_HEADBOBSCALE:GetFloat(),0,1) or 1;
@@ -3005,27 +3406,56 @@ function Clockwork:PlayerAdjustHeadbobInfo(info)
 	end;
 end;
 
--- Called when the local player's motion blurs should be adjusted.
+--[[
+	@codebase Client
+	@details Called when the local player's motion blurs should be adjusted.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAdjustMotionBlurs(motionBlurs) end;
 
--- Called when the local player's item menu should be adjusted.
+--[[
+	@codebase Client
+	@details Called when the local player's item menu should be adjusted.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAdjustMenuFunctions(itemTable, menuPanel, itemFunctions) end;
 
--- Called when the local player's item functions should be adjusted.
+--[[
+	@codebase Client
+	@details Called when the local player's item functions should be adjusted.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAdjustItemFunctions(itemTable, itemFunctions) end;
 
--- Called when the local player's default colorify should be set.
+--[[
+	@codebase Client
+	@details Called when the local player's default colorify should be set.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSetDefaultColorModify(colorModify) end;
 
--- Called when the local player's colorify should be adjusted.
+--[[
+	@codebase Client
+	@details Called when the local player's colorify should be adjusted.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAdjustColorModify(colorModify) end;
 
--- Called to get whether a player's target ID should be drawn.
+--[[
+	@codebase Client
+	@details Called to get whether a player's target ID should be drawn.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:ShouldDrawPlayerTargetID(player)
 	return true;
 end;
 
--- Called to get whether the local player's screen should fade black.
+--[[
+	@codebase Client
+	@details Called to get whether the local player's screen should fade black.
+	@returns {Unknown}
+--]]
 function Clockwork:ShouldPlayerScreenFadeBlack()
 	if (!cwClient:Alive() or cwClient:IsRagdolled(RAGDOLL_FALLENOVER)) then
 		if (!cwPlugin:Call("PlayerCanSeeUnconscious")) then
@@ -3036,27 +3466,48 @@ function Clockwork:ShouldPlayerScreenFadeBlack()
 	return false;
 end;
 
--- Called when the menu background blur should be drawn.
+--[[
+	@codebase Client
+	@details Called when the menu background blur should be drawn.
+	@returns {Unknown}
+--]]
 function Clockwork:ShouldDrawMenuBackgroundBlur()
 	return true;
 end;
 
--- Called when the character background blur should be drawn.
+--[[
+	@codebase Client
+	@details Called when the character background blur should be drawn.
+	@returns {Unknown}
+--]]
 function Clockwork:ShouldDrawCharacterBackgroundBlur()
 	return true;
 end;
 
--- Called when the character background should be drawn.
+--[[
+	@codebase Client
+	@details Called when the character background should be drawn.
+	@returns {Unknown}
+--]]
 function Clockwork:ShouldDrawCharacterBackground()
 	return true;
 end;
 
--- Called when the character fault should be drawn.
+--[[
+	@codebase Client
+	@details Called when the character fault should be drawn.
+	@param {Unknown} Missing description for fault.
+	@returns {Unknown}
+--]]
 function Clockwork:ShouldDrawCharacterFault(fault)
 	return true;
 end;
 
--- Called when the score board should be drawn.
+--[[
+	@codebase Client
+	@details Called when the score board should be drawn.
+	@returns {Unknown}
+--]]
 function Clockwork:HUDDrawScoreBoard()
 	self.BaseClass:HUDDrawScoreBoard(player);
 	
@@ -3211,12 +3662,20 @@ function Clockwork:HUDDrawScoreBoard()
 	cwPlugin:Call("PostDrawBackgroundBlurs");
 end;
 
--- Called when the background blurs should be drawn.
+--[[
+	@codebase Client
+	@details Called when the background blurs should be drawn.
+	@returns {Unknown}
+--]]
 function Clockwork:ShouldDrawBackgroundBlurs()
 	return true;
 end;
 
--- Called just after the background blurs have been drawn.
+--[[
+	@codebase Client
+	@details Called just after the background blurs have been drawn.
+	@returns {Unknown}
+--]]
 function Clockwork:PostDrawBackgroundBlurs()
 	local introTextSmallFont = cwOption:GetFont("intro_text_small");	
 	local backgroundColor = cwOption:GetColor("background");
@@ -3258,19 +3717,39 @@ function Clockwork:PostDrawBackgroundBlurs()
 	cwKernel:DrawDateTime();
 end;
 
--- Called just before a bar is drawn.
+--[[
+	@codebase Client
+	@details Called just before a bar is drawn.
+	@returns {Unknown}
+--]]
 function Clockwork:PreDrawBar(barInfo) end;
 
--- Called just after a bar is drawn.
+--[[
+	@codebase Client
+	@details Called just after a bar is drawn.
+	@returns {Unknown}
+--]]
 function Clockwork:PostDrawBar(barInfo) end;
 
--- Called when the top bars are needed.
+--[[
+	@codebase Client
+	@details Called when the top bars are needed.
+	@returns {Unknown}
+--]]
 function Clockwork:GetBars(bars) end;
 
--- Called when the top bars should be destroyed.
+--[[
+	@codebase Client
+	@details Called when the top bars should be destroyed.
+	@returns {Unknown}
+--]]
 function Clockwork:DestroyBars(bars) end;
 
--- Called when the cinematic intro info is needed.
+--[[
+	@codebase Client
+	@details Called when the cinematic intro info is needed.
+	@returns {Unknown}
+--]]
 function Clockwork:GetCinematicIntroInfo()
 	return {
 		credits = "A roleplaying game designed by "..Schema:GetAuthor()..".",
@@ -3279,13 +3758,25 @@ function Clockwork:GetCinematicIntroInfo()
 	};
 end;
 
--- Called when the character loading time is needed.
+--[[
+	@codebase Client
+	@details Called when the character loading time is needed.
+	@returns {Unknown}
+--]]
 function Clockwork:GetCharacterLoadingTime() return 8; end;
 
--- Called when a player's HUD should be painted.
+--[[
+	@codebase Client
+	@details Called when a player's HUD should be painted.
+	@returns {Unknown}
+--]]
 function Clockwork:HUDPaintPlayer(player) end;
 
--- Called when the HUD should be painted.
+--[[
+	@codebase Client
+	@details Called when the HUD should be painted.
+	@returns {Unknown}
+--]]
 function Clockwork:HUDPaint()
 	if (!cwKernel:IsChoosingCharacter() and !cwKernel:IsUsingCamera()) then
 		if (cwEvent:CanRun("view", "damage") and cwClient:Alive()) then
@@ -3338,7 +3829,12 @@ function Clockwork:CanDrawCrosshair(weapon)
 	and (IsValid(weapon) and weapon.DrawCrosshair != false);
 end;
 
--- Called when the local player's crosshair info is needed.
+--[[
+	@codebase Client
+	@details Called when the local player's crosshair info is needed.
+	@param {Unknown} Missing description for info.
+	@returns {Unknown}
+--]]
 function Clockwork:GetPlayerCrosshairInfo(info)
 	if (cwConfig:Get("use_free_aiming"):Get()) then
 		-- Thanks to BlackOps7799 for this open source example.
@@ -3356,7 +3852,14 @@ function Clockwork:GetPlayerCrosshairInfo(info)
 	end;
 end;
 
--- Called when the local player's crosshair should be drawn.
+--[[
+	@codebase Client
+	@details Called when the local player's crosshair should be drawn.
+	@param {Unknown} Missing description for x.
+	@param {Unknown} Missing description for y.
+	@param {Unknown} Missing description for color.
+	@returns {Unknown}
+--]]
 function Clockwork:DrawPlayerCrosshair(x, y, color)
 	surface.SetDrawColor(color.r, color.g, color.b, color.a);
 	surface.DrawRect(x, y, 2, 2);
@@ -3368,7 +3871,12 @@ function Clockwork:DrawPlayerCrosshair(x, y, color)
 	return true;
 end;
 
--- Called when a player starts using voice.
+--[[
+	@codebase Client
+	@details Called when a player starts using voice.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerStartVoice(player)
 	if (cwConfig:Get("local_voice"):Get()) then
 		if (player:IsRagdolled(RAGDOLL_FALLENOVER) or !player:Alive()) then
@@ -3381,34 +3889,76 @@ function Clockwork:PlayerStartVoice(player)
 	end;
 end;
 
--- Called to check if a player does have an flag.
+--[[
+	@codebase Client
+	@details Called to check if a player does have an flag.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for flag.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerDoesHaveFlag(player, flag)
 	if (string.find(cwConfig:Get("default_flags"):Get(), flag)) then
 		return true;
 	end;
 end;
 
--- Called to check if a player does recognise another player.
+--[[
+	@codebase Client
+	@details Called to check if a player does recognise another player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for status.
+	@param {Unknown} Missing description for isAccurate.
+	@param {Unknown} Missing description for realValue.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerDoesRecognisePlayer(player, status, isAccurate, realValue)
 	return realValue;
 end;
 
--- Called when a player's name should be shown as unrecognised.
+--[[
+	@codebase Client
+	@details Called when a player's name should be shown as unrecognised.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for x.
+	@param {Unknown} Missing description for y.
+	@param {Unknown} Missing description for color.
+	@param {Unknown} Missing description for alpha.
+	@param {Unknown} Missing description for flashAlpha.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanShowUnrecognised(player, x, y, color, alpha, flashAlpha)
 	return true;
 end;
 
--- Called when the target player's name is needed.
+--[[
+	@codebase Client
+	@details Called when the target player's name is needed.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:GetTargetPlayerName(player)
 	return player:Name();
 end;
 
--- Called when a player begins typing.
+--[[
+	@codebase Client
+	@details Called when a player begins typing.
+	@param {Unknown} Missing description for team.
+	@returns {Unknown}
+--]]
 function Clockwork:StartChat(team)
 	return true;
 end;
 
--- Called when a player says something.
+--[[
+	@codebase Client
+	@details Called when a player says something.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for teamOnly.
+	@param {Unknown} Missing description for playerIsDead.
+	@returns {Unknown}
+--]]
 function Clockwork:OnPlayerChat(player, text, teamOnly, playerIsDead)
 	if (IsValid(player)) then
 		cwChatBox:Decode(player, player:Name(), text, {}, "none");
@@ -3419,7 +3969,15 @@ function Clockwork:OnPlayerChat(player, text, teamOnly, playerIsDead)
 	return true;
 end;
 
--- Called when chat text is received from the server
+--[[
+	@codebase Client
+	@details Called when chat text is received from the server
+	@param {Unknown} Missing description for index.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for class.
+	@returns {Unknown}
+--]]
 function Clockwork:ChatText(index, name, text, class)
 	if (class == "none") then
 		cwChatBox:Decode(_player.GetByID(index), name, text, {}, "none");
@@ -3428,10 +3986,18 @@ function Clockwork:ChatText(index, name, text, class)
 	return true;
 end;
 
--- Called when the scoreboard should be created.
+--[[
+	@codebase Client
+	@details Called when the scoreboard should be created.
+	@returns {Unknown}
+--]]
 function Clockwork:CreateScoreboard() end;
 
--- Called when the scoreboard should be shown.
+--[[
+	@codebase Client
+	@details Called when the scoreboard should be shown.
+	@returns {Unknown}
+--]]
 function Clockwork:ScoreboardShow()
 	if (cwClient:HasInitialized()) then
 		if (cwPlugin:Call("CanShowTabMenu")) then
@@ -3442,7 +4008,11 @@ function Clockwork:ScoreboardShow()
 	end;
 end;
 
--- Called when the scoreboard should be hidden.
+--[[
+	@codebase Client
+	@details Called when the scoreboard should be hidden.
+	@returns {Unknown}
+--]]
 function Clockwork:ScoreboardHide()
 	if (cwClient:HasInitialized() and cwMenu.holdTime) then
 		if (UnPredictedCurTime() >= cwMenu.holdTime) then
@@ -3453,13 +4023,25 @@ function Clockwork:ScoreboardHide()
 	end;
 end;
 
--- Called before the tab menu is shown.
+--[[
+	@codebase Client
+	@details Called before the tab menu is shown.
+	@returns {Unknown}
+--]]
 function Clockwork:CanShowTabMenu() return true; end;
 
--- Overriding Garry's "grab ear" animation.
+--[[
+	@codebase Client
+	@details Overriding Garry's "grab ear" animation.
+	@returns {Unknown}
+--]]
 function Clockwork:GrabEarAnimation(player) end;
 
--- Called before the item entity's target ID is drawn. Return false to stop default draw.
+--[[
+	@codebase Client
+	@details Called before the item entity's target ID is drawn. Return false to stop default draw.
+	@returns {Unknown}
+--]]
 function Clockwork:PaintItemTargetID(x, y, alpha, itemTable) return true; end;
 
 concommand.Add("cwSay", function(player, command, arguments)

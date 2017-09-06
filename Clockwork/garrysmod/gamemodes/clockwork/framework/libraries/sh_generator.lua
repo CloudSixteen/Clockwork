@@ -13,7 +13,19 @@ local string = string;
 Clockwork.generator = Clockwork.kernel:NewLibrary("Generator");
 Clockwork.generator.stored = Clockwork.generator.stored or {};
 
--- A function to register a new generator.
+--[[
+	@codebase Shared
+	@details A function to register a new generator.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for power.
+	@param {Unknown} Missing description for health.
+	@param {Unknown} Missing description for maximum.
+	@param {Unknown} Missing description for cash.
+	@param {Unknown} Missing description for uniqueID.
+	@param {Unknown} Missing description for powerName.
+	@param {Unknown} Missing description for powerPlural.
+	@returns {Unknown}
+--]]
 function Clockwork.generator:Register(name, power, health, maximum, cash, uniqueID, powerName, powerPlural)
 	self.stored[uniqueID] = {
 		powerPlural = powerPlural or powerName or "Power",
@@ -27,12 +39,21 @@ function Clockwork.generator:Register(name, power, health, maximum, cash, unique
 	};
 end;
 
--- A function to get all generators.
+--[[
+	@codebase Shared
+	@details A function to get all generators.
+	@returns {Unknown}
+--]]
 function Clockwork.generator:GetAll()
 	return self.stored;
 end;
 
--- A function to find a generator by an identifier.
+--[[
+	@codebase Shared
+	@details A function to find a generator by an identifier.
+	@param {Unknown} Missing description for identifier.
+	@returns {Unknown}
+--]]
 function Clockwork.generator:FindByID(identifier)
 	if (!self.stored[identifier]) then
 		local tGeneratorTab = nil;

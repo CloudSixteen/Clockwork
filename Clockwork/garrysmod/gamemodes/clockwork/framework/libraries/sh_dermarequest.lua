@@ -68,7 +68,13 @@ if (SERVER) then
 		Clockwork.datastream:Start(player, "dermaRequest_message", {message = message, title = title or nil, button = button or nil});
 	end;
 
-	-- An internal function to validate a return
+	--[[
+		@codebase Shared
+		@details An internal function to validate a return
+		@param {Unknown} Missing description for player.
+		@param {Unknown} Missing description for data.
+		@returns {Unknown}
+	--]]
 	function Clockwork.dermaRequest:Validate(player, data)
 		if (data.id and data.recv and self.hooks[data.id] and self.hooks[data.id].player == player) then
 			return true;

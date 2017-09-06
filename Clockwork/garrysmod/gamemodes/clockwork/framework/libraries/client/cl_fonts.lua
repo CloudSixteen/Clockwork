@@ -19,7 +19,13 @@ Clockwork.fonts = Clockwork.kernel:NewLibrary("Fonts");
 Clockwork.fonts.stored = Clockwork.fonts.stored or {};
 Clockwork.fonts.sizes = Clockwork.fonts.sizes or {};
 
--- A function to add a new font to the system.
+--[[
+	@codebase Client
+	@details A function to add a new font to the system.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for fontTable.
+	@returns {Unknown}
+--]]
 function Clockwork.fonts:Add(name, fontTable)
 	fontTable.extended = true;
 	
@@ -28,12 +34,22 @@ function Clockwork.fonts:Add(name, fontTable)
 	CreateFont(name, self.stored[name]);
 end;
 
--- A function to find a font by name.
+--[[
+	@codebase Client
+	@details A function to find a font by name.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.fonts:FindByName(name)
 	return self.stored[name];
 end;
 
--- A function to grab a font by size (creating what doesn't exist.)
+--[[
+	@codebase Client
+	@details A function to grab a font by size (creating what doesn't exist.)
+	@param {Unknown} Missing description for creating what doesn't exist..
+	@returns {Unknown}
+--]]
 function Clockwork.fonts:GetSize(name, size)
 	local fontKey = name..size;
 	
@@ -52,7 +68,13 @@ function Clockwork.fonts:GetSize(name, size)
 	return fontKey;
 end;
 
--- A function to grab a font by multiplier.
+--[[
+	@codebase Client
+	@details A function to grab a font by multiplier.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for multiplier.
+	@returns {Unknown}
+--]]
 function Clockwork.fonts:GetMultiplied(name, multiplier)
 	local fontTable = self:FindByName(name);
 	if (fontTable == nil) then return name; end;

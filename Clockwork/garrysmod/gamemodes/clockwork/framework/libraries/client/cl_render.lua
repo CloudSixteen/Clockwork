@@ -13,7 +13,12 @@ Clockwork.render = Clockwork.kernel:NewLibrary("Render");
 
 SLICE_OBJECT = {__index = SLICE_OBJECT};
 
--- A function to draw the sliced sprite at a location (corner size can be overriden.)
+--[[
+	@codebase Client
+	@details A function to draw the sliced sprite at a location (corner size can be overriden.)
+	@param {Unknown} Missing description for corner size can be overriden..
+	@returns {Unknown}
+--]]
 function SLICE_OBJECT:Draw(x, y, w, h, overrideCornerSize, overrideColor, overrideAlpha)
 	if (not overrideAlpha) then
 		if (overrideColor) then

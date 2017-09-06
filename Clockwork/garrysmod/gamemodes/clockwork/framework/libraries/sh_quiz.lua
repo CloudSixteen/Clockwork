@@ -13,42 +13,79 @@ local table = table;
 Clockwork.quiz = Clockwork.kernel:NewLibrary("Quiz");
 Clockwork.quiz.stored = Clockwork.quiz.stored or {};
 
--- A function to set the quiz name.
+--[[
+	@codebase Shared
+	@details A function to set the quiz name.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.quiz:SetName(name)
 	self.name = name;
 end;
 
--- A function to get the quiz name.
+--[[
+	@codebase Shared
+	@details A function to get the quiz name.
+	@returns {Unknown}
+--]]
 function Clockwork.quiz:GetName()
 	return self.name or "MenuQuizTitle";
 end;
 
--- A function to set whether the quiz is enabled.
+--[[
+	@codebase Shared
+	@details A function to set whether the quiz is enabled.
+	@param {Unknown} Missing description for enabled.
+	@returns {Unknown}
+--]]
 function Clockwork.quiz:SetEnabled(enabled)
 	self.enabled = enabled;
 end;
 
--- A function to get whether the quiz is enabled.
+--[[
+	@codebase Shared
+	@details A function to get whether the quiz is enabled.
+	@returns {Unknown}
+--]]
 function Clockwork.quiz:GetEnabled()
 	return self.enabled;
 end;
 
--- A function to get the amount of quiz questions.
+--[[
+	@codebase Shared
+	@details A function to get the amount of quiz questions.
+	@returns {Unknown}
+--]]
 function Clockwork.quiz:GetQuestionsAmount()
 	return table.Count(self.stored);
 end;
 
--- A function to get the quiz questions.
+--[[
+	@codebase Shared
+	@details A function to get the quiz questions.
+	@returns {Unknown}
+--]]
 function Clockwork.quiz:GetQuestions()
 	return self.stored;
 end;
 
--- A function to get a question.
+--[[
+	@codebase Shared
+	@details A function to get a question.
+	@param {Unknown} Missing description for index.
+	@returns {Unknown}
+--]]
 function Clockwork.quiz:GetQuestion(index)
 	return self.stored[index];
 end;
 
--- A function to get if an answer is correct.
+--[[
+	@codebase Shared
+	@details A function to get if an answer is correct.
+	@param {Unknown} Missing description for index.
+	@param {Unknown} Missing description for answer.
+	@returns {Unknown}
+--]]
 function Clockwork.quiz:IsAnswerCorrect(index, answer)
 	question = self:GetQuestion(index);
 	
@@ -63,7 +100,14 @@ function Clockwork.quiz:IsAnswerCorrect(index, answer)
 	end;
 end;
 
--- A function to add a new quiz question.
+--[[
+	@codebase Shared
+	@details A function to add a new quiz question.
+	@param {Unknown} Missing description for question.
+	@param {Unknown} Missing description for answer.
+	@param {Unknown} Missing description for ....
+	@returns {Unknown}
+--]]
 function Clockwork.quiz:AddQuestion(question, answer, ...)
 	local index = Clockwork.kernel:GetShortCRC(question);
 	
@@ -74,7 +118,12 @@ function Clockwork.quiz:AddQuestion(question, answer, ...)
 	};
 end;
 
--- A function to remove a quiz question.
+--[[
+	@codebase Shared
+	@details A function to remove a quiz question.
+	@param {Unknown} Missing description for question.
+	@returns {Unknown}
+--]]
 function Clockwork.quiz:RemoveQuestion(question)
 	if (self.stored[question]) then
 		self.stored[question] = nil;
@@ -92,12 +141,20 @@ if (CLIENT) then
 		self.completed = completed;
 	end;
 	
-	-- A function to get whether the quiz is completed.
+	--[[
+		@codebase Shared
+		@details A function to get whether the quiz is completed.
+		@returns {Unknown}
+	--]]
 	function Clockwork.quiz:GetCompleted()
 		return self.completed;
 	end;
 	
-	-- A function to get the quiz panel.
+	--[[
+		@codebase Shared
+		@details A function to get the quiz panel.
+		@returns {Unknown}
+	--]]
 	function Clockwork.quiz:GetPanel()
 		if (IsValid(self.panel)) then
 			return self.panel;
@@ -114,7 +171,12 @@ else
 		Clockwork.datastream:Start(player, "QuizCompleted", completed);
 	end;
 	
-	-- A function to get whether a player has completed the quiz.
+	--[[
+		@codebase Shared
+		@details A function to get whether a player has completed the quiz.
+		@param {Unknown} Missing description for player.
+		@returns {Unknown}
+	--]]
 	function Clockwork.quiz:GetCompleted(player)
 		if (player:GetData("Quiz") == self:GetQuestionsAmount()) then
 			return true;
@@ -123,17 +185,32 @@ else
 		end;
 	end;
 	
-	-- A function to set the quiz percentage.
+	--[[
+		@codebase Shared
+		@details A function to set the quiz percentage.
+		@param {Unknown} Missing description for percentage.
+		@returns {Unknown}
+	--]]
 	function Clockwork.quiz:SetPercentage(percentage)
 		self.percentage = percentage;
 	end;
 	
-	-- A function to get the quiz percentage.
+	--[[
+		@codebase Shared
+		@details A function to get the quiz percentage.
+		@returns {Unknown}
+	--]]
 	function Clockwork.quiz:GetPercentage()
 		return self.percentage or 100;
 	end;
 	
-	-- A function to call the quiz kick Callback.
+	--[[
+		@codebase Shared
+		@details A function to call the quiz kick Callback.
+		@param {Unknown} Missing description for player.
+		@param {Unknown} Missing description for correctAnswers.
+		@returns {Unknown}
+	--]]
 	function Clockwork.quiz:CallKickCallback(player, correctAnswers)
 		local kickCallback = self:GetKickCallback();
 		
@@ -142,7 +219,11 @@ else
 		end;
 	end;
 	
-	-- A function to get the quiz kick Callback.
+	--[[
+		@codebase Shared
+		@details A function to get the quiz kick Callback.
+		@returns {Unknown}
+	--]]
 	function Clockwork.quiz:GetKickCallback()
 		if (self.kickCallback) then
 			return self.kickCallback;
@@ -153,7 +234,12 @@ else
 		end;
 	end;
 	
-	-- A function to set the quiz kick Callback.
+	--[[
+		@codebase Shared
+		@details A function to set the quiz kick Callback.
+		@param {Unknown} Missing description for Callback.
+		@returns {Unknown}
+	--]]
 	function Clockwork.quiz:SetKickCallback(Callback)
 		self.kickCallback = Callback;
 	end;

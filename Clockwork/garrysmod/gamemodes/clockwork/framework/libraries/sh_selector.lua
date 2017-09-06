@@ -26,7 +26,11 @@ Clockwork.selector.COLOR_RED = Color(215, 50, 50, 255);
 --[[ Set the __index meta function of the class. --]]
 local CLASS_TABLE = {__index = CLASS_TABLE};
 
--- A function to start creating a new selector.
+--[[
+	@codebase Shared
+	@details A function to start creating a new selector.
+	@returns {Unknown}
+--]]
 function Clockwork.selector:New()
 	local selector = Clockwork.kernel:NewMetaTable(CLASS_TABLE);
 	
@@ -46,22 +50,43 @@ function Clockwork.selector:New()
 	return selector;
 end;
 
--- A function to set whether text should be paginated.
+--[[
+	@codebase Shared
+	@details A function to set whether text should be paginated.
+	@param {Unknown} Missing description for bPaginateText.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:SetPaginateText(bPaginateText)
 	self.paginateText = bPaginateText;
 end;
 
--- A function to set the selector callback.
+--[[
+	@codebase Shared
+	@details A function to set the selector callback.
+	@param {Unknown} Missing description for Callback.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:SetCallback(Callback)
 	self.Callback = Callback;
 end;
 
--- A function to set whether the selector can be exited.
+--[[
+	@codebase Shared
+	@details A function to set whether the selector can be exited.
+	@param {Unknown} Missing description for bCanExit.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:SetCanExit(bCanExit)
 	self.canExit = bCanExit;
 end;
 
--- A function to add text to the selector.
+--[[
+	@codebase Shared
+	@details A function to add text to the selector.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for color.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:AddText(text, color)
 	if (text) then text = tostring(text); end;
 	
@@ -85,7 +110,13 @@ function CLASS_TABLE:AddText(text, color)
 	end;
 end;
 
--- A function to add an option to the selector.
+--[[
+	@codebase Shared
+	@details A function to add an option to the selector.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for color.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:AddOption(text, color)
 	if (text) then text = tostring(text); end;
 	
@@ -115,7 +146,12 @@ end;
 if (SERVER) then
 	Clockwork.selector.active = {};
 	
-	-- A function to set the selector's player.
+	--[[
+		@codebase Shared
+		@details A function to set the selector's player.
+		@param {Unknown} Missing description for player.
+		@returns {Unknown}
+	--]]
 	function CLASS_TABLE:SetPlayer(player)
 		if (type(player) != "table") then
 			self.player = {player};
@@ -124,7 +160,11 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to create the selector.
+	--[[
+		@codebase Shared
+		@details A function to create the selector.
+		@returns {Unknown}
+	--]]
 	function CLASS_TABLE:Create()
 		if (!self.player) then
 			self.player = g_Player.GetAll();
@@ -169,7 +209,12 @@ else
 		additive 	= false
 	});
 	
-	-- A function to select a selector's option by key.
+	--[[
+		@codebase Shared
+		@details A function to select a selector's option by key.
+		@param {Unknown} Missing description for key.
+		@returns {Unknown}
+	--]]
 	function CLASS_TABLE:Select(key)
 		local wasSuccess = false;
 		local tOption = nil;
@@ -210,21 +255,33 @@ else
 		end;
 	end;
 	
-	-- A function to go to the selector's next page.
+	--[[
+		@codebase Shared
+		@details A function to go to the selector's next page.
+		@returns {Unknown}
+	--]]
 	function CLASS_TABLE:NextPage()
 		if (self.pages[self.page + 1]) then
 			self.page = self.page + 1; self:Create();
 		end
 	end;
 	
-	-- A function to go to the selector's previous page.
+	--[[
+		@codebase Shared
+		@details A function to go to the selector's previous page.
+		@returns {Unknown}
+	--]]
 	function CLASS_TABLE:PreviousPage()
 		if (self.pages[self.page - 1]) then
 			self.page = self.page - 1; self:Create();
 		end;
 	end;
 	
-	-- A function to create the selector.
+	--[[
+		@codebase Shared
+		@details A function to create the selector.
+		@returns {Unknown}
+	--]]
 	function CLASS_TABLE:Create()
 		if (!self.isCreated) then
 			self.page = 1; self.isCreated = true;

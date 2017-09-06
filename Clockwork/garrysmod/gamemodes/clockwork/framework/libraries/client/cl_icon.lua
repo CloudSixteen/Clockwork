@@ -11,7 +11,15 @@ local Clockwork = Clockwork;
 Clockwork.icon = Clockwork.kernel:NewLibrary("Icon");
 Clockwork.icon.stored = Clockwork.icon.stored or {};
 	
--- A function to add a chat icon.
+--[[
+	@codebase Client
+	@details A function to add a chat icon.
+	@param {Unknown} Missing description for uniqueID.
+	@param {Unknown} Missing description for path.
+	@param {Unknown} Missing description for callback.
+	@param {Unknown} Missing description for isPlayer.
+	@returns {Unknown}
+--]]
 function Clockwork.icon:Add(uniqueID, path, callback, isPlayer)
 	if (uniqueID) then
 		if (path) then
@@ -32,7 +40,12 @@ function Clockwork.icon:Add(uniqueID, path, callback, isPlayer)
 	end;
 end;
 
--- A function to remove a chat icon.
+--[[
+	@codebase Client
+	@details A function to remove a chat icon.
+	@param {Unknown} Missing description for uniqueID.
+	@returns {Unknown}
+--]]
 function Clockwork.icon:Remove(uniqueID)
 	if (uniqueID) then
 		self.stored[uniqueID] = nil;
@@ -41,7 +54,14 @@ function Clockwork.icon:Remove(uniqueID)
 	end;
 end;
 
--- A function to set a player's icon.
+--[[
+	@codebase Client
+	@details A function to set a player's icon.
+	@param {Unknown} Missing description for steamID.
+	@param {Unknown} Missing description for uniqueID.
+	@param {Unknown} Missing description for path.
+	@returns {Unknown}
+--]]
 function Clockwork.icon:PlayerSet(steamID, uniqueID, path)
 	Clockwork.icon:Add(uniqueID, path, function(player)
 		if (steamID == player:SteamID()) then
@@ -50,7 +70,14 @@ function Clockwork.icon:PlayerSet(steamID, uniqueID, path)
 	end, true);
 end;
 
--- A function to set a group's icon.
+--[[
+	@codebase Client
+	@details A function to set a group's icon.
+	@param {Unknown} Missing description for group.
+	@param {Unknown} Missing description for uniqueID.
+	@param {Unknown} Missing description for path.
+	@returns {Unknown}
+--]]
 function Clockwork.icon:GroupSet(group, uniqueID, path)
 	Clockwork.icon:Add(uniqueID, path, function(player)
 		if (player:IsUserGroup(group)) then
@@ -59,7 +86,11 @@ function Clockwork.icon:GroupSet(group, uniqueID, path)
 	end);
 end;
 
--- A function to return the stored icons.
+--[[
+	@codebase Client
+	@details A function to return the stored icons.
+	@returns {Unknown}
+--]]
 function Clockwork.icon:GetAll()
 	return Clockwork.icon.stored;
 end;

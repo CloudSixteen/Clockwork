@@ -18,14 +18,30 @@ Clockwork.bars.height = 12;
 Clockwork.bars.padding = 14;
 Clockwork.bars.stored = Clockwork.bars.stored or {};
 
--- A function to get a top bar.
+--[[
+	@codebase Client
+	@details A function to get a top bar.
+	@param {Unknown} Missing description for uniqueID.
+	@returns {Unknown}
+--]]
 function Clockwork.bars:FindByID(uniqueID)
 	for k, v in pairs(self.stored) do
 		if (v.uniqueID == uniqueID) then return v; end;
 	end;
 end;
 	
--- A function to add a top bar.
+--[[
+	@codebase Client
+	@details A function to add a top bar.
+	@param {Unknown} Missing description for uniqueID.
+	@param {Unknown} Missing description for color.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for value.
+	@param {Unknown} Missing description for maximum.
+	@param {Unknown} Missing description for flash.
+	@param {Unknown} Missing description for priority.
+	@returns {Unknown}
+--]]
 function Clockwork.bars:Add(uniqueID, color, text, value, maximum, flash, priority)
 	self.stored[#self.stored + 1] = {
 		uniqueID = uniqueID,
@@ -39,7 +55,12 @@ function Clockwork.bars:Add(uniqueID, color, text, value, maximum, flash, priori
 	};
 end;
 
--- A function to destroy a top bar.
+--[[
+	@codebase Client
+	@details A function to destroy a top bar.
+	@param {Unknown} Missing description for uniqueID.
+	@returns {Unknown}
+--]]
 function Clockwork.bars:Destroy(uniqueID)
 	for k, v in pairs(self.stored) do
 		if (v.uniqueID == uniqueID) then

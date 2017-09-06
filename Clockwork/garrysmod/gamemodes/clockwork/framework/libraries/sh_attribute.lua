@@ -17,29 +17,51 @@ Clockwork.attribute.buffer = Clockwork.attribute.buffer or {};
 --[[ Set the __index meta function of the class. --]]
 local CLASS_TABLE = {__index = CLASS_TABLE};
 
--- A function to register a new attribute.
+--[[
+	@codebase Shared
+	@details A function to register a new attribute.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:Register()
 	return Clockwork.attribute:Register(self);
 end;
 
--- A function to get a new attribute.
+--[[
+	@codebase Shared
+	@details A function to get a new attribute.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.attribute:New(name)
 	local object = Clockwork.kernel:NewMetaTable(CLASS_TABLE);
 		object.name = name or "Unknown";
 	return object;
 end;
 
--- A function to get the attribute buffer.
+--[[
+	@codebase Shared
+	@details A function to get the attribute buffer.
+	@returns {Unknown}
+--]]
 function Clockwork.attribute:GetBuffer()
 	return self.buffer;
 end;
 
--- A function to get all attributes.
+--[[
+	@codebase Shared
+	@details A function to get all attributes.
+	@returns {Unknown}
+--]]
 function Clockwork.attribute:GetAll()
 	return self.stored;
 end;
 
--- A function to register a new attribute.
+--[[
+	@codebase Shared
+	@details A function to register a new attribute.
+	@param {Unknown} Missing description for attribute.
+	@returns {Unknown}
+--]]
 function Clockwork.attribute:Register(attribute)
 	attribute.uniqueID = attribute.uniqueID or string.lower(string.gsub(attribute.name, "%s", "_"));
 	attribute.index = Clockwork.kernel:GetShortCRC(attribute.name);
@@ -64,7 +86,12 @@ function Clockwork.attribute:Register(attribute)
 	return attribute.uniqueID;
 end;
 
--- A function to find an attribute by an identifier.
+--[[
+	@codebase Shared
+	@details A function to find an attribute by an identifier.
+	@param {Unknown} Missing description for identifier.
+	@returns {Unknown}
+--]]
 function Clockwork.attribute:FindByID(identifier)
 	if (!identifier) then return; end;
 	

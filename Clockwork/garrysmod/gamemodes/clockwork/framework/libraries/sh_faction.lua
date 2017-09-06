@@ -42,19 +42,34 @@ FACTION_CITIZENS_MALE = {
 --[[ Set the __index meta function of the class. --]]
 local CLASS_TABLE = {__index = CLASS_TABLE};
 
--- A function to register a new faction.
+--[[
+	@codebase Shared
+	@details A function to register a new faction.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:Register()
 	return Clockwork.faction:Register(self, self.name);
 end;
 
--- A function to get a new faction.
+--[[
+	@codebase Shared
+	@details A function to get a new faction.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.faction:New(name)
 	local object = Clockwork.kernel:NewMetaTable(CLASS_TABLE);
 		object.name = name or "Unknown";
 	return object;
 end;
 
--- A function to register a new faction.
+--[[
+	@codebase Shared
+	@details A function to register a new faction.
+	@param {Unknown} Missing description for data.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.faction:Register(data, name)
 	if (data.models) then
 		data.models.female = data.models.female or FACTION_CITIZENS_FEMALE;
@@ -100,7 +115,12 @@ function Clockwork.faction:Register(data, name)
 	return data.name;
 end;
 
--- A function to get the faction limit.
+--[[
+	@codebase Shared
+	@details A function to get the faction limit.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.faction:GetLimit(name)
 	local faction = self:FindByID(name);
 	
@@ -115,7 +135,13 @@ function Clockwork.faction:GetLimit(name)
 	end;
 end;
 
--- A function to get whether a gender is valid.
+--[[
+	@codebase Shared
+	@details A function to get whether a gender is valid.
+	@param {Unknown} Missing description for faction.
+	@param {Unknown} Missing description for gender.
+	@returns {Unknown}
+--]]
 function Clockwork.faction:IsGenderValid(faction, gender)
 	local factionTable = self:FindByID(faction);
 	
@@ -126,7 +152,14 @@ function Clockwork.faction:IsGenderValid(faction, gender)
 	end;
 end;
 
--- A function to get whether a model is valid.
+--[[
+	@codebase Shared
+	@details A function to get whether a model is valid.
+	@param {Unknown} Missing description for faction.
+	@param {Unknown} Missing description for gender.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork.faction:IsModelValid(faction, gender, model)
 	if (gender and model) then
 		local factionTable = self:FindByID(faction);
@@ -138,7 +171,12 @@ function Clockwork.faction:IsModelValid(faction, gender, model)
 	end;
 end;
 
--- A function to find a faction by an identifier.
+--[[
+	@codebase Shared
+	@details A function to find a faction by an identifier.
+	@param {Unknown} Missing description for identifier.
+	@returns {Unknown}
+--]]
 function Clockwork.faction:FindByID(identifier)
 	if (!identifier) then return; end;
 	
@@ -163,12 +201,21 @@ function Clockwork.faction:FindByID(identifier)
 	end;
 end;
 
--- A function to get all factions.
+--[[
+	@codebase Shared
+	@details A function to get all factions.
+	@returns {Unknown}
+--]]
 function Clockwork.faction:GetAll()
 	return self.stored;
 end;
 
--- A function to get each player in a faction.
+--[[
+	@codebase Shared
+	@details A function to get each player in a faction.
+	@param {Unknown} Missing description for faction.
+	@returns {Unknown}
+--]]
 function Clockwork.faction:GetPlayers(faction)
 	local players = {};
 	
@@ -183,7 +230,12 @@ function Clockwork.faction:GetPlayers(faction)
 	return players;
 end;
 
--- A function to get the rank with the lowest 'position' (highest rank) in this faction.
+--[[
+	@codebase Shared
+	@details A function to get the rank with the lowest 'position' (highest rank) in this faction.
+	@param {Unknown} Missing description for faction.
+	@returns {Unknown}
+--]]
 function Clockwork.faction:GetHighestRank(faction)
 	local faction = Clockwork.faction:FindByID(faction);
 	
@@ -212,7 +264,12 @@ function Clockwork.faction:GetHighestRank(faction)
 	end;
 end;
 
--- A function to get the rank with the highest 'position' (lowest rank) in this faction.
+--[[
+	@codebase Shared
+	@details A function to get the rank with the highest 'position' (lowest rank) in this faction.
+	@param {Unknown} Missing description for faction.
+	@returns {Unknown}
+--]]
 function Clockwork.faction:GetLowestRank(faction)
 	local faction = Clockwork.faction:FindByID(faction);
 	
@@ -241,7 +298,13 @@ function Clockwork.faction:GetLowestRank(faction)
 	end;
 end;
 
--- A function to get the rank with the next lowest 'position' (next highest rank).
+--[[
+	@codebase Shared
+	@details A function to get the rank with the next lowest 'position' (next highest rank).
+	@param {Unknown} Missing description for faction.
+	@param {Unknown} Missing description for rank.
+	@returns {Unknown}
+--]]
 function Clockwork.faction:GetHigherRank(faction, rank)
 	local highestRank, rankTable = self:GetHighestRank(faction);
 	
@@ -256,7 +319,13 @@ function Clockwork.faction:GetHigherRank(faction, rank)
 	end;
 end;
 
--- A function to get the rank with the next highest 'position' (next lowest rank).
+--[[
+	@codebase Shared
+	@details A function to get the rank with the next highest 'position' (next lowest rank).
+	@param {Unknown} Missing description for faction.
+	@param {Unknown} Missing description for rank.
+	@returns {Unknown}
+--]]
 function Clockwork.faction:GetLowerRank(faction, rank)
 	local lowestRank, rankTable = self:GetLowestRank(faction);
 
@@ -271,7 +340,12 @@ function Clockwork.faction:GetLowerRank(faction, rank)
 	end;
 end;
 
--- A function to get the default rank of a faction.
+--[[
+	@codebase Shared
+	@details A function to get the default rank of a faction.
+	@param {Unknown} Missing description for faction.
+	@returns {Unknown}
+--]]
 function Clockwork.faction:GetDefaultRank(faction)
 	local faction = Clockwork.faction:FindByID(faction);
 	

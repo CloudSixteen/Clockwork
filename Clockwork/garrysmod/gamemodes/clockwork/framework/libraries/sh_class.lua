@@ -23,19 +23,34 @@ Clockwork.class.buffer = Clockwork.class.buffer or {};
 --[[ Set the __index meta function of the class. --]]
 local CLASS_TABLE = {__index = CLASS_TABLE};
 
--- A function to register a new class.
+--[[
+	@codebase Shared
+	@details A function to register a new class.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:Register()
 	return Clockwork.class:Register(self, self.name);
 end;
 
--- A function to get a new class.
+--[[
+	@codebase Shared
+	@details A function to get a new class.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.class:New(name)
 	local object = Clockwork.kernel:NewMetaTable(CLASS_TABLE);
 		object.name = name or "Unknown";
 	return object;
 end;
 
--- A function to register a new class.
+--[[
+	@codebase Shared
+	@details A function to register a new class.
+	@param {Unknown} Missing description for data.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.class:Register(data, name)
 	if (!data.maleModel) then
 		data.maleModel = data.femaleModel;
@@ -63,7 +78,12 @@ function Clockwork.class:Register(data, name)
 	return data.index;
 end;
 
--- A function to get the class limit.
+--[[
+	@codebase Shared
+	@details A function to get the class limit.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.class:GetLimit(name)
 	local class = self:FindByID(name);
 
@@ -78,12 +98,21 @@ function Clockwork.class:GetLimit(name)
 	end;
 end;
 
--- A function to get all of the classes.
+--[[
+	@codebase Shared
+	@details A function to get all of the classes.
+	@returns {Unknown}
+--]]
 function Clockwork.class:GetAll()
 	return Clockwork.class.stored;
 end;
 
--- A function to find a class by an identifier.
+--[[
+	@codebase Shared
+	@details A function to find a class by an identifier.
+	@param {Unknown} Missing description for identifier.
+	@returns {Unknown}
+--]]
 function Clockwork.class:FindByID(identifier)
 	if (!identifier) then return; end;
 
@@ -120,7 +149,14 @@ function Clockwork.class:AssignToDefault(player)
 	end;
 end;
 
--- A function to get an appropriate class model for a player.
+--[[
+	@codebase Shared
+	@details A function to get an appropriate class model for a player.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for noSubstitute.
+	@returns {Unknown}
+--]]
 function Clockwork.class:GetAppropriateModel(name, player, noSubstitute)
 	local defaultModel;
 	local class = self:FindByID(name);
@@ -152,7 +188,13 @@ function Clockwork.class:GetAppropriateModel(name, player, noSubstitute)
 	return model, skin;
 end;
 
--- A function to get a class's model by gender.
+--[[
+	@codebase Shared
+	@details A function to get a class's model by gender.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for gender.
+	@returns {Unknown}
+--]]
 function Clockwork.class:GetModelByGender(name, gender)
 	local model = self:Query(name, string.lower(gender).."Model");
 
@@ -163,7 +205,13 @@ function Clockwork.class:GetModelByGender(name, gender)
 	end;
 end;
 
--- A function to check if a class has any flags.
+--[[
+	@codebase Shared
+	@details A function to check if a class has any flags.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for flags.
+	@returns {Unknown}
+--]]
 function Clockwork.class:HasAnyFlags(name, flags)
 	local flagString = self:Query(name, "flags")
 
@@ -178,7 +226,13 @@ function Clockwork.class:HasAnyFlags(name, flags)
 	end;
 end;
 
--- A function to check if a class has flags.
+--[[
+	@codebase Shared
+	@details A function to check if a class has flags.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for flags.
+	@returns {Unknown}
+--]]
 function Clockwork.class:HasFlags(name, flags)
 	local flagString = self:Query(name, "flags")
 
@@ -195,7 +249,14 @@ function Clockwork.class:HasFlags(name, flags)
 	end;
 end;
 
--- A function to query a class.
+--[[
+	@codebase Shared
+	@details A function to query a class.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for key.
+	@param {Unknown} Missing description for default.
+	@returns {Unknown}
+--]]
 function Clockwork.class:Query(name, key, default)
 	local class = self:FindByID(name);
 

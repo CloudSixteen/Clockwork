@@ -12,7 +12,15 @@ Clockwork.quickmenu = Clockwork.kernel:NewLibrary("QuickMenu");
 Clockwork.quickmenu.stored = Clockwork.quickmenu.stored or {};
 Clockwork.quickmenu.categories = Clockwork.quickmenu.categories or {};
 
--- A function to add a quick menu callback.
+--[[
+	@codebase Client
+	@details A function to add a quick menu callback.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for category.
+	@param {Unknown} Missing description for GetInfo.
+	@param {Unknown} Missing description for OnCreateMenu.
+	@returns {Unknown}
+--]]
 function Clockwork.quickmenu:AddCallback(name, category, GetInfo, OnCreateMenu)
 	if (category) then
 		if (!self.categories[category]) then
@@ -35,7 +43,15 @@ function Clockwork.quickmenu:AddCallback(name, category, GetInfo, OnCreateMenu)
 	return name;
 end;
 
--- A function to add a command quick menu callback.
+--[[
+	@codebase Client
+	@details A function to add a command quick menu callback.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for category.
+	@param {Unknown} Missing description for command.
+	@param {Unknown} Missing description for options.
+	@returns {Unknown}
+--]]
 function Clockwork.quickmenu:AddCommand(name, category, command, options)
 	return self:AddCallback(name, category, function()
 		local commandTable = Clockwork.command:FindByID(command);

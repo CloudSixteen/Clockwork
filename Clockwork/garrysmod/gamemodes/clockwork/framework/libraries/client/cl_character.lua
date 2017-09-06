@@ -144,7 +144,11 @@ function Clockwork.character:GetCreationProgress()
 	return (100 / #self:GetCreationPanels(true)) * self:GetCreationInfo().index;
 end;
 
--- A function to get whether the creation process is active.
+--[[
+	@codebase Client
+	@details A function to get whether the creation process is active.
+	@returns {Unknown}
+--]]
 function Clockwork.character:IsCreationProcessActive()
 	local activePanel = self:GetActivePanel();
 	
@@ -155,7 +159,11 @@ function Clockwork.character:IsCreationProcessActive()
 	end;
 end;
 
--- A function to open the previous character creation panel.
+--[[
+	@codebase Client
+	@details A function to open the previous character creation panel.
+	@returns {Unknown}
+--]]
 function Clockwork.character:OpenPreviousCreationPanel()
 	local previousPanel = self:GetPreviousCreationPanel();
 	local activePanel = self:GetActivePanel();
@@ -173,7 +181,11 @@ function Clockwork.character:OpenPreviousCreationPanel()
 	end;
 end;
 
--- A function to open the next character creation panel.
+--[[
+	@codebase Client
+	@details A function to open the next character creation panel.
+	@returns {Unknown}
+--]]
 function Clockwork.character:OpenNextCreationPanel()
 	local activePanel = self:GetActivePanel();
 	local nextPanel = self:GetNextCreationPanel();
@@ -197,7 +209,12 @@ function Clockwork.character:OpenNextCreationPanel()
 	end;
 end;
 
--- A function to get the creation panels.
+--[[
+	@codebase Client
+	@details A function to get the creation panels.
+	@param {Unknown} Missing description for availableOnly.
+	@returns {Unknown}
+--]]
 function Clockwork.character:GetCreationPanels(availableOnly)
 	if (availableOnly) then
 		local info = self:GetCreationInfo();
@@ -215,24 +232,41 @@ function Clockwork.character:GetCreationPanels(availableOnly)
 	return self.creationPanels;
 end;
 
--- A function to get the active panel.
+--[[
+	@codebase Client
+	@details A function to get the active panel.
+	@returns {Unknown}
+--]]
 function Clockwork.character:GetActivePanel()
 	if (IsValid(self.activePanel)) then
 		return self.activePanel;
 	end;
 end;
 
--- A function to set whether the character panel is loading.
+--[[
+	@codebase Client
+	@details A function to set whether the character panel is loading.
+	@param {Unknown} Missing description for loading.
+	@returns {Unknown}
+--]]
 function Clockwork.character:SetPanelLoading(loading)
 	self.loading = loading;
 end;
 
--- A function to get whether the character panel is loading.
+--[[
+	@codebase Client
+	@details A function to get whether the character panel is loading.
+	@returns {Unknown}
+--]]
 function Clockwork.character:IsPanelLoading()
 	return self.isLoading;
 end;
 
--- A function to get the character panel list.
+--[[
+	@codebase Client
+	@details A function to get the character panel list.
+	@returns {Unknown}
+--]]
 function Clockwork.character:GetPanelList()
 	local panel = self:GetActivePanel();
 	
@@ -241,27 +275,49 @@ function Clockwork.character:GetPanelList()
 	end;
 end;
 
--- A function to get the whitelisted factions.
+--[[
+	@codebase Client
+	@details A function to get the whitelisted factions.
+	@returns {Unknown}
+--]]
 function Clockwork.character:GetWhitelisted()
 	return self.whitelisted;
 end;
 
--- A function to get whether the local player is whitelisted for a faction.
+--[[
+	@codebase Client
+	@details A function to get whether the local player is whitelisted for a faction.
+	@param {Unknown} Missing description for faction.
+	@returns {Unknown}
+--]]
 function Clockwork.character:IsWhitelisted(faction)
 	return table.HasValue(self:GetWhitelisted(), faction);
 end;
 
--- A function to get the local player's characters.
+--[[
+	@codebase Client
+	@details A function to get the local player's characters.
+	@returns {Unknown}
+--]]
 function Clockwork.character:GetAll()
 	return self.stored;
 end;
 
--- A function to get the character fault.
+--[[
+	@codebase Client
+	@details A function to get the character fault.
+	@returns {Unknown}
+--]]
 function Clockwork.character:GetFault()
 	return self.fault;
 end;
 
--- A function to set the character fault.
+--[[
+	@codebase Client
+	@details A function to set the character fault.
+	@param {Unknown} Missing description for fault.
+	@returns {Unknown}
+--]]
 function Clockwork.character:SetFault(fault)
 	if (fault) then
 		Clockwork.kernel:AddCinematicText(fault, Color(255, 255, 255, 255), 32, 6, Clockwork.option:GetFont("menu_text_tiny"), true);
@@ -270,19 +326,31 @@ function Clockwork.character:SetFault(fault)
 	self.fault = fault;
 end;
 
--- A function to get the character panel.
+--[[
+	@codebase Client
+	@details A function to get the character panel.
+	@returns {Unknown}
+--]]
 function Clockwork.character:GetPanel()
 	return self.panel;
 end;
 
--- A function to fade in the navigation.
+--[[
+	@codebase Client
+	@details A function to fade in the navigation.
+	@returns {Unknown}
+--]]
 function Clockwork.character:FadeInNavigation()
 	if (IsValid(self.panel)) then
 		self.panel:FadeInNavigation();
 	end;
 end;
 
--- A function to refresh the character panel list.
+--[[
+	@codebase Client
+	@details A function to refresh the character panel list.
+	@returns {Unknown}
+--]]
 function Clockwork.character:RefreshPanelList()
 	local factionScreens = {};
 	local factionList = {};
@@ -332,12 +400,20 @@ function Clockwork.character:RefreshPanelList()
 	end;
 end;
 
--- A function to get whether the character panel is open.
+--[[
+	@codebase Client
+	@details A function to get whether the character panel is open.
+	@returns {Unknown}
+--]]
 function Clockwork.character:IsPanelOpen()
 	return self.isOpen;
 end;
 
--- A function to set the character panel to the main menu.
+--[[
+	@codebase Client
+	@details A function to set the character panel to the main menu.
+	@returns {Unknown}
+--]]
 function Clockwork.character:SetPanelMainMenu()
 	local panel = self:GetPanel();
 	
@@ -346,22 +422,41 @@ function Clockwork.character:SetPanelMainMenu()
 	end;
 end;
 
--- A function to set whether the character panel is polling.
+--[[
+	@codebase Client
+	@details A function to set whether the character panel is polling.
+	@param {Unknown} Missing description for polling.
+	@returns {Unknown}
+--]]
 function Clockwork.character:SetPanelPolling(polling)
 	self.isPolling = polling;
 end;
 
--- A function to get whether the character panel is polling.
+--[[
+	@codebase Client
+	@details A function to get whether the character panel is polling.
+	@returns {Unknown}
+--]]
 function Clockwork.character:IsPanelPolling()
 	return self.isPolling;
 end;
 
--- A function to get whether the character menu is reset.
+--[[
+	@codebase Client
+	@details A function to get whether the character menu is reset.
+	@returns {Unknown}
+--]]
 function Clockwork.character:IsMenuReset()
 	return self.isMenuReset;
 end;
 
--- A function to set whether the character panel is open.
+--[[
+	@codebase Client
+	@details A function to set whether the character panel is open.
+	@param {Unknown} Missing description for open.
+	@param {Unknown} Missing description for bReset.
+	@returns {Unknown}
+--]]
 function Clockwork.character:SetPanelOpen(open, bReset)
 	local panel = self:GetPanel();
 	
@@ -386,7 +481,13 @@ function Clockwork.character:SetPanelOpen(open, bReset)
 	gui.EnableScreenClicker(self:IsPanelOpen());
 end;
 
--- A function to add a character.
+--[[
+	@codebase Client
+	@details A function to add a character.
+	@param {Unknown} Missing description for characterID.
+	@param {Unknown} Missing description for data.
+	@returns {Unknown}
+--]]
 function Clockwork.character:Add(characterID, data)
 	self.stored[characterID] = data;
 end;

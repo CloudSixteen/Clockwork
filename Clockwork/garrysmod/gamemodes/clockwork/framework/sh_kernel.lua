@@ -183,7 +183,14 @@ function Clockwork.kernel:IsDefaultWeapon(weapon)
 	return false;
 end;
 
--- A function to format cash.
+--[[
+	@codebase Shared
+	@details A function to format cash.
+	@param {Unknown} Missing description for amount.
+	@param {Unknown} Missing description for singular.
+	@param {Unknown} Missing description for lowerName.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:FormatCash(amount, singular, lowerName)
 	local formatSingular = Clockwork.option:GetKey("format_singular_cash");
 	local formatCash = Clockwork.option:GetKey("format_cash");
@@ -200,7 +207,14 @@ end;
 --[[ Define the default library class. --]]
 local LIBRARY = {};
 
--- A function to add a library function to a metatable.
+--[[
+	@codebase Shared
+	@details A function to add a library function to a metatable.
+	@param {Unknown} Missing description for metaName.
+	@param {Unknown} Missing description for funcName.
+	@param {Unknown} Missing description for newName.
+	@returns {Unknown}
+--]]
 function LIBRARY:AddToMetaTable(metaName, funcName, newName)
 	local metaTable = FindMetaTable(metaName);
 	
@@ -209,7 +223,12 @@ function LIBRARY:AddToMetaTable(metaName, funcName, newName)
 	end;
 end;
 
--- A function to create a new library.
+--[[
+	@codebase Shared
+	@details A function to create a new library.
+	@param {Unknown} Missing description for libName.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:NewLibrary(libName)
 	if (!Clockwork.Libraries[libName]) then
 		Clockwork.Libraries[libName] = self:NewMetaTable(LIBRARY);
@@ -218,12 +237,22 @@ function Clockwork.kernel:NewLibrary(libName)
 	return Clockwork.Libraries[libName];
 end;
 
--- A function find a library by its name.
+--[[
+	@codebase Shared
+	@details A function find a library by its name.
+	@param {Unknown} Missing description for libName.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:FindLibrary(libName)
 	return Clockwork.Libraries[libName];
 end;
 
--- A function to create a library if it doesn't exist, and then return it.
+--[[
+	@codebase Shared
+	@details A function to create a library if it doesn't exist, and then return it.
+	@param {Unknown} Missing description for libName.
+	@returns {Unknown}
+--]]
 function cwLibrary(libName)
 	if (!Clockwork[libName]) then
 		Clockwork[libName] = Clockwork.kernel:NewLibrary(libName);
@@ -232,12 +261,22 @@ function cwLibrary(libName)
 	return Clockwork[libName];
 end;
 
--- An alias for the above function.
+--[[
+	@codebase Shared
+	@details An alias for the above function.
+	@param {Unknown} Missing description for libName.
+	@returns {Unknown}
+--]]
 function cwLib(libName)
 	return library(libName);
 end;
 
--- A function to create a library and class function.
+--[[
+	@codebase Shared
+	@details A function to create a library and class function.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function cwClass(name)
 	local lib = cwLib(name);
 	local CLASS = {__index = CLASS};
@@ -249,7 +288,12 @@ function cwClass(name)
 	end;
 end;
 
--- A function to convert a string to a color.
+--[[
+	@codebase Shared
+	@details A function to convert a string to a color.
+	@param {Unknown} Missing description for text.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:StringToColor(text)
 	local explodedData = stringExplode(",", text);
 	local color = Color(255, 255, 255, 255);
@@ -273,7 +317,12 @@ function Clockwork.kernel:StringToColor(text)
 	return color;
 end;
 
--- A function to get a log type color.
+--[[
+	@codebase Shared
+	@details A function to get a log type color.
+	@param {Unknown} Missing description for logType.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:GetLogTypeColor(logType)
 	local logTypes = {
 		Color(255, 50, 50, 255),
@@ -357,12 +406,21 @@ function Clockwork.kernel:GetClockworkPath()
 	return (stringGsub(Clockwork.ClockworkFolder, "gamemodes/", "").."/framework");
 end;
 
--- A function to get the path to GMod.
+--[[
+	@codebase Shared
+	@details A function to get the path to GMod.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:GetPathToGMod()
 	return util.RelativePathToFull("."):sub(1, -2);
 end;
 
--- A function to convert a string to a boolean.
+--[[
+	@codebase Shared
+	@details A function to convert a string to a boolean.
+	@param {Unknown} Missing description for text.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:ToBool(text)
 	if (text == "true" or text == "yes" or text == "1") then
 		return true;
@@ -371,7 +429,13 @@ function Clockwork.kernel:ToBool(text)
 	end;
 end;
 
--- A function to remove text from the end of a string.
+--[[
+	@codebase Shared
+	@details A function to remove text from the end of a string.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for toRemove.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:RemoveTextFromEnd(text, toRemove)
 	local toRemoveLen = stringLen(toRemove);
 	if (stringSub(text, -toRemoveLen) == toRemove) then
@@ -381,7 +445,13 @@ function Clockwork.kernel:RemoveTextFromEnd(text, toRemove)
 	end;
 end;
 
--- A function to split a string.
+--[[
+	@codebase Shared
+	@details A function to split a string.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for interval.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:SplitString(text, interval)
 	local length = stringLen(text);
 	local baseTable = {};
@@ -395,14 +465,24 @@ function Clockwork.kernel:SplitString(text, interval)
 	return baseTable;
 end;
 
--- A function to get whether a letter is a vowel.
+--[[
+	@codebase Shared
+	@details A function to get whether a letter is a vowel.
+	@param {Unknown} Missing description for letter.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:IsVowel(letter)
 	letter = stringLower(letter);
 	return (letter == "a" or letter == "e" or letter == "i"
 	or letter == "o" or letter == "u");
 end;
 
--- A function to pluralize some text.
+--[[
+	@codebase Shared
+	@details A function to pluralize some text.
+	@param {Unknown} Missing description for text.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:Pluralize(text)
 	if (stringSub(text, -2) != "fe") then
 		local lastLetter = stringSub(text, -1);
@@ -425,7 +505,12 @@ function Clockwork.kernel:Pluralize(text)
 	end;
 end;
 
--- A function to serialize a table.
+--[[
+	@codebase Shared
+	@details A function to serialize a table.
+	@param {Unknown} Missing description for tableToSerialize.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:Serialize(tableToSerialize)
 	local wasSuccess, value = pcall(von.serialize, tableToSerialize);
   
@@ -437,7 +522,12 @@ function Clockwork.kernel:Serialize(tableToSerialize)
 	return value;
 end;
 
--- A function to deserialize a string.
+--[[
+	@codebase Shared
+	@details A function to deserialize a string.
+	@param {Unknown} Missing description for stringToDeserialize.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:Deserialize(stringToDeserialize)
 	local wasSuccess, value = pcall(von.deserialize, stringToDeserialize);
   
@@ -449,7 +539,12 @@ function Clockwork.kernel:Deserialize(stringToDeserialize)
 	return value;
 end;
 
--- A function to get ammo information from a weapon.
+--[[
+	@codebase Shared
+	@details A function to get ammo information from a weapon.
+	@param {Unknown} Missing description for weapon.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:GetAmmoInformation(weapon)
 	if (IsValid(weapon) and IsValid(weapon.Owner) and weapon.Primary and weapon.Secondary) then
 		if (!weapon.AmmoInfo) then
@@ -488,7 +583,17 @@ function Clockwork.kernel:GetAmmoInformation(weapon)
 	end;
 end;
 
--- Called when a player's footstep sound should be played.
+--[[
+	@codebase Shared
+	@details Called when a player's footstep sound should be played.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for position.
+	@param {Unknown} Missing description for foot.
+	@param {Unknown} Missing description for sound.
+	@param {Unknown} Missing description for volume.
+	@param {Unknown} Missing description for recipientFilter.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerFootstep(player, position, foot, sound, volume, recipientFilter)
 	if (CLIENT) then return true; end;
 
@@ -519,7 +624,12 @@ function Clockwork:PlayerFootstep(player, position, foot, sound, volume, recipie
 	end;
 end;
 
--- Called when the player's jumping animation should be handled.
+--[[
+	@codebase Shared
+	@details Called when the player's jumping animation should be handled.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:HandlePlayerJumping(player)
 	if (!player.m_bJumping and !player:OnGround() and player:WaterLevel() <= 0) then
 		player.m_bJumping = true;
@@ -553,7 +663,13 @@ function Clockwork:HandlePlayerJumping(player)
 	return false;
 end;
 
--- Called when the player's ducking animation should be handled.
+--[[
+	@codebase Shared
+	@details Called when the player's ducking animation should be handled.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for velocity.
+	@returns {Unknown}
+--]]
 function Clockwork:HandlePlayerDucking(player, velocity)
 	if (player:Crouching()) then
 		local model = player:GetModel();
@@ -589,7 +705,12 @@ function Clockwork:HandlePlayerDucking(player, velocity)
 	return false;
 end;
 
--- Called when the player's swimming animation should be handled.
+--[[
+	@codebase Shared
+	@details Called when the player's swimming animation should be handled.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:HandlePlayerSwimming(player)
 	if (player:WaterLevel() >= 2) then
 		if (player.m_bFirstSwimFrame) then
@@ -609,7 +730,12 @@ function Clockwork:HandlePlayerSwimming(player)
 	return false;
 end;
 
--- Called when the player's driving animation should be handled.
+--[[
+	@codebase Shared
+	@details Called when the player's driving animation should be handled.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:HandlePlayerDriving(player)
 	if (player:InVehicle()) then
 		player.CalcIdeal = Clockwork.animation:GetForModel(player:GetModel(), "sit");
@@ -619,7 +745,14 @@ function Clockwork:HandlePlayerDriving(player)
 	return false;
 end;
 
--- Called when a player's animation is updated.
+--[[
+	@codebase Shared
+	@details Called when a player's animation is updated.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for velocity.
+	@param {Unknown} Missing description for maxSeqGroundSpeed.
+	@returns {Unknown}
+--]]
 function Clockwork:UpdateAnimation(player, velocity, maxSeqGroundSpeed)
 	local velLength = velocity:Length2D();
 	local rate = 1.0;
@@ -658,7 +791,13 @@ local IdleActivityTranslate = {
 	[ACT_MP_RUN] = IdleActivity + 2,
 };
 	
--- Called when a player's activity is supposed to be translated.
+--[[
+	@codebase Shared
+	@details Called when a player's activity is supposed to be translated.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for act.
+	@returns {Unknown}
+--]]
 function Clockwork:TranslateActivity(player, act)
 	local model = player:GetModel();
 	local bIsRaised = Clockwork.player:GetWeaponRaised(player, true);
@@ -676,7 +815,13 @@ function Clockwork:TranslateActivity(player, act)
 	return act;
 end;
 
--- Called when the main activity should be calculated.
+--[[
+	@codebase Shared
+	@details Called when the main activity should be calculated.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for velocity.
+	@returns {Unknown}
+--]]
 function Clockwork:CalcMainActivity(player, velocity)
 	local model = player:GetModel();
 	
@@ -750,7 +895,14 @@ function Clockwork:CalcMainActivity(player, velocity)
 	return player.CalcIdeal, player.CalcSeqOverride;
 end;
 
--- Called when the animation event is supposed to be done.
+--[[
+	@codebase Shared
+	@details Called when the animation event is supposed to be done.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for event.
+	@param {Unknown} Missing description for data.
+	@returns {Unknown}
+--]]
 function Clockwork:DoAnimationEvent(player, event, data)
 	local model = player:GetModel();
 	
@@ -847,7 +999,13 @@ if (SERVER) then
 		[ACT_HL2MP_RUN] = ACT_HL2MP_RUN_MELEE2
 	};
 	
-	-- A function to save schema data.
+	--[[
+		@codebase Shared
+		@details A function to save schema data.
+		@param {Unknown} Missing description for fileName.
+		@param {Unknown} Missing description for data.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:SaveSchemaData(fileName, data)
 		if (type(data) != "table") then
 			MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] The '"..fileName.."' schema data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
@@ -857,24 +1015,42 @@ if (SERVER) then
 		return Clockwork.file:Write("settings/clockwork/schemas/"..self:GetSchemaFolder().."/"..fileName..".cw", self:Serialize(data));
 	end;
 
-	-- A function to delete schema data.
+	--[[
+		@codebase Shared
+		@details A function to delete schema data.
+		@param {Unknown} Missing description for fileName.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DeleteSchemaData(fileName)
 		return Clockwork.file:Delete("settings/clockwork/schemas/"..self:GetSchemaFolder().."/"..fileName..".cw");
 	end;
 
-	-- A function to check if schema data exists.
+	--[[
+		@codebase Shared
+		@details A function to check if schema data exists.
+		@param {Unknown} Missing description for fileName.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:SchemaDataExists(fileName)
 		return _file.Exists("settings/clockwork/schemas/"..self:GetSchemaFolder().."/"..fileName..".cw", "GAME");
 	end;
 	
-	-- A function to get the schema data path.
+	--[[
+		@codebase Shared
+		@details A function to get the schema data path.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:GetSchemaDataPath()
 		return "settings/clockwork/schemas/"..self:GetSchemaFolder();
 	end;
 	
 	local SCHEMA_GAMEMODE_INFO = nil;
 	
-	-- A function to get the schema gamemode info.
+	--[[
+		@codebase Shared
+		@details A function to get the schema gamemode info.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:GetSchemaGamemodeInfo()
 		if (SCHEMA_GAMEMODE_INFO) then
 			return SCHEMA_GAMEMODE_INFO;
@@ -900,7 +1076,11 @@ if (SERVER) then
 		return SCHEMA_GAMEMODE_INFO;
 	end;
 	
-	-- A function to get the schema gamemode name.
+	--[[
+		@codebase Shared
+		@details A function to get the schema gamemode name.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:GetSchemaGamemodeName()
 		local schemaInfo = self:GetSchemaGamemodeInfo();
 		
@@ -908,19 +1088,34 @@ if (SERVER) then
 
 	end;
 
-	-- A function to get the schema version.
+	--[[
+		@codebase Shared
+		@details A function to get the schema version.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:GetSchemaGamemodeVersion()
 		local schemaInfo = self:GetSchemaGamemodeInfo();
 		
 		return schemaInfo["version"];
 	end;
 	
-	-- A function to find schema data in a directory.
+	--[[
+		@codebase Shared
+		@details A function to find schema data in a directory.
+		@param {Unknown} Missing description for directory.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:FindSchemaDataInDir(directory)
 		return _file.Find("settings/clockwork/schemas/"..self:GetSchemaFolder().."/"..directory, "GAME");
 	end;
 
-	-- A function to restore schema data.
+	--[[
+		@codebase Shared
+		@details A function to restore schema data.
+		@param {Unknown} Missing description for fileName.
+		@param {Unknown} Missing description for failSafe.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:RestoreSchemaData(fileName, failSafe)
 		if (self:SchemaDataExists(fileName)) then
 			local data = Clockwork.file:Read("settings/clockwork/schemas/"..self:GetSchemaFolder().."/"..fileName..".cw", "namedesc");
@@ -945,7 +1140,13 @@ if (SERVER) then
 		end;
 	end;
 
-	-- A function to restore Clockwork data.
+	--[[
+		@codebase Shared
+		@details A function to restore Clockwork data.
+		@param {Unknown} Missing description for fileName.
+		@param {Unknown} Missing description for failSafe.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:RestoreClockworkData(fileName, failSafe)
 		if (self:ClockworkDataExists(fileName)) then
 			local data = Clockwork.file:Read("settings/clockwork/"..fileName..".cw");
@@ -976,7 +1177,12 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to setup a full directory.
+	--[[
+		@codebase Shared
+		@details A function to setup a full directory.
+		@param {Unknown} Missing description for filePath.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:SetupFullDirectory(filePath)
 		local directory = stringGsub(self:GetPathToGMod()..filePath, "\\", "/");
 		local exploded = stringExplode("/", directory);
@@ -992,7 +1198,13 @@ if (SERVER) then
 		return currentPath..exploded[#exploded];
 	end;
 
-	-- A function to save Clockwork data.
+	--[[
+		@codebase Shared
+		@details A function to save Clockwork data.
+		@param {Unknown} Missing description for fileName.
+		@param {Unknown} Missing description for data.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:SaveClockworkData(fileName, data)
 		if (type(data) != "table") then
 			MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] The '"..fileName.."' clockwork data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
@@ -1003,17 +1215,33 @@ if (SERVER) then
 		return Clockwork.file:Write("settings/clockwork/"..fileName..".cw", self:Serialize(data));
 	end;
 
-	-- A function to check if Clockwork data exists.
+	--[[
+		@codebase Shared
+		@details A function to check if Clockwork data exists.
+		@param {Unknown} Missing description for fileName.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:ClockworkDataExists(fileName)
 		return _file.Exists("settings/clockwork/"..fileName..".cw", "GAME");
 	end;
 
-	-- A function to delete Clockwork data.
+	--[[
+		@codebase Shared
+		@details A function to delete Clockwork data.
+		@param {Unknown} Missing description for fileName.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DeleteClockworkData(fileName)
 		return Clockwork.file:Delete("settings/clockwork/"..fileName..".cw");
 	end;
 
-	-- A function to convert a force.
+	--[[
+		@codebase Shared
+		@details A function to convert a force.
+		@param {Unknown} Missing description for force.
+		@param {Unknown} Missing description for limit.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:ConvertForce(force, limit)
 		local forceLength = force:Length();
 		
@@ -1032,7 +1260,13 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to save a player's attribute boosts.
+	--[[
+		@codebase Shared
+		@details A function to save a player's attribute boosts.
+		@param {Unknown} Missing description for player.
+		@param {Unknown} Missing description for data.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:SavePlayerAttributeBoosts(player, data)
 		local attributeBoosts = player:GetAttributeBoosts();
 		local curTime = CurTime();
@@ -1065,7 +1299,15 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to calculate a player's spawn time.
+	--[[
+		@codebase Shared
+		@details A function to calculate a player's spawn time.
+		@param {Unknown} Missing description for player.
+		@param {Unknown} Missing description for inflictor.
+		@param {Unknown} Missing description for attacker.
+		@param {Unknown} Missing description for damageInfo.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:CalculateSpawnTime(player, inflictor, attacker, damageInfo)
 		local info = {
 			attacker = attacker,
@@ -1081,7 +1323,14 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to create a decal.
+	--[[
+		@codebase Shared
+		@details A function to create a decal.
+		@param {Unknown} Missing description for texture.
+		@param {Unknown} Missing description for position.
+		@param {Unknown} Missing description for temporary.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:CreateDecal(texture, position, temporary)
 		local decal = ents.Create("infodecal");
 		
@@ -1097,7 +1346,15 @@ if (SERVER) then
 		return decal;
 	end;
 	
-	-- A function to handle a player's weapon fire delay.
+	--[[
+		@codebase Shared
+		@details A function to handle a player's weapon fire delay.
+		@param {Unknown} Missing description for player.
+		@param {Unknown} Missing description for bIsRaised.
+		@param {Unknown} Missing description for weapon.
+		@param {Unknown} Missing description for curTime.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:HandleWeaponFireDelay(player, bIsRaised, weapon, curTime)
 		local delaySecondaryFire = nil;
 		local delayPrimaryFire = nil;
@@ -1143,7 +1400,16 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to scale damage by hit group.
+	--[[
+		@codebase Shared
+		@details A function to scale damage by hit group.
+		@param {Unknown} Missing description for player.
+		@param {Unknown} Missing description for attacker.
+		@param {Unknown} Missing description for hitGroup.
+		@param {Unknown} Missing description for damageInfo.
+		@param {Unknown} Missing description for baseDamage.
+		@returns {Unknown}
+	--]]
 	function Clockwork:ScaleDamageByHitGroup(player, attacker, hitGroup, damageInfo, baseDamage)
 		if (!damageInfo:IsFallDamage() and !damageInfo:IsDamageType(DMG_CRUSH)) then
 			if (hitGroup == HITGROUP_HEAD) then
@@ -1159,7 +1425,14 @@ if (SERVER) then
 		self.plugin:Call("PlayerScaleDamageByHitGroup", player, attacker, hitGroup, damageInfo, baseDamage);
 	end;
 	
-	-- A function to calculate player damage.
+	--[[
+		@codebase Shared
+		@details A function to calculate player damage.
+		@param {Unknown} Missing description for player.
+		@param {Unknown} Missing description for hitGroup.
+		@param {Unknown} Missing description for damageInfo.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:CalculatePlayerDamage(player, hitGroup, damageInfo)
 		local bDamageIsValid = damageInfo:IsBulletDamage() or damageInfo:IsDamageType(DMG_CLUB) or damageInfo:IsDamageType(DMG_SLASH);
 		local bHitGroupIsValid = true;
@@ -1191,7 +1464,15 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to get a ragdoll's hit bone.
+	--[[
+		@codebase Shared
+		@details A function to get a ragdoll's hit bone.
+		@param {Unknown} Missing description for entity.
+		@param {Unknown} Missing description for position.
+		@param {Unknown} Missing description for failSafe.
+		@param {Unknown} Missing description for minimum.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:GetRagdollHitBone(entity, position, failSafe, minimum)
 		local closest = {};
 		
@@ -1221,7 +1502,13 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to get a ragdoll's hit group.
+	--[[
+		@codebase Shared
+		@details A function to get a ragdoll's hit group.
+		@param {Unknown} Missing description for entity.
+		@param {Unknown} Missing description for position.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:GetRagdollHitGroup(entity, position)
 		local closest = {nil, HITGROUP_GENERIC};
 		
@@ -1245,7 +1532,16 @@ if (SERVER) then
 		return closest[2];
 	end;
 
-	-- A function to create blood effects at a position.
+	--[[
+		@codebase Shared
+		@details A function to create blood effects at a position.
+		@param {Unknown} Missing description for position.
+		@param {Unknown} Missing description for decals.
+		@param {Unknown} Missing description for entity.
+		@param {Unknown} Missing description for forceVec.
+		@param {Unknown} Missing description for fScale.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:CreateBloodEffects(position, decals, entity, forceVec, fScale)
 		if (!entity.cwNextBlood or CurTime() >= entity.cwNextBlood) then
 			local effectData = EffectData();
@@ -1275,7 +1571,12 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to do the entity take damage hook.
+	--[[
+		@codebase Shared
+		@details A function to do the entity take damage hook.
+		@param {Unknown} Missing description for arguments.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DoEntityTakeDamageHook(arguments)
 		local entity = arguments[1];
 		local damageInfo = arguments[2];
@@ -1338,7 +1639,11 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to perform the date and time think.
+	--[[
+		@codebase Shared
+		@details A function to perform the date and time think.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:PerformDateTimeThink()
 		local defaultDays = Clockwork.option:GetKey("default_days");
 		local minute = Clockwork.time:GetMinute();
@@ -1403,7 +1708,15 @@ if (SERVER) then
 		self:SetSharedVar("Day", Clockwork.time:GetDay());
 	end;
 	
-	-- A function to create a ConVar.
+	--[[
+		@codebase Shared
+		@details A function to create a ConVar.
+		@param {Unknown} Missing description for name.
+		@param {Unknown} Missing description for value.
+		@param {Unknown} Missing description for flags.
+		@param {Unknown} Missing description for Callback.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:CreateConVar(name, value, flags, Callback)
 		local conVar = CreateConVar(name, value, flags or FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE);
 		
@@ -1418,12 +1731,20 @@ if (SERVER) then
 		return conVar;
 	end;
 	
-	-- A function to check if the server is shutting down.
+	--[[
+		@codebase Shared
+		@details A function to check if the server is shutting down.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:IsShuttingDown()
 		return Clockwork.ShuttingDown;
 	end;
 	
-	-- A function to distribute wages cash.
+	--[[
+		@codebase Shared
+		@details A function to distribute wages cash.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DistributeWagesCash()
 		local plyTable = cwPlayer.GetAll();
 
@@ -1448,7 +1769,11 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to distribute generator cash.
+	--[[
+		@codebase Shared
+		@details A function to distribute generator cash.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DistributeGeneratorCash()
 		local generatorEntities = {};
 		
@@ -1495,12 +1820,22 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to include the schema.
+	--[[
+		@codebase Shared
+		@details A function to include the schema.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:IncludeSchema()
 		return CloudAuthX.kernel:IncludeSchema();
 	end;
 	
-	-- A function to print a log message.
+	--[[
+		@codebase Shared
+		@details A function to print a log message.
+		@param {Unknown} Missing description for logType.
+		@param {Unknown} Missing description for text.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:PrintLog(logType, text)
 		local listeners = {};
 		local plyTable = cwPlayer.GetAll();
@@ -1523,7 +1858,12 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to log to the server.
+	--[[
+		@codebase Shared
+		@details A function to log to the server.
+		@param {Unknown} Missing description for text.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:ServerLog(text)
 		local dateInfo = os.date("*t");
 		local unixTime = os.time();
@@ -1576,7 +1916,14 @@ else
 	Clockwork.kernel.ESPInfo = Clockwork.kernel.ESPInfo or {};
 	Clockwork.kernel.Hints = Clockwork.kernel.Hints or {};
 
-	-- A function to register a network proxy.
+	--[[
+		@codebase Shared
+		@details A function to register a network proxy.
+		@param {Unknown} Missing description for entity.
+		@param {Unknown} Missing description for name.
+		@param {Unknown} Missing description for Callback.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:RegisterNetworkProxy(entity, name, Callback)
 		if (!Clockwork.NetworkProxies[entity]) then
 			Clockwork.NetworkProxies[entity] = {};
@@ -1588,12 +1935,25 @@ else
 		};
 	end;
 	
-	-- A function to get whether the info menu is open.
+	--[[
+		@codebase Shared
+		@details A function to get whether the info menu is open.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:IsInfoMenuOpen()
 		return Clockwork.InfoMenuOpen;
 	end;
 	
-	-- A function to create a client ConVar.
+	--[[
+		@codebase Shared
+		@details A function to create a client ConVar.
+		@param {Unknown} Missing description for name.
+		@param {Unknown} Missing description for value.
+		@param {Unknown} Missing description for save.
+		@param {Unknown} Missing description for userData.
+		@param {Unknown} Missing description for Callback.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:CreateClientConVar(name, value, save, userData, Callback)
 		local conVar = CreateClientConVar(name, value, save, userData);
 		
@@ -1608,7 +1968,12 @@ else
 		return conVar;
 	end;
 	
-	-- A function to scale a font size to the screen.
+	--[[
+		@codebase Shared
+		@details A function to scale a font size to the screen.
+		@param {Unknown} Missing description for size.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:FontScreenScale(size)
 		--[[
 			This will be the new method.
@@ -1618,7 +1983,13 @@ else
 		return ScreenScale(size);
 	end;
 	
-	-- A function to get a material.
+	--[[
+		@codebase Shared
+		@details A function to get a material.
+		@param {Unknown} Missing description for materialPath.
+		@param {Unknown} Missing description for pngParameters.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:GetMaterial(materialPath, pngParameters)
 		self.CachedMaterial = self.CachedMaterial or {};
 
@@ -1629,12 +2000,22 @@ else
 		return self.CachedMaterial[materialPath];
 	end;
 
-	-- A function to get the 3D font size.
+	--[[
+		@codebase Shared
+		@details A function to get the 3D font size.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:GetFontSize3D()
 		return self:FontScreenScale(32);
 	end;
 	
-	-- A function to get the size of text.
+	--[[
+		@codebase Shared
+		@details A function to get the size of text.
+		@param {Unknown} Missing description for font.
+		@param {Unknown} Missing description for text.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:GetTextSize(font, text)
 		local defaultWidth, defaultHeight = self:GetCachedTextSize(font, "U");
 		local height = defaultHeight;
@@ -1660,7 +2041,14 @@ else
 		return width, height;
 	end;
 	
-	-- A function to calculate alpha from a distance.
+	--[[
+		@codebase Shared
+		@details A function to calculate alpha from a distance.
+		@param {Unknown} Missing description for maximum.
+		@param {Unknown} Missing description for start.
+		@param {Unknown} Missing description for finish.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:CalculateAlphaFromDistance(maximum, start, finish)
 		if (type(start) == "Player") then
 			start = start:GetShootPos();
@@ -1677,7 +2065,15 @@ else
 		return mathClamp(255 - ((255 / maximum) * (start:Distance(finish))), 0, 255);
 	end;
 	
-	-- A function to wrap text into a table.
+	--[[
+		@codebase Shared
+		@details A function to wrap text into a table.
+		@param {Unknown} Missing description for text.
+		@param {Unknown} Missing description for font.
+		@param {Unknown} Missing description for maximumWidth.
+		@param {Unknown} Missing description for baseTable.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:WrapText(text, font, maximumWidth, baseTable)
 		if (maximumWidth <= 0 or !text or text == "") then
 			return;
@@ -1712,7 +2108,12 @@ else
 		end;
 	end;
 	
-	-- A function to handle an entity's menu.
+	--[[
+		@codebase Shared
+		@details A function to handle an entity's menu.
+		@param {Unknown} Missing description for entity.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:HandleEntityMenu(entity)
 		local options = {};
 		local itemTable = nil;
@@ -1804,12 +2205,25 @@ else
 		return menuPanel;
 	end;
 
-	-- A function to get the gradient texture.
+	--[[
+		@codebase Shared
+		@details A function to get the gradient texture.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:GetGradientTexture()
 		return Clockwork.GradientTexture;
 	end;
 	
-	-- A function to add a menu from data.
+	--[[
+		@codebase Shared
+		@details A function to add a menu from data.
+		@param {Unknown} Missing description for menuPanel.
+		@param {Unknown} Missing description for data.
+		@param {Unknown} Missing description for Callback.
+		@param {Unknown} Missing description for minimumWidth.
+		@param {Unknown} Missing description for manualOpen.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:AddMenuFromData(menuPanel, data, Callback, minimumWidth, manualOpen)
 		local isCreated = false;
 		local options = {};
@@ -1855,7 +2269,16 @@ else
 		return menuPanel;
 	end;
 	
-	-- A function to adjust the width of text.
+	--[[
+		@codebase Shared
+		@details A function to adjust the width of text.
+		@param {Unknown} Missing description for font.
+		@param {Unknown} Missing description for text.
+		@param {Unknown} Missing description for width.
+		@param {Unknown} Missing description for addition.
+		@param {Unknown} Missing description for extra.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:AdjustMaximumWidth(font, text, width, addition, extra)
 		local textString = tostring(self:Replace(text, "&", "U"));
 		local textWidth = self:GetCachedTextSize(font, textString) + (extra or 0);
@@ -2069,7 +2492,11 @@ else
 		return (timeLeft < 0.1);
 	end;
 	
-	-- A function to calculate the hints.
+	--[[
+		@codebase Shared
+		@details A function to calculate the hints.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:CalculateHints()
 		for k, v in pairs(self.Hints) do
 			if (UpdateHint(k, v, #self.Hints)) then
@@ -2109,7 +2536,11 @@ else
 		end;
 	end;
 	
-	-- A function to draw the date and time.
+	--[[
+		@codebase Shared
+		@details A function to draw the date and time.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawDateTime()
 		local backgroundColor = Clockwork.option:GetColor("background");
 		local mainTextFont = Clockwork.option:GetFont("main_text");
@@ -2283,7 +2714,11 @@ else
 		end;
 	end;
 
-	-- A function to draw the top hints.
+	--[[
+		@codebase Shared
+		@details A function to draw the top hints.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawHints()
 		if (Clockwork.plugin:Call("PlayerCanSeeHints") and #self.Hints > 0) then
 			local hintsFont = Clockwork.option:GetFont("hints_text");
@@ -2304,7 +2739,13 @@ else
 		end;
 	end;
 
-	-- A function to draw the top bars.
+	--[[
+		@codebase Shared
+		@details A function to draw the top bars.
+		@param {Unknown} Missing description for info.
+		@param {Unknown} Missing description for class.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawBars(info, class)
 		if (Clockwork.plugin:Call("PlayerCanSeeBars", class)) then
 			local barTextFont = Clockwork.option:GetFont("bar_text");
@@ -2330,12 +2771,20 @@ else
 		end;
 	end;
 	
-	-- A function to get the ESP info.
+	--[[
+		@codebase Shared
+		@details A function to get the ESP info.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:GetESPInfo()
 		return self.ESPInfo;
 	end;
 	
-	-- A function to draw the admin ESP.
+	--[[
+		@codebase Shared
+		@details A function to draw the admin ESP.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawAdminESP()
 		local colorWhite = Clockwork.option:GetColor("white");
 		local curTime = UnPredictedCurTime();
@@ -2422,7 +2871,21 @@ else
 		end;
 	end;
 
-	-- A function to draw a bar with a value and a maximum.
+	--[[
+		@codebase Shared
+		@details A function to draw a bar with a value and a maximum.
+		@param {Unknown} Missing description for x.
+		@param {Unknown} Missing description for y.
+		@param {Unknown} Missing description for width.
+		@param {Unknown} Missing description for height.
+		@param {Unknown} Missing description for color.
+		@param {Unknown} Missing description for text.
+		@param {Unknown} Missing description for value.
+		@param {Unknown} Missing description for maximum.
+		@param {Unknown} Missing description for flash.
+		@param {Unknown} Missing description for barInfo.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawBar(x, y, width, height, color, text, value, maximum, flash, barInfo)
 		local backgroundColor = Clockwork.option:GetColor("background");
 		local foregroundColor = Clockwork.option:GetColor("foreground");
@@ -2489,18 +2952,33 @@ else
 		return barInfo.y;
 	end;
 	
-	-- A function to set the recognise menu.
+	--[[
+		@codebase Shared
+		@details A function to set the recognise menu.
+		@param {Unknown} Missing description for menuPanel.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:SetRecogniseMenu(menuPanel)
 		Clockwork.RecogniseMenu = menuPanel;
 		self:SetTitledMenu(menuPanel, L("SelectWhoCanRecognize"));
 	end;
 	
-	-- A function to get the recognise menu.
+	--[[
+		@codebase Shared
+		@details A function to get the recognise menu.
+		@param {Unknown} Missing description for menuPanel.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:GetRecogniseMenu(menuPanel)
 		return Clockwork.RecogniseMenu;
 	end;
 	
-	-- A function to override the main font.
+	--[[
+		@codebase Shared
+		@details A function to override the main font.
+		@param {Unknown} Missing description for font.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:OverrideMainFont(font)
 		if (font) then
 			if (!Clockwork.PreviousMainFont) then
@@ -2513,12 +2991,28 @@ else
 		end;
 	end;
 
-	-- A function to get the screen's center.
+	--[[
+		@codebase Shared
+		@details A function to get the screen's center.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:GetScreenCenter()
 		return ScrW() / 2, (ScrH() / 2) + 32;
 	end;
 	
-	-- A function to draw some simple text.
+	--[[
+		@codebase Shared
+		@details A function to draw some simple text.
+		@param {Unknown} Missing description for text.
+		@param {Unknown} Missing description for x.
+		@param {Unknown} Missing description for y.
+		@param {Unknown} Missing description for color.
+		@param {Unknown} Missing description for alignX.
+		@param {Unknown} Missing description for alignY.
+		@param {Unknown} Missing description for shadowless.
+		@param {Unknown} Missing description for shadowDepth.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawSimpleText(text, x, y, color, alignX, alignY, shadowless, shadowDepth)
 		local mainTextFont = Clockwork.option:GetFont("main_text");
 		local realX = mathRound(x);
@@ -2541,12 +3035,20 @@ else
 		return realY + height + 2, width;
 	end;
 	
-	-- A function to get the black fade alpha.
+	--[[
+		@codebase Shared
+		@details A function to get the black fade alpha.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:GetBlackFadeAlpha()
 		return Clockwork.BlackFadeIn or Clockwork.BlackFadeOut or 0;
 	end;
 	
-	-- A function to get whether the screen is faded black.
+	--[[
+		@codebase Shared
+		@details A function to get whether the screen is faded black.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:IsScreenFadedBlack()
 		return (Clockwork.BlackFadeIn == 255);
 	end;
@@ -2579,12 +3081,22 @@ else
 		chat.ClockworkAddText(unpack(text));
 	end;
 	
-	-- A function to get whether a custom crosshair is used.
+	--[[
+		@codebase Shared
+		@details A function to get whether a custom crosshair is used.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:UsingCustomCrosshair()
 		return Clockwork.CustomCrosshair;
 	end;
 	
-	-- A function to get a cached text size.
+	--[[
+		@codebase Shared
+		@details A function to get a cached text size.
+		@param {Unknown} Missing description for font.
+		@param {Unknown} Missing description for text.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:GetCachedTextSize(font, text)
 		if (!Clockwork.CachedTextSizes) then
 			Clockwork.CachedTextSizes = {};
@@ -2603,7 +3115,20 @@ else
 		return Clockwork.CachedTextSizes[font][text][1], Clockwork.CachedTextSizes[font][text][2];
 	end;
 	
-	-- A function to draw scaled information at a position.
+	--[[
+		@codebase Shared
+		@details A function to draw scaled information at a position.
+		@param {Unknown} Missing description for scale.
+		@param {Unknown} Missing description for text.
+		@param {Unknown} Missing description for x.
+		@param {Unknown} Missing description for y.
+		@param {Unknown} Missing description for color.
+		@param {Unknown} Missing description for alpha.
+		@param {Unknown} Missing description for bAlignLeft.
+		@param {Unknown} Missing description for Callback.
+		@param {Unknown} Missing description for shadowDepth.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawInfoScaled(scale, text, x, y, color, alpha, bAlignLeft, Callback, shadowDepth)
 		local newFont = Clockwork.fonts:GetMultiplied("cwMainText", scale);
 		local returnY = 0;
@@ -2617,7 +3142,19 @@ else
 		return returnY;
 	end;
 	
-	-- A function to draw information at a position.
+	--[[
+		@codebase Shared
+		@details A function to draw information at a position.
+		@param {Unknown} Missing description for text.
+		@param {Unknown} Missing description for x.
+		@param {Unknown} Missing description for y.
+		@param {Unknown} Missing description for color.
+		@param {Unknown} Missing description for alpha.
+		@param {Unknown} Missing description for bAlignLeft.
+		@param {Unknown} Missing description for Callback.
+		@param {Unknown} Missing description for shadowDepth.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawInfo(text, x, y, color, alpha, bAlignLeft, Callback, shadowDepth)
 		local mainTextFont = Clockwork.option:GetFont("main_text");
 		local width, height = self:GetCachedTextSize(mainTextFont, text);
@@ -2635,12 +3172,21 @@ else
 		end;
 	end;
 	
-	-- A function to get the player info box.
+	--[[
+		@codebase Shared
+		@details A function to get the player info box.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:GetPlayerInfoBox()
 		return Clockwork.PlayerInfoBox;
 	end;
 
-	-- A function to draw the local player's information.
+	--[[
+		@codebase Shared
+		@details A function to draw the local player's information.
+		@param {Unknown} Missing description for info.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawPlayerInfo(info)
 		if (!Clockwork.plugin:Call("PlayerCanSeePlayerInfo")) then
 			return;
@@ -2719,12 +3265,23 @@ else
 		return boxInfo;
 	end;
 	
-	-- A function to get whether the info menu panel can be created.
+	--[[
+		@codebase Shared
+		@details A function to get whether the info menu panel can be created.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:CanCreateInfoMenuPanel()
 		return (tableCount(Clockwork.quickmenu.stored) > 0 or tableCount(Clockwork.quickmenu.categories) > 0);
 	end;
 	
-	-- A function to create the info menu panel.
+	--[[
+		@codebase Shared
+		@details A function to create the info menu panel.
+		@param {Unknown} Missing description for x.
+		@param {Unknown} Missing description for y.
+		@param {Unknown} Missing description for minimumWidth.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:CreateInfoMenuPanel(x, y, minimumWidth)
 		if (IsValid(Clockwork.InfoMenuPanel)) then return; end;
 		
@@ -2813,7 +3370,11 @@ else
 		end;
 	end;
 	
-	-- A function to get the ragdoll eye angles.
+	--[[
+		@codebase Shared
+		@details A function to get the ragdoll eye angles.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:GetRagdollEyeAngles()
 		if (!Clockwork.RagdollEyeAngles) then
 			Clockwork.RagdollEyeAngles = Angle(0, 0, 0);
@@ -2822,7 +3383,17 @@ else
 		return Clockwork.RagdollEyeAngles;
 	end;
 	
-	-- A function to draw a gradient.
+	--[[
+		@codebase Shared
+		@details A function to draw a gradient.
+		@param {Unknown} Missing description for gradientType.
+		@param {Unknown} Missing description for x.
+		@param {Unknown} Missing description for y.
+		@param {Unknown} Missing description for width.
+		@param {Unknown} Missing description for height.
+		@param {Unknown} Missing description for color.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawGradient(gradientType, x, y, width, height, color)
 		if (!Clockwork.Gradients[gradientType]) then
 			return;
@@ -2833,7 +3404,18 @@ else
 		surface.DrawTexturedRect(x, y, width, height);
 	end;
 	
-	-- A function to draw a simple gradient box.
+	--[[
+		@codebase Shared
+		@details A function to draw a simple gradient box.
+		@param {Unknown} Missing description for cornerSize.
+		@param {Unknown} Missing description for x.
+		@param {Unknown} Missing description for y.
+		@param {Unknown} Missing description for width.
+		@param {Unknown} Missing description for height.
+		@param {Unknown} Missing description for color.
+		@param {Unknown} Missing description for maxAlpha.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawSimpleGradientBox(cornerSize, x, y, width, height, color, maxAlpha)
 		local gradientAlpha = mathMin(color.a, maxAlpha or 100);
 		
@@ -2846,7 +3428,18 @@ else
 		end;
 	end;
 	
-	-- A function to draw a textured gradient.
+	--[[
+		@codebase Shared
+		@details A function to draw a textured gradient.
+		@param {Unknown} Missing description for cornerSize.
+		@param {Unknown} Missing description for x.
+		@param {Unknown} Missing description for y.
+		@param {Unknown} Missing description for width.
+		@param {Unknown} Missing description for height.
+		@param {Unknown} Missing description for color.
+		@param {Unknown} Missing description for maxAlpha.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawTexturedGradientBox(cornerSize, x, y, width, height, color, maxAlpha)
 		local gradientAlpha = mathMin(color.a, maxAlpha or 100);
 		
@@ -2859,7 +3452,16 @@ else
 		end;
 	end;
 	
-	-- A function to draw a player information sub box.
+	--[[
+		@codebase Shared
+		@details A function to draw a player information sub box.
+		@param {Unknown} Missing description for text.
+		@param {Unknown} Missing description for x.
+		@param {Unknown} Missing description for y.
+		@param {Unknown} Missing description for width.
+		@param {Unknown} Missing description for boxInfo.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawPlayerInfoSubBox(text, x, y, width, boxInfo)
 		local foregroundColor = Clockwork.option:GetColor("foreground");
 		local colorInfo = Clockwork.option:GetColor("information");
@@ -2878,7 +3480,14 @@ else
 		return x, y + boxHeight + 4;
 	end;
 	
-	-- A function to handle an item's spawn icon click.
+	--[[
+		@codebase Shared
+		@details A function to handle an item's spawn icon click.
+		@param {Unknown} Missing description for itemTable.
+		@param {Unknown} Missing description for spawnIcon.
+		@param {Unknown} Missing description for Callback.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:HandleItemSpawnIconClick(itemTable, spawnIcon, Callback)
 		local customFunctions = itemTable("customFunctions");
 		local itemFunctions = {};
@@ -3047,7 +3656,13 @@ else
 		itemMenu:Open();
 	end;
 	
-	-- A function to handle an item's spawn icon right click.
+	--[[
+		@codebase Shared
+		@details A function to handle an item's spawn icon right click.
+		@param {Unknown} Missing description for itemTable.
+		@param {Unknown} Missing description for spawnIcon.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:HandleItemSpawnIconRightClick(itemTable, spawnIcon)
 		if (itemTable.OnHandleRightClick) then
 			local functionName = itemTable:OnHandleRightClick();
@@ -3079,19 +3694,35 @@ else
 		end;
 	end;
 	
-	-- A function to set a panel's perform layout callback.
+	--[[
+		@codebase Shared
+		@details A function to set a panel's perform layout callback.
+		@param {Unknown} Missing description for target.
+		@param {Unknown} Missing description for Callback.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:SetOnLayoutCallback(target, Callback)
 		if (target.PerformLayout) then
 			target.OldPerformLayout = target.PerformLayout;
 			
-			-- Called when the panel's layout is performed.
+			--[[
+				@codebase Shared
+				@details Called when the panel's layout is performed.
+				@returns {Unknown}
+			--]]
 			function target.PerformLayout()
 				target:OldPerformLayout(); Callback(target);
 			end;
 		end;
 	end;
 	
-	-- A function to set the active titled DMenu.
+	--[[
+		@codebase Shared
+		@details A function to set the active titled DMenu.
+		@param {Unknown} Missing description for menuPanel.
+		@param {Unknown} Missing description for title.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:SetTitledMenu(menuPanel, title)
 		Clockwork.TitledMenu = {
 			menuPanel = menuPanel,
@@ -3099,7 +3730,14 @@ else
 		};
 	end;
 	
-	-- A function to add a markup line.
+	--[[
+		@codebase Shared
+		@details A function to add a markup line.
+		@param {Unknown} Missing description for markupText.
+		@param {Unknown} Missing description for text.
+		@param {Unknown} Missing description for color.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:AddMarkupLine(markupText, text, color)
 		if (markupText != "") then
 			markupText = markupText.."\n";
@@ -3108,7 +3746,15 @@ else
 		return markupText..self:MarkupTextWithColor(text, color);
 	end;
 	
-	-- A function to draw a markup tool tip.
+	--[[
+		@codebase Shared
+		@details A function to draw a markup tool tip.
+		@param {Unknown} Missing description for markupObject.
+		@param {Unknown} Missing description for x.
+		@param {Unknown} Missing description for y.
+		@param {Unknown} Missing description for alpha.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawMarkupToolTip(markupObject, x, y, alpha)
 		local height = markupObject:GetHeight();
 		local width = markupObject:GetWidth();
@@ -3130,7 +3776,13 @@ else
 		markupObject:Draw(x, y, nil, nil, alpha);
 	end;
 	
-	-- A function to override a markup object's draw function.
+	--[[
+		@codebase Shared
+		@details A function to override a markup object's draw function.
+		@param {Unknown} Missing description for markupObject.
+		@param {Unknown} Missing description for customFont.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:OverrideMarkupDraw(markupObject, customFont)
 		function markupObject:Draw(xOffset, yOffset, hAlign, vAlign, alphaOverride)
 			for k, v in pairs(self.blocks) do
@@ -3169,17 +3821,33 @@ else
 		end;
 	end;
 	
-	-- A function to get the active markup tool tip.
+	--[[
+		@codebase Shared
+		@details A function to get the active markup tool tip.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:GetActiveMarkupToolTip()
 		return Clockwork.MarkupToolTip;
 	end;
 	
-	-- A function to get markup from a color.
+	--[[
+		@codebase Shared
+		@details A function to get markup from a color.
+		@param {Unknown} Missing description for color.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:ColorToMarkup(color)
 		return "<color="..mathCeil(color.r)..","..mathCeil(color.g)..","..mathCeil(color.b)..">";
 	end;
 	
-	-- A function to markup text with a color.
+	--[[
+		@codebase Shared
+		@details A function to markup text with a color.
+		@param {Unknown} Missing description for text.
+		@param {Unknown} Missing description for color.
+		@param {Unknown} Missing description for scale.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:MarkupTextWithColor(text, color, scale)
 		local fontName = Clockwork.fonts:GetMultiplied("cwTooltip", scale or 1);
 		local finalText = text;
@@ -3193,12 +3861,23 @@ else
 		return finalText;
 	end;
 	
-	-- A function to create a markup tool tip.
+	--[[
+		@codebase Shared
+		@details A function to create a markup tool tip.
+		@param {Unknown} Missing description for panel.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:CreateMarkupToolTip(panel)
 		panel.OldCursorExited = panel.OnCursorExited;
 		panel.OldCursorEntered = panel.OnCursorEntered;
 		
-		-- Called when the cursor enters the panel.
+		--[[
+			@codebase Shared
+			@details Called when the cursor enters the panel.
+			@param {Unknown} Missing description for panel.
+			@param {Unknown} Missing description for ....
+			@returns {Unknown}
+		--]]
 		function panel.OnCursorEntered(panel, ...)
 			if (panel.OldCursorEntered) then
 				panel:OldCursorEntered(...);
@@ -3207,7 +3886,13 @@ else
 			Clockwork.MarkupToolTip = panel;
 		end;
 
-		-- Called when the cursor exits the panel.
+		--[[
+			@codebase Shared
+			@details Called when the cursor exits the panel.
+			@param {Unknown} Missing description for panel.
+			@param {Unknown} Missing description for ....
+			@returns {Unknown}
+		--]]
 		function panel.OnCursorExited(panel, ...)
 			if (panel.OldCursorExited) then
 				panel:OldCursorExited(...);
@@ -3218,7 +3903,13 @@ else
 			end;
 		end;
 		
-		-- A function to set the panel's markup tool tip.
+		--[[
+			@codebase Shared
+			@details A function to set the panel's markup tool tip.
+			@param {Unknown} Missing description for panel.
+			@param {Unknown} Missing description for text.
+			@returns {Unknown}
+		--]]
 		function panel.SetMarkupToolTip(panel, text)
 			if (!string.find(text, "</font>")) then
 				text = Clockwork.kernel:MarkupTextWithColor(text);
@@ -3234,12 +3925,23 @@ else
 			end;
 		end;
 		
-		-- A function to get the panel's markup tool tip.
+		--[[
+			@codebase Shared
+			@details A function to get the panel's markup tool tip.
+			@param {Unknown} Missing description for panel.
+			@returns {Unknown}
+		--]]
 		function panel.GetMarkupToolTip(panel)
 			return panel.MarkupToolTip;
 		end;
 		
-		-- A function to set the panel's tool tip.
+		--[[
+			@codebase Shared
+			@details A function to set the panel's tool tip.
+			@param {Unknown} Missing description for panel.
+			@param {Unknown} Missing description for toolTip.
+			@returns {Unknown}
+		--]]
 		function panel.SetToolTip(panel, toolTip)
 			panel:SetMarkupToolTip(toolTip);
 		end;
@@ -3247,7 +3949,13 @@ else
 		return panel;
 	end;
 	
-	-- A function to create a custom category panel.
+	--[[
+		@codebase Shared
+		@details A function to create a custom category panel.
+		@param {Unknown} Missing description for categoryName.
+		@param {Unknown} Missing description for parent.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:CreateCustomCategoryPanel(categoryName, parent)
 		if (!parent.CategoryList) then
 			parent.CategoryList = {};
@@ -3262,7 +3970,11 @@ else
 		return collapsibleCategory;
 	end;
 	
-	-- A function to draw the armor bar.
+	--[[
+		@codebase Shared
+		@details A function to draw the armor bar.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawArmorBar()
 		local armor = mathClamp(Clockwork.Client:Armor(), 0, Clockwork.Client:GetMaxArmor());
 		
@@ -3277,7 +3989,11 @@ else
 		end;
 	end;
 
-	-- A function to draw the health bar.
+	--[[
+		@codebase Shared
+		@details A function to draw the health bar.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawHealthBar()
 		local health = mathClamp(Clockwork.Client:Health(), 0, Clockwork.Client:GetMaxHealth());
 		
@@ -3292,27 +4008,50 @@ else
 		end;
 	end;
 	
-	-- A function to remove the active tool tip.
+	--[[
+		@codebase Shared
+		@details A function to remove the active tool tip.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:RemoveActiveToolTip()
 		ChangeTooltip();
 	end;
 	
-	-- A function to close active Derma menus.
+	--[[
+		@codebase Shared
+		@details A function to close active Derma menus.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:CloseActiveDermaMenus()
 		CloseDermaMenus();
 	end;
 	
-	-- A function to register a background blur.
+	--[[
+		@codebase Shared
+		@details A function to register a background blur.
+		@param {Unknown} Missing description for panel.
+		@param {Unknown} Missing description for fCreateTime.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:RegisterBackgroundBlur(panel, fCreateTime)
 		Clockwork.BackgroundBlurs[panel] = fCreateTime or SysTime();
 	end;
 	
-	-- A function to remove a background blur.
+	--[[
+		@codebase Shared
+		@details A function to remove a background blur.
+		@param {Unknown} Missing description for panel.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:RemoveBackgroundBlur(panel)
 		Clockwork.BackgroundBlurs[panel] = nil;
 	end;
 	
-	-- A function to draw the background blurs.
+	--[[
+		@codebase Shared
+		@details A function to draw the background blurs.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawBackgroundBlurs()
 		local scrH, scrW = ScrH(), ScrW();
 		local sysTime = SysTime();
@@ -3340,19 +4079,38 @@ else
 		end;
 	end;
 	
-	-- A function to get the notice panel.
+	--[[
+		@codebase Shared
+		@details A function to get the notice panel.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:GetNoticePanel()
 		if (IsValid(Clockwork.NoticePanel) and Clockwork.NoticePanel:IsVisible()) then
 			return Clockwork.NoticePanel;
 		end;
 	end;
 	
-	-- A function to set the notice panel.
+	--[[
+		@codebase Shared
+		@details A function to set the notice panel.
+		@param {Unknown} Missing description for noticePanel.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:SetNoticePanel(noticePanel)
 		Clockwork.NoticePanel = noticePanel;
 	end;
 	
-	-- A function to add some cinematic text.
+	--[[
+		@codebase Shared
+		@details A function to add some cinematic text.
+		@param {Unknown} Missing description for text.
+		@param {Unknown} Missing description for color.
+		@param {Unknown} Missing description for barLength.
+		@param {Unknown} Missing description for hangTime.
+		@param {Unknown} Missing description for font.
+		@param {Unknown} Missing description for bThisOnly.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:AddCinematicText(text, color, barLength, hangTime, font, bThisOnly)
 		local colorWhite = Clockwork.option:GetColor("white");
 		local cinematicTable = {
@@ -3371,7 +4129,14 @@ else
 		end;
 	end;
 	
-	-- A function to add a notice.
+	--[[
+		@codebase Shared
+		@details A function to add a notice.
+		@param {Unknown} Missing description for text.
+		@param {Unknown} Missing description for class.
+		@param {Unknown} Missing description for length.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:AddNotify(text, class, length)
 		if (class != NOTIFY_HINT or stringSub(text, 1, 6) != "#Hint_") then
 			if (Clockwork.BaseClass.AddNotify) then
@@ -3380,7 +4145,11 @@ else
 		end;
 	end;
 	
-	-- A function to get whether the local player is using the tool gun.
+	--[[
+		@codebase Shared
+		@details A function to get whether the local player is using the tool gun.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:IsUsingTool()
 		if (IsValid(Clockwork.Client:GetActiveWeapon())
 		and Clockwork.Client:GetActiveWeapon():GetClass() == "gmod_tool") then
@@ -3390,7 +4159,11 @@ else
 		end;
 	end;
 
-	-- A function to get whether the local player is using the camera.
+	--[[
+		@codebase Shared
+		@details A function to get whether the local player is using the camera.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:IsUsingCamera()
 		if (IsValid(Clockwork.Client:GetActiveWeapon())
 		and Clockwork.Client:GetActiveWeapon():GetClass() == "gmod_camera") then
@@ -3400,12 +4173,20 @@ else
 		end;
 	end;
 	
-	-- A function to get the target ID data.
+	--[[
+		@codebase Shared
+		@details A function to get the target ID data.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:GetTargetIDData()
 		return Clockwork.TargetIDData;
 	end;
 	
-	-- A function to calculate the screen fading.
+	--[[
+		@codebase Shared
+		@details A function to calculate the screen fading.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:CalculateScreenFading()
 		if (Clockwork.plugin:Call("ShouldPlayerScreenFadeBlack")) then
 			if (!Clockwork.BlackFadeIn) then
@@ -3437,7 +4218,13 @@ else
 		end;
 	end;
 	
-	-- A function to draw a cinematic.
+	--[[
+		@codebase Shared
+		@details A function to draw a cinematic.
+		@param {Unknown} Missing description for cinematicTable.
+		@param {Unknown} Missing description for curTime.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawCinematic(cinematicTable, curTime)
 		local maxBarLength = cinematicTable.barLength or (ScrH() / 13);
 		local font = cinematicTable.font or Clockwork.option:GetFont("cinematic_text");
@@ -3464,7 +4251,12 @@ else
 		end
 	end;
 	
-	-- A function to draw the cinematic introduction.
+	--[[
+		@codebase Shared
+		@details A function to draw the cinematic introduction.
+		@param {Unknown} Missing description for curTime.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawCinematicIntro(curTime)
 		local cinematicInfo = Clockwork.plugin:Call("GetCinematicIntroInfo");
 		local colorWhite = Clockwork.option:GetColor("white");
@@ -3505,7 +4297,11 @@ else
 		end;
 	end;
 	
-	-- A function to draw the cinematic introduction bars.
+	--[[
+		@codebase Shared
+		@details A function to draw the cinematic introduction bars.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawCinematicIntroBars()
 		if (Clockwork.config:Get("draw_intro_bars"):Get()) then
 			local maxBarLength = ScrH() / 8;
@@ -3546,7 +4342,11 @@ else
 		end;
 	end;
 	
-	-- A function to draw the cinematic info.
+	--[[
+		@codebase Shared
+		@details A function to draw the cinematic info.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawCinematicInfo()
 		if (!Clockwork.CinematicInfoAlpha and !Clockwork.CinematicInfoSlide) then
 			Clockwork.CinematicInfoAlpha = 255;
@@ -3611,7 +4411,17 @@ else
 		end;
 	end;
 	
-	-- A function to draw some door text.
+	--[[
+		@codebase Shared
+		@details A function to draw some door text.
+		@param {Unknown} Missing description for entity.
+		@param {Unknown} Missing description for eyePos.
+		@param {Unknown} Missing description for eyeAngles.
+		@param {Unknown} Missing description for font.
+		@param {Unknown} Missing description for nameColor.
+		@param {Unknown} Missing description for textColor.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DrawDoorText(entity, eyePos, eyeAngles, font, nameColor, textColor)
 		local entityColor = entity:GetColor();
 		
@@ -3695,7 +4505,12 @@ else
 		end;
 	end;
 	
-	-- A function to get whether the local player's character screen is open.
+	--[[
+		@codebase Shared
+		@details A function to get whether the local player's character screen is open.
+		@param {Unknown} Missing description for isVisible.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:IsCharacterScreenOpen(isVisible)
 		if (Clockwork.character:IsPanelOpen()) then
 			local panel = Clockwork.character:GetPanel();
@@ -3710,7 +4525,13 @@ else
 		end;
 	end;
 	
-	-- A function to save schema data.
+	--[[
+		@codebase Shared
+		@details A function to save schema data.
+		@param {Unknown} Missing description for fileName.
+		@param {Unknown} Missing description for data.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:SaveSchemaData(fileName, data)
 		if (type(data) != "table") then
 			MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] The '"..fileName.."' schema data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
@@ -3721,22 +4542,43 @@ else
 		_file.Write("clockwork/schemas/"..self:GetSchemaFolder().."/"..fileName..".txt", self:Serialize(data));
 	end;
 
-	-- A function to delete schema data.
+	--[[
+		@codebase Shared
+		@details A function to delete schema data.
+		@param {Unknown} Missing description for fileName.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DeleteSchemaData(fileName)
 		_file.Delete("clockwork/schemas/"..self:GetSchemaFolder().."/"..fileName..".txt");
 	end;
 
-	-- A function to check if schema data exists.
+	--[[
+		@codebase Shared
+		@details A function to check if schema data exists.
+		@param {Unknown} Missing description for fileName.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:SchemaDataExists(fileName)
 		return _file.Exists("clockwork/schemas/"..self:GetSchemaFolder().."/"..fileName..".txt", "DATA");
 	end;
 	
-	-- A function to find schema data in a directory.
+	--[[
+		@codebase Shared
+		@details A function to find schema data in a directory.
+		@param {Unknown} Missing description for directory.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:FindSchemaDataInDir(directory)
 		return _file.Find("clockwork/schemas/"..self:GetSchemaFolder().."/"..directory, "LUA", "namedesc");
 	end;
 
-	-- A function to restore schema data.
+	--[[
+		@codebase Shared
+		@details A function to restore schema data.
+		@param {Unknown} Missing description for fileName.
+		@param {Unknown} Missing description for failSafe.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:RestoreSchemaData(fileName, failSafe)
 		if (self:SchemaDataExists(fileName)) then
 			local data = _file.Read("clockwork/schemas/"..self:GetSchemaFolder().."/"..fileName..".txt", "DATA");
@@ -3767,7 +4609,13 @@ else
 		end;
 	end;
 
-	-- A function to restore Clockwork data.
+	--[[
+		@codebase Shared
+		@details A function to restore Clockwork data.
+		@param {Unknown} Missing description for fileName.
+		@param {Unknown} Missing description for failSafe.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:RestoreClockworkData(fileName, failSafe)
 		if (self:ClockworkDataExists(fileName)) then
 			local data = _file.Read("clockwork/"..fileName..".txt", "DATA");
@@ -3798,7 +4646,13 @@ else
 		end;
 	end;
 
-	-- A function to save Clockwork data.
+	--[[
+		@codebase Shared
+		@details A function to save Clockwork data.
+		@param {Unknown} Missing description for fileName.
+		@param {Unknown} Missing description for data.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:SaveClockworkData(fileName, data)
 		if (type(data) != "table") then
 			MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] The '"..fileName.."' clockwork data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
@@ -3809,22 +4663,42 @@ else
 		_file.Write("clockwork/"..fileName..".txt", self:Serialize(data));
 	end;
 
-	-- A function to check if Clockwork data exists.
+	--[[
+		@codebase Shared
+		@details A function to check if Clockwork data exists.
+		@param {Unknown} Missing description for fileName.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:ClockworkDataExists(fileName)
 		return _file.Exists("clockwork/"..fileName..".txt", "DATA");
 	end;
 
-	-- A function to delete Clockwork data.
+	--[[
+		@codebase Shared
+		@details A function to delete Clockwork data.
+		@param {Unknown} Missing description for fileName.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:DeleteClockworkData(fileName)
 		_file.Delete("clockwork/"..fileName..".txt");
 	end;
 	
-	-- A function to run a Clockwork command.
+	--[[
+		@codebase Shared
+		@details A function to run a Clockwork command.
+		@param {Unknown} Missing description for command.
+		@param {Unknown} Missing description for ....
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:RunCommand(command, ...)
 		RunConsoleCommand("cwCmd", command, ...);
 	end;
 	
-	-- A function to get whether the local player is choosing a character.
+	--[[
+		@codebase Shared
+		@details A function to get whether the local player is choosing a character.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:IsChoosingCharacter()
 		if (Clockwork.character:GetPanel()) then
 			return Clockwork.character:IsPanelOpen();
@@ -3833,7 +4707,11 @@ else
 		end;
 	end;
 	
-	-- A function to include the schema.
+	--[[
+		@codebase Shared
+		@details A function to include the schema.
+		@returns {Unknown}
+	--]]
 	function Clockwork.kernel:IncludeSchema()
 		local schemaFolder = self:GetSchemaFolder();
 		
@@ -3843,7 +4721,16 @@ else
 	end;
 end;
 
--- A function to explode a string by tags.
+--[[
+	@codebase Shared
+	@details A function to explode a string by tags.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for seperator.
+	@param {Unknown} Missing description for open.
+	@param {Unknown} Missing description for close.
+	@param {Unknown} Missing description for hide.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:ExplodeByTags(text, seperator, open, close, hide)
 	local results = {};
 	local current = "";
@@ -3884,7 +4771,12 @@ function Clockwork.kernel:ExplodeByTags(text, seperator, open, close, hide)
 	return results;
 end;
 
--- A function to modify a physical description.
+--[[
+	@codebase Shared
+	@details A function to modify a physical description.
+	@param {Unknown} Missing description for description.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:ModifyPhysDesc(description)
 	if (stringLen(description) <= 128) then
 		if (!stringFind(stringSub(description, -2), "%p")) then
@@ -3899,12 +4791,24 @@ end;
 
 local MAGIC_CHARACTERS = "([%(%)%.%%%+%-%*%?%[%^%$])";
 
--- A function to replace something in text without pattern matching.
+--[[
+	@codebase Shared
+	@details A function to replace something in text without pattern matching.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for find.
+	@param {Unknown} Missing description for replace.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:Replace(text, find, replace)
 	return (text:gsub(find:gsub(MAGIC_CHARACTERS, "%%%1"), replace));
 end;
 
--- A function to create a new meta table.
+--[[
+	@codebase Shared
+	@details A function to create a new meta table.
+	@param {Unknown} Missing description for baseTable.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:NewMetaTable(baseTable)
 	local object = {};
 		setmetatable(object, baseTable);
@@ -3912,7 +4816,14 @@ function Clockwork.kernel:NewMetaTable(baseTable)
 	return object;
 end;
 
--- A function to make a proxy meta table.
+--[[
+	@codebase Shared
+	@details A function to make a proxy meta table.
+	@param {Unknown} Missing description for baseTable.
+	@param {Unknown} Missing description for baseClass.
+	@param {Unknown} Missing description for proxy.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:MakeProxyTable(baseTable, baseClass, proxy)
 	baseTable[proxy] = {};
 	
@@ -3947,7 +4858,13 @@ function Clockwork.kernel:MakeProxyTable(baseTable, baseClass, proxy)
 	setmetatable(baseTable, baseClass);
 end;
 
--- A function to set whether a string should be in camel case.
+--[[
+	@codebase Shared
+	@details A function to set whether a string should be in camel case.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for bCamelCase.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:SetCamelCase(text, bCamelCase)
 	if (bCamelCase) then
 		return stringGsub(text, "^.", stringLower);
@@ -3956,7 +4873,13 @@ function Clockwork.kernel:SetCamelCase(text, bCamelCase)
 	end;
 end;
 
--- A function to add files to the content download.
+--[[
+	@codebase Shared
+	@details A function to add files to the content download.
+	@param {Unknown} Missing description for directory.
+	@param {Unknown} Missing description for bRecursive.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:AddDirectory(directory, bRecursive)
 	if (stringSub(directory, -1) == "/") then
 		directory = directory.."*.*";
@@ -3978,7 +4901,12 @@ function Clockwork.kernel:AddDirectory(directory, bRecursive)
 	end;
 end;
 
--- A function to add a file to the content download.
+--[[
+	@codebase Shared
+	@details A function to add a file to the content download.
+	@param {Unknown} Missing description for fileName.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:AddFile(fileName)
 	if (_file.Exists(fileName, "GAME")) then
 		resource.AddFile(fileName);
@@ -3987,7 +4915,13 @@ function Clockwork.kernel:AddFile(fileName)
 	end;
 end;
 
--- A function to include files in a directory.
+--[[
+	@codebase Shared
+	@details A function to include files in a directory.
+	@param {Unknown} Missing description for directory.
+	@param {Unknown} Missing description for bFromBase.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:IncludeDirectory(directory, bFromBase)
 	if (bFromBase) then
 		directory = "clockwork/framework/"..directory;
@@ -4002,7 +4936,12 @@ function Clockwork.kernel:IncludeDirectory(directory, bFromBase)
 	end;
 end;
 
--- A function to include a prefixed cwFile.
+--[[
+	@codebase Shared
+	@details A function to include a prefixed cwFile.
+	@param {Unknown} Missing description for fileName.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:IncludePrefixed(fileName)
 	local isShared = (stringFind(fileName, "sh_") or stringFind(fileName, "shared.lua"));
 	local isClient = (stringFind(fileName, "cl_") or stringFind(fileName, "cl_init.lua"));
@@ -4026,7 +4965,13 @@ function Clockwork.kernel:IncludePrefixed(fileName)
 	end;
 end;
 
--- A function to include plugins in a directory.
+--[[
+	@codebase Shared
+	@details A function to include plugins in a directory.
+	@param {Unknown} Missing description for directory.
+	@param {Unknown} Missing description for bFromBase.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:IncludePlugins(directory, bFromBase)
 	if (bFromBase) then
 		directory = "Clockwork/"..directory;
@@ -4047,7 +4992,12 @@ function Clockwork.kernel:IncludePlugins(directory, bFromBase)
 	return true;
 end;
 
--- A function to perform the timer think.
+--[[
+	@codebase Shared
+	@details A function to perform the timer think.
+	@param {Unknown} Missing description for curTime.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:CallTimerThink(curTime)
 	for k, v in pairs(Clockwork.Timers) do
 		if (!v.paused) then
@@ -4069,12 +5019,22 @@ function Clockwork.kernel:CallTimerThink(curTime)
 	end;
 end;
 
--- A function to get whether a timer exists.
+--[[
+	@codebase Shared
+	@details A function to get whether a timer exists.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:TimerExists(name)
 	return Clockwork.Timers[name];
 end;
 
--- A function to start a timer.
+--[[
+	@codebase Shared
+	@details A function to start a timer.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:StartTimer(name)
 	if (Clockwork.Timers[name] and Clockwork.Timers[name].paused) then
 		Clockwork.Timers[name].nextCall = CurTime() + Clockwork.Timers[name].timeLeft;
@@ -4082,7 +5042,12 @@ function Clockwork.kernel:StartTimer(name)
 	end;
 end;
 
--- A function to pause a timer.
+--[[
+	@codebase Shared
+	@details A function to pause a timer.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:PauseTimer(name)
 	if (Clockwork.Timers[name] and !Clockwork.Timers[name].paused) then
 		Clockwork.Timers[name].timeLeft = Clockwork.Timers[name].nextCall - CurTime();
@@ -4090,12 +5055,26 @@ function Clockwork.kernel:PauseTimer(name)
 	end;
 end;
 
--- A function to destroy a timer.
+--[[
+	@codebase Shared
+	@details A function to destroy a timer.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:DestroyTimer(name)
 	Clockwork.Timers[name] = nil;
 end;
 
--- A function to create a timer.
+--[[
+	@codebase Shared
+	@details A function to create a timer.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for delay.
+	@param {Unknown} Missing description for repetitions.
+	@param {Unknown} Missing description for Callback.
+	@param {Unknown} Missing description for ....
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:CreateTimer(name, delay, repetitions, Callback, ...)
 	Clockwork.Timers[name] = {
 		calls = 0,
@@ -4107,12 +5086,24 @@ function Clockwork.kernel:CreateTimer(name, delay, repetitions, Callback, ...)
 	};
 end;
 
--- A function to run a function on the next frame.
+--[[
+	@codebase Shared
+	@details A function to run a function on the next frame.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for Callback.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:OnNextFrame(name, Callback)
 	self:CreateTimer(name, FrameTime(), 1, Callback);
 end;
 
--- A function to get whether a player has access to an object.
+--[[
+	@codebase Shared
+	@details A function to get whether a player has access to an object.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for object.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:HasObjectAccess(player, object)
 	local hasAccess = false;
 	local faction = player:GetFaction();
@@ -4186,7 +5177,11 @@ function Clockwork.kernel:HasObjectAccess(player, object)
 	return hasAccess;
 end;
 
--- A function to get the sorted commands.
+--[[
+	@codebase Shared
+	@details A function to get the sorted commands.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:GetSortedCommands()
 	local commands = {};
 	local source = Clockwork.command.stored;
@@ -4202,17 +5197,33 @@ function Clockwork.kernel:GetSortedCommands()
 	return commands;
 end;
 
--- A function to zero a number to an amount of digits.
+--[[
+	@codebase Shared
+	@details A function to zero a number to an amount of digits.
+	@param {Unknown} Missing description for number.
+	@param {Unknown} Missing description for digits.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:ZeroNumberToDigits(number, digits)
 	return stringRep("0", mathClamp(digits - stringLen(tostring(number)), 0, digits))..tostring(number);
 end;
 
--- A function to get a short CRC from a value.
+--[[
+	@codebase Shared
+	@details A function to get a short CRC from a value.
+	@param {Unknown} Missing description for value.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:GetShortCRC(value)
 	return mathCeil(util.CRC(value) / 100000);
 end;
 
--- A function to validate a table's keys.
+--[[
+	@codebase Shared
+	@details A function to validate a table's keys.
+	@param {Unknown} Missing description for baseTable.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:ValidateTableKeys(baseTable)
 	for i = 1, #baseTable do
 		if (!baseTable[i]) then
@@ -4221,7 +5232,11 @@ function Clockwork.kernel:ValidateTableKeys(baseTable)
 	end;
 end;
 
--- A function to get the map's physics entities.
+--[[
+	@codebase Shared
+	@details A function to get the map's physics entities.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:GetPhysicsEntities()
 	local entities = {};
 	
@@ -4240,7 +5255,13 @@ function Clockwork.kernel:GetPhysicsEntities()
 	return entities;
 end;
 
--- A function to create a multicall table (by Deco Da Man).
+--[[
+	@codebase Shared
+	@details A function to create a multicall table (by Deco Da Man).
+	@param {Unknown} Missing description for baseTable.
+	@param {Unknown} Missing description for object.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:CreateMulticallTable(baseTable, object)
 	local metaTable = getmetatable(baseTable) or {};
 		function metaTable.__index(baseTable, key)
@@ -4265,7 +5286,12 @@ local NETWORKED_VALUE_TABLE = {
 	[NWTYPE_BOOL] = false
 };
 
--- A function to get a default networked value.
+--[[
+	@codebase Shared
+	@details A function to get a default networked value.
+	@param {Unknown} Missing description for class.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:GetDefaultNetworkedValue(class)
 	return NETWORKED_VALUE_TABLE[class];
 end;
@@ -4280,7 +5306,12 @@ local NETWORKED_CLASS_TABLE = {
 	[NWTYPE_BOOL] = "Bool"
 };
 
--- A function to convert a networked class.
+--[[
+	@codebase Shared
+	@details A function to convert a networked class.
+	@param {Unknown} Missing description for class.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:ConvertNetworkedClass(class)
 	return NETWORKED_CLASS_TABLE[class];
 end;
@@ -4295,12 +5326,24 @@ local DEFAULT_NETWORK_CLASS_VALUE = {
 	["Bool"] = false
 };
 
--- A function to get the default class value.
+--[[
+	@codebase Shared
+	@details A function to get the default class value.
+	@param {Unknown} Missing description for class.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:GetDefaultClassValue(class)
 	return DEFAULT_NETWORK_CLASS_VALUE[class];
 end;
 
--- A function to set a shared variable.
+--[[
+	@codebase Shared
+	@details A function to set a shared variable.
+	@param {Unknown} Missing description for key.
+	@param {Unknown} Missing description for value.
+	@param {Unknown} Missing description for sharedTable.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:SetSharedVar(key, value, sharedTable)
 	if (!sharedTable) then
 		local sharedVars = self:GetSharedVars():Global();
@@ -4328,12 +5371,22 @@ function Clockwork.kernel:SetSharedVar(key, value, sharedTable)
 	end;
 end;
 
--- A function to get the shared vars.
+--[[
+	@codebase Shared
+	@details A function to get the shared vars.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:GetSharedVars()
 	return Clockwork.SharedVars, Clockwork.SharedTables;
 end;
 
--- A function to get a shared variable.
+--[[
+	@codebase Shared
+	@details A function to get a shared variable.
+	@param {Unknown} Missing description for key.
+	@param {Unknown} Missing description for sharedTable.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:GetSharedVar(key, sharedTable)
 	if (!sharedTable) then
 		local sharedVars = self:GetSharedVars():Global();
@@ -4353,7 +5406,17 @@ function Clockwork.kernel:GetSharedVar(key, sharedTable)
 	end;
 end;
 
--- A function to create fake damage info.
+--[[
+	@codebase Shared
+	@details A function to create fake damage info.
+	@param {Unknown} Missing description for damage.
+	@param {Unknown} Missing description for inflictor.
+	@param {Unknown} Missing description for attacker.
+	@param {Unknown} Missing description for position.
+	@param {Unknown} Missing description for damageType.
+	@param {Unknown} Missing description for damageForce.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:FakeDamageInfo(damage, inflictor, attacker, position, damageType, damageForce)
 	local damageInfo = DamageInfo();
 	local realDamage = mathCeil(mathMax(damage, 0));
@@ -4368,12 +5431,22 @@ function Clockwork.kernel:FakeDamageInfo(damage, inflictor, attacker, position, 
 	return damageInfo;
 end;
 
--- A function to unpack a color.
+--[[
+	@codebase Shared
+	@details A function to unpack a color.
+	@param {Unknown} Missing description for color.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:UnpackColor(color)
 	return color.r, color.g, color.b, color.a;
 end;
 
--- A function to parse data in text.
+--[[
+	@codebase Shared
+	@details A function to parse data in text.
+	@param {Unknown} Missing description for text.
+	@returns {Unknown}
+--]]
 function Clockwork.kernel:ParseData(text)
 	local classes = {"%^", "%!"};
 	

@@ -249,7 +249,14 @@ function Clockwork:Initialize()
 	RunConsoleCommand("sv_allowdownload", "1");
 end;
 
--- Called at an interval while a player is connected.
+--[[
+	@codebase Server
+	@details Called at an interval while a player is connected.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for curTime.
+	@param {Unknown} Missing description for infoTable.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerThink(player, curTime, infoTable)
 	local bPlayerBreathSnd = false;
 	local storageTable = player:GetStorageTable();
@@ -381,15 +388,30 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 	end;
 end;
 
--- Called when a player should smooth sprint.
+--[[
+	@codebase Server
+	@details Called when a player should smooth sprint.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for infoTable.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerShouldSmoothSprint(player, infoTable)
 	return cwConfig:Get("player_should_smooth_sprint"):GetBoolean();
 end;
 
--- Called when a player fires a weapon.
+--[[
+	@codebase Server
+	@details Called when a player fires a weapon.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerFireWeapon(player, weapon, clipType, ammoType) end;
 
--- Called when a player has disconnected.
+--[[
+	@codebase Server
+	@details Called when a player has disconnected.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerDisconnected(player)
 	local tempData = player:CreateTempData();
 	
@@ -407,15 +429,27 @@ function Clockwork:PlayerDisconnected(player)
 	end;
 end;
 
--- Called when CloudAuth has been validated.
+--[[
+	@codebase Server
+	@details Called when CloudAuth has been validated.
+	@returns {Unknown}
+--]]
 function Clockwork:CloudAuthValidated() end;
 
--- Called when CloudAuth has been blacklisted.
+--[[
+	@codebase Server
+	@details Called when CloudAuth has been blacklisted.
+	@returns {Unknown}
+--]]
 function Clockwork:CloudAuthBlacklisted()
 	self.Unauthorized = true;
 end;
 
--- Called when Clockwork has initialized.
+--[[
+	@codebase Server
+	@details Called when Clockwork has initialized.
+	@returns {Unknown}
+--]]
 function Clockwork:ClockworkInitialized()
 	local cashName = cwOption:GetKey("name_cash");
 	
@@ -457,26 +491,52 @@ function Clockwork:ClockworkInitialized()
 	end;
 end;
 
--- Called when the Clockwork database has connected.
+--[[
+	@codebase Server
+	@details Called when the Clockwork database has connected.
+	@returns {Unknown}
+--]]
 function Clockwork:ClockworkDatabaseConnected()
 	cwBans:Load();
 end;
 
--- Called when the Clockwork database connection fails.
+--[[
+	@codebase Server
+	@details Called when the Clockwork database connection fails.
+	@returns {Unknown}
+--]]
 function Clockwork:ClockworkDatabaseConnectionFailed()
 	cwDatabase:Error(errText);
 end;
 
--- Called when Clockwork should log and event.
+--[[
+	@codebase Server
+	@details Called when Clockwork should log and event.
+	@returns {Unknown}
+--]]
 function Clockwork:ClockworkLog(text, unixTime) end;
 
--- Called when a player is banned.
+--[[
+	@codebase Server
+	@details Called when a player is banned.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerBanned(player, duration, reason) end;
 
--- Called when a player's skin has changed.
+--[[
+	@codebase Server
+	@details Called when a player's skin has changed.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSkinChanged(player, skin) end;
 
--- Called when a player's model has changed.
+--[[
+	@codebase Server
+	@details Called when a player's model has changed.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerModelChanged(player, model)
 	local hands = player:GetHands();
 
@@ -485,7 +545,14 @@ function Clockwork:PlayerModelChanged(player, model)
 	end;
 end;
 
--- Called when a player's saved inventory should be added to.
+--[[
+	@codebase Server
+	@details Called when a player's saved inventory should be added to.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for character.
+	@param {Unknown} Missing description for Callback.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAddToSavedInventory(player, character, Callback)
 	for k, v in pairs(player:GetWeapons()) do
 		local weaponItemTable = cwItem:GetByWeapon(v);
@@ -495,7 +562,13 @@ function Clockwork:PlayerAddToSavedInventory(player, character, Callback)
 	end;
 end;
 
--- Called when a player's unlock info is needed.
+--[[
+	@codebase Server
+	@details Called when a player's unlock info is needed.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for entity.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerGetUnlockInfo(player, entity)
 	if (cwEntity:IsDoor(entity)) then
 		local unlockTime = cwConfig:Get("unlock_time"):Get();
@@ -519,7 +592,11 @@ function Clockwork:PlayerGetUnlockInfo(player, entity)
 	end;
 end;
 
--- Called when an Clockwork item has initialized.
+--[[
+	@codebase Server
+	@details Called when an Clockwork item has initialized.
+	@returns {Unknown}
+--]]
 function Clockwork:ClockworkItemInitialized(itemTable) end;
 
 --[[
@@ -529,7 +606,13 @@ function Clockwork:ClockworkItemInitialized(itemTable) end;
 --]]
 function Clockwork:ClockworkPostItemsInitialized(itemsTable) end;
 
--- Called when a player's lock info is needed.
+--[[
+	@codebase Server
+	@details Called when a player's lock info is needed.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for entity.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerGetLockInfo(player, entity)
 	if (cwEntity:IsDoor(entity)) then
 		local lockTime = cwConfig:Get("lock_time"):Get();
@@ -553,7 +636,15 @@ function Clockwork:PlayerGetLockInfo(player, entity)
 	end;
 end;
 
--- Called when a player attempts to fire a weapon.
+--[[
+	@codebase Server
+	@details Called when a player attempts to fire a weapon.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for bIsRaised.
+	@param {Unknown} Missing description for weapon.
+	@param {Unknown} Missing description for bIsSecondary.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanFireWeapon(player, bIsRaised, weapon, bIsSecondary)
 	local canShootTime = player.cwNextShootTime;
 	local curTime = CurTime();
@@ -601,7 +692,14 @@ function Clockwork:PlayerCanFireWeapon(player, bIsRaised, weapon, bIsSecondary)
 	return true;
 end;
 
--- Called when a player attempts to use a lowered weapon.
+--[[
+	@codebase Server
+	@details Called when a player attempts to use a lowered weapon.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for weapon.
+	@param {Unknown} Missing description for secondary.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanUseLoweredWeapon(player, weapon, secondary)
 	if (secondary) then
 		return weapon.NeverRaised or (weapon.Secondary and weapon.Secondary.NeverRaised);
@@ -610,25 +708,55 @@ function Clockwork:PlayerCanUseLoweredWeapon(player, weapon, secondary)
 	end;
 end;
 
--- Called when a player's recognised names have been cleared.
+--[[
+	@codebase Server
+	@details Called when a player's recognised names have been cleared.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerRecognisedNamesCleared(player, status, isAccurate) end;
 
--- Called when a player's name has been cleared.
+--[[
+	@codebase Server
+	@details Called when a player's name has been cleared.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerNameCleared(player, status, isAccurate) end;
 
--- Called when an offline player has been given property.
+--[[
+	@codebase Server
+	@details Called when an offline player has been given property.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerPropertyGivenOffline(key, uniqueID, entity, networked, removeDelay) end;
 
--- Called when an offline player has had property taken.
+--[[
+	@codebase Server
+	@details Called when an offline player has had property taken.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerPropertyTakenOffline(key, uniqueID, entity) end;
 
--- Called when a player has been given property.
+--[[
+	@codebase Server
+	@details Called when a player has been given property.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerPropertyGiven(player, entity, networked, removeDelay) end;
 
--- Called when a player has had property taken.
+--[[
+	@codebase Server
+	@details Called when a player has had property taken.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerPropertyTaken(player, entity) end;
 
--- Called when a player has been given flags.
+--[[
+	@codebase Server
+	@details Called when a player has been given flags.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for flags.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerFlagsGiven(player, flags)
 	if (string.find(flags, "p") and player:Alive()) then
 		cwPly:GiveSpawnWeapon(player, "weapon_physgun");
@@ -641,7 +769,13 @@ function Clockwork:PlayerFlagsGiven(player, flags)
 	player:SetSharedVar("Flags", player:GetFlags());
 end;
 
--- Called when a player has had flags taken.
+--[[
+	@codebase Server
+	@details Called when a player has had flags taken.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for flags.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerFlagsTaken(player, flags)
 	if (string.find(flags, "p") and player:Alive()) then
 		if (!cwPly:HasFlags(player, "p")) then
@@ -658,22 +792,43 @@ function Clockwork:PlayerFlagsTaken(player, flags)
 	player:SetSharedVar("Flags", player:GetFlags());
 end;
 
--- Called when a player's phys desc override is needed.
+--[[
+	@codebase Server
+	@details Called when a player's phys desc override is needed.
+	@returns {Unknown}
+--]]
 function Clockwork:GetPlayerPhysDescOverride(player, physDesc) end;
 
--- Called when a player's default skin is needed.
+--[[
+	@codebase Server
+	@details Called when a player's default skin is needed.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:GetPlayerDefaultSkin(player)
 	local model, skin = cwClass:GetAppropriateModel(player:Team(), player);
 	return skin;
 end;
 
--- Called when a player's default model is needed.
+--[[
+	@codebase Server
+	@details Called when a player's default model is needed.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:GetPlayerDefaultModel(player)
 	local model, skin = cwClass:GetAppropriateModel(player:Team(), player);
 	return model;
 end;
 
--- Called when a player's default inventory is needed.
+--[[
+	@codebase Server
+	@details Called when a player's default inventory is needed.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for character.
+	@param {Unknown} Missing description for inventory.
+	@returns {Unknown}
+--]]
 function Clockwork:GetPlayerDefaultInventory(player, character, inventory)
 	local startingInv = cwFaction:FindByID(character.faction).startingInv;
 	
@@ -686,7 +841,14 @@ function Clockwork:GetPlayerDefaultInventory(player, character, inventory)
 	end;
 end;
 
--- Called to get whether a player's weapon is raised.
+--[[
+	@codebase Server
+	@details Called to get whether a player's weapon is raised.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for class.
+	@param {Unknown} Missing description for weapon.
+	@returns {Unknown}
+--]]
 function Clockwork:GetPlayerWeaponRaised(player, class, weapon)
 	if (cwKernel:IsDefaultWeapon(weapon)) then
 		return true;
@@ -727,20 +889,45 @@ function Clockwork:GetPlayerWeaponRaised(player, class, weapon)
 	return true;
 end;
 
--- Called when a player's attribute has been updated.
+--[[
+	@codebase Server
+	@details Called when a player's attribute has been updated.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAttributeUpdated(player, attributeTable, amount) end;
 
--- Called to get whether a player can give an item to storage.
+--[[
+	@codebase Server
+	@details Called to get whether a player can give an item to storage.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for storageTable.
+	@param {Unknown} Missing description for itemTable.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanGiveToStorage(player, storageTable, itemTable)
 	return true;
 end;
 
--- Called to get whether a player can take an item to storage.
+--[[
+	@codebase Server
+	@details Called to get whether a player can take an item to storage.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for storageTable.
+	@param {Unknown} Missing description for itemTable.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanTakeFromStorage(player, storageTable, itemTable)
 	return true;
 end;
 
--- Called when a player has given an item to storage.
+--[[
+	@codebase Server
+	@details Called when a player has given an item to storage.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for storageTable.
+	@param {Unknown} Missing description for itemTable.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerGiveToStorage(player, storageTable, itemTable)
 	if (player:IsWearingItem(itemTable)) then
 		player:RemoveClothes();
@@ -751,15 +938,32 @@ function Clockwork:PlayerGiveToStorage(player, storageTable, itemTable)
 	end;
 end;
 
--- Called when a player has taken an item to storage.
+--[[
+	@codebase Server
+	@details Called when a player has taken an item to storage.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerTakeFromStorage(player, storageTable, itemTable) end;
 
--- Called when a player is given an item.
+--[[
+	@codebase Server
+	@details Called when a player is given an item.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for itemTable.
+	@param {Unknown} Missing description for shouldForce.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerItemGiven(player, itemTable, shouldForce)
 	cwStorage:SyncItem(player, itemTable);
 end;
 
--- Called when a player has an item taken.
+--[[
+	@codebase Server
+	@details Called when a player has an item taken.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for itemTable.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerItemTaken(player, itemTable)
 	cwStorage:SyncItem(player, itemTable);
 	
@@ -772,19 +976,42 @@ function Clockwork:PlayerItemTaken(player, itemTable)
 	end;
 end;
 
--- Called when a player's cash has been updated.
+--[[
+	@codebase Server
+	@details Called when a player's cash has been updated.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for amount.
+	@param {Unknown} Missing description for reason.
+	@param {Unknown} Missing description for bNoMsg.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCashUpdated(player, amount, reason, bNoMsg)
 	cwStorage:SyncCash(player);
 end;
 
--- A function to scale damage by hit group.
+--[[
+	@codebase Server
+	@details A function to scale damage by hit group.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for attacker.
+	@param {Unknown} Missing description for hitGroup.
+	@param {Unknown} Missing description for damageInfo.
+	@param {Unknown} Missing description for baseDamage.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerScaleDamageByHitGroup(player, attacker, hitGroup, damageInfo, baseDamage)
 	if (attacker:IsVehicle() or (attacker:IsPlayer() and attacker:InVehicle())) then
 		damageInfo:ScaleDamage(0.25);
 	end;
 end;
 
--- Called when a player switches their flashlight on or off.
+--[[
+	@codebase Server
+	@details Called when a player switches their flashlight on or off.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for bIsOn.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSwitchFlashlight(player, bIsOn)
 	if (player:HasInitialized() and bIsOn
 	and player:IsRagdolled()) then
@@ -794,10 +1021,20 @@ function Clockwork:PlayerSwitchFlashlight(player, bIsOn)
 	return true;
 end;
 
--- Called when time has passed.
+--[[
+	@codebase Server
+	@details Called when time has passed.
+	@returns {Unknown}
+--]]
 function Clockwork:TimePassed(quantity) end;
 
--- Called when Clockwork config has initialized.
+--[[
+	@codebase Server
+	@details Called when Clockwork config has initialized.
+	@param {Unknown} Missing description for key.
+	@param {Unknown} Missing description for value.
+	@returns {Unknown}
+--]]
 function Clockwork:ClockworkConfigInitialized(key, value)
 	if (key == "cash_enabled" and !value) then
 		for k, v in pairs(cwItem:GetAll()) do
@@ -837,14 +1074,29 @@ function Clockwork:ClockworkConfigInitialized(key, value)
 	end;
 end;
 
--- Called when a Clockwork ConVar has changed.
+--[[
+	@codebase Server
+	@details Called when a Clockwork ConVar has changed.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for previousValue.
+	@param {Unknown} Missing description for newValue.
+	@returns {Unknown}
+--]]
 function Clockwork:ClockworkConVarChanged(name, previousValue, newValue)
 	if (name == "local_voice" and newValue) then
 		RunConsoleCommand("sv_alltalk", "1");
 	end;
 end;
 
--- Called when Clockwork config has changed.
+--[[
+	@codebase Server
+	@details Called when Clockwork config has changed.
+	@param {Unknown} Missing description for key.
+	@param {Unknown} Missing description for data.
+	@param {Unknown} Missing description for previousValue.
+	@param {Unknown} Missing description for newValue.
+	@returns {Unknown}
+--]]
 function Clockwork:ClockworkConfigChanged(key, data, previousValue, newValue)
 	local plyTable = player.GetAll();
 
@@ -907,10 +1159,19 @@ function Clockwork:ClockworkConfigChanged(key, data, previousValue, newValue)
 	end;
 end;
 
--- Called when a player's name has changed.
+--[[
+	@codebase Server
+	@details Called when a player's name has changed.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerNameChanged(player, previousName, newName) end;
 
--- Called when a player attempts to sprays their tag.
+--[[
+	@codebase Server
+	@details Called when a player attempts to sprays their tag.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSpray(player)
 	if (!player:Alive() or player:IsRagdolled()) then
 		return true;
@@ -919,7 +1180,13 @@ function Clockwork:PlayerSpray(player)
 	end;
 end;
 
--- Called when a player attempts to use an entity.
+--[[
+	@codebase Server
+	@details Called when a player attempts to use an entity.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for entity.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerUse(player, entity)
 	if (player:IsRagdolled(RAGDOLL_FALLENOVER)) then
 		return false;
@@ -928,7 +1195,13 @@ function Clockwork:PlayerUse(player, entity)
 	end;
 end;
 
--- Called when a player's move data is set up.
+--[[
+	@codebase Server
+	@details Called when a player's move data is set up.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for moveData.
+	@returns {Unknown}
+--]]
 function Clockwork:SetupMove(player, moveData)
 	if (player:Alive() and !player:IsRagdolled()) then
 		local frameTime = FrameTime();
@@ -949,16 +1222,32 @@ function Clockwork:SetupMove(player, moveData)
 	end;
 end;
 
--- Called when a player throws a punch.
+--[[
+	@codebase Server
+	@details Called when a player throws a punch.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerPunchThrown(player) end;
 
--- Called when a player knocks on a door.
+--[[
+	@codebase Server
+	@details Called when a player knocks on a door.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerKnockOnDoor(player, door) end;
 
--- Called when a player attempts to knock on a door.
+--[[
+	@codebase Server
+	@details Called when a player attempts to knock on a door.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanKnockOnDoor(player, door) return true; end;
 
--- Called when a player punches an entity.
+--[[
+	@codebase Server
+	@details Called when a player punches an entity.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerPunchEntity(player, entity) end;
 
 --[[
@@ -969,20 +1258,42 @@ function Clockwork:PlayerPunchEntity(player, entity) end;
 --]]
 function Clockwork:PlayerOrderShipment(player, itemTable, entity, itemTables) end;
 
--- Called when a player holsters a weapon.
+--[[
+	@codebase Server
+	@details Called when a player holsters a weapon.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerHolsterWeapon(player, itemTable, weapon, shouldForce) end;
 
--- Called when a player attempts to save a recognised name.
+--[[
+	@codebase Server
+	@details Called when a player attempts to save a recognised name.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for target.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanSaveRecognisedName(player, target)
 	if (player != target) then return true; end;
 end;
 
--- Called when a player attempts to restore a recognised name.
+--[[
+	@codebase Server
+	@details Called when a player attempts to restore a recognised name.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for target.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanRestoreRecognisedName(player, target)
 	if (player != target) then return true; end;
 end;
 
--- Called when a player attempts to order an item shipment.
+--[[
+	@codebase Server
+	@details Called when a player attempts to order an item shipment.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for itemTable.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanOrderShipment(player, itemTable)
 	local curTime = CurTime();
 
@@ -993,28 +1304,64 @@ function Clockwork:PlayerCanOrderShipment(player, itemTable)
 	return true;
 end;
 
--- Called when a player attempts to get up.
+--[[
+	@codebase Server
+	@details Called when a player attempts to get up.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanGetUp(player) return true; end;
 
--- Called when a player knocks out a player with a punch.
+--[[
+	@codebase Server
+	@details Called when a player knocks out a player with a punch.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerPunchKnockout(player, target) end;
 
--- Called when a player attempts to throw a punch.
+--[[
+	@codebase Server
+	@details Called when a player attempts to throw a punch.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanThrowPunch(player) return true; end;
 
--- Called when a player attempts to punch an entity.
+--[[
+	@codebase Server
+	@details Called when a player attempts to punch an entity.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanPunchEntity(player, entity) return true; end;
 
--- Called when a player attempts to knock a player out with a punch.
+--[[
+	@codebase Server
+	@details Called when a player attempts to knock a player out with a punch.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanPunchKnockout(player, target) return true; end;
 
--- Called when a player attempts to bypass the faction limit.
+--[[
+	@codebase Server
+	@details Called when a player attempts to bypass the faction limit.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanBypassFactionLimit(player, character) return false; end;
 
--- Called when a player attempts to bypass the class limit.
+--[[
+	@codebase Server
+	@details Called when a player attempts to bypass the class limit.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanBypassClassLimit(player, class) return false; end;
 
--- Called when a player's pain sound should be played.
+--[[
+	@codebase Server
+	@details Called when a player's pain sound should be played.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for gender.
+	@param {Unknown} Missing description for damageInfo.
+	@param {Unknown} Missing description for hitGroup.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerPlayPainSound(player, gender, damageInfo, hitGroup)
 	if (damageInfo:IsBulletDamage() and math.random() <= 0.5) then
 		if (hitGroup == HITGROUP_HEAD) then
@@ -1033,7 +1380,12 @@ function Clockwork:PlayerPlayPainSound(player, gender, damageInfo, hitGroup)
 	return "vo/npc/"..gender.."01/pain0"..math.random(1, 9)..".wav";
 end;
 
--- Called when a player has spawned.
+--[[
+	@codebase Server
+	@details Called when a player has spawned.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSpawn(player)
 	if (player:HasInitialized()) then
 		player:ShouldDropWeapon(false);
@@ -1188,7 +1540,13 @@ function Clockwork:PlayerSpawn(player)
 	end;
 end;
 
--- Choose the model for hands according to their player model.
+--[[
+	@codebase Server
+	@details Choose the model for hands according to their player model.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for entity.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSetHandsModel(player, entity)
 	local model = player:GetModel();
 	local simpleModel = player_manager.TranslateToPlayerModelName(model)
@@ -1216,12 +1574,25 @@ function Clockwork:PlayerSetHandsModel(player, entity)
 	cwPlugin:Call("PostCModelHandsSet", player, model, entity, info);
 end;
 
--- Called every frame.
+--[[
+	@codebase Server
+	@details Called every frame.
+	@returns {Unknown}
+--]]
 function Clockwork:Think()
 	cwKernel:CallTimerThink(CurTime());
 end;
 
--- Called when a player attempts to connect to the server.
+--[[
+	@codebase Server
+	@details Called when a player attempts to connect to the server.
+	@param {Unknown} Missing description for steamID.
+	@param {Unknown} Missing description for ipAddress.
+	@param {Unknown} Missing description for svPassword.
+	@param {Unknown} Missing description for clPassword.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork:CheckPassword(steamID, ipAddress, svPassword, clPassword, name)
 	steamID = util.SteamIDFrom64(steamID);
 	local banTable = self.bans.stored[ipAddress] or self.bans.stored[steamID];
@@ -1263,7 +1634,11 @@ function Clockwork:CheckPassword(steamID, ipAddress, svPassword, clPassword, nam
 	end;
 end;
 
--- Called when the Clockwork data is saved.
+--[[
+	@codebase Server
+	@details Called when the Clockwork data is saved.
+	@returns {Unknown}
+--]]
 function Clockwork:SaveData()
 	for k, v in pairs(player.GetAll()) do
 		if (v:HasInitialized()) then
@@ -1288,7 +1663,11 @@ function Clockwork:PlayerCanInteractCharacter(player, action, character)
 	end;
 end;
 
--- Called whe the map entities are initialized.
+--[[
+	@codebase Server
+	@details Called whe the map entities are initialized.
+	@returns {Unknown}
+--]]
 function Clockwork:InitPostEntity()
 	for k, v in pairs(ents.GetAll()) do
 		if (IsValid(v)) then
@@ -1331,7 +1710,12 @@ function Clockwork:InitPostEntity()
 	cwPlugin:Call("ClockworkInitPostEntity");
 end;
 
--- Called when a player initially spawns.
+--[[
+	@codebase Server
+	@details Called when a player initially spawns.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerInitialSpawn(player)
 	player.cwCharacterList = player.cwCharacterList or {};
 	player.cwHasSpawned = true;
@@ -1351,7 +1735,12 @@ function Clockwork:PlayerInitialSpawn(player)
 	end;
 end;
 
--- Called every frame while a player is dead.
+--[[
+	@codebase Server
+	@details Called every frame while a player is dead.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerDeathThink(player)
 	local action = cwPly:GetAction(player);
 	
@@ -1371,7 +1760,12 @@ function Clockwork:PlayerDeathThink(player)
 	end;
 end;
 
--- Called when a player's data has loaded.
+--[[
+	@codebase Server
+	@details Called when a player's data has loaded.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerDataLoaded(player)
 	if (cwConfig:Get("clockwork_intro_enabled"):Get()) then
 		if (!player:GetData("ClockworkIntro")) then
@@ -1383,12 +1777,26 @@ function Clockwork:PlayerDataLoaded(player)
 	cwDatastream:Start(player, "Donations", player.cwDonations);
 end;
 
--- Called when a player attempts to be given a weapon.
+--[[
+	@codebase Server
+	@details Called when a player attempts to be given a weapon.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for class.
+	@param {Unknown} Missing description for itemTable.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanBeGivenWeapon(player, class, itemTable)
 	return true;
 end;
 
--- Called when a player has been given a weapon.
+--[[
+	@codebase Server
+	@details Called when a player has been given a weapon.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for class.
+	@param {Unknown} Missing description for itemTable.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerGivenWeapon(player, class, itemTable)
 	self.inventory:Rebuild(player);
 	
@@ -1407,7 +1815,14 @@ function Clockwork:PlayerGivenWeapon(player, class, itemTable)
 	end;
 end;
 
--- Called when a player attempts to create a character.
+--[[
+	@codebase Server
+	@details Called when a player attempts to create a character.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for character.
+	@param {Unknown} Missing description for characterID.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanCreateCharacter(player, character, characterID)
 	if (self.quiz:GetEnabled() and !self.quiz:GetCompleted(player)) then
 		return "You have not completed the quiz!";
@@ -1416,13 +1831,27 @@ function Clockwork:PlayerCanCreateCharacter(player, character, characterID)
 	end;
 end;
 
--- Called when a player's bullet info should be adjusted.
+--[[
+	@codebase Server
+	@details Called when a player's bullet info should be adjusted.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAdjustBulletInfo(player, bulletInfo) end;
 
--- Called when an entity fires some bullets.
+--[[
+	@codebase Server
+	@details Called when an entity fires some bullets.
+	@returns {Unknown}
+--]]
 function Clockwork:EntityFireBullets(entity, bulletInfo) end;
 
--- Called when a player's fall damage is needed.
+--[[
+	@codebase Server
+	@details Called when a player's fall damage is needed.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for velocity.
+	@returns {Unknown}
+--]]
 function Clockwork:GetFallDamage(player, velocity)
 	local ragdollEntity = nil;
 	local position = player:GetPos();
@@ -1453,7 +1882,12 @@ function Clockwork:GetFallDamage(player, velocity)
 	return damage;
 end;
 
--- Called when a player's data stream info has been sent.
+--[[
+	@codebase Server
+	@details Called when a player's data stream info has been sent.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerDataStreamInfoSent(player)
 	if (player:IsBot()) then
 		cwPly:LoadData(player, function(player)
@@ -1540,7 +1974,12 @@ function Clockwork:PlayerDataStreamInfoSent(player)
 	end;
 end;
 
--- Called when a player's data stream info should be sent.
+--[[
+	@codebase Server
+	@details Called when a player's data stream info should be sent.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSendDataStreamInfo(player)
 	cwDatastream:Start(player, "SharedTables", self.SharedTables);
 
@@ -1549,12 +1988,24 @@ function Clockwork:PlayerSendDataStreamInfo(player)
 	end;
 end;
 
--- Called when a player's death sound should be played.
+--[[
+	@codebase Server
+	@details Called when a player's death sound should be played.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for gender.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerPlayDeathSound(player, gender)
 	return "vo/npc/"..string.lower(gender).."01/pain0"..math.random(1, 9)..".wav";
 end;
 
--- Called when a player's character data should be restored.
+--[[
+	@codebase Server
+	@details Called when a player's character data should be restored.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for data.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerRestoreCharacterData(player, data)
 	if (data["PhysDesc"]) then
 		data["PhysDesc"] = cwKernel:ModifyPhysDesc(data["PhysDesc"]);
@@ -1577,16 +2028,34 @@ function Clockwork:PlayerRestoreCharacterData(player, data)
 	end;
 end;
 
--- Called when a player's limb damage is bIsHealed.
+--[[
+	@codebase Server
+	@details Called when a player's limb damage is bIsHealed.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerLimbDamageHealed(player, hitGroup, amount) end;
 
--- Called when a player's limb takes damage.
+--[[
+	@codebase Server
+	@details Called when a player's limb takes damage.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerLimbTakeDamage(player, hitGroup, damage) end;
 
--- Called when a player's limb damage is reset.
+--[[
+	@codebase Server
+	@details Called when a player's limb damage is reset.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerLimbDamageReset(player) end;
 
--- Called when a player's character data should be saved.
+--[[
+	@codebase Server
+	@details Called when a player's character data should be saved.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for data.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSaveCharacterData(player, data)
 	if (cwConfig:Get("save_attribute_boosts"):Get()) then
 		cwKernel:SavePlayerAttributeBoosts(player, data);
@@ -1604,7 +2073,13 @@ function Clockwork:PlayerSaveCharacterData(player, data)
 	end;
 end;
 
--- Called when a player's data should be saved.
+--[[
+	@codebase Server
+	@details Called when a player's data should be saved.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for data.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSaveData(player, data)
 	cwPly:RestoreData(player, data);
 	
@@ -1613,7 +2088,13 @@ function Clockwork:PlayerSaveData(player, data)
 	end;
 end;
 
--- Called when a player's storage should close.
+--[[
+	@codebase Server
+	@details Called when a player's storage should close.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for storageTable.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerStorageShouldClose(player, storageTable)
 	local entity = player:GetStorageEntity();
 	
@@ -1626,7 +2107,13 @@ function Clockwork:PlayerStorageShouldClose(player, storageTable)
 	end;
 end;
 
--- Called when a player attempts to pickup a weapon.
+--[[
+	@codebase Server
+	@details Called when a player attempts to pickup a weapon.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for weapon.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanPickupWeapon(player, weapon)
 	if (player.cwForceGive or (player:GetEyeTraceNoCursor().Entity == weapon and player:KeyDown(IN_USE))) then
 		return true;
@@ -1635,16 +2122,32 @@ function Clockwork:PlayerCanPickupWeapon(player, weapon)
 	end;
 end;
 
--- Called to modify the generator interval.
+--[[
+	@codebase Server
+	@details Called to modify the generator interval.
+	@returns {Unknown}
+--]]
 function Clockwork:ModifyGeneratorInterval(info) end;
 
--- Called to modify the wages interval.
+--[[
+	@codebase Server
+	@details Called to modify the wages interval.
+	@returns {Unknown}
+--]]
 function Clockwork:ModifyWagesInterval(info) end;
 
--- Called to modify a player's wages info.
+--[[
+	@codebase Server
+	@details Called to modify a player's wages info.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerModifyWagesInfo(player, info) end;
 
--- Called each tick.
+--[[
+	@codebase Server
+	@details Called each tick.
+	@returns {Unknown}
+--]]
 function Clockwork:Tick()
 	local sysTime = SysTime();
 	local curTime = CurTime();
@@ -1741,15 +2244,31 @@ function Clockwork:Tick()
 	end;
 end;
 
--- Called when a player's health should regenerate.
+--[[
+	@codebase Server
+	@details Called when a player's health should regenerate.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerShouldHealthRegenerate(player)
 	return true;
 end;
 
--- Called to get the entity that a player is holding.
+--[[
+	@codebase Server
+	@details Called to get the entity that a player is holding.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerGetHoldingEntity(player) end;
 
--- A function to regenerate a player's health.
+--[[
+	@codebase Server
+	@details A function to regenerate a player's health.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for health.
+	@param {Unknown} Missing description for maxHealth.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerHealthRegenerate(player, health, maxHealth)
 	local curTime = CurTime();
 	local maxHealth = player:GetMaxHealth();
@@ -1772,7 +2291,13 @@ function Clockwork:PlayerHealthRegenerate(player, health, maxHealth)
 	end;
 end;
 
--- Called when a player's shared variables should be set.
+--[[
+	@codebase Server
+	@details Called when a player's shared variables should be set.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for curTime.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSetSharedVars(player, curTime)
 	local weaponClass = cwPly:GetWeaponClass(player);
 	local color = player:GetColor();
@@ -1826,19 +2351,43 @@ function Clockwork:PlayerSetSharedVars(player, curTime)
 	end;
 end;
 
--- Called when a player picks an item up.
+--[[
+	@codebase Server
+	@details Called when a player picks an item up.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerPickupItem(player, itemTable, itemEntity, quickUse) end;
 
--- Called when a player uses an item.
+--[[
+	@codebase Server
+	@details Called when a player uses an item.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerUseItem(player, itemTable, itemEntity) end;
 
--- Called when a player drops an item.
+--[[
+	@codebase Server
+	@details Called when a player drops an item.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerDropItem(player, itemTable, position, entity) end;
 
--- Called when a player destroys an item.
+--[[
+	@codebase Server
+	@details Called when a player destroys an item.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerDestroyItem(player, itemTable) end;
 
--- Called when a player drops a weapon.
+--[[
+	@codebase Server
+	@details Called when a player drops a weapon.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for itemTable.
+	@param {Unknown} Missing description for entity.
+	@param {Unknown} Missing description for weapon.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerDropWeapon(player, itemTable, entity, weapon)
 	if (itemTable:IsInstance() and IsValid(weapon)) then
 		local clipOne = weapon:Clip1();
@@ -1854,13 +2403,27 @@ function Clockwork:PlayerDropWeapon(player, itemTable, entity, weapon)
 	end;
 end;
 
--- Called when a player charges generator.
+--[[
+	@codebase Server
+	@details Called when a player charges generator.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerChargeGenerator(player, entity, generator) end;
 
--- Called when a player destroys generator.
+--[[
+	@codebase Server
+	@details Called when a player destroys generator.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerDestroyGenerator(player, entity, generator) end;
 
--- Called when a player's data should be restored.
+--[[
+	@codebase Server
+	@details Called when a player's data should be restored.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for data.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerRestoreData(player, data)
 	if (!data["Whitelisted"]) then
 		data["Whitelisted"] = {};
@@ -1873,31 +2436,69 @@ function Clockwork:PlayerRestoreData(player, data)
 	end;
 end;
 
--- Called to get whether a player can pickup an entity.
+--[[
+	@codebase Server
+	@details Called to get whether a player can pickup an entity.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for entity.
+	@returns {Unknown}
+--]]
 function Clockwork:AllowPlayerPickup(player, entity)
 	return false;
 end;
 
--- Called when a player's temporary info should be saved.
+--[[
+	@codebase Server
+	@details Called when a player's temporary info should be saved.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSaveTempData(player, tempData) end;
 
--- Called when a player's temporary info should be restored.
+--[[
+	@codebase Server
+	@details Called when a player's temporary info should be restored.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerRestoreTempData(player, tempData) end;
 
--- Called when a player selects a custom character option.
+--[[
+	@codebase Server
+	@details Called when a player selects a custom character option.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSelectCharacterOption(player, character, option) end;
 
--- Called when a player attempts to see another player's status.
+--[[
+	@codebase Server
+	@details Called when a player attempts to see another player's status.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for target.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanSeeStatus(player, target)
 	return "# "..target:UserID().." | "..target:Name().." | "..target:SteamName().." | "..target:SteamID().." | "..target:IPAddress();
 end;
 
--- Called when a player attempts to see a player's chat.
+--[[
+	@codebase Server
+	@details Called when a player attempts to see a player's chat.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for teamOnly.
+	@param {Unknown} Missing description for listener.
+	@param {Unknown} Missing description for speaker.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanSeePlayersChat(text, teamOnly, listener, speaker)
 	return true;
 end;
 
--- Called when a player attempts to hear another player's voice.
+--[[
+	@codebase Server
+	@details Called when a player attempts to hear another player's voice.
+	@param {Unknown} Missing description for listener.
+	@param {Unknown} Missing description for speaker.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanHearPlayersVoice(listener, speaker)
 	if (!cwConfig:Get("voice_enabled"):Get()) then
 		return false;
@@ -1926,7 +2527,13 @@ function Clockwork:PlayerCanHearPlayersVoice(listener, speaker)
 	return true, true;
 end;
 
--- Called when a player attempts to delete a character.
+--[[
+	@codebase Server
+	@details Called when a player attempts to delete a character.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for character.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanDeleteCharacter(player, character)
 	if (cwConfig:Get("cash_enabled"):Get() and character.cash < cwConfig:Get("default_cash"):Get()) then
 		if (!character.data["CharBanned"]) then
@@ -1935,7 +2542,13 @@ function Clockwork:PlayerCanDeleteCharacter(player, character)
 	end;
 end;
 
--- Called when a player attempts to switch to a character.
+--[[
+	@codebase Server
+	@details Called when a player attempts to switch to a character.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for character.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanSwitchCharacter(player, character)
 	if (!player:Alive() and !player:IsCharacterMenuReset() and !player:GetSharedVar("CharBanned")) then
 		return "You cannot switch characters when you are dead!";
@@ -1946,7 +2559,13 @@ function Clockwork:PlayerCanSwitchCharacter(player, character)
 	return true;
 end;
 
--- Called when a player attempts to use a character.
+--[[
+	@codebase Server
+	@details Called when a player attempts to use a character.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for character.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanUseCharacter(player, character)
 	if (character.data["CharBanned"]) then
 		return character.name.." is banned and cannot be used!";
@@ -1980,7 +2599,12 @@ function Clockwork:PlayerCanUseCharacter(player, character)
 	end;
 end;
 
--- Called when a player's weapons should be given.
+--[[
+	@codebase Server
+	@details Called when a player's weapons should be given.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerGiveWeapons(player)
 	local rankName, rank = player:GetFactionRank();
 	local faction = cwFaction:FindByID(player:GetFaction());
@@ -1998,17 +2622,35 @@ function Clockwork:PlayerGiveWeapons(player)
 	end;
 end;
 
--- Called when a player deletes a character.
+--[[
+	@codebase Server
+	@details Called when a player deletes a character.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerDeleteCharacter(player, character) end;
 
--- Called when a player's armor is set.
+--[[
+	@codebase Server
+	@details Called when a player's armor is set.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for newArmor.
+	@param {Unknown} Missing description for oldArmor.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerArmorSet(player, newArmor, oldArmor)
 	if (player:IsRagdolled()) then
 		player:GetRagdollTable().armor = newArmor;
 	end;
 end;
 
--- Called when a player's health is set.
+--[[
+	@codebase Server
+	@details Called when a player's health is set.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for newHealth.
+	@param {Unknown} Missing description for oldHealth.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerHealthSet(player, newHealth, oldHealth)
 	local bIsRagdolled = player:IsRagdolled();
 	local maxHealth = player:GetMaxHealth();
@@ -2031,7 +2673,13 @@ function Clockwork:PlayerHealthSet(player, newHealth, oldHealth)
 	end;
 end;
 
--- Called when a player attempts to own a door.
+--[[
+	@codebase Server
+	@details Called when a player attempts to own a door.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for door.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanOwnDoor(player, door)
 	if (cwEntity:IsDoorUnownable(door)) then
 		return false;
@@ -2040,7 +2688,13 @@ function Clockwork:PlayerCanOwnDoor(player, door)
 	end;
 end;
 
--- Called when a player attempts to view a door.
+--[[
+	@codebase Server
+	@details Called when a player attempts to view a door.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for door.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanViewDoor(player, door)
 	if (cwEntity:IsDoorUnownable(door)) then
 		return false;
@@ -2049,7 +2703,16 @@ function Clockwork:PlayerCanViewDoor(player, door)
 	return true;
 end;
 
--- Called when a player attempts to holster a weapon.
+--[[
+	@codebase Server
+	@details Called when a player attempts to holster a weapon.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for itemTable.
+	@param {Unknown} Missing description for weapon.
+	@param {Unknown} Missing description for shouldForce.
+	@param {Unknown} Missing description for bNoMsg.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanHolsterWeapon(player, itemTable, weapon, shouldForce, bNoMsg)
 	if (cwPly:GetSpawnWeapon(player, itemTable("weaponClass"))) then
 		if (!bNoMsg) then
@@ -2064,7 +2727,15 @@ function Clockwork:PlayerCanHolsterWeapon(player, itemTable, weapon, shouldForce
 	end;
 end;
 
--- Called when a player attempts to drop a weapon.
+--[[
+	@codebase Server
+	@details Called when a player attempts to drop a weapon.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for itemTable.
+	@param {Unknown} Missing description for weapon.
+	@param {Unknown} Missing description for bNoMsg.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanDropWeapon(player, itemTable, weapon, bNoMsg)
 	if (cwPly:GetSpawnWeapon(player, itemTable("weaponClass"))) then
 		if (!bNoMsg) then
@@ -2079,7 +2750,14 @@ function Clockwork:PlayerCanDropWeapon(player, itemTable, weapon, bNoMsg)
 	end;
 end;
 
--- Called when a player attempts to use an item.
+--[[
+	@codebase Server
+	@details Called when a player attempts to use an item.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for itemTable.
+	@param {Unknown} Missing description for bNoMsg.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanUseItem(player, itemTable, bNoMsg)
 	if (cwItem:IsWeapon(itemTable) and cwPly:GetSpawnWeapon(player, itemTable("weaponClass"))) then
 		if (!bNoMsg) then
@@ -2092,28 +2770,66 @@ function Clockwork:PlayerCanUseItem(player, itemTable, bNoMsg)
 	end;
 end;
 
--- Called when a player attempts to drop an item.
+--[[
+	@codebase Server
+	@details Called when a player attempts to drop an item.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanDropItem(player, itemTable, bNoMsg) return true; end;
 
--- Called when a player attempts to destroy an item.
+--[[
+	@codebase Server
+	@details Called when a player attempts to destroy an item.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanDestroyItem(player, itemTable, bNoMsg) return true; end;
 
--- Called when a player attempts to destroy generator.
+--[[
+	@codebase Server
+	@details Called when a player attempts to destroy generator.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanDestroyGenerator(player, entity, generator) return true; end;
 
--- Called when a player attempts to knockout a player.
+--[[
+	@codebase Server
+	@details Called when a player attempts to knockout a player.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanKnockout(player, target) return true; end;
 
--- Called when a player attempts to use the radio.
+--[[
+	@codebase Server
+	@details Called when a player attempts to use the radio.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanRadio(player, text, listeners, eavesdroppers) return true; end;
 
--- Called when death attempts to clear a player's name.
+--[[
+	@codebase Server
+	@details Called when death attempts to clear a player's name.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanDeathClearName(player, attacker, damageInfo) return false; end;
 
--- Called when death attempts to clear a player's recognised names.
+--[[
+	@codebase Server
+	@details Called when death attempts to clear a player's recognised names.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanDeathClearRecognisedNames(player, attacker, damageInfo) return false; end;
 
--- Called when a player's ragdoll attempts to take damage.
+--[[
+	@codebase Server
+	@details Called when a player's ragdoll attempts to take damage.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for ragdoll.
+	@param {Unknown} Missing description for inflictor.
+	@param {Unknown} Missing description for attacker.
+	@param {Unknown} Missing description for hitGroup.
+	@param {Unknown} Missing description for damageInfo.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerRagdollCanTakeDamage(player, ragdoll, inflictor, attacker, hitGroup, damageInfo)
 	if (!attacker:IsPlayer() and player:GetRagdollTable().immunity) then
 		if (CurTime() <= player:GetRagdollTable().immunity) then
@@ -2124,40 +2840,89 @@ function Clockwork:PlayerRagdollCanTakeDamage(player, ragdoll, inflictor, attack
 	return true;
 end;
 
--- Called when the player attempts to be ragdolled.
+--[[
+	@codebase Server
+	@details Called when the player attempts to be ragdolled.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for state.
+	@param {Unknown} Missing description for delay.
+	@param {Unknown} Missing description for decay.
+	@param {Unknown} Missing description for ragdoll.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanRagdoll(player, state, delay, decay, ragdoll)
 	return true;
 end;
 
--- Called when the player attempts to be unragdolled.
+--[[
+	@codebase Server
+	@details Called when the player attempts to be unragdolled.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for state.
+	@param {Unknown} Missing description for ragdoll.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanUnragdoll(player, state, ragdoll)
 	return true;
 end;
 
--- Called when a player has been ragdolled.
+--[[
+	@codebase Server
+	@details Called when a player has been ragdolled.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for state.
+	@param {Unknown} Missing description for ragdoll.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerRagdolled(player, state, ragdoll)
 	player:SetSharedVar("FallenOver", false);
 end;
 
--- Called when a player has been unragdolled.
+--[[
+	@codebase Server
+	@details Called when a player has been unragdolled.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for state.
+	@param {Unknown} Missing description for ragdoll.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerUnragdolled(player, state, ragdoll)
 	player:SetSharedVar("FallenOver", false);
 end;
 
--- Called to check if a player does have a flag.
+--[[
+	@codebase Server
+	@details Called to check if a player does have a flag.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for flag.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerDoesHaveFlag(player, flag)
 	if (string.find(cwConfig:Get("default_flags"):Get(), flag)) then
 		return true;
 	end;
 end;
 
--- Called when a player's model should be set.
+--[[
+	@codebase Server
+	@details Called when a player's model should be set.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSetModel(player)
 	cwPly:SetDefaultModel(player);
 	cwPly:SetDefaultSkin(player);
 end;
 
--- Called to check if a player does have door access.
+--[[
+	@codebase Server
+	@details Called to check if a player does have door access.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for door.
+	@param {Unknown} Missing description for access.
+	@param {Unknown} Missing description for isAccurate.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerDoesHaveDoorAccess(player, door, access, isAccurate)
 	if (cwEntity:GetOwner(door) != player) then
 		local key = player:GetCharacterKey();
@@ -2176,12 +2941,27 @@ function Clockwork:PlayerDoesHaveDoorAccess(player, door, access, isAccurate)
 	end;
 end;
 
--- Called to check if a player does know another player.
+--[[
+	@codebase Server
+	@details Called to check if a player does know another player.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for target.
+	@param {Unknown} Missing description for status.
+	@param {Unknown} Missing description for isAccurate.
+	@param {Unknown} Missing description for realValue.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerDoesRecognisePlayer(player, target, status, isAccurate, realValue)
 	return realValue;
 end;
 
--- Called when a player attempts to lock an entity.
+--[[
+	@codebase Server
+	@details Called when a player attempts to lock an entity.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for entity.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanLockEntity(player, entity)
 	if (cwEntity:IsDoor(entity)) then
 		return cwPly:HasDoorAccess(player, entity);
@@ -2190,10 +2970,20 @@ function Clockwork:PlayerCanLockEntity(player, entity)
 	end;
 end;
 
--- Called when a player's class has been set.
+--[[
+	@codebase Server
+	@details Called when a player's class has been set.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerClassSet(player, newClass, oldClass, noRespawn, addDelay, noModelChange) end;
 
--- Called when a player attempts to unlock an entity.
+--[[
+	@codebase Server
+	@details Called when a player attempts to unlock an entity.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for entity.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanUnlockEntity(player, entity)
 	if (cwEntity:IsDoor(entity)) then
 		return cwPly:HasDoorAccess(player, entity);
@@ -2202,7 +2992,13 @@ function Clockwork:PlayerCanUnlockEntity(player, entity)
 	end;
 end;
 
--- Called when a player attempts to use a door.
+--[[
+	@codebase Server
+	@details Called when a player attempts to use a door.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for door.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanUseDoor(player, door)
 	if (cwEntity:GetOwner(door) and !cwPly:HasDoorAccess(player, door)) then
 		return false;
@@ -2215,22 +3011,46 @@ function Clockwork:PlayerCanUseDoor(player, door)
 	return true;
 end;
 
--- Called when a player uses a door.
+--[[
+	@codebase Server
+	@details Called when a player uses a door.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerUseDoor(player, door) end;
 
--- Called when a player attempts to use an entity in a vehicle.
+--[[
+	@codebase Server
+	@details Called when a player attempts to use an entity in a vehicle.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for entity.
+	@param {Unknown} Missing description for vehicle.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanUseEntityInVehicle(player, entity, vehicle)
 	if (entity.UsableInVehicle or cwEntity:IsDoor(entity)) then
 		return true;
 	end;
 end;
 
--- Called when a player's ragdoll attempts to decay.
+--[[
+	@codebase Server
+	@details Called when a player's ragdoll attempts to decay.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for ragdoll.
+	@param {Unknown} Missing description for seconds.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanRagdollDecay(player, ragdoll, seconds)
 	return true;
 end;
 
--- Called when a player attempts to exit a vehicle.
+--[[
+	@codebase Server
+	@details Called when a player attempts to exit a vehicle.
+	@param {Unknown} Missing description for vehicle.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:CanExitVehicle(vehicle, player)
 	local curTime = CurTime();
 
@@ -2269,7 +3089,13 @@ function Clockwork:CanExitVehicle(vehicle, player)
 	return true;
 end;
 
--- Called when a player leaves a vehicle.
+--[[
+	@codebase Server
+	@details Called when a player leaves a vehicle.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for vehicle.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerLeaveVehicle(player, vehicle)
 	timer.Simple(FrameTime() * 0.5, function()
 		if (IsValid(player) and !player:InVehicle()) then
@@ -2291,12 +3117,26 @@ function Clockwork:PlayerLeaveVehicle(player, vehicle)
 	end);
 end;
 
--- Called when a player attempts to enter a vehicle.
+--[[
+	@codebase Server
+	@details Called when a player attempts to enter a vehicle.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for vehicle.
+	@param {Unknown} Missing description for role.
+	@returns {Unknown}
+--]]
 function Clockwork:CanPlayerEnterVehicle(player, vehicle, role)
 	return true;
 end;
 
--- Called when a player enters a vehicle.
+--[[
+	@codebase Server
+	@details Called when a player enters a vehicle.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for vehicle.
+	@param {Unknown} Missing description for class.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerEnteredVehicle(player, vehicle, class)
 	timer.Simple(FrameTime() * 0.5, function()
 		if (IsValid(player)) then
@@ -2318,7 +3158,13 @@ function Clockwork:PlayerEnteredVehicle(player, vehicle, class)
 	end);
 end;
 
--- Called when a player attempts to change class.
+--[[
+	@codebase Server
+	@details Called when a player attempts to change class.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for class.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanChangeClass(player, class)
 	local curTime = CurTime();
 	
@@ -2331,31 +3177,69 @@ function Clockwork:PlayerCanChangeClass(player, class)
 	end;
 end;
 
--- Called when a player attempts to earn generator cash.
+--[[
+	@codebase Server
+	@details Called when a player attempts to earn generator cash.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for info.
+	@param {Unknown} Missing description for cash.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanEarnGeneratorCash(player, info, cash)
 	return true;
 end;
 
--- Called when a player earns generator cash.
+--[[
+	@codebase Server
+	@details Called when a player earns generator cash.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerEarnGeneratorCash(player, info, cash) end;
 
--- Called when a player attempts to earn wages cash.
+--[[
+	@codebase Server
+	@details Called when a player attempts to earn wages cash.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for cash.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanEarnWagesCash(player, cash)
 	return true;
 end;
 
--- Called when a player is given wages cash.
+--[[
+	@codebase Server
+	@details Called when a player is given wages cash.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for cash.
+	@param {Unknown} Missing description for wagesName.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerGiveWagesCash(player, cash, wagesName)
 	return true;
 end;
 
--- Called when a player earns wages cash.
+--[[
+	@codebase Server
+	@details Called when a player earns wages cash.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerEarnWagesCash(player, cash) end;
 
--- Called when Clockwork has loaded all of the entities.
+--[[
+	@codebase Server
+	@details Called when Clockwork has loaded all of the entities.
+	@returns {Unknown}
+--]]
 function Clockwork:ClockworkInitPostEntity() end;
 
--- Called when a player attempts to say something in-character.
+--[[
+	@codebase Server
+	@details Called when a player attempts to say something in-character.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for text.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanSayIC(player, text)
 	if ((!player:Alive() or player:IsRagdolled(RAGDOLL_FALLENOVER)) and !cwPly:GetDeathCode(player, true)) then
 		cwPly:Notify(player, {"CannotActionRightNow"});
@@ -2366,18 +3250,40 @@ function Clockwork:PlayerCanSayIC(player, text)
 	end;
 end;
 
--- Called when a player attempts to say something out-of-character.
+--[[
+	@codebase Server
+	@details Called when a player attempts to say something out-of-character.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanSayOOC(player, text) return true; end;
 
--- Called when a player attempts to say something locally out-of-character.
+--[[
+	@codebase Server
+	@details Called when a player attempts to say something locally out-of-character.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanSayLOOC(player, text) return true; end;
 
--- Called when attempts to use a command.
+--[[
+	@codebase Server
+	@details Called when attempts to use a command.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for commandTable.
+	@param {Unknown} Missing description for arguments.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanUseCommand(player, commandTable, arguments)
 	return true;
 end;
 
--- Called when a player speaks from the client.
+--[[
+	@codebase Server
+	@details Called when a player speaks from the client.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for text.
+	@param {Unknown} Missing description for bPublic.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSay(player, text, bPublic)
 	local prefix = cwConfig:Get("command_prefix"):Get();
 	local prefixLength = string.len(prefix);
@@ -2391,15 +3297,31 @@ function Clockwork:PlayerSay(player, text, bPublic)
  	end;
 end;
 
--- Called when a player attempts to suicide.
+--[[
+	@codebase Server
+	@details Called when a player attempts to suicide.
+	@returns {Unknown}
+--]]
 function Clockwork:CanPlayerSuicide(player) return false; end;
 
--- Called when a player attempts to punt an entity with the gravity gun.
+--[[
+	@codebase Server
+	@details Called when a player attempts to punt an entity with the gravity gun.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for entity.
+	@returns {Unknown}
+--]]
 function Clockwork:GravGunPunt(player, entity)
 	return cwConfig:Get("enable_gravgun_punt"):Get();
 end;
 
--- Called when a player attempts to pickup an entity with the gravity gun.
+--[[
+	@codebase Server
+	@details Called when a player attempts to pickup an entity with the gravity gun.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for entity.
+	@returns {Unknown}
+--]]
 function Clockwork:GravGunPickupAllowed(player, entity)
 	if (IsValid(entity)) then
 		if (!cwPly:IsAdmin(player) and !cwEntity:IsInteractable(entity)) then
@@ -2412,19 +3334,38 @@ function Clockwork:GravGunPickupAllowed(player, entity)
 	return false;
 end;
 
--- Called when a player picks up an entity with the gravity gun.
+--[[
+	@codebase Server
+	@details Called when a player picks up an entity with the gravity gun.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for entity.
+	@returns {Unknown}
+--]]
 function Clockwork:GravGunOnPickedUp(player, entity)
 	player.cwIsHoldingEnt = entity;
 	entity.cwIsBeingHeld = player;
 end;
 
--- Called when a player drops an entity with the gravity gun.
+--[[
+	@codebase Server
+	@details Called when a player drops an entity with the gravity gun.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for entity.
+	@returns {Unknown}
+--]]
 function Clockwork:GravGunOnDropped(player, entity)
 	player.cwIsHoldingEnt = nil;
 	entity.cwIsBeingHeld = nil;
 end;
 
--- Called when a player attempts to unfreeze an entity.
+--[[
+	@codebase Server
+	@details Called when a player attempts to unfreeze an entity.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for entity.
+	@param {Unknown} Missing description for physicsObject.
+	@returns {Unknown}
+--]]
 function Clockwork:CanPlayerUnfreeze(player, entity, physicsObject)
 	local isAdmin = cwPly:IsAdmin(player);
 	
@@ -2449,7 +3390,15 @@ function Clockwork:CanPlayerUnfreeze(player, entity, physicsObject)
 	return true;
 end;
 
--- Called when a player attempts to freeze an entity with the physics gun.
+--[[
+	@codebase Server
+	@details Called when a player attempts to freeze an entity with the physics gun.
+	@param {Unknown} Missing description for weapon.
+	@param {Unknown} Missing description for physicsObject.
+	@param {Unknown} Missing description for entity.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:OnPhysgunFreeze(weapon, physicsObject, entity, player)
 	local isAdmin = cwPly:IsAdmin(player);
 	
@@ -2486,7 +3435,13 @@ function Clockwork:OnPhysgunFreeze(weapon, physicsObject, entity, player)
 	end;
 end;
 
--- Called when a player attempts to pickup an entity with the physics gun.
+--[[
+	@codebase Server
+	@details Called when a player attempts to pickup an entity with the physics gun.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for entity.
+	@returns {Unknown}
+--]]
 function Clockwork:PhysgunPickup(player, entity)
 	local canPickup = nil;
 	local isAdmin = cwPly:IsAdmin(player);
@@ -2565,7 +3520,13 @@ function Clockwork:PhysgunPickup(player, entity)
 	end;
 end;
 
--- Called when a player attempts to drop an entity with the physics gun.
+--[[
+	@codebase Server
+	@details Called when a player attempts to drop an entity with the physics gun.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for entity.
+	@returns {Unknown}
+--]]
 function Clockwork:PhysgunDrop(player, entity)
 	if (!entity:IsPlayer() and entity.cwLastCollideGroup) then
 		cwEntity:ReturnCollisionGroup(
@@ -2583,7 +3544,13 @@ function Clockwork:PhysgunDrop(player, entity)
 	entity.cwIsBeingHeld = nil;
 end;
 
--- Called when a player attempts to spawn an NPC.
+--[[
+	@codebase Server
+	@details Called when a player attempts to spawn an NPC.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSpawnNPC(player, model)
 	if (!cwPly:HasFlags(player, "n")) then
 		return false;
@@ -2602,15 +3569,29 @@ function Clockwork:PlayerSpawnNPC(player, model)
 	end;
 end;
 
--- Called when an NPC has been killed.
+--[[
+	@codebase Server
+	@details Called when an NPC has been killed.
+	@returns {Unknown}
+--]]
 function Clockwork:OnNPCKilled(entity, attacker, inflictor) end;
 
--- Called to get whether an entity is being held.
+--[[
+	@codebase Server
+	@details Called to get whether an entity is being held.
+	@param {Unknown} Missing description for entity.
+	@returns {Unknown}
+--]]
 function Clockwork:GetEntityBeingHeld(entity)
 	return entity.cwIsBeingHeld or entity:IsPlayerHolding();
 end;
 
--- Called when an entity is removed.
+--[[
+	@codebase Server
+	@details Called when an entity is removed.
+	@param {Unknown} Missing description for entity.
+	@returns {Unknown}
+--]]
 function Clockwork:EntityRemoved(entity)
 	if (!cwKernel:IsShuttingDown()) then
 		if (IsValid(entity)) then
@@ -2650,7 +3631,15 @@ function Clockwork:EntityRemoved(entity)
 	end;
 end;
 
--- Called when an entity's menu option should be handled.
+--[[
+	@codebase Server
+	@details Called when an entity's menu option should be handled.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for entity.
+	@param {Unknown} Missing description for option.
+	@param {Unknown} Missing description for arguments.
+	@returns {Unknown}
+--]]
 function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 	local class = entity:GetClass();
 	local generator = self.generator:FindByID(class);
@@ -2832,7 +3821,14 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 	end;
 end;
 
--- Called when a player has spawned a prop.
+--[[
+	@codebase Server
+	@details Called when a player has spawned a prop.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for model.
+	@param {Unknown} Missing description for entity.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSpawnedProp(player, model, entity)
 	if (IsValid(entity)) then
 		local scalePropCost = cwConfig:Get("scale_prop_cost"):Get();
@@ -2871,7 +3867,13 @@ function Clockwork:PlayerSpawnedProp(player, model, entity)
 	end;
 end;
 
--- Called when a player attempts to spawn a prop.
+--[[
+	@codebase Server
+	@details Called when a player attempts to spawn a prop.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSpawnProp(player, model)
 	if (!cwPly:HasFlags(player, "e")) then
 		return false;
@@ -2889,7 +3891,13 @@ function Clockwork:PlayerSpawnProp(player, model)
 	return self.BaseClass:PlayerSpawnProp(player, model);
 end;
 
--- Called when a player attempts to spawn a ragdoll.
+--[[
+	@codebase Server
+	@details Called when a player attempts to spawn a ragdoll.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSpawnRagdoll(player, model)
 	if (!cwPly:HasFlags(player, "r")) then return false; end;
 	
@@ -2906,7 +3914,13 @@ function Clockwork:PlayerSpawnRagdoll(player, model)
 	end;
 end;
 
--- Called when a player attempts to spawn an effect.
+--[[
+	@codebase Server
+	@details Called when a player attempts to spawn an effect.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSpawnEffect(player, model)
 	if (!player:Alive() or player:IsRagdolled()) then
 		cwPly:Notify(player, {"CannotActionRightNow"});
@@ -2921,7 +3935,13 @@ function Clockwork:PlayerSpawnEffect(player, model)
 	end;
 end;
 
--- Called when a player attempts to spawn a vehicle.
+--[[
+	@codebase Server
+	@details Called when a player attempts to spawn a vehicle.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSpawnVehicle(player, model)
 	if (!string.find(model, "chair") and !string.find(model, "seat")) then
 		if (!cwPly:HasFlags(player, "C")) then
@@ -2944,7 +3964,14 @@ function Clockwork:PlayerSpawnVehicle(player, model)
 	return self.BaseClass:PlayerSpawnVehicle(player, model);
 end;
 
--- Called when a player attempts to use a tool.
+--[[
+	@codebase Server
+	@details Called when a player attempts to use a tool.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for trace.
+	@param {Unknown} Missing description for tool.
+	@returns {Unknown}
+--]]
 function Clockwork:CanTool(player, trace, tool)
 	local isAdmin = cwPly:IsAdmin(player);
 	
@@ -3026,7 +4053,14 @@ function Clockwork:CanTool(player, trace, tool)
 	end;
 end;
 
--- Called when a player attempts to use the property menu.
+--[[
+	@codebase Server
+	@details Called when a player attempts to use the property menu.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for property.
+	@param {Unknown} Missing description for entity.
+	@returns {Unknown}
+--]]
 function Clockwork:CanProperty(player, property, entity)
 	local isAdmin = cwPly:IsAdmin(player);
 	
@@ -3037,7 +4071,13 @@ function Clockwork:CanProperty(player, property, entity)
 	return self.BaseClass:CanProperty(player, property, entity);
 end;
 
--- Called when a player attempts to use drive.
+--[[
+	@codebase Server
+	@details Called when a player attempts to use drive.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for entity.
+	@returns {Unknown}
+--]]
 function Clockwork:CanDrive(player, entity)
 	local isAdmin = cwPly:IsAdmin(player);
 	
@@ -3048,7 +4088,12 @@ function Clockwork:CanDrive(player, entity)
 	return self.BaseClass:CanDrive(player, entity);
 end;
 
--- Called when a player attempts to NoClip.
+--[[
+	@codebase Server
+	@details Called when a player attempts to NoClip.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerNoClip(player)
 	if (player:IsRagdolled()) then
 		return false;
@@ -3059,7 +4104,12 @@ function Clockwork:PlayerNoClip(player)
 	end;
 end;
 
--- Called when a player's character has initialized.
+--[[
+	@codebase Server
+	@details Called when a player's character has initialized.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCharacterInitialized(player)
 	cwDatastream:Start(player, "InvClear", true);
 	cwDatastream:Start(player, "AttrClear", true);
@@ -3145,13 +4195,26 @@ function Clockwork:PlayerCharacterInitialized(player)
 	end;
 end;
 
--- Called when a player has used their death code.
+--[[
+	@codebase Server
+	@details Called when a player has used their death code.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerDeathCodeUsed(player, commandTable, arguments) end;
 
--- Called when a player has created a character.
+--[[
+	@codebase Server
+	@details Called when a player has created a character.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCharacterCreated(player, character) end;
 
--- Called when a player's character has unloaded.
+--[[
+	@codebase Server
+	@details Called when a player's character has unloaded.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCharacterUnloaded(player)
 	cwPly:SetupRemovePropertyDelays(player);
 	cwPly:DisableProperty(player);
@@ -3160,7 +4223,12 @@ function Clockwork:PlayerCharacterUnloaded(player)
 	player:SetTeam(TEAM_UNASSIGNED);
 end;
 
--- Called when a player's character has loaded.
+--[[
+	@codebase Server
+	@details Called when a player's character has loaded.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCharacterLoaded(player)
 	player:SetSharedVar("InvWeight", cwConfig:Get("default_inv_weight"):Get());
 	player:SetSharedVar("InvSpace", cwConfig:Get("default_inv_space"):Get());
@@ -3233,10 +4301,19 @@ function Clockwork:PlayerCharacterLoaded(player)
 	end;
 end;
 
--- Called when a player's property should be restored.
+--[[
+	@codebase Server
+	@details Called when a player's property should be restored.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerReturnProperty(player) end;
 
--- Called when config has initialized for a player.
+--[[
+	@codebase Server
+	@details Called when config has initialized for a player.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerConfigInitialized(player)
 	cwPlugin:Call("PlayerSendDataStreamInfo", player);
 	
@@ -3251,30 +4328,66 @@ function Clockwork:PlayerConfigInitialized(player)
 	end;
 end;
 
--- Called when a player has used their radio.
+--[[
+	@codebase Server
+	@details Called when a player has used their radio.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerRadioUsed(player, text, listeners, eavesdroppers) end;
 
--- Called when a player's drop weapon info should be adjusted.
+--[[
+	@codebase Server
+	@details Called when a player's drop weapon info should be adjusted.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for info.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAdjustDropWeaponInfo(player, info)
 	return true;
 end;
 
--- Called when a player's character creation info should be adjusted.
+--[[
+	@codebase Server
+	@details Called when a player's character creation info should be adjusted.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAdjustCharacterCreationInfo(player, info, data) end;
 
--- Called when a player's earn generator info should be adjusted.
+--[[
+	@codebase Server
+	@details Called when a player's earn generator info should be adjusted.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAdjustEarnGeneratorInfo(player, info) end;
 
--- Called when a player's order item should be adjusted.
+--[[
+	@codebase Server
+	@details Called when a player's order item should be adjusted.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAdjustOrderItemTable(player, itemTable) end;
 
--- Called when a player's next punch info should be adjusted.
+--[[
+	@codebase Server
+	@details Called when a player's next punch info should be adjusted.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAdjustNextPunchInfo(player, info) end;
 
--- Called when a player uses an unknown item function.
+--[[
+	@codebase Server
+	@details Called when a player uses an unknown item function.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerUseUnknownItemFunction(player, itemTable, itemFunction) end;
 
--- Called when a player's character table should be adjusted.
+--[[
+	@codebase Server
+	@details Called when a player's character table should be adjusted.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for character.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAdjustCharacterTable(player, character)
 	if (self.faction.stored[character.faction]) then
 		if (self.faction.stored[character.faction].whitelist
@@ -3286,7 +4399,14 @@ function Clockwork:PlayerAdjustCharacterTable(player, character)
 	end;
 end;
 
--- Called when a player's character screen info should be adjusted.
+--[[
+	@codebase Server
+	@details Called when a player's character screen info should be adjusted.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for character.
+	@param {Unknown} Missing description for info.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAdjustCharacterScreenInfo(player, character, info)
 	local playerRank, rank = player:GetFactionRank();
 
@@ -3295,13 +4415,26 @@ function Clockwork:PlayerAdjustCharacterScreenInfo(player, character, info)
 	end;
 end;
 
--- Called when a player's prop cost info should be adjusted.
+--[[
+	@codebase Server
+	@details Called when a player's prop cost info should be adjusted.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAdjustPropCostInfo(player, entity, info) end;
 
--- Called when a player's death info should be adjusted.
+--[[
+	@codebase Server
+	@details Called when a player's death info should be adjusted.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAdjustDeathInfo(player, info) end;
 
--- Called when chat box info should be adjusted.
+--[[
+	@codebase Server
+	@details Called when chat box info should be adjusted.
+	@param {Unknown} Missing description for info.
+	@returns {Unknown}
+--]]
 function Clockwork:ChatBoxAdjustInfo(info)
 	if (info.class == "ic") then
 		cwKernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerSays", info.speaker:Name(), info.text});
@@ -3310,13 +4443,25 @@ function Clockwork:ChatBoxAdjustInfo(info)
 	end;
 end;
 
--- Called when a player's radio text should be adjusted.
+--[[
+	@codebase Server
+	@details Called when a player's radio text should be adjusted.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerAdjustRadioInfo(player, info) end;
 
--- Called when a player should gain a frag.
+--[[
+	@codebase Server
+	@details Called when a player should gain a frag.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerCanGainFrag(player, victim) return true; end;
 
--- Called just after a player spawns.
+--[[
+	@codebase Server
+	@details Called just after a player spawns.
+	@returns {Unknown}
+--]]
 function Clockwork:PostPlayerSpawn(player, lightSpawn, changeClass, firstSpawn)	
 	if (firstSpawn) then
 		local attrBoosts = player:GetCharacterData("AttrBoosts");
@@ -3347,21 +4492,48 @@ function Clockwork:PostPlayerSpawn(player, lightSpawn, changeClass, firstSpawn)
 	player:Fire("Targetname", player:GetFaction(), 0);
 end;
 
--- Called just before a player would take damage.
+--[[
+	@codebase Server
+	@details Called just before a player would take damage.
+	@returns {Unknown}
+--]]
 function Clockwork:PrePlayerTakeDamage(player, attacker, inflictor, damageInfo) end;
 
--- Called when a player should take damage.
+--[[
+	@codebase Server
+	@details Called when a player should take damage.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for attacker.
+	@param {Unknown} Missing description for inflictor.
+	@param {Unknown} Missing description for damageInfo.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerShouldTakeDamage(player, attacker, inflictor, damageInfo)
 	return !cwPly:IsNoClipping(player);
 end;
 
--- Called when a player is attacked by a trace.
+--[[
+	@codebase Server
+	@details Called when a player is attacked by a trace.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for damageInfo.
+	@param {Unknown} Missing description for direction.
+	@param {Unknown} Missing description for trace.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerTraceAttack(player, damageInfo, direction, trace)
 	player.cwLastHitGroup = trace.HitGroup;
 	return false;
 end;
 
--- Called just before a player dies.
+--[[
+	@codebase Server
+	@details Called just before a player dies.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for attacker.
+	@param {Unknown} Missing description for damageInfo.
+	@returns {Unknown}
+--]]
 function Clockwork:DoPlayerDeath(player, attacker, damageInfo)
 	cwPly:DropWeapons(player, attacker);
 	cwPly:SetAction(player, false);
@@ -3410,7 +4582,15 @@ function Clockwork:DoPlayerDeath(player, attacker, damageInfo)
 	end;
 end;
 
--- Called when a player dies.
+--[[
+	@codebase Server
+	@details Called when a player dies.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for inflictor.
+	@param {Unknown} Missing description for attacker.
+	@param {Unknown} Missing description for damageInfo.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerDeath(player, inflictor, attacker, damageInfo)
 	cwKernel:CalculateSpawnTime(player, inflictor, attacker, damageInfo);
 	
@@ -3446,15 +4626,32 @@ function Clockwork:PlayerDeath(player, inflictor, attacker, damageInfo)
 	end;
 end;
 
--- Called when an item entity has taken damage.
+--[[
+	@codebase Server
+	@details Called when an item entity has taken damage.
+	@param {Unknown} Missing description for itemEntity.
+	@param {Unknown} Missing description for itemTable.
+	@param {Unknown} Missing description for damageInfo.
+	@returns {Unknown}
+--]]
 function Clockwork:ItemEntityTakeDamage(itemEntity, itemTable, damageInfo)
 	return true;
 end;
 
--- Called when an item entity has been destroyed.
+--[[
+	@codebase Server
+	@details Called when an item entity has been destroyed.
+	@returns {Unknown}
+--]]
 function Clockwork:ItemEntityDestroyed(itemEntity, itemTable) end;
 
--- Called when an item's network observers are needed.
+--[[
+	@codebase Server
+	@details Called when an item's network observers are needed.
+	@param {Unknown} Missing description for itemTable.
+	@param {Unknown} Missing description for info.
+	@returns {Unknown}
+--]]
 function Clockwork:ItemGetNetworkObservers(itemTable, info)
 	local uniqueID = itemTable("uniqueID");
 	local itemID = itemTable("itemID");
@@ -3479,7 +4676,12 @@ function Clockwork:ItemGetNetworkObservers(itemTable, info)
 	end;
 end;
 
--- Called when a player's weapons should be given.
+--[[
+	@codebase Server
+	@details Called when a player's weapons should be given.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerLoadout(player)
 	local weapons = cwClass:Query(player:Team(), "weapons");
 	local ammo = cwClass:Query(player:Team(), "ammo");
@@ -3536,17 +4738,31 @@ function Clockwork:PlayerLoadout(player)
 	end;
 end
 
--- Called when the server shuts down.
+--[[
+	@codebase Server
+	@details Called when the server shuts down.
+	@returns {Unknown}
+--]]
 function Clockwork:ShutDown()
 	self.ShuttingDown = true;
 end;
 
--- Called when a player presses F1.
+--[[
+	@codebase Server
+	@details Called when a player presses F1.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:ShowHelp(player)
 	cwDatastream:Start(player, "InfoToggle", true);
 end;
 
--- Called when a player presses F2.
+--[[
+	@codebase Server
+	@details Called when a player presses F2.
+	@param {Unknown} Missing description for ply.
+	@returns {Unknown}
+--]]
 function Clockwork:ShowTeam(ply)
 	if (!cwPly:IsNoClipping(ply)) then
 		local doRecogniseMenu = true;
@@ -3601,10 +4817,23 @@ function Clockwork:ShowTeam(ply)
 	end;
 end;
 
--- Called when a player selects a custom character option.
+--[[
+	@codebase Server
+	@details Called when a player selects a custom character option.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSelectCustomCharacterOption(player, action, character) end;
 
--- Called when a player takes damage.
+--[[
+	@codebase Server
+	@details Called when a player takes damage.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for inflictor.
+	@param {Unknown} Missing description for attacker.
+	@param {Unknown} Missing description for hitGroup.
+	@param {Unknown} Missing description for damageInfo.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerTakeDamage(player, inflictor, attacker, hitGroup, damageInfo)
 	if (damageInfo:IsBulletDamage() and cwEvent:CanRun("limb_damage", "stumble")) then
 		if (hitGroup == HITGROUP_LEFTLEG or hitGroup == HITGROUP_RIGHTLEG) then
@@ -3621,7 +4850,13 @@ function Clockwork:PlayerTakeDamage(player, inflictor, attacker, hitGroup, damag
 	end;
 end;
 
--- Called when an entity takes damage.
+--[[
+	@codebase Server
+	@details Called when an entity takes damage.
+	@param {Unknown} Missing description for entity.
+	@param {Unknown} Missing description for damageInfo.
+	@returns {Unknown}
+--]]
 function Clockwork:EntityTakeDamage(entity, damageInfo)
 	local inflictor = damageInfo:GetInflictor();
 	local attacker = damageInfo:GetAttacker();
@@ -3817,10 +5052,21 @@ function Clockwork:EntityTakeDamage(entity, damageInfo)
 	end;
 end;
 
--- Called when the death sound for a player should be played.
+--[[
+	@codebase Server
+	@details Called when the death sound for a player should be played.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerDeathSound(player) return true; end;
 
--- Called when a player attempts to spawn a SWEP.
+--[[
+	@codebase Server
+	@details Called when a player attempts to spawn a SWEP.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for class.
+	@param {Unknown} Missing description for weapon.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSpawnSWEP(player, class, weapon)
 	if (!player:IsSuperAdmin()) then
 		return false;
@@ -3829,7 +5075,14 @@ function Clockwork:PlayerSpawnSWEP(player, class, weapon)
 	end;
 end;
 
--- Called when a player is given a SWEP.
+--[[
+	@codebase Server
+	@details Called when a player is given a SWEP.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for class.
+	@param {Unknown} Missing description for weapon.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerGiveSWEP(player, class, weapon)
 	if (!player:IsSuperAdmin()) then
 		return false;
@@ -3838,7 +5091,13 @@ function Clockwork:PlayerGiveSWEP(player, class, weapon)
 	end;
 end;
 
--- Called when attempts to spawn a SENT.
+--[[
+	@codebase Server
+	@details Called when attempts to spawn a SENT.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for class.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSpawnSENT(player, class)
 	if (!player:IsSuperAdmin()) then
 		return false;
@@ -3847,7 +5106,13 @@ function Clockwork:PlayerSpawnSENT(player, class)
 	end;
 end;
 
--- Called when a player presses a key.
+--[[
+	@codebase Server
+	@details Called when a player presses a key.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for key.
+	@returns {Unknown}
+--]]
 function Clockwork:KeyPress(player, key)
 	if (key == IN_USE) then
 		local trace = player:GetEyeTraceNoCursor();
@@ -3926,14 +5191,25 @@ end;
 --]]
 function Clockwork:PlayerCanQuickRaise(player, weapon) return true end;
 
--- Called when a player releases a key.
+--[[
+	@codebase Server
+	@details Called when a player releases a key.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for key.
+	@returns {Unknown}
+--]]
 function Clockwork:KeyRelease(player, key)
 	if (key == IN_RELOAD and player.cwReloadHoldTime) then
 		player.cwReloadHoldTime = nil;
 	end;
 end;
 
--- A function to setup a player's visibility.
+--[[
+	@codebase Server
+	@details A function to setup a player's visibility.
+	@param {Unknown} Missing description for player.
+	@returns {Unknown}
+--]]
 function Clockwork:SetupPlayerVisibility(player)
 	local ragdollEntity = player:GetRagdollEntity();
 	
@@ -3942,7 +5218,13 @@ function Clockwork:SetupPlayerVisibility(player)
 	end;
 end;
 
--- Called after a player has spawned an NPC.
+--[[
+	@codebase Server
+	@details Called after a player has spawned an NPC.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for npc.
+	@returns {Unknown}
+--]]
 function Clockwork:PlayerSpawnedNPC(player, npc)
 	local faction;
 	local relation;

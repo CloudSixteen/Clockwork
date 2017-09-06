@@ -12,7 +12,11 @@ local tonumber = tonumber;
 Clockwork.time = Clockwork.kernel:NewLibrary("Time");
 Clockwork.date = Clockwork.kernel:NewLibrary("Date");
 
--- A function to get the time minute.
+--[[
+	@codebase Shared
+	@details A function to get the time minute.
+	@returns {Unknown}
+--]]
 function Clockwork.time:GetMinute()
 	if (CLIENT) then
 		return Clockwork.kernel:GetSharedVar("Minute");
@@ -21,7 +25,11 @@ function Clockwork.time:GetMinute()
 	end;
 end;
 
--- A function to get the time hour.
+--[[
+	@codebase Shared
+	@details A function to get the time hour.
+	@returns {Unknown}
+--]]
 function Clockwork.time:GetHour()
 	if (CLIENT) then
 		return Clockwork.kernel:GetSharedVar("Hour");
@@ -30,7 +38,11 @@ function Clockwork.time:GetHour()
 	end;
 end;
 
--- A function to get the time day.
+--[[
+	@codebase Shared
+	@details A function to get the time day.
+	@returns {Unknown}
+--]]
 function Clockwork.time:GetDay()
 	if (CLIENT) then
 		return Clockwork.kernel:GetSharedVar("Day");
@@ -39,7 +51,11 @@ function Clockwork.time:GetDay()
 	end;
 end;
 
--- A function to get the day name.
+--[[
+	@codebase Shared
+	@details A function to get the day name.
+	@returns {Unknown}
+--]]
 function Clockwork.time:GetDayName()
 	local defaultDays = Clockwork.option:GetKey("default_days");
 	
@@ -57,7 +73,11 @@ if (SERVER) then
 		};
 	end;
 	
-	-- A function to get the date save data.
+	--[[
+		@codebase Shared
+		@details A function to get the date save data.
+		@returns {Unknown}
+	--]]
 	function Clockwork.date:GetSaveData()
 		return {
 			month = self:GetMonth(),
@@ -66,17 +86,29 @@ if (SERVER) then
 		};
 	end;
 	
-	-- A function to get the date year.
+	--[[
+		@codebase Shared
+		@details A function to get the date year.
+		@returns {Unknown}
+	--]]
 	function Clockwork.date:GetYear()
 		return self.year;
 	end;
 
-	-- A function to get the date month.
+	--[[
+		@codebase Shared
+		@details A function to get the date month.
+		@returns {Unknown}
+	--]]
 	function Clockwork.date:GetMonth()
 		return self.month;
 	end;
 
-	-- A function to get the date day.
+	--[[
+		@codebase Shared
+		@details A function to get the date day.
+		@returns {Unknown}
+	--]]
 	function Clockwork.date:GetDay()
 		return self.day;
 	end;
@@ -85,7 +117,11 @@ else
 		return Clockwork.kernel:GetSharedVar("Date");
 	end;
 	
-	-- A function to get the time as a string.
+	--[[
+		@codebase Shared
+		@details A function to get the time as a string.
+		@returns {Unknown}
+	--]]
 	function Clockwork.time:GetString()
 		local minute = Clockwork.kernel:ZeroNumberToDigits(self:GetMinute(), 2);
 		local hour = Clockwork.kernel:ZeroNumberToDigits(self:GetHour(), 2);

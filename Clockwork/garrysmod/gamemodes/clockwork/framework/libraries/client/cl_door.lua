@@ -11,7 +11,11 @@ local IsValid = IsValid;
 
 Clockwork.door = Clockwork.kernel:NewLibrary("Door");
 
--- A function to get whether the door panel is open.
+--[[
+	@codebase Client
+	@details A function to get whether the door panel is open.
+	@returns {Unknown}
+--]]
 function Clockwork.door:IsDoorPanelOpen()
 	local panel = self:GetPanel();
 	
@@ -20,51 +24,87 @@ function Clockwork.door:IsDoorPanelOpen()
 	end;
 end;
 
--- A function to get whether the door has shared text.
+--[[
+	@codebase Client
+	@details A function to get whether the door has shared text.
+	@returns {Unknown}
+--]]
 function Clockwork.door:HasSharedText()
 	return self.cwDoorSharedTxt;
 end;
 
--- A function to get whether the door has shared access.
+--[[
+	@codebase Client
+	@details A function to get whether the door has shared access.
+	@returns {Unknown}
+--]]
 function Clockwork.door:HasSharedAccess()
 	return self.cwDoorSharedAxs;
 end;
 
--- A function to get whether the door is a parent.
+--[[
+	@codebase Client
+	@details A function to get whether the door is a parent.
+	@returns {Unknown}
+--]]
 function Clockwork.door:IsParent()
 	return self.isParent;
 end;
 
--- A function to get whether the door is unsellable.
+--[[
+	@codebase Client
+	@details A function to get whether the door is unsellable.
+	@returns {Unknown}
+--]]
 function Clockwork.door:IsUnsellable()
 	return self.unsellable;
 end;
 
--- A function to get the door's access list.
+--[[
+	@codebase Client
+	@details A function to get the door's access list.
+	@returns {Unknown}
+--]]
 function Clockwork.door:GetAccessList()
 	return self.accessList;
 end;
 
--- A function to get the door's name.
+--[[
+	@codebase Client
+	@details A function to get the door's name.
+	@returns {Unknown}
+--]]
 function Clockwork.door:GetName()
 	return self.name;
 end;
 
--- A function to get the door panel.
+--[[
+	@codebase Client
+	@details A function to get the door panel.
+	@returns {Unknown}
+--]]
 function Clockwork.door:GetPanel()
 	if (IsValid(self.panel)) then
 		return self.panel;
 	end;
 end;
 
--- A function to get the door owner.
+--[[
+	@codebase Client
+	@details A function to get the door owner.
+	@returns {Unknown}
+--]]
 function Clockwork.door:GetOwner()
 	if (IsValid(self.owner)) then
 		return self.owner;
 	end;
 end;
 
--- A function to get the door entity.
+--[[
+	@codebase Client
+	@details A function to get the door entity.
+	@returns {Unknown}
+--]]
 function Clockwork.door:GetEntity()
 	return self.entity;
 end;

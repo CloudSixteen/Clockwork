@@ -682,12 +682,24 @@ Clockwork.animation.stored.player = {
 	["sit"] = ACT_BUSY_SIT_CHAIR
 };
 
--- A function to set a model's menu sequence.
+--[[
+	@codebase Shared
+	@details A function to set a model's menu sequence.
+	@param {Unknown} Missing description for model.
+	@param {Unknown} Missing description for sequence.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:SetMenuSequence(model, sequence)
 	self.sequences[string.lower(model)] = sequence;
 end;
 
--- A function to get a model's menu sequence.
+--[[
+	@codebase Shared
+	@details A function to get a model's menu sequence.
+	@param {Unknown} Missing description for model.
+	@param {Unknown} Missing description for bRandom.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:GetMenuSequence(model, bRandom)
 	local lowerModel = string.lower(model);
 	local sequence = self.sequences[lowerModel];
@@ -705,14 +717,27 @@ function Clockwork.animation:GetMenuSequence(model, bRandom)
 	end;
 end;
 
--- A function to add a model.
+--[[
+	@codebase Shared
+	@details A function to add a model.
+	@param {Unknown} Missing description for class.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:AddModel(class, model)
 	local lowerModel = string.lower(model);
 		self.models[lowerModel] = class;
 	return lowerModel;
 end;
 
--- A function to add an override.
+--[[
+	@codebase Shared
+	@details A function to add an override.
+	@param {Unknown} Missing description for model.
+	@param {Unknown} Missing description for key.
+	@param {Unknown} Missing description for value.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:AddOverride(model, key, value)
 	local lowerModel = string.lower(model);
 	
@@ -723,7 +748,13 @@ function Clockwork.animation:AddOverride(model, key, value)
 	self.override[lowerModel][key] = value;
 end;
 
--- A function to get an animation for a model.
+--[[
+	@codebase Shared
+	@details A function to get an animation for a model.
+	@param {Unknown} Missing description for model.
+	@param {Unknown} Missing description for key.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:GetForModel(model, key)
 	if (!model) then
 		debug.Trace();
@@ -743,7 +774,13 @@ function Clockwork.animation:GetForModel(model, key)
 	return finalAnimation;
 end;
 
--- A function to get a model's class.
+--[[
+	@codebase Shared
+	@details A function to get a model's class.
+	@param {Unknown} Missing description for model.
+	@param {Unknown} Missing description for alwaysReal.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:GetModelClass(model, alwaysReal)
 	local modelClass = self.models[string.lower(model)];
 	
@@ -756,32 +793,63 @@ function Clockwork.animation:GetModelClass(model, alwaysReal)
 	end;
 end;
 
--- A function to add a vortigaunt model.
+--[[
+	@codebase Shared
+	@details A function to add a vortigaunt model.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:AddVortigauntModel(model)
 	return self:AddModel("vortigaunt", model);
 end;
 
--- A function to add a Combine Overwatch model.
+--[[
+	@codebase Shared
+	@details A function to add a Combine Overwatch model.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:AddCombineOverwatchModel(model)
 	return self:AddModel("combineOverwatch", model);
 end;
 
--- A function to add a Civil Protection model.
+--[[
+	@codebase Shared
+	@details A function to add a Civil Protection model.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:AddCivilProtectionModel(model)
 	return self:AddModel("civilProtection", model);
 end;
 
--- A function to add a female human model.
+--[[
+	@codebase Shared
+	@details A function to add a female human model.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:AddFemaleHumanModel(model)
 	return self:AddModel("femaleHuman", model);
 end;
 
--- A function to add a male human model.
+--[[
+	@codebase Shared
+	@details A function to add a male human model.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:AddMaleHumanModel(model)
 	return self:AddModel("maleHuman", model);
 end;
 
--- A function to get a weapon's hold type.
+--[[
+	@codebase Shared
+	@details A function to get a weapon's hold type.
+	@param {Unknown} Missing description for player.
+	@param {Unknown} Missing description for weapon.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:GetWeaponHoldType(player, weapon)
 	local class = string.lower(weapon:GetClass());
 	local weaponTable = weapons.GetStored(class);
@@ -806,7 +874,12 @@ function Clockwork.animation:GetWeaponHoldType(player, weapon)
 	return string.lower(holdType);
 end;
 
--- A function to get an animation table.
+--[[
+	@codebase Shared
+	@details A function to get an animation table.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:GetTable(model)
 	local lowerModel = string.lower(model);
 	local class = self.models[lowerModel];
@@ -825,17 +898,33 @@ end;
 local handsModels = {};
 local blackModels = {};
 
--- A function to add viewmodel c_arms info to a model.
+--[[
+	@codebase Shared
+	@details A function to add viewmodel c_arms info to a model.
+	@param {Unknown} Missing description for model.
+	@param {Unknown} Missing description for hands.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:AddHandsModel(model, hands)
 	handsModels[string.lower(model)] = hands;
 end;
 
--- A function to make a model use the black skin for hands viewmodels.
+--[[
+	@codebase Shared
+	@details A function to make a model use the black skin for hands viewmodels.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:AddBlackModel(model)
 	blackModels[string.lower(model)] = true;
 end;
 
--- A function to make a model use the zombie skin for citizen hands.
+--[[
+	@codebase Shared
+	@details A function to make a model use the zombie skin for citizen hands.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:AddZombieHands(model)
 	self:AddHandsModel(model, {
 		body = 0000000,
@@ -844,7 +933,12 @@ function Clockwork.animation:AddZombieHands(model)
 	});
 end;
 
--- A function to make a model use the HL2 HEV viewmodel hands.
+--[[
+	@codebase Shared
+	@details A function to make a model use the HL2 HEV viewmodel hands.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:AddHEVHands(model)
 	self:AddHandsModel(model, {
 		body = 0000000,
@@ -853,7 +947,12 @@ function Clockwork.animation:AddHEVHands(model)
 	});
 end;
 
--- A function to make a model use the combine viewmodel hands.
+--[[
+	@codebase Shared
+	@details A function to make a model use the combine viewmodel hands.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:AddCombineHands(model)
 	self:AddHandsModel(model, {
 		body = 0000000,
@@ -862,7 +961,12 @@ function Clockwork.animation:AddCombineHands(model)
 	});
 end;
 
--- A function to make a model use the CSS viewmodel hands.
+--[[
+	@codebase Shared
+	@details A function to make a model use the CSS viewmodel hands.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:AddCSSHands(model)
 	self:AddHandsModel(model, {
 		body = 0000000,
@@ -871,7 +975,12 @@ function Clockwork.animation:AddCSSHands(model)
 	});
 end;
 
--- A function to make a model use the refugee viewmodel hands.
+--[[
+	@codebase Shared
+	@details A function to make a model use the refugee viewmodel hands.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:AddRefugeeHands(model)
 	self:AddHandsModel(model, {
 		body = 01,
@@ -880,7 +989,12 @@ function Clockwork.animation:AddRefugeeHands(model)
 	});
 end;
 
--- a function to make a model use the refugee viewmodel hands with a zombie skin.
+--[[
+	@codebase Shared
+	@details a function to make a model use the refugee viewmodel hands with a zombie skin.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:AddZombieRefugeeHands(model)
 	self:AddHandsModel(model, {
 		body = 0000000,
@@ -889,7 +1003,13 @@ function Clockwork.animation:AddZombieRefugeeHands(model)
 	});
 end;
 
--- A function to check for stored hands info by model.
+--[[
+	@codebase Shared
+	@details A function to check for stored hands info by model.
+	@param {Unknown} Missing description for model.
+	@param {Unknown} Missing description for animTable.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:CheckHands(model, animTable)
 	local info = animTable.hands or {
 		body = 0000000,
@@ -910,7 +1030,13 @@ function Clockwork.animation:CheckHands(model, animTable)
 	return info;
 end;
 
--- A function to adjust the hands info with checks for if a model is set to use the black skin.
+--[[
+	@codebase Shared
+	@details A function to adjust the hands info with checks for if a model is set to use the black skin.
+	@param {Unknown} Missing description for model.
+	@param {Unknown} Missing description for info.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:AdjustHandsInfo(model, info)
 	if (info.model == "models/weapons/c_arms_citizen.mdl"
 	or info.model == "models/weapons/c_arms_refugee.mdl") then
@@ -928,7 +1054,12 @@ function Clockwork.animation:AdjustHandsInfo(model, info)
 	Clockwork.plugin:Call("AdjustCModelHandsInfo", model, info);
 end;
 
--- A function to get the c_model hands based on model.
+--[[
+	@codebase Shared
+	@details A function to get the c_model hands based on model.
+	@param {Unknown} Missing description for model.
+	@returns {Unknown}
+--]]
 function Clockwork.animation:GetHandsInfo(model)
 	local animTable = self:GetTable(model);
 

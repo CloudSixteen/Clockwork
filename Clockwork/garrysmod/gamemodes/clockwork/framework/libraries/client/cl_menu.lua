@@ -18,7 +18,11 @@ Clockwork.menu.width = math.min(ScrW() * 0.7, 768);
 Clockwork.menu.height = ScrH() * 0.75;
 Clockwork.menu.stored = Clockwork.menu.stored or {};
 
--- A function to get the menu's active panel.
+--[[
+	@codebase Client
+	@details A function to get the menu's active panel.
+	@returns {Unknown}
+--]]
 function Clockwork.menu:GetActivePanel()
 	local panel = self:GetPanel();
 	
@@ -27,32 +31,57 @@ function Clockwork.menu:GetActivePanel()
 	end;
 end;
 
--- A function to get whether a panel is active.
+--[[
+	@codebase Client
+	@details A function to get whether a panel is active.
+	@param {Unknown} Missing description for panel.
+	@returns {Unknown}
+--]]
 function Clockwork.menu:IsPanelActive(panel)
 	return (Clockwork.menu:GetOpen() and self:GetActivePanel() == panel);
 end;
 
--- A function to get the menu hold time.
+--[[
+	@codebase Client
+	@details A function to get the menu hold time.
+	@returns {Unknown}
+--]]
 function Clockwork.menu:GetHoldTime()
 	return self.holdTime;
 end;
 
--- A function to get the menu's items.
+--[[
+	@codebase Client
+	@details A function to get the menu's items.
+	@returns {Unknown}
+--]]
 function Clockwork.menu:GetItems()
 	return self.stored;
 end;
 
--- A function to get the menu's width.
+--[[
+	@codebase Client
+	@details A function to get the menu's width.
+	@returns {Unknown}
+--]]
 function Clockwork.menu:GetWidth()
 	return self.width;
 end;
 
--- A function to get the menu's height.
+--[[
+	@codebase Client
+	@details A function to get the menu's height.
+	@returns {Unknown}
+--]]
 function Clockwork.menu:GetHeight()
 	return self.height;
 end;
 
--- A function to toggle whether the menu is open.
+--[[
+	@codebase Client
+	@details A function to toggle whether the menu is open.
+	@returns {Unknown}
+--]]
 function Clockwork.menu:ToggleOpen()
 	local panel = self:GetPanel();
 	
@@ -65,7 +94,12 @@ function Clockwork.menu:ToggleOpen()
 	end;
 end;
 
--- A function to set whether the menu is open.
+--[[
+	@codebase Client
+	@details A function to set whether the menu is open.
+	@param {Unknown} Missing description for bIsOpen.
+	@returns {Unknown}
+--]]
 function Clockwork.menu:SetOpen(bIsOpen)
 	local panel = self:GetPanel();
 	
@@ -74,19 +108,32 @@ function Clockwork.menu:SetOpen(bIsOpen)
 	end;
 end;
 
--- A function to get whether the menu is open.
+--[[
+	@codebase Client
+	@details A function to get whether the menu is open.
+	@returns {Unknown}
+--]]
 function Clockwork.menu:GetOpen()
 	return self.bIsOpen;
 end;
 
--- A function to get the menu panel.
+--[[
+	@codebase Client
+	@details A function to get the menu panel.
+	@returns {Unknown}
+--]]
 function Clockwork.menu:GetPanel()
 	if (IsValid(self.panel)) then
 		return self.panel;
 	end;
 end;
 
--- A function to create the menu.
+--[[
+	@codebase Client
+	@details A function to create the menu.
+	@param {Unknown} Missing description for setOpen.
+	@returns {Unknown}
+--]]
 function Clockwork.menu:Create(setOpen)
 	local panel = self:GetPanel();
 	

@@ -35,29 +35,53 @@ CMD_ALL = bit.bor(CMD_DEAD, CMD_VEHICLE, CMD_RAGDOLLED);
 --[[ Set the __index meta function of the class. --]]
 local CLASS_TABLE = {__index = CLASS_TABLE};
 
--- A function to register a new command.
+--[[
+	@codebase Shared
+	@details A function to register a new command.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:Register()
 	return Clockwork.command:Register(self, self.name);
 end;
 
--- A function to get all stored commands.
+--[[
+	@codebase Shared
+	@details A function to get all stored commands.
+	@returns {Unknown}
+--]]
 function Clockwork.command:GetAll()
 	return self.stored;
 end;
 
--- A function to get a new command.
+--[[
+	@codebase Shared
+	@details A function to get a new command.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.command:New(name)
 	local object = Clockwork.kernel:NewMetaTable(CLASS_TABLE);
 		object.name = name or "Unknown";
 	return object;
 end;
 
--- A function to remove a command.
+--[[
+	@codebase Shared
+	@details A function to remove a command.
+	@param {Unknown} Missing description for identifier.
+	@returns {Unknown}
+--]]
 function Clockwork.command:RemoveByID(identifier)
 	self.stored[string.lower(string.gsub(identifier, "%s", ""))] = nil;
 end;
 
--- A function to set whether a command is hidden.
+--[[
+	@codebase Shared
+	@details A function to set whether a command is hidden.
+	@param {Unknown} Missing description for name.
+	@param {Unknown} Missing description for isHidden.
+	@returns {Unknown}
+--]]
 function Clockwork.command:SetHidden(name, isHidden)
 	local uniqueID = string.lower(string.gsub(name, "%s", ""));
 
@@ -81,7 +105,13 @@ function Clockwork.command:SetHidden(name, isHidden)
 	end;
 end;
 
--- A function to register a new command.
+--[[
+	@codebase Shared
+	@details A function to register a new command.
+	@param {Unknown} Missing description for data.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.command:Register(data, name)
 	local realName = string.gsub(name, "%s", "");
 	local uniqueID = string.lower(realName);
@@ -114,7 +144,12 @@ function Clockwork.command:Register(data, name)
 	return self.stored[uniqueID];
 end;
 
--- A function to find a command by an identifier.
+--[[
+	@codebase Shared
+	@details A function to find a command by an identifier.
+	@param {Unknown} Missing description for identifier.
+	@returns {Unknown}
+--]]
 function Clockwork.command:FindByID(identifier)
 	return self.stored[string.lower(string.gsub(identifier, "%s", ""))];
 end;
@@ -317,7 +352,12 @@ else
 		end;
 	end;
 
-	-- A function to remove a command's help.
+	--[[
+		@codebase Shared
+		@details A function to remove a command's help.
+		@param {Unknown} Missing description for commandTable.
+		@returns {Unknown}
+	--]]
 	function Clockwork.command:RemoveHelp(commandTable)
 		if (commandTable.helpID) then
 			Clockwork.directory:RemoveCode("Commands", commandTable.helpID);

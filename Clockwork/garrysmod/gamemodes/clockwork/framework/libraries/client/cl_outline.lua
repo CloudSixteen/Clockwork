@@ -18,7 +18,15 @@ end;
 
 Clockwork.outline = Clockwork.kernel:NewLibrary("Outline");
 
--- A function to add an entity outline.
+--[[
+	@codebase Client
+	@details A function to add an entity outline.
+	@param {Unknown} Missing description for entity.
+	@param {Unknown} Missing description for glowColor.
+	@param {Unknown} Missing description for glowSize.
+	@param {Unknown} Missing description for bIgnoreZ.
+	@returns {Unknown}
+--]]
 function Clockwork.outline:Add(entity, glowColor, glowSize, bIgnoreZ)
 	if (not glowSize) then glowSize = 2; end;
 	
@@ -31,7 +39,18 @@ function Clockwork.outline:Add(entity, glowColor, glowSize, bIgnoreZ)
 	);
 end;
 
--- A function to add a fading entity outline.
+--[[
+	@codebase Client
+	@details A function to add a fading entity outline.
+	@param {Unknown} Missing description for entity.
+	@param {Unknown} Missing description for glowColor.
+	@param {Unknown} Missing description for iDrawDist.
+	@param {Unknown} Missing description for bShowAnyway.
+	@param {Unknown} Missing description for tIgnoreEnts.
+	@param {Unknown} Missing description for glowSize.
+	@param {Unknown} Missing description for bIgnoreZ.
+	@returns {Unknown}
+--]]
 function Clockwork.outline:Fader(entity, glowColor, iDrawDist, bShowAnyway, tIgnoreEnts, glowSize, bIgnoreZ)
 	local fOutlineAlpha = glowColor.a;
 	
@@ -61,7 +80,11 @@ function Clockwork.outline:Fader(entity, glowColor, iDrawDist, bShowAnyway, tIgn
 	end
 end;
 
--- Called when GMod halos should be added.
+--[[
+	@codebase Client
+	@details Called when GMod halos should be added.
+	@returns {Unknown}
+--]]
 function Clockwork.outline:PreDrawHalos()
 	Clockwork.plugin:Call("AddEntityOutlines", self);
 end;

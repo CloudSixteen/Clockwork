@@ -13,7 +13,12 @@ Clockwork.disease.stored = Clockwork.disease.stored or {};
 Clockwork.disease.stored.diseases = Clockwork.disease.stored.diseases or {};
 Clockwork.disease.stored.symptoms = Clockwork.disease.stored.symptoms or {};
 
--- A function to create a new disease.
+--[[
+	@codebase Server
+	@details A function to create a new disease.
+	@param {Unknown} Missing description for uniqueID.
+	@returns {Unknown}
+--]]
 function Clockwork.disease:New(uniqueID)
 	if (uniqueID) then
 		if (!self:IsValid(uniqueID)) then
@@ -26,7 +31,12 @@ function Clockwork.disease:New(uniqueID)
 	end;
 end;
 
--- A function to delete a disease.
+--[[
+	@codebase Server
+	@details A function to delete a disease.
+	@param {Unknown} Missing description for uniqueID.
+	@returns {Unknown}
+--]]
 function Clockwork.disease:Delete(uniqueID)
 	if (uniqueID) then
 		if (self:IsValid(uniqueID)) then
@@ -39,7 +49,13 @@ function Clockwork.disease:Delete(uniqueID)
 	end;
 end;
 
--- A function to create a new symptom.
+--[[
+	@codebase Server
+	@details A function to create a new symptom.
+	@param {Unknown} Missing description for uniqueID.
+	@param {Unknown} Missing description for callback.
+	@returns {Unknown}
+--]]
 function Clockwork.disease:NewSymptom(uniqueID, callback)
 	if (uniqueID) then
 		if (!self:IsValidSymptom(uniqueID)) then
@@ -52,7 +68,13 @@ function Clockwork.disease:NewSymptom(uniqueID, callback)
 	end;
 end;
 
--- A function to add a symptom to a disease.
+--[[
+	@codebase Server
+	@details A function to add a symptom to a disease.
+	@param {Unknown} Missing description for diseaseID.
+	@param {Unknown} Missing description for symptomID.
+	@returns {Unknown}
+--]]
 function Clockwork.disease:AddSymptom(diseaseID, symptomID)
 	if (diseaseID) then
 		if (self:IsValid(diseaseID)) then
@@ -75,7 +97,13 @@ function Clockwork.disease:AddSymptom(diseaseID, symptomID)
 	end;
 end;
 
--- A function to remove a condition from a disease.
+--[[
+	@codebase Server
+	@details A function to remove a condition from a disease.
+	@param {Unknown} Missing description for diseaseID.
+	@param {Unknown} Missing description for symptomID.
+	@returns {Unknown}
+--]]
 function Clockwork.disease:RemoveSymptom(diseaseID, symptomID)
 	if (diseaseID) then
 		if (self:IsValid(diseaseID)) then
@@ -96,7 +124,12 @@ function Clockwork.disease:RemoveSymptom(diseaseID, symptomID)
 	end;
 end;
 
--- A function to delete a symptom.
+--[[
+	@codebase Server
+	@details A function to delete a symptom.
+	@param {Unknown} Missing description for uniqueID.
+	@returns {Unknown}
+--]]
 function Clockwork.disease:DeleteSymptom(uniqueID)
 	if (uniqueID) then
 		if (self:IsValidSymptom(uniqueID)) then
@@ -113,7 +146,12 @@ function Clockwork.disease:DeleteSymptom(uniqueID)
 	end;
 end;
 
--- A function to get all of a disease's symptomps.
+--[[
+	@codebase Server
+	@details A function to get all of a disease's symptomps.
+	@param {Unknown} Missing description for diseaseID.
+	@returns {Unknown}
+--]]
 function Clockwork.disease:GetSymptoms(diseaseID)
 	if (diseaseID) then
 		if (self:IsValid(diseaseID)) then
@@ -132,7 +170,12 @@ function Clockwork.disease:GetSymptoms(diseaseID)
 	end
 end;
 
--- A function to get if a disease is valid.
+--[[
+	@codebase Server
+	@details A function to get if a disease is valid.
+	@param {Unknown} Missing description for diseaseID.
+	@returns {Unknown}
+--]]
 function Clockwork.disease:IsValid(diseaseID)
 	if (self.stored.diseases[diseaseID]) then
 		return true;
@@ -141,7 +184,12 @@ function Clockwork.disease:IsValid(diseaseID)
 	end;
 end;
 
--- A function to get if a disease is valid.
+--[[
+	@codebase Server
+	@details A function to get if a disease is valid.
+	@param {Unknown} Missing description for symptomID.
+	@returns {Unknown}
+--]]
 function Clockwork.disease:IsValidSymptom(symptomID)
 	if (self.stored.symptoms[symptomID]) then
 		return true;
@@ -150,12 +198,20 @@ function Clockwork.disease:IsValidSymptom(symptomID)
 	end;
 end;
 
--- A function to get all diseases.
+--[[
+	@codebase Server
+	@details A function to get all diseases.
+	@returns {Unknown}
+--]]
 function Clockwork.disease:GetAll()
 	return self.stored.diseases;
 end;
 
--- A function to get all symptoms.
+--[[
+	@codebase Server
+	@details A function to get all symptoms.
+	@returns {Unknown}
+--]]
 function Clockwork.disease:GetAllSymptoms()
 	return self.stored.symptoms;
 end;

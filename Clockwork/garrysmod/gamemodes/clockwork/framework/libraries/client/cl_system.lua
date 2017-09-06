@@ -15,36 +15,63 @@ Clockwork.system.stored = Clockwork.system.stored or {};
 --[[ Set the __index meta function of the class. --]]
 local CLASS_TABLE = {__index = CLASS_TABLE};
 
--- A function to register a new system.
+--[[
+	@codebase Client
+	@details A function to register a new system.
+	@returns {Unknown}
+--]]
 function CLASS_TABLE:Register()
 	return Clockwork.system:Register(self);
 end;
 
--- A function to get all systems.
+--[[
+	@codebase Client
+	@details A function to get all systems.
+	@returns {Unknown}
+--]]
 function Clockwork.system:GetAll()
 	return self.stored;
 end;
 
--- A function to get a new system.
+--[[
+	@codebase Client
+	@details A function to get a new system.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.system:New(name)
 	local object = Clockwork.kernel:NewMetaTable(CLASS_TABLE);
 		object.name = name or "Unknown";
 	return object;
 end;
 
--- A function to get a system by an identifier.
+--[[
+	@codebase Client
+	@details A function to get a system by an identifier.
+	@param {Unknown} Missing description for identifier.
+	@returns {Unknown}
+--]]
 function Clockwork.system:FindByID(identifier)
 	return self.stored[identifier];
 end;
 
--- A function to get the system panel.
+--[[
+	@codebase Client
+	@details A function to get the system panel.
+	@returns {Unknown}
+--]]
 function Clockwork.system:GetPanel()
 	if (IsValid(self.panel)) then
 		return self.panel;
 	end;
 end;
 
--- A function to rebuild an system.
+--[[
+	@codebase Client
+	@details A function to rebuild an system.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.system:Rebuild(name)
 	local panel = self:GetPanel();
 	
@@ -53,7 +80,11 @@ function Clockwork.system:Rebuild(name)
 	end;
 end;
 
--- A function to get the active system.
+--[[
+	@codebase Client
+	@details A function to get the active system.
+	@returns {Unknown}
+--]]
 function Clockwork.system:GetActive()
 	local panel = self:GetPanel();
 	
@@ -62,7 +93,12 @@ function Clockwork.system:GetActive()
 	end;
 end;
 
--- A function to set the active system.
+--[[
+	@codebase Client
+	@details A function to set the active system.
+	@param {Unknown} Missing description for name.
+	@returns {Unknown}
+--]]
 function Clockwork.system:SetActive(name)
 	local panel = self:GetPanel();
 	
@@ -72,7 +108,12 @@ function Clockwork.system:SetActive(name)
 	end;
 end;
 
--- A function to register a new system.
+--[[
+	@codebase Client
+	@details A function to register a new system.
+	@param {Unknown} Missing description for system.
+	@returns {Unknown}
+--]]
 function Clockwork.system:Register(system)
 	self.stored[system.name] = system;
 	

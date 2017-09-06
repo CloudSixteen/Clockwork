@@ -11,7 +11,11 @@ local IsValid = IsValid;
 
 Clockwork.storage = Clockwork.kernel:NewLibrary("Storage");
 
--- A function to get whether storage is open.
+--[[
+	@codebase Client
+	@details A function to get whether storage is open.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:IsStorageOpen()
 	local panel = self:GetPanel();
 	
@@ -20,7 +24,12 @@ function Clockwork.storage:IsStorageOpen()
 	end;
 end;
 
--- A function to get whether the local player can give to storage.
+--[[
+	@codebase Client
+	@details A function to get whether the local player can give to storage.
+	@param {Unknown} Missing description for itemTable.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:CanGiveTo(itemTable)
 	local entity = Clockwork.storage:GetEntity();
 	local isPlayer = (entity and entity:IsPlayer());
@@ -42,7 +51,12 @@ function Clockwork.storage:CanGiveTo(itemTable)
 	end;
 end;
 
--- A function to get whether the local player can take from storage.
+--[[
+	@codebase Client
+	@details A function to get whether the local player can take from storage.
+	@param {Unknown} Missing description for itemTable.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:CanTakeFrom(itemTable)
 	local entity = Clockwork.storage:GetEntity();
 	local isPlayer = (entity and entity:IsPlayer());
@@ -64,27 +78,47 @@ function Clockwork.storage:CanTakeFrom(itemTable)
 	end;
 end;
 
--- A function to get whether there is no cash weight.
+--[[
+	@codebase Client
+	@details A function to get whether there is no cash weight.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:GetNoCashWeight()
 	return self.noCashWeight;
 end;
 
--- A function to get whether there is no cash space.
+--[[
+	@codebase Client
+	@details A function to get whether there is no cash space.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:GetNoCashSpace()
 	return self.noCashSpace;
 end;
 
--- A function to get whether the storage is one sided.
+--[[
+	@codebase Client
+	@details A function to get whether the storage is one sided.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:GetIsOneSided()
 	return self.isOneSided;
 end;
 
--- A function to get the storage inventory.
+--[[
+	@codebase Client
+	@details A function to get the storage inventory.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:GetInventory()
 	return self.inventory;
 end;
 
--- A function to get the storage cash.
+--[[
+	@codebase Client
+	@details A function to get the storage cash.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:GetCash()
 	if (Clockwork.config:Get("cash_enabled"):Get()) then
 		return self.cash;
@@ -93,27 +127,47 @@ function Clockwork.storage:GetCash()
 	end;
 end;
 
--- A function to get the storage panel.
+--[[
+	@codebase Client
+	@details A function to get the storage panel.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:GetPanel()
 	return self.panel;
 end;
 
--- A function to get the storage weight.
+--[[
+	@codebase Client
+	@details A function to get the storage weight.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:GetWeight()
 	return self.weight;
 end;
 
--- A function to get the storage space.
+--[[
+	@codebase Client
+	@details A function to get the storage space.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:GetSpace()
 	return self.space;
 end;
 
--- A function to get the storage entity.
+--[[
+	@codebase Client
+	@details A function to get the storage entity.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:GetEntity()
 	return self.entity;
 end;
 
--- A function to get the storage name.
+--[[
+	@codebase Client
+	@details A function to get the storage name.
+	@returns {Unknown}
+--]]
 function Clockwork.storage:GetName()
 	return self.name;
 end;

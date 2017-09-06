@@ -35,12 +35,21 @@ Clockwork.limb.bones = {
 	["ValveBiped.Bip01_Neck1"] = HITGROUP_HEAD
 };
 
--- A function to convert a bone to a hit group.
+--[[
+	@codebase Shared
+	@details A function to convert a bone to a hit group.
+	@param {Unknown} Missing description for bone.
+	@returns {Unknown}
+--]]
 function Clockwork.limb:BoneToHitGroup(bone)
 	return self.bones[bone] or HITGROUP_CHEST;
 end;
 
--- A function to get whether limb damage is active.
+--[[
+	@codebase Shared
+	@details A function to get whether limb damage is active.
+	@returns {Unknown}
+--]]
 function Clockwork.limb:IsActive()
 	return Clockwork.config:Get("limb_damage_system"):Get();
 end;
@@ -61,7 +70,13 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to heal a player's body.
+	--[[
+		@codebase Shared
+		@details A function to heal a player's body.
+		@param {Unknown} Missing description for player.
+		@param {Unknown} Missing description for amount.
+		@returns {Unknown}
+	--]]
 	function Clockwork.limb:HealBody(player, amount)
 		local limbData = player:GetCharacterData("LimbData");
 		
@@ -72,7 +87,14 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to heal a player's limb damage.
+	--[[
+		@codebase Shared
+		@details A function to heal a player's limb damage.
+		@param {Unknown} Missing description for player.
+		@param {Unknown} Missing description for hitGroup.
+		@param {Unknown} Missing description for amount.
+		@returns {Unknown}
+	--]]
 	function Clockwork.limb:HealDamage(player, hitGroup, amount)
 		local newAmount = math.ceil(amount);
 		local limbData = player:GetCharacterData("LimbData");
@@ -92,7 +114,12 @@ if (SERVER) then
 		end;
 	end;
 	
-	-- A function to reset a player's limb damage.
+	--[[
+		@codebase Shared
+		@details A function to reset a player's limb damage.
+		@param {Unknown} Missing description for player.
+		@returns {Unknown}
+	--]]
 	function Clockwork.limb:ResetDamage(player)
 		player:SetCharacterData("LimbData", {});
 		
@@ -101,7 +128,12 @@ if (SERVER) then
 		Clockwork.plugin:Call("PlayerLimbDamageReset", player);
 	end;
 	
-	-- A function to get whether any of a player's limbs are damaged.
+	--[[
+		@codebase Shared
+		@details A function to get whether any of a player's limbs are damaged.
+		@param {Unknown} Missing description for player.
+		@returns {Unknown}
+	--]]
 	function Clockwork.limb:IsAnyDamaged(player)
 		local limbData = player:GetCharacterData("LimbData");
 		
@@ -112,12 +144,26 @@ if (SERVER) then
 		end;
 	end
 	
-	-- A function to get a player's limb health.
+	--[[
+		@codebase Shared
+		@details A function to get a player's limb health.
+		@param {Unknown} Missing description for player.
+		@param {Unknown} Missing description for hitGroup.
+		@param {Unknown} Missing description for asFraction.
+		@returns {Unknown}
+	--]]
 	function Clockwork.limb:GetHealth(player, hitGroup, asFraction)
 		return 100 - self:GetDamage(player, hitGroup, asFraction);
 	end;
 	
-	-- A function to get a player's limb damage.
+	--[[
+		@codebase Shared
+		@details A function to get a player's limb damage.
+		@param {Unknown} Missing description for player.
+		@param {Unknown} Missing description for hitGroup.
+		@param {Unknown} Missing description for asFraction.
+		@returns {Unknown}
+	--]]
 	function Clockwork.limb:GetDamage(player, hitGroup, asFraction)
 		if (!Clockwork.config:Get("limb_damage_system"):Get()) then
 			return 0;
@@ -159,7 +205,12 @@ else
 		[HITGROUP_HEAD] = "LimbHead"
 	};
 	
-	-- A function to get a limb's texture.
+	--[[
+		@codebase Shared
+		@details A function to get a limb's texture.
+		@param {Unknown} Missing description for hitGroup.
+		@returns {Unknown}
+	--]]
 	function Clockwork.limb:GetTexture(hitGroup)
 		if (hitGroup == "body") then
 			return self.bodyTexture;
@@ -168,12 +219,22 @@ else
 		end;
 	end;
 	
-	-- A function to get a limb's name.
+	--[[
+		@codebase Shared
+		@details A function to get a limb's name.
+		@param {Unknown} Missing description for hitGroup.
+		@returns {Unknown}
+	--]]
 	function Clockwork.limb:GetName(hitGroup)
 		return self.names[hitGroup] or "Generic";
 	end;
 	
-	-- A function to get a limb color.
+	--[[
+		@codebase Shared
+		@details A function to get a limb color.
+		@param {Unknown} Missing description for health.
+		@returns {Unknown}
+	--]]
 	function Clockwork.limb:GetColor(health)
 		if (health > 75) then
 			return Color(166, 243, 76, 255);
@@ -186,12 +247,24 @@ else
 		end;
 	end;
 	
-	-- A function to get the local player's limb health.
+	--[[
+		@codebase Shared
+		@details A function to get the local player's limb health.
+		@param {Unknown} Missing description for hitGroup.
+		@param {Unknown} Missing description for asFraction.
+		@returns {Unknown}
+	--]]
 	function Clockwork.limb:GetHealth(hitGroup, asFraction)
 		return 100 - self:GetDamage(hitGroup, asFraction);
 	end;
 	
-	-- A function to get the local player's limb damage.
+	--[[
+		@codebase Shared
+		@details A function to get the local player's limb damage.
+		@param {Unknown} Missing description for hitGroup.
+		@param {Unknown} Missing description for asFraction.
+		@returns {Unknown}
+	--]]
 	function Clockwork.limb:GetDamage(hitGroup, asFraction)
 		if (!Clockwork.config:Get("limb_damage_system"):Get()) then
 			return 0;
@@ -210,7 +283,11 @@ else
 		return 0;
 	end;
 	
-	-- A function to get whether any of the local player's limbs are damaged.
+	--[[
+		@codebase Shared
+		@details A function to get whether any of the local player's limbs are damaged.
+		@returns {Unknown}
+	--]]
 	function Clockwork.limb:IsAnyDamaged()
 		return table.Count(self.stored) > 0;
 	end;
