@@ -23,7 +23,7 @@ function COMMAND:OnRun(player, arguments)
 	
 	if (target) then
 		Clockwork.player:LightSpawn(target, true, true, true);
-		Clockwork.player:SetSafePosition(target, trace.endpos);
+		Clockwork.player:SetSafePosition(target, trace.HitPos);
 		Clockwork.player:Notify(player, {"PlayerWasRespawnedToTarget", target:GetName()});
 	else
 		Clockwork.player:Notify(player, {"NotValidTarget", arguments[1]});
