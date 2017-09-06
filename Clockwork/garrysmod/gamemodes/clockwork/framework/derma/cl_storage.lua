@@ -297,7 +297,7 @@ local PANEL = {};
 function PANEL:Init()
 	local itemData = self:GetParent().itemData or CURRENT_ITEM_DATA;
 	
-	self:SetSize(48, 48);
+	self:SetSize(56, 56);
 	self.itemTable = itemData.itemTable;
 	self.storageType = itemData.storageType;
 	self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("cwSpawnIcon", self));
@@ -316,9 +316,11 @@ function PANEL:Init()
 	end;
 	
 	local model, skin = Clockwork.item:GetIconInfo(self.itemTable);
-		self.spawnIcon:SetModel(model, skin);
-		self.spawnIcon:SetToolTip("");
-		self.spawnIcon:SetSize(48, 48);
+	
+	self.spawnIcon:SetModel(model, skin);
+	self.spawnIcon:SetToolTip("");
+	self.spawnIcon:SetSize(56, 56);
+	
 	self.cachedInfo = {model = model, skin = skin};
 end;
 

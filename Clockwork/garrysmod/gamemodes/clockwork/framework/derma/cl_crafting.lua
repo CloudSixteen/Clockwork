@@ -135,7 +135,7 @@ local PANEL = {};
 function PANEL:Init()
 	local itemData = self:GetParent().blueprintData;
 	
-	self:SetSize(48, 48);
+	self:SetSize(56, 56);
 	self.blueprintTable = itemData.blueprintTable;
 	self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("cwSpawnIcon", self));
 	
@@ -154,7 +154,7 @@ function PANEL:Init()
 	
 	self.spawnIcon:SetModel(model, skin);
 	self.spawnIcon:SetToolTip("");
-	self.spawnIcon:SetSize(48, 48);
+	self.spawnIcon:SetSize(56, 56);
 end;
 
 -- Called each frame.

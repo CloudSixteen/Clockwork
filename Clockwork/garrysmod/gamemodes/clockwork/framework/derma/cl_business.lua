@@ -210,7 +210,7 @@ function PANEL:Init()
 	local costScale = CLASS.costScale or FACTION.costScale or 1;
 	local itemData = self:GetParent().itemData;
 	
-	self:SetSize(48, 48);
+	self:SetSize(56, 56);
 	self.itemTable = itemData.itemTable;
 	
 	Clockwork.plugin:Call("PlayerAdjustBusinessItemTable", self.itemTable);
@@ -237,7 +237,7 @@ function PANEL:Init()
 	
 	self.spawnIcon:SetModel(model, skin);
 	self.spawnIcon:SetToolTip("");
-	self.spawnIcon:SetSize(48, 48);
+	self.spawnIcon:SetSize(56, 56);
 end;
 
 -- Called each frame.
