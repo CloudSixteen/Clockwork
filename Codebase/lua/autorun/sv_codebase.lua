@@ -92,6 +92,10 @@ local function ProcessFile(fileName)
 			
 			if (paramType and paramNote) then
 				if (!codebase.params) then codebase.params = {}; end;
+				
+				paramType = string.gsub(paramType, "{", "");
+				paramType = string.gsub(paramType, "}", "");
+				
 				if (string.find(paramType, ":")) then
 					paramType = string.Explode(paramType, ":");
 				end;
@@ -106,6 +110,13 @@ local function ProcessFile(fileName)
 			
 			if (returnType and returnNote) then
 				if (!codebase.returns) then codebase.returns = {}; end;
+				
+				returnType = string.gsub(returnType, "{", "");
+				returnType = string.gsub(returnType, "}", "");
+				
+				if (string.find(returnType, ":")) then
+					returnType = string.Explode(returnType, ":");
+				end;
 				
 				codebase.returns[#codebase.returns + 1] = {
 					varType = returnType,
