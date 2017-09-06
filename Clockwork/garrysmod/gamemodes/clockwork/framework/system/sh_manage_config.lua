@@ -77,7 +77,7 @@ if (CLIENT) then
 		self.editForm:Clear(true);
 
 		if (self.activeKey) then
-			self.adminValues = Clockwork.config:GetFromSystem(self.activeKey.name);
+			self.adminValues = Clockwork.config:GetFromSystem(self.activeKey.key);
 			self.infoText:SetText(L("ConfigMenuStartToEdit"));
 		end;
 
