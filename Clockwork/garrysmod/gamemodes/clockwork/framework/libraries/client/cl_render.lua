@@ -113,8 +113,8 @@ end;
 --[[
 	@codebase Client
 	@details Add a new 9 Sliced sprite.
-	@param String A name to identify the sprite by.
-	@param String The file name of the sprite (.png only).
+	@param {String} A name to identify the sprite by.
+	@param {String} The file name of the sprite (.png only).
 	@param {Number} The size of the sprite's corners.
 	@returns The SliceObject created.
 --]]

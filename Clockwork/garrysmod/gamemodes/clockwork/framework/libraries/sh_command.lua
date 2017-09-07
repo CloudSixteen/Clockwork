@@ -157,7 +157,7 @@ end;
 --[[
  	@codebase Shared
  	@details Returns command's table by alias or unique id.
-	@param String Identifier of the command to find. Can be alias or original command name.
+	@param {String} Identifier of the command to find. Can be alias or original command name.
 --]]
 function Clockwork.command:FindByAlias(identifier)
 	return self.stored[alias[string.lower(string.gsub(identifier, "%s", ""))]];
@@ -174,8 +174,8 @@ end;
 --[[
 	@codebase Shared
 	@details Whether or not the player has access to the command.
-	@param Userdata The player whose access to check.
-	@param Table|String The command name or command table to check against.
+	@param {Userdata} The player whose access to check.
+	@param {Table:String} The command name or command table to check against.
 --]]
 function Clockwork.command:HasAccess(player, command)
 	if (type(command) == "string") then

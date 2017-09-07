@@ -3906,9 +3906,9 @@ end;
 --[[
 	@codebase Server
 	@details A function to notify admins by rank.
-	@param String The rank and up that will be notified.
-	@param String The text that will be sent to each admin.
-	@param String The name of the icon that will be used in the message, can be nil.
+	@param {String} The rank and up that will be notified.
+	@param {String} The text that will be sent to each admin.
+	@param {String} The name of the icon that will be used in the message, can be nil.
 --]]
 function Clockwork.player:NotifyAdmins(adminLevel, text, icon)
 	for k, v in pairs(player.GetAll()) do
@@ -5519,11 +5519,11 @@ Clockwork.player.characterData = Clockwork.player.characterData or {};
 --[[
 	@codebase Shared
 	@details Add a new character data type that can be synced over the network.
-	@param String The name of the data type (can be pretty much anything.)
+	@param {String} The name of the data type (can be pretty much anything.)
 	@param {Number} The type of the object (must be a type of NWTYPE_* enum).
-	@param Various The default value of the data type.
-	@param Function Alter the value that gets networked.
-	@param Bool Whether or not the data is networked to the player only (defaults to false.)
+	@param {Mixed} The default value of the data type.
+	@param {Function} Alter the value that gets networked.
+	@param {Bool} Whether or not the data is networked to the player only (defaults to false.)
 --]]
 function Clockwork.player:AddCharacterData(name, nwType, default, playerOnly, callback)
 	Clockwork.player.characterData[name] = {
@@ -5537,11 +5537,11 @@ end;
 --[[
 	@codebase Shared
 	@details Add a new player data type that can be synced over the network.
-	@param String The name of the data type (can be pretty much anything.)
+	@param {String} The name of the data type (can be pretty much anything.)
 	@param {Number} The type of the object (must be a type of NWTYPE_* enum).
-	@param Various The default value of the data type.
-	@param Function Alter the value that gets networked.
-	@param Bool Whether or not the data is networked to the player only (defaults to false.)
+	@param {Mixed} The default value of the data type.
+	@param {Function} Alter the value that gets networked.
+	@param {Bool} Whether or not the data is networked to the player only (defaults to false.)
 --]]
 function Clockwork.player:AddPlayerData(name, nwType, default, playerOnly, callback)
 	Clockwork.player.playerData[name] = {
@@ -5555,7 +5555,7 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get a player's rank within their faction.
-	@param Userdata The player whose faction rank you are trying to obtain.
+	@param {Userdata} The player whose faction rank you are trying to obtain.
 --]]
 function Clockwork.player:GetFactionRank(player, character)
 	if (character) then
@@ -5594,8 +5594,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to check if a player can promote the target.
-	@param Userdata The player whose permissions you are trying to check.
-	@param Userdata The player who may be promoted.
+	@param {Userdata} The player whose permissions you are trying to check.
+	@param {Userdata} The player who may be promoted.
 --]]
 function Clockwork.player:CanPromote(player, target)
 	local stringRank, rank = Clockwork.player:GetFactionRank(player);
@@ -5615,8 +5615,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to check if a player can demote the target.
-	@param Userdata The player whose permissions you are trying to check.
-	@param Userdata The player who may be demoted.
+	@param {Userdata} The player whose permissions you are trying to check.
+	@param {Userdata} The player who may be demoted.
 --]]
 function Clockwork.player:CanDemote(player, target)
 	local stringRank, rank = Clockwork.player:GetFactionRank(player);

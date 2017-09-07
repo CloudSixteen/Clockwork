@@ -21,9 +21,9 @@ Clockwork.hint.stored = Clockwork.hint.stored or {};
 --[[
 	@codebase Server
 	@details Add a new hint to the list.
-	@param String A unique identifier.
-	@param String The body of the hint.
-	@param Function A callback with the player as an argument, return false to hide.
+	@param {String} A unique identifier.
+	@param {String} The body of the hint.
+	@param {Function} A callback with the player as an argument, return false to hide.
 --]]
 function Clockwork.hint:Add(name, text, Callback)
 	self.stored[name] = {
@@ -35,7 +35,7 @@ end;
 --[[
 	@codebase Server
 	@details Remove an existing hint from the list.
-	@param String A unique identifier.
+	@param {String} A unique identifier.
 --]]
 function Clockwork.hint:Remove(name)
 	self.stored[name] = nil;
@@ -44,7 +44,7 @@ end;
 --[[
 	@codebase Server
 	@details Find a hint by its identifier.
-	@param String A unique identifier.
+	@param {String} A unique identifier.
 	@returns {Table} The hint table matching the identifier.
 --]]
 function Clockwork.hint:Find(name)
@@ -75,7 +75,7 @@ end;
 	@codebase Server
 	@details Send customized and centered hint text to a player.
 	@param {Player} The recipient(s).
-	@param String The hint text to send.
+	@param {String} The hint text to send.
 	@param {Float} The delay before it fades.
 	@param {Color} The color of the hint text.
 	@option Bool:String Specify a custom sound or false for no sound.
@@ -95,7 +95,7 @@ end;
 --[[
 	@codebase Server
 	@details Send customized and centered hint text to all players.
-	@param String The hint text to send.
+	@param {String} The hint text to send.
 	@param {Float} The delay before it fades.
 	@param {Color} The color of the hint text.
 --]]
@@ -111,7 +111,7 @@ end;
 	@codebase Server
 	@details Send customized hint text to a player.
 	@param {Player} The recipient(s).
-	@param String The hint text to send.
+	@param {String} The hint text to send.
 	@param {Float} The delay before it fades.
 	@param {Color} The color of the hint text.
 	@option Bool:String Specify a custom sound or false for no sound.
@@ -131,7 +131,7 @@ end;
 --[[
 	@codebase Server
 	@details Send customized hint text to all players.
-	@param String The hint text to send.
+	@param {String} The hint text to send.
 	@param {Float} The delay before it fades.
 	@param {Color} The color of the hint text.
 --]]

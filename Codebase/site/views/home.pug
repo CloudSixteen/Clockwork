@@ -1,0 +1,70 @@
+head
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+    script(src="js/popper.min.js")
+    script(src="js/bootstrap.min.js")
+    link(rel="stylesheet", href="css/bootstrap.min.css")
+    link(rel="stylesheet", href="simple-sidebar.css")
+
+body
+    div#wrapper.toggled
+        div#sidebar-wrapper
+            ul.sidebar-nav
+                li.sidebar-brand
+                    a(href="/") Clockwork Docs
+                li
+                    a#hooks(href="#") Hooks
+                li
+                    a#libraries(href="#") Libraries
+
+        div#page-content-wrapper
+            div.container-fluid
+                h1#content-title Clockwork Docs
+                div#content-body
+                    p Welcome, this is an experimental Codebase preview. Choose Hooks or Libraries on the left.
+
+script.
+    $.getJSON("generated.json", function(data) {
+        $("#hooks").click(function() {
+            $("#content-title").text("Hooks");
+            $("#content-body").empty();
+
+            Object.keys(data.hooks).forEach(hook => {
+                let labelClass = "badge badge-info";
+                let labelText = "Client";
+                let params = data.hooks[hook].params;
+                let state = data.hooks[hook].scriptState;
+
+                if (state === "Server") {
+                    labelClass = "badge badge-danger";
+                    labelText = "Server";
+                } else if (state === "Shared") {
+                    labelClass = "badge badge-warning";
+                    labelText = "Shared";
+                }
+
+                let paramString = "";
+
+                if (params) {
+                    for (let i = 0; i < params.length; i++) {
+                        if (i < params.length - 1) {
+                            paramString += params[i].name + ": " + params[i].varType + ", ";
+                        } else {
+                            paramString += params[i].name + ": " + params[i].varType;
+                        }
+                    };
+
+                    if (paramString !== "") {
+                        paramString = `<code>(` + paramString + `)</code>`;
+                    }
+                }
+
+                $("#content-body").append($(`
+                    <div style="margin-bottom: 16px;">
+                        <h3><span class="` + labelClass + `">` + labelText + `</span> ` + hook + `</h3>
+                        <p>` + data.hooks[hook].details + `</p>
+                        ` + paramString + `
+                    </div>
+                `));
+            });
+        });
+    });

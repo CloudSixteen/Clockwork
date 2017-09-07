@@ -576,7 +576,7 @@ else
 		@codebase Server
 		@details A function to dissolve an entity using a Source effect.
 		@param {Entity} The entity that will be dissolved.
-		@param String Dissolving effect to be applied to the entity.
+		@param {String} Dissolving effect to be applied to the entity.
 		@param {Number} Optional: Time until the entity is removed.
 		@param {Entity} Optional: The entity that is set as the dissolved entity's attacker.
 		@returns {Entity} Reference to the entity making the dissolving effects.
@@ -724,8 +724,8 @@ if (SERVER) then
 		@details A function to open a door.
 		@param {Entity} The door to be opened.
 		@param {Number} Delay until the door should be opened.
-		@param Bool Whether or not the door should be unlocked.
-		@param Bool Whether or not a sound should be played for unlocking the door.
+		@param {Bool} Whether or not the door should be unlocked.
+		@param {Bool} Whether or not a sound should be played for unlocking the door.
 		@param {Vector} Postition that the info_target is created at.
 		@param {Float} Not implemented.
 	--]]
@@ -794,9 +794,9 @@ if (SERVER) then
 		@codebase Server
 		@details A function to make an entity safe.
 		@param {Entity} The entity being made safe.
-		@param Bool Whether or not the entity should be safe from physguns.
+		@param {Bool} Whether or not the entity should be safe from physguns.
 		@param {Table} List of tools that can't be used on the entity.
-		@param Bool Whether or not the entity should be frozen.
+		@param {Bool} Whether or not the entity should be frozen.
 	--]]
 	function Clockwork.entity:MakeSafe(entity, bPhysgunProtect, tToolProtect, bFreezeEntity)
 		if (bPhysgunProtect) then
@@ -1040,7 +1040,7 @@ if (SERVER) then
 		@codebase Server
 		@details A function to set a door as unownable.
 		@param {Entity} The door being set to unownable.
-		@param Bool Whether or not the door should be set to unownable.
+		@param {Bool} Whether or not the door should be set to unownable.
 	--]]
 	function Clockwork.entity:SetDoorUnownable(entity, unownable)
 		if (self:IsDoor(entity)) then
@@ -1062,7 +1062,7 @@ if (SERVER) then
 		@codebase Server
 		@details A function to set whether a door is false.
 		@param {Entity} The door being set to false.
-		@param Bool Whether the door should be false or not.
+		@param {Bool} Whether the door should be false or not.
 	--]]
 	function Clockwork.entity:SetDoorFalse(entity, isFalse)
 		if (self:IsDoor(entity)) then
@@ -1080,7 +1080,7 @@ if (SERVER) then
 		@codebase Server
 		@details A function to set whether a door is hidden.
 		@param {Entity} The door being set to hidden.
-		@param Bool Whether or not the doro should be set to hidden.
+		@param {Bool} Whether or not the doro should be set to hidden.
 	--]]
 	function Clockwork.entity:SetDoorHidden(entity, hidden)
 		if (self:IsDoor(entity)) then
@@ -1110,7 +1110,7 @@ if (SERVER) then
 		@codebase Server
 		@details A function to set a shared door's text
 		@param {Entity} The door having its shared text set.
-		@param String The text that will be displayed on the shared door.
+		@param {String} The text that will be displayed on the shared door.
 	--]]
 	function Clockwork.entity:SetDoorSharedText(entity, sharedText)
 		if (self:IsDoorParent(entity)) then
@@ -1150,7 +1150,7 @@ if (SERVER) then
 		@codebase Server
 		@details A function to set a door's text.
 		@param {Entity} The door getting its text set.
-		@param String What the door's text will be set to.
+		@param {String} What the door's text will be set to.
 	--]]
 	function Clockwork.entity:SetDoorText(entity, text)
 		if (self:IsDoor(entity)) then
@@ -1178,7 +1178,7 @@ if (SERVER) then
 		@codebase Server
 		@details A function to set a door's name.
 		@param {Entity} The door getting its name set.
-		@param String What the door's name will be set to.
+		@param {String} What the door's name will be set to.
 	--]]
 	function Clockwork.entity:SetDoorName(entity, name)
 		if (self:IsDoor(entity)) then
@@ -1294,7 +1294,7 @@ if (SERVER) then
 		@codebase Server
 		@details A function to return an entity's collision group.
 		@param {Entity} Which entity to restore the collision group on.
-		@param String What the collision group is set to on the entity.
+		@param {String} What the collision group is set to on the entity.
 	--]]
 	function Clockwork.entity:ReturnCollisionGroup(entity, collisionGroup)
 		if (IsValid(entity)) then
@@ -1317,7 +1317,7 @@ if (SERVER) then
 		@codebase Server
 		@details A function to set whether an entity is a map entity.
 		@param {Entity} The entity being set as a map entity or not.
-		@param Bool Whether or not the entity is a map entity.
+		@param {Bool} Whether or not the entity is a map entity.
 	--]]
 	function Clockwork.entity:SetMapEntity(entity, isMapEntity)
 		local entIndex = entity:EntIndex();
@@ -1356,7 +1356,7 @@ if (SERVER) then
 		@param {Entity} The entity being disintegrated.
 		@param {Number} How long to wait until disintegrating the entity.
 		@param {Number} Optional: Adds speed to the entity once it gets disintegrated.
-		@param Function What to run after the entity disintegrates.
+		@param {Function} What to run after the entity disintegrates.
 	--]]
 	function Clockwork.entity:Disintegrate(entity, delay, velocity, Callback)
 		if (velocity) then
@@ -1429,7 +1429,7 @@ if (SERVER) then
 		@details A function to make an entity decay.
 		@param {Entity} The entity being decayed.
 		@param {Number} How fast the entity should decay.
-		@param Function What to run just before the entity is removed.
+		@param {Function} What to run just before the entity is removed.
 	--]]
 	function Clockwork.entity:Decay(entity, seconds, Callback)
 		local color = entity:GetColor();		
@@ -1468,7 +1468,7 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to create cash.
-		@param Entity:Table The owner(s) of the cash being created.
+		@param {Entity:Table} The owner(s) of the cash being created.
 		@param {Number} How much cash to create.
 		@param {Vector} Where to create the cash.
 		@param {Angle} Optional: Angles to set the created cash to.
@@ -1505,8 +1505,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to create generator.
-		@param Entity:Table The owner(s) of the generator being created.
-		@param String Entity class for the generator to be assigned to.
+		@param {Entity:Table} The owner(s) of the generator being created.
+		@param {String} Entity class for the generator to be assigned to.
 		@param {Vector} Position the generator is set to.
 		@param {Angle} Optional: Angles the generator is set to.
 		@returns {Entity} Reference to the generator created.
@@ -1536,8 +1536,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to create a shipment.
-		@param Entity:Table The owner(s) of the shipment being created.
-		@param String Unique ID of the item being stored in the shipment.
+		@param {Entity:Table} The owner(s) of the shipment being created.
+		@param {String} Unique ID of the item being stored in the shipment.
 		@param {Number} How many items stored in the shipment.
 		@param {Vector} Position the shipment is created at.
 		@param {Angle} Optional: Angles the shipment is set to.
@@ -1569,8 +1569,8 @@ if (SERVER) then
 	--[[
 		@codebase Server
 		@details A function to create an item.
-		@param Entity:Table The owner(s) of the item being created.
-		@param String ID for the item that is to be created.
+		@param {Entity:Table} The owner(s) of the item being created.
+		@param {String} ID for the item that is to be created.
 		@param {Vector} Position the item is set to when created.
 		@param {Angle} Optional: Angles the item is set to.
 		@returns {Entity} Reference to the item created.
@@ -1655,8 +1655,8 @@ if (SERVER) then
 		@codebase Server
 		@details A function to set a property variable for an entity.
 		@param {Entity} The entity having its property var set.
-		@param String ID for the property being set.
-		@param String Value the property is being set to.
+		@param {String} ID for the property being set.
+		@param {String} Value the property is being set to.
 	--]]
 	function Clockwork.entity:SetPropertyVar(entity, key, value)
 		if (entity.cwPropertyTab) then entity.cwPropertyTab[key] = value; end;
@@ -1666,8 +1666,8 @@ if (SERVER) then
 		@codebase Server
 		@details A function to query an entity's property table.
 		@param {Entity} The entity getting the properties from.
-		@param String Which property is being queried.
-		@param String Fallback value to return if no property is found.
+		@param {String} Which property is being queried.
+		@param {String} Fallback value to return if no property is found.
 		@returns {String} Value of the property that was queried.
 	--]]
 	function Clockwork.entity:QueryProperty(entity, key, default)
@@ -1710,7 +1710,7 @@ if (SERVER) then
 		@codebase Server
 		@details A function to get an entity's owner.
 		@param {Entity} The entity getting the owner from.
-		@param Bool Whether or not to get the owner even if the entity has no entity key.
+		@param {Bool} Whether or not to get the owner even if the entity has no entity key.
 		@returns {Entity} The owner of the entity.
 	--]]
 	function Clockwork.entity:GetOwner(entity, bAnyCharacter)
@@ -1727,7 +1727,7 @@ else
 		@details A function to make an entity decay.
 		@param {Entity} The entity being decayed.
 		@param {Number} How fast the entity should decay.
-		@param Function What to run just before the entity is removed.
+		@param {Function} What to run just before the entity is removed.
 	--]]
 	function Clockwork.entity:Decay(entity, seconds, Callback)
 		local color = entity:GetColor();
@@ -1771,7 +1771,7 @@ else
 		@codebase Client
 		@details A function to calculate a door's text position.
 		@param {Entity} The door getting its text position calculated.
-		@param Bool Optional: Whether or not the other side of the door text position is being calculated.
+		@param {Bool} Optional: Whether or not the other side of the door text position is being calculated.
 		@returns {Function} Recall to this function.
 	--]]
 	function Clockwork.entity:CalculateDoorTextPosition(door, reversed)
@@ -1858,8 +1858,8 @@ else
 		@codebase Client
 		@details A function to force a menu option.
 		@param {Entity} The entity having the menu option created on.
-		@param String The name of the option to be displayed (not implemented?).
-		@param String Interaction action to be done (e.g. cwItemTake).
+		@param {String} The name of the option to be displayed (not implemented?).
+		@param {String} Interaction action to be done (e.g. cwItemTake).
 	--]]
 	function Clockwork.entity:ForceMenuOption(entity, option, arguments)
 		Clockwork.datastream:Start("EntityMenuOption", {entity, option, arguments});
@@ -1879,7 +1879,7 @@ else
 		@codebase Client
 		@details A function to get an entity's owner.
 		@param {Entity} The entity getting the owner from.
-		@param Bool Whether or not to get the owner even if the entity has no entity key.
+		@param {Bool} Whether or not to get the owner even if the entity has no entity key.
 		@returns {Entity} The owner of the entity.
 	--]]
 	function Clockwork.entity:GetOwner(entity, bAnyCharacter)

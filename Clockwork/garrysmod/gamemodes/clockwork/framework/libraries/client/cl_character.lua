@@ -29,9 +29,9 @@ Clockwork.character.creationPanels = Clockwork.character.creationPanels or {};
 --[[
 	@codebase Client
 	@details Register a new creation panel.
-	@param String The friendly name of the creation process.
-	@param String The name of the VGUI panel to use.
-	@param Function A callback to get the visibility of the process. Return false to hide.
+	@param {String} The friendly name of the creation process.
+	@param {String} The name of the VGUI panel to use.
+	@param {Function} A callback to get the visibility of the process. Return false to hide.
 --]]
 function Clockwork.character:RegisterCreationPanel(friendlyName, vguiName, index, Condition)	
 	if (index) then

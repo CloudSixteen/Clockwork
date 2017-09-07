@@ -56,9 +56,9 @@ function Codebase.ProcessFile(fileName)
 			local class = string.match(v, "@class%s(.+)");
 			local details = string.match(v, "@details%s(.+)");
 			local fieldName, fieldNote = string.match(v, "@field%s([a-zA-Z0-9]+)%s(.+)");
-			local paramType, paramNote = string.match(v, "@param%s([a-zA-Z0-9]+)%s(.+)");
-			local returnType, returnNote = string.match(v, "@returns%s([a-zA-Z0-9]+)%s(.+)");
-			local optionType, optionNote = string.match(v, "@option%s([a-zA-Z0-9]+)%s(.+)");
+			local paramType, paramNote = string.match(v, "@param%s([%{%}a-zA-Z0-9]+)%s*(.*)");
+			local returnType, returnNote = string.match(v, "@returns%s([%{%}a-zA-Z0-9]+)%s*(.*)");
+			local optionType, optionNote = string.match(v, "@option%s([a-zA-Z0-9]+)%s*(.*)");
 			local isValidField = false;
 			
 			if (details) then
@@ -91,7 +91,7 @@ function Codebase.ProcessFile(fileName)
 				isValidField = true;
 			end;
 			
-			if (paramType and paramNote) then
+			if (paramType) then
 				if (!codebase.params) then codebase.params = {}; end;
 				
 				paramType = string.gsub(paramType, "{", "");
@@ -103,13 +103,13 @@ function Codebase.ProcessFile(fileName)
 				
 				codebase.params[#codebase.params + 1] = {
 					varType = paramType,
-					note = paramNote
+					note = paramNote or ""
 				};
 				
 				isValidField = true;
 			end;
 			
-			if (returnType and returnNote) then
+			if (returnType) then
 				if (!codebase.returns) then codebase.returns = {}; end;
 				
 				returnType = string.gsub(returnType, "{", "");
@@ -121,7 +121,7 @@ function Codebase.ProcessFile(fileName)
 				
 				codebase.returns[#codebase.returns + 1] = {
 					varType = returnType,
-					note = returnNote
+					note = returnNote or ""
 				};
 				
 				isValidField = true;
@@ -181,8 +181,10 @@ function Codebase.ProcessFile(fileName)
 						end
 						
 						if (codebase.libName == "Clockwork" and syntax == ":") then
-							Codebase.outputTable[fileName]["hooks"][niceName] = codebase;
-							counter.hooks = counter.hooks + 1;
+							if (!GAMEMODE.BaseClass.BaseClass[niceName]) then
+								Codebase.outputTable[fileName]["hooks"][niceName] = codebase;
+								counter.hooks = counter.hooks + 1;
+							end;
 						else
 							Codebase.outputTable[fileName]["functions"][libName] = Codebase.outputTable[fileName]["functions"][libName] or {};
 							Codebase.outputTable[fileName]["functions"][libName][niceName] = codebase;
@@ -253,7 +255,7 @@ function Codebase.ProcessFile(fileName)
 	end;
 end;
 
-concommand.Add("codebase2", function(player, command, arguments)
+concommand.Add("codebase", function(player, command, arguments)
 	Codebase.fileManifest = {};
 	Codebase.outputTable = {};
 	Codebase.outputTable["empty_files.lua"] = {};

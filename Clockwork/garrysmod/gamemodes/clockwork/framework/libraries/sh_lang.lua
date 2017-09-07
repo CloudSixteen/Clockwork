@@ -20,7 +20,7 @@ CW_LANGUAGE_CLASS = {__index = CW_LANGUAGE_CLASS};
 --[[
 	@codebase Shared
 	@details Get the language table for the given language (or create if it doesn't exist.)
-	@param String The language to get the table for.
+	@param {String} The language to get the table for.
 	@returns {String} The language table for the given language.
 --]]
 function Clockwork.lang:GetTable(name)
@@ -43,9 +43,9 @@ end;
 --[[
 	@codebase Shared
 	@details Get the language string for the given identifier.
-	@param String The language which table to search.
-	@param String The identifier to search for.
-	@param Various A list of subs to replace in the string.
+	@param {String} The language which table to search.
+	@param {String} The identifier to search for.
+	@param {Mixed} A list of subs to replace in the string.
 	@returns {String} The final string for the given identifier.
 --]]
 function Clockwork.lang:GetString(language, identifier, ...)

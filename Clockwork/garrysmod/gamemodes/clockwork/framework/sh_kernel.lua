@@ -91,7 +91,7 @@ Clockwork.SharedTables = Clockwork.SharedTables or {};
 --[[
 	@codebase Shared
 	@details A function to split a string but keep the delimiter.
-	@param String The string to split.
+	@param {String} The string to split.
 	@returns {String} The delimiter pattern.
 --]]
 function Clockwork.kernel:SplitKeepDelim(input, delim)
@@ -121,7 +121,7 @@ end;
 --[[
 	@codebase Shared
 	@details A function to encode a URL.
-	@param String The URL to encode.
+	@param {String} The URL to encode.
 	@returns {String} The encoded URL.
 --]]
 function Clockwork.kernel:URLEncode(url)

@@ -5166,7 +5166,7 @@ end;
 	@codebase Server
 	@details Called when a player presses a button down.
 	@param {Player} The player that is pressing a button.
-	@param Enum The button that was pressed.
+	@param {Enum} The button that was pressed.
 --]]
 function Clockwork:PlayerButtonDown(player, button)
 	if (button == KEY_B) then
@@ -5188,7 +5188,7 @@ end;
 	@codebase Server
 	@details Called to determine whether or not a player can quickly raise their weapon by pressing the x button.
 	@param {Player} The player that is attempting to quickly raise their weapon.
-	@param Weapon The player's current active weapon.
+	@param {Weapon} The player's current active weapon.
 --]]
 function Clockwork:PlayerCanQuickRaise(player, weapon) return true end;
 
@@ -5264,7 +5264,7 @@ end;
 	@details Called when an attribute is progressed to edit the amount it is progressed by.
 	@param {Player} The player that has progressed the attribute.
 	@param {Table} The attribute table of the attribute being progressed.
-	@param Number The amount that is being progressed for editing purposes.
+	@param {Number} The amount that is being progressed for editing purposes.
 --]]
 function Clockwork:OnAttributeProgress(player, attribute, amount)
 	amount = amount * cwConfig:Get("scale_attribute_progress"):Get();

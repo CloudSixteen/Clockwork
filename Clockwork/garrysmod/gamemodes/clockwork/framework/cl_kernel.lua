@@ -568,7 +568,7 @@ end;
 --[[
 	@codebase Client
 	@details Called when the directory is rebuilt.
-	@param <DPanel> The directory panel.
+	@param {DPanel} The directory panel.
 --]]
 function Clockwork:ClockworkDirectoryRebuilt(panel)
 	for k, v in pairs(cwCommand:GetAll()) do
@@ -621,14 +621,14 @@ function Clockwork:PlayerCharacterInitialized(iCharacterKey) end;
 --[[
 	@codebase Client
 	@details Called before the local player's storage is rebuilt.
-	@param <DPanel> The player's storage panel.
+	@param {DPanel} The player's storage panel.
 --]]
 function Clockwork:PlayerPreRebuildStorage(panel) end;
 
 --[[
 	@codebase Client
 	@details Called when the local player's storage is rebuilt.
-	@param <DPanel> The player's storage panel.
+	@param {DPanel} The player's storage panel.
 	@param {Table} The categories for the player's storage.
 --]]
 function Clockwork:PlayerStorageRebuilt(panel, categories) end;
@@ -636,7 +636,7 @@ function Clockwork:PlayerStorageRebuilt(panel, categories) end;
 --[[
 	@codebase Client
 	@details Called when the local player's business is rebuilt.
-	@param <DPanel> The player's business panel.
+	@param {DPanel} The player's business panel.
 	@param {Table} The categories for the player's business.
 --]]
 function Clockwork:PlayerBusinessRebuilt(panel, categories) end;
@@ -644,7 +644,7 @@ function Clockwork:PlayerBusinessRebuilt(panel, categories) end;
 --[[
 	@codebase Client
 	@details Called when the local player's storage is rebuilt.
-	@param <DPanel> The player's storage panel.
+	@param {DPanel} The player's storage panel.
 	@param {Table} The categories for the player's inventory.
 --]]
 function Clockwork:PlayerInventoryRebuilt(panel, categories) end;
@@ -668,8 +668,8 @@ function Clockwork:PlayerAdjustBulletInfo(player, bulletInfo) end;
 --[[
 	@codebase Client
 	@details Called when clockwork's config is initialized.
-	@param String The name of the config key.
-	@param String The value relating to the key in the table.
+	@param {String} The name of the config key.
+	@param {String} The value relating to the key in the table.
 --]]
 function Clockwork:ClockworkConfigInitialized(key, value)
 	if (key == "cash_enabled" and !value) then
@@ -689,9 +689,9 @@ local checkTable = {
 --[[
 	@codebase Client
 	@details Called when one of the client's console variables have been changed.
-	@param String The name of the convar that was changed.
-	@param String The previous value of the convar.
-	@param String The new value of the convar.
+	@param {String} The name of the convar that was changed.
+	@param {String} The previous value of the convar.
+	@param {String} The new value of the convar.
 --]]
 function Clockwork:ClockworkConVarChanged(name, previousValue, newValue)
 	if (checkTable[name] and !cwTheme:IsFixed()) then
@@ -718,10 +718,10 @@ end;
 --[[
 	@codebase Client
 	@details Called when one of the configs have been changed.
-	@param String The config key that was changed.
-	@param String The data provided.
-	@param String The previous value of the key.
-	@param String The new value of the key.
+	@param {String} The config key that was changed.
+	@param {String} The data provided.
+	@param {String} The previous value of the key.
+	@param {String} The new value of the key.
 --]]
 function Clockwork:ClockworkConfigChanged(key, data, previousValue, newValue) end;
 
@@ -794,7 +794,7 @@ end;
 	@codebase Client
 	@details Called when a key has been released.
 	@param {Player} The player releasing a key.
-	@param Key The key that is being released.
+	@param {String} The key that is being released.
 --]]
 function Clockwork:KeyRelease(player, key)
 	if (cwConfig:Get("use_opens_entity_menus"):Get()) then
@@ -1001,7 +1001,7 @@ function Clockwork:ClockworkPostItemsInitialized(itemsTable) end;
 	@codebase Client
 	@details Called when a player's phys desc override is needed.
 	@param {Player} The player whose phys desc override is needed.
-	@param String The player's physDesc.
+	@param {String} The player's physDesc.
 --]]
 function Clockwork:GetPlayerPhysDescOverride(player, physDesc) end;
 
@@ -2428,7 +2428,6 @@ function Clockwork:GetModelSelectSequence(entity, model) end;
 --[[
     @codebase Client
     @details Finds the location of the player and packs together the info for observer ESP.
-    @class Clockwork
     @param {Table} The current table of ESP positions/colors/names to add on to.
 --]]
 function Clockwork:GetAdminESPInfo(info)
@@ -2652,14 +2651,12 @@ end;
 --[[
     @codebase Client
     @details This function is called after the progress bar info updates.
-    @class Clockwork
 --]]
 function Clockwork:GetPostProgressBarInfo() end;
 
 --[[
     @codebase Client
     @details This function is called when custom character options are needed.
-    @class Clockwork
     @param {Table} The character whose options are needed.
     @param {Table} The currently available options.
     @param {Table} The menu itself.
@@ -2669,7 +2666,6 @@ function Clockwork:GetCustomCharacterOptions(character, options, menu) end;
 --[[
     @codebase Client
     @details This function is called when custom character buttons are needed.
-    @class Clockwork
     @param {Table} The character whose buttons are needed.
     @param {Table} The currently available buttons.
 --]]
@@ -2678,7 +2674,6 @@ function Clockwork:GetCustomCharacterButtons(character, buttons) end;
 --[[
     @codebase Client
     @details This function is called to figure out the text, percentage and flash of the current progress bar.
-    @class Clockwork
     @returns {Table} The text, flash, and percentage of the progress bar.
 --]]
 function Clockwork:GetProgressBarInfo()
@@ -2735,7 +2730,7 @@ function Clockwork:PostDrawDateTimeBox(info) end;
 	@details Called after the view model is drawn.
 	@param {Entity} The viewmodel being drawn.
 	@param {Player} The player drawing the viewmodel.
-	@param Weapon The weapon table for the viewmodel.
+	@param {Weapon} The weapon table for the viewmodel.
 --]]
 function Clockwork:PostDrawViewModel(viewModel, player, weapon)
    	if (weapon.UseHands or !weapon:IsScripted()) then
@@ -2750,7 +2745,6 @@ end;
 --[[
     @codebase Client
     @details This function is called when local player info text is needed and adds onto it (F1 menu).
-    @class Clockwork
     @param {Table} The current table of player info text to add onto.
 --]]
 function Clockwork:GetPlayerInfoText(playerInfoText)
@@ -2774,7 +2768,6 @@ end;
 --[[
     @codebase Client
     @details This function is called when the player's fade distance is needed for their target text (when you look at them).
-    @class Clockwork
     @param {Table} The player we are finding the distance for.
     @returns {Number} The fade distance, defaulted at 4096.
 --]]
@@ -2792,7 +2785,6 @@ function Clockwork:DestroyPlayerInfoText(playerInfoText) end;
 --[[
     @codebase Client
     @details This function is called when the targeted player's target text is needed.
-    @class Clockwork
     @param {Table} The player we are finding the distance for.
     @param {Table} The player's current target text.
 --]]

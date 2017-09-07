@@ -27,10 +27,10 @@ if (SERVER) then
 		@codebase Server
 		@details Requests a string in the form of a derma popup on the specified client.
 		@param {Player} The player to send the request to.
-		@param String A title string to apply to the derma popup.
-		@param String The question to ask in the derma popup.
-		@param String An optional default string for the answer.
-		@param Function A callback function. It passes the answer as an argument.
+		@param {String} A title string to apply to the derma popup.
+		@param {String} The question to ask in the derma popup.
+		@param {String} An optional default string for the answer.
+		@param {Function} A callback function. It passes the answer as an argument.
 	--]]
 	function Clockwork.dermaRequest:RequestString(player, title, question, default, Callback)
 		local id = self:GenerateID();
@@ -44,9 +44,9 @@ if (SERVER) then
 		@codebase Server
 		@details Requests a confirmation from a player. When called, it displays a question box with a Confirm and Cancel button.
 		@param {Player} The player to send the request to.
-		@param String A title string to apply to the derma popup.
-		@param String The question to ask in the derma popup.
-		@param Function A callback function. It passes the answer as an argument.
+		@param {String} A title string to apply to the derma popup.
+		@param {String} The question to ask in the derma popup.
+		@param {Function} A callback function. It passes the answer as an argument.
 	--]]
 	function Clockwork.dermaRequest:RequestConfirmation(player, title, question, Callback)
 		local id = self:GenerateID();
@@ -60,9 +60,9 @@ if (SERVER) then
 		@codebase Server
 		@details Sends a derma popup message to a specific player.
 		@param {Player} The player to send the request to.
-		@param String The message to send to the player.
-		@param String A title string to apply to the derma popup (Optional).
-		@param String An optional button text override (Optional).
+		@param {String} The message to send to the player.
+		@param {String} A title string to apply to the derma popup (Optional).
+		@param {String} An optional button text override (Optional).
 	--]]
 	function Clockwork.dermaRequest:Message(player, message, title, button)
 		Clockwork.datastream:Start(player, "dermaRequest_message", {message = message, title = title or nil, button = button or nil});

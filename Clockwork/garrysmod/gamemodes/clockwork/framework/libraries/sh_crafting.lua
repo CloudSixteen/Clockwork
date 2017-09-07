@@ -40,8 +40,8 @@ CLASS_TABLE.giveItems = {};
 --[[
 	@codebase Shared
 	@details Called when the blueprint is invoked as a function. Whenever getting a value from a blueprintTable you should always do blueprintTable("varName") instead of blueprintTable.varName so that the query system is used. Note: it would be advised not to use blueprintTable("varName") during a query proxy or a stack overflow may be caused.
-	@param String
-	@param Bool
+	@param {String}
+	@param {Bool}
 --]]
 function CLASS_TABLE:__call(varName, failSafe)
 	if (self.queryProxies[varName]) then
@@ -259,7 +259,7 @@ end;
 	@codebase Shared
 	@details Checks if the player has the items required to craft the blueprint.
 	@param {Entity} Player crafting the blueprint.
-	@param String ID of the item being checked.
+	@param {String} ID of the item being checked.
 	@param {Number} Amount of items the player needs to have.
 	@returns {Bool} Whether player can craft the blueprint.
 	@returns {String} ID of the item that was checked.
@@ -282,7 +282,7 @@ end;
 	@codebase Shared
 	@details Gets the formatted requirement dependent on whether an inventory has the required ingredients.
 	@param {Table} The inventory to check against.
-	@param String ID of the item being checked.
+	@param {String} ID of the item being checked.
 	@param {Number} Amount of items the player needs to have.
 	@returns {String} Formatted requirement.
 --]]
@@ -319,7 +319,7 @@ end;
 	@codebase Shared
 	@details Gives the player items crafted from the blueprint.
 	@param {Entity} Player being given the items.
-	@param String ID of the item being given.
+	@param {String} ID of the item being given.
 	@param {Number} Amount of items to give.
 --]]
 function Clockwork.crafting:CheckGiveItems(player, item, amount)
@@ -342,7 +342,7 @@ end;
 	@codebase Shared
 	@details Takes items from the player required to be taken by the blueprint that was crafted.
 	@param {Entity} Player having the items taken from.
-	@param String ID of the item to take.
+	@param {String} ID of the item to take.
 	@param {Number} Amount of items to take.
 --]]
 function Clockwork.crafting:CheckTakeItems(player, item, amount)
@@ -364,7 +364,7 @@ end;
 --[[
 	@codebase Shared
 	@details A function to get a blueprint by its ID.
-	@param ID of the blueprint being found.
+	@param {String} ID of the blueprint being found.
 	@returns {Table} Blueprint that was found.
 --]]
 function Clockwork.crafting:FindByID(identifier)
@@ -478,8 +478,8 @@ end;
 --[[
 	@codebase Shared
 	@details A function to create a new blueprint.
-	@param String Blueprint base to inherit from.
-	@param Bool Whether blueprint being created is a base blueprint.
+	@param {String} Blueprint base to inherit from.
+	@param {Bool} Whether blueprint being created is a base blueprint.
 	@returns {Table} Blueprint just created.
 --]]
 function Clockwork.crafting:New(baseBlueprint, isBaseBlueprint)
@@ -584,8 +584,8 @@ if (CLIENT) then
 		@codebase Client
 		@details A function to get an item's markup tool tip.
 		@param {Table} Blueprint getting the tooltip for.
-		@param Bool Whether or not the tool tip wil be displayed in the business style.
-		@param Function Called when the tooltip is displayed.
+		@param {Bool} Whether or not the tool tip wil be displayed in the business style.
+		@param {Function} Called when the tooltip is displayed.
 		@returns {String} The tool tip to be displayed.
 	--]]
 	function Clockwork.crafting:GetMarkupToolTip(blueprintTable, isBusinessStyle, Callback)

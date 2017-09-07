@@ -35,8 +35,8 @@ Clockwork.datastream.stored = Clockwork.datastream.stored or {};
 --[[
 	@codebase Shared
 	@details A function to hook a data stream.
-	@param String A unique identifier.
-	@param Function The datastream callback.
+	@param {String} A unique identifier.
+	@param {Function} The datastream callback.
 --]]
 function Clockwork.datastream:Hook(name, Callback)
 	self.stored[name] = Callback;
