@@ -188,7 +188,7 @@ end);
 Clockwork.hint:Add("GiveName", "HintGiveName", function(player)
 	return Clockwork.config:Get("recognise_system"):Get();
 end);
-Clockwork.hint:Add("RaiseWeapon", "Hold :+reload: to raise or lower your weapon.", function(player)
+Clockwork.hint:Add("RaiseWeapon", "HintRaiseWeapon", function(player)
 	return Clockwork.config:Get("raised_weapon_system"):Get();
 end);
 Clockwork.hint:Add("TargetRecognises", "HintTargetRecognises", function(player)

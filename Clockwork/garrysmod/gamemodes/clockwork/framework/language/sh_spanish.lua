@@ -862,3 +862,5 @@ CW_SPANISH["StorageTransfer"] = "Transferir";
 CW_SPANISH["CraftErrorNotAllowed"] = "¡No tienes el acceso requerido para hacer esto!";
 CW_SPANISH["YouCannotAffordToDoThat"] = "¡No puedes permitirte hacer eso!";
 CW_SPANISH["MissingItemRequirements"] = "¡No cumples todos los requisitos!";
+
+CW_SPANISH["HintRaiseWeapon"] = "Mantén :+reload: para alzar o bajar tu arma.";
