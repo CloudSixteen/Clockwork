@@ -859,4 +859,9 @@ CW_KOREAN["SystemColorModAdvOnly"] = "이 설정들은 고급 설정임에 유�
 CW_KOREAN["InvalidPluginAuthor"] = "올바르지 않은 제작자 이름";
 CW_KOREAN["Color"] = "색상";
 
+CW_KOREAN["ChatPlayerItC"] = ":color1:*' #1";
 CW_KOREAN["StorageTransfer"] = "옮기기";
+
+CW_KOREAN["CraftErrorNotAllowed"] = "당신은 이것에 접근할 권한을 가지고 있지 않습니다!";
+CW_KOREAN["YouCannotAffordToDoThat"] = "이것을 구매할 충분한 돈을 가지고 있지 않습니다!";
+CW_KOREAN["MissingItemRequirements"] = "필요한 무언가를 가지고 있지 않습니다!";
