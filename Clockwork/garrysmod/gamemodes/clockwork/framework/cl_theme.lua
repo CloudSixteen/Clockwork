@@ -197,6 +197,7 @@ function THEME:Initialize()
 	SLICED_PROGRESS_BAR = Clockwork.render:AddSlice9("BigBox", "clockwork/sliced/bigbox", 28);
 	SLICED_PLAYER_INFO = Clockwork.render:AddSlice9("BigBox", "clockwork/sliced/bigbox", 28);
 	SLICED_INFO_MENU_BG = Clockwork.render:AddSlice9("BigBox", "clockwork/sliced/bigbox", 28);
+	CUSTOM_BUSINESS_ITEM_BG = Clockwork.render:AddSlice9("BigBox", "clockwork/sliced/bigbox", 28);
 	SLICED_COLUMNSHEET_BUTTON = Clockwork.render:AddSlice9("SmallBox", "clockwork/sliced/smallbox", 6);
 	
 	Clockwork.bars.height = 12;

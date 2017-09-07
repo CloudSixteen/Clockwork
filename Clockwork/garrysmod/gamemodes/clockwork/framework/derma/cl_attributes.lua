@@ -130,7 +130,7 @@ function PANEL:Rebuild()
 				
 				self.currentAttribute = v2[1];
 				
-				attributeForm:AddItem(Clockwork.kernel:CreateMarkupToolTip(vgui.Create("cwAttributesItem", self)));
+				attributeForm:AddItem(vgui.Create("cwAttributesItem", self));
 				
 				panelList:AddItem(attributeForm);
 			end;
@@ -182,9 +182,10 @@ local PANEL = {};
 
 -- Called when the panel is initialized.
 function PANEL:Init()
+	Clockwork.kernel:CreateMarkupToolTip(self);
+	
 	self.attribute = Clockwork.attribute:FindByID(self:GetParent().currentAttribute);
-
-	self:SetBackgroundColor(Color(80, 70, 60, 255));
+	
 	self:SetToolTip(L(self.attribute.description));
 	self:SetSize(self:GetParent():GetWide() - 8, 48);
 	
@@ -215,7 +216,6 @@ function PANEL:Init()
 	);
 	
 	self.progressBar = vgui.Create("DPanel", self);
-	self.progressBar:SetSize(self:GetWide() - 16, 8);
 	
 	-- Called when the panel should be painted.
 	function self.baseBar.Paint(baseBar)
@@ -293,15 +293,14 @@ function PANEL:Init()
 	end;
 	
 	if (self.attribute.image) then
-		self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
-		self.spawnIcon:SetToolTip(L(self.attribute.description));
+		self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImage", self));
 		self.spawnIcon:SetImage(self.attribute.image..".png");
-		self.spawnIcon:SetSize(32, 32);
+		self.spawnIcon:SetSize(48, 48);
 		
-		self.baseBar:SetPos(32, 2);
-		self.progressBar:SetPos(40, self.percentageText.y + self.percentageText:GetTall() + 8);
+		self.baseBar:SetPos(56, 2);
+		self.progressBar:SetPos(56, self.percentageText.y + self.percentageText:GetTall() + 8);
 	else
-		self.baseBar:SetPos(2, 2);
+		self.baseBar:SetPos(0, 2);
 		self.progressBar:SetPos(8, self.percentageText.y + self.percentageText:GetTall() + 8);
 	end;
 end;
@@ -312,7 +311,13 @@ function PANEL:SetPercentageText(maximum, default, boost)
 	
 	self.percentageText:SetText(math.ceil(default + boost).."/"..maximum);
 	self.percentageText:SizeToContents();
-	self.percentageText:SetPos(8, self.baseBar.y + (self.baseBar:GetTall() / 2) - (self.percentageText:GetTall() / 2));
+	self.percentageText.y = self.baseBar.y + (self.baseBar:GetTall() / 2) - (self.percentageText:GetTall() / 2);
+	
+	if (self.spawnIcon) then
+		self.percentageText.x = self.spawnIcon.x + self.spawnIcon:GetWide() + 8;
+	else
+		self.percentageText.x = 8;
+	end;
 	
 	local hinderColor = Clockwork.option:GetColor("attribute_hinder_color");
 	local boostColor = Clockwork.option:GetColor("attribute_boost_color");
@@ -343,10 +348,9 @@ end;
 -- Called each frame.
 function PANEL:Think()
 	if (self.spawnIcon) then
-		self.progressBar:SetSize(self:GetWide() - 48, 8);
-		self.baseBar:SetSize(self:GetWide() - 48, 20);
-		self.spawnIcon:SetPos(1, 1);
-		self.spawnIcon:SetSize(30, 30);
+		self.progressBar:SetSize(self:GetWide() - self.baseBar.x - 8, 8);
+		self.baseBar:SetSize(self:GetWide() - self.baseBar.x - 8, 20);
+		self.spawnIcon:SetSize(48, 48);
 	else
 		self.progressBar:SetSize(self:GetWide() - 8, 8);
 		self.baseBar:SetSize(self:GetWide() - 8, 20);
@@ -356,8 +360,7 @@ end;
 -- Called when the layout should be performed.
 function PANEL:PerformLayout(w, h)
 	if (self.spawnIcon) then
-		self.spawnIcon:SetPos(1, 1);
-		self.spawnIcon:SetSize(30, 30);
+		self.spawnIcon:SetSize(48, 48);
 	end;
 end;
 	
