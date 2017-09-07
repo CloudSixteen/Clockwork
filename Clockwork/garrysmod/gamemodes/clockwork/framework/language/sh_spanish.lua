@@ -32,7 +32,7 @@ CW_SPANISH["ForceDemoteAdminNeeded"] = "¡Tienes que ser administrador o superad
 CW_SPANISH["PlayerUnbannedPlayer"] = "#1 ha desbaneado a #2.";
 
 CW_SPANISH["PlayerSetConfigRestart"] = "#1 ha cambiado la clave de configuración #2 a '#3'. Este cambio se aplicará en el próximo reinicio.";
-CW_SPANISH["PlayerSetConfig"] = "#1 ha cambiado la variable #2 a '#3'.";
+CW_SPANISH["PlayerSetConfig"] = "#1 ha cambiado la clave de configuración #2 a '#3'.";
 
 CW_SPANISH["PlayerForcePromoted"] = "#1 ha ascendido de forma forzada a #2 al rango '#3'.";
 CW_SPANISH["PlayerPromotedPlayer"] = "#1 ha ascendido a #2 a rango '#3'.";
@@ -528,7 +528,7 @@ CW_SPANISH["UseSmoothServerRates"] = "Usar tasa de refresco fluida";
 CW_SPANISH["UseSmoothServerRatesDesc"] = "Usar o no usar una tasa de refresco fluida.";
 CW_SPANISH["UseMediumPerformanceServerRates"] = "Usar tasa de refresco media";
 CW_SPANISH["UseMediumPerformanceServerRatesDesc"] = "Usar o no usar una tasa de refresco media (las barras serán menos fluidas).";
-CW_SPANISH["UseLagFreeServerRates"] = "Usar tasa de refresco 'Lagg Free'";
+CW_SPANISH["UseLagFreeServerRates"] = "Usar tasa de refresco 'Lagg Free'.";
 CW_SPANISH["UseLagFreeServerRatesDesc"] = "Usar o no usar una tasa de refresco 'Lagg Free' (elimina todo lagg, puede colapsar las barras de progreso)";
 CW_SPANISH["GeneratorInterval"] = "Intervalo de producción de generadores";
 CW_SPANISH["GeneratorIntervalDesc"] = "El intervalo de tiempo que utiliza un generador para producir dinero (segundos).";
@@ -691,7 +691,7 @@ CW_SPANISH["MaxCharNameDesc"] = "La longitud máxima del nombre de un personaje 
 
 CW_SPANISH["HintOOC"] = "Escribe // antes de tu mensaje para hablar OOC";
 CW_SPANISH["HintLOOC"] = "Escribe .// o [[ antes de tu mensaje para hablar OOC localmente.";
-CW_SPANISH["HintDucking"] = "Activa el agachado manteniendo :+speed: mientras estás de pie.";
+CW_SPANISH["HintDucking"] = "Activa el modo correr manteniendo :+speed: mientras estás de pie.";
 CW_SPANISH["HintJogging"] = "Activa el modo 'footing' pulsando :+walk: mientras te mueves.";
 CW_SPANISH["HintDirectory"] = "Mantén :+showscores: y haz click en *name_directory* para conseguir ayuda.";
 CW_SPANISH["HintHotkeyF1"] = "Mantén :gm_showhelp: para ver información de tu jugador, y del rol.";
