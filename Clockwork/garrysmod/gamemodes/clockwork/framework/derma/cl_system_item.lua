@@ -51,6 +51,11 @@ function PANEL:Init()
 	end;
 end;
 
+-- A function to set the border color of the background button.
+function PANEL:SetColor(color)
+	self.backgroundButton:SetColor(color);
+end;
+
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
 	return true;
