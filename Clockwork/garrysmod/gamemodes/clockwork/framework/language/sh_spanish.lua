@@ -867,3 +867,4 @@ CW_SPANISH["HintRaiseWeapon"] = "Mantén :+reload: para alzar o bajar tu arma.";
 
 CW_SPANISH["Equip"] = "Equipar";
 CW_SPANISH["Holster"] = "Desequipar";
+CW_SPANISH["Drink"] = "Beber";

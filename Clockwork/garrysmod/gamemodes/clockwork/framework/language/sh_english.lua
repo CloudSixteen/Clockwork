@@ -867,3 +867,4 @@ CW_ENGLISH["HintRaiseWeapon"] = "Hold :+reload: to raise or lower your weapon.";
 
 CW_ENGLISH["Equip"] = "Equip";
 CW_ENGLISH["Holster"] = "Holster";
+CW_ENGLISH["Drink"] = "Drink";
