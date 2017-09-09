@@ -862,3 +862,9 @@ CW_ENGLISH["StorageTransfer"] = "Transfer";
 CW_ENGLISH["CraftErrorNotAllowed"] = "You do not have the required access to this!";
 CW_ENGLISH["YouCannotAffordToDoThat"] = "You cannot afford to do that!";
 CW_ENGLISH["MissingItemRequirements"] = "You are missing some requirements!";
+
+CW_ENGLISH["HintRaiseWeapon"] = "Hold :+reload: to raise or lower your weapon.";
+
+CW_ENGLISH["Equip"] = "Equip";
+CW_ENGLISH["Holster"] = "Holster";
+CW_ENGLISH["Drink"] = "Drink";

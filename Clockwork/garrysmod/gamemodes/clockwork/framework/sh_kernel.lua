@@ -5438,8 +5438,8 @@ function Clockwork.kernel:ParseData(text)
 		k = stringGsub(k, "[%(%)]", "");
 		
 		if (k != "") then
-			text = stringGsub(text, "%*%("..k.."%)%*", tostring(Clockwork.option:GetKey(k, true)));
-			text = stringGsub(text, "%*"..k.."%*", tostring(Clockwork.option:GetKey(k)));
+			text = stringGsub(text, "%*%("..k.."%)%*", tostring(Clockwork.option:Translate(k, true)));
+			text = stringGsub(text, "%*"..k.."%*", tostring(Clockwork.option:Translate(k)));
 		end;
 	end;
 	

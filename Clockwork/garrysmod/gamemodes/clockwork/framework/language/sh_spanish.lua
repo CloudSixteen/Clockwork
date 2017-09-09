@@ -32,7 +32,7 @@ CW_SPANISH["ForceDemoteAdminNeeded"] = "¡Tienes que ser administrador o superad
 CW_SPANISH["PlayerUnbannedPlayer"] = "#1 ha desbaneado a #2.";
 
 CW_SPANISH["PlayerSetConfigRestart"] = "#1 ha cambiado la clave de configuración #2 a '#3'. Este cambio se aplicará en el próximo reinicio.";
-CW_SPANISH["PlayerSetConfig"] = "#1 ha cambiado la variable #2 a '#3'.";
+CW_SPANISH["PlayerSetConfig"] = "#1 ha cambiado la clave de configuración #2 a '#3'.";
 
 CW_SPANISH["PlayerForcePromoted"] = "#1 ha ascendido de forma forzada a #2 al rango '#3'.";
 CW_SPANISH["PlayerPromotedPlayer"] = "#1 ha ascendido a #2 a rango '#3'.";
@@ -488,7 +488,7 @@ CW_SPANISH["ThemeDesc"] = "La apariencia que deseas visualizar";
 
 CW_SPANISH["AttributeProgressionScale"] = "Multiplicador de progresión de atributos";
 CW_SPANISH["AttributeProgressionScaleDesc"] = "El multiplicador de progresión de atributos.";
-CW_SPANISH["MessagesMustSeePlayer"] = "Jugador tiene que ver a jugador para leer mensaje";
+CW_SPANISH["MessagesMustSeePlayer"] = "Mensajes deben ver a jugador";
 CW_SPANISH["MessagesMustSeePlayerDesc"] = "Mostrar o no mostrar ciertos mensajes de rol cuando el jugador no está viendo al otro jugador.";
 CW_SPANISH["StartingAttributePoints"] = "Puntos de atributos iniciales";
 CW_SPANISH["StartingAttributePointsDesc"] = "La cantidad de puntos de atributos que un jugador puede utilizar en la creación de un personaje.";
@@ -502,9 +502,9 @@ CW_SPANISH["UseLocalMachineDate"] = "Usar fecha local.";
 CW_SPANISH["UseLocalMachineDateDesc"] = "Usar o no usar la fecha actual de la máquina host al cargar el mapa";
 CW_SPANISH["UseLocalMachineTime"] = "Usar hora local";
 CW_SPANISH["UseLocalMachineTimeDesc"] = "Usar o no la hora actual de la máquina host al cargar el mapa.";
-CW_SPANISH["UseKeyOpensEntityMenus"] = "La tecla de usar abre los menús de las entidades.";
+CW_SPANISH["UseKeyOpensEntityMenus"] = "Usar abre menú entidades.";
 CW_SPANISH["UseKeyOpensEntityMenusDesc"] = "Si la acción 'usar' abre los menús de contexto de las entidades.";
-CW_SPANISH["ShootAfterRaiseDelay"] = "Tiempo de espera de disparo al levantar un arma";
+CW_SPANISH["ShootAfterRaiseDelay"] = "Tiempo de espera al desenfundar";
 CW_SPANISH["ShootAfterRaiseDelayDesc"] = "El tiempo que tienen que esperar los jugadores para poder disparar tras justo elevar su arma en segundos.\nUtiliza 0 para anular la espera.";
 CW_SPANISH["UseClockworksAdminSystem"] = "Usar sistema administración Clockwork";
 CW_SPANISH["UseClockworksAdminSystemDesc"] = "Activar o desactivar cuando se use un sistema de administración que no es Clockwork.";
@@ -524,7 +524,7 @@ CW_SPANISH["WeaponRaisingSystemEnabled"] = "Sistema de desenfundado de armas";
 CW_SPANISH["WeaponRaisingSystemEnabledDesc"] = "Activar o desactivar el sistema de desenfundado de armas.";
 CW_SPANISH["PropKillProtectionEnabled"] = "Protección contra PropKill";
 CW_SPANISH["PropKillProtectionEnabledDesc"] = "Activar o desactivar la protección contra el PropKill.";
-CW_SPANISH["UseSmoothServerRates"] = "Usar tasa de refresco fluidas";
+CW_SPANISH["UseSmoothServerRates"] = "Usar tasa de refresco fluida";
 CW_SPANISH["UseSmoothServerRatesDesc"] = "Usar o no usar una tasa de refresco fluida.";
 CW_SPANISH["UseMediumPerformanceServerRates"] = "Usar tasa de refresco media";
 CW_SPANISH["UseMediumPerformanceServerRatesDesc"] = "Usar o no usar una tasa de refresco media (las barras serán menos fluidas).";
@@ -676,7 +676,7 @@ CW_SPANISH["DiseaseInterval"] = "Intervalo de enfermedades.";
 CW_SPANISH["DiseaseIntervalDesc"] = "El número de segundos entre cada síntoma de una enfermedad.";
 CW_SPANISH["EnableIronsights"] = "Habilitar miras en arma.";
 CW_SPANISH["EnableIronsightsDesc"] = "Activar o desactivar el uso de miras en las armas cuando esté disponible."; 
-CW_SPANISH["IronsightsSpreadReduction"] = "Reducción de propagación de balas en mira."; 
+CW_SPANISH["IronsightsSpreadReduction"] = "Reducción de propagación de balas"; 
 CW_SPANISH["IronsightsSpreadReductionDesc"] = "Reducción de propagación de balas aplicada al utilizar la mira de un arma."; 
 CW_SPANISH["IronsightsSlowAmount"] = "Reducción de velocidad en mira"; 
 CW_SPANISH["IronsightsSlowAmountDesc"] = "La cantidad de velocidad reducida que se le aplicará a un jugador al utilizar la mira de un arma."; 
@@ -691,7 +691,7 @@ CW_SPANISH["MaxCharNameDesc"] = "La longitud máxima del nombre de un personaje 
 
 CW_SPANISH["HintOOC"] = "Escribe // antes de tu mensaje para hablar OOC";
 CW_SPANISH["HintLOOC"] = "Escribe .// o [[ antes de tu mensaje para hablar OOC localmente.";
-CW_SPANISH["HintDucking"] = "Activa el agachado manteniendo :+speed: mientras estás de pie.";
+CW_SPANISH["HintDucking"] = "Activa el modo correr manteniendo :+speed: mientras estás de pie.";
 CW_SPANISH["HintJogging"] = "Activa el modo 'footing' pulsando :+walk: mientras te mueves.";
 CW_SPANISH["HintDirectory"] = "Mantén :+showscores: y haz click en *name_directory* para conseguir ayuda.";
 CW_SPANISH["HintHotkeyF1"] = "Mantén :gm_showhelp: para ver información de tu jugador, y del rol.";
@@ -862,3 +862,9 @@ CW_SPANISH["StorageTransfer"] = "Transferir";
 CW_SPANISH["CraftErrorNotAllowed"] = "¡No tienes el acceso requerido para hacer esto!";
 CW_SPANISH["YouCannotAffordToDoThat"] = "¡No puedes permitirte hacer eso!";
 CW_SPANISH["MissingItemRequirements"] = "¡No cumples todos los requisitos!";
+
+CW_SPANISH["HintRaiseWeapon"] = "Mantén :+reload: para alzar o bajar tu arma.";
+
+CW_SPANISH["Equip"] = "Equipar";
+CW_SPANISH["Holster"] = "Desequipar";
+CW_SPANISH["Drink"] = "Beber";

@@ -91,10 +91,10 @@ function ITEM:OnHandleUnequip(Callback)
 	if (self.OnDrop) then
 		local menu = DermaMenu();
 			menu:SetMinimumWidth(100);
-			menu:AddOption("Holster", function()
+			menu:AddOption(L("Holster"), function()
 				Callback();
 			end);
-			menu:AddOption("Drop", function()
+			menu:AddOption(L("Drop"), function()
 				Callback("drop");
 			end);
 		menu:Open();
