@@ -3343,7 +3343,7 @@ end;
 	@returns {Unknown}
 --]]
 function Clockwork.player:GetPhysDesc(player)
-	local physDesc = player:GetSharedVar("PhysDesc");
+	local physDesc = player:GetCharacterData("PhysDesc");
 	local team = player:Team();
 	
 	if (physDesc == "") then

@@ -2311,6 +2311,7 @@ function Clockwork:PlayerSetSharedVars(player, curTime)
 	player:SetSharedVar("Model", player:GetDefaultModel());
 	player:SetSharedVar("Name", player:Name());
 	player:SetSharedVar("Cash", player:GetCash());
+	player:SetSharedVar("PhysDesc", cwPly:GetPhysDesc(player));
 	
 	local clothesItem = player:IsWearingClothes();
 	
