@@ -259,7 +259,7 @@ end;
 	@returns {Unknown}
 --]]
 function Clockwork:PlayerThink(player, curTime, infoTable)
-	local bPlayerBreathSnd = false;
+	local playBreathSound = false;
 	local storageTable = player:GetStorageTable();
 	
 	if (!cwConfig:Get("cash_enabled"):Get()) then
@@ -336,7 +336,9 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 	end;
 	
 	--[[ Update whether the weapon has fired, or is being raised. --]]
-	player:UpdateWeaponFired(); player:UpdateWeaponRaised();
+	player:UpdateWeaponFired();
+	player:UpdateWeaponRaised();
+	
 	player:SetSharedVar("IsRunMode", infoTable.isRunning);
 	
 	player:SetCrouchedWalkSpeed(math.max(infoTable.crouchedSpeed, 0), true);
@@ -2188,7 +2190,7 @@ function Clockwork:Tick()
 	
 	if (!self.NextSaveData or sysTime >= self.NextSaveData) then
 		cwPlugin:Call("PreSaveData");
-			cwPlugin:Call("SaveData");
+		cwPlugin:Call("SaveData");
 		cwPlugin:Call("PostSaveData");
 		
 		self.NextSaveData = sysTime + cwConfig:Get("save_data_interval"):Get();
@@ -2217,9 +2219,7 @@ function Clockwork:Tick()
 			end;
 			
 			if (curTime >= v.cwNextThink) then
-				cwPly:CallThinkHook(
-					v, (curTime >= v.cwNextSetSharedVars), curTime
-				);
+				cwPly:CallThinkHook(v, (curTime >= v.cwNextSetSharedVars), curTime);
 			end;
 		end;
 	end;
