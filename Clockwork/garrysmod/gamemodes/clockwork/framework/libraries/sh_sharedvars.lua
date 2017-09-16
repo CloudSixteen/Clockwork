@@ -17,8 +17,8 @@ Clockwork.SharedVars.global = Clockwork.SharedVars.global or {vars = {}};
 	@details A function to get the global shared variables.
 	@param {Table} The global shared variable object.
 --]]
-function Clockwork.SharedVars:Global(bObject)
-	if (!bObject) then
+function Clockwork.SharedVars:Global(getVars)
+	if (!getVars) then
 		return self.global.vars;
 	else
 		return self.global;
@@ -30,8 +30,8 @@ end;
 	@details A function to get the player shared variables.
 	@param {Table} The player shared variable object.
 --]]
-function Clockwork.SharedVars:Player(bObject)
-	if (!bObject) then
+function Clockwork.SharedVars:Player(getVars)
+	if (!getVars) then
 		return self.player.vars;
 	else
 		return self.player;
@@ -43,11 +43,11 @@ end;
 	@details A function to add a player shared variable.
 	@param {String} A unique identifier.
 	@param {String} The shared variable class.
-	@param {Bool} Whether or not the shared varible is global.
+	@param {Bool} Whether or not the shared variable is global.
 --]]
-function Clockwork.SharedVars.player:Add(name, class, bPlayerOnly)
+function Clockwork.SharedVars.player:Add(name, class, playerOnly)
 	self.vars[name] = {
-		bPlayerOnly = bPlayerOnly,
+		playerOnly = playerOnly,
 		class = class,
 		name = name
 	};
@@ -57,70 +57,70 @@ end;
 	@codebase Shared
 	@details A function to add a player shared string.
 	@param {String} A unique identifier.
-	@param {Bool} Whether or not the shared varible is global.
+	@param {Bool} Whether or not the shared variable is global.
 --]]
-function Clockwork.SharedVars.player:String(name, bPlayerOnly)
-	self:Add(name, NWTYPE_STRING, bPlayerOnly);
+function Clockwork.SharedVars.player:String(name, playerOnly)
+	self:Add(name, NWTYPE_STRING, playerOnly);
 end;
 
 --[[
 	@codebase Shared
 	@details A function to add a player shared entity.
 	@param {String} A unique identifier.
-	@param {Bool} Whether or not the shared varible is global.
+	@param {Bool} Whether or not the shared variable is global.
 --]]
-function Clockwork.SharedVars.player:Entity(name, bPlayerOnly)
-	self:Add(name, NWTYPE_ENTITY, bPlayerOnly);
+function Clockwork.SharedVars.player:Entity(name, playerOnly)
+	self:Add(name, NWTYPE_ENTITY, playerOnly);
 end;
 
 --[[
 	@codebase Shared
 	@details A function to add a player shared vector.
 	@param {String} A unique identifier.
-	@param {Bool} Whether or not the shared varible is global.
+	@param {Bool} Whether or not the shared variable is global.
 --]]
-function Clockwork.SharedVars.player:Vector(name, bPlayerOnly)
-	self:Add(name, NWTYPE_VECTOR, bPlayerOnly);
+function Clockwork.SharedVars.player:Vector(name, playerOnly)
+	self:Add(name, NWTYPE_VECTOR, playerOnly);
 end;
 
 --[[
 	@codebase Shared
 	@details A function to add a player shared number.
 	@param {String} A unique identifier.
-	@param {Bool} Whether or not the shared varible is global.
+	@param {Bool} Whether or not the shared variable is global.
 --]]
-function Clockwork.SharedVars.player:Number(name, bPlayerOnly)
-	self:Add(name, NWTYPE_NUMBER, bPlayerOnly);
+function Clockwork.SharedVars.player:Number(name, playerOnly)
+	self:Add(name, NWTYPE_NUMBER, playerOnly);
 end;
 
 --[[
 	@codebase Shared
 	@details A function to add a player shared angle.
 	@param {String} A unique identifier.
-	@param {Bool} Whether or not the shared varible is global.
+	@param {Bool} Whether or not the shared variable is global.
 --]]
-function Clockwork.SharedVars.player:Angle(name, bPlayerOnly)
-	self:Add(name, NWTYPE_ANGLE, bPlayerOnly);
+function Clockwork.SharedVars.player:Angle(name, playerOnly)
+	self:Add(name, NWTYPE_ANGLE, playerOnly);
 end;
 
 --[[
 	@codebase Shared
 	@details A function to add a player shared float.
 	@param {String} A unique identifier.
-	@param {Bool} Whether or not the shared varible is global.
+	@param {Bool} Whether or not the shared variable is global.
 --]]
-function Clockwork.SharedVars.player:Float(name, bPlayerOnly)
-	self:Add(name, NWTYPE_FLOAT, bPlayerOnly);
+function Clockwork.SharedVars.player:Float(name, playerOnly)
+	self:Add(name, NWTYPE_FLOAT, playerOnly);
 end;
 
 --[[
 	@codebase Shared
 	@details A function to add a player shared bool.
 	@param {String} A unique identifier.
-	@param {Bool} Whether or not the shared varible is global.
+	@param {Bool} Whether or not the shared variable is global.
 --]]
-function Clockwork.SharedVars.player:Bool(name, bPlayerOnly)
-	self:Add(name, NWTYPE_BOOL, bPlayerOnly);
+function Clockwork.SharedVars.player:Bool(name, playerOnly)
+	self:Add(name, NWTYPE_BOOL, playerOnly);
 end;
 
 --[[
