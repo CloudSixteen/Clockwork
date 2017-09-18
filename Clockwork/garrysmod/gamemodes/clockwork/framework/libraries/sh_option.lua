@@ -83,8 +83,6 @@ Clockwork.option:SetKey("intro_background_url", "");
 Clockwork.option:SetKey("intro_logo_url", "");
 Clockwork.option:SetKey("model_shipment", "models/items/item_item_crate.mdl");
 Clockwork.option:SetKey("model_cash", "models/props_c17/briefcase001a.mdl");
-Clockwork.option:SetKey("format_singular_cash", "$%a");
-Clockwork.option:SetKey("format_cash", "$%a");
 Clockwork.option:SetKey("name_attributes", "MenuNameAttributes");
 Clockwork.option:SetKey("name_attribute", "MenuNameAttribute");
 Clockwork.option:SetKey("name_system", "MenuNameSystem");
@@ -102,7 +100,6 @@ Clockwork.option:SetKey("schema_logo", "");
 Clockwork.option:SetKey("intro_image", "");
 Clockwork.option:SetKey("intro_sound", "music/HL2_song25_Teleporter.mp3");
 Clockwork.option:SetKey("menu_music", "music/hl2_song32.mp3");
-Clockwork.option:SetKey("name_cash", "Cash");
 Clockwork.option:SetKey("top_bars", false);
 Clockwork.option:SetKey("gradient", "gui/gradient_up");
 

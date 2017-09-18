@@ -454,13 +454,11 @@ end;
 	@returns {Unknown}
 --]]
 function Clockwork:ClockworkInitialized()
-	local cashName = cwOption:GetKey("name_cash");
-	
 	if (!cwConfig:Get("cash_enabled"):Get()) then
-		cwCommand:SetHidden("Give"..string.gsub(cashName, "%s", ""), true);
-		cwCommand:SetHidden("Drop"..string.gsub(cashName, "%s", ""), true);
-		cwCommand:SetHidden("StorageTake"..string.gsub(cashName, "%s", ""), true);
-		cwCommand:SetHidden("StorageGive"..string.gsub(cashName, "%s", ""), true);
+		cwCommand:SetHidden("GiveCash", true);
+		cwCommand:SetHidden("DropCash", true);
+		cwCommand:SetHidden("StorageTakeCash", true);
+		cwCommand:SetHidden("StorageGiveCash", true);
 		
 		cwConfig:Get("scale_prop_cost"):Set(0, nil, true, true);
 		cwConfig:Get("door_cost"):Set(0, nil, true, true);
@@ -3790,11 +3788,11 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 		});
 	elseif (class == "cw_cash" and arguments == "cwCashTake") then
 		if (cwEntity:BelongsToAnotherCharacter(player, entity)) then
-			cwPly:Notify(player, {"DroppedCashOtherChar", cwOption:GetKey("name_cash", true)});
+			cwPly:Notify(player, {"DroppedCashOtherChar", L("Cash")});
 			return;
 		end;
 		
-		cwPly:GiveCash(player, entity.cwAmount, cwOption:GetKey("name_cash"));
+		cwPly:GiveCash(player, entity.cwAmount, L("Cash"));
 		player:EmitSound("physics/body/body_medium_impact_soft"..math.random(1, 7)..".wav");
 		player:FakePickup(entity);
 		

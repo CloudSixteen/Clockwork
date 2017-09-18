@@ -192,16 +192,27 @@ end;
 	@returns {Unknown}
 --]]
 function Clockwork.kernel:FormatCash(amount, singular, lowerName)
-	local formatSingular = Clockwork.option:GetKey("format_singular_cash");
-	local formatCash = Clockwork.option:GetKey("format_cash");
-	local cashName = Clockwork.option:GetKey("name_cash", lowerName);
-	local realAmount = tostring(mathRound(amount));
-	
-	if (singular) then
-		return self:Replace(self:Replace(formatSingular, "%n", cashName), "%a", realAmount);
+	local output = "";
+
+	if (SERVER) then
+		if (singular) then
+			output = {"CashAmountSingular", amount};
+		else
+			output = {"CashAmount", amount};
+		end;
 	else
-		return self:Replace(self:Replace(formatCash, "%n", cashName), "%a", realAmount);
+		if (singular) then
+			output = L("CashAmountSingular", amount);
+		else
+			output = L("CashAmount", amount);
+		end;
 	end;
+
+	if (lowerName) then
+		return string.lower(output);
+	end;
+
+	return output;
 end;
 
 --[[ Define the default library class. --]]

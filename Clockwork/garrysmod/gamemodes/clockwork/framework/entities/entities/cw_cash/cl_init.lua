@@ -14,7 +14,7 @@ function ENT:HUDPaintTargetID(x, y, alpha)
 	local colorWhite = Clockwork.option:GetColor("white");
 	local amount = self:GetDTInt(0);
 	
-	y = Clockwork.kernel:DrawInfo(Clockwork.option:GetKey("name_cash"), x, y, colorTargetID, alpha);
+	y = Clockwork.kernel:DrawInfo(L("Cash"), x, y, colorTargetID, alpha);
 	y = Clockwork.kernel:DrawInfo(Clockwork.kernel:FormatCash(amount), x, y, colorWhite, alpha);
 end;
 

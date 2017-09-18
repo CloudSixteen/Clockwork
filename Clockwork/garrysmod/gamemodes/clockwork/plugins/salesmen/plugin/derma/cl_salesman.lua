@@ -373,7 +373,7 @@ function PANEL:Init()
 	function self.spawnIcon.DoClick(spawnIcon)
 		if (self.typeName == "Items") then
 			if (self.itemTable("cost") == 0 and Clockwork.config:Get("cash_enabled"):Get()) then
-				local cashName = Clockwork.option:GetKey("name_cash");
+				local cashName = L("Cash");
 
 				Clockwork.kernel:AddMenuFromData(nil, {
 					["Buys"] = function()

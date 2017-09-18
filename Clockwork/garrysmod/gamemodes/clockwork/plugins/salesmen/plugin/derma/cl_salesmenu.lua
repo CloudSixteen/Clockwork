@@ -73,7 +73,7 @@ function PANEL:RebuildPanel(typeName, panelList, inventory)
 		
 		if (totalCash > -1) then
 			local cashForm = vgui.Create("DForm", panelList);
-				cashForm:SetName(Clockwork.option:GetKey("name_cash"));
+				cashForm:SetName(L("Cash"));
 				cashForm:SetPadding(4);
 			panelList:AddItem(cashForm);
 			

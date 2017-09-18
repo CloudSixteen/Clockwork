@@ -162,6 +162,21 @@ end;
 function Clockwork.command:FindByAlias(identifier)
 	return self.stored[alias[string.lower(string.gsub(identifier, "%s", ""))]];
 end;
+
+--[[
+	@codebase Shared
+	@details Add a new alias for a command.
+	@param {String} The identifier of the command to alias.
+	@param {String} The name of the alias.
+--]]
+function Clockwork.command:AddAlias(identifier, alias)
+	local uniqueID = string.lower(string.gsub(identifier, "%s", "");
+	local lowerAlias = string.lower(string.gsub(alias, "%s", "");
+
+	if (self.stored[uniqueID]) then
+		alias[lowerAlias] = uniqueID;
+	end;
+end;
  
 --[[
 	@codebase Shared

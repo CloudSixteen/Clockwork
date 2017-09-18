@@ -2753,16 +2753,16 @@ function Clockwork:GetPlayerInfoText(playerInfoText)
 	
 	if (cwConfig:Get("cash_enabled"):Get()) then
 		if (cash > 0) then
-			playerInfoText:Add("CASH", cwOption:GetKey("name_cash")..": "..cwKernel:FormatCash(cash, true));
+			playerInfoText:Add("CASH", L("PlayerInfoCash", cwKernel:FormatCash(cash, true)));
 		end;
 		
 		if (wages > 0) then
-			playerInfoText:Add("WAGES", cwClient:GetWagesName()..": "..cwKernel:FormatCash(wages));
+			playerInfoText:Add("WAGES", L("PlayerInfoWages", cwKernel:FormatCash(wages)));
 		end;
 	end;
 
-	playerInfoText:AddSub("NAME", cwClient:Name(), 2);
-	playerInfoText:AddSub("CLASS", _team.GetName(cwClient:Team()), 1);
+	playerInfoText:AddSub("NAME", L("PlayerInfoName", cwClient:Name()), 2);
+	playerInfoText:AddSub("CLASS", L("PlayerInfoClass", L(_team.GetName(cwClient:Team()))), 1);
 end;
 
 --[[

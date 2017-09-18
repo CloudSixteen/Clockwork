@@ -161,12 +161,10 @@ function PANEL:RebuildPanel(storagePanel, storageType, usedWeight, weight, usedS
 		
 		-- Called when the button is clicked.
 		function button.DoClick(button)
-			local cashName = Clockwork.option:GetKey("name_cash");
-			
 			if (storageType == "Inventory") then
-				Clockwork.kernel:RunCommand("StorageGive"..string.gsub(cashName, "%s", ""), numberWang:GetValue());
+				Clockwork.kernel:RunCommand("StorageGiveCash", numberWang:GetValue());
 			else
-				Clockwork.kernel:RunCommand("StorageTake"..string.gsub(cashName, "%s", ""), numberWang:GetValue());
+				Clockwork.kernel:RunCommand("StorageTakeCash", numberWang:GetValue());
 			end;
 		end;
 		
@@ -177,7 +175,7 @@ function PANEL:RebuildPanel(storagePanel, storageType, usedWeight, weight, usedS
 		numberWang:SizeToContents();
 				
 		cashForm:SetPadding(5);
-		cashForm:SetName(Clockwork.option:GetKey("name_cash"));
+		cashForm:SetName(L("Cash"));
 		cashForm:AddItem(numberWang);
 		cashForm:AddItem(button);
 	end;
