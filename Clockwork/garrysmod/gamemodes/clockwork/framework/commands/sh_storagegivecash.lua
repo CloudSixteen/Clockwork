@@ -6,7 +6,7 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
-local COMMAND = Clockwork.command:New("StorageGiveCash", ""));
+local COMMAND = Clockwork.command:New("StorageGiveCash");
 
 COMMAND.tip = "CmdStorageGiveCash";
 COMMAND.text = "CmdStorageGiveCashDesc";
