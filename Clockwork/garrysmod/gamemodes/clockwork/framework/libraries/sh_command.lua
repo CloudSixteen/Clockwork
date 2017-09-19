@@ -169,12 +169,12 @@ end;
 	@param {String} The identifier of the command to alias.
 	@param {String} The name of the alias.
 --]]
-function Clockwork.command:AddAlias(identifier, alias)
+function Clockwork.command:AddAlias(identifier, name)
 	local uniqueID = string.lower(string.gsub(identifier, "%s", ""));
-	local lowerAlias = string.lower(string.gsub(alias, "%s", ""));
+	local lowerName = string.lower(string.gsub(name, "%s", ""));
 
 	if (self.stored[uniqueID]) then
-		alias[lowerAlias] = uniqueID;
+		alias[lowerName] = uniqueID;
 	end;
 end;
  
