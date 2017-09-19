@@ -1585,13 +1585,10 @@ if (SERVER) then
 	--[[
 		@codebase Shared
 		@details A function to do the entity take damage hook.
-		@param {Unknown} Missing description for arguments.
+		@param {Unknown} Missing description for ....
 		@returns {Unknown}
 	--]]
-	function Clockwork.kernel:DoEntityTakeDamageHook(arguments)
-		local entity = arguments[1];
-		local damageInfo = arguments[2];
-		
+	function Clockwork.kernel:DoEntityTakeDamageHook(entity, damageInfo)
 		if (!IsValid(entity)) then
 			return;
 		end;		
