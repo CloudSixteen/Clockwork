@@ -127,26 +127,18 @@ function hook.Call(name, gamemode, ...)
 		end;
 	end;
 	
-	local startTime = SysTime();
-		local bStatus, value = pcall(cwPlugin.RunHooks, cwPlugin, name, nil, unpack(arguments));
-	local timeTook = SysTime() - startTime;
+	local status, value = pcall(cwPlugin.RunHooks, cwPlugin, name, nil, ...);
 	
-	hook.Timings[name] = timeTook;
-
-	if (!bStatus) then
+	if (!status) then
 		if (!Clockwork.Unauthorized) then
 			MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Kernel]\nThe '"..name.."' hook has failed to run.\n"..value.."\n");
 		end;
 	end;
 	
 	if (value == nil or name == THINK_NAME) then
-		local startTime = SysTime();
-			local bStatus, a, b, c = pcall(hook.ClockworkCall, name, gamemode or Clockwork, unpack(arguments));
-		local timeTook = SysTime() - startTime;
+		local status, a, b, c = pcall(hook.ClockworkCall, name, gamemode or Clockwork, ...);
 		
-		hook.Timings[name] = timeTook;
-		
-		if (!bStatus) then
+		if (!status) then
 			if (!Clockwork.Unauthorized) then
 				MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Kernel]\nThe '"..name.."' hook failed to run.\n"..a.."\n");
 			end;
