@@ -115,13 +115,13 @@ hook.Timings = hook.Timings or {};
 hook.Averages = hook.Averages or {};
 
 function hook.Call(name, gamemode, ...)
-	local arguments = {...};
-	
 	if (name == "EntityTakeDamage") then
-		if (cwKernel:DoEntityTakeDamageHook(arguments)) then
+		if (cwKernel:DoEntityTakeDamageHook(...)) then
 			return;
 		end;
 	elseif (name == "PlayerDisconnected") then
+		local arguments = {...};
+		
 		if (!IsValid(arguments[1])) then
 			return;
 		end;
