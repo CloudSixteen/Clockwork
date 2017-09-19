@@ -6,7 +6,7 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
-local COMMAND = Clockwork.command:New("SetCash", ""));
+local COMMAND = Clockwork.command:New("SetCash");
 
 COMMAND.tip = "CmdSetCash";
 COMMAND.text = "CmdSetCashDesc";

@@ -865,3 +865,9 @@ CW_KOREAN["StorageTransfer"] = "옮기기";
 CW_KOREAN["CraftErrorNotAllowed"] = "당신은 이것에 접근할 권한을 가지고 있지 않습니다!";
 CW_KOREAN["YouCannotAffordToDoThat"] = "이것을 구매할 충분한 돈을 가지고 있지 않습니다!";
 CW_KOREAN["MissingItemRequirements"] = "필요한 무언가를 가지고 있지 않습니다!";
+
+CW_KOREAN["HintRaiseWeapon"] = ":+reload: 키를 계속 눌러 무기를 들거나 내릴 수 있습니다.";
+
+CW_KOREAN["Equip"] = "장착";
+CW_KOREAN["Holster"] = "장착 해제";
+CW_KOREAN["Drink"] = "마시기";
