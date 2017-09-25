@@ -97,7 +97,7 @@ function PANEL:Populate()
 		local native = Clockwork.lang:GetNative(k);
 
 		if (native) then
-			panel:AddChoice(k + " (" + native + ")", k);
+			panel:AddChoice(k.. " (" + native + ")", k);
 		else
 			panel:AddChoice(k, k);
 		end;
@@ -115,7 +115,7 @@ function PANEL:Populate()
 	else
 		panel:SetValue(self.language);
 	end;
-	
+
 	function panel:OnSelect(index, value, data)
 		RunConsoleCommand("cwLang", data);
 	end;
