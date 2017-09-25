@@ -13,7 +13,9 @@
 --]]
 Clockwork.lang = Clockwork.kernel:NewLibrary("Lang");
 Clockwork.lang.stored = Clockwork.lang.stored or {};
+Clockwork.lang.natives = {};
 Clockwork.lang.default = "English";
+Clockwork.lang.codes = {};
 
 CW_LANGUAGE_CLASS = {__index = CW_LANGUAGE_CLASS};
 
@@ -30,6 +32,26 @@ function Clockwork.lang:GetTable(name)
 	
 	return Clockwork.lang.stored[name];
 end;
+
+--[[
+	@codebase Shared
+	@details Get the native language text in that language.
+	@returns {String} The native language string.
+--]]
+function Clockwork.lang:GetNative(name)
+	return Clockwork.lang.natives[name];
+end;
+
+--[[
+	@codebase Shared
+	@details Set the native language string.
+	@param {String} The name of the language.
+	@param {String} Then native text to display.
+--]]
+function Clockwork.lang:SetNative(name, value)
+	Clockwork.lang.natives[name] = value;
+end;
+
 
 --[[
 	@codebase Shared
@@ -85,6 +107,34 @@ function Clockwork.lang:GetString(language, identifier, ...)
 	end;
 end;
 
+--[[
+	@codebase Shared
+	@details Set the code for a language.
+	@param {String} The language to set the code for.
+	@param {String} The code to set.
+--]]
+function Clockwork.lang:SetCode(name, code)
+	self.codes[code] = name;
+end;
+
+--[[
+	@codebase Shared
+	@details Get the language from the given code.
+	@param {String} The code to search for.
+	@returns {String} The language found.
+--]]
+function Clockwork.lang:GetFromCode(code)
+	return self.codes[code];
+end;
+
+--[[
+	@codebase Shared
+	@details Replace substitute variables in a language string.
+	@param {String} The language to replace for.
+	@param {String} The input string.
+	@param {Mixed} A list of subs to replace in the string.
+	@returns {String} The final ouput string.
+--]]
 function Clockwork.lang:ReplaceSubs(language, input, subs)
 	for child in string.gmatch(input, "%{(.-)%}") do
 		input = string.gsub(input, "{"..child.."}", self:GetString(language, child));
@@ -146,3 +196,15 @@ else
 		end;
 	end;
 end;
+
+Clockwork.lang:SetNative("Korean", "한국어");
+Clockwork.lang:SetNative("French", "Français");
+Clockwork.lang:SetNative("Spanish", "Español");
+Clockwork.lang:SetNative("Swedish", "Svenska");
+
+Clockwork.lang:SetCode("Korean", "ko");
+Clockwork.lang:SetCode("French", "fr");
+Clockwork.lang:SetCode("English", "en");
+Clockwork.lang:SetCode("Swedish", "sv-se");
+Clockwork.lang:SetCode("Spanish", "es");
+Clockwork.lang:SetCode("Russian", "ru");

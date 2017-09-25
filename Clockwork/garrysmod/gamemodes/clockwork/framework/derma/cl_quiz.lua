@@ -1,5 +1,5 @@
 --[[
-	© CloudSixteen.com do not share, re-distribute or modify
+	ï¿½ CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -88,21 +88,36 @@ function PANEL:Populate()
 	self.languageForm:SetText(L("Language"));
 	self.languageForm:SetPadding(8);
 	self.languageForm:SetSpacing(4);
-	
+
+	local gmodLang = string.lower(GetConVarString("gmod_language"));
+
 	local panel = vgui.Create("DComboBox", self.languageForm);
 	
 	for k, v in pairs(langTable) do
-		panel:AddChoice(k);
+		local native = Clockwork.lang:GetNative(k);
+
+		if (native) then
+			panel:AddChoice(k.. " ("..native..")", k);
+		else
+			panel:AddChoice(k, k);
+		end;
 	end;
 	
 	if (!self.language or tostring(self.language) == "nil") then
 		self.language = Clockwork.lang.default;
 	end;
 	
-	panel:SetValue(self.language);
-	
+	local gmodToCW = Clockwork.lang:GetFromCode(gmodLang);
+
+	if (gmodToCW) then
+		RunConsoleCommand("cwLang", gmodToCW);
+		panel:SetValue(gmodToCW);
+	else
+		panel:SetValue(self.language);
+	end;
+
 	function panel:OnSelect(index, value, data)
-		RunConsoleCommand("cwLang", value);
+		RunConsoleCommand("cwLang", data);
 	end;
 	
 	self.languageForm:AddItem(panel);
@@ -198,7 +213,13 @@ function PANEL:Think()
 		end;
 		
 		self.disconnectButton:SetText(L("MenuDisconnect"));
+		self.disconnectButton:SizeToContents();
+
 		self.continueButton:SetText(L("MenuContinue"));
+		self.continueButton:SizeToContents();
+
+		self.languageForm:SetText(L("Language"));
+		self.questionsForm:SetText(L(Clockwork.quiz:GetName()));
 	end;
 
 	self:InvalidateLayout(true);

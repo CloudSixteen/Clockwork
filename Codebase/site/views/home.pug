@@ -1,9 +1,9 @@
 head
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
-    script(src="js/popper.min.js")
-    script(src="js/bootstrap.min.js")
-    link(rel="stylesheet", href="css/bootstrap.min.css")
-    link(rel="stylesheet", href="simple-sidebar.css")
+    script(src="/js/popper.min.js")
+    script(src="/js/bootstrap.min.js")
+    link(rel="stylesheet", href="/css/bootstrap.min.css")
+    link(rel="stylesheet", href="/simple-sidebar.css")
 
 body
     div#wrapper.toggled
@@ -28,43 +28,50 @@ script.
             $("#content-title").text("Hooks");
             $("#content-body").empty();
 
+            let sharedHooks = [];
+            let serverHooks = [];
+            let clientHooks = [];
+
             Object.keys(data.hooks).forEach(hook => {
-                let labelClass = "badge badge-info";
-                let labelText = "Client";
-                let params = data.hooks[hook].params;
                 let state = data.hooks[hook].scriptState;
 
                 if (state === "Server") {
-                    labelClass = "badge badge-danger";
-                    labelText = "Server";
+                    serverHooks.push(data.hooks[hook]);
                 } else if (state === "Shared") {
-                    labelClass = "badge badge-warning";
-                    labelText = "Shared";
+                    sharedHooks.push(data.hooks[hook]);
+                } else {
+                    clientHooks.push(data.hooks[hook]);
                 }
-
-                let paramString = "";
-
-                if (params) {
-                    for (let i = 0; i < params.length; i++) {
-                        if (i < params.length - 1) {
-                            paramString += params[i].name + ": " + params[i].varType + ", ";
-                        } else {
-                            paramString += params[i].name + ": " + params[i].varType;
-                        }
-                    };
-
-                    if (paramString !== "") {
-                        paramString = `<code>(` + paramString + `)</code>`;
-                    }
-                }
-
-                $("#content-body").append($(`
-                    <div style="margin-bottom: 16px;">
-                        <h3><span class="` + labelClass + `">` + labelText + `</span> ` + hook + `</h3>
-                        <p>` + data.hooks[hook].details + `</p>
-                        ` + paramString + `
-                    </div>
-                `));
             });
+
+            $("#content-body").append($("<h1><span class='badge badge-danger'>Server</span> Hooks</h1>"));
+
+            var container = $("<div>");
+
+            serverHooks.forEach(hook => {
+                container.append($("<a style='float: left; margin-right: 32px;' href='hook/" + hook.niceName + "'>" + hook.niceName + "</a>"));
+            });
+
+            $("#content-body").append(container);
+
+            $("#content-body").append($("<h1><span class='badge badge-warning'>Shared</span> Hooks</h1>"));
+
+            container = $("<div>");
+
+            sharedHooks.forEach(hook => {
+                container.append($("<a style='float: left; margin-right: 32px;' href='hook/" + hook.niceName + "'>" + hook.niceName + "</a>"));
+            });
+
+            $("#content-body").append(container);
+
+            $("#content-body").append($("<h1><span class='badge badge-info'>Client</span> Hooks</h1>"));
+
+            container = $("<div>");
+
+            clientHooks.forEach(hook => {
+                container.append($("<a style='float: left; margin-right: 32px;' href='hook/" + hook.niceName + "'>" + hook.niceName + "</a>"));
+            });
+
+            $("#content-body").append(container);
         });
     });

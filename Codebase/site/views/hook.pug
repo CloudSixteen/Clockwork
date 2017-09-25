@@ -1,0 +1,68 @@
+head
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+    script(src="/js/popper.min.js")
+    script(src="/js/bootstrap.min.js")
+    link(rel="stylesheet", href="/css/bootstrap.min.css")
+    link(rel="stylesheet", href="/simple-sidebar.css")
+
+body
+    div#wrapper.toggled
+        div#sidebar-wrapper
+            ul.sidebar-nav
+                li.sidebar-brand
+                    a(href="/") Clockwork Docs
+                li
+                    a#hooks(href="#") Hooks
+                li
+                    a#libraries(href="#") Libraries
+
+        div#page-content-wrapper
+            div.container-fluid
+                h1#content-title
+                    span#title-state
+                    span#title-text
+                div#content-sub-title(style="margin-top: 32px;")
+                    code#with-params
+                div#content-body(style="margin-top: 32px;")
+                    h2 Description
+                    p#details(style="margin-top: 32px;")
+                    h2 Params
+                    div#paramList
+
+script.
+    var hook = !{hook}
+
+    $(function() {
+        let paramString = "";
+        let params = hook.params;
+
+        if (params) {
+            for (let i = 0; i < params.length; i++) {
+                if (i < params.length - 1) {
+                    paramString += params[i].name + ": " + params[i].varType + ", ";
+                } else {
+                    paramString += params[i].name + ": " + params[i].varType;
+                }
+
+                $("#paramList").append($(`
+                    <h5>(` + params[i].varType + `) ` + params[i].name + `</h5>
+                    <p>` + params[i].note + `</p>
+                `));
+            };
+        }
+
+        $("#title-text").text(hook.niceName);
+        $("#with-params").text(hook.niceName + "(" + paramString + ")");
+        $("#details").text(hook.details);
+
+        if (hook.scriptState === "Server") {
+            $("#title-state").text("Server");
+            $("#title-state").addClass("badge badge-danger");
+        } else if (hook.scriptState === "Shared") {
+            $("#title-state").text("Shared");
+            $("#title-state").addClass("badge badge-warning");
+        } else {
+            $("#title-state").text("Client");
+            $("#title-state").addClass("badge badge-info");
+        }
+    });

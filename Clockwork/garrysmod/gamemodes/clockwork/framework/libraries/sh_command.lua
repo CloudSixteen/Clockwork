@@ -301,10 +301,10 @@ if (SERVER) then
 												Clockwork.kernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerUsedCommand", player:Name(), commandPrefix..commandTable.name});
 											end;
 
+											Clockwork.plugin:Call("PostCommandUsed", player, commandTable, arguments);
+											
 											return value;
 										end;
-
-										Clockwork.plugin:Call("PostCommandUsed", player, commandTable, arguments);
 									end;
 								else
 									Clockwork.player:Notify(player, {"NoAccessToCommand", player:Name()});

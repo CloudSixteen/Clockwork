@@ -10,6 +10,7 @@ fs.readdir("./items", function(err, files) {
 	}
 	
 	files.forEach(function(file, index) {
+		console.log("Processing: " + file);
 		var contents = fs.readFileSync("./items/" + file, "utf8");
 		var name = contents.match(/ITEM\.name = "(.+)";/);
 		
@@ -18,11 +19,10 @@ fs.readdir("./items", function(err, files) {
 			process.exit(1);
 		}
 		
-		var desc = contents.match(/ITEM\.description = "(.+)";/)[1];
+		var desc = contents.match(/ITEM\.description = "(.+)";/);
 		
-		if (!desc) {
-			console.error(file + " has no ITEM.description!");
-			process.exit(1);
+		if (desc) {
+			desc = desc[1];
 		}
 		
 		var uniqueID = contents.match(/ITEM\.uniqueID = "(.+)";/);
@@ -38,12 +38,18 @@ fs.readdir("./items", function(err, files) {
 		var langNameDesc = langName + "Desc";
 		
 		contents = contents.replace(name[1], langName);
-		contents = contents.replace(desc, langNameDesc);
+		
+		if (desc) {
+			contents = contents.replace(desc, langNameDesc);
+		}
 		
 		fs.writeFileSync("./items/" + file, contents, "utf8");
 		
 		langOutput += 'CW_ENGLISH["' + langName + '"] = "' + name[1] + '";\n';
-		langOutput += 'CW_ENGLISH["' + langNameDesc + '"] = "' + desc + '";\n';
+		
+		if (desc) {
+			langOutput += 'CW_ENGLISH["' + langNameDesc + '"] = "' + desc + '";\n';
+		}
 		
 		console.log("Processed: " + name[1] + " (" + file + ")");
 	});
