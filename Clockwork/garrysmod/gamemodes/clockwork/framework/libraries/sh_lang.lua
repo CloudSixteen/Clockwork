@@ -15,6 +15,7 @@ Clockwork.lang = Clockwork.kernel:NewLibrary("Lang");
 Clockwork.lang.stored = Clockwork.lang.stored or {};
 Clockwork.lang.natives = {};
 Clockwork.lang.default = "English";
+Clockwork.lang.codes = {};
 
 CW_LANGUAGE_CLASS = {__index = CW_LANGUAGE_CLASS};
 
