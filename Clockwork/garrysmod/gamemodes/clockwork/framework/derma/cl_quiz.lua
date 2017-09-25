@@ -213,7 +213,13 @@ function PANEL:Think()
 		end;
 		
 		self.disconnectButton:SetText(L("MenuDisconnect"));
+		self.disconnectButton:SizeToContents();
+
 		self.continueButton:SetText(L("MenuContinue"));
+		self.continueButton:SizeToContents();
+
+		self.languageForm:SetText(L("Language"));
+		self.questionsForm:SetText(L(Clockwork.quiz:GetName()));
 	end;
 
 	self:InvalidateLayout(true);
