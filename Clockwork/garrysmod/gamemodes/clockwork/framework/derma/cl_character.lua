@@ -38,38 +38,17 @@ function PANEL:Init()
 		self.titleLabel = vgui.Create("cwLabelButton", self);
 		self.titleLabel:SetDisabled(true);
 		self.titleLabel:SetFont(hugeTextFont);
-		self.titleLabel:SetText(string.upper(Schema:GetName()));
-		
-		local schemaLogo = Clockwork.option:GetKey("schema_logo");
 		
 		self.subLabel = vgui.Create("cwLabelButton", self);
 		self.subLabel:SetDisabled(true);
 		self.subLabel:SetFont(smallTextFont);
-		self.subLabel:SetText(L(string.upper(Schema:GetDescription())));
-		self.subLabel:SizeToContents();
-		
-		if (schemaLogo == "") then
-			self.titleLabel:SetVisible(true);
-			self.titleLabel:SizeToContents();
-			self.titleLabel:SetPos((scrW / 2) - (self.titleLabel:GetWide() / 2), scrH * 0.4);
-			self.subLabel:SetPos((scrW / 2) - (self.subLabel:GetWide() / 2), self.titleLabel.y + self.titleLabel:GetTall() + 8);
-		else
-			self.titleLabel:SetVisible(false);
-			self.titleLabel:SetSize(512, 256);
-			self.titleLabel:SetPos((scrW / 2) - (self.titleLabel:GetWide() / 2), scrH * 0.4 - 128);
-			self.subLabel:SetPos(self.titleLabel.x + (self.titleLabel:GetWide() / 2) - (self.subLabel:GetWide() / 2), self.titleLabel.y + self.titleLabel:GetTall() + 8);
-		end;
 		
 		self.authorLabel = vgui.Create("cwLabelButton", self);
 		self.authorLabel:SetDisabled(true);
 		self.authorLabel:SetFont(tinyTextFont);
-		self.authorLabel:SetText(L("DevelopedBy", string.upper(Schema:GetAuthor())));
-		self.authorLabel:SizeToContents();
-		self.authorLabel:SetPos(self.subLabel.x + (self.subLabel:GetWide() - self.authorLabel:GetWide()), self.subLabel.y + self.subLabel:GetTall() + 4);
 		
 		self.createButton = vgui.Create("cwLabelButton", self);
 		self.createButton:SetFont(smallTextFont);
-		self.createButton:SetText(L("CharacterMenuNew"));
 		self.createButton:FadeIn(0.5);
 		self.createButton:SetCallback(function(panel)
 			if (table.Count(Clockwork.character:GetAll()) >= Clockwork.player:GetMaximumCharacters()) then
@@ -79,26 +58,21 @@ function PANEL:Init()
 			Clockwork.character:ResetCreationInfo();
 			Clockwork.character:OpenNextCreationPanel();
 		end);
-		self.createButton:SizeToContents();
 		self.createButton:SetMouseInputEnabled(true);
-		self.createButton:SetPos(scrW * 0.25, 16);
 		
 		self.loadButton = vgui.Create("cwLabelButton", self);
 		self.loadButton:SetFont(smallTextFont);
-		self.loadButton:SetText(L("CharacterMenuLoad"));
 		self.loadButton:FadeIn(0.5);
 		self.loadButton:SetCallback(function(panel)
 			self:OpenPanel("cwCharacterList", nil, function(panel)
 				Clockwork.character:RefreshPanelList();
 			end);
 		end);
-		self.loadButton:SizeToContents();
+		
 		self.loadButton:SetMouseInputEnabled(true);
-		self.loadButton:SetPos(scrW * 0.75, 16);
 		
 		self.disconnectButton = vgui.Create("cwLabelButton", self);
 		self.disconnectButton:SetFont(smallTextFont);
-		self.disconnectButton:SetText(L("CharacterMenuLeave"));
 		self.disconnectButton:FadeIn(0.5);
 		self.disconnectButton:SetCallback(function(panel)
 			if (Clockwork.Client:HasInitialized() and !Clockwork.character:IsMenuReset()) then
@@ -108,13 +82,11 @@ function PANEL:Init()
 				RunConsoleCommand("disconnect");
 			end;
 		end);
-		self.disconnectButton:SizeToContents();
-		self.disconnectButton:SetPos((scrW / 2) - (self.disconnectButton:GetWide() / 2), 16);
+		
 		self.disconnectButton:SetMouseInputEnabled(true);
 		
 		self.previousButton = vgui.Create("cwLabelButton", self);
 		self.previousButton:SetFont(tinyTextFont);
-		self.previousButton:SetText(L("CharacterMenuPrevious"));
 		self.previousButton:SetCallback(function(panel)
 			if (!Clockwork.character:IsCreationProcessActive()) then
 				local activePanel = Clockwork.character:GetActivePanel();
@@ -126,13 +98,10 @@ function PANEL:Init()
 				Clockwork.character:OpenPreviousCreationPanel()
 			end;
 		end);
-		self.previousButton:SizeToContents();
 		self.previousButton:SetMouseInputEnabled(true);
-		self.previousButton:SetPos((scrW * 0.2) - (self.previousButton:GetWide() / 2), scrH * 0.9);
 		
 		self.nextButton = vgui.Create("cwLabelButton", self);
 		self.nextButton:SetFont(tinyTextFont);
-		self.nextButton:SetText(L("CharacterMenuNext"));
 		self.nextButton:SetCallback(function(panel)
 			if (!Clockwork.character:IsCreationProcessActive()) then
 				local activePanel = Clockwork.character:GetActivePanel();
@@ -144,19 +113,14 @@ function PANEL:Init()
 				Clockwork.character:OpenNextCreationPanel()
 			end;
 		end);
-		self.nextButton:SizeToContents();
 		self.nextButton:SetMouseInputEnabled(true);
-		self.nextButton:SetPos((scrW * 0.8) - (self.nextButton:GetWide() / 2), scrH * 0.9);
 		
 		self.cancelButton = vgui.Create("cwLabelButton", self);
 		self.cancelButton:SetFont(tinyTextFont);
-		self.cancelButton:SetText(L("CharacterMenuCancel"));
 		self.cancelButton:SetCallback(function(panel)
 			self:ReturnToMainMenu();
 		end);
-		self.cancelButton:SizeToContents();
 		self.cancelButton:SetMouseInputEnabled(true);
-		self.cancelButton:SetPos((scrW * 0.5) - (self.cancelButton:GetWide() / 2), scrH * 0.9);
 		
 		local modelSize = math.min(ScrW() * 0.4, ScrH() * 0.9);
 		
@@ -166,8 +130,67 @@ function PANEL:Init()
 		self.characterModel:SetModel("models/error.mdl");
 		self.createTime = SysTime();
 		
-		Clockwork.theme:Call("PostCharacterMenuInit", self)
+		Clockwork.theme:Call("PostCharacterMenuInit", self);
+		
+		self:ResetTextAndPositions();
+		
+		cvars.AddChangeCallback("cwLang", function()
+			self:ResetTextAndPositions();
+		end);
 	end;
+end;
+
+-- A function to reset text and positions.
+function PANEL:ResetTextAndPositions()
+	local scrH = ScrH();
+	local scrW = ScrW();
+
+	self.titleLabel:SetText(string.upper(Schema:GetName()));
+	
+	self.subLabel:SetText(L(string.upper(Schema:GetDescription())));
+	self.subLabel:SizeToContents();
+	
+	local schemaLogo = Clockwork.option:GetKey("schema_logo");
+	
+	if (schemaLogo == "") then
+		self.titleLabel:SetVisible(true);
+		self.titleLabel:SizeToContents();
+		self.titleLabel:SetPos((scrW / 2) - (self.titleLabel:GetWide() / 2), scrH * 0.4);
+		self.subLabel:SetPos((scrW / 2) - (self.subLabel:GetWide() / 2), self.titleLabel.y + self.titleLabel:GetTall() + 8);
+	else
+		self.titleLabel:SetVisible(false);
+		self.titleLabel:SetSize(512, 256);
+		self.titleLabel:SetPos((scrW / 2) - (self.titleLabel:GetWide() / 2), scrH * 0.4 - 128);
+		self.subLabel:SetPos(self.titleLabel.x + (self.titleLabel:GetWide() / 2) - (self.subLabel:GetWide() / 2), self.titleLabel.y + self.titleLabel:GetTall() + 8);
+	end;
+	
+	self.authorLabel:SetText(L("DevelopedBy", string.upper(Schema:GetAuthor())));
+	self.authorLabel:SizeToContents();
+	self.authorLabel:SetPos(self.subLabel.x + (self.subLabel:GetWide() - self.authorLabel:GetWide()), self.subLabel.y + self.subLabel:GetTall() + 4);
+	
+	self.createButton:SetText(L("CharacterMenuNew"));
+	self.createButton:SizeToContents();
+	self.createButton:SetPos(scrW * 0.25, 16);
+	
+	self.loadButton:SetText(L("CharacterMenuLoad"));
+	self.loadButton:SizeToContents();
+	self.loadButton:SetPos(scrW * 0.75, 16);
+	
+	self.disconnectButton:SetText(L("CharacterMenuLeave"));
+	self.disconnectButton:SizeToContents();
+	self.disconnectButton:SetPos((scrW / 2) - (self.disconnectButton:GetWide() / 2), 16);
+	
+	self.previousButton:SetText(L("CharacterMenuPrevious"));
+	self.previousButton:SizeToContents();
+	self.previousButton:SetPos((scrW * 0.2) - (self.previousButton:GetWide() / 2), scrH * 0.9);
+	
+	self.nextButton:SetText(L("CharacterMenuNext"));
+	self.nextButton:SizeToContents();
+	self.nextButton:SetPos((scrW * 0.8) - (self.nextButton:GetWide() / 2), scrH * 0.9);
+
+	self.cancelButton:SetText(L("CharacterMenuCancel"));
+	self.cancelButton:SizeToContents();
+	self.cancelButton:SetPos((scrW * 0.5) - (self.cancelButton:GetWide() / 2), scrH * 0.9);
 end;
 
 -- A function to fade in the model panel.
