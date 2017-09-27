@@ -218,7 +218,7 @@ function CLASS_TABLE:IsDataNetworked(key)
 end;
 
 if (SERVER) then
-	-- A function to deduct neccessary funds from a plater after ordering.
+	-- A function to deduct neccessary funds from a player after ordering.
 	function CLASS_TABLE:DeductFunds(player)
 		if (#self.recipes > 0) then
 			for k, v in pairs(self.recipes) do
@@ -598,8 +598,8 @@ if (SERVER) then
 	end;
 	
 	-- A function to drop an item from a player.
-	function Clockwork.item:Drop(player, itemTable, position, noSound, bNoTake)
-		if (itemTable and (bNoTake or player:HasItemInstance(itemTable))) then
+	function Clockwork.item:Drop(player, itemTable, position, noSound, dontTake)
+		if (itemTable and (dontTake or player:HasItemInstance(itemTable))) then
 			local traceLine = nil;
 			local entity = nil;
 			
@@ -613,7 +613,7 @@ if (SERVER) then
 					return false;
 				end;
 				
-				if (!bNoTake) then
+				if (!dontTake) then
 					player:TakeItem(itemTable);
 				end;
 				
