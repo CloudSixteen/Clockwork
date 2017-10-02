@@ -58,7 +58,7 @@ function PANEL:Setup(player)
 	if (self.Recognises) then
 		self.Avatar:SetPlayer(player);
 	else
-		self.Avatar:SetImage("clockwork/unknown.png");
+		self.Avatar:SetImage("clockwork/unknown2.png");
 	end;
 end;
 

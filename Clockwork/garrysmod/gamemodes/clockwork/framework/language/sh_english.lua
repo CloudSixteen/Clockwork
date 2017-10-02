@@ -225,7 +225,7 @@ CW_ENGLISH["FaultNeedGender"] = "You did not choose a gender, or the gender that
 CW_ENGLISH["FaultNeedClass"] = "You did not choose a class, or the class that you chose is not valid!";
 CW_ENGLISH["FaultNotOnWhitelist"] = "You are not on the #1 whitelist!";
 CW_ENGLISH["FaultTooManyInFaction"] = "You cannot create any more characters in this faction.";
-CW_ENGLISH["FaultTooManyCharacters"] = "You cannot create any more characters !";
+CW_ENGLISH["FaultTooManyCharacters"] = "You cannot create any more characters!";
 CW_ENGLISH["FaultGenericError"] = "There was an error creating this character!";
 CW_ENGLISH["FaultCharNameExists"] = "A character with the name '#1' already exists!";
 CW_ENGLISH["FaultDidNotChooseFaction"] = "You did not choose a faction or the one you have chosen is not valid!";
@@ -1017,11 +1017,11 @@ CW_ENGLISH["CmdWDesc"] = "<string Text>";
 CW_ENGLISH["CmdY"] = "Yell to characters near you.";
 CW_ENGLISH["CmdYDesc"] = "<string Text>";
 
-CW_ENGLISH["PlayerInfoCash"] = "Cash: %1";
-CW_ENGLISH["PlayerInfoWages"] = "Wages: %1";
-CW_ENGLISH["PlayerInfoName"] = "%1";
-CW_ENGLISH["PlayerInfoClass"] = "%1";
+CW_ENGLISH["PlayerInfoCash"] = "Cash: #1";
+CW_ENGLISH["PlayerInfoWages"] = "Wages: #1";
+CW_ENGLISH["PlayerInfoName"] = "#1";
+CW_ENGLISH["PlayerInfoClass"] = "#1";
 
-CW_ENGLISH["CashAmountSingular"] = "$%1";
-CW_ENGLISH["CashAmount"] = "%1 Cash";
+CW_ENGLISH["CashAmountSingular"] = "$#1";
+CW_ENGLISH["CashAmount"] = "#1 Cash";
 CW_ENGLISH["Cash"] = "Cash";
