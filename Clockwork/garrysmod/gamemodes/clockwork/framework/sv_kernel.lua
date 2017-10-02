@@ -74,6 +74,7 @@ resource.AddWorkshop("474315121");
 AddCSLuaFile(cwKernel:GetSchemaGamemodePath().."/cl_init.lua");
 
 --[[ Add any requires resource files from the server. --]]
+Clockwork.kernel:AddFile("materials/clockwork/unknown2.png");
 Clockwork.kernel:AddFile("materials/clockwork/decrease.png");
 Clockwork.kernel:AddFile("materials/clockwork/increase.png");
 Clockwork.kernel:AddDirectory("materials/clockwork/sliced/*.png");

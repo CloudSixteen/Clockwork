@@ -153,7 +153,7 @@ local PANEL = {};
 function PANEL:Init()
 	SCOREBOARD_PANEL = true;
 	
-	self:SetSize(self:GetParent():GetWide(), 48);
+	self:SetSize(self:GetParent():GetWide(), 52);
 	
 --	local nameFont = Clockwork.fonts:GetSize(Clockwork.option:GetFont("scoreboard_name"), 20);
 --	local descFont = Clockwork.fonts:GetSize(Clockwork.option:GetFont("scoreboard_desc"), 16);
@@ -184,6 +184,12 @@ function PANEL:Init()
 	self.nameLabel:SetFont(nameFont);
 	self.nameLabel:SetTextColor(Clockwork.option:GetColor("scoreboard_name"));
 	self.nameLabel:SizeToContents();
+
+	local class = Clockwork.class:FindByID(self.player:Team());
+
+	if (class and class.color) then
+		self.nameLabel:SetColor(class.color);
+	end;
 	
 	self.factionLabel = vgui.Create("DLabel", self); 
 	self.factionLabel:SetText(info.faction);
@@ -202,7 +208,7 @@ function PANEL:Init()
 		self.spawnIcon:SetSize(40, 40);
 	else
 		self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
-		self.spawnIcon:SetImage("clockwork/unknown.png");
+		self.spawnIcon:SetImage("clockwork/unknown2.png");
 		self.spawnIcon:SetSize(40, 40);
 	end;
 	
@@ -217,7 +223,7 @@ function PANEL:Init()
 	self.avatarImage = vgui.Create("AvatarImage", self);
 	self.avatarImage:SetSize(40, 40);
 	
-	self.avatarButton = vgui.Create("DButton", self.avatarImage);
+	self.avatarButton = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DButton", self.avatarImage));
 	self.avatarButton:Dock(FILL);
 	self.avatarButton:SetText("");
 	self.avatarButton:SetDrawBorder(false);
@@ -238,7 +244,13 @@ function PANEL:Init()
 end;
 
 function PANEL:Paint(width, height)
-	INFOTEXT_SLICED:Draw(0, 0, width, height, 8, Clockwork.option:GetColor("scoreboard_item_background"));
+	local slice = SCOREBOARD_ITEM_SLICED;
+
+	if (not slice) then
+		slice = INFOTEXT_SLICED;
+	end;
+
+	slice:Draw(0, 0, width, height, nil, Clockwork.option:GetColor("scoreboard_item_background"));
 	
 	return true;
 end;
@@ -252,22 +264,19 @@ function PANEL:Think()
 			self.spawnIcon:SetToolTip(L("ScoreboardMenuPing", self.player:Ping()));
 		end;
 	end;
-	
-	self.spawnIcon:SetPos(4, 4);
-	self.spawnIcon:SetSize(40, 40);
 end;
 
 -- Called when the layout should be performed.
 function PANEL:PerformLayout(w, h)
 	self.factionLabel:SizeToContents();
 	
-	self.spawnIcon:SetPos(4, 4);
+	self.spawnIcon:SetPos(6, 6);
 	self.spawnIcon:SetSize(40, 40);
-	self.avatarImage:SetPos(44, 4);
+	self.avatarImage:SetPos(46, 6);
 	self.avatarImage:SetSize(40, 40);
 	
-	self.nameLabel:SetPos(92, 4);
-	self.factionLabel:SetPos(92, self.nameLabel.y + self.nameLabel:GetTall() + 2);
+	self.nameLabel:SetPos(94, 2);
+	self.factionLabel:SetPos(94, self.nameLabel.y + self.nameLabel:GetTall() - 2);
 end;
 
 vgui.Register("cwScoreboardItem", PANEL, "DPanel");
