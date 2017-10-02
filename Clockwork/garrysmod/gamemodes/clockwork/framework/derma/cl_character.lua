@@ -559,62 +559,25 @@ function PANEL:Paint(w, h) end;
 
 -- A function to make the panel fade out.
 function PANEL:FadeOut(speed, Callback)
-	if (self:GetAlpha() > 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
-		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
-			panel:SetAlpha(255 - (delta * 255));
-			
-			if (animation.Finished) then
-				panel:SetVisible(false);
-			end;
-			
-			if (animation.Finished and Callback) then
-				Callback();
-			end;
-		end);
-		
-		if (self.animation) then
-			self.animation:Start(speed);
-		end;
-		
-		Clockwork.option:PlaySound("rollover");
-	else
-		self:SetVisible(false);
-		self:SetAlpha(0);
-		
-		if (Callback) then
-			Callback();
-		end;
+	Clockwork.option:PlaySound("rollover");
+	
+	panel:SetVisible(false);
+	panel:SetAlpha(0);
+	
+	if (Callback) then
+		Callback();
 	end;
 end;
 
 -- A function to make the panel fade in.
 function PANEL:FadeIn(speed, Callback)
-	if (self:GetAlpha() == 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
-		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
-			panel:SetVisible(true);
-			panel:SetAlpha(delta * 255);
-			
-			if (animation.Finished) then
-				self.animation = nil;
-			end;
-			
-			if (animation.Finished and Callback) then
-				Callback();
-			end;
-		end);
-		
-		if (self.animation) then
-			self.animation:Start(speed);
-		end;
-		
-		Clockwork.option:PlaySound("click_release");
-	else
-		self:SetVisible(true);
-		self:SetAlpha(255);
-		
-		if (Callback) then
-			Callback();
-		end;
+	Clockwork.option:PlaySound("click_release");
+	
+	self:SetVisible(true);
+	self:SetAlpha(255);
+	
+	if (Callback) then
+		Callback();
 	end;
 end;
 
@@ -1001,66 +964,25 @@ end;
 
 -- A function to make the panel fade out.
 function PANEL:FadeOut(speed, Callback)
-	if (self:GetAlpha() > 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
-		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
-			panel:SetAlpha(255 - (delta * 255));
-			
-			if (animation.Finished) then
-				panel:SetVisible(false);
-			end;
-			
-			if (animation.Finished and Callback) then
-				Callback();
-			end;
-		end);
-		
-		if (self.animation) then
-			self.animation:Start(speed);
-		end;
-		
-		Clockwork.option:PlaySound("rollover");
-		
-		return true;
-	else
-		self:SetAlpha(0);
-		self:SetVisible(false);
-		
-		if (Callback) then
-			Callback();
-		end;
+	Clockwork.option:PlaySound("rollover");
+	
+	panel:SetVisible(false);
+	panel:SetAlpha(0);
+	
+	if (Callback) then
+		Callback();
 	end;
 end;
 
 -- A function to make the panel fade in.
 function PANEL:FadeIn(speed, Callback)
-	if (self:GetAlpha() == 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
-		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
-			panel:SetAlpha(delta * 255);
-			
-			if (animation.Finished) then
-				self.animation = nil;
-			end;
-			
-			if (animation.Finished and Callback) then
-				Callback();
-			end;
-		end);
-		
-		if (self.animation) then
-			self.animation:Start(speed);
-		end;
-		
-		Clockwork.option:PlaySound("click_release");
-		self:SetVisible(true);
-		
-		return true;
-	else
-		self:SetVisible(true);
-		self:SetAlpha(255);
-		
-		if (Callback) then
-			Callback();
-		end;
+	Clockwork.option:PlaySound("click_release");
+
+	self:SetVisible(true);
+	self:SetAlpha(255);
+	
+	if (Callback) then
+		Callback();
 	end;
 end;
 
@@ -1353,62 +1275,25 @@ function PANEL:Paint(w, h) end;
 
 -- A function to make the panel fade out.
 function PANEL:FadeOut(speed, Callback)
-	if (self:GetAlpha() > 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
-		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
-			panel:SetAlpha(255 - (delta * 255));
-			
-			if (animation.Finished) then
-				panel:SetVisible(false);
-			end;
-			
-			if (animation.Finished and Callback) then
-				Callback();
-			end;
-		end);
-		
-		if (self.animation) then
-			self.animation:Start(speed);
-		end;
-		
-		Clockwork.option:PlaySound("rollover");
-	else
-		self:SetVisible(false);
-		self:SetAlpha(0);
-		
-		if (Callback) then
-			Callback();
-		end;
+	Clockwork.option:PlaySound("rollover");
+	
+	panel:SetVisible(false);
+	panel:SetAlpha(0);
+	
+	if (Callback) then
+		Callback();
 	end;
 end;
 
 -- A function to make the panel fade in.
 function PANEL:FadeIn(speed, Callback)
-	if (self:GetAlpha() == 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
-		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
-			panel:SetVisible(true);
-			panel:SetAlpha(delta * 255);
-			
-			if (animation.Finished) then
-				self.animation = nil;
-			end;
-			
-			if (animation.Finished and Callback) then
-				Callback();
-			end;
-		end);
-		
-		if (self.animation) then
-			self.animation:Start(speed);
-		end;
-		
-		Clockwork.option:PlaySound("click_release");
-	else
-		self:SetVisible(true);
-		self:SetAlpha(255);
-		
-		if (Callback) then
-			Callback();
-		end;
+	Clockwork.option:PlaySound("click_release");
+	
+	self:SetVisible(true);
+	self:SetAlpha(255);
+	
+	if (Callback) then
+		Callback();
 	end;
 end;
 
@@ -1475,62 +1360,25 @@ function PANEL:Paint(w, h) end;
 
 -- A function to make the panel fade out.
 function PANEL:FadeOut(speed, Callback)
-	if (self:GetAlpha() > 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
-		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
-			panel:SetAlpha(255 - (delta * 255));
-			
-			if (animation.Finished) then
-				panel:SetVisible(false);
-			end;
-			
-			if (animation.Finished and Callback) then
-				Callback();
-			end;
-		end);
-		
-		if (self.animation) then
-			self.animation:Start(speed);
-		end;
-		
-		Clockwork.option:PlaySound("rollover");
-	else
-		self:SetVisible(false);
-		self:SetAlpha(0);
-		
-		if (Callback) then
-			Callback();
-		end;
+	Clockwork.option:PlaySound("rollover");
+	
+	panel:SetVisible(false);
+	panel:SetAlpha(0);
+	
+	if (Callback) then
+		Callback();
 	end;
 end;
 
 -- A function to make the panel fade in.
 function PANEL:FadeIn(speed, Callback)
-	if (self:GetAlpha() == 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
-		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
-			panel:SetVisible(true);
-			panel:SetAlpha(delta * 255);
-			
-			if (animation.Finished) then
-				self.animation = nil;
-			end;
-			
-			if (animation.Finished and Callback) then
-				Callback();
-			end;
-		end);
-		
-		if (self.animation) then
-			self.animation:Start(speed);
-		end;
-		
-		Clockwork.option:PlaySound("click_release");
-	else
-		self:SetVisible(true);
-		self:SetAlpha(255);
-		
-		if (Callback) then
-			Callback();
-		end;
+	Clockwork.option:PlaySound("click_release");
+	
+	self:SetVisible(true);
+	self:SetAlpha(255);
+	
+	if (Callback) then
+		Callback();
 	end;
 end;
 
@@ -1759,31 +1607,13 @@ function PANEL:Paint(w, h) end;
 
 -- A function to make the panel fade out.
 function PANEL:FadeOut(speed, Callback)
-	if (self:GetAlpha() > 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
-		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
-			panel:SetAlpha(255 - (delta * 255));
-			
-			if (animation.Finished) then
-				panel:SetVisible(false);
-			end;
-			
-			if (animation.Finished and Callback) then
-				Callback();
-			end;
-		end);
-		
-		if (self.animation) then
-			self.animation:Start(speed);
-		end;
-		
-		Clockwork.option:PlaySound("rollover");
-	else
-		self:SetVisible(false);
-		self:SetAlpha(0);
-		
-		if (Callback) then
-			Callback();
-		end;
+	Clockwork.option:PlaySound("rollover");
+	
+	panel:SetVisible(false);
+	panel:SetAlpha(0);
+	
+	if (Callback) then
+		Callback();
 	end;
 end;
 
@@ -2016,62 +1846,25 @@ function PANEL:Paint(w, h) end;
 
 -- A function to make the panel fade out.
 function PANEL:FadeOut(speed, Callback)
-	if (self:GetAlpha() > 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
-		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
-			panel:SetAlpha(255 - (delta * 255));
-			
-			if (animation.Finished) then
-				panel:SetVisible(false);
-			end;
-			
-			if (animation.Finished and Callback) then
-				Callback();
-			end;
-		end);
-		
-		if (self.animation) then
-			self.animation:Start(speed);
-		end;
-		
-		Clockwork.option:PlaySound("rollover");
-	else
-		self:SetVisible(false);
-		self:SetAlpha(0);
-		
-		if (Callback) then
-			Callback();
-		end;
+	Clockwork.option:PlaySound("rollover");
+	
+	panel:SetVisible(false);
+	panel:SetAlpha(0);
+	
+	if (Callback) then
+		Callback();
 	end;
 end;
 
 -- A function to make the panel fade in.
 function PANEL:FadeIn(speed, Callback)
-	if (self:GetAlpha() == 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
-		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
-			panel:SetVisible(true);
-			panel:SetAlpha(delta * 255);
-			
-			if (animation.Finished) then
-				self.animation = nil;
-			end;
-			
-			if (animation.Finished and Callback) then
-				Callback();
-			end;
-		end);
-		
-		if (self.animation) then
-			self.animation:Start(speed);
-		end;
-		
-		Clockwork.option:PlaySound("click_release");
-	else
-		self:SetVisible(true);
-		self:SetAlpha(255);
-		
-		if (Callback) then
-			Callback();
-		end;
+	Clockwork.option:PlaySound("click_release");
+	
+	self:SetVisible(true);
+	self:SetAlpha(255);
+	
+	if (Callback) then
+		Callback();
 	end;
 end;
 
@@ -2182,62 +1975,25 @@ function PANEL:Paint(w, h) end;
 
 -- A function to make the panel fade out.
 function PANEL:FadeOut(speed, Callback)
-	if (self:GetAlpha() > 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
-		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
-			panel:SetAlpha(255 - (delta * 255));
-			
-			if (animation.Finished) then
-				panel:SetVisible(false);
-			end;
-			
-			if (animation.Finished and Callback) then
-				Callback();
-			end;
-		end);
-		
-		if (self.animation) then
-			self.animation:Start(speed);
-		end;
-		
-		Clockwork.option:PlaySound("rollover");
-	else
-		self:SetVisible(false);
-		self:SetAlpha(0);
-		
-		if (Callback) then
-			Callback();
-		end;
+	Clockwork.option:PlaySound("rollover");
+	
+	panel:SetVisible(false);
+	panel:SetAlpha(0);
+	
+	if (Callback) then
+		Callback();
 	end;
 end;
 
 -- A function to make the panel fade in.
 function PANEL:FadeIn(speed, Callback)
-	if (self:GetAlpha() == 0 and CW_CONVAR_FADEPANEL:GetInt() == 1 and (!self.animation or !self.animation:Active())) then
-		self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
-			panel:SetVisible(true);
-			panel:SetAlpha(delta * 255);
-			
-			if (animation.Finished) then
-				self.animation = nil;
-			end;
-			
-			if (animation.Finished and Callback) then
-				Callback();
-			end;
-		end);
-		
-		if (self.animation) then
-			self.animation:Start(speed);
-		end;
-		
-		Clockwork.option:PlaySound("click_release");
-	else
-		self:SetVisible(true);
-		self:SetAlpha(255);
-		
-		if (Callback) then
-			Callback();
-		end;
+	Clockwork.option:PlaySound("click_release");
+	
+	self:SetVisible(true);
+	self:SetAlpha(255);
+	
+	if (Callback) then
+		Callback();
 	end;
 end;
 

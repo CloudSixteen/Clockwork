@@ -86,45 +86,26 @@ end;
 
 -- A function to make the panel fade out.
 function PANEL:FadeOut(speed, Callback)
-	self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
-		panel:SetAlpha(255 - (delta * 255));
-		
-		if (animation.Finished) then
-			panel:SetVisible(false);
-				if (Callback) then
-					Callback();
-				end;
-			self.animation = nil;
-		end;
-	end);
-	
-	if (self.animation) then
-		self.animation:Start(speed);
-	end;
-	
 	Clockwork.option:PlaySound("rollover");
+	
+	panel:SetVisible(false);
+	panel:SetAlpha(0);
+	
+	if (Callback) then
+		Callback();
+	end;
 end;
 
 -- A function to make the panel fade in.
 function PANEL:FadeIn(speed, Callback)
-	self.animation = Derma_Anim("Fade Panel", self, function(panel, animation, delta, data)
-		panel:SetAlpha(delta * 255);
-		
-		if (animation.Finished) then
-			if (Callback) then
-				Callback();
-			end;
-			
-			self.animation = nil;
-		end;
-	end);
-	
-	if (self.animation) then
-		self.animation:Start(speed);
-	end;
-	
 	Clockwork.option:PlaySound("click_release");
+	
+	self:SetAlpha(255);
 	self:SetVisible(true);
+	
+	if (Callback) then
+		Callback();
+	end;
 end;
 
 -- A function to override the text color.

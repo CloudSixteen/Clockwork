@@ -256,73 +256,23 @@ end;
 
 -- A function to make a panel fade out.
 function PANEL:FadeOut(speed, panel, Callback)
-	local height = Clockwork.menu:GetHeight();
-	local width = Clockwork.menu:GetWidth();
-	local scrW = ScrW();
-	local scrH = ScrH();
+	Clockwork.option:PlaySound("rollover");
 	
-	if (panel:GetAlpha() > 0 and (!self.fadeOutAnimation or !self.fadeOutAnimation:Active())) then
-		self.fadeOutAnimation = Derma_Anim("Fade Panel", panel, function(panel, animation, delta, data)
-			panel:SetAlpha(255 - (delta * 255));
-			
-			if (animation.Finished) then
-				self.fadeOutAnimation = nil;
-				panel:SetVisible(false);
-			end;
-			
-			if (animation.Finished and Callback) then
-				Callback();
-			end;
-		end);
-		
-		if (self.fadeOutAnimation) then
-			self.fadeOutAnimation:Start(speed);
-		end;
-		
-		Clockwork.option:PlaySound("rollover");
-	else
-		panel:SetVisible(false);
-		panel:SetAlpha(0);
-		
-		if (Callback) then
-			Callback();
-		end;
+	panel:SetVisible(false);
+	panel:SetAlpha(0);
+	
+	if (Callback) then
+		Callback();
 	end;
 end;
 
 -- A function to make a panel fade in.
 function PANEL:FadeIn(speed, panel, Callback)
-	if (panel:GetAlpha() == 0 and (!self.fadeInAnimation or !self.fadeInAnimation:Active())) then
-		self.fadeInAnimation = Derma_Anim("Fade Panel", panel, function(panel, animation, delta, data)
-			local height = Clockwork.menu:GetHeight();
-			local width = Clockwork.menu:GetWidth();
-			local scrW = ScrW();
-			local scrH = ScrH();
-			
-			panel:SetVisible(true);
-			panel:SetAlpha(delta * 255);
-			
-			if (animation.Finished) then
-				self.fadeInAnimation = nil;
-			end;
-			
-			if (animation.Finished and Callback) then
-				Callback();
-			end;
-		end);
-		
-		if (self.fadeInAnimation) then
-			self.fadeInAnimation:Start(speed);
-		end;
-		
-		Clockwork.option:PlaySound("click_release");
-	else
-		panel:SetVisible(true);
-		panel:SetAlpha(255);
-		
-		if (Callback) then
-			Callback();
-		end;
+	panel:SetVisible(true);
+	panel:SetAlpha(255);
+	
+	if (Callback) then
+		Callback();
 	end;
 end;
 
