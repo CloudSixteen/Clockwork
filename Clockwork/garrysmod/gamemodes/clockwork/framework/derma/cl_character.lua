@@ -122,7 +122,7 @@ function PANEL:Init()
 		end);
 		self.cancelButton:SetMouseInputEnabled(true);
 		
-		local modelSize = math.min(ScrW() * 0.4, ScrH() * 0.9);
+		local modelSize = math.min(ScrW() * 0.5, ScrH() * 0.75);
 		
 		self.characterModel = vgui.Create("cwCharacterModel", self);
 		self.characterModel:SetSize(modelSize, modelSize);
@@ -308,7 +308,7 @@ function PANEL:OpenPanel(vguiName, childData, Callback)
 	if (!Clockwork.theme:Call("PreCharacterMenuOpenPanel", self, vguiName, childData, Callback)) then
 		local panel = Clockwork.character:GetActivePanel();
 
-		local y  = ScrH() * 0.275;
+		local y  = ScrH() * 0.2;
 
 		if (ScrH() < 768) then
 			y = ScrH() * 0.11;
@@ -1831,7 +1831,7 @@ end;
 function PANEL:PerformLayout(w, h)
 	self.categoryList:StretchToParent(0, 0, 0, 0);
 	
-	self:SetSize(512, math.min(self.categoryList.pnlCanvas:GetTall() + 8, ScrH() * 0.6));
+	self:SetSize(512, math.min(self.categoryList.pnlCanvas:GetTall() + 8, ScrH() * 0.5));
 end;
 
 vgui.Register("cwCharacterStageTwo", PANEL, "EditablePanel");
