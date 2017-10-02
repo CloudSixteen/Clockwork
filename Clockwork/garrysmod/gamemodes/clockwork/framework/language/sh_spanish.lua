@@ -1017,11 +1017,11 @@ CW_SPANISH["CmdWDesc"] = "<string Text>";
 CW_SPANISH["CmdY"] = "Grita a personajes cerca tuya.";
 CW_SPANISH["CmdYDesc"] = "<string Text>";
 
-CW_SPANISH["PlayerInfoCash"] = "Dinero: %1";
-CW_SPANISH["PlayerInfoWages"] = "Salario: %1";
-CW_SPANISH["PlayerInfoName"] = "%1";
-CW_SPANISH["PlayerInfoClass"] = "%1";
+CW_SPANISH["PlayerInfoCash"] = "Dinero: #1";
+CW_SPANISH["PlayerInfoWages"] = "Salario: #1";
+CW_SPANISH["PlayerInfoName"] = "#1";
+CW_SPANISH["PlayerInfoClass"] = "#1";
 
-CW_SPANISH["CashAmountSingular"] = "$%1";
-CW_SPANISH["CashAmount"] = "%1 Dinero";
+CW_SPANISH["CashAmountSingular"] = "$#1";
+CW_SPANISH["CashAmount"] = "#1 Dinero";
 CW_SPANISH["Cash"] = "Dinero";
