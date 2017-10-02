@@ -561,8 +561,8 @@ function PANEL:Paint(w, h) end;
 function PANEL:FadeOut(speed, Callback)
 	Clockwork.option:PlaySound("rollover");
 	
-	panel:SetVisible(false);
-	panel:SetAlpha(0);
+	self:SetVisible(false);
+	self:SetAlpha(0);
 	
 	if (Callback) then
 		Callback();
@@ -966,8 +966,8 @@ end;
 function PANEL:FadeOut(speed, Callback)
 	Clockwork.option:PlaySound("rollover");
 	
-	panel:SetVisible(false);
-	panel:SetAlpha(0);
+	self:SetVisible(false);
+	self:SetAlpha(0);
 	
 	if (Callback) then
 		Callback();
@@ -1277,8 +1277,8 @@ function PANEL:Paint(w, h) end;
 function PANEL:FadeOut(speed, Callback)
 	Clockwork.option:PlaySound("rollover");
 	
-	panel:SetVisible(false);
-	panel:SetAlpha(0);
+	self:SetVisible(false);
+	self:SetAlpha(0);
 	
 	if (Callback) then
 		Callback();
@@ -1362,8 +1362,8 @@ function PANEL:Paint(w, h) end;
 function PANEL:FadeOut(speed, Callback)
 	Clockwork.option:PlaySound("rollover");
 	
-	panel:SetVisible(false);
-	panel:SetAlpha(0);
+	self:SetVisible(false);
+	self:SetAlpha(0);
 	
 	if (Callback) then
 		Callback();
@@ -1609,8 +1609,8 @@ function PANEL:Paint(w, h) end;
 function PANEL:FadeOut(speed, Callback)
 	Clockwork.option:PlaySound("rollover");
 	
-	panel:SetVisible(false);
-	panel:SetAlpha(0);
+	self:SetVisible(false);
+	self:SetAlpha(0);
 	
 	if (Callback) then
 		Callback();
@@ -1848,8 +1848,8 @@ function PANEL:Paint(w, h) end;
 function PANEL:FadeOut(speed, Callback)
 	Clockwork.option:PlaySound("rollover");
 	
-	panel:SetVisible(false);
-	panel:SetAlpha(0);
+	self:SetVisible(false);
+	self:SetAlpha(0);
 	
 	if (Callback) then
 		Callback();
@@ -1977,8 +1977,8 @@ function PANEL:Paint(w, h) end;
 function PANEL:FadeOut(speed, Callback)
 	Clockwork.option:PlaySound("rollover");
 	
-	panel:SetVisible(false);
-	panel:SetAlpha(0);
+	self:SetVisible(false);
+	self:SetAlpha(0);
 	
 	if (Callback) then
 		Callback();

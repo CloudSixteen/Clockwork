@@ -88,8 +88,8 @@ end;
 function PANEL:FadeOut(speed, Callback)
 	Clockwork.option:PlaySound("rollover");
 	
-	panel:SetVisible(false);
-	panel:SetAlpha(0);
+	self:SetVisible(false);
+	self:SetAlpha(0);
 	
 	if (Callback) then
 		Callback();
