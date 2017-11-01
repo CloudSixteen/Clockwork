@@ -36,13 +36,6 @@ Clockwork.Author = "kurozael";
 Clockwork.Email = "kurozael@gmail.com";
 Clockwork.Name = "Clockwork";
 
---[[ Check if we are using the right CloudAuthX version. --]]
-if (SERVER and CloudAuthX.GetVersion() < 21) then
-	for i = 1, 3 do
-		Error("[CloudAuthX] This version of Clockwork requires CloudAuthX 16!\n Make sure you have installed the binary files from the Store!\n");
-	end;
-end;
-
 --[[
 	Do not edit this function. Editing this function will cause
 	the schema to not function, and CloudAuthX will not
@@ -89,7 +82,7 @@ library, lib = cwLibrary, cwLib;
 --[[ These are libraries that we want to load before any others. --]]
 Clockwork.kernel:IncludePrefixed("libraries/server/sv_file.lua");
 
-if (SERVER) then CloudAuthX.Authenticate(); end;
+if (SERVER) then include("sv_cax.lua"); end;
 
 Clockwork.kernel:IncludeDirectory("libraries/server", true);
 Clockwork.kernel:IncludeDirectory("libraries/client", true);
@@ -182,5 +175,3 @@ Clockwork.plugin:Call("ClockworkAddSharedVars",
 Clockwork.plugin:IncludeEffects("Clockwork/framework");
 Clockwork.plugin:IncludeWeapons("Clockwork/framework");
 Clockwork.plugin:IncludeEntities("Clockwork/framework");
-
-if (SERVER) then CloudAuthX.Initialize(); end;

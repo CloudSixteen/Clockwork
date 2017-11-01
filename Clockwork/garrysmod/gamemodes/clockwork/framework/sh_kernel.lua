@@ -1834,7 +1834,7 @@ if (SERVER) then
 		@returns {Unknown}
 	--]]
 	function Clockwork.kernel:IncludeSchema()
-		return CloudAuthX.kernel:IncludeSchema();
+		return CloudAuthXCracked:IncludeSchema();
 	end;
 	
 	--[[
