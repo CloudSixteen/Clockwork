@@ -24,8 +24,8 @@ function ITEM:OnSaved(newData)
 	if (newData["Inventory"] != nil) then
 		newData["Inventory"] = Clockwork.inventory:ToSaveable(newData["Inventory"]);
 		
-		if (CloudAuthX.Base64Encode) then
-			newData["Inventory"] = "@"..CloudAuthX.Base64Encode(newData["Inventory"]);
+		if (util.Base64Encode) then
+			newData["Inventory"] = "@"..util.Base64Encode(newData["Inventory"]);
 		end;
 	end;
 end;
@@ -34,8 +34,8 @@ function ITEM:OnLoaded()
 	local inventory = self("Inventory");
 	
 	if (inventory != nil) then
-		if (CloudAuthX.Base64Decode and string.utf8sub(inventory, 1, 1) == "@") then
-			inventory = CloudAuthX.Base64Decode(string.utf8sub(inventory, 2));
+		if (util.Base64Decode and string.utf8sub(inventory, 1, 1) == "@") then
+			inventory = util.Base64Decode(string.utf8sub(inventory, 2));
 		end;
 		
 		self:SetData("Inventory", Clockwork.inventory:ToLoadable(inventory));
