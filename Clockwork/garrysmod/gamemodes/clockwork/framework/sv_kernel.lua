@@ -5694,4 +5694,196 @@ concommand.Add("cwDeathCode", function(player, command, arguments)
 	end;
 end);
 
-CloudAuthX.External("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");
+--[[ PlayerSay --]]
+function Clockwork:PlayerSay(player, text, bPublic)
+ if (CLOCKWORK_PLAYERSAY_OVERRIDE) then
+ return text;
+ else
+ return "";
+ end;
+end;
+function ClockworkPlayerSay(player, text)
+ CLOCKWORK_PLAYERSAY_OVERRIDE = true;
+ text = hook.Call("PlayerSay", Clockwork, player, text, true);
+ CLOCKWORK_PLAYERSAY_OVERRIDE = nil;
+ 
+ if (text == "") then return; end;
+ 
+ local maxChatLength = Clockwork.config:Get("max_chat_length"):Get();
+ local prefix = Clockwork.config:Get("command_prefix"):Get();
+ local curTime = CurTime();
+ 
+ if (string.len(text) >= maxChatLength) then
+ text = string.sub(text, 0, maxChatLength);
+ end;
+ 
+ if (string.sub(text, 1, 2) == "//") then
+ text = string.Trim(string.sub(text, 3));
+ 
+ if (text != "") then
+ if (Clockwork.plugin:Call("PlayerCanSayOOC", player, text)) then
+ if (!player.cwNextTalkOOC or curTime > player.cwNextTalkOOC or player:IsAdmin()) then
+ Clockwork.kernel:ServerLog("[OOC] "..player:Name()..": "..text);
+ Clockwork.chatBox:Add(nil, player, "ooc", text);
+ player.cwNextTalkOOC = curTime + Clockwork.config:Get("ooc_interval"):Get();
+ else
+ Clockwork.player:Notify(
+ player, "You cannot cannot talk out-of-character for another "..math.ceil(player.cwNextTalkOOC - CurTime()).." second(s)!"
+ );
+ 
+ return;
+ end;
+ end;
+ end;
+ elseif (string.sub(text, 1, 3) == ".//" or string.sub(text, 1, 2) == "[[") then
+ if (string.sub(text, 1, 3) == ".//") then
+ text = string.Trim(string.sub(text, 4));
+ else
+ text = string.Trim(string.sub(text, 3));
+ end;
+ 
+ if (text != "") then
+ if (Clockwork.plugin:Call("PlayerCanSayLOOC", player, text)) then
+ Clockwork.kernel:ServerLog("[LOOC] "..player:Name()..": "..text);
+ Clockwork.chatBox:AddInRadius(player, "looc", text, player:GetPos(), Clockwork.config:Get("talk_radius"):Get());
+ end;
+ end;
+ elseif (string.sub(text, 1, 1) == prefix) then
+ local prefixLength = string.len(prefix);
+ local arguments = Clockwork.kernel:ExplodeByTags(text, " ", "\"", "\"", true);
+ local command = string.sub(arguments[1], prefixLength + 1);
+ 
+ if (Clockwork.command.stored[command] and Clockwork.command.stored[command].arguments < 2
+ and !Clockwork.command.stored[command].optionalArguments) then
+ text = string.sub(text, string.len(command) + prefixLength + 2);
+ 
+ if (text != "") then
+ arguments = {command, text};
+ else
+ arguments = {command};
+ end;
+ else
+ arguments[1] = command;
+ end;
+ 
+ Clockwork.command:ConsoleCommand(player, "cwCmd", arguments);
+ elseif (Clockwork.plugin:Call("PlayerCanSayIC", player, text)) then
+ Clockwork.chatBox:AddInRadius(player, "ic", text, player:GetPos(), Clockwork.config:Get("talk_radius"):Get());
+ 
+ if (Clockwork.player:GetDeathCode(player, true)) then
+ Clockwork.player:UseDeathCode(player, nil, {text});
+ end;
+ end;
+ 
+ if (Clockwork.player:GetDeathCode(player)) then
+ Clockwork.player:TakeDeathCode(player);
+ end;
+end;
+Clockwork.datastream:Hook("PlayerSay", function(player, data)
+ if (type(data) == "string") then
+ ClockworkPlayerSay(player, data);
+ end;
+end);
+--[[ Accessories --]]
+local playerMeta = FindMetaTable("Player");
+function playerMeta:NetworkAccessories()
+ local accessoryData = self:GetAccessoryData();
+ Clockwork.datastream:Start(self, "AllAccessories", accessoryData);
+end;
+function playerMeta:RemoveAccessory(itemTable)
+ if (not self:IsWearingAccessory(itemTable)) then return; end;
+ 
+ local accessoryData = self:GetAccessoryData();
+ local uniqueID = itemTable("uniqueID");
+ local itemID = itemTable("itemID");
+ 
+ accessoryData[itemID] = nil;
+ Clockwork.datastream:Start(
+ self, "RemoveAccessory", {itemID = itemID}
+ );
+ 
+ if (itemTable.OnWearAccessory) then
+ itemTable:OnWearAccessory(self, false);
+ end;
+end;
+function playerMeta:HasAccessory(uniqueID)
+ local accessoryData = self:GetAccessoryData();
+ 
+ for k, v in pairs(accessoryData) do
+ if (string.lower(v) == string.lower(uniqueID)) then
+ return true;
+ end;
+ end;
+ 
+ return false;
+end;
+function playerMeta:IsWearingAccessory(itemTable)
+ local accessoryData = self:GetAccessoryData();
+ local itemID = itemTable("itemID");
+ 
+ if (accessoryData[itemID]) then
+ return true;
+ else
+ return false;
+ end;
+end;
+function playerMeta:WearAccessory(itemTable)
+ if (self:IsWearingAccessory(itemTable)) then return; end;
+ 
+ local accessoryData = self:GetAccessoryData();
+ local uniqueID = itemTable("uniqueID");
+ local itemID = itemTable("itemID");
+ 
+ accessoryData[itemID] = itemTable("uniqueID");
+ Clockwork.datastream:Start(
+ self, "AddAccessory", {itemID = itemID, uniqueID = uniqueID}
+ );
+ 
+ if (itemTable.OnWearAccessory) then
+ itemTable:OnWearAccessory(self, true);
+ end;
+end;
+--[[ Character Data and Player Data --]]
+-- Called when a player's character data has changed.
+function Clockwork:PlayerCharacterDataChanged(player, key, oldValue, newValue)
+ self.player:UpdateCharacterData(player, key, newValue);
+end;
+-- Called when a player's data has changed.
+function Clockwork:PlayerDataChanged(player, key, oldValue, newValue)
+ self.player:UpdatePlayerData(player, key, newValue);
+end;
+-- A function to set a player's character data.
+function playerMeta:SetCharacterData(key, value, bFromBase)
+ local character = self:GetCharacter();
+ 
+ if (!character) then return; end;
+ 
+ if (bFromBase) then
+ key = Clockwork.kernel:SetCamelCase(key, true);
+ 
+ if (character[key] ~= nil) then
+ local oldValue = character[key];
+ character[key] = value;
+ Clockwork.plugin:Call("PlayerCharacterDataChanged", self, key, oldValue, value);
+ end;
+ else
+ local oldValue = character.data[key];
+ character.data[key] = value;
+ 
+ if (value ~= oldValue) then
+ Clockwork.plugin:Call("PlayerCharacterDataChanged", self, key, oldValue, value);
+ end;
+ end;
+end;
+-- A function to set a player's data.
+function playerMeta:SetData(key, value)
+ if (self.cwData) then
+ local oldValue = self.cwData[key];
+ self.cwData[key] = value;
+ 
+ if (value ~= oldValue) then
+ Clockwork.plugin:Call("PlayerDataChanged", self, key, oldValue, value);
+ end;
+ end;
+end;
+MsgN("[CloudAuthX] The sv_kernel.lua externals have been loaded successfully.");
