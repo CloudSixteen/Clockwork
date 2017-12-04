@@ -1020,11 +1020,11 @@ CW_KOREAN["CmdWDesc"] = "<문자열 텍스트>";
 CW_KOREAN["CmdY"] = "주변 캐릭터들에게 외칩니다.";
 CW_KOREAN["CmdYDesc"] = "<문자열 텍스트>";
 
-CW_KOREAN["PlayerInfoCash"] = "돈: %1";
-CW_KOREAN["PlayerInfoWages"] = "월급: %1";
-CW_KOREAN["PlayerInfoName"] = "%1";
-CW_KOREAN["PlayerInfoClass"] = "%1";
+CW_KOREAN["PlayerInfoCash"] = "돈: #1";
+CW_KOREAN["PlayerInfoWages"] = "월급: #1";
+CW_KOREAN["PlayerInfoName"] = "#1";
+CW_KOREAN["PlayerInfoClass"] = "#1";
 
-CW_KOREAN["CashAmountSingular"] = "$%1";
-CW_KOREAN["CashAmount"] = "%1 돈";
+CW_KOREAN["CashAmountSingular"] = "$#1";
+CW_KOREAN["CashAmount"] = "#1 돈";
 CW_KOREAN["Cash"] = "돈";
