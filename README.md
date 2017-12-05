@@ -8,6 +8,10 @@ Documentation and Installation
 http://wiki.cloudsixteen.com/installation  
 http://wiki.cloudsixteen.com/
 
+Creating a Schema for Clockwork
+------------
+http://forums.cloudsixteen.com/threads/free-dev-keys.33497/
+
 Coding Standard
 ------------
 Please make sure any contributed code follows this standard to the letter:
