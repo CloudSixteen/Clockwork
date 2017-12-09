@@ -1,0 +1,9 @@
+"cwexample"
+{
+	"title"			"Example"
+	"author"		"CloudSixteen.com"
+	"description"	"Everything you need to get started when making a gamemode with Clockwork."
+	"version"		"1.0"
+	"menusystem"	"1"
+	"workshopid"	"0"
+}
