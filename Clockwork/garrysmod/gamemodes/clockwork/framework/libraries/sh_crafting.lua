@@ -172,7 +172,7 @@ end;
 	@param {Table} Blueprint being crafted.
 --]]
 function Clockwork.crafting:CanCraft(player, blueprintTable)
-	if (!Clockwork.kernel:HasObjectAccess(Clockwork.Client, blueprintTable)) then
+	if (!Clockwork.kernel:HasObjectAccess(player, blueprintTable)) then
 		return false, {"CraftErrorNotAllowed"};
 	end;
 	
