@@ -3844,7 +3844,7 @@ function Clockwork:PlayerSpawnedProp(player, model, entity)
 			entity:SetOwnerKey(player:GetCharacterKey());
 			
 			if (IsValid(entity)) then
-				cwKernel:PrintLog(LOGTYPE_URGENT, {"LogPlayerSpawnModel", player:Name(), tostring(model)});
+				cwKernel:PrintLog(LOGTYPE_URGENT, {"LogPlayerSpawnedModel", player:Name(), tostring(model)});
 				
 				if (cwConfig:Get("prop_kill_protection"):Get()) then
 					entity.cwDamageImmunity = CurTime() + 60;
