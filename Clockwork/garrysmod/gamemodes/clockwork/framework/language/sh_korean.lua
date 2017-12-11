@@ -448,7 +448,7 @@ CW_KOREAN["OwnedDoorText"] = "이 문은 이미 누군가가 소유하고 있습
 CW_KOREAN["UnownableDoorText"] = "이 문은 소유할 수 없습니다.";
 CW_KOREAN["Door"] = "문";
 
-CW_KOREAN["CreateCharacterStage1"] = "설득";
+CW_KOREAN["CreateCharacterStage1"] = "성별 및 팩션";
 CW_KOREAN["CreateCharacterStage2"] = "설명";
 CW_KOREAN["CreateCharacterStage3"] = "팩션";
 CW_KOREAN["CreateCharacterStage4"] = "능력치";
