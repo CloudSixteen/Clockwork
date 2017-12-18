@@ -134,7 +134,7 @@ function THEME:Initialize()
 	Clockwork.option:SetKey("info_text_orange_icon", "icon16/error.png");
 	Clockwork.option:SetKey("info_text_blue_icon", "icon16/information.png");
 
-	Clockwork.option:SetKey("gradient", nil);
+	Clockwork.option:SetKey("gradient", "gui/gradient_up");
 	
 	Clockwork.option:SetColor("columnsheet_shadow_normal", Color(0, 0, 0, 255));
 	Clockwork.option:SetColor("columnsheet_text_normal", Color(255, 255, 255, 255));
