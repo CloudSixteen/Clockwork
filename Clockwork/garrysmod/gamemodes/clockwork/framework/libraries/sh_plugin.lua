@@ -379,7 +379,7 @@ function Clockwork.plugin:Register(pluginTable)
 				</div>
 				<div class="cwContentText">
 					<div class="cwCodeText">]]..pluginTable:GetAuthor()..[[</div>
-					<lang>]]..pluginTable:GetDescription()..[[</lang>
+					<lang>]]..string.gsub(pluginTable:GetDescription(), "\\n", "<br>")..[[</lang>
 				</div>
 				<br>
 			]], true, pluginTable:GetAuthor());
