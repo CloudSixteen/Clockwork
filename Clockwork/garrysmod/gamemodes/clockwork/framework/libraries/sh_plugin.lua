@@ -381,6 +381,7 @@ function Clockwork.plugin:Register(pluginTable)
 					<div class="cwCodeText">]]..pluginTable:GetAuthor()..[[</div>
 					<lang>]]..pluginTable:GetDescription()..[[</lang>
 				</div>
+				<br>
 			]], true, pluginTable:GetAuthor());
 		end;
 	end;
