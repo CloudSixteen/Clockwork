@@ -363,6 +363,7 @@ else
 					</div>
 					]]..commandTable.tip..[[
 				</div>
+				<br>
 			]], true, commandTable.name);
 		end;
 	end;
