@@ -191,7 +191,7 @@ function playerMeta:IsNoClipping()
 end;
 
 -- A function to get whether a player is running.
-function playerMeta:IsRunning()
+function playerMeta:IsRunning(bNoWalkSpeed)
 	if (self:Alive() and !self:IsRagdolled() and !self:InVehicle()
 	and !self:Crouching() and self:KeyDown(IN_SPEED)) then
 		if (self:GetVelocity():Length() >= self:GetWalkSpeed()
