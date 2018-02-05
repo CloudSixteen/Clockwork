@@ -116,6 +116,10 @@ function cwStaticEnts:LoadStaticEnts()
 
 		entity:Spawn();
 
+		if (v.ownerKey) then
+			entity:SetOwnerKey(v.ownerKey);
+		end;
+
 		Clockwork.plugin:Call("OnStaticEntityLoaded", entity, v);
 
 		table.insert(self.staticEnts, entity)
@@ -143,6 +147,7 @@ function cwStaticEnts:SaveStaticEnts()
 				entTable.material = v:GetMaterial();
 				entTable.renderMode = v:GetRenderMode();
 				entTable.renderFX = v:GetRenderFX();
+				entTable.ownerKey = v:GetOwnerKey();
 				
 				if (IsValid(physicsObject)) then
 					entTable.moveable = physicsObject:IsMoveable();
