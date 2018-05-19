@@ -1017,11 +1017,11 @@ CW_ENGLISH["CmdWDesc"] = "<string Text>";
 CW_ENGLISH["CmdY"] = "Yell to characters near you.";
 CW_ENGLISH["CmdYDesc"] = "<string Text>";
 
-CW_ENGLISH["PlayerInfoCash"] = "Cash: #1";
-CW_ENGLISH["PlayerInfoWages"] = "Wages: #1";
+CW_ENGLISH["PlayerInfoCash"] = "#1: #2";
+CW_ENGLISH["PlayerInfoWages"] = "#1: #2";
 CW_ENGLISH["PlayerInfoName"] = "#1";
 CW_ENGLISH["PlayerInfoClass"] = "#1";
 
 CW_ENGLISH["CashAmountSingular"] = "$#1";
-CW_ENGLISH["CashAmount"] = "#1 Cash";
+CW_ENGLISH["CashAmount"] = "#1 #2";
 CW_ENGLISH["Cash"] = "Cash";

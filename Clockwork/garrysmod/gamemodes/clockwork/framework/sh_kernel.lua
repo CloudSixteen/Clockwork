@@ -193,18 +193,19 @@ end;
 --]]
 function Clockwork.kernel:FormatCash(amount, singular, lowerName)
 	local output = "";
+	local cashName = Clockwork.option:GetKey("name_cash");
 
 	if (SERVER) then
 		if (singular) then
 			output = {"CashAmountSingular", amount};
 		else
-			output = {"CashAmount", amount};
+			output = {"CashAmount", amount, cashName};
 		end;
 	else
 		if (singular) then
 			output = L("CashAmountSingular", amount);
 		else
-			output = L("CashAmount", amount);
+			output = L("CashAmount", amount, cashName);
 		end;
 	end;
 
