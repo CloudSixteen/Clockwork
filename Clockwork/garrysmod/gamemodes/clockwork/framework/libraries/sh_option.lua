@@ -85,6 +85,7 @@ Clockwork.option:SetKey("model_shipment", "models/items/item_item_crate.mdl");
 Clockwork.option:SetKey("model_cash", "models/props_c17/briefcase001a.mdl");
 Clockwork.option:SetKey("name_attributes", "MenuNameAttributes");
 Clockwork.option:SetKey("name_attribute", "MenuNameAttribute");
+Clockwork.option:SetKey("name_cash", "Cash");
 Clockwork.option:SetKey("name_system", "MenuNameSystem");
 Clockwork.option:SetKey("name_scoreboard", "MenuNameScoreboard");
 Clockwork.option:SetKey("name_directory", "MenuNameDirectory");
