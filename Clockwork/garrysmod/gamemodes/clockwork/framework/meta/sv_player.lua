@@ -1,5 +1,5 @@
 --[[
-	© CloudSixteen.com do not share, re-distribute or modify
+	ï¿½ CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 
 	Clockwork was created by Conna Wiles (also known as kurozael.)
@@ -383,15 +383,7 @@ function playerMeta:GetWages()
 end;
 
 -- A function to get a player's community ID.
-function playerMeta:CommunityID()
-	local x, y, z = string.match(self:SteamID(), "STEAM_(%d+):(%d+):(%d+)");
-	
-	if (x and y and z) then
-		return (z * 2) + STEAM_COMMUNITY_ID + y;
-	else
-		return self:SteamID();
-	end;
-end;
+playerMeta.CommunityID = playerMeta.SteamID64;
 
 -- A function to get whether a player is ragdolled.
 function playerMeta:IsRagdolled(exception, entityless)
