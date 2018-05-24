@@ -1741,6 +1741,7 @@ else
 			entity.cwIsDecaying = index;
 		end;
 		
+		entity:SetRenderMode(RENDERMODE_TRANSALPHA);
 		index = entity.cwIsDecaying;
 		
 		Clockwork.kernel:CreateTimer("Decay"..index, 1, 0, function()
