@@ -1440,6 +1440,8 @@ if (SERVER) then
 		if (!entity.cwIsDecaying) then
 			entity.cwIsDecaying = index;
 		end;
+
+		entity:SetRenderMode(RENDERMODE_TRANSALPHA);
 		
 		self:SetPlayer(entity, NULL);
 		index = entity.cwIsDecaying;
