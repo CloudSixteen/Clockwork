@@ -178,12 +178,10 @@ function ITEM:OnWeaponGiven(player, weapon)
 	
 	if (clipOne > 0) then
 		weapon:SetClip1(clipOne);
-		self:SetData("ClipOne", 0);
 	end;
 	
 	if (clipTwo > 0) then
 		weapon:SetClip2(clipTwo);
-		self:SetData("ClipTwo", 0);
 	end;
 end;
 
