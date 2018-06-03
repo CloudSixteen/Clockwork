@@ -99,7 +99,7 @@ cwAnimatedLegs.RadAngle = nil;
 function cwAnimatedLegs:ShouldDrawLegs()
 	return IsValid(self.LegsEntity) and Clockwork.Client:Alive()
 	and self:CheckDrawVehicle() and GetViewEntity() == Clockwork.Client
-	and !Clockwork.Client:ShouldDrawLocalPlayer() and !Clockwork.Client:GetObserverTarget();
+	and !Clockwork.Client:ShouldDrawLocalPlayer() and !IsValid(Clockwork.Client:GetObserverTarget());
 end;
 
 -- A function to check if a vehicle should be drawn.
