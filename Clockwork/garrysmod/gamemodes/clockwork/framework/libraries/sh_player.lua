@@ -2135,7 +2135,7 @@ function Clockwork.player:SetWhitelisted(player, faction, isWhitelisted)
 	else
 		for k, v in pairs(whitelisted) do
 			if (v == faction) then
-				whitelisted[k] = nil;
+				table.remove(whitelisted, k);
 			end;
 		end;
 	end;
