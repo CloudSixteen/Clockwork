@@ -759,6 +759,8 @@ function Clockwork:PlayerFlagsGiven(player, flags)
 	if (string.find(flags, "t") and player:Alive()) then
 		cwPly:GiveSpawnWeapon(player, "gmod_tool");
 	end;
+	
+	player:SetSharedVar("Flags", player:GetFlags());
 end;
 
 --[[
@@ -780,6 +782,8 @@ function Clockwork:PlayerFlagsTaken(player, flags)
 			cwPly:TakeSpawnWeapon(player, "gmod_tool");
 		end;
 	end;
+	
+	player:SetSharedVar("Flags", player:GetFlags());
 end;
 
 --[[
