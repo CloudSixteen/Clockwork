@@ -351,10 +351,8 @@ function Clockwork.crafting:CheckTakeItems(player, item, amount)
 			local itemsToTake = {};
 			
 			for i = 1, amount do
-				itemsToTake[#itemsToTake + 1] = player:FindItemByID(item);
+				player:TakeItem(player:FindItemByID(item));
 			end;
-			
-			player:TakeItems(itemsToTake);
 		else
 			player:TakeItem(player:FindItemByID(item));
 		end;
