@@ -349,11 +349,18 @@ function Clockwork.crafting:CheckTakeItems(player, item, amount)
 	if (player and item and amount) then
 		if (amount > 1) then
 			local itemsToTake = {};
-			
-			for i = 1, amount do
-				itemsToTake[#itemsToTake + 1] = player:FindItemByID(item);
+			local itemsInInventoryWithSameID = Clockwork.inventory:GetItemsByID(player:GetInventory(), item);
+			local amountAddedInItemsToTake = 1;
+
+			for k, v in pairs(itemsInInventoryWithSameID) do
+				if (amountAddedInItemsToTake <= amount) then
+					itemsToTake[#itemsToTake + 1] = v;
+					amountAddedInItemsToTake = amountAddedInItemsToTake + 1;
+				else
+					break;
+				end;
 			end;
-			
+
 			player:TakeItems(itemsToTake);
 		else
 			player:TakeItem(player:FindItemByID(item));
