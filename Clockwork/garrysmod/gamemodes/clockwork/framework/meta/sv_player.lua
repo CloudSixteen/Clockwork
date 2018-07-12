@@ -960,7 +960,7 @@ end;
 -- An easy function to give a table of items to a player.
 function playerMeta:GiveItems(itemTables)
 	for _, itemTable in pairs(itemTables) do
-		self:GiveItem(itemTables)
+		self:GiveItem(itemTable)
 	end
 end
 
