@@ -759,6 +759,8 @@ function Clockwork:PlayerFlagsGiven(player, flags)
 	if (string.find(flags, "t") and player:Alive()) then
 		cwPly:GiveSpawnWeapon(player, "gmod_tool");
 	end;
+	
+	player:SetSharedVar("Flags", player:GetFlags());
 end;
 
 --[[
@@ -780,6 +782,8 @@ function Clockwork:PlayerFlagsTaken(player, flags)
 			cwPly:TakeSpawnWeapon(player, "gmod_tool");
 		end;
 	end;
+	
+	player:SetSharedVar("Flags", player:GetFlags());
 end;
 
 --[[
@@ -3781,11 +3785,11 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 		});
 	elseif (class == "cw_cash" and arguments == "cwCashTake") then
 		if (cwEntity:BelongsToAnotherCharacter(player, entity)) then
-			cwPly:Notify(player, {"DroppedCashOtherChar", L("Cash")});
+			cwPly:Notify(player, {"DroppedCashOtherChar", L(player, "Cash")});
 			return;
 		end;
 		
-		cwPly:GiveCash(player, entity.cwAmount, L("Cash"));
+		cwPly:GiveCash(player, entity.cwAmount, L(player, "Cash"));
 		player:EmitSound("physics/body/body_medium_impact_soft"..math.random(1, 7)..".wav");
 		player:FakePickup(entity);
 		
