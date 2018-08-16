@@ -705,8 +705,8 @@ end;
 
 -- Called when the layout should be performed.
 function PANEL:PerformLayout(w, h)
-	self:SetPos(0, 96);
-	self:SetSize(ScrW(), ScrH() - (96 * 2));
+	self:SetPos(0, 110);
+	self:SetSize(ScrW(), ScrH() - (110 * 2));
 end;
 
 vgui.Register("cwCharacterList", PANEL, "EditablePanel");
