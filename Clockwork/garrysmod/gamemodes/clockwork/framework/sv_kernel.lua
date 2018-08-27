@@ -4735,7 +4735,7 @@ end
 	@returns {Unknown}
 --]]
 function Clockwork:ShutDown()
-	self.ShuttingDown = true;
+	Clockwork.ShuttingDown = true;
 end;
 
 --[[

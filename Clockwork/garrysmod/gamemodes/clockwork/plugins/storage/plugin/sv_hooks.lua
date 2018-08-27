@@ -78,7 +78,7 @@ end;
 
 -- Called when an entity is removed.
 function cwStorage:EntityRemoved(entity)
-	if (IsValid(entity) and !entity.cwIsBelongings) then
+	if (IsValid(entity) and !entity.cwIsBelongings and !Clockwork.kernel:IsShuttingDown()) then
 		Clockwork.entity:DropItemsAndCash(entity.cwInventory, entity.cwCash, entity:GetPos(), entity);
 		entity.cwInventory = nil;
 		entity.cwCash = nil;
