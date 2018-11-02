@@ -48,7 +48,7 @@ function COMMAND:OnRun(player, arguments)
 
 				Clockwork.player:SetFactionRank(target, Clockwork.faction:GetHigherRank(target:GetFaction(), rankTable));
 
-				Clockwork.player:NotifyAll({"PlayerForceDemoted", player:Name(), target:Name()});
+				Clockwork.player:NotifyAll({"PlayerForceDemoted", player:Name(), target:Name(), (target:GetFactionRank())});
 			else
 				Clockwork.player:Notify(player, {"DemotePermsNeeded"});
 			end;
