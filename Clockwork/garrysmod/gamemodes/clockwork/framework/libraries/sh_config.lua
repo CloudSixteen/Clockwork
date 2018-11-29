@@ -45,7 +45,7 @@ end;
 	@details Called when the config is converted to a string.
 	@returns {Unknown}
 --]]
-function CLASS_TABLE.__tostring()
+function CLASS_TABLE:__tostring()
 	return "CONFIG["..self("key").."]";
 end;
 
