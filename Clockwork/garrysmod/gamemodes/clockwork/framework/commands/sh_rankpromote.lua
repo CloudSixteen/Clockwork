@@ -34,7 +34,7 @@ function COMMAND:OnRun(player, arguments)
 				
 				Clockwork.player:SetFactionRank(target, Clockwork.faction:GetHigherRank(target:GetFaction(), rankTable));
 
-				Clockwork.player:NotifyAll({"PlayerForcePromoted", player:Name(), target:Name(), target:GetFactionRank()});
+				Clockwork.player:NotifyAll({"PlayerForcePromoted", player:Name(), target:Name(), (target:GetFactionRank())});
 			else
 				Clockwork.player:Notify(player, {"YouCannotPromotePlayer"});
 			end;
@@ -48,7 +48,7 @@ function COMMAND:OnRun(player, arguments)
 
 				Clockwork.player:SetFactionRank(target, Clockwork.faction:GetHigherRank(target:GetFaction(), rankTable));
 
-				Clockwork.player:NotifyAll({"PlayerPromotedPlayer", player:Name(), target:Name(), target:GetFactionRank()});
+				Clockwork.player:NotifyAll({"PlayerPromotedPlayer", player:Name(), target:Name(), (target:GetFactionRank())});
 			else
 				Clockwork.player:Notify(player, {"PromotePermsNeeded"});
 			end;
