@@ -145,6 +145,8 @@ function Clockwork.crafting:Craft(player, blueprintTable)
 			message = {"SuccessfulCraft", {blueprintTable("name")}};
 		end;
 		
+		bluprintTable:OnCraft(player);
+		
 		Clockwork.crafting:TakeItems(player, blueprintTable);
 		Clockwork.crafting:GiveItems(player, blueprintTable);
 		
@@ -250,8 +252,8 @@ function Clockwork.crafting:CanCraft(player, blueprintTable)
 		return false, {"YourInventoryFull"};
 	end;
 	
-	if (blueprintTable.OnCraft) then
-		return blueprintTable:OnCraft(player);
+	if (blueprintTable.CanCraft) then
+		return blueprintTable:CanCraft(player);
 	end;
 	
 	return true, "";
