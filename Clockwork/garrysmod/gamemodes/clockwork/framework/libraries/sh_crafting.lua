@@ -252,6 +252,10 @@ function Clockwork.crafting:CanCraft(player, blueprintTable)
 		return false, {"YourInventoryFull"};
 	end;
 	
+	if (blueprintTable.CanCraft) then
+		return blueprintTable:CanCraft(player);
+	end;
+	
 	return true, "";
 end;
 
