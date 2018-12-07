@@ -77,6 +77,13 @@ end;
 
 --[[
 	@codebase Shared
+	@details Called when checking if an item can be crafted.
+	@param {Entity} Player crafting the blueprint.
+--]]
+function CLASS_TABLE:CanCraft(player) end;
+
+--[[
+	@codebase Shared
 	@details Called when crafting is unsuccessful.
 	@param {Entity} Player crafting the blueprint.
 --]]
@@ -250,6 +257,10 @@ function Clockwork.crafting:CanCraft(player, blueprintTable)
 	
 	if (!player:CanHoldSpace(itemsSpace)) then
 		return false, {"YourInventoryFull"};
+	end;
+	
+	if (blueprintTable.CanCraft) then
+		return blueprintTable:CanCraft(player);
 	end;
 	
 	return true, "";
