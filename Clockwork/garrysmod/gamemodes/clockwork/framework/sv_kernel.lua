@@ -96,9 +96,11 @@ if (system.IsLinux()) then
 	function file.Read(fileName, pathName)
 		local contents = ClockworkFileRead(fileName, pathName);
 		
-		if (contents and string.utf8sub(contents, -1) == "\n") then
-			contents = string.utf8sub(contents, 1, -2);
-		end;
+		pcall(function()
+			if (contents and string.utf8sub(contents, -1) == "\n") then
+				contents = string.utf8sub(contents, 1, -2);
+			end;
+		end);
 		
 		return contents;
 	end;
