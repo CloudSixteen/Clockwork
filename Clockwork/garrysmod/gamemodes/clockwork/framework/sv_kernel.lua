@@ -95,12 +95,11 @@ if (system.IsLinux()) then
 
 	function file.Read(fileName, pathName)
 		local contents = ClockworkFileRead(fileName, pathName);
-		
-		pcall(function()
-			if (contents and string.utf8sub(contents, -1) == "\n") then
-				contents = string.utf8sub(contents, 1, -2);
-			end;
-		end);
+		local utf8ContentsLength = utf8.len(contents);
+
+		if (contents and utf8ContentsLength and string.utf8sub(contents, -1) == "\n") then
+			contents = string.utf8sub(contents, 1, -2);
+		end;
 		
 		return contents;
 	end;
