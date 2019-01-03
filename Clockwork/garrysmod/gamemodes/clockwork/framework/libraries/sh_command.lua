@@ -310,7 +310,7 @@ if (SERVER) then
 									Clockwork.player:Notify(player, {"NoAccessToCommand", player:Name()});
 								end;
 							else
-								Clockwork.player:Notify(player, commandTable.name.." "..commandTable.text.."!");
+								Clockwork.player:Notify(player, commandTable.name.." "..L(player, commandTable.text).."!");
 							end;
 						end;
 					elseif (!Clockwork.player:GetDeathCode(player, true)) then
