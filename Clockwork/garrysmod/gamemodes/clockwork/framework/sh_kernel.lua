@@ -5196,10 +5196,16 @@ end;
 	@returns {Unknown}
 --]]
 function Clockwork.kernel:ValidateTableKeys(baseTable)
+	local invalidKeys = {};
+
 	for i = 1, #baseTable do
 		if (!baseTable[i]) then
-			tableRemove(baseTable, i);
+			tableInsert(invalidKeys, i);
 		end;
+	end;
+
+	for i = #invalidKeys, 1, -1 do
+		tableRemove(baseTable, invalidKeys[i]);
 	end;
 end;
 
