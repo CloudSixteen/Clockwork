@@ -1952,7 +1952,9 @@ function Clockwork:PlayerDataStreamInfoSent(player)
 					end;
 					
 					for k, v in pairs(player.cwCharacterList) do
-						local shouldDelete = cwPlugin:Call("PlayerAdjustCharacterTable", player, v);
+						cwPlugin:Call("PlayerAdjustCharacterTable", player, v);
+
+						local shouldDelete = cwPlugin:Call("ShouldDeleteCharacter", player, v);
 						
 						if (!shouldDelete) then
 							cwPly:CharacterScreenAdd(player, v);
@@ -4374,6 +4376,19 @@ function Clockwork:PlayerUseUnknownItemFunction(player, itemTable, itemFunction)
 
 --[[
 	@codebase Server
+	@details Called when deciding whether to automatically delete a character.
+	@param The entity of the player who created the character.
+	@param The character which is being considered for deletion.
+	@returns A boolean indicating whether or not the character should be deleted.
+--]]
+function Clockwork:ShouldDeleteCharacter(player, character)
+	if (!self.faction.stored[character.faction]) then
+		return true;
+	end;
+end;
+
+--[[
+	@codebase Server
 	@details Called when a player's character table should be adjusted.
 	@param {Unknown} Missing description for player.
 	@param {Unknown} Missing description for character.
@@ -4385,8 +4400,6 @@ function Clockwork:PlayerAdjustCharacterTable(player, character)
 		and !cwPly:IsWhitelisted(player, character.faction)) then
 			character.data["CharBanned"] = true;
 		end;
-	else
-		return true;
 	end;
 end;
 
