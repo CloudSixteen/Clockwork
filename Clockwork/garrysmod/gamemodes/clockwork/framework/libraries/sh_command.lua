@@ -137,10 +137,6 @@ function Clockwork.command:Register(data, name)
 	self.stored[uniqueID].access = data.access or "b";
 	self.stored[uniqueID].arguments = data.arguments or 0;
 
-	if (CLIENT) then
-		self:AddHelp(self.stored[uniqueID]);
-	end;
-
 	return self.stored[uniqueID];
 end;
 
