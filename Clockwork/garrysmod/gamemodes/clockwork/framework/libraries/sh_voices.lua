@@ -137,7 +137,7 @@ function Clockwork.voices:ClockworkInitialized()
 
 					Clockwork.directory:AddCode(k, [[
 						<div class="cwTitleSeperator">
-							]]..string.upper(v2.name)..[[
+							]]..string.upper(v2.command)..[[
 						</div>
 						<div class="cwContentText">
 							<lang>]]..v2.phrase..[[</lang>
