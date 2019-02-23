@@ -121,9 +121,9 @@ function PANEL:Rebuild()
 				
 				if (IsValid(panel)) then
 					if (v2.class == "checkBox") then
-						panel.Button:SetToolTip(v2.toolTip);
+						panel.Button:SetToolTip(L(v2.toolTip));
 					else
-						panel:SetToolTip(v2.toolTip);
+						panel:SetToolTip(L(v2.toolTip));
 					end;
 				end;
 			end;
