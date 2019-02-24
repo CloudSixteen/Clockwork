@@ -4427,10 +4427,88 @@ function Clockwork:PlayerAdjustDeathInfo(player, info) end;
 	@returns {Unknown}
 --]]
 function Clockwork:ChatBoxAdjustInfo(info)
+	if (table.HasValue(Clockwork.voices.chatClasses, info.class)) then
+		if (IsValid(info.speaker) and info.speaker:HasInitialized()) then
+			info.text = string.upper(string.sub(info.text, 1, 1))..string.sub(info.text, 2);
+			
+			local voiceGroups = Clockwork.voices:GetAll();
+			local voices;
+
+			for k, v in pairs(voiceGroups) do
+				if (v.IsPlayerMember(info.speaker)) then
+					voices = v.voices;
+
+					break;
+				end;
+			end;
+			
+			for k, v in pairs(voices or {}) do
+				if (string.lower(info.text) == string.lower(v.command)) then
+					local voice = info.voice or {};
+
+					voice.global = voice.global or false;
+					voice.volume = voice.volume or v.volume or 80;
+					voice.sound = voice.sound or v.sound;
+					voice.pitch = voice.pitch or v.pitch;
+					
+					if (v.gender) then
+						if (v.female and info.speaker:QueryCharacter("Gender") == GENDER_FEMALE) then
+							voice.sound = string.Replace(voice.sound, "/male", "/female");
+						end;
+					end;
+					
+					if (info.class == "whisper") then
+						voice.volume = voice.volume * 0.75;
+					elseif (info.class == "yell") then
+						voice.volume = voice.volume * 1.25;
+					end;
+					
+					info.voice = voice;
+
+					if (v.phrase == nil or v.phrase == "") then
+						info.visible = false;
+					else
+						info.text = v.phrase;
+					end;
+
+					break;
+				end;
+			end;
+		end;
+	end;
+
+	info.textTransformer = info.textTransformer or function(text)
+		return text;
+	end;
+
+	info.text = info.textTransformer(info.text);
+	
 	if (info.class == "ic") then
 		cwKernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerSays", info.speaker:Name(), info.text});
 	elseif (info.class == "looc") then
 		cwKernel:PrintLog(LOGTYPE_GENERIC, {"LogPlayerSaysLOOC", info.speaker:Name(), info.text});
+	end;
+end;
+
+--[[
+	@codebase Shared
+	@details Called when a chat box message has been added.
+	@param {Unknown} Missing description for info.
+	@returns {Unknown}
+--]]
+function Clockwork:ChatBoxMessageAdded(info)
+	if (info.voice) then
+		if (IsValid(info.speaker) and info.speaker:HasInitialized()) then
+			info.speaker:EmitSound(info.voice.sound, info.voice.volume, info.voice.pitch);
+		end;
+		
+		if (info.voice.global) then
+			for k, v in pairs(info.listeners) do
+				if (v != info.speaker) then
+					Clockwork.player:PlaySound(v, info.voice.sound);
+				end;
+			end;
+		end;
 	end;
 end;
 
