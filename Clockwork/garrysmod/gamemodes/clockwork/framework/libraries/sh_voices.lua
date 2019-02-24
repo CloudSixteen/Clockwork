@@ -165,12 +165,12 @@ function Clockwork.voices:ChatBoxAdjustInfo(info)
 				if (v.IsPlayerMember(info.speaker)) then
 					for k2, v2 in pairs(v.voices) do
 						if (string.lower(info.text) == string.lower(v2.command)) then
-							local voice = {
-								global = false,
-								volume = v2.volume or 80,
-								sound = v2.sound,
-								pitch = v2.pitch
-							};
+							local voice = info.voice or {};
+
+							voice.global = voice.global or false;
+							voice.volume = voice.volume or v2.volume or 80;
+							voice.sound = voice.sound or v2.sound;
+							voice.pitch = voice.pitch or v2.pitch;
 							
 							if (v.gender) then
 								if (v2.female and info.speaker:QueryCharacter("Gender") == GENDER_FEMALE) then
