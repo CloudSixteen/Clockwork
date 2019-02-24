@@ -84,10 +84,9 @@ function Clockwork.voices:Add(groupName, command, phrase, sound, female, menu, p
 	local group = groups[groupName];
 	
 	if (group) then
-		group.hasVoices = true;
 		group.voices[#group.voices + 1] = {
 			command = command,
-			phrase = phrase,
+			phrase = phrase or "",
 			female = female,
 			sound = sound,
 			menu = menu,
@@ -135,18 +134,6 @@ function Clockwork.voices:ClockworkInitialized()
 					return false;
 				end;
 			end);
-		end;
-	end;
-
-	if (CLIENT) then
-		for k, v in pairs(groups) do
-			if (v.hasVoices) then
-				for k2, v2 in pairs(v.voices) do
-					if (!v2.phrase) then
-						v2.phrase = "";
-					end;
-				end;
-			end;
 		end;
 	end;
 end;
