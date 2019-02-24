@@ -361,7 +361,7 @@ else
 					<div class="cwCodeText">
 						<i><lang>]]..text..[[</lang></i>
 					</div>
-					]]..commandTable.tip..[[
+					<lang>]]..commandTable.tip..[[</lang>
 				</div>
 				<br>
 			]], true, commandTable.name);
