@@ -3345,7 +3345,7 @@ else
 				
 				if (IsValid(subMenu)) then
 					if (arguments.toolTip) then
-						subMenu:SetToolTip(arguments.toolTip);
+						subMenu:SetToolTip(T(arguments.toolTip));
 					end;
 				end;
 			else
@@ -3363,7 +3363,7 @@ else
 				local panel = menuPanel.Items[#menuPanel.Items];
 				
 				if (IsValid(panel) and arguments.toolTip) then
-					panel:SetToolTip(arguments.toolTip);
+					panel:SetToolTip(T(arguments.toolTip));
 				end;
 			end;
 		end, minimumWidth);
