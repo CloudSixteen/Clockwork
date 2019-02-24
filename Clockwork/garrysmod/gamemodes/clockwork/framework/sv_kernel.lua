@@ -4497,7 +4497,7 @@ end;
 	@returns {Unknown}
 --]]
 function Clockwork:ChatBoxMessageAdded(info)
-	if (info.voice) then
+	if (info.voice and info.voice.sound) then
 		if (IsValid(info.speaker) and info.speaker:HasInitialized()) then
 			info.speaker:EmitSound(info.voice.sound, info.voice.volume, info.voice.pitch);
 		end;
