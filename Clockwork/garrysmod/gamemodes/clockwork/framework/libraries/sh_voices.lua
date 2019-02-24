@@ -58,6 +58,13 @@ function Clockwork.voices:RegisterGroup(group, gender, callback)
 		IsPlayerMember = callback,
 		voices = {};
 	};
+
+	if (CLIENT) then
+		Clockwork.directory:AddCategory(group, "HelpCommands");
+		Clockwork.directory:SetCategorySorting(group, function(a, b)
+			return a.sortData < b.sortData;
+		end);
+	end;
 end;
 
 --[[
@@ -87,6 +94,17 @@ function Clockwork.voices:Add(groupName, command, phrase, sound, female, menu, p
 			pitch = pitch,
 			volume = volume
 		};
+
+		if (CLIENT) then
+			Clockwork.directory:AddCode(groupName, [[
+				<div class="cwTitleSeperator">
+					]] .. string.upper(command) .. [[
+				</div>
+				<div class="cwContentText">
+					<lang>]] .. phrase .. [[</lang>
+				</div>
+			]], nil, command);
+		end;
 	else
 		ErrorNoHalt("Attempted to add voice for invalid group '"..groupName.."'.\n");
 	end;
@@ -120,30 +138,13 @@ function Clockwork.voices:ClockworkInitialized()
 		end;
 	end;
 
-	Clockwork.plugin:Call("RegisterVoiceGroups", self);
-	Clockwork.plugin:Call("RegisterVoices", self);
-	Clockwork.plugin:Call("AdjustVoices", groups);
-
 	if (CLIENT) then
 		for k, v in pairs(groups) do
 			if (v.hasVoices) then
-				Clockwork.directory:AddCategory(k, "HelpCommands");
-
-				table.sort(v.voices, function(a, b) return a.command < b.command; end);
-
 				for k2, v2 in pairs(v.voices) do
 					if (!v2.phrase) then
 						v2.phrase = "";
 					end;
-
-					Clockwork.directory:AddCode(k, [[
-						<div class="cwTitleSeperator">
-							]]..string.upper(v2.command)..[[
-						</div>
-						<div class="cwContentText">
-							<lang>]]..v2.phrase..[[</lang>
-						</div>
-					]]);
 				end;
 			end;
 		end;
