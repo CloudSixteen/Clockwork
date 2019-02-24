@@ -111,35 +111,6 @@ end;
 
 --[[
 	@codebase Shared
-	@details Called when the framework initializes.
-	@returns {Unknown}
---]]
-function Clockwork.voices:ClockworkInitialized()
-	for k, v in pairs(Clockwork.faction:GetAll()) do
-		local FACTION = Clockwork.faction:FindByID(v.name);
-		
-		if (IsValid(FACTION.models.female and FACTION.models.male)) then
-			self:RegisterGroup(v.name, true, function(ply)
-				if (ply:GetFaction() == v.name) then
-					return true;
-				else
-					return false;
-				end;
-			end);
-		else
-			self:RegisterGroup(k, false, function(ply)
-				if (ply:GetFaction() == v.name) then
-					return true;
-				else
-					return false;
-				end;
-			end);
-		end;
-	end;
-end;
-
---[[
-	@codebase Shared
 	@details Called when chat box info should be adjusted.
 	@param {Unknown} Missing description for info.
 	@returns {Unknown}
