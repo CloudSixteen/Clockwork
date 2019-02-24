@@ -5327,7 +5327,7 @@ function Clockwork.kernel:SetSharedVar(key, value, sharedTable)
 				end;
 				local success, err = pcall(_G["SetGlobal"..class], key, value);
 				if (!success) then
-					MsgC(Color(255, 100, 0, 255), "[Clockwork:GlobalSharedVars] Attempted to set SharedVar '"..key.."'' of type '"..class.."'' with value of type '"..type(value).."'.\n"..err.."\n");
+					MsgC(Color(255, 100, 0, 255), "[Clockwork:GlobalSharedVars] Attempted to set SharedVar '"..key.."' of type '"..class.."' with value of type '"..type(value).."'.\n"..err.."\n");
 				end;
 				return;
 			end;
