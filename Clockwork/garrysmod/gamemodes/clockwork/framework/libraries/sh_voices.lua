@@ -7,6 +7,7 @@
 --]]
 
 Clockwork.voices = Clockwork.kernel:NewLibrary("CWVoices");
+Clockwork.voices.chatClasses = { "ic", "yell", "whisper" };
 
 local groups = {};
 
@@ -156,7 +157,7 @@ end;
 	@returns {Unknown}
 --]]
 function Clockwork.voices:ChatBoxAdjustInfo(info)
-	if (info.class == "ic" or info.class == "yell" or info.class == "whisper") then
+	if (table.HasValue(Clockwork.voices.chatClasses, info.class)) then
 		if (IsValid(info.speaker) and info.speaker:HasInitialized()) then
 			info.text = string.upper(string.sub(info.text, 1, 1))..string.sub(info.text, 2);
 			
