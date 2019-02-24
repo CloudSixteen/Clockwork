@@ -670,6 +670,10 @@ end;
 function Clockwork.chatBox:WrappedText(newLine, message, color, text, OnHover)
 	local chatBoxTextFont = Clockwork.option:GetFont("chat_box_text");
 	local width, height = Clockwork.kernel:GetTextSize(chatBoxTextFont, text);
+	
+	width = width * (message.multiplier or 1);
+	height = height * (message.multiplier or 1);
+
 	local maximumWidth = ScrW() * 0.6;
 	
 	if (width > maximumWidth) then
@@ -679,7 +683,7 @@ function Clockwork.chatBox:WrappedText(newLine, message, color, text, OnHover)
 		
 		for i = 0, #text do
 			local currentCharacter = string.utf8sub(text, i, i);
-			local currentSingleWidth = Clockwork.kernel:GetTextSize(chatBoxTextFont, currentCharacter);
+			local currentSingleWidth = Clockwork.kernel:GetTextSize(chatBoxTextFont, currentCharacter) * (message.multiplier or 1);
 			
 			if ((currentWidth + currentSingleWidth) >= maximumWidth) then
 				secondText = string.utf8sub(text, i);
