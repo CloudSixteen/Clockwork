@@ -5,7 +5,7 @@
 	"settings"
 	{
 	}
-	"version"		"0.98"
+	"version"		"0.99"
 	"author"		"Cloud Sixteen"
 	"description"	"A roleplaying framework developed by Cloud Sixteen for the people."
 	"workshopid"	"474315121"
