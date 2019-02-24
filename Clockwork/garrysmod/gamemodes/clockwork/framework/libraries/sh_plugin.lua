@@ -484,6 +484,8 @@ function Clockwork.plugin:Include(directory, isSchema)
 
 		Schema:Register();
 	else
+		local originalPLUGIN = PLUGIN;
+
 		PLUGIN = self:New();
 		
 		if (SERVER) then
@@ -548,7 +550,7 @@ function Clockwork.plugin:Include(directory, isSchema)
 		end;
 		
 		PLUGIN:Register();
-		PLUGIN = nil;
+		PLUGIN = originalPLUGIN;
 	end;
 end;
 
