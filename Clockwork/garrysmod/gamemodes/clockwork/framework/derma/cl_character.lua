@@ -1715,7 +1715,9 @@ function PANEL:Init()
 					end;
 
 					if (v.singleGender) then
-						self.genderMultiChoice:AddChoice(L(v.singleGender));
+						local index = self.genderMultiChoice:AddChoice(L(v.singleGender));
+						
+						self.genderMultiChoice:ChooseOptionID(index);
 					else
 						self.genderMultiChoice:AddChoice(L(GENDER_FEMALE));
 						self.genderMultiChoice:AddChoice(L(GENDER_MALE));
@@ -1733,7 +1735,9 @@ function PANEL:Init()
 				self.genderMultiChoice = self.settingsForm:ComboBox(L("Gender"));
 
 				if (v.singleGender) then
-					self.genderMultiChoice:AddChoice(L(v.singleGender));
+					local index = self.genderMultiChoice:AddChoice(L(v.singleGender));
+					
+					self.genderMultiChoice:ChooseOptionID(index);
 				else
 					self.genderMultiChoice:AddChoice(L(GENDER_FEMALE));
 					self.genderMultiChoice:AddChoice(L(GENDER_MALE));
