@@ -3561,6 +3561,7 @@ function Clockwork.player:SetName(player, name, saveless)
 	local newName = name;
 	
 	player:SetCharacterData("Name", newName, true);
+	player:SetSharedVar("Name", newName);
 	
 	if (!player.cwFirstSpawn) then
 		cwPlugin:Call("PlayerNameChanged", player, previousName, newName);
