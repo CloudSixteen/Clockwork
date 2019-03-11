@@ -1376,12 +1376,16 @@ if (SERVER) then
 		end;
 		
 		if (delaySecondaryFire == nil and weapon.secondaryFireDelayed) then
-			weapon:SetNextSecondaryFire(weapon.secondaryFireDelayed);
+			local nextFire = math.max(curTime, weapon.secondaryFireDelayed);
+
+			weapon:SetNextSecondaryFire(nextFire);
 			weapon.secondaryFireDelayed = nil;
 		end;
 		
 		if (delayPrimaryFire == nil and weapon.primaryFireDelayed) then
-			weapon:SetNextPrimaryFire(weapon.primaryFireDelayed);
+			local nextFire = math.max(curTime, weapon.primaryFireDelayed);
+
+			weapon:SetNextPrimaryFire(nextFire);
 			weapon.primaryFireDelayed = nil;
 		end;
 		

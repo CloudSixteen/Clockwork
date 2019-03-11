@@ -2,6 +2,11 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.100.0
+------
+
+* Fixed "weapon charging" when a weapon isn't raised.
+
 0.99
 ------
 
