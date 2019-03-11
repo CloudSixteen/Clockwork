@@ -254,7 +254,6 @@ cwDatastream:Hook("QuizCompleted", function(data)
 			cwQuiz.panel:MakePopup();
 		end;
 	else
-		local characterPanel = cwCharacter:GetPanel();
 		local quizPanel = cwQuiz:GetPanel();
 		
 		cwQuiz:SetCompleted(true);
