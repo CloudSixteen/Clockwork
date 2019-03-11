@@ -2,6 +2,93 @@ Changelog
 ---------
 The following changes have been made for each official Clockwork build.
 
+0.99
+------
+
+* Updated CloudAuthX
+* Added German language support
+* Various language string updates
+* Various localisation fixes
+* Changed more systems to use localisation
+* Fixed PostCommandUsed not being called
+* Added an example schema
+* Added blueprint.CanCraft
+* Added value restoration for the PLUGIN global
+* Added schema version rounding
+* Added automatic gender selection for single gendered factions
+* Reworked the voice command system
+* Added the ShouldDeleteCharacter hook, to separate character deletion from character table adjustment
+* Fixed crafting
+* Fixed static entities being physgunnable physable by anyone after a restart
+* Fixed decaying entities not rendering alpha changes
+* Fixed clientside decaying entities not rendering alpha changes
+* Changed player.CommunityID to alias player.SteamID64
+* Updated directory formatting
+* Fixed ammo loss
+* Fixed legs not drawing
+* Fixed player.GiveItems
+* Fixed Clockwork.crafting.CheckTakeItems taking the same unique items multiple times
+* Fixed an issue of whitelist losses
+* Fixed Clockwork.kernel.IsShuttingDown
+* Fixed CLASS_TABLE.__tostring
+* Fixed rank demotion
+* Fixed file reading issue relating to UTF8
+* Fixed Clockwork.kernel.ValidateTableKeys
+* Fixed the networking of player names upon name setting
+* Updated the reference to the content pack
+* Corrected stored chat text width, meaning text separation between timestamps and text will scale according to the chat size multiplier
+
+0.98
+-------
+
+* Updated a lot of systems to support localisation
+* Added French language support
+* Added Korean language support
+* Added Russian language support
+* Added Spanish language support
+* Added Swedish language support
+* Added Clockwork.lang:ReplaceSubs(language, input, subs)
+* Added Clockwork.kernel:SplitKeepDelim(input, delim)
+* Added the ability to disable the quiz
+* Added traits
+* Added OnConsoleRun method for commands
+* Added OnConsoleRun method to PlySetGroup (example)
+* Added a character name limit
+* Added exception handling for rankpromote and rankdemote
+* Added Tools folder to repo with HookDoccer and ItemTranslator (for developers)
+* Updated CloudAuthX
+* Updated directory formatting
+* Updated the system menu's functionality and styling, and added icons
+* Updated character creation's attributes screen
+* Updated Codebase
+* Moved the stamina plugin to HL2RP
+* Theme updates
+* Fixed a faction error
+* Fixed an error with the typing display
+* Fixed various GUI issues
+* Fixed PermaKill mode
+* Fixed config setting
+* Fixed an issue with progression past the character screen
+* Fixed the itc command
+* Fixed the plyrespawntp command
+* Removed the cwc command
+* Removed sh_fixes.lua
+* Removed support for the anonymous speech character, "?"
+
+0.97
+------
+* Fixed a cl_character bug with factions
+* Removed inclusion of sh_fixes.lua
+* Increased localisation support
+
+0.96.6
+-------
+
+* Various localisation fixes
+* Font updates
+* Fixed file.Exists faction materials issue
+* Crafting and blueprint fixes
+
 0.96.3
 -------
 
