@@ -260,7 +260,11 @@ function Clockwork.crafting:CanCraft(player, blueprintTable)
 	end;
 	
 	if (blueprintTable.CanCraft) then
-		return blueprintTable:CanCraft(player);
+		local canCraft = blueprintTable:CanCraft(player);
+
+		if (isbool(canCraft)) then
+			return canCraft;
+		end;
 	end;
 	
 	return true, "";
