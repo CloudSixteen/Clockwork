@@ -738,7 +738,7 @@ function Clockwork:GetEntityMenuOptions(entity, options)
 		if (itemTable) then
 			local useText = itemTable("useText", "Use");
 			
-			if (itemTable.OnUse) then
+			if (itemTable.OnUse and !itemTable.noPlacementUse) then
 				options[useText] = "cwItemUse";
 			end;
 			

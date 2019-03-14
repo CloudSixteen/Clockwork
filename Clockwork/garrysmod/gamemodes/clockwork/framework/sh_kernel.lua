@@ -3501,7 +3501,7 @@ else
 		local customFunctions = itemTable("customFunctions");
 		local itemFunctions = {};
 		
-		if (itemTable.OnUse) then
+		if (itemTable.OnUse and !itemTable.noInventoryUse) then
 			itemFunctions[#itemFunctions + 1] = itemTable("useText", "Use");
 		end;
 		

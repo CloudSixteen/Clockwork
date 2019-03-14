@@ -564,6 +564,12 @@ if (SERVER) then
 		
 		if (player:HasItemInstance(itemTable)) then
 			if (itemTable.OnUse) then
+				if (itemEntity and itemTable.noPlacementUse) then
+					return false;
+				elseif (!itemEntity and itemTable.noInventoryUse) then
+					return false;
+				end;
+				
 				if (itemEntity and itemEntity.cwItemTable == itemTable) then
 					player:SetItemEntity(nil);
 				end;
