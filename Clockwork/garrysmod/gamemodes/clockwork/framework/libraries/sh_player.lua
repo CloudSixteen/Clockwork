@@ -1223,8 +1223,25 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 				info.name = data.fullName;
 			end;
 			
+			local rankModel;
+
+			if (factionTable.ranks) then
+				local defaultRank, defaultRankTable = cwFaction:GetDefaultRank(factionTable.name);
+				local lowestRank, lowestRankTable = cwFaction:GetLowestRank(factionTable.name);
+				
+				if (defaultRank) then
+					rankModel = defaultRankTable.model;
+				elseif (lowestRank) then
+					rankModel = lowestRankTable.model;
+				end;
+
+				info.data["FactionRank"] = defaultRank or lowestRank;
+			end;
+
 			if (factionTable.GetModel) then
 				info.model = factionTable:GetModel(player, info, data);
+			elseif (rankModel) then
+				info.model = rankModel;
 			else
 				info.model = data.model;
 			end;
@@ -5375,6 +5392,7 @@ function Clockwork.player:SetFactionRank(player, rank)
 					end;
 
 					if (v.model) then
+						player:SetCharacterData("Model", v.model, true);
 						player:SetModel(v.model);
 					end;
 

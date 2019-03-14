@@ -5,8 +5,9 @@ The following changes have been made for each official Clockwork build.
 0.100.0
 ------
 
-* Fixed "weapon charging" when a weapon isn't raised.
+* Fixed "weapon charging" when a weapon isn't raised
 * Removed HL2RP scanner ranking reference
+* Fixed custom models being overridden by rank models
 
 0.99
 ------
