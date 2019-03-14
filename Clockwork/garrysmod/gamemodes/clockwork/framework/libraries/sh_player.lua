@@ -5383,26 +5383,24 @@ function Clockwork.player:SetFactionRank(player, rank)
 		local faction = cwFaction:FindByID(player:GetFaction());
 
 		if (faction and istable(faction.ranks)) then
-			for k, v in pairs(faction.ranks) do
-				if (k == rank) then
-					player:SetCharacterData("FactionRank", k);
+			local rankTable = faction.ranks[rank];
 
-					if (v.class and cwClass:GetAll()[v.class]) then
-						cwClass:Set(player, v.class);
+			if (rankTable) then
+				player:SetCharacterData("FactionRank", rank);
+
+				if (rankTable.class and cwClass:GetAll()[rankTable.class]) then
+					cwClass:Set(player, rankTable.class);
+				end;
+
+				if (rankTable.model) then
+					player:SetCharacterData("Model", rankTable.model, true);
+					player:SetModel(rankTable.model);
+				end;
+
+				if (istable(rankTable.weapons)) then
+					for k, v in pairs(rankTable.weapons) do
+						self:GiveSpawnWeapon(player, v);
 					end;
-
-					if (v.model) then
-						player:SetCharacterData("Model", v.model, true);
-						player:SetModel(v.model);
-					end;
-
-					if (istable(v.weapons)) then
-						for k, v in pairs(v.weapons) do
-							self:GiveSpawnWeapon(player, v);
-						end;
-					end;
-
-					break;
 				end;
 			end;
 		end;
