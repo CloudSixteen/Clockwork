@@ -9,7 +9,8 @@ The following changes have been made for each official Clockwork build.
 * Removed HL2RP scanner ranking reference
 * Fixed custom models being overridden by rank models
 * Fixed rank model reversion to faction models
-* Added ITEM.noPlacementUse and ITEM.noInventoryUse fields to determine whether or not an item can be used as a placed entity, or in the inventory, respectively.
+* Added ITEM.noPlacementUse and ITEM.noInventoryUse fields to determine whether or not an item can be used as a placed entity, or in the inventory, respectively
+* Fixed containers being openable from the inventory
 
 0.99
 ------

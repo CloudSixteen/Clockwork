@@ -16,6 +16,7 @@ ITEM.description = "A basic container to hold other items.";
 ITEM.isContainer = true;
 ITEM.storageWeight = 5;
 ITEM.storageSpace = 10;
+ITEM.noInventoryUse = true;
 
 ITEM:AddData("Inventory", nil);
 ITEM:AddData("Cash", 0);
