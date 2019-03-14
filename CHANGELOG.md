@@ -6,6 +6,7 @@ The following changes have been made for each official Clockwork build.
 ------
 
 * Fixed "weapon charging" when a weapon isn't raised.
+* Removed HL2RP scanner ranking reference
 
 0.99
 ------

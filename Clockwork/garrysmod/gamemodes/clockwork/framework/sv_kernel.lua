@@ -4170,10 +4170,6 @@ function Clockwork:PlayerCharacterInitialized(player)
 	
 	player:SetFactionRank(player:GetFactionRank() or spawnRank);
 	
-	if (string.find(player:Name(), "SCN")) then
-		player:SetFactionRank("SCN");
-	end;
-	
 	local rankName, rankTable = player:GetFactionRank();
 	
 	if (rankTable) then
