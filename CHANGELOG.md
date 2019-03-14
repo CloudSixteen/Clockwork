@@ -8,6 +8,7 @@ The following changes have been made for each official Clockwork build.
 * Fixed "weapon charging" when a weapon isn't raised
 * Removed HL2RP scanner ranking reference
 * Fixed custom models being overridden by rank models
+* Fixed rank model reversion to faction models
 
 0.99
 ------

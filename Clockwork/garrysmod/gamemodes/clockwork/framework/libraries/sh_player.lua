@@ -5392,11 +5392,21 @@ function Clockwork.player:SetFactionRank(player, rank)
 					cwClass:Set(player, rankTable.class);
 				end;
 
+				local model = rankTable.model or faction.model;
+				
 				if (rankTable.model) then
-					player:SetCharacterData("Model", rankTable.model, true);
-					player:SetModel(rankTable.model);
+					model = rankTable.model;
+				elseif (faction.GetModel) then
+					model = faction:GetModel(player, player:GetCharacter())
+				elseif (character.gender == GENDER_MALE) then
+					model = self.models.male[math.random(#self.models.male)];
+				else
+					model = self.models.female[math.random(#self.models.female)];
 				end;
 
+				player:SetCharacterData("Model", model, true);
+				player:SetModel(model);
+				
 				if (istable(rankTable.weapons)) then
 					for k, v in pairs(rankTable.weapons) do
 						self:GiveSpawnWeapon(player, v);
