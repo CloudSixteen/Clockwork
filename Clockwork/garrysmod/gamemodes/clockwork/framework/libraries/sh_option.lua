@@ -94,6 +94,8 @@ Clockwork.option:SetKey("name_business", "MenuNameBusiness");
 Clockwork.option:SetKey("name_crafting", "MenuNameCrafting");
 Clockwork.option:SetKey("name_donations", "MenuNameDonations");
 Clockwork.option:SetKey("name_settings", "MenuNameSettings");
+Clockwork.option:SetKey("name_community", "MenuNameCommunity");
+Clockwork.option:SetKey("name_plugin_center", "MenuNamePluginCenter");
 Clockwork.option:SetKey("name_classes", "MenuNameClasses");
 Clockwork.option:SetKey("name_traits", "MenuNameTraits");
 Clockwork.option:SetKey("name_trait", "MenuNameTrait");

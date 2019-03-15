@@ -125,6 +125,8 @@ function THEME:Initialize()
 	Clockwork.option:SetKey("icon_data_directory", {path = "", size = nil});
 	Clockwork.option:SetKey("icon_data_attributes", {path = "", size = nil});
 	Clockwork.option:SetKey("icon_data_business", {path = "", size = nil});
+	Clockwork.option:SetKey("icon_data_community", {path = "", size = nil});
+	Clockwork.option:SetKey("icon_data_plugin_center", {path = "", size = nil});
 	
 	Clockwork.option:SetKey("top_bar_width_scale", 0.3);
 	

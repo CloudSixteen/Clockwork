@@ -1496,7 +1496,9 @@ function Clockwork:MenuItemsAdd(menuItems)
 	menuItems:Add(inventoryName, "cwInventory", cwOption:Translate("description_inventory"), cwOption:GetKey("icon_data_inventory"));
 	menuItems:Add(directoryName, "cwDirectory", cwOption:Translate("description_directory"), cwOption:GetKey("icon_data_directory"));
 	menuItems:Add(attributesName, "cwAttributes", cwOption:Translate("description_attributes"), cwOption:GetKey("icon_data_attributes"));
-
+	menuItems:Add(communityName, "cwCommunity", cwOption:Translate("description_community"), cwOption:GetKey("icon_data_community"));
+	menuItems:Add(pluginCenterName, "cwPluginCenter", cwOption:Translate("description_plugin_center"), cwOption:GetKey("icon_data_plugin_center"));
+	
 	if (cwConfig:Get("show_business"):GetBoolean()) then
 		local businessName = cwOption:Translate("name_business");
 		
