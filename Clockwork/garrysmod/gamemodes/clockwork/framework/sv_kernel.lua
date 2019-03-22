@@ -933,9 +933,10 @@ end;
 	@returns {Unknown}
 --]]
 function Clockwork:PlayerGiveToStorage(player, storageTable, itemTable)
-	itemTable.cwPropertyTab = itemTable.cwPropertyTab or {};
-	itemTable.cwPropertyTab.key = player:GetCharacterKey();
-	itemTable.cwPropertyTab.uniqueID = player:UniqueID();
+	itemTable.cwPropertyTab = itemTable.cwPropertyTab or {
+		key = player:GetCharacterKey(),
+		uniqueID = player:UniqueID()
+	};
 	
 	if (player:IsWearingItem(itemTable)) then
 		player:RemoveClothes();
