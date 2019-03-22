@@ -911,14 +911,10 @@ end;
 	@returns {Unknown}
 --]]
 function Clockwork:PlayerCanTakeFromStorage(player, storageTable, itemTable)
-	if (itemTable.cwPropertyTab) then
-		if (cwEntity:BelongsToAnotherCharacter(player, itemTable)) then
-			cwPly:Notify(player, "You cannot take an item you stored on another character!");
-			
-			return false;
-		else
-			itemTable.cwPropertyTab = nil;
-		end;
+	if (itemTable.cwPropertyTab and cwEntity:BelongsToAnotherCharacter(player, itemTable)) then
+		cwPly:Notify(player, "You cannot take an item you stored on another character!");
+		
+		return false;
 	end;
 
 	return true;
@@ -952,7 +948,9 @@ end;
 	@details Called when a player has taken an item to storage.
 	@returns {Unknown}
 --]]
-function Clockwork:PlayerTakeFromStorage(player, storageTable, itemTable) end;
+function Clockwork:PlayerTakeFromStorage(player, storageTable, itemTable)
+	itemTable.cwPropertyTab = nil;
+end;
 
 --[[
 	@codebase Server
