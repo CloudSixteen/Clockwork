@@ -899,11 +899,12 @@ function Clockwork:PlayerAttributeUpdated(player, attributeTable, amount) end;
 	@returns {Unknown}
 --]]
 function Clockwork:PlayerCanGiveToStorage(player, storageTable, itemTable)
-	itemTable.cwPropertyTab = itemTable.cwPropertyTab or {}
-	itemTable.cwPropertyTab.key = player:GetCharacterKey()
-	itemTable.cwPropertyTab.uniqueID = player:UniqueID()
-	 return true
-end
+	itemTable.cwPropertyTab = itemTable.cwPropertyTab or {};
+	itemTable.cwPropertyTab.key = player:GetCharacterKey();
+	itemTable.cwPropertyTab.uniqueID = player:UniqueID();
+
+	return true;
+end;
 
 --[[
 	@codebase Server
@@ -914,18 +915,18 @@ end
 	@returns {Unknown}
 --]]
 function Clockwork:PlayerCanTakeFromStorage(player, storageTable, itemTable)
-	  if itemTable.cwPropertyTab then
-		if self.entity:BelongsToAnotherCharacter(player, itemTable) then
-			self.player:Notify(player, "You cannot take an item you stored on another character!")
+	if (itemTable.cwPropertyTab) then
+		if (cwEntity:BelongsToAnotherCharacter(player, itemTable)) then
+			cwPly:Notify(player, "You cannot take an item you stored on another character!");
 			
-				return false
-			else
-				itemTable.cwPropertyTab = nil
-			end
-	end
+			return false;
+		else
+			itemTable.cwPropertyTab = nil;
+		end;
+	end;
 
-	return true
-end
+	return true;
+end;
 
 --[[
 	@codebase Server
