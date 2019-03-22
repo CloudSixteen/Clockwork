@@ -11,6 +11,7 @@ The following changes have been made for each official Clockwork build.
 * Fixed rank model reversion to faction models
 * Added ITEM.noPlacementUse and ITEM.noInventoryUse fields to determine whether or not an item can be used as a placed entity, or in the inventory, respectively
 * Fixed containers being openable from the inventory
+* Fixed players being able to self-supply via storage items
 * Fixed faction ranks not networking to the client
 
 0.99
