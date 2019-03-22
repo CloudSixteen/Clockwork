@@ -899,10 +899,6 @@ function Clockwork:PlayerAttributeUpdated(player, attributeTable, amount) end;
 	@returns {Unknown}
 --]]
 function Clockwork:PlayerCanGiveToStorage(player, storageTable, itemTable)
-	itemTable.cwPropertyTab = itemTable.cwPropertyTab or {};
-	itemTable.cwPropertyTab.key = player:GetCharacterKey();
-	itemTable.cwPropertyTab.uniqueID = player:UniqueID();
-
 	return true;
 end;
 
@@ -937,6 +933,10 @@ end;
 	@returns {Unknown}
 --]]
 function Clockwork:PlayerGiveToStorage(player, storageTable, itemTable)
+	itemTable.cwPropertyTab = itemTable.cwPropertyTab or {};
+	itemTable.cwPropertyTab.key = player:GetCharacterKey();
+	itemTable.cwPropertyTab.uniqueID = player:UniqueID();
+	
 	if (player:IsWearingItem(itemTable)) then
 		player:RemoveClothes();
 	end;
