@@ -15,6 +15,7 @@ The following changes have been made for each official Clockwork build.
 * Fixed faction ranks not networking to the client
 * Fixed container_base derived items losing their content on closure
 * Added a config to allow you to disable voice commands
+* Updated the chatbox so that it moves up to match any present cinematic notifications
 
 0.99
 ------

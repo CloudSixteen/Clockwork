@@ -471,9 +471,15 @@ function Clockwork.chatBox:CreateDermaPanel()
 		
 		-- Called every frame.
 		self.panel.Think = function(editablePanel)
+			local heightOffset = 0;
+
+			if (Clockwork.Cinematics[1]) then
+				heightOffset = Clockwork.Cinematics[1].add;
+			end;
+
 			local panelWidth = ScrW() / 4;
-			local x, y = self:GetPosition();
-			
+			local x, y = self:GetPosition(nil, -heightOffset);
+
 			editablePanel:SetPos(x, y + 6);
 			editablePanel:SetSize(panelWidth + 8, 24);
 			self.textEntry:SetPos(4, 4);
@@ -735,10 +741,14 @@ function Clockwork.chatBox:Paint()
 		self.spaceWidths[chatBoxTextFont] = Clockwork.kernel:GetTextSize(chatBoxTextFont, " ");
 	end;
 	
+	if (Clockwork.Cinematics[1]) then
+		heightOffset = Clockwork.Cinematics[1].add;
+	end;
+
+	local origX, origY = Clockwork.chatBox:GetPosition(4, -heightOffset);
 	local isTypingCommand = Clockwork.chatBox:IsTypingCommand();
 	local chatBoxSpacing = Clockwork.chatBox:GetSpacing();
 	local maximumLines = math.Clamp(CW_CONVAR_MAXCHATLINES:GetInt(), 1, 10);
-	local origX, origY = Clockwork.chatBox:GetPosition(4);
 	local onHoverData = nil;
 	local spaceWidth = self.spaceWidths[chatBoxTextFont];
 	local fontHeight = chatBoxSpacing - 4;
