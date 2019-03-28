@@ -741,6 +741,8 @@ function Clockwork.chatBox:Paint()
 		self.spaceWidths[chatBoxTextFont] = Clockwork.kernel:GetTextSize(chatBoxTextFont, " ");
 	end;
 	
+	local heightOffset = 0;
+	
 	if (Clockwork.Cinematics[1]) then
 		heightOffset = Clockwork.Cinematics[1].add;
 	end;
