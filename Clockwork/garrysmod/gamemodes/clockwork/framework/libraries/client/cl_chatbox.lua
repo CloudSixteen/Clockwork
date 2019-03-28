@@ -240,11 +240,12 @@ end;
 	@returns {Unknown}
 --]]
 function Clockwork.chatBox:IsTypingVC()
+	local areVoiceCommandsEnabled = Clockwork.config:Get("enable_voice_commands"):Get();
 	local currentText = Clockwork.chatBox:GetCurrentText();
 	local groups = Clockwork.voices:GetAll();
 	local commands = {};
 
-	if (currentText != "") then
+	if (areVoiceCommandsEnabled and currentText != "") then
 		for k, v in pairs(groups) do
 			if (v.IsPlayerMember(Clockwork.Client)) then
 				for key, voice in pairs(v.voices) do

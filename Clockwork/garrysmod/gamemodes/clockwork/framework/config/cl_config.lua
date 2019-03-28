@@ -99,3 +99,4 @@ Clockwork.config:AddToSystem("IronsightsSlowAmount", "ironsights_slow", "Ironsig
 Clockwork.config:AddToSystem("MaxCharName", "max_char_name", "MaxCharNameDesc", 1, 100);
 Clockwork.config:AddToSystem("CraftingDescription", "description_crafting", "CraftingDescriptionDesc");
 Clockwork.config:AddToSystem("CraftingEnabled", "crafting_menu_enabled", "CraftingEnabledDesc");
+Clockwork.config:AddToSystem("EnableVCs", "enable_voice_commands", "EnableVCsDesc");

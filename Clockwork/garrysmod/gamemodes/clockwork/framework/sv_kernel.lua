@@ -4447,12 +4447,15 @@ function Clockwork:ChatBoxAdjustInfo(info)
 			
 			local voiceGroups = Clockwork.voices:GetAll();
 			local voices;
+			local areVoiceCommandsEnabled = cwConfig:Get("enable_voice_commands"):Get();
 
-			for k, v in pairs(voiceGroups) do
-				if (v.IsPlayerMember(info.speaker)) then
-					voices = v.voices;
+			if (areVoiceCommandsEnabled) then
+				for k, v in pairs(voiceGroups) do
+					if (v.IsPlayerMember(info.speaker)) then
+						voices = v.voices;
 
-					break;
+						break;
+					end;
 				end;
 			end;
 			
