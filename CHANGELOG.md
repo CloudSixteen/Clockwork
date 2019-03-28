@@ -13,6 +13,7 @@ The following changes have been made for each official Clockwork build.
 * Fixed containers being openable from the inventory
 * Fixed players being able to self-supply via storage items
 * Fixed faction ranks not networking to the client
+* Fixed container_base derived items losing their content on closure
 
 0.99
 ------

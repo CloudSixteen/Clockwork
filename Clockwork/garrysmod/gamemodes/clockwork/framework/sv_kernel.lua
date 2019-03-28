@@ -3668,10 +3668,14 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 				
 				if (quickUse) then
 					itemTable = player:GiveItem(itemTable, true);
+
+					Clockwork.item:AddItemEntity(entity, itemTable);
 					
 					if (!cwPly:InventoryAction(player, itemTable, "use")) then
 						player:TakeItem(itemTable, true);
 						
+						Clockwork.item:AddItemEntity(entity, entity.cwItemTable);
+
 						didPickupItem = false;
 					else
 						player:FakePickup(entity);

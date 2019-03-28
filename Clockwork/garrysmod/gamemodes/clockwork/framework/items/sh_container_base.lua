@@ -45,13 +45,11 @@ end;
 
 if (SERVER) then
 	function ITEM:GetInventory()
-		local inventory = self:GetData("Inventory");
+		local itemEntity = Clockwork.item:FindEntityByInstance(self);
 		
-		if (inventory == nil) then
-			self:SetData("Inventory", {});
-		end;
+		itemEntity.cwInventory = itemEntity.cwInventory or {};
 		
-		return inventory;
+		return itemEntity.cwInventory;
 	end;
 		
 	function ITEM:HasItem(itemTable)
