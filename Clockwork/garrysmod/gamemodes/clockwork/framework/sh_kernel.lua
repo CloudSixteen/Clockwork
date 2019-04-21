@@ -1079,7 +1079,14 @@ if (SERVER) then
 		SCHEMA_GAMEMODE_INFO["name"] = schemaData["title"] or "Undefined";
 		SCHEMA_GAMEMODE_INFO["author"] = schemaData["author"] or "Undefined";
 		SCHEMA_GAMEMODE_INFO["description"] = schemaData["description"] or "Undefined";
-		SCHEMA_GAMEMODE_INFO["version"] = schemaData["version"] and math.Round(schemaData["version"], 6) or "Undefined";
+		
+		if (isstring(schemaData["version"])) then
+			SCHEMA_GAMEMODE_INFO["version"] = schemaData["version"];
+		elseif (isnumber(schemaData["version"])) then
+			SCHEMA_GAMEMODE_INFO["version"] = math.Round(schemaData["version"], 6);
+		else
+			SCHEMA_GAMEMODE_INFO["version"] = "Undefined";
+		end;
 		
 		return SCHEMA_GAMEMODE_INFO;
 	end;
