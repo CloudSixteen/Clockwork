@@ -369,7 +369,7 @@ function PANEL:Paint(w, h)
 		
 		if (schemaLogo != "" and subLabelAlpha > 0) then
 			if (!self.logoTextureID) then
-				self.logoTextureID = Material(schemaLogo..".png");
+				self.logoTextureID = Material(schemaLogo .. ".png");
 			end;
 			
 			self.logoTextureID:SetFloat("$alpha", subLabelAlpha);
