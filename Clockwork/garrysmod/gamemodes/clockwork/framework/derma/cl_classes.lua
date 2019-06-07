@@ -9,11 +9,9 @@
 local Clockwork = Clockwork;
 local tonumber = tonumber;
 local pairs = pairs;
-local ScrH = ScrH;
-local ScrW = ScrW;
 local table = table;
 local vgui = vgui;
-local math = math;
+
 
 local PANEL = {};
 
@@ -22,8 +20,8 @@ function PANEL:Init()
 	self:SetSize(Clockwork.menu:GetWidth(), Clockwork.menu:GetHeight());
 	
 	self.panelList = vgui.Create("cwPanelList", self);
- 	self.panelList:SetPadding(8);
- 	self.panelList:SetSpacing(8);
+	self.panelList:SetPadding(8);
+	self.panelList:SetSpacing(8);
 	self.panelList:StretchToParent(4, 4, 4, 4);
 	self.panelList:HideBackground();
 	
@@ -48,7 +46,7 @@ function PANEL:Rebuild()
 	self.panelList:Clear(true);
 	self.classTable = nil;
 	
-	local available = nil;
+	--local available = nil;
 	local classes = {};
 	
 	for k, v in pairs(Clockwork.class.stored) do
@@ -73,11 +71,9 @@ function PANEL:Rebuild()
 		self.panelList:AddItem(label);
 		
 		for k, v in pairs(classes) do
-			if (Clockwork.kernel:HasObjectAccess(Clockwork.Client, v)) then
-				if (Clockwork.plugin:Call("PlayerCanSeeClass", v)) then
-					self.classTable = Clockwork.class.stored[v.name];
-					self.panelList:AddItem(vgui.Create("cwClassesItem", self));
-				end;
+			if (Clockwork.kernel:HasObjectAccess(Clockwork.Client, v)) and (Clockwork.plugin:Call("PlayerCanSeeClass", v)) then
+				self.classTable = Clockwork.class.stored[v.name];
+				self.panelList:AddItem(vgui.Create("cwClassesItem", self));
 			end;
 		end;
 	else
@@ -130,7 +126,7 @@ local PANEL = {};
 
 -- Called when the panel is initialized.
 function PANEL:Init()
-	local colorWhite = Color(0, 0, 0, 200);
+	--local colorWhite = Color(0, 0, 0, 200);
 	local parent = self:GetParent();
 	
 	self.classTable = parent.classTable;
@@ -154,7 +150,7 @@ function PANEL:Init()
 	if (self.overrideData.information) then
 		self.information:SetText(self.overrideData.information);
 	else
-		self.information:SetText("There are "..players.."/"..limit.." characters with this class.");
+		self.information:SetText("There are " .. players .. "/" .. limit .. " characters with this class.");
 	end;
 	
 	self.information:SetDark(true);
@@ -176,7 +172,7 @@ function PANEL:Init()
 	else
 		self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
 		self.spawnIcon:SetToolTip(self.classTable.description);
-		self.spawnIcon:SetImage(self.classTable.image..".png");
+		self.spawnIcon:SetImage(self.classTable.image .. ".png");
 		self.spawnIcon:SetSize(32, 32);
 	end;
 	
@@ -193,7 +189,7 @@ end;
 -- Called each frame.
 function PANEL:Think()
 	if (self.classTable and !self.overrideData.information) then
-		self.information:SetText("There are "..cwTeam.NumPlayers(self.classTable.index).."/"..Clockwork.class:GetLimit(self.classTable.name).." characters with this class.");
+		self.information:SetText("There are " .. cwTeam.NumPlayers(self.classTable.index) .. "/" .. Clockwork.class:GetLimit(self.classTable.name) .. " characters with this class.");
 		self.information:SizeToContents();
 	end;
 	
