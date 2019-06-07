@@ -25,7 +25,7 @@ function ITEM:OnSaved(newData)
 		newData["Inventory"] = Clockwork.inventory:ToSaveable(newData["Inventory"]);
 		
 		if (CloudAuthX.Base64Encode) then
-			newData["Inventory"] = "@"..CloudAuthX.Base64Encode(newData["Inventory"]);
+			newData["Inventory"] = "@" .. CloudAuthX.Base64Encode(newData["Inventory"]);
 		end;
 	end;
 end;

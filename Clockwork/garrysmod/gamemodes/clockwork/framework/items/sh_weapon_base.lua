@@ -41,11 +41,11 @@ function ITEM:GetEntityMenuOptions(entity, options)
 		
 		if (clipOne > 0 or clipTwo > 0) then
 			if (clipOne > 0) then
-				toolTip = Clockwork.kernel:AddMarkupLine(toolTip, "Primary: "..clipOne);
+				toolTip = Clockwork.kernel:AddMarkupLine(toolTip, "Primary: " .. clipOne);
 			end;
 			
 			if (clipTwo > 0) then
-				toolTip = Clockwork.kernel:AddMarkupLine(toolTip, "Secondary: "..clipTwo);
+				toolTip = Clockwork.kernel:AddMarkupLine(toolTip, "Secondary: " .. clipTwo);
 			end;
 			
 			options["Ammo"] = {
@@ -114,12 +114,12 @@ function ITEM:OnPlayerUnequipped(player, extraData)
 		local class = weapon:GetClass();
 		
 		if (extraData != "drop") then
-			if (Clockwork.plugin:Call("PlayerCanHolsterWeapon", player, self, weapon)) then
-				if (player:GiveItem(self)) then
-					Clockwork.plugin:Call("PlayerHolsterWeapon", player, self, weapon);
-					player:StripWeapon(class);
-					player:SelectWeapon("cw_hands");
-				end;
+			if Clockwork.plugin:Call("PlayerCanHolsterWeapon", player, self, weapon) and player:GiveItem(self) then
+				
+				Clockwork.plugin:Call("PlayerHolsterWeapon", player, self, weapon);
+				player:StripWeapon(class);
+				player:SelectWeapon("cw_hands");
+
 			end;
 		elseif (Clockwork.plugin:Call("PlayerCanDropWeapon", player, self, weapon)) then
 			local trace = player:GetEyeTraceNoCursor();
@@ -206,10 +206,8 @@ function ITEM:OnUse(player, itemEntity)
 	else
 		local weapon = player:GetWeapon(weaponClass);
 		
-		if (IsValid(weapon) and self.OnAlreadyHas) then
-			if (Clockwork.item:GetByWeapon(weapon) == self) then
+		if (IsValid(weapon) and self.OnAlreadyHas) and (Clockwork.item:GetByWeapon(weapon) == self) then
 				self:OnAlreadyHas(player);
-			end;
 		end;
 		
 		return false;
@@ -232,40 +230,33 @@ function ITEM:OnSetup()
 		local weaponTable = weapons.GetStored(weaponClass);
 		
 		if (weaponTable) then
-			if (!self("primaryAmmoClass")) then
-				if (weaponTable.Primary and weaponTable.Primary.Ammo) then
-					self:Override("primaryAmmoClass", weaponTable.Primary.Ammo);
-				end;
+			if (!self("primaryAmmoClass")) and weaponTable.Primary and weaponTable.Primary.Ammo then
+				self:Override("primaryAmmoClass", weaponTable.Primary.Ammo);
 			end;
 			
-			if (!self("secondaryAmmoClass")) then
-				if (weaponTable.Secondary and weaponTable.Secondary.Ammo) then
-					self:Override("secondaryAmmoClass", weaponTable.Secondary.Ammo);
-				end;
+			if (!self("secondaryAmmoClass")) and weaponTable.Secondary and weaponTable.Secondary.Ammo then
+				self:Override("secondaryAmmoClass", weaponTable.Secondary.Ammo);
 			end;
 			
-			if (!self("primaryDefaultAmmo")) then
-				if (weaponTable.Primary and weaponTable.Primary.DefaultClip) then
-					if (weaponTable.Primary.DefaultClip > 0) then
-						if (weaponTable.Primary.ClipSize == -1) then
-							self:Override("primaryDefaultAmmo", weaponTable.Primary.DefaultClip);
-							self:Override("hasNoPrimaryClip", true);
-						else
-							self:Override("primaryDefaultAmmo", true);
-						end;
-					end;
+			if (!self("primaryDefaultAmmo")) and weaponTable.Primary
+					and weaponTable.Primary.DefaultClip
+					and (weaponTable.Primary.DefaultClip > 0) then
+	
+				if (weaponTable.Primary.ClipSize == -1) then
+					self:Override("primaryDefaultAmmo", weaponTable.Primary.DefaultClip);
+					self:Override("hasNoPrimaryClip", true);
+				else
+					self:Override("primaryDefaultAmmo", true);
 				end;
 			end;
 			
 			if (!self("secondaryDefaultAmmo")) then
-				if (weaponTable.Secondary and weaponTable.Secondary.DefaultClip) then
-					if (weaponTable.Secondary.DefaultClip > 0) then
-						if (weaponTable.Secondary.ClipSize == -1) then
-							self:Override("secondaryDefaultAmmo", weaponTable.Secondary.DefaultClip);
-							self:Override("hasNoSecondaryClip", true);
-						else
-							self:Override("secondaryDefaultAmmo", true);
-						end;
+				if (weaponTable.Secondary and weaponTable.Secondary.DefaultClip) and (weaponTable.Secondary.DefaultClip > 0) then
+					if (weaponTable.Secondary.ClipSize == -1) then
+						self:Override("secondaryDefaultAmmo", weaponTable.Secondary.DefaultClip);
+						self:Override("hasNoSecondaryClip", true);
+					else
+						self:Override("secondaryDefaultAmmo", true);
 					end;
 				end;
 			end;

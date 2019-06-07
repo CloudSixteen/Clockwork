@@ -36,8 +36,8 @@ end;
 
 -- Called when a player uses the item.
 function ITEM:OnUse(player, itemEntity)
-	local secondaryAmmoClass = self("secondaryAmmoClass");
-	local primaryAmmoClass = self("primaryAmmoClass");
+	--local secondaryAmmoClass = self("secondaryAmmoClass");
+	--local primaryAmmoClass = self("primaryAmmoClass");
 	local ammoAmount = self("ammoAmount");
 	local ammoClass = self("ammoClass");
 	
@@ -67,14 +67,14 @@ if (SERVER) then
 	
 	-- Called when a custom function was called.
 	function ITEM:OnCustomFunction(player, funcName)
-		if (funcName == "Split") then
+		--[[if (funcName == "Split") then
 			
-		end;
+		end;]]
 	end;
 else
 	function ITEM:GetClientSideInfo()
 		return Clockwork.kernel:AddMarkupLine(
-			"", self("roundsText")..": "..self("ammoAmount")
+			"", self("roundsText") .. ": " .. self("ammoAmount")
 		);
 	end;
 end;

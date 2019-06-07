@@ -40,14 +40,14 @@ function ITEM:GetModelName(player, group)
 		
 		if (SERVER) then
 			if (player:GetGender() == GENDER_FEMALE) then
-				return group.."female_04.mdl";
+				return group .. "female_04.mdl";
 			else
-				return group.."male_05.mdl";
+				return group .. "male_05.mdl";
 			end;
 		elseif (player:GetGender() == GENDER_FEMALE) then
-			return group.."female_04.mdl";
+			return group .. "female_04.mdl";
 		else
-			return group.."male_05.mdl";
+			return group .. "male_05.mdl";
 		end;
 	else
 		return modelName;
@@ -67,7 +67,7 @@ function ITEM:GetClientSideModel()
 	elseif (self("replacement")) then
 		return self("replacement");
 	elseif (self("group")) then
-		return "models/humans/"..self("group").."/"..self:GetModelName();
+		return "models/humans/" .. self("group") .. "/" .. self:GetModelName();
 	end;
 end;
 
@@ -85,7 +85,7 @@ function ITEM:OnChangeClothes(player, isWearing)
 		elseif (self("replacement")) then
 			player:SetModel(self("replacement"));
 		elseif (self("group")) then
-			player:SetModel("models/humans/"..self("group").."/"..self:GetModelName(player));
+			player:SetModel("models/humans/" .. self("group") .. "/" .. self:GetModelName(player));
 		end;
 	else
 		Clockwork.player:SetDefaultModel(player);

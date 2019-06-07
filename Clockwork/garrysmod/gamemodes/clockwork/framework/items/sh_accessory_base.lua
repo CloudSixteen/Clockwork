@@ -24,9 +24,10 @@ ITEM.attachmentOffsetVector = Vector(0, 3, 3);
 
 -- Called when a player wears the accessory.
 function ITEM:OnWearAccessory(player, isWearing)
-	if (isWearing) then
+--[[	if (isWearing) then
 	else
 	end;
+]]
 end;
 
 -- Called to get whether a player has the item equipped.
