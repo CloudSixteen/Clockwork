@@ -453,11 +453,8 @@ function PANEL:Think()
 			Clockwork.kernel:RemoveBackgroundBlur(self);
 		end;
 		
-		if (self.characterModel) then
-			if (!self.characterModel.currentModel
-			or self.characterModel.currentModel == "models/error.mdl") then
+		if self.characterModel and (!self.characterModel.currentModel or self.characterModel.currentModel == "models/error.mdl") then
 				self.characterModel:SetAlpha(0);
-			end;
 		end;
 		
 		if (!Clockwork.character:IsCreationProcessActive()) then
