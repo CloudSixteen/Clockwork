@@ -307,7 +307,7 @@ end;
 
 -- A function to set the panel's percentage text.
 function PANEL:SetPercentageText(maximum, default, boost)
-	local percentage = math.Clamp(math.Round((100 / maximum) * (default + boost)), -100, 100);
+	--local percentage = math.Clamp(math.Round((100 / maximum) * (default + boost)), -100, 100);
 	
 	self.percentageText:SetText(math.ceil(default + boost).."/"..maximum);
 	self.percentageText:SizeToContents();
@@ -319,8 +319,8 @@ function PANEL:SetPercentageText(maximum, default, boost)
 		self.percentageText.x = 8;
 	end;
 	
-	local hinderColor = Clockwork.option:GetColor("attribute_hinder_color");
-	local boostColor = Clockwork.option:GetColor("attribute_boost_color");
+	--local hinderColor = Clockwork.option:GetColor("attribute_hinder_color");
+	--local boostColor = Clockwork.option:GetColor("attribute_boost_color");
 	
 	if (boost == 0) then
 		self.boostText:SetVisible(false);
