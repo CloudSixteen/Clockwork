@@ -20,7 +20,7 @@ COMMAND.optionalArguments = 1;
 function COMMAND:OnRun(player, arguments)
 	local newMap = string.lower(arguments[1]);
 
-	if (file.Exists("maps/"..newMap..".bsp", "GAME")) then
+	if (file.Exists("maps/" .. newMap .. ".bsp", "GAME")) then
 		local delay = tonumber(arguments[2]) or 5;
 		
 		Clockwork.player:NotifyAll({"PlayerChangingMapIn", player:Name(), newMap, delay});
