@@ -17,8 +17,6 @@ local RunConsoleCommand = RunConsoleCommand;
 local DrawColorModify = DrawColorModify;
 local DeriveGamemode = DeriveGamemode;
 local DrawMotionBlur = DrawMotionBlur;
-local FindMetaTable = FindMetaTable;
-local ErrorNoHalt = ErrorNoHalt;
 local CreateSound = CreateSound;
 local FrameTime = FrameTime;
 local tonumber = tonumber;
@@ -134,9 +132,9 @@ function AddWorldTip(entIndex, text, dieTime, position, entity)
 	end;
 end;
 
-timer.Destroy("HintSystem_OpeningMenu");
-timer.Destroy("HintSystem_Annoy1");
-timer.Destroy("HintSystem_Annoy2");
+timer.Remove("HintSystem_OpeningMenu");
+timer.Remove("HintSystem_Annoy1");
+timer.Remove("HintSystem_Annoy2");
 
 cwDatastream:Hook("RunCommand", function(data)
 	RunConsoleCommand(unpack(data));
@@ -254,7 +252,7 @@ cwDatastream:Hook("QuizCompleted", function(data)
 			cwQuiz.panel:MakePopup();
 		end;
 	else
-		local characterPanel = cwCharacter:GetPanel();
+		--local characterPanel = cwCharacter:GetPanel();
 		local quizPanel = cwQuiz:GetPanel();
 		
 		cwQuiz:SetCompleted(true);
@@ -1117,7 +1115,7 @@ function Clockwork:CreateMove(userCmd)
 	end
 end;
 
-local LAST_RAISED_TARGET = 0;
+--local LAST_RAISED_TARGET = 0;
 
 --[[
 	@codebase Client
@@ -1133,7 +1131,7 @@ function Clockwork:CalcView(player, origin, angles, fov)
 
 	if (cwClient:IsRagdolled()) then
 		local ragdollEntity = cwClient:GetRagdollEntity();
-		local ragdollState = cwClient:GetRagdollState();
+		--local ragdollState = cwClient:GetRagdollState();
 		
 		if (self.BlackFadeIn == 255) then
 			return {origin = Vector(20000, 0, 0), angles = Angle(0, 0, 0), fov = fov};
@@ -1165,7 +1163,7 @@ function Clockwork:CalcView(player, origin, angles, fov)
 			
 			if (!cwPly:IsNoClipping(player)) then
 				local approachTime = frameTime * 2;
-				local curTime = UnPredictedCurTime();
+				--local curTime = UnPredictedCurTime();
 				local info = {speed = 1, yaw = 0.5, roll = 0.1};
 				
 				if (!self.HeadbobAngle) then

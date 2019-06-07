@@ -11,7 +11,7 @@ local pairs = pairs;
 local table = table;
 
 Clockwork.bars = Clockwork.kernel:NewLibrary("Bars");
-Clockwork.bars.x = 0; 
+Clockwork.bars.x = 0;
 Clockwork.bars.y = 0;
 Clockwork.bars.width = 0;
 Clockwork.bars.height = 12;

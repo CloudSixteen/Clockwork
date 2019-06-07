@@ -9,7 +9,6 @@
 local Clockwork = Clockwork;
 local IsValid = IsValid;
 local Color = Color;
-local type = type;
 local table = table;
 local gui = gui;
 local vgui = vgui;
@@ -33,7 +32,7 @@ Clockwork.character.creationPanels = Clockwork.character.creationPanels or {};
 	@param {String} The name of the VGUI panel to use.
 	@param {Function} A callback to get the visibility of the process. Return false to hide.
 --]]
-function Clockwork.character:RegisterCreationPanel(friendlyName, vguiName, index, Condition)	
+function Clockwork.character:RegisterCreationPanel(friendlyName, vguiName, index, Condition)
 	if (index) then
 		for k, v in pairs(Clockwork.character.creationPanels) do
 			if (v.index >= index) then
