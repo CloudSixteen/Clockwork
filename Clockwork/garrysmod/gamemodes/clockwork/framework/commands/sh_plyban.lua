@@ -19,7 +19,7 @@ COMMAND.optionalArguments = 1;
 
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)
-	local schemaFolder = Clockwork.kernel:GetSchemaFolder();
+	--local schemaFolder = Clockwork.kernel:GetSchemaFolder();
 	local duration = tonumber(arguments[2]);
 	local reason = table.concat(arguments, " ", 3);
 	
