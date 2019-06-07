@@ -35,12 +35,11 @@ function PANEL:Rebuild()
 	local itemsList = {};
 	
 	for k, v in pairs(Clockwork.item:GetAll()) do
-		if (v:CanBeOrdered() and Clockwork.kernel:HasObjectAccess(Clockwork.Client, v)) then
-			if (Clockwork.plugin:Call("PlayerCanSeeBusinessItem", v)) then
-				local itemCategory = v("category");
-				itemsList[itemCategory] = itemsList[itemCategory] or {};
-				itemsList[itemCategory][#itemsList[itemCategory] + 1] = v;
-			end;
+		if (v:CanBeOrdered() and Clockwork.kernel:HasObjectAccess(Clockwork.Client, v))
+				and Clockwork.plugin:Call("PlayerCanSeeBusinessItem", v) then
+			local itemCategory = v("category");
+			itemsList[itemCategory] = itemsList[itemCategory] or {};
+			itemsList[itemCategory][#itemsList[itemCategory] + 1] = v;
 		end;
 	end;
 	
