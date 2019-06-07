@@ -17,7 +17,7 @@ COMMAND.arguments = 2;
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)
 	local target = Clockwork.player:FindByID(arguments[1])
-	local cash = math.floor(tonumber((arguments[2] or 0)));
+	local cash = math.floor(tonumber(arguments[2] or 0));
 	
 	if (target) then
 		if (cash and cash >= 1) then
