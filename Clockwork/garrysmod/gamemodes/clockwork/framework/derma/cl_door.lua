@@ -30,15 +30,15 @@ function PANEL:Init()
 	end;
 	
 	self.settingsPanel = vgui.Create("cwPanelList");
- 	self.settingsPanel:SetPadding(4);
- 	self.settingsPanel:SetSpacing(4);
- 	self.settingsPanel:SizeToContents();
+	self.settingsPanel:SetPadding(4);
+	self.settingsPanel:SetSpacing(4);
+	self.settingsPanel:SizeToContents();
 	self.settingsPanel:EnableVerticalScrollbar();
 	
 	self.playersPanel = vgui.Create("cwPanelList");
- 	self.playersPanel:SetPadding(4);
- 	self.playersPanel:SetSpacing(4);
- 	self.playersPanel:SizeToContents();
+	self.playersPanel:SetPadding(4);
+	self.playersPanel:SetSpacing(4);
+	self.playersPanel:SizeToContents();
 	self.playersPanel:EnableVerticalScrollbar();
 	
 	self.settingsForm = vgui.Create("DForm");
@@ -108,7 +108,7 @@ function PANEL:Init()
 		
 		if (!Clockwork.door:IsUnsellable()) then
 			local doorCost = Clockwork.config:Get("door_cost"):Get();
-			local doorText = "Sell";
+			--local doorText = "Sell";
 			local button = nil;
 			
 			if (doorCost > 0) then
@@ -162,29 +162,29 @@ function PANEL:Rebuild()
 	local door = Clockwork.door:GetEntity();
 	
 	for k, v in pairs(cwPlayer.GetAll()) do
-		if (v:HasInitialized()) then
-			if (Clockwork.Client != v and owner != v) then
-				local access = accessList[v] or false;
+		if v:HasInitialized() and (Clockwork.Client != v and owner != v) then
+			
+			local access = accessList[v] or false;
 				
-				if (Clockwork.plugin:Call("PlayerShouldShowOnDoorAccessList", v, door, owner)) then
-					local name = Clockwork.plugin:Call("GetPlayerDoorAccessName", v, door, owner);
-					local index;
-					
-					if (access == DOOR_ACCESS_COMPLETE) then
-						index = 1;
-					elseif (access == DOOR_ACCESS_BASIC) then
-						index = 2;
-					else
-						index = 3;
-					end;
-					
-					if (!categories[index]) then
-						categories[index] = {};
-					end;
-					
-					categories[index][#categories[index] + 1] = {v, name};
+			if (Clockwork.plugin:Call("PlayerShouldShowOnDoorAccessList", v, door, owner)) then
+				local name = Clockwork.plugin:Call("GetPlayerDoorAccessName", v, door, owner);
+				local index;
+				
+				if (access == DOOR_ACCESS_COMPLETE) then
+					index = 1;
+				elseif (access == DOOR_ACCESS_BASIC) then
+					index = 2;
+				else
+					index = 3;
 				end;
+				
+				if (!categories[index]) then
+					categories[index] = {};
+				end;
+				
+				categories[index][#categories[index] + 1] = {v, name};
 			end;
+			
 		end;
 	end;
 	
@@ -299,7 +299,7 @@ Clockwork.datastream:Hook("PurchaseDoor", function(data)
 	local doorCost = Clockwork.config:Get("door_cost"):Get();
 	
 	if (doorCost > 0) then
-		Derma_Query("Do you want to purchase this door for "..Clockwork.kernel:FormatCash(Clockwork.config:Get("door_cost"):Get(), nil, true).."?", "Purchase this door.", "Yes", function()
+		Derma_Query("Do you want to purchase this door for " .. Clockwork.kernel:FormatCash(Clockwork.config:Get("door_cost"):Get(), nil, true) .. "?", "Purchase this door.", "Yes", function()
 			Clockwork.datastream:Start("DoorManagement", {data, "Purchase"});
 			
 			gui.EnableScreenClicker(false);

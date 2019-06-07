@@ -21,12 +21,12 @@ function PANEL:Init()
 	self:SetSize(Clockwork.menu:GetWidth(), Clockwork.menu:GetHeight());
 	
 	self.inventoryList = vgui.Create("cwPanelList", self);
- 	self.inventoryList:SetPadding(8);
- 	self.inventoryList:SetSpacing(8);
+	self.inventoryList:SetPadding(8);
+	self.inventoryList:SetSpacing(8);
 	
 	self.equipmentList = vgui.Create("cwPanelList", self);
- 	self.equipmentList:SetPadding(8);
- 	self.equipmentList:SetSpacing(8);
+	self.equipmentList:SetPadding(8);
+	self.equipmentList:SetSpacing(8);
 	
 	self.columnSheet = vgui.Create("cwColumnSheet", self);
 	self.columnSheet.Navigation:SetWidth(150);
@@ -289,10 +289,8 @@ function PANEL:Init()
 	local customData = self:GetParent().customData or {};
 	local toolTip = "";
 	
-	if (customData.information) then
-		if (type(customData.information) == "number") then
-			customData.information = customData.information.."kg";
-		end;
+	if customData.information and (type(customData.information) == "number") then
+		customData.information = customData.information .. "kg";
 	end;
 	
 	if (customData.description) then
@@ -324,7 +322,7 @@ function PANEL:Init()
 	end;
 	
 	self.spawnIcon:SetModel(customData.model, customData.skin);
-	self.spawnIcon:SetToolTip(toolTip);
+	self.spawnIcon:SetTooltip(toolTip);
 	self.spawnIcon:SetSize(32, 32);
 end;
 
@@ -389,7 +387,7 @@ local PANEL = {};
 
 -- Called when the panel is initialized.
 function PANEL:Init()
-	local maximumWeight = Clockwork.player:GetMaxWeight();
+	--local maximumWeight = Clockwork.player:GetMaxWeight();
 	local colorWhite = Clockwork.option:GetColor("white");
 	
 	self.spaceUsed = vgui.Create("DPanel", self);
@@ -410,7 +408,7 @@ function PANEL:Init()
 		
 		local color = Color(100, 100, 100, 255);
 		local width = math.Clamp((spaceUsed:GetWide() / maximumWeight) * inventoryWeight, 0, spaceUsed:GetWide());
-		local red = math.Clamp((255 / maximumWeight) * inventoryWeight, 0, 255) ;
+		--local red = math.Clamp((255 / maximumWeight) * inventoryWeight, 0, 255) ;
 		
 		if (color) then
 			color.r = math.min(color.r - 25, 255);
@@ -430,7 +428,7 @@ function PANEL:Think()
 	);
 	
 	self.spaceUsed:SetSize(self:GetWide() - 2, self:GetTall() - 2);
-	self.weight:SetText(inventoryWeight.."/"..Clockwork.player:GetMaxWeight().."kg");
+	self.weight:SetText(inventoryWeight .. "/" .. Clockwork.player:GetMaxWeight() .. "kg");
 	self.weight:SetPos(self:GetWide() / 2 - self.weight:GetWide() / 2, self:GetTall() / 2 - self.weight:GetTall() / 2);
 	self.weight:SizeToContents();
 end;
@@ -441,7 +439,7 @@ local PANEL = {};
 
 -- Called when the panel is initialized.
 function PANEL:Init()
-	local maximumSpace = Clockwork.player:GetMaxSpace();
+	--local maximumSpace = Clockwork.player:GetMaxSpace();
 	local colorWhite = Clockwork.option:GetColor("white");
 	
 	self.spaceUsed = vgui.Create("DPanel", self);
@@ -462,7 +460,7 @@ function PANEL:Init()
 		
 		local color = Color(100, 100, 100, 255);
 		local width = math.Clamp((spaceUsed:GetWide() / maximumSpace) * inventorySpace, 0, spaceUsed:GetWide());
-		local red = math.Clamp((255 / maximumSpace) * inventorySpace, 0, 255) ;
+		--local red = math.Clamp((255 / maximumSpace) * inventorySpace, 0, 255) ;
 		
 		if (color) then
 			color.r = math.min(color.r - 25, 255);
@@ -492,7 +490,7 @@ function PANEL:Think()
 	);
 	
 	self.spaceUsed:SetSize(self:GetWide() - 2, self:GetTall() - 2);
-	self.space:SetText(inventorySpace.."/"..Clockwork.player:GetMaxSpace().."l");
+	self.space:SetText(inventorySpace .. "/" .. Clockwork.player:GetMaxSpace() .. "l");
 	self.space:SetPos(self:GetWide() / 2 - self.space:GetWide() / 2, self:GetTall() / 2 - self.space:GetTall() / 2);
 	self.space:SizeToContents();
 end;

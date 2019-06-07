@@ -70,7 +70,7 @@ function PANEL:Paint(w, h)
 			surface.SetDrawColor(255, 255, 255, 50);
 			surface.DrawRect(x, y, width, height);
 		end;
-	end	
+	end
 	
 	return true;
 end;
@@ -133,12 +133,14 @@ end;
 
 -- Called when the mouse is released on the panel.
 function PANEL:OnMouseReleased(mouseCode)
-	if (self:IsButton() and self:IsDepressed()
-	and self:IsHovered()) then
-		if (self.DoClick) then
+	if (self:IsButton()
+		and self:IsDepressed()
+		and self:IsHovered())
+		and self.DoClick then
+		
 			Clockwork.option:PlaySound("click");
 			self:DoClick();
-		end;
+		
 	end;
 	
 	self:SetDepressed(false);

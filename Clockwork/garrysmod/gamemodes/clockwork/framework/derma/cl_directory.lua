@@ -197,7 +197,7 @@ function PANEL:Rebuild()
 				local tip = Clockwork.directory:GetCategoryTip(v.category);
 				
 				if (tip) then
-					nodeTable[v.category]:SetToolTip(L(tip));
+					nodeTable[v.category]:SetTooltip(L(tip));
 				end;
 				
 				nodeTable[v.category].Initialized = true;

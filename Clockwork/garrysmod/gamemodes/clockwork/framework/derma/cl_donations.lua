@@ -24,9 +24,9 @@ function PANEL:Init()
 	self:ShowCloseButton(false);
 	
 	self.panelList = vgui.Create("cwPanelList", self);
- 	self.panelList:SetPadding(4);
- 	self.panelList:SetSpacing(4);
- 	self.panelList:StretchToParent(4, 4, 4, 4);
+	self.panelList:SetPadding(4);
+	self.panelList:SetSpacing(4);
+	self.panelList:StretchToParent(4, 4, 4, 4);
 	
 	self:Rebuild();
 end;
@@ -152,16 +152,16 @@ function PANEL:Think()
 		local unixTime = os.clock();
 		
 		if (expireTime == 0) then
-			self.donationImage:SetToolTip("This subscription will never expire.");
+			self.donationImage:SetTooltip("This subscription will never expire.");
 		elseif (unixTime > expireTime) then
-			self.donationImage:SetToolTip("This subscription has expired!");
+			self.donationImage:SetTooltip("This subscription has expired!");
 			
 			if (!self.hasExpired) then
 				self.donationImage:SetImage("clockwork/donations/expired.png");
 				self.hasExpired = true;
 			end;
 		else
-			self.donationImage:SetToolTip("This donation will expire in "..math.ceil(expireTime - unixTime).." second(s).");
+			self.donationImage:SetTooltip("This donation will expire in "..math.ceil(expireTime - unixTime) .. " second(s).");
 		end;
 	end;
 	

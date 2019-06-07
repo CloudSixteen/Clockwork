@@ -28,7 +28,7 @@ end;
 function PANEL:Paint()
 	self.OverlayFade = math.Clamp((self.OverlayFade or 0) - RealFrameTime() * 640 * 2, 0, 255);
 
-	if (dragndrop.IsDragging() || !self:IsHovered()) then
+	if (dragndrop.IsDragging() or !self:IsHovered()) then
 		return;
 	end;
 
