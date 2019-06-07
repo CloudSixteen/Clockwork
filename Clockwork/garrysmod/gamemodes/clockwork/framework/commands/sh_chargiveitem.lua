@@ -28,8 +28,8 @@ function COMMAND:OnRun(player, arguments)
 		
 			if (itemTable and !itemTable.isBaseItem) then
 				for i = 1, amount do
-					local itemTable = Clockwork.item:CreateInstance(itemTable("uniqueID"));
-					local wasSuccess, fault = target:GiveItem(itemTable, true);
+					local _itemTable = Clockwork.item:CreateInstance(itemTable("uniqueID"));
+					local wasSuccess, fault = target:GiveItem(_itemTable, true);
 			
 					if (!wasSuccess) then
 						Clockwork.player:Notify(player, fault);
