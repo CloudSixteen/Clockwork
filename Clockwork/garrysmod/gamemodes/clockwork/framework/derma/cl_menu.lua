@@ -16,12 +16,12 @@ local table = table;
 local vgui = vgui;
 local math = math;
 
-local GRADIENT = surface.GetTextureID("gui/gradient");
+--local GRADIENT = surface.GetTextureID("gui/gradient");
 local PANEL = {};
 
 -- Called when the panel is initialized.
 function PANEL:Init()
-	if (!Clockwork.theme:Call("PreMainMenuInit", self)) then	
+	if (!Clockwork.theme:Call("PreMainMenuInit", self)) then
 		self:SetSize(scrW, scrH);
 		self:SetDrawOnTop(false);
 		self:SetPaintBackground(false);
@@ -71,7 +71,7 @@ function PANEL:Rebuild(change)
 		self.tabX = GetConVarNumber("cwTabPosX") or 0;
 		self.tabY = GetConVarNumber("cwTabPosY") or 0;
 		
-		local activePanel = Clockwork.menu:GetActivePanel();		
+		local activePanel = Clockwork.menu:GetActivePanel();
 		local smallTextFont = Clockwork.option:GetFont("menu_text_small");
 		local scrW = ScrW();
 		local scrH = ScrH();
@@ -87,7 +87,7 @@ function PANEL:Rebuild(change)
 		self.closeMenu:SetCallback(function(button)
 			self:SetOpen(false);
 		end);
-		self.closeMenu:SetToolTip(L("TabMenuCloseDesc"));
+		self.closeMenu:SetTooltip(L("TabMenuCloseDesc"));
 		self.closeMenu:SizeToContents();
 		self.closeMenu:SetMouseInputEnabled(true);
 		self.closeMenu:SetPos(self.tabX, self.tabY);
@@ -99,27 +99,27 @@ function PANEL:Rebuild(change)
 			self:SetOpen(false);
 			Clockwork.character:SetPanelOpen(true);
 		end);
-		self.characterMenu:SetToolTip(L("TabMenuCharactersDesc"));
+		self.characterMenu:SetTooltip(L("TabMenuCharactersDesc"));
 		self.characterMenu:SizeToContents();
 		self.characterMenu:SetMouseInputEnabled(true);
-		self.characterMenu:SetPos(self.closeMenu.x, self.closeMenu.y + self.closeMenu:GetTall() + 8);	
+		self.characterMenu:SetPos(self.closeMenu.x, self.closeMenu.y + self.closeMenu:GetTall() + 8);
 		
 		if (change) then
-			self:SetPos(self.tabX, self.tabY);		
+			self:SetPos(self.tabX, self.tabY);
 		elseif (IsValid(self.activePanel)) then
-			local width = self.activePanel:GetWide();			
+			local width = self.activePanel:GetWide();
 
 			self:SetPos(-400, self.tabY);
-			self:MoveTo(ScrW() - width - self.tabX - self.closeMenu:GetWide()*1.50, self.tabY, 0.4, 0, 4);
-		else			
+			self:MoveTo(ScrW() - width - self.tabX - self.closeMenu:GetWide() * 1.50, self.tabY, 0.4, 0, 4);
+		else
 			self:SetPos(-400, self.tabY);
 			self:MoveTo(self.tabX, self.tabY, 0.4, 0, 4);
 		end;
 	
-		local isVisible = false;
+		--local isVisible = false;
 		local width = self.characterMenu:GetWide();
-		local scrH = ScrH();
-		local scrW = ScrW();
+		--local scrH = ScrH(); -- already used above
+		--local scrW = ScrW();
 		local oy = self.characterMenu.y + (self.characterMenu:GetTall() * 3);
 		local ox = self.closeMenu.x;
 		local y = oy;
@@ -137,7 +137,7 @@ function PANEL:Rebuild(change)
 		Clockwork.plugin:Call("MenuItemsDestroy", Clockwork.MenuItems);
 		
 		table.sort(Clockwork.MenuItems.stored, function(a, b)
-			return (a.text < b.text);
+			return a.text < b.text;
 		end);
 		
 		for k, v in pairs(Clockwork.MenuItems.stored) do
@@ -178,16 +178,14 @@ function PANEL:Rebuild(change)
 		end;
 		
 		for k, v in pairs(Clockwork.menu:GetItems()) do
-			if (activePanel == v.panel) then
-				if (!IsValid(v.button)) then
-					if (CW_CONVAR_FADEPANEL:GetInt() == 1) then
-						self:FadeOut(0.5, activePanel, function()
-							self.activePanel = nil;
-						end);
-					else
-						self.activePanel:SetVisible(false);
+			if (activePanel == v.panel) and !IsValid(v.button) then
+				if (CW_CONVAR_FADEPANEL:GetInt() == 1) then
+					self:FadeOut(0.5, activePanel, function()
 						self.activePanel = nil;
-					end;
+					end);
+				else
+					self.activePanel:SetVisible(false);
+					self.activePanel = nil;
 				end;
 			end;
 		end;
@@ -199,13 +197,13 @@ end;
 -- A function to open a panel.
 function PANEL:OpenPanel(panelToOpen)
 	if (!Clockwork.theme:Call("PreMainMenuOpenPanel", self, panelToOpen)) then
-		local height = Clockwork.menu:GetHeight();
+		--local height = Clockwork.menu:GetHeight();
 		local width = Clockwork.menu:GetWidth();
 		local scrW = ScrW();
 		local scrH = ScrH();
 		
 		if (IsValid(self.activePanel)) then
-			if (CW_CONVAR_FADEPANEL:GetInt() == 1) then		
+			if (CW_CONVAR_FADEPANEL:GetInt() == 1) then
 				self:FadeOut(0.5, self.activePanel, function()
 					self.activePanel = nil;
 					self:OpenPanel(panelToOpen);
@@ -226,7 +224,7 @@ function PANEL:OpenPanel(panelToOpen)
 		self.activePanel = panelToOpen;
 		self.activePanel:SetSize(width, self.activePanel:GetTall());
 		self.activePanel:MakePopup();
-		self.activePanel:SetPos(ScrW() + 400, scrH * 0.1); 
+		self.activePanel:SetPos(ScrW() + 400, scrH * 0.1);
 		
 		self.activePanel.GetPanelName = function(panel)
 			return panel.Name;
@@ -237,14 +235,12 @@ function PANEL:OpenPanel(panelToOpen)
 			self.activePanel:SetAlpha(0);
 			self:FadeIn(0.5, self.activePanel, function()
 				timer.Simple(FrameTime() * 0.5, function()
-					if (IsValid(self.activePanel)) then
-						if (self.activePanel.OnSelected) then
-							self.activePanel:OnSelected();
-						end;
+					if IsValid(self.activePanel) and self.activePanel.OnSelected then
+						self.activePanel:OnSelected();
 					end;
 				end);
 			end);
-		else		
+		else
 			self.activePanel:SetAlpha(255);
 			self.activePanel:SetVisible(true);
 			self.activePanel:MoveTo(scrW - width - (scrW * 0.04), scrH * 0.1, 0.4, 0, 4);
@@ -285,7 +281,7 @@ function PANEL:Paint(w, h)
 	
 	local x, y = self.tabX - GetConVarNumber("cwBackX"), self.tabY - GetConVarNumber("cwBackY");
 	local w, h = GetConVarNumber("cwBackW"), GetConVarNumber("cwBackH");
-	local scrW, scrH = ScrW(), ScrH();
+	--local scrW, scrH = ScrW(), ScrH();
 	
 	if (CW_CONVAR_SHOWGRADIENT:GetInt() == 1) then
 		Clockwork.kernel:DrawSimpleGradientBox(
