@@ -71,7 +71,7 @@ function PANEL:Rebuild()
 		self.panelList:AddItem(label);
 		
 		for k, v in pairs(classes) do
-			if (Clockwork.kernel:HasObjectAccess(Clockwork.Client, v)) and (Clockwork.plugin:Call("PlayerCanSeeClass", v)) then
+			if (Clockwork.kernel:HasObjectAccess(Clockwork.Client, v)) and Clockwork.plugin:Call("PlayerCanSeeClass", v) then
 				self.classTable = Clockwork.class.stored[v.name];
 				self.panelList:AddItem(vgui.Create("cwClassesItem", self));
 			end;
@@ -167,11 +167,11 @@ function PANEL:Init()
 	if (!self.classTable.image) then
 		self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("cwSpawnIcon", self));
 		self.spawnIcon:SetModel(info.model, info.skin);
-		self.spawnIcon:SetToolTip(self.classTable.description);
+		self.spawnIcon:SetTooltip(self.classTable.description);
 		self.spawnIcon:SetSize(32, 32);
 	else
 		self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
-		self.spawnIcon:SetToolTip(self.classTable.description);
+		self.spawnIcon:SetTooltip(self.classTable.description);
 		self.spawnIcon:SetImage(self.classTable.image .. ".png");
 		self.spawnIcon:SetSize(32, 32);
 	end;
