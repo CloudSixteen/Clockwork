@@ -25,8 +25,8 @@ function COMMAND:OnRun(player, arguments)
 			return;
 		end;
 			
-		if (cash and cash > 1 and Clockwork.player:CanAfford(player, cash)) then
-			if (!storageTable.CanGiveCash
+		if (cash and cash > 1 and Clockwork.player:CanAfford(player, cash)) and
+			(!storageTable.CanGiveCash
 			or (storageTable.CanGiveCash(player, storageTable, cash) != false)) then
 				if (!target or !target:IsPlayer()) then
 					local cashWeight = Clockwork.config:Get("cash_weight"):Get();
@@ -49,7 +49,6 @@ function COMMAND:OnRun(player, arguments)
 				and storageTable.OnGiveCash(player, storageTable, cash)) then
 					Clockwork.storage:Close(player);
 				end;
-			end;
 		end;
 	else
 		Clockwork.player:Notify(player, {"YouHaveNoStorageOpen"});
