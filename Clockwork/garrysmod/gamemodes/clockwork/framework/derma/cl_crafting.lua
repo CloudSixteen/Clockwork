@@ -10,7 +10,7 @@ local Clockwork = Clockwork;
 local pairs = pairs;
 local table = table;
 local vgui = vgui;
-local math = math;
+
 
 local PANEL = {};
 
@@ -19,9 +19,9 @@ function PANEL:Init()
 	self:SetSize(Clockwork.menu:GetWidth(), Clockwork.menu:GetHeight());
 	
 	self.panelList = vgui.Create("cwPanelList", self);
- 	self.panelList:SetPadding(4);
- 	self.panelList:SetSpacing(2);
- 	self.panelList:SizeToContents();
+	self.panelList:SetPadding(4);
+	self.panelList:SetSpacing(2);
+	self.panelList:SizeToContents();
 	self.panelList:EnableVerticalScrollbar();
 	
 	self:Rebuild();
@@ -153,7 +153,7 @@ function PANEL:Init()
 	local model, skin = Clockwork.crafting:GetIconInfo(self.blueprintTable);
 	
 	self.spawnIcon:SetModel(model, skin);
-	self.spawnIcon:SetToolTip("");
+	self.spawnIcon:SetTooltip("");
 	self.spawnIcon:SetSize(56, 56);
 end;
 

@@ -8,7 +8,6 @@
 
 local Clockwork = Clockwork;
 local Color = Color;
-local derma = derma;
 local vgui = vgui;
 
 local PANEL = {};
@@ -71,7 +70,7 @@ function PANEL:SetActiveButton(active)
 		return;
 	end;
 	
-	if (self.ActiveButton && self.ActiveButton.Target) then	
+	if (self.ActiveButton && self.ActiveButton.Target) then
 		self.ActiveButton.Target:SetVisible(false)
 		self.ActiveButton:SetSelected(false)
 		self.ActiveButton:SetColor(Clockwork.option:GetColor("columnsheet_text_normal"));
