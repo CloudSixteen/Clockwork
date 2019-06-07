@@ -77,7 +77,7 @@ function ENT:OnTakeDamage(damageInfo)
 			self:SetHealth(math.max(self:Health() - damageInfo:GetDamage(), 0));
 			
 			if (self:Health() <= 0) then
-				if (IsValid(attacker) and attacker:IsPlayer())then
+				if (IsValid(attacker) and attacker:IsPlayer()) then
 					Clockwork.plugin:Call("PlayerDestroyGenerator", attacker, self, generator);
 				end;
 				

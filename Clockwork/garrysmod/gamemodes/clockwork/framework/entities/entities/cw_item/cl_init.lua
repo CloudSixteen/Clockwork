@@ -32,11 +32,11 @@ function ENT:HUDPaintTargetID(x, y, alpha)
 				end;
 			end;
 			
-			y = Clockwork.kernel:DrawInfo(itemTable("weightText", itemTable("weight").."kg"), x, y, colorWhite, alpha);
+			y = Clockwork.kernel:DrawInfo(itemTable("weightText", itemTable("weight") .. "kg"), x, y, colorWhite, alpha);
 			
 			local spaceUsed = itemTable("space");
 			if (Clockwork.inventory:UseSpaceSystem() and spaceUsed > 0) then
-				y = Clockwork.kernel:DrawInfo(itemTable("spaceText", spaceUsed.."l"), x, y, colorWhite, alpha);
+				y = Clockwork.kernel:DrawInfo(itemTable("spaceText", spaceUsed .. "l"), x, y, colorWhite, alpha);
 			end
 		end;
 	end;

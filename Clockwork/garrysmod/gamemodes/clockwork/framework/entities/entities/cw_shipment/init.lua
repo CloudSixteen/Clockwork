@@ -70,7 +70,7 @@ function ENT:Explode(scale)
 		effectData:SetScale(8);
 	util.Effect("GlassImpact", effectData, true, true);
 
-	self:EmitSound("physics/body/body_medium_impact_soft"..math.random(1, 7)..".wav");
+	self:EmitSound("physics/body/body_medium_impact_soft"..math.random(1, 7) .. ".wav");
 end;
 
 -- Called when the entity takes damage.

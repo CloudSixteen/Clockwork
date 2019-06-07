@@ -42,7 +42,7 @@ SWEP.HoldType 				= "fist";
 
 SWEP.AdminSpawnable 		= false;
 SWEP.Spawnable 				= false;
-  
+
 SWEP.Primary.DefaultClip 	= 0;
 SWEP.Primary.Automatic 		= true;
 SWEP.Primary.ClipSize 		= -1;
@@ -77,7 +77,7 @@ end;
 
 -- Called when the player attempts to primary fire.
 function SWEP:PrimaryAttack()
-	self.Weapon:SetNextPrimaryFire(CurTime() + 1);
+	self:SetNextPrimaryFire(CurTime() + 1);
 	
 	if (SERVER) then
 		local action = Clockwork.player:GetAction(self.Owner);
@@ -91,14 +91,14 @@ function SWEP:PrimaryAttack()
 		local info = Clockwork.plugin:Call("PlayerGetLockInfo", self.Owner, trace.Entity);
 		
 		if (info and Clockwork.plugin:Call("PlayerCanLockEntity", self.Owner, trace.Entity)) then
-			local isNotUnlocking = (action != "unlock");
-			local isNotLocking = (action != "lock");
+			local isNotUnlocking = action != "unlock";
+			local isNotLocking = action != "lock";
 			
 			if (isNotLocking or isNotUnlocking) then
 				Clockwork.player:SetAction(self.Owner, "lock", info.duration);
 				Clockwork.player:EntityConditionTimer(self.Owner, trace.Entity, nil, info.duration, 192,
 					function()
-						return (Clockwork.plugin:Call("PlayerCanLockEntity", self.Owner, trace.Entity)
+						return Clockwork.plugin:Call("PlayerCanLockEntity", self.Owner, trace.Entity
 						and self.Owner:Alive() and !self.Owner:IsRagdolled() and self.Owner:IsUsingKeys());
 					end,
 					function(success)
@@ -120,7 +120,7 @@ end;
 
 -- Called when the player attempts to secondary fire.
 function SWEP:SecondaryAttack()
-	self.Weapon:SetNextSecondaryFire(CurTime() + 1);
+	self:SetNextSecondaryFire(CurTime() + 1);
 	
 	if (SERVER) then
 		local action = Clockwork.player:GetAction(self.Owner);
@@ -134,14 +134,14 @@ function SWEP:SecondaryAttack()
 		local info = Clockwork.plugin:Call("PlayerGetUnlockInfo", self.Owner, trace.Entity);
 		
 		if (info and Clockwork.plugin:Call("PlayerCanUnlockEntity", self.Owner, trace.Entity)) then
-			local isNotUnlocking = (action != "unlock");
-			local isNotLocking = (action != "lock");
+			local isNotUnlocking = action != "unlock";
+			local isNotLocking = action != "lock";
 			
 			if (isNotLocking or isNotUnlocking) then
 				Clockwork.player:SetAction(self.Owner, "unlock", info.duration);
 				Clockwork.player:EntityConditionTimer(self.Owner, trace.Entity, nil, info.duration, 192,
 					function()
-						return (Clockwork.plugin:Call("PlayerCanUnlockEntity", self.Owner, trace.Entity)
+						return Clockwork.plugin:Call("PlayerCanUnlockEntity", self.Owner, trace.Entity
 						and self.Owner:Alive() and !self.Owner:IsRagdolled() and self.Owner:IsUsingKeys());
 					end,
 					function(success)

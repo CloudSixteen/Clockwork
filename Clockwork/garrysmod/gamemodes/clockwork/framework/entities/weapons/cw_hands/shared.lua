@@ -82,12 +82,12 @@ function SWEP:PrimaryAttack()
 		if (Clockwork.plugin:Call("PlayerCanThrowPunch", self.Owner)) then
 			self:PlayPunchAnimation();
 			self.Owner:SetAnimation(PLAYER_ATTACK1);
-			self.Weapon:SetNextPrimaryFire(CurTime() + 0.5)
-			self.Weapon:SetNextSecondaryFire(CurTime() + 0.7)
+			self:SetNextPrimaryFire(CurTime() + 0.5)
+			self:SetNextSecondaryFire(CurTime() + 0.7)
 			
 			timer.Simple(0.1, function()
-				self.Weapon:EmitSound(self.SwingSound);
-			end);	
+				self:EmitSound(self.SwingSound);
+			end);
 			
 			local trace = self.Owner:GetEyeTraceNoCursor();
 			
@@ -133,8 +133,8 @@ function SWEP:PrimaryAttack()
 			
 			Clockwork.plugin:Call("PlayerAdjustNextPunchInfo", self.Owner, info);
 			
-			self.Weapon:SetNextPrimaryFire(CurTime() + info.primaryFire);
-			self.Weapon:SetNextSecondaryFire(CurTime() + info.secondaryFire);
+			self:SetNextPrimaryFire(CurTime() + info.primaryFire);
+			self:SetNextSecondaryFire(CurTime() + info.secondaryFire);
 			
 			self.Owner:ViewPunch(Angle(
 				math.Rand(-16, 16), math.Rand(-8, 8), 0
@@ -143,31 +143,29 @@ function SWEP:PrimaryAttack()
 	end;
 end;
 
-function SWEP:SecondaryAttack() 
+function SWEP:SecondaryAttack()
 	if (SERVER) then
 		local trace = self.Owner:GetEyeTraceNoCursor();
 		
-		if (IsValid(trace.Entity) and Clockwork.entity:IsDoor(trace.Entity)) then
-			if (self.Owner:GetShootPos():Distance(trace.HitPos) <= 64) then
-				if (Clockwork.plugin:Call("PlayerCanKnockOnDoor", self.Owner, trace.Entity)) then
-					self:PlayKnockSound();
+		if (IsValid(trace.Entity) and Clockwork.entity:IsDoor(trace.Entity))
+			and (self.Owner:GetShootPos():Distance(trace.HitPos) <= 64)
+			and Clockwork.plugin:Call("PlayerCanKnockOnDoor", self.Owner, trace.Entity) then
+			self:PlayKnockSound();
 					
-					self.Weapon:SetNextPrimaryFire(CurTime() + 0.25);
-					self.Weapon:SetNextSecondaryFire(CurTime() + 0.25);
+			self:SetNextPrimaryFire(CurTime() + 0.25);
+			self:SetNextSecondaryFire(CurTime() + 0.25);
 					
-					Clockwork.plugin:Call("PlayerKnockOnDoor", self.Owner, trace.Entity);
-				end;
-			end;
+			Clockwork.plugin:Call("PlayerKnockOnDoor", self.Owner, trace.Entity);
 		end;
 	end;
 end;
 
 function SWEP:PlayKnockSound()
 	if (SERVER) then
-		self.Weapon:CallOnClient("PlayKnockSound", "");
+		self:CallOnClient("PlayKnockSound", "");
 	end;
 	
-	self.Weapon:EmitSound("physics/wood/wood_crate_impact_hard2.wav");
+	self:EmitSound("physics/wood/wood_crate_impact_hard2.wav");
 end;
 
 function SWEP:Reload()
@@ -188,19 +186,19 @@ function SWEP:OnDrop()
 	self:Remove();
 end;
 
-function SWEP:SetupDataTables()  
-	self:NetworkVar("Float", 0, "NextMeleeAttack") 
- 	self:NetworkVar("Float", 1, "NextIdle")
+function SWEP:SetupDataTables()
+	self:NetworkVar("Float", 0, "NextMeleeAttack")
+	self:NetworkVar("Float", 1, "NextIdle")
 end;
 
 function SWEP:UpdateNextIdle() 
- 	local vm = self.Owner:GetViewModel();
+	local vm = self.Owner:GetViewModel();
 
- 	self:SetNextIdle(CurTime() + vm:SequenceDuration());
+	self:SetNextIdle(CurTime() + vm:SequenceDuration());
 end;
 
 function SWEP:PunchEntity()
-	local bounds = Vector(0, 0, 0);
+	--local bounds = Vector(0, 0, 0);
 	local startPosition = self.Owner:GetShootPos();
 	local finishPosition = startPosition + (self.Owner:GetAimVector() * 64);
 	local traceLineAttack = util.TraceLine({
@@ -209,10 +207,10 @@ function SWEP:PunchEntity()
 		filter = self.Owner
 	});
 
-	timer.Simple(0.32, function ()self.Weapon:EmitSound(self.WallSound); end);
+	timer.Simple(0.32, function () self:EmitSound(self.WallSound); end);
 	
 	if (SERVER) then
-		self.Weapon:CallOnClient("PunchEntity", "");
+		self:CallOnClient("PunchEntity", "");
 		
 		if (IsValid(traceLineAttack.Entity)) then
 			traceLineAttack.Entity:TakeDamageInfo(
@@ -224,10 +222,10 @@ end;
 
 function SWEP:PlayPunchAnimation()
 	if (SERVER) then
-		self.Weapon:CallOnClient("PlayPunchAnimation", "");
+		self:CallOnClient("PlayPunchAnimation", "");
 	end;
 
- 	if (self.left == nil) then
+	if (self.left == nil) then
 		self.left = true;
 	else
 		self.left = !self.left;
@@ -235,14 +233,14 @@ function SWEP:PlayPunchAnimation()
 
 	local anim = "fists_right";
 	local ownerAnim = PLAYER_ATTACK1;
- 
- 	if (self.left) then
+
+	if (self.left) then
 		anim = "fists_left";
 	end;
- 
- 	local vm = self.Owner:GetViewModel();
 
- 	self.Owner:SetAnimation(ownerAnim);
+	local vm = self.Owner:GetViewModel();
+
+	self.Owner:SetAnimation(ownerAnim);
 	
- 	vm:SendViewModelMatchingSequence(vm:LookupSequence(anim));
+	vm:SendViewModelMatchingSequence(vm:LookupSequence(anim));
 end;
