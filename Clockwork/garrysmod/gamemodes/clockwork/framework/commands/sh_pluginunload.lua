@@ -36,11 +36,8 @@ function COMMAND:OnRun(player, arguments)
 			Clockwork.player:NotifyAll({"PlayerUnloadedPlugin", player:Name(), plugin.name});
 			
 			for k, v in pairs(cwPlayer.GetAll()) do
-				if (v:HasInitialized()) then
-					if (Clockwork.player:HasFlags(v, loadTable.access)
-					or Clockwork.player:HasFlags(v, unloadTable.access)) then
-						recipients[#recipients + 1] = v;
-					end;
+				if v:HasInitialized() and (Clockwork.player:HasFlags(v, loadTable.access) or Clockwork.player:HasFlags(v, unloadTable.access)) then
+					recipients[#recipients + 1] = v;
 				end;
 			end;
 			
