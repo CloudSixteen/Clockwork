@@ -32,7 +32,7 @@ function COMMAND:OnRun(player, arguments)
 		end;
 		
 		if (cwTeam.NumPlayers(class.index) < limit) then
-			local previousTeam = player:Team();
+			--local previousTeam = player:Team();
 			
 			if (player:Team() != class.index
 			and Clockwork.kernel:HasObjectAccess(player, class)) then
