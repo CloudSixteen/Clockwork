@@ -18,10 +18,10 @@ COMMAND.arguments = 1;
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)
 	local target = player:GetEyeTraceNoCursor().Entity;
-	local cash = math.floor(tonumber((arguments[1] or 0)));
+	local cash = math.floor(tonumber(arguments[1] or 0));
 	
 	if (target and target:IsPlayer()) then
-		if (target:GetShootPos():Distance(player:GetShootPos()) <= 192) then			
+		if (target:GetShootPos():Distance(player:GetShootPos()) <= 192) then
 			if (cash and cash >= 1) then
 				if (Clockwork.player:CanAfford(player, cash)) then
 					local playerName = player:Name();
