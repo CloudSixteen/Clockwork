@@ -52,7 +52,7 @@ end;
 -- A function to clear (and remove) the form's children.
 function PANEL:Clear(shouldDelete)
 	for k, panel in pairs(self.Items) do
-		if (!IsValid(panel)) then
+		if (not IsValid(panel)) then
 			continue;
 		end
 		
@@ -134,7 +134,7 @@ function PANEL:ComboBox(strLabel, strConVar)
 	right:Dock(FILL);
 	
 	function right:OnSelect(index, value, data)
-		if (!self.m_strConVar) then return; end;
+		if (not self.m_strConVar) then return; end;
 		
 		RunConsoleCommand(self.m_strConVar, tostring(data or value));
 	end;

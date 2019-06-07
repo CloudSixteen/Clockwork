@@ -70,7 +70,7 @@ function PANEL:Rebuild()
 	end);
 	
 	if (#categories > 0 or #miscellaneous > 0) then
-		local attributeName = Clockwork.option:Translate("name_attribute", true);
+		--local attributeName = Clockwork.option:Translate("name_attribute", true);
 		
 		--[[
 		local label = vgui.Create("cwInfoText", self);
