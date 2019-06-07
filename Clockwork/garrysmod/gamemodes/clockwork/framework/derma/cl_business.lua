@@ -10,7 +10,7 @@ local Clockwork = Clockwork;
 local pairs = pairs;
 local table = table;
 local vgui = vgui;
-local math = math;
+
 
 local PANEL = {};
 
@@ -20,9 +20,9 @@ function PANEL:Init()
 	
 	self.panelList = vgui.Create("cwPanelList", self);
 	self.panelList:SetPadding(8);
- 	self.panelList:SetSpacing(4);
- 	self.panelList:StretchToParent(4, 4, 4, 4);
- 	self.panelList:HideBackground();
+	self.panelList:SetSpacing(4);
+	self.panelList:StretchToParent(4, 4, 4, 4);
+	self.panelList:HideBackground();
 	
 	self:Rebuild();
 end;
