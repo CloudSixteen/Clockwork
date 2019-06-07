@@ -840,7 +840,7 @@ function PANEL:Init()
 		
 		if (activePanel:GetSelectedModel() == self) then
 			local options = {};
-			local panel = Clockwork.character:GetPanel();
+			--local panel = Clockwork.character:GetPanel();
 			
 			options["Use"] = function()
 				Clockwork.datastream:Start("InteractCharacter", {
@@ -896,7 +896,7 @@ function PANEL:Init()
 		label:SetText(string.upper(v.text));
 		label:OverrideTextColor(v.color)
 		label:SizeToContents();
-		label:SetPos((maxWidth / 2) - (label:GetWide()/2), labelY);
+		label:SetPos((maxWidth / 2) - (label:GetWide() / 2), labelY);
 		labelY = labelY + label:GetTall() + 4;
 	end;
 	
@@ -999,7 +999,7 @@ end;
 
 -- Called each frame.
 function PANEL:Think()
-	local entity = self.Entity;
+	--local entity = self.Entity;
 	
 	if (self.animation) then
 		self.animation:Run();
@@ -1154,7 +1154,7 @@ function PANEL:RemovePoint()
 end;
 
 -- A function to get the total points.
-function PANEL:GetTotalPoints()	
+function PANEL:GetTotalPoints()
 	return self.totalPoints;
 end;
 
@@ -1186,7 +1186,7 @@ function PANEL:SetAttributeTable(attributeTable)
 	if (attributeTable.image) then
 		self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
 		self.spawnIcon:SetTooltip(L(attributeTable.description));
-		self.spawnIcon:SetImage(attributeTable.image..".png");
+		self.spawnIcon:SetImage(attributeTable.image .. ".png");
 		self.spawnIcon:SetSize(32, 32);
 		self.spawnIcon:SetPos(0, 0);
 	end;
@@ -1206,7 +1206,7 @@ function PANEL:Init()
 	self.info = Clockwork.character:GetCreationInfo();
 	
 	local maximumPoints = Clockwork.config:Get("default_attribute_points"):Get();
-	local smallTextFont = Clockwork.option:GetFont("menu_text_small");
+	--local smallTextFont = Clockwork.option:GetFont("menu_text_small");
 	local factionTable = Clockwork.faction:FindByID(self.info.faction);
 	local attributes = {};
 	
@@ -1332,9 +1332,9 @@ function PANEL:Init()
 	self.classesForm:SetPadding(4);
 	
 	self.categoryList = vgui.Create("cwPanelList", self);
- 	self.categoryList:SetPadding(8);
+	self.categoryList:SetPadding(8);
 	self.categoryList:SetSpacing(8);
- 	self.categoryList:SizeToContents();
+	self.categoryList:SizeToContents();
 	
 	for k, v in pairs(Clockwork.class:GetAll()) do
 		if (v.isOnCharScreen and (v.factions and table.HasValue(v.factions, self.info.faction))) then
@@ -1408,17 +1408,17 @@ local PANEL = {};
 
 -- Called when the panel is initialized.
 function PANEL:Init()
-	local smallTextFont = Clockwork.option:GetFont("menu_text_small");
+	--local smallTextFont = Clockwork.option:GetFont("menu_text_small");
 	local panel = Clockwork.character:GetPanel();
 	
 	self.categoryList = vgui.Create("cwPanelList", self);
- 	self.categoryList:SetPadding(8);
+	self.categoryList:SetPadding(8);
 	self.categoryList:SetSpacing(8);
- 	self.categoryList:SizeToContents();
+	self.categoryList:SizeToContents();
 	
 	self.overrideModel = nil;
 	self.hasSelectedModel = nil;
-	self.hasPhysDesc = (Clockwork.command:FindByID("CharPhysDesc") != nil);
+	self.hasPhysDesc = Clockwork.command:FindByID("CharPhysDesc") != nil;
 	self.info = Clockwork.character:GetCreationInfo();
 	
 	if (!Clockwork.faction.stored[self.info.faction].GetModel) then
@@ -1504,31 +1504,31 @@ function PANEL:Init()
 	local spawnIcon = nil;
 	
 	for k, v in pairs(Clockwork.faction.stored) do
-		if (v.name == self.info.faction) then
-			if (self.modelItemsList and v.models[lowerGender]) then
-				for k2, v2 in pairs(v.models[lowerGender]) do
-					spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("cwSpawnIcon", self));
-					spawnIcon:SetModel(v2);
-					
-					-- Called when the spawn icon is clicked.
-					function spawnIcon.DoClick(spawnIcon)
-						if (self.selectedSpawnIcon) then
-							self.selectedSpawnIcon:SetColor(nil);
-						end;
-						
-						spawnIcon:SetColor(informationColor);
-						
-						if (!panel:FadeInModelPanel(v2)) then
-							panel:SetModelPanelModel(v2);
-						end;
-						
-						self.selectedSpawnIcon = spawnIcon;
-						self.selectedModel = v2;
+		if (v.name == self.info.faction) and self.modelItemsList and v.models[lowerGender] then
+
+			for k2, v2 in pairs(v.models[lowerGender]) do
+				spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("cwSpawnIcon", self));
+				spawnIcon:SetModel(v2);
+				
+				-- Called when the spawn icon is clicked.
+				function spawnIcon.DoClick(spawnIcon)
+					if (self.selectedSpawnIcon) then
+						self.selectedSpawnIcon:SetColor(nil);
 					end;
 					
-					self.modelItemsList:AddItem(spawnIcon);
+					spawnIcon:SetColor(informationColor);
+					
+					if (!panel:FadeInModelPanel(v2)) then
+						panel:SetModelPanelModel(v2);
+					end;
+					
+					self.selectedSpawnIcon = spawnIcon;
+					self.selectedModel = v2;
 				end;
+				
+				self.modelItemsList:AddItem(spawnIcon);
 			end;
+			
 		end;
 	end;
 end;
@@ -1667,7 +1667,7 @@ local PANEL = {};
 
 -- Called when the panel is initialized.
 function PANEL:Init()
-	local smallTextFont = Clockwork.option:GetFont("menu_text_small");
+	--local smallTextFont = Clockwork.option:GetFont("menu_text_small");
 	local factions = {};
 	
 	for k, v in pairs(Clockwork.faction.stored) do
@@ -1686,9 +1686,9 @@ function PANEL:Init()
 	self.info = Clockwork.character:GetCreationInfo();
 	
 	self.categoryList = vgui.Create("cwPanelList", self);
- 	self.categoryList:SetPadding(8);
+	self.categoryList:SetPadding(8);
 	self.categoryList:SetSpacing(8);
- 	self.categoryList:SizeToContents();
+	self.categoryList:SizeToContents();
 	
 	self.settingsForm = vgui.Create("cwBasicForm");
 	self.settingsForm:SetAutoSize(true);
@@ -1712,9 +1712,9 @@ function PANEL:Init()
 					end;
 
 					if (v.singleGender) then
-						local index = self.genderMultiChoice:AddChoice(L(v.singleGender));
+						local _index = self.genderMultiChoice:AddChoice(L(v.singleGender));
 						
-						self.genderMultiChoice:ChooseOptionID(index);
+						self.genderMultiChoice:ChooseOptionID(_index);
 					else
 						self.genderMultiChoice:AddChoice(L(GENDER_FEMALE));
 						self.genderMultiChoice:AddChoice(L(GENDER_MALE));
@@ -1827,13 +1827,11 @@ function PANEL:OnNext()
 		end;
 		
 		for k, v in pairs(Clockwork.faction.stored) do
-			if (v.name == faction) then
-				if (Clockwork.faction:IsGenderValid(faction, gender)) then
-					self.info.faction = faction;
-					self.info.gender = gender;
-					
-					return true;
-				end;
+			if (v.name == faction) and Clockwork.faction:IsGenderValid(faction, gender) then
+				self.info.faction = faction;
+				self.info.gender = gender;
+				
+				return true;
 			end;
 		end;
 	end;
@@ -1890,13 +1888,13 @@ local PANEL = {};
 
 -- Called when the panel is initialized.
 function PANEL:Init()
-	local smallTextFont = Clockwork.option:GetFont("menu_text_small");
-	local panel = Clockwork.character:GetPanel();
+	--local smallTextFont = Clockwork.option:GetFont("menu_text_small");
+	--local panel = Clockwork.character:GetPanel();
 	
 	self.categoryList = vgui.Create("cwPanelList", self);
- 	self.categoryList:SetPadding(8);
+	self.categoryList:SetPadding(8);
 	self.categoryList:SetSpacing(8);
- 	self.categoryList:SizeToContents();
+	self.categoryList:SizeToContents();
 	
 	self.maximumPoints = Clockwork.config:Get("max_trait_points"):Get();
 	self.selectedTraits = {};
@@ -1941,7 +1939,7 @@ function PANEL:Init()
 		
 		traitButton:SetHoverColor(informationColor);
 		traitButton:SetTooltip(markupObject:GetText());
-		traitButton:SetImage(v.image..".png");
+		traitButton:SetImage(v.image .. ".png");
 		traitButton:SetSize(64, 64);
 		
 		-- Called when the spawn icon is clicked.
@@ -2049,10 +2047,8 @@ Clockwork.datastream:Hook("CharacterRemove", function(data)
 		Clockwork.character:RefreshPanelList();
 	end;
 	
-	if (Clockwork.character:GetPanelList()) then
-		if (table.Count(characters) == 0) then
-			Clockwork.character:GetPanel():ReturnToMainMenu();
-		end;
+	if Clockwork.character:GetPanelList() and table.Count(characters) == 0 then
+		Clockwork.character:GetPanel():ReturnToMainMenu();
 	end;
 end);
 
@@ -2060,12 +2056,9 @@ Clockwork.datastream:Hook("SetWhitelisted", function(data)
 	local whitelisted = Clockwork.character:GetWhitelisted();
 	
 	for k, v in pairs(whitelisted) do
-		if (v == data[1]) then
-			if (!data[2]) then
-				whitelisted[k] = nil;
-				
-				return;
-			end;
+		if (v == data[1]) and (!data[2]) then
+			whitelisted[k] = nil;
+			return;
 		end;
 	end;
 	
