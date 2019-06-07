@@ -42,7 +42,7 @@ function COMMAND:OnRun(player, arguments)
 	end;
 	
 	local charactersTable = Clockwork.config:Get("mysql_characters_table"):Get();
-	local charName = arguments[1];
+	charName = arguments[1];
 	
 	local queryObj = Clockwork.database:Select(charactersTable);
 		queryObj:SetCallback(function(result)
