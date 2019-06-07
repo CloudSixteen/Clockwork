@@ -26,11 +26,11 @@ function COMMAND:OnRun(player, arguments)
 
 	if (isForced) then
 		if (player:IsAdmin()) then
-			local lowestRank, rankTable = Clockwork.faction:GetLowestRank(target:GetFaction());
-			local targetRank, targetRankTable = Clockwork.player:GetFactionRank(target);
+			--local lowestRank, rankTable = Clockwork.faction:GetLowestRank(target:GetFaction());
+			--local targetRank, targetRankTable = Clockwork.player:GetFactionRank(target);
 
 			if (istable(rankTable) and targetRankTable.position and targetRankTable.position != rankTable.position) then
-				local rank, rankTable = target:GetFactionRank();
+				local rankTable = select(2, target:GetFactionRank());
 				
 				Clockwork.player:SetFactionRank(target, Clockwork.faction:GetLowerRank(target:GetFaction(), rankTable));
 
@@ -44,7 +44,7 @@ function COMMAND:OnRun(player, arguments)
 	else
 		if (player:GetFaction() == target:GetFaction()) then
 			if (Clockwork.player:CanDemote(player, target)) then
-				local rank, rankTable = target:GetFactionRank();
+				local rankTable = select(2, target:GetFactionRank());
 
 				Clockwork.player:SetFactionRank(target, Clockwork.faction:GetLowerRank(target:GetFaction(), rankTable));
 

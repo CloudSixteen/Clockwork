@@ -18,8 +18,8 @@ COMMAND.arguments = 1;
 
 -- Called when the command has been run.
 function COMMAND:OnRun(player, arguments)
-	local playersTable = Clockwork.config:Get("mysql_players_table"):Get();
-	local schemaFolder = Clockwork.kernel:GetSchemaFolder();
+	--local playersTable = Clockwork.config:Get("mysql_players_table"):Get();
+	--local schemaFolder = Clockwork.kernel:GetSchemaFolder();
 	local identifier = string.upper(arguments[1]);
 	
 	if (Clockwork.bans.stored[identifier]) then
