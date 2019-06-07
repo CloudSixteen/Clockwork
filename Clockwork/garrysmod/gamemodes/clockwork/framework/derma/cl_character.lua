@@ -774,14 +774,14 @@ function PANEL:Init()
 	end;
 	
 	self.useButton = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
-	self.useButton:SetToolTip(L("UseThisCharacter"));
+	self.useButton:SetTooltip(L("UseThisCharacter"));
 	self.useButton:SetImage("icon16/tick.png");
 	self.useButton:SetSize(16, 16);
 	self.useButton:SetPos(0, buttonY);
 	self.useButton:SetMouseInputEnabled(true);
 	
 	self.deleteButton = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
-	self.deleteButton:SetToolTip(L("DeleteThisCharacter"));
+	self.deleteButton:SetTooltip(L("DeleteThisCharacter"));
 	self.deleteButton:SetImage("icon16/cross.png");
 	self.deleteButton:SetSize(16, 16);
 	self.deleteButton:SetPos(20, buttonY);
@@ -792,7 +792,7 @@ function PANEL:Init()
 	for k, v in pairs(buttonsList) do
 		local button = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
 			buttonX = buttonX + 20;
-			button:SetToolTip(v.toolTip);
+			button:SetTooltip(v.toolTip);
 			button:SetImage(v.image);
 			button:SetSize(16, 16);
 			button:SetPos(buttonX, buttonY);
@@ -1185,7 +1185,7 @@ function PANEL:SetAttributeTable(attributeTable)
 	
 	if (attributeTable.image) then
 		self.spawnIcon = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("DImageButton", self));
-		self.spawnIcon:SetToolTip(L(attributeTable.description));
+		self.spawnIcon:SetTooltip(L(attributeTable.description));
 		self.spawnIcon:SetImage(attributeTable.image..".png");
 		self.spawnIcon:SetSize(32, 32);
 		self.spawnIcon:SetPos(0, 0);
@@ -1940,7 +1940,7 @@ function PANEL:Init()
 		local traitButton = Clockwork.kernel:CreateMarkupToolTip(vgui.Create("cwImageButtonBorder", self));
 		
 		traitButton:SetHoverColor(informationColor);
-		traitButton:SetToolTip(markupObject:GetText());
+		traitButton:SetTooltip(markupObject:GetText());
 		traitButton:SetImage(v.image..".png");
 		traitButton:SetSize(64, 64);
 		
