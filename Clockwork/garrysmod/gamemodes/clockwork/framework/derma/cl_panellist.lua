@@ -6,9 +6,8 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
-local Clockwork = Clockwork;
 local Color = Color;
-local surface = surface;
+
 local vgui = vgui;
 
 local PANEL = {};

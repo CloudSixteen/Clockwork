@@ -9,11 +9,8 @@
 local Clockwork = Clockwork;
 local IsValid = IsValid;
 local pairs = pairs;
-local ScrH = ScrH;
-local ScrW = ScrW;
 local table = table;
 local vgui = vgui;
-local math = math;
 
 local PANEL = {};
 
@@ -22,8 +19,8 @@ function PANEL:Init()
 	self:SetSize(Clockwork.menu:GetWidth(), Clockwork.menu:GetHeight());
 	
 	self.panelList = vgui.Create("cwPanelList", self);
- 	self.panelList:SetPadding(8);
- 	self.panelList:SetSpacing(8);
+	self.panelList:SetPadding(8);
+	self.panelList:SetSpacing(8);
 	self.panelList:StretchToParent(4, 4, 4, 4);
 	self.panelList:HideBackground();
 	
@@ -43,7 +40,7 @@ function PANEL:Rebuild()
 			local class = Clockwork.plugin:Call("GetPlayerScoreboardClass", v);
 			
 			if (class) then
-				if (!availableClasses[class]) then
+				if (not availableClasses[class]) then
 					availableClasses[class] = {};
 				end;
 				
@@ -75,12 +72,12 @@ function PANEL:Rebuild()
 		self.panelList:AddItem(label);
 		
 		for k, v in pairs(classes) do
-			local classData = Clockwork.class:FindByID(v.name);
+			--local classData = Clockwork.class:FindByID(v.name);
 			local classColor = nil;
 			
-			if (classData) then
+			--[[if (classData) then
 				--classColor = classData.color;
-			end;
+			end;]]
 			
 			local characterForm = vgui.Create("cwBasicForm", self);
 			characterForm:SetPadding(8);
@@ -227,10 +224,10 @@ function PANEL:Init()
 	self.avatarButton:Dock(FILL);
 	self.avatarButton:SetText("");
 	self.avatarButton:SetDrawBorder(false);
-	self.avatarButton:SetDrawBackground(false);
+	self.avatarButton:SetPaintBackground(false);
 
 	if (info.avatarImage) then
-		self.avatarButton:SetToolTip(L("PlayerNameAndSteamID", info.steamName, info.player:SteamID()));
+		self.avatarButton:SetTooltip(L("PlayerNameAndSteamID", info.steamName, info.player:SteamID()));
 		self.avatarButton.DoClick = function(button)
 			if (IsValid(info.player)) then
 				info.player:ShowProfile();
@@ -259,9 +256,9 @@ end;
 function PANEL:Think()
 	if (IsValid(self.player)) then
 		if (self.toolTip) then
-			self.spawnIcon:SetToolTip(self.toolTip);
+			self.spawnIcon:SetTooltip(self.toolTip);
 		else
-			self.spawnIcon:SetToolTip(L("ScoreboardMenuPing", self.player:Ping()));
+			self.spawnIcon:SetTooltip(L("ScoreboardMenuPing", self.player:Ping()));
 		end;
 	end;
 end;

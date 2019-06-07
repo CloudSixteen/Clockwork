@@ -32,12 +32,12 @@ function PANEL:Init()
 	self:SetKeyboardInputEnabled(true);
 	
 	self.scrollList = vgui.Create("DScrollPanel", self);
- 	self.scrollList:SizeToContents();
+	self.scrollList:SizeToContents();
 
 	self.panelList = vgui.Create("cwPanelList", self.scrollList);
- 	self.panelList:SetPadding(4);
- 	self.panelList:SetSpacing(4);
- 	self.panelList:SizeToContents();
+	self.panelList:SetPadding(4);
+	self.panelList:SetSpacing(4);
+	self.panelList:SizeToContents();
 	
 	self.disconnectButton = vgui.Create("cwLabelButton", self);
 	self.disconnectButton:SetFont(smallTextFont);
@@ -72,12 +72,12 @@ end;
 
 -- A function to populate the panel.
 function PANEL:Populate()
-	local smallTextFont = Clockwork.option:GetFont("menu_text_small");
+	--local smallTextFont = Clockwork.option:GetFont("menu_text_small");
 	local quizQuestions = Clockwork.quiz:GetQuestions();
 	local quizEnabled = Clockwork.quiz:GetEnabled();
 	local langTable = Clockwork.lang:GetAll();
-	local scrH = ScrH();
-	local scrW = ScrW();
+	--local scrH = ScrH();
+	--local scrW = ScrW();
 	
 	self.panelList:Clear(true);
 	self.questions = {};
@@ -97,7 +97,7 @@ function PANEL:Populate()
 		local native = Clockwork.lang:GetNative(k);
 
 		if (native) then
-			panel:AddChoice(k.. " ("..native..")", k);
+			panel:AddChoice(k .. " (" .. native .. ")", k);
 		else
 			panel:AddChoice(k, k);
 		end;

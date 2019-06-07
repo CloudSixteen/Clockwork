@@ -37,7 +37,7 @@ function PANEL:SetupLabel(menuItem, panel)
 		self.LabelButton:SetAlpha(255);
 	end;
 	
-	self.LabelButton:SetToolTip(menuItem.tip);
+	self.LabelButton:SetTooltip(menuItem.tip);
 	self.LabelButton:SetCallback(function(button)
 		if (Clockwork.menu:GetActivePanel() != panel) then
 			Clockwork.menu:GetPanel():OpenPanel(panel);
