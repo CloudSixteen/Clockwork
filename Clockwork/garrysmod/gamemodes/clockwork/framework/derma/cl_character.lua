@@ -382,11 +382,11 @@ function PANEL:Paint(w, h)
 		local backgroundColor = Clockwork.option:GetColor("background");
 		local foregroundColor = Clockwork.option:GetColor("foreground");
 		local colorTargetID = Clockwork.option:GetColor("target_id");
-		local tinyTextFont = Clockwork.option:GetFont("menu_text_tiny");
+		--local tinyTextFont = Clockwork.option:GetFont("menu_text_tiny");
 		local colorWhite = Clockwork.option:GetColor("white");
-		local scrW, scrH = ScrW(), ScrH();
+		local scrW = ScrW();
 		local height = (self.createButton.y * 2) + self.createButton:GetTall();
-		local x, y = x, 0;
+		local y = 0;
 		
 		Clockwork.kernel:DrawSimpleGradientBox(0, 0, y, scrW, height, Color(backgroundColor.r, backgroundColor.g, backgroundColor.b, 100));
 		
@@ -445,7 +445,7 @@ function PANEL:Think()
 		local bIsLoading = Clockwork.character:IsPanelLoading();
 		local schemaLogo = Clockwork.option:GetKey("schema_logo");
 		local activePanel = Clockwork.character:GetActivePanel();
-		local fault = Clockwork.character:GetFault();
+		--local fault = Clockwork.character:GetFault();
 		
 		if (Clockwork.plugin:Call("ShouldDrawCharacterBackgroundBlur")) then
 			Clockwork.kernel:RegisterBackgroundBlur(self, self.createTime);
@@ -718,7 +718,7 @@ function PANEL:Init()
 	local smallTextFont = Clockwork.option:GetFont("menu_text_small");
 	local tinyTextFont = Clockwork.option:GetFont("menu_text_tiny");
 	local buttonsList = {};
-	local colorWhite = Clockwork.option:GetColor("white");
+	--local colorWhite = Clockwork.option:GetColor("white");
 	local buttonX = 20;
 	local buttonY = 0;
 	local labels = {};
@@ -752,7 +752,7 @@ function PANEL:Init()
 				color = v.color;
 			end;
 		end;
-	else	
+	else
 		color = factionTable.color;
 	end;
 	
