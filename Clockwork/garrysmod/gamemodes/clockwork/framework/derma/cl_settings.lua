@@ -22,8 +22,8 @@ function PANEL:Init()
 	self:SetSize(Clockwork.menu:GetWidth(), Clockwork.menu:GetHeight());
 	
 	self.panelList = vgui.Create("cwPanelList", self);
- 	self.panelList:SetPadding(8);
- 	self.panelList:SetSpacing(8);
+	self.panelList:SetPadding(8);
+	self.panelList:SetSpacing(8);
 	self.panelList:StretchToParent(4, 4, 4, 4);
 	self.panelList:HideBackground();
 	self.panelList:EnableVerticalScrollbar();
@@ -108,10 +108,10 @@ function PANEL:Rebuild()
 					mixer:SetPalette(true);
 					mixer:SetAlphaBar(true);
 					mixer:SetWangs(true);
-					mixer:SetConVarR(v2.conVar.."R");
-					mixer:SetConVarG(v2.conVar.."G");
-					mixer:SetConVarB(v2.conVar.."B");
-					mixer:SetConVarA(v2.conVar.."A");
+					mixer:SetConVarR(v2.conVar .. "R");
+					mixer:SetConVarG(v2.conVar .. "G");
+					mixer:SetConVarB(v2.conVar .. "B");
+					mixer:SetConVarA(v2.conVar .. "A");
 					
 					panel = mixer;
 
@@ -121,9 +121,9 @@ function PANEL:Rebuild()
 				
 				if (IsValid(panel)) then
 					if (v2.class == "checkBox") then
-						panel.Button:SetToolTip(L(v2.toolTip));
+						panel.Button:SetTooltip(L(v2.toolTip));
 					else
-						panel:SetToolTip(L(v2.toolTip));
+						panel:SetTooltip(L(v2.toolTip));
 					end;
 				end;
 			end;

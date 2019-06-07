@@ -30,11 +30,11 @@ function PANEL:Setup(player)
 		local unrecognisedName, usedPhysDesc = Clockwork.player:GetUnrecognisedName(player);
 		
 		if (usedPhysDesc and string.utf8len(unrecognisedName) > 24) then
-			unrecognisedName = string.utf8sub(unrecognisedName, 1, 21).."...";
+			unrecognisedName = string.utf8sub(unrecognisedName, 1, 21) .. "...";
 		end;
 		
 		self.Recognises = false;
-		self.LabelName:SetText("["..unrecognisedName.."]");
+		self.LabelName:SetText("[" .. unrecognisedName .. "]");
 		self.Avatar = vgui.Create("DImage", self);
 	else
 		self.Recognises = true;

@@ -13,7 +13,7 @@ function PANEL:SetSystemTable(systemTable)
 	self:NoClipping(false);
 
 	self.backgroundButton:SetToolTip(L(systemTable.toolTip));
-	self.backgroundButton:SetImage(systemTable.image..".png");
+	self.backgroundButton:SetImage(systemTable.image .. ".png");
 	self.backgroundButton:SetSize(128, 128);
 	
 	self.titleLabel:SetText(L(systemTable.name));

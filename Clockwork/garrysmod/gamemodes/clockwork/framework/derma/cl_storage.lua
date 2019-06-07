@@ -34,10 +34,10 @@ function PANEL:Init()
 	end;
 	
 	self.containerPanel = vgui.Create("cwPanelList", self);
- 	self.containerPanel:SetPadding(4);
- 	self.containerPanel:SetSpacing(4);
- 	self.containerPanel:SizeToContents();
- 	self.containerPanel:EnableVerticalScrollbar();	
+	self.containerPanel:SetPadding(4);
+	self.containerPanel:SetSpacing(4);
+	self.containerPanel:SizeToContents();
+	self.containerPanel:EnableVerticalScrollbar();
 	
 	if (!Clockwork.storage:GetIsOneSided()) then
 		self.inventoryPanel = vgui.Create("cwPanelList", self);
@@ -96,8 +96,8 @@ function PANEL:RebuildPanel(storagePanel, storageType, usedWeight, weight, usedS
 	storagePanel:AddItem(modelIcon);
 	
 	local categories = {};
-	local usedWeight = (cash * Clockwork.config:Get("cash_weight"):Get());
-	local usedSpace = (cash * Clockwork.config:Get("cash_space"):Get());
+	local usedWeight = cash * Clockwork.config:Get("cash_weight"):Get();
+	local usedSpace = cash * Clockwork.config:Get("cash_space"):Get();
 	local itemsList = {};
 	
 	if (Clockwork.storage:GetNoCashWeight()) then
@@ -211,7 +211,7 @@ function PANEL:RebuildPanel(storagePanel, storageType, usedWeight, weight, usedS
 	if (#categories > 0) then
 		for k, v in pairs(categories) do
 			local collapsibleCategory = Clockwork.kernel:CreateCustomCategoryPanel(v.category, storagePanel);
-				collapsibleCategory:SetCookieName(storageType..v.category);
+				collapsibleCategory:SetCookieName(storageType .. v.category);
 			storagePanel:AddItem(collapsibleCategory);
 			
 			local categoryList = vgui.Create("DPanelList", collapsibleCategory);
@@ -316,7 +316,7 @@ function PANEL:Init()
 	local model, skin = Clockwork.item:GetIconInfo(self.itemTable);
 	
 	self.spawnIcon:SetModel(model, skin);
-	self.spawnIcon:SetToolTip("");
+	self.spawnIcon:SetTooltip("");
 	self.spawnIcon:SetSize(56, 56);
 	
 	self.cachedInfo = {model = model, skin = skin};
@@ -377,7 +377,7 @@ function PANEL:Init()
 		local usedWeight = math.floor(self:GetUsedWeight());
 		local color = Color(100, 100, 100, 255);
 		local width = math.Clamp((spaceUsed:GetWide() / maximumWeight) * usedWeight, 0, spaceUsed:GetWide());
-		local red = math.Clamp((255 / maximumWeight) * usedWeight, 0, 255) ;
+		--local red = math.Clamp((255 / maximumWeight) * usedWeight, 0, 255) ;
 		
 		if (color) then
 			color.r = math.min(color.r - 25, 255);
@@ -393,7 +393,7 @@ end;
 -- Called each frame.
 function PANEL:Think()
 	self.spaceUsed:SetSize(self:GetWide() - 2, self:GetTall() - 2);
-	self.weightLabel:SetText(math.floor(self:GetUsedWeight()).."/"..math.floor(self:GetWeight()).."kg");
+	self.weightLabel:SetText(math.floor(self:GetUsedWeight()) .. "/" .. math.floor(self:GetWeight()) .. "kg");
 	self.weightLabel:SetPos(self:GetWide() / 2 - self.weightLabel:GetWide() / 2, self:GetTall() / 2 - self.weightLabel:GetTall() / 2);
 	self.weightLabel:SizeToContents();
 end;
@@ -439,7 +439,7 @@ function PANEL:Init()
 		
 		local color = Color(100, 100, 100, 255);
 		local width = math.Clamp((spaceUsed:GetWide() / maximumSpace) * usedSpace, 0, spaceUsed:GetWide());
-		local red = math.Clamp((255 / maximumSpace) * usedSpace, 0, 255) ;
+		--local red = math.Clamp((255 / maximumSpace) * usedSpace, 0, 255) ;
 		
 		if (color) then
 			color.r = math.min(color.r - 25, 255);
