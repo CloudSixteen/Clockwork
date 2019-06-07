@@ -138,13 +138,12 @@ function PANEL:Init()
 	local customData = self:GetParent().customData or {};
 	local toolTip = nil;
 	
-	if (customData.information) then
-		if (type(customData.information) == "number") then
-			if (customData.information != 0) then
-				customData.information = Clockwork.kernel:FormatCash(customData.information);
-			else
-				customData.information = L("Priceless");
-			end;
+	if customData.information and type(customData.information) == "number" then
+
+		if (customData.information != 0) then
+			customData.information = Clockwork.kernel:FormatCash(customData.information);
+		else
+			customData.information = L("Priceless");
 		end;
 	end;
 	
