@@ -31,12 +31,10 @@ end;
 -- A function to get whether the button is visible.
 function PANEL:IsButtonVisible()
 	for k, v in pairs(Clockwork.class.stored) do
-		if (Clockwork.kernel:HasObjectAccess(Clockwork.Client, v)) then
-			if (Clockwork.plugin:Call("PlayerCanSeeClass", v)) then
-				if (Clockwork.Client:Team() != v.index) then
-					return true;
-				end;
-			end;
+		if Clockwork.kernel:HasObjectAccess(Clockwork.Client, v)
+			and Clockwork.plugin:Call("PlayerCanSeeClass", v)
+			and Clockwork.Client:Team() != v.index then
+			return true;
 		end;
 	end;
 end;
@@ -71,7 +69,7 @@ function PANEL:Rebuild()
 		self.panelList:AddItem(label);
 		
 		for k, v in pairs(classes) do
-			if (Clockwork.kernel:HasObjectAccess(Clockwork.Client, v)) and Clockwork.plugin:Call("PlayerCanSeeClass", v) then
+			if Clockwork.kernel:HasObjectAccess(Clockwork.Client, v) and Clockwork.plugin:Call("PlayerCanSeeClass", v) then
 				self.classTable = Clockwork.class.stored[v.name];
 				self.panelList:AddItem(vgui.Create("cwClassesItem", self));
 			end;
