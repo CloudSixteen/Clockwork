@@ -5626,7 +5626,7 @@ function Clockwork.player:CanPromote(player, target)
 	if (rank) then
 		if (rank.canPromote) then
 			local stringTargetRank, targetRank = Clockwork.player:GetFactionRank(target);
-			local highestRank, rankTable = Clockwork.faction:GetHighestRank(player:Faction()).position;
+			local highestRank, rankTable = Clockwork.faction:GetHighestRank(player:GetFaction()).position;
 
 			if (targetRank.position and targetRank.position != rankTable.position) then
 				return (rank.canPromote <= targetRank.position);
@@ -5647,7 +5647,7 @@ function Clockwork.player:CanDemote(player, target)
 	if (rank) then
 		if (rank.canDemote) then
 			local stringTargetRank, targetRank = Clockwork.player:GetFactionRank(target);
-			local lowestRank, rankTable = Clockwork.faction:GetLowestRank(player:Faction()).position;
+			local lowestRank, rankTable = Clockwork.faction:GetLowestRank(player:GetFaction()).position;
 
 			if (targetRank.position and targetRank.position != rankTable.position) then
 				return (rank.canDemote <= targetRank.position);
