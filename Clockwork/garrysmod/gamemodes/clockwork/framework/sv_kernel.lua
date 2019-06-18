@@ -4182,8 +4182,20 @@ function Clockwork:PlayerCharacterInitialized(player)
 	
 	cwDatastream:Start(player, "CharacterInit", player:GetCharacterKey());
 
-	local rank, rankTable = Clockwork.player:GetFactionRank(player);
+	local _, originalRankTable = Clockwork.player:GetFactionRank(player);
 
+	if (!originalRankTable) then
+		local faction = player:GetFaction();
+		local defaultRankName, defaultRankTable = cwFaction:GetDefaultRank(faction);
+		local lowestRankName, lowestRankTable = cwFaction:GetLowestRank(faction);
+
+		if (defaultRankTable or lowestRankTable) then
+			player:SetFactionRank(defaultRankTable and defaultRankName or lowestRankName);
+		end;
+	end;
+	
+	local _, rankTable = Clockwork.player:GetFactionRank(player);
+	
 	if (rankTable and rankTable.class and cwClass:GetAll()[rankTable.class]) then
 		cwClass:Set(player, rankTable.class);
 	end;
