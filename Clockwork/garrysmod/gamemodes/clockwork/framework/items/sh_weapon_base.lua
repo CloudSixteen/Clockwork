@@ -31,7 +31,7 @@ local defaultWeapons = {
 ITEM:AddData("ClipOne", 0, true);
 ITEM:AddData("ClipTwo", 0, true);
 
--- Called whent he item entity's menu options are needed.
+-- Called when the item entity's menu options are needed.
 function ITEM:GetEntityMenuOptions(entity, options)
 	if (self:HasSecondaryClip() or self:HasPrimaryClip()) then
 		local informationColor = Clockwork.option:GetColor("information");
