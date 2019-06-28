@@ -5398,10 +5398,10 @@ function Clockwork.player:SetFactionRank(player, rank)
 					model = rankTable.model;
 				elseif (faction.GetModel) then
 					model = faction:GetModel(player, player:GetCharacter())
-				elseif (character.gender == GENDER_MALE) then
-					model = self.models.male[math.random(#self.models.male)];
+				elseif (player:GetGender() == GENDER_MALE) then
+					model = faction.models.male[math.random(#faction.models.male)];
 				else
-					model = self.models.female[math.random(#self.models.female)];
+					model = faction.models.female[math.random(#faction.models.female)];
 				end;
 
 				player:SetCharacterData("Model", model, true);
