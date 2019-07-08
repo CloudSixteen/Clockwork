@@ -16,6 +16,7 @@ The following changes have been made for each official Clockwork build.
 * Fixed container_base derived items losing their content on closure
 * Fixed some localisation issues
 * Added a config to allow you to disable voice commands
+* Added the option to display a character's rank
 * Updated the chatbox so that it moves up to match any present cinematic notifications
 
 0.99

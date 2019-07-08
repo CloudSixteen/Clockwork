@@ -2244,7 +2244,7 @@ function Clockwork:HUDDrawTargetID()
 									end;
 									
 									self.TargetPlayerText.stored = {};
-									
+
 									cwPlugin:Call("GetTargetPlayerText", entity, self.TargetPlayerText);
 									cwPlugin:Call("DestroyTargetPlayerText", entity, self.TargetPlayerText);
 									
@@ -2780,6 +2780,12 @@ function Clockwork:DestroyPlayerInfoText(playerInfoText) end;
     @param {Table} The player's current target text.
 --]]
 function Clockwork:GetTargetPlayerText(player, targetPlayerText)
+	local rankName, rankTable = player:GetFactionRank();
+
+	if (rankName and rankName != "" and rankTable.displayRank) then
+		targetPlayerText:Add("RANK", "Ranked " .. rankName);
+	end;
+
 	local targetIDTextFont = cwOption:GetFont("target_id_text");
 	local physDescTable = {};
 	local thirdPerson = "him";
