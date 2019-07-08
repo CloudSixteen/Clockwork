@@ -1267,7 +1267,7 @@ Clockwork.chatBox:RegisterDefaultClass("radio_eavesdrop", "ic", function(info)
 			color = Color(175, 255, 175, 255);
 		end;
 		
-		local localized = Clockwork.chatBox:LangToTable("ChatPlayerRadio", color, info.name, info.text);
+		local localized = Clockwork.chatBox:LangToTable("ChatPlayerRadios", color, info.name, info.text);
 		
 		Clockwork.chatBox:Add(info.filtered, nil, unpack(localized));
 	end;
