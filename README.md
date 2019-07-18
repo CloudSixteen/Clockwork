@@ -1,21 +1,20 @@
 Clockwork
 ---------
 A roleplaying framework developed by Cloud Sixteen for the people.  
-*Clockwork was created and is under development by Conna Wiles, also known as kurozael.*
+*Clockwork was created by Conna Wiles, also known as kurozael.*
 
 Documentation and Installation
 ------------
-http://wiki.cloudsixteen.com/installation  
-http://wiki.cloudsixteen.com/
+https://wiki.cloudsixteen.com/installation  
+https://wiki.cloudsixteen.com/
 
 Creating a Schema for Clockwork
 ------------
-http://forums.cloudsixteen.com/threads/free-dev-keys.33497/
+https://eden.cloudsixteen.com/d/19-clockwork-dev-keys
 
 Coding Standard
 ------------
 Please make sure any contributed code follows this standard to the letter:
-
 https://docs.google.com/document/d/1F24V5s21aXx5T5bbz0bQsOT1FWLgnqaP5iMy-DxHhL8/edit
 
 Donations
@@ -37,15 +36,6 @@ If you wish to contribute to the development of Clockwork, you may issue a pull 
 * Commit messages must be descriptive, well punctuated, and tidy.
   * You can use `Fixes #<id>` in your title to automatically close an issue by that id. For example (and this formatting is mandatory) `Fixed an awful bug where so and so would happen. Fixes #3.` You could also fix multiple in the commit title, `Fixed a bug where so and so would happen, and also fixed a bug where another thing would occur. Fixes #2, Fixes #3.`
 * You agree to contribute your code under the terms of the license below:
-
-Licenses
--------
-
-#### Clockwork
-http://cloudsixteen.com/license/clockwork.html
-
-#### CloudAuthX
-http://cloudsixteen.com/license/cloudauthx.html
 
 Credits
 -------
