@@ -5,7 +5,6 @@ A roleplaying framework developed by Cloud Sixteen for the people.
 
 Documentation and Installation
 ------------
-https://wiki.cloudsixteen.com/installation  
 https://wiki.cloudsixteen.com/
 
 Creating a Schema for Clockwork
