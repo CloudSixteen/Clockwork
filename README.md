@@ -1,5 +1,5 @@
 ## Clockwork
-[![All Contributors](https://img.shields.io/badge/all_contributors-14-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors)
 [![Discord](https://img.shields.io/discord/126667779095920640.svg)](https://discord.gg/EEg47Dw)
   
 A roleplaying framework developed by Cloud Sixteen for the people.  
@@ -33,6 +33,9 @@ https://paypal.me/kurozael
     <td align="center"><a href="https://github.com/10sa"><img src="https://avatars0.githubusercontent.com/u/16622747?v=4" width="100px;" alt="Tensa"/><br /><sub><b>Tensa</b></sub></a><br /><a href="#translation-10sa" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/karl-police"><img src="https://avatars0.githubusercontent.com/u/12023782?v=4" width="100px;" alt="karl-police"/><br /><sub><b>karl-police</b></sub></a><br /><a href="#translation-karl-police" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/TheRealEnderHero"><img src="https://avatars2.githubusercontent.com/u/10726205?v=4" width="100px;" alt="EnderHero"/><br /><sub><b>EnderHero</b></sub></a><br /><a href="#translation-TheRealEnderHero" title="Translation">🌍</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="http://www.elimurray.co.uk/"><img src="https://avatars1.githubusercontent.com/u/34821469?v=4" width="100px;" alt="Eli Murray"/><br /><sub><b>Eli Murray</b></sub></a><br /><a href="https://github.com/CloudSixteen/Clockwork/commits?author=murray-elijah" title="Documentation">📖</a></td>
   </tr>
 </table>
 
