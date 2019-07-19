@@ -1,5 +1,5 @@
 ## Clockwork
-[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors)  
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors)  
   
 A roleplaying framework developed by Cloud Sixteen for the people.  
 *Clockwork was created by Conna Wiles, also known as kurozael.*
@@ -22,6 +22,7 @@ https://paypal.me/kurozael
     <td align="center"><a href="http://alexsavory.me"><img src="https://avatars3.githubusercontent.com/u/838217?v=4" width="100px;" alt="Alex"/><br /><sub><b>Alex</b></sub></a><br /><a href="#design-trurascalz" title="Design">🎨</a> <a href="https://github.com/CloudSixteen/Clockwork/commits?author=trurascalz" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/ametrocavich"><img src="https://avatars0.githubusercontent.com/u/2490800?v=4" width="100px;" alt="Alexander Metrocavich"/><br /><sub><b>Alexander Metrocavich</b></sub></a><br /><a href="https://github.com/CloudSixteen/Clockwork/commits?author=ametrocavich" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/Gr4Ss"><img src="https://avatars0.githubusercontent.com/u/1671806?v=4" width="100px;" alt="Arno Biesmans"/><br /><sub><b>Arno Biesmans</b></sub></a><br /><a href="https://github.com/CloudSixteen/Clockwork/commits?author=Gr4Ss" title="Code">💻</a></td>
+    <td align="center"><a href="http://jonathandroogh.com"><img src="https://avatars2.githubusercontent.com/u/5252282?v=4" width="100px;" alt="Jonathan Droogh"/><br /><sub><b>Jonathan Droogh</b></sub></a><br /><a href="https://github.com/CloudSixteen/Clockwork/commits?author=xRJx" title="Code">💻</a></td>
   </tr>
 </table>
 
