@@ -141,6 +141,15 @@
       "contributions": [
         "translation"
       ]
+    },
+    {
+      "login": "murray-elijah",
+      "name": "Eli Murray",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/34821469?v=4",
+      "profile": "http://www.elimurray.co.uk/",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
