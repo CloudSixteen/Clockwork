@@ -1,5 +1,5 @@
 ## Clockwork
-[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors)  
+[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors)  
   
 A roleplaying framework developed by Cloud Sixteen for the people.  
 *Clockwork was created by Conna Wiles, also known as kurozael.*
@@ -27,6 +27,7 @@ https://paypal.me/kurozael
   <tr>
     <td align="center"><a href="https://github.com/Skiastra"><img src="https://avatars2.githubusercontent.com/u/8324893?v=4" width="100px;" alt="Skiastra"/><br /><sub><b>Skiastra</b></sub></a><br /><a href="https://github.com/CloudSixteen/Clockwork/commits?author=Skiastra" title="Code">💻</a></td>
     <td align="center"><a href="http://alexgrist.com"><img src="https://avatars3.githubusercontent.com/u/180351?v=4" width="100px;" alt="Alex Grist-Hucker"/><br /><sub><b>Alex Grist-Hucker</b></sub></a><br /><a href="https://github.com/CloudSixteen/Clockwork/commits?author=alexgrist" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/impulsh"><img src="https://avatars0.githubusercontent.com/u/2431907?v=4" width="100px;" alt="Igor Radovanovic"/><br /><sub><b>Igor Radovanovic</b></sub></a><br /><a href="https://github.com/CloudSixteen/Clockwork/commits?author=impulsh" title="Code">💻</a></td>
   </tr>
 </table>
 
