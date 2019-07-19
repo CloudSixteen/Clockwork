@@ -6,17 +6,6 @@
   "commit": false,
   "contributors": [
     {
-      "login": "VortixDev",
-      "name": "Ryan Saridar",
-      "avatar_url": "https://avatars1.githubusercontent.com/u/8403417?v=4",
-      "profile": "https://github.com/VortixDev",
-      "contributions": [
-        "code",
-        "maintenance",
-        "design"
-      ]
-    },
-    {
       "login": "kurozael",
       "name": "Conna Wiles",
       "avatar_url": "https://avatars1.githubusercontent.com/u/486972?v=4",
@@ -31,6 +20,17 @@
         "security",
         "projectManagement",
         "ideas"
+      ]
+    },
+    {
+      "login": "VortixDev",
+      "name": "Ryan Saridar",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/8403417?v=4",
+      "profile": "https://github.com/VortixDev",
+      "contributions": [
+        "code",
+        "maintenance",
+        "design"
       ]
     }
   ],
