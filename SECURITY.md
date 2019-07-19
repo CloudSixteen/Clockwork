@@ -10,4 +10,4 @@ There are currently two versions of Clockwork being actively supported, shown in
 
 ## Reporting a Vulnerability
 
-To report a vulnerability, get in touch with the staff team via the [CloudSixteen Discord](https://discordapp.com/invite/EEg47Dw).
+To report a vulnerability, get in touch with the staff team via the [Cloud Sixteen Discord](https://discordapp.com/invite/EEg47Dw).
