@@ -1,0 +1,160 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "kurozael",
+      "name": "Conna Wiles",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/486972?v=4",
+      "profile": "http://kurozael.com",
+      "contributions": [
+        "code",
+        "maintenance",
+        "design",
+        "doc",
+        "infra",
+        "plugin",
+        "security",
+        "projectManagement",
+        "ideas"
+      ]
+    },
+    {
+      "login": "VortixDev",
+      "name": "Ryan Saridar",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/8403417?v=4",
+      "profile": "https://github.com/VortixDev",
+      "contributions": [
+        "code",
+        "maintenance",
+        "design"
+      ]
+    },
+    {
+      "login": "sanny-io",
+      "name": "sanny.io",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/3054653?v=4",
+      "profile": "http://sanny.io",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "trurascalz",
+      "name": "Alex",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/838217?v=4",
+      "profile": "http://alexsavory.me",
+      "contributions": [
+        "design",
+        "code"
+      ]
+    },
+    {
+      "login": "ametrocavich",
+      "name": "Alexander Metrocavich",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/2490800?v=4",
+      "profile": "https://github.com/ametrocavich",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Gr4Ss",
+      "name": "Arno Biesmans",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1671806?v=4",
+      "profile": "https://github.com/Gr4Ss",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "xRJx",
+      "name": "Jonathan Droogh",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/5252282?v=4",
+      "profile": "http://jonathandroogh.com",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Skiastra",
+      "name": "Skiastra",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/8324893?v=4",
+      "profile": "https://github.com/Skiastra",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "alexgrist",
+      "name": "Alex Grist-Hucker",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/180351?v=4",
+      "profile": "http://alexgrist.com",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "impulsh",
+      "name": "Igor Radovanovic",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/2431907?v=4",
+      "profile": "https://github.com/impulsh",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "minikanyas",
+      "name": "minikanyas",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5072163?v=4",
+      "profile": "https://github.com/minikanyas",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "10sa",
+      "name": "Tensa",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/16622747?v=4",
+      "profile": "https://github.com/10sa",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "karl-police",
+      "name": "karl-police",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/12023782?v=4",
+      "profile": "https://github.com/karl-police",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "TheRealEnderHero",
+      "name": "EnderHero",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/10726205?v=4",
+      "profile": "https://github.com/TheRealEnderHero",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "murray-elijah",
+      "name": "Eli Murray",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/34821469?v=4",
+      "profile": "http://www.elimurray.co.uk/",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "Clockwork",
+  "projectOwner": "CloudSixteen",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
