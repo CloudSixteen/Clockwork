@@ -15,6 +15,23 @@
         "maintenance",
         "design"
       ]
+    },
+    {
+      "login": "kurozael",
+      "name": "Conna Wiles",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/486972?v=4",
+      "profile": "http://kurozael.com",
+      "contributions": [
+        "code",
+        "maintenance",
+        "design",
+        "doc",
+        "infra",
+        "plugin",
+        "security",
+        "projectManagement",
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
