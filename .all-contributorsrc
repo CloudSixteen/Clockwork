@@ -87,6 +87,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "alexgrist",
+      "name": "Alex Grist-Hucker",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/180351?v=4",
+      "profile": "http://alexgrist.com",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
