@@ -1,5 +1,6 @@
 ## Clockwork
-[![All Contributors](https://img.shields.io/badge/all_contributors-14-orange.svg?style=flat-square)](#contributors)  
+[![All Contributors](https://img.shields.io/badge/all_contributors-14-orange.svg?style=flat-square)](#contributors)
+[![Discord](https://img.shields.io/discord/126667779095920640.svg)](https://discord.gg/EEg47Dw)
   
 A roleplaying framework developed by Cloud Sixteen for the people.  
 *Clockwork was created by Conna Wiles, also known as kurozael.*
