@@ -42,6 +42,15 @@
         "maintenance",
         "code"
       ]
+    },
+    {
+      "login": "impulsh",
+      "name": "Igor Radovanovic",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/2431907?v=4",
+      "profile": "https://github.com/impulsh",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
