@@ -132,6 +132,15 @@
       "contributions": [
         "translation"
       ]
+    },
+    {
+      "login": "TheRealEnderHero",
+      "name": "EnderHero",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/10726205?v=4",
+      "profile": "https://github.com/TheRealEnderHero",
+      "contributions": [
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7,
