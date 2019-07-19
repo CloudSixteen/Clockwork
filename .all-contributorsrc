@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "VortixDev",
+      "name": "Ryan Saridar",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/8403417?v=4",
+      "profile": "https://github.com/VortixDev",
+      "contributions": [
+        "code",
+        "maintenance",
+        "design"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "Clockwork",
+  "projectOwner": "CloudSixteen",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
