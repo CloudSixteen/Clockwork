@@ -42,6 +42,16 @@
         "maintenance",
         "code"
       ]
+    },
+    {
+      "login": "trurascalz",
+      "name": "Alex",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/838217?v=4",
+      "profile": "http://alexsavory.me",
+      "contributions": [
+        "maintenance",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
