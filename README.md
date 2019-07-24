@@ -6,10 +6,10 @@ A roleplaying framework developed by Cloud Sixteen for the people.
 *Clockwork was created by Conna Wiles, also known as kurozael.*
 
 ## Documentation
-https://wiki.cloudsixteen.com/
+[Cloud Sixteen Wiki](https://wiki.cloudsixteen.com)
 
 ## Donations
-https://paypal.me/kurozael
+[Donate to Cloud Sixteen](https://paypal.me/kurozael)
 
 ## Contributors
 
