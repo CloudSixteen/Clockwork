@@ -2459,56 +2459,53 @@ function Clockwork:GetAdminESPInfo(info)
 	end;
 
 	if (CW_CONVAR_SALEESP:GetInt() == 1) then
-		for k, v in pairs (ents.GetAll()) do 
-			if (v:GetClass() == "cw_salesman") then
-				if (v:IsValid()) then
-					local position = v:GetPos() + Vector(0, 0, 80);
-					local saleName = v:GetNetworkedString("Name");
-					local color = Color(255, 150, 0, 255);
+		for k, v in pairs (ents.FindByClass("cw_salesman")) do 
 
-					table.insert(info, {
-						position = position,
-						text = {
-							{
-								text = "[Salesman]", 
-								color = color
-							},
-							{
-								text = saleName, 
-								color = color
-							}
+			if (v:IsValid()) then
+				local position = v:GetPos() + Vector(0, 0, 80);
+				local saleName = v:GetNetworkedString("Name");
+				local color = Color(255, 150, 0, 255);
+
+				table.insert(info, {
+					position = position,
+					text = {
+						{
+							text = "[Salesman]", 
+							color = color
+						},
+						{
+							text = saleName, 
+							color = color
 						}
-					});
-				end;
+					}
+				});
 			end;
 		end;
 	end;
 
 	if (CW_CONVAR_ITEMESP:GetInt() == 1) then
-		for k, v in pairs (ents.GetAll()) do 
-			if (v:GetClass() == "cw_item") then
-				if (v:IsValid()) then
-					local position = v:GetPos();
-					local itemTable = cwEntity:FetchItemTable(v);
+		for k, v in pairs (ents.FindByClass("cw_item")) do 
+			if (v:IsValid()) then
+				local position = v:GetPos();
+				local itemTable = cwEntity:FetchItemTable(v);
 
-					if (itemTable) then
-						local itemName = L(itemTable("name"));
-						local color = Color(0, 255, 255, 255);
+				if (itemTable) then
+					local itemName = L(itemTable("name"));
+					local color = Color(0, 255, 255, 255);
 
-						table.insert(info, {
-							position = position,
-							text = {
-								{
-									text = "[Item]",
-									color = color
-								},
-								{
-									text = itemName,
-									color = color
-								}
+					table.insert(info, {
+						position = position,
+						text = {
+							{
+								text = "[Item]",
+								color = color
+							},
+							{
+								text = itemName,
+								color = color
 							}
-						});
-					end;
+						}
+					});
 				end;
 			end;
 		end;
