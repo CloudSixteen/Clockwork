@@ -62,10 +62,11 @@ function PANEL:Init()
 	self.continueButton:SetPos((scrW * 0.8) - (self.continueButton:GetWide() / 2), scrH * 0.9);
 end;
 
+local colorBlackMidAlpha = Color(0, 0, 0, 150)
 -- Called when the panel is painted.
 function PANEL:Paint(w, h)
 	Clockwork.kernel:RegisterBackgroundBlur(self, self.createTime);
-	Clockwork.kernel:DrawSimpleGradientBox(0, 0, 0, ScrW(), ScrH(), Color(0, 0, 0, 255));
+	Clockwork.kernel:DrawSimpleGradientBox(0, 0, 0, ScrW(), ScrH(), colorBlackMidAlpha);
 	
 	return true;
 end;

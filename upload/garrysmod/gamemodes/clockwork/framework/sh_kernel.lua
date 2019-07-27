@@ -2542,6 +2542,8 @@ else
 			Clockwork.kernel:OverrideMainFont(false);
 		end;
 	end;
+
+	local whiteFading = Color(255,255,255,150)
 	
 	--[[
 		@codebase Shared
@@ -2668,7 +2670,7 @@ else
 		Clockwork.plugin:Call("GetPlayerLimbInfo", texInfo);
 		
 		if (texInfo.shouldDisplay) then
-			surface.SetDrawColor(255, 255, 255, 150);
+			surface.SetDrawColor(whiteFading);
 			surface.SetMaterial(texInfo.textures["body"]);
 			surface.DrawTexturedRect(x, y, width, height);
 			
@@ -4314,8 +4316,8 @@ else
 				Clockwork.CinematicScreenBarLength = mathClamp((maxBarLength / 255) * mathClamp(Clockwork.CinematicBarsAlpha * Clockwork.IntroBarsMultiplier, 0, 255), 0, maxBarLength);
 			end;
 			
-			draw.RoundedBox(0, 0, 0, ScrW(), Clockwork.CinematicScreenBarLength, Color(0, 0, 0, 255));
-			draw.RoundedBox(0, 0, ScrH() - Clockwork.CinematicScreenBarLength, ScrW(), maxBarLength, Color(0, 0, 0, 255));
+			draw.RoundedBox(0, 0, 0, ScrW(), Clockwork.CinematicScreenBarLength, color_black);
+			draw.RoundedBox(0, 0, ScrH() - Clockwork.CinematicScreenBarLength, ScrW(), maxBarLength, color_black);
 		end;
 	end;
 	

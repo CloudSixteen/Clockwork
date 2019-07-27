@@ -357,6 +357,9 @@ function PANEL:GetUsedWeight()
 	return self.usedWeight or 0;
 end;
 
+local colorBlackMidAlpha = Color(0, 0, 0, 150)
+local colorGrey = Color(100, 100, 100, 255)
+
 -- Called when the panel is initialized.
 function PANEL:Init()
 	local colorWhite = Clockwork.option:GetColor("white");
@@ -369,13 +372,13 @@ function PANEL:Init()
 	self.weightLabel:SetText("N/A");
 	self.weightLabel:SetTextColor(colorWhite);
 	self.weightLabel:SizeToContents();
-	self.weightLabel:SetExpensiveShadow(1, Color(0, 0, 0, 150));
+	self.weightLabel:SetExpensiveShadow(1, colorBlackMidAlpha);
 	
 	-- Called when the panel should be painted.
 	function self.spaceUsed.Paint(spaceUsed)
 		local maximumWeight = math.floor(self:GetWeight());
 		local usedWeight = math.floor(self:GetUsedWeight());
-		local color = Color(100, 100, 100, 255);
+		local color = colorGrey;
 		local width = math.Clamp((spaceUsed:GetWide() / maximumWeight) * usedWeight, 0, spaceUsed:GetWide());
 		local red = math.Clamp((255 / maximumWeight) * usedWeight, 0, 255) ;
 		
@@ -430,14 +433,14 @@ function PANEL:Init()
 	self.space:SetText("N/A");
 	self.space:SetTextColor(colorWhite);
 	self.space:SizeToContents();
-	self.space:SetExpensiveShadow(1, Color(0, 0, 0, 150));
+	self.space:SetExpensiveShadow(1, colorBlackMidAlpha);
 	
 	-- Called when the panel should be painted.
 	function self.spaceUsed.Paint(spaceUsed)
 		local maximumSpace = math.floor(self:GetSpace());
 		local usedSpace = math.floor(self:GetUsedSpace());
 		
-		local color = Color(100, 100, 100, 255);
+		local color = colorGrey;
 		local width = math.Clamp((spaceUsed:GetWide() / maximumSpace) * usedSpace, 0, spaceUsed:GetWide());
 		local red = math.Clamp((255 / maximumSpace) * usedSpace, 0, 255) ;
 		

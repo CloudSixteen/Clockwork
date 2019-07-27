@@ -385,6 +385,10 @@ end;
 
 vgui.Register("cwInventoryItem", PANEL, "DPanel");
 
+
+local colorBlackMidAlpha = Color(0, 0, 0, 150)
+local colorGrey = Color(100, 100, 100, 255)
+
 local PANEL = {};
 
 -- Called when the panel is initialized.
@@ -399,7 +403,7 @@ function PANEL:Init()
 	self.weight:SetText("N/A");
 	self.weight:SetTextColor(colorWhite);
 	self.weight:SizeToContents();
-	self.weight:SetExpensiveShadow(1, Color(0, 0, 0, 150));
+	self.weight:SetExpensiveShadow(1, colorBlackMidAlpha);
 	
 	-- Called when the panel should be painted.
 	function self.spaceUsed.Paint(spaceUsed)
@@ -408,7 +412,7 @@ function PANEL:Init()
 		);
 		local maximumWeight = Clockwork.player:GetMaxWeight();
 		
-		local color = Color(100, 100, 100, 255);
+		local color = colorGrey;
 		local width = math.Clamp((spaceUsed:GetWide() / maximumWeight) * inventoryWeight, 0, spaceUsed:GetWide());
 		local red = math.Clamp((255 / maximumWeight) * inventoryWeight, 0, 255) ;
 		
@@ -437,6 +441,8 @@ end;
 	
 vgui.Register("cwInventoryWeight", PANEL, "DPanel");
 
+local colorLemon = Color(139, 215, 113, 255)
+
 local PANEL = {};
 
 -- Called when the panel is initialized.
@@ -451,7 +457,7 @@ function PANEL:Init()
 	self.space:SetText("N/A");
 	self.space:SetTextColor(colorWhite);
 	self.space:SizeToContents();
-	self.space:SetExpensiveShadow(1, Color(0, 0, 0, 150));
+	self.space:SetExpensiveShadow(1, colorBlackMidAlpha);
 	
 	-- Called when the panel should be painted.
 	function self.spaceUsed.Paint(spaceUsed)
@@ -460,7 +466,7 @@ function PANEL:Init()
 		);
 		local maximumSpace = Clockwork.player:GetMaxSpace();
 		
-		local color = Color(100, 100, 100, 255);
+		local color = colorGrey;
 		local width = math.Clamp((spaceUsed:GetWide() / maximumSpace) * inventorySpace, 0, spaceUsed:GetWide());
 		local red = math.Clamp((255 / maximumSpace) * inventorySpace, 0, 255) ;
 		
@@ -471,7 +477,7 @@ function PANEL:Init()
 		end;
 		
 		Clockwork.kernel:DrawSimpleGradientBox(0, 0, 0, spaceUsed:GetWide(), spaceUsed:GetTall(), color);
-		Clockwork.kernel:DrawSimpleGradientBox(0, 0, 0, width, spaceUsed:GetTall(), Color(139, 215, 113, 255));
+		Clockwork.kernel:DrawSimpleGradientBox(0, 0, 0, width, spaceUsed:GetTall(), colorLemon);
 	end;
 end;
 

@@ -391,7 +391,6 @@ function Clockwork.tool:GetAll()
 	return self.stored;
 end;
 
-
 local colorOrangeMsg = Color(255, 100, 0, 255)
 
 function Clockwork.tool:Register(tool)

@@ -69,6 +69,8 @@ function PANEL:Think()
 	end;
 end;
 
+local voiceColor = Color(150, 150, 150, 100)
+
 -- Called when the panel should be painted.
 function PANEL:Paint(w, h)
 	if (IsValid(self.Player)) then
@@ -78,7 +80,7 @@ function PANEL:Paint(w, h)
 		surface.SetDrawColor(50 + (r * volume), 50 + (g * volume), 50 + (b * volume), 250);
 		surface.DrawRect(0, 0, w, h);
 
-		surface.SetDrawColor(150, 150, 150, 100);
+		surface.SetDrawColor(voiceColor);
 		surface.DrawOutlinedRect(0, 0, w, h);
 	end;
 end;

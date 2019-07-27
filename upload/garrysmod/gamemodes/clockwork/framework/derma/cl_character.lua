@@ -1050,6 +1050,9 @@ vgui.Register("cwCharacterModel", PANEL, "DModelPanel");
 
 local PANEL = {};
 
+local halfAlphaBlack = Color(0, 0, 0, 150)
+local colorGret = Color(150, 150, 150, 255)
+
 -- Called when the panel is initialized.
 function PANEL:Init()
 	local colorWhite = Clockwork.option:GetColor("white");
@@ -1091,13 +1094,13 @@ function PANEL:Init()
 	self.pointsLabel:SetText("");
 	self.pointsLabel:SetFont(font);
 	self.pointsLabel:SetTextColor(colorWhite);
-	self.pointsLabel:SetExpensiveShadow(1, Color(0, 0, 0, 150));
+	self.pointsLabel:SetExpensiveShadow(1, halfAlphaBlack);
 	
 	Clockwork.kernel:CreateMarkupToolTip(self.pointsLabel);
 	
 	-- Called when the panel should be painted.
 	function self.pointsUsed.Paint(pointsUsed)
-		local color = Color(150, 150, 150, 255);
+		local color = colorGrey;
 		local width = math.Clamp((pointsUsed:GetWide() / self.attributeTable.maximum) * self.totalPoints, 0, pointsUsed:GetWide());
 		
 		Clockwork.kernel:DrawSimpleGradientBox(0, 0, 0, pointsUsed:GetWide(), pointsUsed:GetTall(), color);

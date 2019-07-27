@@ -119,6 +119,8 @@ function PANEL:OverrideTextColor(color)
 	end;
 end;
 
+local colorBlackMidAlpha = Color(0, 0, 0, 150)
+
 -- Called every frame.
 function PANEL:Think()
 	if (self.animation) then
@@ -142,7 +144,7 @@ function PANEL:Think()
 		self:SetTextColor(self.OverrideColorNormal or colorWhite);
 	end;
 	
-	self:SetExpensiveShadow(1, Color(0, 0, 0, 150));
+	self:SetExpensiveShadow(1, colorBlackMidAlpha);
 end;
 
 -- A function to set the panel's Callback.
