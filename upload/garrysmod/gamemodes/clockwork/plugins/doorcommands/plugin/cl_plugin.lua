@@ -14,6 +14,8 @@ Clockwork.datastream:Hook("doorParentESP", function(data)
 	cwDoorCmds.doorHalos = data;
 end);
 
+local colorOrangeMsg = Color(255, 100, 0, 255)
+
 -- Called before halos need to be rendered.
 function cwDoorCmds:PreDrawHalos()
 	self.doorHalos = self.doorHalos or {}
@@ -23,7 +25,7 @@ function cwDoorCmds:PreDrawHalos()
 			local color = Color(0, 170, 170, 255);
 
 			if (k == "Parent") then
-				color = Color(255, 100, 0, 255);
+				color = colorOrangeMsg;
 			end;
 
 			halo.Add({door}, color, 1, 1, 1, true, true);

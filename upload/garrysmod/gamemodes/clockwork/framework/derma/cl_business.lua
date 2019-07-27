@@ -194,7 +194,7 @@ function PANEL:Init()
 end;
 
 function PANEL:Paint(width, height)
-	CUSTOM_BUSINESS_ITEM_BG:Draw(0, 0, width, height, 8, Color(255, 255, 255, 255));
+	CUSTOM_BUSINESS_ITEM_BG:Draw(0, 0, width, height, 8, color_white);
 	
 	return true;
 end;

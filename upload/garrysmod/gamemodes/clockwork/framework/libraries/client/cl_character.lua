@@ -320,7 +320,7 @@ end;
 --]]
 function Clockwork.character:SetFault(fault)
 	if (fault) then
-		Clockwork.kernel:AddCinematicText(fault, Color(255, 255, 255, 255), 32, 6, Clockwork.option:GetFont("menu_text_tiny"), true);
+		Clockwork.kernel:AddCinematicText(fault, color_white, 32, 6, Clockwork.option:GetFont("menu_text_tiny"), true);
 	end;
 	
 	self.fault = fault;

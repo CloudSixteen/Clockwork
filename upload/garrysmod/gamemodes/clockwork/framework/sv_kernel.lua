@@ -115,6 +115,8 @@ hook.ClockworkCall = hook.ClockworkCall or hook.Call;
 hook.Timings = hook.Timings or {};
 hook.Averages = hook.Averages or {};
 
+local colorOrangeMsg = Color(255, 100, 0, 255)
+
 function hook.Call(name, gamemode, ...)
 	if (name == "EntityTakeDamage") then
 		if (cwKernel:DoEntityTakeDamageHook(...)) then
@@ -132,7 +134,7 @@ function hook.Call(name, gamemode, ...)
 	
 	if (!status) then
 		if (!Clockwork.Unauthorized) then
-			MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Kernel]\nThe '"..name.."' hook has failed to run.\n"..value.."\n");
+			MsgC(colorOrangeMsg, "\n[Clockwork:Kernel]\nThe '"..name.."' hook has failed to run.\n"..value.."\n");
 		end;
 	end;
 	
@@ -141,7 +143,7 @@ function hook.Call(name, gamemode, ...)
 		
 		if (!status) then
 			if (!Clockwork.Unauthorized) then
-				MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Kernel]\nThe '"..name.."' hook failed to run.\n"..a.."\n");
+				MsgC(colorOrangeMsg, "\n[Clockwork:Kernel]\nThe '"..name.."' hook failed to run.\n"..a.."\n");
 			end;
 		else
 			return a, b, c;
@@ -1413,7 +1415,7 @@ function Clockwork:PlayerSpawn(player)
 			player:UnSpectate();
 			player:GodDisable();
 			player:RunCommand("-duck");
-			player:SetColor(Color(255, 255, 255, 255));
+			player:SetColor(color_white);
 			player:SetupHands();
 			
 			player:SetCrouchedWalkSpeed(cwConfig:Get("crouched_speed"):Get());
@@ -2316,7 +2318,7 @@ function Clockwork:PlayerSetSharedVars(player, curTime)
 	end;
 	
 	if (color.r == 255 and color.g == 0 and color.b == 0 and color.a == 0) then
-		player:SetColor(Color(255, 255, 255, 255));
+		player:SetColor(color_white);
 	end;
 	
 	for k, v in pairs(player:GetWeapons()) do

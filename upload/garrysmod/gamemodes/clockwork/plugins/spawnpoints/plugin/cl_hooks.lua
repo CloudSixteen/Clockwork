@@ -19,7 +19,7 @@ function cwSpawnPoints:Initialize()
 	end);
 end;
 
-local colorWhite = Color(255, 255, 255, 255);
+local colorWhite = color_white;
 local colorViolet = Color(180, 100, 255, 255);
 local spawnColor;
 

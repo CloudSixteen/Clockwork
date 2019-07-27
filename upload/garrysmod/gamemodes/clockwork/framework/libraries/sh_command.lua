@@ -32,6 +32,8 @@ CMD_DEFAULT = bit.bor(CMD_DEAD, CMD_KNOCKEDOUT);
 CMD_HEAVY = bit.bor(CMD_DEAD, CMD_RAGDOLLED);
 CMD_ALL = bit.bor(CMD_DEAD, CMD_VEHICLE, CMD_RAGDOLLED);
 
+local colorOrangeMsg = Color(255, 100, 0, 255)
+
 --[[ Set the __index meta function of the class. --]]
 local CLASS_TABLE = {__index = CLASS_TABLE};
 
@@ -285,7 +287,7 @@ if (SERVER) then
 										local wasSuccess, value = pcall(commandTable.OnRun, commandTable, player, arguments);
 
 										if (!wasSuccess) then
-											MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Command]\nThe '"..commandTable.name.."' command has failed to run.\n"..value.."\n");
+											MsgC(colorOrangeMsg, "\n[Clockwork:Command]\nThe '"..commandTable.name.."' command has failed to run.\n"..value.."\n");
 										elseif (Clockwork.player:GetDeathCode(player, true)) then
 											Clockwork.player:UseDeathCode(player, commandTable.name, arguments);
 										end;
@@ -320,7 +322,7 @@ if (SERVER) then
 					local wasSuccess, value = pcall(commandTable.OnConsoleRun, commandTable, arguments);
 
 					if (!wasSuccess) then
-						MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Command]\nThe '"..commandTable.name.."' command has failed to run.\n"..value.."\n");
+						MsgC(colorOrangeMsg, "\n[Clockwork:Command]\nThe '"..commandTable.name.."' command has failed to run.\n"..value.."\n");
 					end;
 				else
 					print(L("NotValidCommandOrAlias"));

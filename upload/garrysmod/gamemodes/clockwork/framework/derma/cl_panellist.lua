@@ -15,7 +15,7 @@ local PANEL = {};
 
 -- Called when the panel is initialized.
 function PANEL:Init()
-	self.backgroundColor = Color(255, 255, 255, 255);
+	self.backgroundColor = color_white;
 end;
 
 -- A function to set the background color.

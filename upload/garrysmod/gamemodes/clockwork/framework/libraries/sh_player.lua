@@ -55,6 +55,7 @@ local cwItem = Clockwork.item;
 local cwJson = Clockwork.json;
 local cwGenerator = Clockwork.generator;
 local cwInventory = Clockwork.inventory;
+local colorOrangeMsg = Color(255, 100, 0, 255)
 
 Clockwork.player = cwKernel:NewLibrary("Player");
 
@@ -1428,7 +1429,7 @@ function Clockwork.player:CreateGear(player, gearClass, itemTable, mustHave)
 				cwKernel:UnpackColor(itemTable("attachmentColor"))
 			);
 		else
-			player.cwGearTab[gearClass]:SetColor(Color(255, 255, 255, 255));
+			player.cwGearTab[gearClass]:SetColor(color_white);
 		end;
 		
 		if (IsValid(player.cwGearTab[gearClass])) then
@@ -3456,10 +3457,10 @@ function Clockwork.player:SetSharedVar(player, key, value, sharedTable)
 			local sharedVars = cwKernel:GetSharedVars():Player();
 			
 			if (!sharedVars) then
-				MsgC(Color(255, 100, 0, 255), "[Clockwork:PlayerSharedVars] Couldn't get the sharedVars table.\n");
+				MsgC(colorOrangeMsg, "[Clockwork:PlayerSharedVars] Couldn't get the sharedVars table.\n");
 				return;
 			elseif (not sharedVars[key]) then
-				MsgC(Color(255, 100, 0, 255), "[Clockwork:PlayerSharedVars] Couldn't find key '"..key.."' in sharedVars table. Is it registered?\n");
+				MsgC(colorOrangeMsg, "[Clockwork:PlayerSharedVars] Couldn't find key '"..key.."' in sharedVars table. Is it registered?\n");
 				return;
 			end;
 			
@@ -3487,7 +3488,7 @@ function Clockwork.player:SetSharedVar(player, key, value, sharedTable)
 					
 					player["SetNetworked"..class](player, key, value);
 				else
-					MsgC(Color(255, 100, 0, 255), "[Clockwork:PlayerSharedVars] Couldn't find network class for key '"..key.."'.");
+					MsgC(colorOrangeMsg, "[Clockwork:PlayerSharedVars] Couldn't find network class for key '"..key.."'.");
 				end;
 			end;
 		else
@@ -3508,10 +3509,10 @@ function Clockwork.player:GetSharedVar(player, key)
 		local sharedVars = cwKernel:GetSharedVars():Player();
 		
 		if (!sharedVars) then
-			MsgC(Color(255, 100, 0, 255), "[Clockwork:PlayerSharedVars] Couldn't get the sharedVars table.\n");
+			MsgC(colorOrangeMsg, "[Clockwork:PlayerSharedVars] Couldn't get the sharedVars table.\n");
 			return;
 		elseif (not sharedVars[key]) then
-			MsgC(Color(255, 100, 0, 255), "[Clockwork:PlayerSharedVars] Couldn't find key '"..key.."' in sharedVars table. Is it registered?\n");
+			MsgC(colorOrangeMsg, "[Clockwork:PlayerSharedVars] Couldn't find key '"..key.."' in sharedVars table. Is it registered?\n");
 			return;
 		end;
 		
@@ -3529,7 +3530,7 @@ function Clockwork.player:GetSharedVar(player, key)
 			if (class) then
 				return player["GetNetworked"..class](player, key);
 			else
-				MsgC(Color(255, 100, 0, 255), "[Clockwork:PlayerSharedVars] Couldn't find network class for key '"..key.."'.");
+				MsgC(colorOrangeMsg, "[Clockwork:PlayerSharedVars] Couldn't find network class for key '"..key.."'.");
 			end;
 		end;
 	end;

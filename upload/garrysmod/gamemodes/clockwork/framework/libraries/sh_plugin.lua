@@ -19,7 +19,7 @@ local table = table;
 local file = file;
 local util = util;
 local debug = debug;
-
+local colorOrangeMsg = Color(255, 100, 0, 255)
 --[[ The plugin library is already defined! --]]
 if (Clockwork.plugin) then return; end;
 
@@ -345,7 +345,7 @@ function Clockwork.plugin:CheckMismatches()
 		end;
 		
 		for k, v in ipairs(funcIdxMismatches) do
-			MsgC(Color(255, 100, 0, 255), "[Clockwork:Plugin] The Schema hook '"..v.."' was overriden by a plugin, this is not good!\n");
+			MsgC(colorOrangeMsg, "[Clockwork:Plugin] The Schema hook '"..v.."' was overriden by a plugin, this is not good!\n");
 		end;
 	end;
 end;
@@ -479,7 +479,7 @@ function Clockwork.plugin:Include(directory, isSchema)
 			AddCSLuaFile(directory.."/sh_schema.lua");
 			include(directory.."/sh_schema.lua");
 		else
-			MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Plugin] The schema has no sh_schema.lua.\n");
+			MsgC(colorOrangeMsg, "\n[Clockwork:Plugin] The schema has no sh_schema.lua.\n");
 		end;
 
 		Schema:Register();
@@ -501,7 +501,7 @@ function Clockwork.plugin:Include(directory, isSchema)
 					
 					CW_SCRIPT_SHARED.plugins[pathCRC] = iniTable;
 				else
-					MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
+					MsgC(colorOrangeMsg, "\n[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
 				end;
 
 				if (iniTable["compatibility"]) then
@@ -528,7 +528,7 @@ function Clockwork.plugin:Include(directory, isSchema)
 					unloaded[PLUGIN_FOLDERNAME] = true;
 				end;
 			else
-				MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
+				MsgC(colorOrangeMsg, "\n[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
 			end;
 		end;
 		
@@ -599,7 +599,7 @@ function Clockwork.plugin:ClearHookCache(name)
 	elseif (hookCache[name]) then
 		hookCache[name] = nil;
 	else
-	    MsgC(Color(255, 100, 0, 255), "[Clockwork:Plugin] Attempted to clear cache for invalid hook '"..name.."'");
+	    MsgC(colorOrangeMsg, "[Clockwork:Plugin] Attempted to clear cache for invalid hook '"..name.."'");
 	end;
 end;
 
@@ -648,7 +648,7 @@ function Clockwork.plugin:RunHooks(name, isGamemode, ...)
 		local wasSuccess, value = pcall(v[1], v[2], ...);
 			
 		if (!wasSuccess) then
-			MsgC(Color(255, 100, 0, 255), "\n[Clockwork:"..v[2].name.."]\nThe '"..name.."' hook has failed to run.\n"..value.."\n");
+			MsgC(colorOrangeMsg, "\n[Clockwork:"..v[2].name.."]\nThe '"..name.."' hook has failed to run.\n"..value.."\n");
 		elseif (value != nil) then
 			return value;
 		end;
@@ -658,7 +658,7 @@ function Clockwork.plugin:RunHooks(name, isGamemode, ...)
 		local wasSuccess, value = pcall(Clockwork[name], Clockwork, ...);
 		
 		if (!wasSuccess) then
-			MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Kernel]\nThe '"..name.."' Clockwork hook has failed to run.\n"..value.."\n");
+			MsgC(colorOrangeMsg, "\n[Clockwork:Kernel]\nThe '"..name.."' Clockwork hook has failed to run.\n"..value.."\n");
 		elseif (value != nil) then
 			return value;
 		end;

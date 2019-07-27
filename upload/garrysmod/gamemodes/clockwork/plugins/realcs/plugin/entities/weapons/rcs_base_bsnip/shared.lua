@@ -114,7 +114,7 @@ if CLIENT then
 				local e2s = (x - (y*4/3))/2 --algebra to find the center of the screen and shit blah blah i dont wanna bore you (for widescreen monitors (e2s means edge to side of scope)
 				if st == "0" then
 					surface.SetTexture(surface.GetTextureID("gmod/scope-refract")) --the material for that wicked cool water edge!
-					surface.SetDrawColor(255, 255, 255, 255)
+					surface.SetDrawcolor_white
 					surface.DrawTexturedRect(e2s, 0, x-(e2s*2), y)  --gets your screen resolution minus the extra edges
 				elseif st != "1" then	
 					Msg("0 = Watery, 1 = Normal\nSetting back to default (1)\n")
@@ -133,7 +133,7 @@ if CLIENT then
 			else
 				if st == "0" then
 					surface.SetTexture(surface.GetTextureID("gmod/scope-refract")) --the material for that wicked cool water edge!
-					surface.SetDrawColor(255, 255, 255, 255)
+					surface.SetDrawcolor_white
 					surface.DrawTexturedRect(0, 0, x, y)  --gets your screen resolution
 				elseif st != "1" then	
 					Msg("0 = Watery, 1 = Normal\nSetting back to default (1)\n")

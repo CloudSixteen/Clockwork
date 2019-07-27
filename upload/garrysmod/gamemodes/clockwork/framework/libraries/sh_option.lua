@@ -136,8 +136,8 @@ if (CLIENT) then
 	end;
 
 	Clockwork.option:SetColor("columnsheet_shadow_normal", Color(0, 0, 0, 255));
-	Clockwork.option:SetColor("columnsheet_text_normal", Color(255, 255, 255, 255));
-	Clockwork.option:SetColor("columnsheet_shadow_active", Color(255, 255, 255, 255));
+	Clockwork.option:SetColor("columnsheet_text_normal", color_white);
+	Clockwork.option:SetColor("columnsheet_shadow_active", color_white);
 	Clockwork.option:SetColor("columnsheet_text_active", Color(50, 50, 50, 255));
 	
 	Clockwork.option:SetColor("attribute_base_color", Color(50, 50, 50, 255));
@@ -179,7 +179,7 @@ if (CLIENT) then
 	Clockwork.option:SetColor("background", Color(0, 0, 0, 125));
 	Clockwork.option:SetColor("foreground", Color(50, 50, 50, 125));
 	Clockwork.option:SetColor("target_id", Color(50, 75, 100, 255));
-	Clockwork.option:SetColor("white", Color(255, 255, 255, 255));
+	Clockwork.option:SetColor("white", color_white);
 
 	Clockwork.option:SetFont("schema_description", "cwMainText");
 	Clockwork.option:SetFont("scoreboard_desc", "cwScoreboardDesc");

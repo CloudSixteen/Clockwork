@@ -743,7 +743,7 @@ function PANEL:Init()
 	self.factionLabel:SizeToContents();
 	self.factionLabel:SetPos(0, self.nameLabel.y + self.nameLabel:GetTall() + 4);
 	
-	local color = Color(255, 255, 255, 255);
+	local color = color_white;
 	local factionTable = Clockwork.faction:FindByID(self.customData.faction);
 	
 	if (!factionTable or !factionTable.color) then
@@ -957,7 +957,7 @@ local PANEL = {};
 -- Called when the panel is initialized.
 function PANEL:Init()
 	self:SetPaintBackground(false);
-	self:SetAmbientLight(Color(255, 255, 255, 255));
+	self:SetAmbientLight(color_white);
 	
 	Clockwork.kernel:CreateMarkupToolTip(self);
 end;

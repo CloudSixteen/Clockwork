@@ -31,6 +31,7 @@ local util = util;
 
 Clockwork.datastream = Clockwork.kernel:NewLibrary("Datastream");
 Clockwork.datastream.stored = Clockwork.datastream.stored or {};
+local colorOrangeMsg = Color(255, 100, 0, 255)
 
 --[[
 	@codebase Shared
@@ -126,7 +127,7 @@ if (SERVER) then
 					if (wasSuccess) then
 						Clockwork.datastream.stored[player.cwDataStreamName](player, value.data);
 					elseif (value != nil) then
-						MsgC(Color(255, 100, 0, 255), "[Clockwork:Datastream] The '"..CW_DS_NAME.."' datastream has failed to run.\n"..value.."\nData: "..tostring(player.cwDataStreamData).."\n");
+						MsgC(colorOrangeMsg, "[Clockwork:Datastream] The '"..CW_DS_NAME.."' datastream has failed to run.\n"..value.."\nData: "..tostring(player.cwDataStreamData).."\n");
 					end;
 				end;
 				
@@ -168,6 +169,7 @@ else
 		@param {Unknown} Missing description for Callback.
 		@returns {Unknown}
 	--]]
+
 	function Clockwork.datastream:Request(name, data, Callback)
 		self:Hook(name, Callback);		
 		self:Start(name, data);
@@ -185,7 +187,7 @@ else
 				if (wasSuccess) then
 					Clockwork.datastream.stored[CW_DS_NAME](value.data);
 				elseif (value != nil) then
-					MsgC(Color(255, 100, 0, 255), "[Clockwork:Datastream] The '"..CW_DS_NAME.."' datastream has failed to run.\n"..value.."\nData: "..tostring(CW_DS_DATA).."\n");
+					MsgC(colorOrangeMsg, "[Clockwork:Datastream] The '"..CW_DS_NAME.."' datastream has failed to run.\n"..value.."\nData: "..tostring(CW_DS_DATA).."\n");
 				end;
 			end;
 		end;

@@ -391,6 +391,9 @@ function Clockwork.tool:GetAll()
 	return self.stored;
 end;
 
+
+local colorOrangeMsg = Color(255, 100, 0, 255)
+
 function Clockwork.tool:Register(tool)
 	if (tool.UniqueID) then
 		tool.Mode = tool.UniqueID;
@@ -440,6 +443,6 @@ function Clockwork.tool:Register(tool)
 
 		self.stored[tool.UniqueID] = tool;
 	else
-		MsgC(Color(255, 100, 0, 255), "[Clockwork:Tool] The "..tool.Name.." tool does not have a UniqueID, and will not function without one!\n");
+		MsgC(colorOrangeMsg, "[Clockwork:Tool] The "..tool.Name.." tool does not have a UniqueID, and will not function without one!\n");
 	end;
 end;

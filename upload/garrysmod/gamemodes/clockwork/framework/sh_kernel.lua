@@ -88,6 +88,8 @@ Clockwork.Timers = Clockwork.Timers or {};
 Clockwork.Libraries = Clockwork.Libraries or {};
 Clockwork.SharedTables = Clockwork.SharedTables or {};
 
+local colorOrangeMsg = Color(255, 100, 0, 255)
+
 --[[
 	@codebase Shared
 	@details A function to split a string but keep the delimiter.
@@ -304,7 +306,7 @@ end;
 --]]
 function Clockwork.kernel:StringToColor(text)
 	local explodedData = stringExplode(",", text);
-	local color = Color(255, 255, 255, 255);
+	local color = color_white;
 	
 	if (explodedData[1]) then
 		color.r = tonumber(explodedData[1]:Trim()) or 255;
@@ -1016,7 +1018,7 @@ if (SERVER) then
 	--]]
 	function Clockwork.kernel:SaveSchemaData(fileName, data)
 		if (type(data) != "table") then
-			MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] The '"..fileName.."' schema data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
+			MsgC(colorOrangeMsg, "[Clockwork:Kernel] The '"..fileName.."' schema data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
 			return;
 		end;
 	
@@ -1134,7 +1136,7 @@ if (SERVER) then
 				if (wasSuccess and value != nil) then
 					return value;
 				else
-					MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' schema data has failed to restore.\n"..value.."\n");
+					MsgC(colorOrangeMsg, "[Clockwork:Kernel] '"..fileName.."' schema data has failed to restore.\n"..value.."\n");
 					
 					self:DeleteSchemaData(fileName);
 				end;
@@ -1170,7 +1172,7 @@ if (SERVER) then
 					if (wasSuccess and value != nil) then
 						return value;
 					else
-						MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' clockwork data has failed to restore.\n"..value.."\n");
+						MsgC(colorOrangeMsg, "[Clockwork:Kernel] '"..fileName.."' clockwork data has failed to restore.\n"..value.."\n");
 						
 						self:DeleteClockworkData(fileName);
 					end;
@@ -1215,7 +1217,7 @@ if (SERVER) then
 	--]]
 	function Clockwork.kernel:SaveClockworkData(fileName, data)
 		if (type(data) != "table") then
-			MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] The '"..fileName.."' clockwork data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
+			MsgC(colorOrangeMsg, "[Clockwork:Kernel] The '"..fileName.."' clockwork data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
 			
 			return;
 		end;
@@ -2784,6 +2786,8 @@ else
 	function Clockwork.kernel:GetESPInfo()
 		return self.ESPInfo;
 	end;
+
+	local grayColor = Color(150, 150, 150, 170);
 	
 	--[[
 		@codebase Shared
@@ -2846,7 +2850,7 @@ else
 								icon = v2.icon;
 							end;
 
-							surface.SetDrawColor(255, 255, 255, 255);
+							surface.SetDrawcolor_white;
 							surface.SetMaterial(Clockwork.kernel:GetMaterial(icon));
 							surface.DrawTexturedRect(position.x - (width * 0.40) - height, position.y - height * 0.5, height, height);
 						end;
@@ -2854,7 +2858,6 @@ else
 						if (barValue and CW_CONVAR_ESPBARS:GetInt() == 1) then
 							local barHeight = height * 0.80;
 							local barColor = v2.barColor or Clockwork:GetValueColor(barValue);
-							local grayColor = Color(150, 150, 150, 170);
 							local progress = 100 * (barValue / maximum);
 
 							if progress < 0 then
@@ -4033,7 +4036,7 @@ else
 				local x, y = 0, 0;
 				
 				surface.SetMaterial(Clockwork.ScreenBlur);
-				surface.SetDrawColor(255, 255, 255, 255);
+				surface.SetDrawcolor_white;
 				
 				for i = 0.33, 1, 0.33 do
 					Clockwork.ScreenBlur:SetFloat("$blur", fraction * 5 * i);
@@ -4189,6 +4192,9 @@ else
 		end;
 	end;
 	
+
+	local color_black = Color(0, 0, 0, 255)
+
 	--[[
 		@codebase Shared
 		@details A function to draw a cinematic.
@@ -4216,8 +4222,8 @@ else
 		end;
 		
 		if (cinematicTable) then
-			draw.RoundedBox(0, 0, -maxBarLength + cinematicTable.add, ScrW(), maxBarLength, Color(0, 0, 0, 255));
-			draw.RoundedBox(0, 0, ScrH() - cinematicTable.add, ScrW(), maxBarLength, Color(0, 0, 0, 255));
+			draw.RoundedBox(0, 0, -maxBarLength + cinematicTable.add, ScrW(), maxBarLength, color_black);
+			draw.RoundedBox(0, 0, ScrH() - cinematicTable.add, ScrW(), maxBarLength,color_black);
 			draw.SimpleText(cinematicTable.text, font, ScrW() / 2, (ScrH() - cinematicTable.add) + (maxBarLength / 2), cinematicTable.color, 1, 1);
 		end
 	end;
@@ -4505,7 +4511,7 @@ else
 	--]]
 	function Clockwork.kernel:SaveSchemaData(fileName, data)
 		if (type(data) != "table") then
-			MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] The '"..fileName.."' schema data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
+			MsgC(colorOrangeMsg, "[Clockwork:Kernel] The '"..fileName.."' schema data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
 			
 			return;
 		end;	
@@ -4565,7 +4571,7 @@ else
 					if (wasSuccess and value != nil) then
 						return value;
 					else
-						MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' schema data has failed to restore.\n"..value.."\n");
+						MsgC(colorOrangeMsg, "[Clockwork:Kernel] '"..fileName.."' schema data has failed to restore.\n"..value.."\n");
 						
 						self:DeleteSchemaData(fileName);
 					end;
@@ -4602,7 +4608,7 @@ else
 					if (wasSuccess and value != nil) then
 						return value;
 					else
-						MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] '"..fileName.."' clockwork data has failed to restore.\n"..value.."\n");
+						MsgC(colorOrangeMsg, "[Clockwork:Kernel] '"..fileName.."' clockwork data has failed to restore.\n"..value.."\n");
 						
 						self:DeleteClockworkData(fileName);
 					end;
@@ -4626,7 +4632,7 @@ else
 	--]]
 	function Clockwork.kernel:SaveClockworkData(fileName, data)
 		if (type(data) != "table") then
-			MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] The '"..fileName.."' clockwork data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
+			MsgC(colorOrangeMsg, "[Clockwork:Kernel] The '"..fileName.."' clockwork data has failed to save.\nUnable to save type "..type(data)..", table required.\n");
 			
 			return;
 		end;	
@@ -4976,7 +4982,7 @@ function Clockwork.kernel:CallTimerThink(curTime)
 				local wasSuccess, value = pcall(v.Callback, unpack(v.arguments));
 				
 				if (!wasSuccess) then
-					MsgC(Color(255, 100, 0, 255), "[Clockwork:Kernel] The '"..tostring(k).."' timer has failed to run.\n"..value.."\n");
+					MsgC(colorOrangeMsg, "[Clockwork:Kernel] The '"..tostring(k).."' timer has failed to run.\n"..value.."\n");
 				end;
 				
 				v.nextCall = curTime + v.delay;
@@ -5333,7 +5339,7 @@ function Clockwork.kernel:SetSharedVar(key, value, sharedTable)
 				end;
 				local success, err = pcall(_G["SetGlobal"..class], key, value);
 				if (!success) then
-					MsgC(Color(255, 100, 0, 255), "[Clockwork:GlobalSharedVars] Attempted to set SharedVar '"..key.."' of type '"..class.."' with value of type '"..type(value).."'.\n"..err.."\n");
+					MsgC(colorOrangeMsg, "[Clockwork:GlobalSharedVars] Attempted to set SharedVar '"..key.."' of type '"..class.."' with value of type '"..type(value).."'.\n"..err.."\n");
 				end;
 				return;
 			end;

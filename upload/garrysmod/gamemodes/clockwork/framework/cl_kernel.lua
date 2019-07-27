@@ -91,6 +91,8 @@ DeriveGamemode("sandbox");
 hook.ClockworkCall = hook.ClockworkCall or hook.Call;
 hook.Timings = hook.Timings or {};
 
+local colorOrangeHook = Color(255, 100, 0, 255)
+
 function hook.Call(name, gamemode, ...)
 	if (!IsValid(Clockwork.Client)) then
 		Clockwork.Client = LocalPlayer();
@@ -100,14 +102,14 @@ function hook.Call(name, gamemode, ...)
 	local status, value = pcall(cwPlugin.RunHooks, cwPlugin, name, nil, ...);
 	
 	if (!status) then
-		MsgC(Color(255, 100, 0, 255), "[Clockwork] The '"..name.."' hook failed to run.\n"..value.."\n"..value.."\n");
+		MsgC(colorOrangeHook, "[Clockwork] The '"..name.."' hook failed to run.\n"..value.."\n"..value.."\n");
 	end;
 	
 	if (value == nil) then
 		local status, a, b, c = pcall(hook.ClockworkCall, name, gamemode or Clockwork, ...);
 		
 		if (!status) then
-			MsgC(Color(255, 100, 0, 255), "[Clockwork] The '"..name.."' hook failed to run.\n"..a.."\n");
+			MsgC(colorOrangeHook, "[Clockwork] The '"..name.."' hook failed to run.\n"..a.."\n");
 		else
 			return a, b, c;
 		end;
@@ -1786,7 +1788,7 @@ function Clockwork:AddEntityOutlines(outlines)
 		self.EntityMenu.entity:DrawModel();
 		
 		outlines:Add(
-			self.EntityMenu.entity, Color(255, 255, 255, 255)
+			self.EntityMenu.entity, color_white
 		);
 	end;
 end;
@@ -2124,6 +2126,8 @@ function Clockwork:AddNotify(text, class, length)
 	return cwKernel:AddNotify(text, class, length);
 end;
 
+local colorOrangeGrey = Color(150, 150, 100, 255)
+local unknownPersonTextColor = Color(200, 100, 50, 255)
 --[[
 	@codebase Client
 	@details Called when the target ID HUD should be drawn.
@@ -2276,7 +2280,7 @@ function Clockwork:HUDDrawTargetID()
 							local name = generator.name;
 							local x, y = toScreen.x, toScreen.y;
 							
-							y = cwKernel:DrawInfo(name, x, y, Color(150, 150, 100, 255), alpha);
+							y = cwKernel:DrawInfo(name, x, y, colorOrangeGrey, alpha);
 							
 							local info = {
 								showPower = true,
@@ -2289,7 +2293,7 @@ function Clockwork:HUDDrawTargetID()
 							
 							if (info.showPower) then
 								if (power == 0) then
-									info.y = cwKernel:DrawInfo("Press Use to re-supply", info.x, info.y, Color(255, 255, 255, 255), alpha);
+									info.y = cwKernel:DrawInfo("Press Use to re-supply", info.x, info.y, color_white, alpha);
 								else
 									info.y = cwKernel:DrawBar(
 										info.x - 80, info.y, 160, 16, cwOption:GetColor("information"), generator.powerPlural,
@@ -2311,7 +2315,7 @@ function Clockwork:HUDDrawTargetID()
 								local toScreen = (trace.HitPos + Vector(0, 0, 16)):ToScreen();
 								local x, y = toScreen.x, toScreen.y;
 								
-								y = cwKernel:DrawInfo("An unknown weapon", x, y, Color(200, 100, 50, 255), alpha);
+								y = cwKernel:DrawInfo("An unknown weapon", x, y, unknownPersonTextColor, alpha);
 								y = cwKernel:DrawInfo("Press use to equip.", x, y, colorWhite, alpha);
 							end;
 						end;
@@ -2417,6 +2421,12 @@ function Clockwork:GetModelSelectWeaponModel(model) end;
 --]]
 function Clockwork:GetModelSelectSequence(entity, model) end;
 
+
+
+
+local salesManColor = Color(255, 150, 0, 255);
+local itemColor = Color(0, 255, 255, 255);
+
 --[[
     @codebase Client
     @details Finds the location of the player and packs together the info for observer ESP.
@@ -2464,7 +2474,7 @@ function Clockwork:GetAdminESPInfo(info)
 			if (v:IsValid()) then
 				local position = v:GetPos() + Vector(0, 0, 80);
 				local saleName = v:GetNetworkedString("Name");
-				local color = Color(255, 150, 0, 255);
+				local color = salesManColor;
 
 				table.insert(info, {
 					position = position,
@@ -2491,7 +2501,7 @@ function Clockwork:GetAdminESPInfo(info)
 
 				if (itemTable) then
 					local itemName = L(itemTable("name"));
-					local color = Color(0, 255, 255, 255);
+					local color = itemColor
 
 					table.insert(info, {
 						position = position,
@@ -2551,6 +2561,11 @@ function Clockwork:GetStatusInfo(player, text)
 	end;
 end;
 
+
+local defaultRedColorESP = Color(255, 0, 0, 255);
+local textColorESP = Color(170, 170, 170, 255);
+local barColorESP = Color(30, 65, 175, 255);
+
 --[[
 	@codebase Client
 	@details Called when extra player info is needed.
@@ -2563,14 +2578,14 @@ function Clockwork:GetPlayerESPInfo(player, text)
 		local weapon = player:GetActiveWeapon();
 		local health = player:Health();
 		local armor = player:Armor();
-		local colorWhite = Color(255, 255, 255, 255);
-		local colorRed = Color(255, 0, 0, 255);
+		local colorWhite = color_white;
+		local colorRed = defaultRedColorESP
 		local colorHealth = colorWhite;
 		local colorArmor = colorWhite;
 		
 		table.insert(text, {
 			text = player:SteamName(), 
-			color = Color(170, 170, 170, 255), 
+			color = textColorESP, 
 			icon = cwPly:GetChatIcon(player)
 		});
 
@@ -2597,7 +2612,7 @@ function Clockwork:GetPlayerESPInfo(player, text)
 						value = armor,
 						max = player:GetMaxArmor()
 					}, 
-					barColor = Color(30, 65, 175, 255)
+					barColor = barColorESP
 				});
 			end;
 		
@@ -3484,6 +3499,10 @@ function Clockwork:ShouldDrawCharacterFault(fault)
 	return true;
 end;
 
+
+local colorRedNoSQL = Color(179, 46, 49, 255)
+local colorBlack = Color(0, 0, 0, 255)
+
 --[[
 	@codebase Client
 	@details Called when the score board should be drawn.
@@ -3503,7 +3522,7 @@ function Clockwork:HUDDrawScoreBoard()
 	
 	if (cwKernel:IsChoosingCharacter()) then
 		if (cwPlugin:Call("ShouldDrawCharacterBackground")) then
-			cwKernel:DrawSimpleGradientBox(0, 0, 0, ScrW(), ScrH(), Color(0, 0, 0, 255));
+			cwKernel:DrawSimpleGradientBox(0, 0, 0, ScrW(), ScrH(), colorBlack);
 		end;
 		
 		cwPlugin:Call("HUDPaintCharacterSelection");
@@ -3613,8 +3632,8 @@ function Clockwork:HUDDrawScoreBoard()
 	end;
 	
 	if (cwKernel:GetSharedVar("NoMySQL") and cwKernel:GetSharedVar("NoMySQL") != "") then
-		cwKernel:DrawSimpleGradientBox(0, 0, 0, scrW, scrH, Color(0, 0, 0, 255));
-		draw.SimpleText(cwKernel:GetSharedVar("NoMySQL"), introTextSmallFont, scrW / 2, scrH / 2, Color(179, 46, 49, 255), 1, 1);
+		cwKernel:DrawSimpleGradientBox(0, 0, 0, scrW, scrH, colorBlack);
+		draw.SimpleText(cwKernel:GetSharedVar("NoMySQL"), introTextSmallFont, scrW / 2, scrH / 2, colorRedNoSQL, 1, 1);
 	elseif (self.DataStreamedAlpha and self.DataStreamedAlpha > 0) then
 		local textString = "LOADING...";
 		
@@ -3627,7 +3646,7 @@ function Clockwork:HUDDrawScoreBoard()
 	if (drawCharacterLoading) then
 		cwPlugin:Call("HUDPaintCharacterLoading", math.Clamp((255 / self.CharacterLoadingDelay) * (self.CharacterLoadingFinishTime - curTime), 0, 255));
 	elseif (drawPendingScreenBlack) then
-		cwKernel:DrawSimpleGradientBox(0, 0, 0, ScrW(), ScrH(), Color(0, 0, 0, 255));
+		cwKernel:DrawSimpleGradientBox(0, 0, 0, ScrW(), ScrH(), colorBlack);
 	end;
 	
 	if (self.CharacterLoadingFinishTime) then
@@ -3792,7 +3811,7 @@ function Clockwork:HUDPaint()
 	--	and (IsValid(weapon) and weapon.DrawCrosshair != false)) then
 		if (cwPlugin:Call("CanDrawCrosshair", weapon)) then
 			local info = {
-				color = Color(255, 255, 255, 255),
+				color = color_white,
 				x = ScrW() / 2,
 				y = ScrH() / 2
 			};

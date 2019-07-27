@@ -989,6 +989,8 @@ function Clockwork.chatBox:SetMultiplier(multiplier)
 	self.multiplier = multiplier;
 end;
 
+local colorGrey = Color(150, 150, 150, 255)
+
 --[[
 	@codebase Client
 	@details A function to add a message to the chat box.
@@ -1027,7 +1029,7 @@ function Clockwork.chatBox:Add(filtered, icon, ...)
 		
 		if (CW_CONVAR_SHOWTIMESTAMPS:GetInt() == 1) then
 			local timeInfo = "("..os.date("%H:%M")..") ";
-			local color = Color(150, 150, 150, 255);
+			local color = colorGrey;
 			
 			if (CW_CONVAR_TWELVEHOURCLOCK:GetInt() == 1) then
 				timeInfo = "("..string.lower(os.date("%I:%M%p"))..") ";
@@ -1323,7 +1325,7 @@ end);
 
 Clockwork.chatBox:RegisterDefaultClass("notify_all", "ooc", function(info)
 	if (Clockwork.kernel:GetNoticePanel()) then
-		Clockwork.kernel:AddCinematicText(info.text, Color(255, 255, 255, 255), 32, 6, Clockwork.option:GetFont("menu_text_tiny"), true);
+		Clockwork.kernel:AddCinematicText(info.text, color_white, 32, 6, Clockwork.option:GetFont("menu_text_tiny"), true);
 	end;
 
 	local filtered = (CW_CONVAR_SHOWAURA:GetInt() == 0) or info.filtered;
@@ -1342,7 +1344,7 @@ end);
 
 Clockwork.chatBox:RegisterDefaultClass("notify", "ooc", function(info)
 	if (Clockwork.kernel:GetNoticePanel()) then
-		Clockwork.kernel:AddCinematicText(info.text, Color(255, 255, 255, 255), 32, 6, Clockwork.option:GetFont("menu_text_tiny"), true);
+		Clockwork.kernel:AddCinematicText(info.text, color_white, 32, 6, Clockwork.option:GetFont("menu_text_tiny"), true);
 	end;
 	
 	local filtered = (CW_CONVAR_SHOWAURA:GetInt() == 0) or info.filtered;
