@@ -1051,7 +1051,7 @@ vgui.Register("cwCharacterModel", PANEL, "DModelPanel");
 local PANEL = {};
 
 local halfAlphaBlack = Color(0, 0, 0, 150)
-local colorGret = Color(150, 150, 150, 255)
+local colorGrey = Color(150, 150, 150, 255)
 
 -- Called when the panel is initialized.
 function PANEL:Init()
