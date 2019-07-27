@@ -17,7 +17,7 @@ function cwDoorCmds:ClockworkInitPostEntity()
 end;
 
 function cwDoorCmds:PostSaveData()
-	if (Clockwork.config:Get("doors_save_state"):Get() and #player.GetAll() > 0) then
+	if (Clockwork.config:Get("doors_save_state"):Get() and player.GetCount() > 0) then
 		self:SaveDoorStates();
 	end;
 end;
