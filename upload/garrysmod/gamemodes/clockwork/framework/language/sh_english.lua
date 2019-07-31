@@ -1027,3 +1027,5 @@ CW_ENGLISH["PlayerInfoClass"] = "#1";
 CW_ENGLISH["CashAmountSingular"] = "$#1";
 CW_ENGLISH["CashAmount"] = "#1 #2";
 CW_ENGLISH["Cash"] = "Cash";
+
+CW_ENGLISH["Ranked"] = "Ranked #1"

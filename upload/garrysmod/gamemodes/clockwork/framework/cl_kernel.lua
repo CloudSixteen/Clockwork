@@ -2783,7 +2783,9 @@ function Clockwork:GetTargetPlayerText(player, targetPlayerText)
 	local rankName, rankTable = player:GetFactionRank();
 
 	if (rankName and rankName != "" and rankTable.displayRank) then
-		targetPlayerText:Add("RANK", "Ranked " .. rankName);
+		local rankDisplayText = L("Ranked", rankName);
+
+		targetPlayerText:Add("RANK", rankDisplayText);
 	end;
 
 	local targetIDTextFont = cwOption:GetFont("target_id_text");
