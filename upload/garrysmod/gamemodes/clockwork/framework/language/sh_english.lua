@@ -18,6 +18,7 @@ CW_ENGLISH["CannotDropWeaponFar"] = "You cannot drop your weapon that far away!"
 CW_ENGLISH["CannotDropNameFar"] = "You cannot drop #1 that far away!";
 CW_ENGLISH["CannotDropItemFar"] = "You cannot drop the item that far away!";
 CW_ENGLISH["CannotUseItemInVehicle"] = "You cannot use this item in a vehicle!";
+CW_ENGLISH["CannotTakeItemStored"] = "You cannot take an item you stored on another character!";
 CW_ENGLISH["YouNeedAnother"] = "You need another #1!";
 CW_ENGLISH["NotEnoughText"] = "You did not specify enough text!";
 CW_ENGLISH["ConfigVariablesPrinted"] = "The config variables have been printed to the console.";

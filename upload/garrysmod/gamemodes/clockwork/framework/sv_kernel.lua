@@ -912,7 +912,7 @@ end;
 --]]
 function Clockwork:PlayerCanTakeFromStorage(player, storageTable, itemTable)
 	if (itemTable.cwPropertyTab and cwEntity:BelongsToAnotherCharacter(player, itemTable)) then
-		cwPly:Notify(player, "You cannot take an item you stored on another character!");
+		cwPly:Notify(player, L(player, "CannotTakeItemStored"));
 		
 		return false;
 	end;
