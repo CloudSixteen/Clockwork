@@ -4449,9 +4449,8 @@ function Clockwork:ChatBoxAdjustInfo(info)
 
 			for k, v in pairs(voiceGroups) do
 				if (v.IsPlayerMember(info.speaker)) then
-					voices = v.voices;
-
-					break;
+					for k2,v2 in pairs(v.voices) do table.insert(voices, v2) end;
+					
 				end;
 			end;
 			
