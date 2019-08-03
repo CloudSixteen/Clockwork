@@ -4445,7 +4445,7 @@ function Clockwork:ChatBoxAdjustInfo(info)
 			info.text = string.upper(string.sub(info.text, 1, 1))..string.sub(info.text, 2);
 			
 			local voiceGroups = Clockwork.voices:GetAll();
-			local voices;
+			local voices = {};
 
 			for k, v in pairs(voiceGroups) do
 				if (v.IsPlayerMember(info.speaker)) then
