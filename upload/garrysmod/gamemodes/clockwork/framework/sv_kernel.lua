@@ -4454,7 +4454,7 @@ function Clockwork:ChatBoxAdjustInfo(info)
 			end;
 			
 			local textTable = string.Explode("; ?", info.text, true); -- Split text by ;
-			local voiceList = {}; -- Declare voice list to list sounds
+			local voiceList = {}; -- Declare voice list to list sounds.
 			
 			for k, vText in pairs(textTable) do
 				local bFound = false; -- Boolean to check if voice command has been found.
