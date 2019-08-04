@@ -4562,7 +4562,7 @@ function Clockwork:ChatBoxMessageAdded(info)
 					timer.Simple(delay, function()
 						for k, v in pairs(info.listeners) do
 							if (v != info.speaker) then
-								Clockwork.player:PlaySound(v, voice.sound, voice.pitch);
+								Clockwork.player:PlaySound(v, voice.sound);
 							end;
 						end;
 					end);
