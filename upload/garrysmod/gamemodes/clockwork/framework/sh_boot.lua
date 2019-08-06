@@ -131,6 +131,7 @@ Clockwork.player:AddCharacterData("PhysDesc", NWTYPE_STRING, "");
 Clockwork.player:AddCharacterData("Model", NWTYPE_STRING, "");
 Clockwork.player:AddCharacterData("Flags", NWTYPE_STRING, "");
 Clockwork.player:AddCharacterData("Name", NWTYPE_STRING, "");
+Clockwork.player:AddCharacterData("FactionRank", NWTYPE_STRING, "");
 Clockwork.player:AddCharacterData("Cash", NWTYPE_NUMBER, 0);
 Clockwork.player:AddCharacterData("Key", NWTYPE_NUMBER, 0);
 

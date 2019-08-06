@@ -911,6 +911,12 @@ end;
 	@returns {Unknown}
 --]]
 function Clockwork:PlayerCanTakeFromStorage(player, storageTable, itemTable)
+	if (itemTable.cwPropertyTab and cwEntity:BelongsToAnotherCharacter(player, itemTable)) then
+		cwPly:Notify(player, L(player, "CannotTakeItemStored"));
+		
+		return false;
+	end;
+
 	return true;
 end;
 
@@ -923,6 +929,11 @@ end;
 	@returns {Unknown}
 --]]
 function Clockwork:PlayerGiveToStorage(player, storageTable, itemTable)
+	itemTable.cwPropertyTab = itemTable.cwPropertyTab or {
+		key = player:GetCharacterKey(),
+		uniqueID = player:UniqueID()
+	};
+	
 	if (player:IsWearingItem(itemTable)) then
 		player:RemoveClothes();
 	end;
@@ -937,7 +948,9 @@ end;
 	@details Called when a player has taken an item to storage.
 	@returns {Unknown}
 --]]
-function Clockwork:PlayerTakeFromStorage(player, storageTable, itemTable) end;
+function Clockwork:PlayerTakeFromStorage(player, storageTable, itemTable)
+	itemTable.cwPropertyTab = nil;
+end;
 
 --[[
 	@codebase Server
@@ -3655,10 +3668,14 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 				
 				if (quickUse) then
 					itemTable = player:GiveItem(itemTable, true);
+
+					Clockwork.item:AddItemEntity(entity, itemTable);
 					
 					if (!cwPly:InventoryAction(player, itemTable, "use")) then
 						player:TakeItem(itemTable, true);
 						
+						Clockwork.item:AddItemEntity(entity, entity.cwItemTable);
+
 						didPickupItem = false;
 					else
 						player:FakePickup(entity);
@@ -4165,26 +4182,22 @@ function Clockwork:PlayerCharacterInitialized(player)
 	
 	cwDatastream:Start(player, "CharacterInit", player:GetCharacterKey());
 
-	local faction = cwFaction:FindByID(player:GetFaction());
-	local spawnRank = cwFaction:GetDefaultRank(player:GetFaction()) or cwFaction:GetLowestRank(player:GetFaction());
-	
-	player:SetFactionRank(player:GetFactionRank() or spawnRank);
-	
-	if (string.find(player:Name(), "SCN")) then
-		player:SetFactionRank("SCN");
+	local _, originalRankTable = Clockwork.player:GetFactionRank(player);
+
+	if (!originalRankTable) then
+		local faction = player:GetFaction();
+		local defaultRankName, defaultRankTable = cwFaction:GetDefaultRank(faction);
+		local lowestRankName, lowestRankTable = cwFaction:GetLowestRank(faction);
+
+		if (defaultRankTable or lowestRankTable) then
+			player:SetFactionRank(defaultRankTable and defaultRankName or lowestRankName);
+		end;
 	end;
 	
-	local rankName, rankTable = player:GetFactionRank();
+	local _, rankTable = Clockwork.player:GetFactionRank(player);
 	
-	if (rankTable) then
-		if (rankTable.class and cwClass:GetAll()[rankTable.class]) then
-
-			cwClass:Set(player, rankTable.class);
-		end;
-		
-		if (rankTable.model) then
-			player:SetModel(rankTable.model);
-		end;
+	if (rankTable and rankTable.class and cwClass:GetAll()[rankTable.class]) then
+		cwClass:Set(player, rankTable.class);
 	end;
 end;
 
@@ -4444,16 +4457,25 @@ function Clockwork:ChatBoxAdjustInfo(info)
 		if (IsValid(info.speaker) and info.speaker:HasInitialized()) then
 			info.text = string.upper(string.sub(info.text, 1, 1))..string.sub(info.text, 2);
 			
+			local areVoiceCommandsEnabled = cwConfig:Get("enable_voice_commands"):Get();
 			local voiceGroups = Clockwork.voices:GetAll();
-			local voices = {};
+			local voices;
 
-			for k, v in pairs(voiceGroups) do
-				if (v.IsPlayerMember(info.speaker)) then
-					for k2,v2 in pairs(v.voices) do table.insert(voices, v2) end;
+			if (areVoiceCommandsEnabled) then
+				for k, v in pairs(voiceGroups) do
+					if (v.IsPlayerMember(info.speaker)) then
+						for k2,v2 in pairs(v.voices) do
+              table.insert(voices, v2)
+            end;
+					end;
 				end;
 			end;
+      
+      if (!voices) then
+        return;
+      end;
 			
-			for k, v in pairs(voices or {}) do
+			for k, v in pairs(voices) do
 				if (string.lower(info.text) == string.lower(v.command)) then
 					local voice = info.voice or {};
 
