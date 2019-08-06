@@ -1,15 +1,18 @@
 ## Clockwork
-[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg)](#contributors)
+[![Latest Release](https://img.shields.io/github/release/cloudsixteen/clockwork.svg)](https://github.com/CloudSixteen/Clockwork/releases/latest)
 [![Discord](https://img.shields.io/discord/126667779095920640.svg)](https://discord.gg/EEg47Dw)
+[![Open Collective sponsors](https://img.shields.io/opencollective/sponsors/cloudsixteen.svg)](https://opencollective.com/cloudsixteen)
+[![GitHub issues](https://img.shields.io/github/issues-raw/cloudsixteen/clockwork.svg)](https://github.com/cloudsixteen/clockwork/issues)
   
 A roleplaying framework developed by Cloud Sixteen for the people.  
 *Clockwork was created by Conna Wiles, also known as kurozael.*
 
 ## Documentation
-https://wiki.cloudsixteen.com/
+[Cloud Sixteen Wiki](https://wiki.cloudsixteen.com)
 
 ## Donations
-https://paypal.me/kurozael
+[Donate to Cloud Sixteen](https://paypal.me/kurozael)
 
 ## Contributors
 

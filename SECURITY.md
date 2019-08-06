@@ -6,7 +6,7 @@ There are currently two versions of Clockwork being actively supported, shown in
 |       Version       | Repository Branch |   Support Status   |
 |:-------------------:|:-----------------:|:------------------:|
 |    0.99 (Stable)    |      `master`     | :white_check_mark: |
-| 0.100 (Development) |     `develop`    | :white_check_mark: |
+| 0.100 (Development) |     `develop`     | :white_check_mark: |
 
 ## Reporting a Vulnerability
 

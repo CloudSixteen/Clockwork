@@ -4457,21 +4457,25 @@ function Clockwork:ChatBoxAdjustInfo(info)
 		if (IsValid(info.speaker) and info.speaker:HasInitialized()) then
 			info.text = string.upper(string.sub(info.text, 1, 1))..string.sub(info.text, 2);
 			
+			local areVoiceCommandsEnabled = cwConfig:Get("enable_voice_commands"):Get();
 			local voiceGroups = Clockwork.voices:GetAll();
 			local voices;
-			local areVoiceCommandsEnabled = cwConfig:Get("enable_voice_commands"):Get();
 
 			if (areVoiceCommandsEnabled) then
 				for k, v in pairs(voiceGroups) do
 					if (v.IsPlayerMember(info.speaker)) then
-						voices = v.voices;
-
-						break;
+						for k2,v2 in pairs(v.voices) do
+              table.insert(voices, v2)
+            end;
 					end;
 				end;
 			end;
+      
+      if (!voices) then
+        return;
+      end;
 			
-			for k, v in pairs(voices or {}) do
+			for k, v in pairs(voices) do
 				if (string.lower(info.text) == string.lower(v.command)) then
 					local voice = info.voice or {};
 
