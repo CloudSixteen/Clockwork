@@ -254,7 +254,6 @@ cwDatastream:Hook("QuizCompleted", function(data)
 			cwQuiz.panel:MakePopup();
 		end;
 	else
-		local characterPanel = cwCharacter:GetPanel();
 		local quizPanel = cwQuiz:GetPanel();
 		
 		cwQuiz:SetCompleted(true);
@@ -739,7 +738,7 @@ function Clockwork:GetEntityMenuOptions(entity, options)
 		if (itemTable) then
 			local useText = itemTable("useText", "Use");
 			
-			if (itemTable.OnUse) then
+			if (itemTable.OnUse and !itemTable.noPlacementUse) then
 				options[useText] = "cwItemUse";
 			end;
 			
@@ -2245,7 +2244,7 @@ function Clockwork:HUDDrawTargetID()
 									end;
 									
 									self.TargetPlayerText.stored = {};
-									
+
 									cwPlugin:Call("GetTargetPlayerText", entity, self.TargetPlayerText);
 									cwPlugin:Call("DestroyTargetPlayerText", entity, self.TargetPlayerText);
 									
@@ -2781,6 +2780,14 @@ function Clockwork:DestroyPlayerInfoText(playerInfoText) end;
     @param {Table} The player's current target text.
 --]]
 function Clockwork:GetTargetPlayerText(player, targetPlayerText)
+	local rankName, rankTable = player:GetFactionRank();
+
+	if (rankName and rankName != "" and rankTable.displayRank) then
+		local rankDisplayText = L("Ranked", rankName);
+
+		targetPlayerText:Add("RANK", rankDisplayText);
+	end;
+
 	local targetIDTextFont = cwOption:GetFont("target_id_text");
 	local physDescTable = {};
 	local thirdPerson = "him";

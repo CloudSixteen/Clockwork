@@ -1223,8 +1223,25 @@ function Clockwork.player:CreateCharacterFromData(player, data)
 				info.name = data.fullName;
 			end;
 			
+			local rankModel;
+
+			if (factionTable.ranks) then
+				local defaultRank, defaultRankTable = cwFaction:GetDefaultRank(factionTable.name);
+				local lowestRank, lowestRankTable = cwFaction:GetLowestRank(factionTable.name);
+				
+				if (defaultRank) then
+					rankModel = defaultRankTable.model;
+				elseif (lowestRank) then
+					rankModel = lowestRankTable.model;
+				end;
+
+				info.data["FactionRank"] = defaultRank or lowestRank;
+			end;
+
 			if (factionTable.GetModel) then
 				info.model = factionTable:GetModel(player, info, data);
+			elseif (rankModel) then
+				info.model = rankModel;
 			else
 				info.model = data.model;
 			end;
@@ -5366,25 +5383,34 @@ function Clockwork.player:SetFactionRank(player, rank)
 		local faction = cwFaction:FindByID(player:GetFaction());
 
 		if (faction and istable(faction.ranks)) then
-			for k, v in pairs(faction.ranks) do
-				if (k == rank) then
-					player:SetCharacterData("FactionRank", k);
+			local rankTable = faction.ranks[rank];
 
-					if (v.class and cwClass:GetAll()[v.class]) then
-						cwClass:Set(player, v.class);
+			if (rankTable) then
+				player:SetCharacterData("FactionRank", rank);
+
+				if (rankTable.class and cwClass:GetAll()[rankTable.class]) then
+					cwClass:Set(player, rankTable.class);
+				end;
+
+				local model = rankTable.model or faction.model;
+				
+				if (rankTable.model) then
+					model = rankTable.model;
+				elseif (faction.GetModel) then
+					model = faction:GetModel(player, player:GetCharacter())
+				elseif (player:GetGender() == GENDER_MALE) then
+					model = faction.models.male[math.random(#faction.models.male)];
+				else
+					model = faction.models.female[math.random(#faction.models.female)];
+				end;
+
+				player:SetCharacterData("Model", model, true);
+				player:SetModel(model);
+				
+				if (istable(rankTable.weapons)) then
+					for k, v in pairs(rankTable.weapons) do
+						self:GiveSpawnWeapon(player, v);
 					end;
-
-					if (v.model) then
-						player:SetModel(v.model);
-					end;
-
-					if (istable(v.weapons)) then
-						for k, v in pairs(v.weapons) do
-							self:GiveSpawnWeapon(player, v);
-						end;
-					end;
-
-					break;
 				end;
 			end;
 		end;
@@ -5600,7 +5626,7 @@ function Clockwork.player:CanPromote(player, target)
 	if (rank) then
 		if (rank.canPromote) then
 			local stringTargetRank, targetRank = Clockwork.player:GetFactionRank(target);
-			local highestRank, rankTable = Clockwork.faction:GetHighestRank(player:Faction()).position;
+			local highestRank, rankTable = Clockwork.faction:GetHighestRank(player:GetFaction());
 
 			if (targetRank.position and targetRank.position != rankTable.position) then
 				return (rank.canPromote <= targetRank.position);
@@ -5621,7 +5647,7 @@ function Clockwork.player:CanDemote(player, target)
 	if (rank) then
 		if (rank.canDemote) then
 			local stringTargetRank, targetRank = Clockwork.player:GetFactionRank(target);
-			local lowestRank, rankTable = Clockwork.faction:GetLowestRank(player:Faction()).position;
+			local lowestRank, rankTable = Clockwork.faction:GetLowestRank(player:GetFaction());
 
 			if (targetRank.position and targetRank.position != rankTable.position) then
 				return (rank.canDemote <= targetRank.position);

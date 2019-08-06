@@ -2,6 +2,22 @@
 
 > The following changes have been made for each official Clockwork build.
 
+### 0.100
+
+* Fixed "weapon charging" when a weapon isn't raised
+* Removed HL2RP scanner ranking reference
+* Fixed custom models being overridden by rank models
+* Fixed rank model reversion to faction models
+* Added ITEM.noPlacementUse and ITEM.noInventoryUse fields to determine whether or not an item can be used as a placed entity, or in the inventory, respectively
+* Fixed containers being openable from the inventory
+* Fixed players being able to self-supply via storage items
+* Fixed faction ranks not networking to the client
+* Fixed container_base derived items losing their content on closure
+* Fixed some localisation issues
+* Added a config to allow you to disable voice commands
+* Added the option to display a character's rank
+* Updated the chatbox so that it moves up to match any present cinematic notifications
+
 ### 0.99
 
 * Updated CloudAuthX

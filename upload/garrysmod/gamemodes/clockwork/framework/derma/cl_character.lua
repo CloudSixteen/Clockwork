@@ -397,7 +397,9 @@ function PANEL:Paint(w, h)
 			local creationPanels = Clockwork.character:GetCreationPanels(true);
 			local numCreationPanels = #creationPanels;
 			local creationProgress = Clockwork.character:GetCreationProgress();
-			local progressHeight = 20;
+			local mainTextFont = Clockwork.option:GetFont("main_text");
+			local mainTextW, mainTextH = Clockwork.kernel:GetCachedTextSize(mainTextFont, "U");
+			local progressHeight = mainTextH + 16;
 			local progressY = y + height + 1;
 			local boxColor = Color(
 				math.min(backgroundColor.r + 50, 255),

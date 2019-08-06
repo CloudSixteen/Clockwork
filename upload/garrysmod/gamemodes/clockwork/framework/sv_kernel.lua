@@ -911,6 +911,12 @@ end;
 	@returns {Unknown}
 --]]
 function Clockwork:PlayerCanTakeFromStorage(player, storageTable, itemTable)
+	if (itemTable.cwPropertyTab and cwEntity:BelongsToAnotherCharacter(player, itemTable)) then
+		cwPly:Notify(player, L(player, "CannotTakeItemStored"));
+		
+		return false;
+	end;
+
 	return true;
 end;
 
@@ -923,6 +929,11 @@ end;
 	@returns {Unknown}
 --]]
 function Clockwork:PlayerGiveToStorage(player, storageTable, itemTable)
+	itemTable.cwPropertyTab = itemTable.cwPropertyTab or {
+		key = player:GetCharacterKey(),
+		uniqueID = player:UniqueID()
+	};
+	
 	if (player:IsWearingItem(itemTable)) then
 		player:RemoveClothes();
 	end;
@@ -937,7 +948,9 @@ end;
 	@details Called when a player has taken an item to storage.
 	@returns {Unknown}
 --]]
-function Clockwork:PlayerTakeFromStorage(player, storageTable, itemTable) end;
+function Clockwork:PlayerTakeFromStorage(player, storageTable, itemTable)
+	itemTable.cwPropertyTab = nil;
+end;
 
 --[[
 	@codebase Server
@@ -3655,10 +3668,14 @@ function Clockwork:EntityHandleMenuOption(player, entity, option, arguments)
 				
 				if (quickUse) then
 					itemTable = player:GiveItem(itemTable, true);
+
+					Clockwork.item:AddItemEntity(entity, itemTable);
 					
 					if (!cwPly:InventoryAction(player, itemTable, "use")) then
 						player:TakeItem(itemTable, true);
 						
+						Clockwork.item:AddItemEntity(entity, entity.cwItemTable);
+
 						didPickupItem = false;
 					else
 						player:FakePickup(entity);
@@ -4165,26 +4182,22 @@ function Clockwork:PlayerCharacterInitialized(player)
 	
 	cwDatastream:Start(player, "CharacterInit", player:GetCharacterKey());
 
-	local faction = cwFaction:FindByID(player:GetFaction());
-	local spawnRank = cwFaction:GetDefaultRank(player:GetFaction()) or cwFaction:GetLowestRank(player:GetFaction());
-	
-	player:SetFactionRank(player:GetFactionRank() or spawnRank);
-	
-	if (string.find(player:Name(), "SCN")) then
-		player:SetFactionRank("SCN");
+	local _, originalRankTable = Clockwork.player:GetFactionRank(player);
+
+	if (!originalRankTable) then
+		local faction = player:GetFaction();
+		local defaultRankName, defaultRankTable = cwFaction:GetDefaultRank(faction);
+		local lowestRankName, lowestRankTable = cwFaction:GetLowestRank(faction);
+
+		if (defaultRankTable or lowestRankTable) then
+			player:SetFactionRank(defaultRankTable and defaultRankName or lowestRankName);
+		end;
 	end;
 	
-	local rankName, rankTable = player:GetFactionRank();
+	local _, rankTable = Clockwork.player:GetFactionRank(player);
 	
-	if (rankTable) then
-		if (rankTable.class and cwClass:GetAll()[rankTable.class]) then
-
-			cwClass:Set(player, rankTable.class);
-		end;
-		
-		if (rankTable.model) then
-			player:SetModel(rankTable.model);
-		end;
+	if (rankTable and rankTable.class and cwClass:GetAll()[rankTable.class]) then
+		cwClass:Set(player, rankTable.class);
 	end;
 end;
 
@@ -4444,34 +4457,44 @@ function Clockwork:ChatBoxAdjustInfo(info)
 		if (IsValid(info.speaker) and info.speaker:HasInitialized()) then
 			info.text = string.upper(string.sub(info.text, 1, 1))..string.sub(info.text, 2);
 			
+			local areVoiceCommandsEnabled = cwConfig:Get("enable_voice_commands"):Get();
 			local voiceGroups = Clockwork.voices:GetAll();
-			local voices = {};
+			local voices;
 
-			for k, v in pairs(voiceGroups) do
-				if (v.IsPlayerMember(info.speaker)) then
-					for k2,v2 in pairs(v.voices) do table.insert(voices, v2) end;
+			if (areVoiceCommandsEnabled) then
+				for k, v in pairs(voiceGroups) do
+					if (v.IsPlayerMember(info.speaker)) then
+						for k2,v2 in pairs(v.voices) do
+						  table.insert(voices, v2)
+						end;
+					end;
 				end;
 			end;
+      
+			if (!voices) then
+				return;
+			end;
 			
-			local textTable = string.Explode("; ?", info.text, true); -- Split text by ;
-			local voiceList = {}; -- Declare voice list to list sounds.
+			local textTable = string.Explode("; ?", info.text, true);
+			local voiceList = {};
 			
-			for k, vText in pairs(textTable) do
-				local bFound = false; -- Boolean to check if voice command has been found.
-				local vcmd = string.upper(vText);
-				for _, v in pairs(voices or {}) do
-					if (string.upper(v.command) == vcmd) then
-						bFound = true;
+			for k, v in pairs(textTable) do
+				local wasFound = false;
+				local vcmd = string.upper(v);
+				
+				for k2, v2 in pairs(voices or {}) do
+					if (string.upper(v2.command) == vcmd) then
+						wasFound = true;
 						
-						local voice = v or {};
-
+						local voice = v2;
+						
 						voice.global = voice.global or false;
-						voice.volume = voice.volume or v.volume or 80;
-						voice.sound = voice.sound or v.sound;
-						voice.pitch = voice.pitch or v.pitch;
+						voice.volume = voice.volume or v2.volume or 80;
+						voice.sound = voice.sound or v2.sound;
+						voice.pitch = voice.pitch or v2.pitch;
 						
-						if (v.gender) then
-							if (v.female and info.speaker:QueryCharacter("Gender") == GENDER_FEMALE) then
+						if (v2.gender) then
+							if (v2.female and info.speaker:QueryCharacter("Gender") == GENDER_FEMALE) then
 								voice.sound = string.Replace(voice.sound, "/male", "/female");
 							end;
 						end;
@@ -4482,13 +4505,12 @@ function Clockwork:ChatBoxAdjustInfo(info)
 							voice.volume = voice.volume * 1.25;
 						end;
 						
-						if (v.phrase == nil or v.phrase == "") then
-							-- info.visible is not needed if textTable only has one value.
+						if (v2.phrase == nil or v2.phrase == "") then
 							if (k < 1) then
 								info.visible = false;
 							end;
 						else
-							textTable[k] = v.phrase; -- Override text value with voice phrase to be displayed later.
+							textTable[k] = v2.phrase; -- Override text value with voice phrase to be displayed later.
 						end;
 						
 						-- Define duration.
@@ -4504,12 +4526,14 @@ function Clockwork:ChatBoxAdjustInfo(info)
 				end;
 				
 				-- If no voice command has been found, put speaker's text value.
-				if (bFound == false and (k < 1)) then
-					textTable[k] = vText..";";
+				if (wasFound == false and k < 1) then
+					textTable[k] = v..";";
 				end;
 			end;
 			
-			local function fixMarkup(a, b) return a.." "..string.upper(b) end;
+			local function fixMarkup(a, b)
+				return a.." "..string.upper(b)
+			end;
 			
 			info.text = table.concat(textTable, " ");
 			info.text = string.gsub(info.text, " ?([.?!]) (%l?)", fixMarkup);

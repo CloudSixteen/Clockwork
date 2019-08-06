@@ -46,3 +46,4 @@ Clockwork.config:ShareKey("chat_multiplier");
 Clockwork.config:ShareKey("enable_looc_icons");
 Clockwork.config:ShareKey("description_crafting");
 Clockwork.config:ShareKey("crafting_menu_enabled");
+Clockwork.config:ShareKey("enable_voice_commands");

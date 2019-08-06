@@ -16,6 +16,7 @@ ITEM.description = "A basic container to hold other items.";
 ITEM.isContainer = true;
 ITEM.storageWeight = 5;
 ITEM.storageSpace = 10;
+ITEM.noInventoryUse = true;
 
 ITEM:AddData("Inventory", nil);
 ITEM:AddData("Cash", 0);
@@ -44,13 +45,11 @@ end;
 
 if (SERVER) then
 	function ITEM:GetInventory()
-		local inventory = self:GetData("Inventory");
+		local itemEntity = Clockwork.item:FindEntityByInstance(self);
 		
-		if (inventory == nil) then
-			self:SetData("Inventory", {});
-		end;
+		itemEntity.cwInventory = itemEntity.cwInventory or {};
 		
-		return inventory;
+		return itemEntity.cwInventory;
 	end;
 		
 	function ITEM:HasItem(itemTable)

@@ -129,3 +129,5 @@ Clockwork.config:Add("max_char_name", 32, true);
 
 Clockwork.config:Add("description_crafting", "Combine various items to make new items.", true);
 Clockwork.config:Add("crafting_menu_enabled", false, true);
+
+Clockwork.config:Add("enable_voice_commands", true, true);

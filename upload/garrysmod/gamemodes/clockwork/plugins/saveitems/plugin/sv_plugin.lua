@@ -66,6 +66,8 @@ function cwSaveItems:LoadItems()
 				{key = v.key, uniqueID = v.uniqueID}, itemTable, v.position, v.angles
 			);
 			
+			entity.cwInventory = Clockwork.inventory:ToLoadable(v.inventory or {});
+
 			if (IsValid(entity) and !v.isMoveable) then
 				local physicsObject = entity:GetPhysicsObject();
 				
@@ -99,7 +101,8 @@ function cwSaveItems:SaveItems()
 				angles = v:GetAngles(),
 				uniqueID = Clockwork.entity:QueryProperty(v, "uniqueID"),
 				position = v:GetPos(),
-				isMoveable = bMoveable
+				isMoveable = bMoveable,
+				inventory = Clockwork.inventory:ToSaveable(v.cwInventory or {})
 			};
 		end;
 	end;

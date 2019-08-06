@@ -1079,7 +1079,14 @@ if (SERVER) then
 		SCHEMA_GAMEMODE_INFO["name"] = schemaData["title"] or "Undefined";
 		SCHEMA_GAMEMODE_INFO["author"] = schemaData["author"] or "Undefined";
 		SCHEMA_GAMEMODE_INFO["description"] = schemaData["description"] or "Undefined";
-		SCHEMA_GAMEMODE_INFO["version"] = schemaData["version"] and math.Round(schemaData["version"], 6) or "Undefined";
+		
+		if (isstring(schemaData["version"])) then
+			SCHEMA_GAMEMODE_INFO["version"] = schemaData["version"];
+		elseif (isnumber(schemaData["version"])) then
+			SCHEMA_GAMEMODE_INFO["version"] = math.Round(schemaData["version"], 6);
+		else
+			SCHEMA_GAMEMODE_INFO["version"] = "Undefined";
+		end;
 		
 		return SCHEMA_GAMEMODE_INFO;
 	end;
@@ -1376,12 +1383,16 @@ if (SERVER) then
 		end;
 		
 		if (delaySecondaryFire == nil and weapon.secondaryFireDelayed) then
-			weapon:SetNextSecondaryFire(weapon.secondaryFireDelayed);
+			local nextFire = math.max(curTime, weapon.secondaryFireDelayed);
+
+			weapon:SetNextSecondaryFire(nextFire);
 			weapon.secondaryFireDelayed = nil;
 		end;
 		
 		if (delayPrimaryFire == nil and weapon.primaryFireDelayed) then
-			weapon:SetNextPrimaryFire(weapon.primaryFireDelayed);
+			local nextFire = math.max(curTime, weapon.primaryFireDelayed);
+
+			weapon:SetNextPrimaryFire(nextFire);
 			weapon.primaryFireDelayed = nil;
 		end;
 		
@@ -3497,7 +3508,7 @@ else
 		local customFunctions = itemTable("customFunctions");
 		local itemFunctions = {};
 		
-		if (itemTable.OnUse) then
+		if (itemTable.OnUse and !itemTable.noInventoryUse) then
 			itemFunctions[#itemFunctions + 1] = itemTable("useText", "Use");
 		end;
 		
