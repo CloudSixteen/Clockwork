@@ -5359,9 +5359,10 @@ end;
 	@details A function to set a player's rank within their faction.
 	@param {Unknown} Missing description for player.
 	@param {Unknown} Missing description for rank.
+	@param {Unknown} Missing description for noModelChange.
 	@returns {Unknown}
 --]]
-function Clockwork.player:SetFactionRank(player, rank)
+function Clockwork.player:SetFactionRank(player, rank, noModelChange)
 	if (rank) then
 		local faction = cwFaction:FindByID(player:GetFaction());
 
@@ -5373,9 +5374,11 @@ function Clockwork.player:SetFactionRank(player, rank)
 					if (v.class and cwClass:GetAll()[v.class]) then
 						cwClass:Set(player, v.class);
 					end;
-
-					if (v.model) then
-						player:SetModel(v.model);
+					
+					if (!noModelChange) then
+						if (v.model) then
+							player:SetModel(v.model);
+						end;
 					end;
 
 					if (istable(v.weapons)) then
