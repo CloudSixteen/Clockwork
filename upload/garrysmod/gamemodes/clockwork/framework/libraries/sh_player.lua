@@ -5378,7 +5378,7 @@ end;
 	@param {Unknown} Missing description for rank.
 	@returns {Unknown}
 --]]
-function Clockwork.player:SetFactionRank(player, rank)
+function Clockwork.player:SetFactionRank(player, rank, noModelChange)
 	if (rank) then
 		local faction = cwFaction:FindByID(player:GetFaction());
 
@@ -5391,21 +5391,23 @@ function Clockwork.player:SetFactionRank(player, rank)
 				if (rankTable.class and cwClass:GetAll()[rankTable.class]) then
 					cwClass:Set(player, rankTable.class);
 				end;
-
-				local model = rankTable.model or faction.model;
 				
-				if (rankTable.model) then
-					model = rankTable.model;
-				elseif (faction.GetModel) then
-					model = faction:GetModel(player, player:GetCharacter())
-				elseif (player:GetGender() == GENDER_MALE) then
-					model = faction.models.male[math.random(#faction.models.male)];
-				else
-					model = faction.models.female[math.random(#faction.models.female)];
-				end;
+				if (!noModelChange) then
+					local model = rankTable.model or faction.model;
+					
+					if (rankTable.model) then
+						model = rankTable.model;
+					elseif (faction.GetModel) then
+						model = faction:GetModel(player, player:GetCharacter())
+					elseif (player:GetGender() == GENDER_MALE) then
+						model = faction.models.male[math.random(#faction.models.male)];
+					else
+						model = faction.models.female[math.random(#faction.models.female)];
+					end;
 
-				player:SetCharacterData("Model", model, true);
-				player:SetModel(model);
+					player:SetCharacterData("Model", model, true);
+					player:SetModel(model);
+				end;
 				
 				if (istable(rankTable.weapons)) then
 					for k, v in pairs(rankTable.weapons) do
