@@ -30,6 +30,11 @@ CW_ENGLISH["DemotePermsNeeded"] = "You do not have permission to demote this pla
 CW_ENGLISH["DemoteFactionOnly"] = "You can only demote someone within your own faction!";
 CW_ENGLISH["YouCannotDemotePlayer"] = "You cannot demote this player!";
 CW_ENGLISH["ForceDemoteAdminNeeded"] = "You must be an admin or superadmin to force-demote!";
+CW_ENGLISH["CharFactionNoRanks"] = "This character's faction does not have any ranks!";
+CW_ENGLISH["FactionRanksPrintedConsole"] = "The faction ranks for this character have been printed to your console.";
+CW_ENGLISH["AvailableRanksForFaction"] = "Available faction ranks for #1:\n";
+CW_ENGLISH["NotValidRankForFaction"] = "#1 is not a valid rank for this faction!";
+CW_ENGLISH["PlayerSetCharRankTo"] = "#1 set #2's faction rank to '#3'.";
 
 CW_ENGLISH["PlayerUnbannedPlayer"] = "#1 has unbanned #2.";
 
@@ -874,6 +879,8 @@ CW_ENGLISH["Drink"] = "Drink";
 
 CW_ENGLISH["CmdA"] = "Send a private message to all staff.";
 CW_ENGLISH["CmdADesc"] = "<string Msg>";
+CW_ENGLISH["CmdCharSetRank"] = "Set a characters rank.";
+CW_ENGLISH["CmdCharSetRankDesc"] = "<string Name> <string Rank> [bool noModelChange]";
 CW_ENGLISH["CmdAnnounce"] = "Announce something to all players.";
 CW_ENGLISH["CmdAnnounceDesc"] = "<string Text>";
 CW_ENGLISH["CmdARequest"] = "Send a request to all online staff.";
