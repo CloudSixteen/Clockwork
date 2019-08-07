@@ -1,5 +1,5 @@
 ## Clockwork
-[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors)
 [![Latest Release](https://img.shields.io/github/release/cloudsixteen/clockwork.svg)](https://github.com/CloudSixteen/Clockwork/releases/latest)
 [![Discord](https://img.shields.io/discord/126667779095920640.svg)](https://discord.gg/EEg47Dw)
 [![Open Collective sponsors](https://img.shields.io/opencollective/sponsors/cloudsixteen.svg)](https://opencollective.com/cloudsixteen)
@@ -34,7 +34,7 @@ A roleplaying framework developed by Cloud Sixteen for the people.
     <td align="center"><a href="https://github.com/impulsh"><img src="https://avatars0.githubusercontent.com/u/2431907?v=4" width="100px;" alt="Igor Radovanovic"/><br /><sub><b>Igor Radovanovic</b></sub></a><br /><a href="https://github.com/CloudSixteen/Clockwork/commits?author=impulsh" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/minikanyas"><img src="https://avatars0.githubusercontent.com/u/5072163?v=4" width="100px;" alt="minikanyas"/><br /><sub><b>minikanyas</b></sub></a><br /><a href="#translation-minikanyas" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/10sa"><img src="https://avatars0.githubusercontent.com/u/16622747?v=4" width="100px;" alt="Tensa"/><br /><sub><b>Tensa</b></sub></a><br /><a href="#translation-10sa" title="Translation">🌍</a></td>
-    <td align="center"><a href="https://github.com/karl-police"><img src="https://avatars0.githubusercontent.com/u/12023782?v=4" width="100px;" alt="karl-police"/><br /><sub><b>karl-police</b></sub></a><br /><a href="#translation-karl-police" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/karl-police"><img src="https://avatars0.githubusercontent.com/u/12023782?v=4" width="100px;" alt="karl-police"/><br /><sub><b>karl-police</b></sub></a><br /><a href="#translation-karl-police" title="Translation">🌍</a> <a href="https://github.com/CloudSixteen/Clockwork/commits?author=karl-police" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/TheRealEnderHero"><img src="https://avatars2.githubusercontent.com/u/10726205?v=4" width="100px;" alt="EnderHero"/><br /><sub><b>EnderHero</b></sub></a><br /><a href="#translation-TheRealEnderHero" title="Translation">🌍</a></td>
   </tr>
   <tr>
