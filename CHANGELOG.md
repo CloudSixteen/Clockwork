@@ -17,6 +17,8 @@
 * Added a config to allow you to disable voice commands
 * Added the option to display a character's rank
 * Updated the chatbox so that it moves up to match any present cinematic notifications
+* Added the CharSetRank and CharGetRanks commands
+	* *Contributed by karl-police.*
 
 ### 0.99
 
