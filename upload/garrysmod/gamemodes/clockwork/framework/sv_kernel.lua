@@ -4457,51 +4457,80 @@ function Clockwork:ChatBoxAdjustInfo(info)
 		if (IsValid(info.speaker) and info.speaker:HasInitialized()) then
 			info.text = string.upper(string.sub(info.text, 1, 1))..string.sub(info.text, 2);
 			
-			local voiceGroups = Clockwork.voices:GetAll();
-			local voices;
 			local areVoiceCommandsEnabled = cwConfig:Get("enable_voice_commands"):Get();
-
+			local voiceGroups = Clockwork.voices:GetAll();
+			local voices = {};
+			
 			if (areVoiceCommandsEnabled) then
 				for k, v in pairs(voiceGroups) do
 					if (v.IsPlayerMember(info.speaker)) then
-						voices = v.voices;
-
-						break;
+						for k2,v2 in pairs(v.voices) do table.insert(voices, v2) end;
 					end;
 				end;
 			end;
 			
-			for k, v in pairs(voices or {}) do
-				if (string.lower(info.text) == string.lower(v.command)) then
-					local voice = info.voice or {};
+			local textTable = string.Explode("; ?", info.text, true); -- Split text by ;
+			local voiceList = {}; -- Declare voice list to list sounds.
+			
+			for k, vText in pairs(textTable) do
+				local bFound = false; -- Boolean to check if voice command has been found.
+				local vcmd = string.upper(vText);
+				for _, v in pairs(voices or {}) do
+				if (string.upper(v.command) == vcmd) then
+						bFound = true;
+						local voice = v or {};
 
-					voice.global = voice.global or false;
-					voice.volume = voice.volume or v.volume or 80;
-					voice.sound = voice.sound or v.sound;
-					voice.pitch = voice.pitch or v.pitch;
-					
-					if (v.gender) then
-						if (v.female and info.speaker:QueryCharacter("Gender") == GENDER_FEMALE) then
-							voice.sound = string.Replace(voice.sound, "/male", "/female");
+						voice.global = voice.global or false;
+						voice.volume = voice.volume or v.volume or 80;
+						voice.sound = voice.sound or v.sound;
+						voice.pitch = voice.pitch or v.pitch;
+						
+						if (v.gender) then
+							if (v.female and info.speaker:QueryCharacter("Gender") == GENDER_FEMALE) then
+								voice.sound = string.Replace(voice.sound, "/male", "/female");
+							end;
 						end;
+						
+						if (info.class == "whisper") then
+							voice.volume = voice.volume * 0.75;
+						elseif (info.class == "yell") then
+							voice.volume = voice.volume * 1.25;
+						end;
+						
+						if (v.phrase == nil or v.phrase == "") then
+							-- info.visible is not needed if textTable only has one value.
+							if (k < 1) then
+								info.visible = false;
+							end;
+						else
+							textTable[k] = v.phrase; -- Override text value with voice phrase to be displayed later.
+						end;
+						
+						-- Define duration.
+						if not (k < 1) then
+							voice.duration = SoundDuration(voice.sound);
+						end;
+						
+						-- Add the voice table to the voiceList, used in ChatBoxMessageAdded.
+						voiceList[#voiceList + 1] = voice;
+						
+						break;
 					end;
-					
-					if (info.class == "whisper") then
-						voice.volume = voice.volume * 0.75;
-					elseif (info.class == "yell") then
-						voice.volume = voice.volume * 1.25;
-					end;
-					
-					info.voice = voice;
-
-					if (v.phrase == nil or v.phrase == "") then
-						info.visible = false;
-					else
-						info.text = v.phrase;
-					end;
-
-					break;
 				end;
+				
+				-- If no voice command has been found, put speaker's text value.
+				if (bFound == false and (k < 1)) then
+					textTable[k] = vText..";";
+				end;
+			end;
+			
+			local function fixMarkup(a, b) return a.." "..string.upper(b) end;
+			
+			info.text = table.concat(textTable, " ");
+			info.text = string.gsub(info.text, " ?([.?!]) (%l?)", fixMarkup);
+
+			if (voiceList[1]) then
+				info.voiceList = voiceList;
 			end;
 		end;
 	end;
@@ -4526,17 +4555,36 @@ end;
 	@returns {Unknown}
 --]]
 function Clockwork:ChatBoxMessageAdded(info)
-	if (info.voice and info.voice.sound) then
-		if (IsValid(info.speaker) and info.speaker:HasInitialized()) then
-			info.speaker:EmitSound(info.voice.sound, info.voice.volume, info.voice.pitch);
-		end;
-		
-		if (info.voice.global) then
-			for k, v in pairs(info.listeners) do
-				if (v != info.speaker) then
-					Clockwork.player:PlaySound(v, info.voice.sound);
+	if (info.voiceList and info.voiceList[1]) then
+		local delay = 0;
+		for key,voice in pairs(info.voiceList) do
+			if (IsValid(info.speaker) and info.speaker:HasInitialized()) then
+				if (delay == 0) then
+					info.speaker:EmitSound(voice.sound, voice.volume, voice.pitch);
+				else
+					timer.Simple(delay, function() info.speaker:EmitSound(voice.sound, voice.volume, voice.pitch) end);
 				end;
 			end;
+			
+			if (voice.global) then
+				if (delay == 0) then
+					for k, v in pairs(info.listeners) do
+						if (v != info.speaker) then
+							Clockwork.player:PlaySound(v, voice.sound);
+						end;
+					end;
+				else
+					timer.Simple(delay, function()
+						for k, v in pairs(info.listeners) do
+							if (v != info.speaker) then
+								Clockwork.player:PlaySound(v, voice.sound);
+							end;
+						end;
+					end);
+				end;
+			end;
+			
+			delay = delay + voice.duration + 0.01;
 		end;
 	end;
 end;
