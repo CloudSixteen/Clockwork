@@ -16,23 +16,28 @@ function cwThirdPerson:Disable(player)
 end;
 
 function cwThirdPerson:Enable(player)
-	local entity = ents.Create("prop_dynamic");
 
-	entity:SetModel("models/error.mdl");
-	entity:SetColor(Color(0,0,0,0));
+	if (!player:GetThirdPersonCustom()) then
+		local entity = ents.Create("prop_dynamic");
+
+		entity:SetModel("models/error.mdl");
+		entity:SetColor(Color(0,0,0,0));
+		
+		entity:Spawn();
+
+		entity:SetNoDraw(true);
+		entity:SetAngles(player:GetAngles());
+		entity:SetMoveType(MOVETYPE_NONE);
+		entity:SetParent(player);
+		entity:SetPos(player:GetPos() + Vector(0, 0, 60));
+		entity:SetRenderMode(RENDERMODE_NONE);
+		entity:SetSolid(SOLID_NONE);
+		player:SetViewEntity(entity);
+	end;
 	
-	entity:Spawn();
-
-	entity:SetNoDraw(true);
-	entity:SetAngles(player:GetAngles());
-	entity:SetMoveType(MOVETYPE_NONE);
-	entity:SetParent(player);
-	entity:SetPos(player:GetPos() + Vector(0, 0, 60));
-	entity:SetRenderMode(RENDERMODE_NONE);
-	entity:SetSolid(SOLID_NONE);
-	player:SetViewEntity(entity);
 	player:SetNWBool("thirdperson", true);
-
+	
+	-- custom could be enabled here
 	hook.Call("ThirdPersonEnabled", Clockwork, player);
 end;
 
