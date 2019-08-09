@@ -25,7 +25,7 @@ function cwThirdPerson:CalcView(player, pos, angles, fov)
 	local smooth = CW_CONVAR_CHASECAM_SMOOTH:GetInt();
 	local smoothscale = CW_CONVAR_CHASECAM_SMOOTHSCALE:GetFloat();
 
-	if (player:GetThirdPerson()) then
+	if (player:GetThirdPerson() and !player:GetThirdPersonCustom()) then
 		angles = player:GetAimVector():Angle();
 
 		local targetpos = Vector(0, 0, 60);

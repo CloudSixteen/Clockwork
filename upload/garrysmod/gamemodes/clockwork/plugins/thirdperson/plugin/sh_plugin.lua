@@ -18,8 +18,16 @@ function cwThirdPerson:GetThirdPerson(player)
 	return player:GetNWBool("thirdperson");
 end;
 
+function cwThirdPerson:GetThirdPersonCustom(player)
+	return player:GetNWBool("thirdperson_custom");
+end;
+
 local PLAYER_META = FindMetaTable("Player");
 
 function PLAYER_META:GetThirdPerson()
 	return cwThirdPerson:GetThirdPerson(self);
+end;
+
+function PLAYER_META:GetThirdPersonCustom()
+	return cwThirdPerson:GetThirdPersonCustom(self);
 end;
