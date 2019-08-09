@@ -11,6 +11,8 @@ function cwThirdPerson:Disable(player)
 	if (IsValid(entity) and entity:IsValid()) then
 		entity:Remove();
 	end;
+
+	hook.Call("ThirdPersonDisabled", Clockwork, player);
 end;
 
 function cwThirdPerson:Enable(player)
@@ -30,6 +32,8 @@ function cwThirdPerson:Enable(player)
 	entity:SetSolid(SOLID_NONE);
 	player:SetViewEntity(entity);
 	player:SetNWBool("thirdperson", true);
+
+	hook.Call("ThirdPersonEnabled", Clockwork, player);
 end;
 
 function cwThirdPerson:SetThirdPerson(player, value)
