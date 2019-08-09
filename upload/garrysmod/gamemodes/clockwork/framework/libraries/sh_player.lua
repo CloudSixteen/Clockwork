@@ -1613,7 +1613,7 @@ end;
 	@returns {Unknown}
 --]]
 function Clockwork.player:RunClockworkCommand(player, command, ...)
-	return cwCommand:ConsoleCommand(player, "cwCmd", {command, ...});
+	return cwCommand:ConsoleCommand(player, "cw", {command, ...});
 end;
 
 --[[

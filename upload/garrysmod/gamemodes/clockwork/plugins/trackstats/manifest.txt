@@ -1,7 +1,0 @@
-25
-plugin.ini
-manifest.txt
-README.md
-plugin/sh_plugin.lua
-plugin/cl_hooks.lua
-plugin/sv_hooks.lua

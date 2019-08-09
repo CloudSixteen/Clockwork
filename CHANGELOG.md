@@ -20,6 +20,10 @@
 * Updated the chatbox so that it moves up to match any present cinematic notifications
 * Added the CharSetRank and CharGetRanks commands
 	* *Contributed by karl-police.*
+* Deprecated `cwCmd` in favor of `cw` for console commands
+* Fixed `cw plysetgroup` not working from the server console
+* Fixed setting a player's group causing a language error where #3 would be displayed
+* Hints from the base gamemode will no longer be displayed at all
 
 ### 0.99
 

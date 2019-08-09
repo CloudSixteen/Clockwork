@@ -1059,8 +1059,10 @@ function Clockwork:PlayerBindPress(player, bind, bPress)
 	end;
 	
 	if (cwConfig:Get("block_inv_binds"):Get()) then
-		if (string.find(string.lower(bind), cwConfig:Get("command_prefix"):Get().."invaction")
-		or string.find(string.lower(bind), "cwcmd invaction")) then
+		local lowerString = string.lower(bind);
+		
+		if (string.find(lowerString, cwConfig:Get("command_prefix"):Get().."invaction")
+		or string.find(lowerString, "cw invaction") or string.find(lowerString, "cwcmd invaction")) then
 			return true;
 		end;
 	end;
@@ -2109,16 +2111,8 @@ function Clockwork:PlayerCanSeePlayerInfo()
 	return cwKernel:IsInfoMenuOpen();
 end;
 
---
-function Clockwork:AddHint(name, delay)
-	if (IsValid(cwClient) and cwClient:HasInitialized()) then
-		cwKernel:AddTopHint(
-			cwKernel:ParseData("#Hint_"..name), delay
-		);
-	end;
-end;
+function Clockwork:AddHint(name, delay) end;
 
---
 function Clockwork:AddNotify(text, class, length)
 	return cwKernel:AddNotify(text, class, length);
 end;
@@ -2920,7 +2914,7 @@ function Clockwork:GetPlayerScoreboardOptions(player, options, menu)
 	
 	if (charBan and cwPly:HasFlags(cwClient, charBan.access)) then
 		options["BanCharacter"] = function()
-			RunConsoleCommand("cwCmd", "CharBan", player:Name());
+			RunConsoleCommand("cw", "CharBan", player:Name());
 		end;
 	end;
 	

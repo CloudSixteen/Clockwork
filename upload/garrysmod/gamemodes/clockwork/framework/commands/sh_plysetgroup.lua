@@ -29,7 +29,7 @@ function COMMAND:OnConsoleRun(arguments)
 	
 	if (target) then
 		if (!Clockwork.player:IsProtected(target)) then
-			Clockwork.player:NotifyAll({"PlayerSetPlayerGroupTo", L("ConsoleUser"), target:Name()});
+			Clockwork.player:NotifyAll({"PlayerSetPlayerGroupTo", L("ConsoleUser"), target:Name(), userGroup});
 			
 			target:SetClockworkUserGroup(userGroup);
 			
@@ -55,7 +55,7 @@ function COMMAND:OnRun(player, arguments)
 	
 	if (target) then
 		if (!Clockwork.player:IsProtected(target)) then
-			Clockwork.player:NotifyAll({"PlayerSetPlayerGroupTo", player:Name(), target:Name()});
+			Clockwork.player:NotifyAll({"PlayerSetPlayerGroupTo", player:Name(), target:Name(), userGroup});
 			
 			target:SetClockworkUserGroup(userGroup);
 			

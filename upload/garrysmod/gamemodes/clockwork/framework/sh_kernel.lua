@@ -4673,7 +4673,7 @@ else
 		@returns {Unknown}
 	--]]
 	function Clockwork.kernel:RunCommand(command, ...)
-		RunConsoleCommand("cwCmd", command, ...);
+		RunConsoleCommand("cw", command, ...);
 	end;
 	
 	--[[

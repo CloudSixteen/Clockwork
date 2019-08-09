@@ -4143,9 +4143,9 @@ function Clockwork:PlayerCharacterInitialized(player)
 	local startHintsDelay = 4;
 	local starterHintsTable = {
 		"Directory",
-		"Give Name",
-		"Target Recognises",
-		"Raise Weapon"
+		"GiveName",
+		"TargetRecognises",
+		"RaiseWeapon"
 	};
 
 	for k, v in pairs(starterHintsTable) do

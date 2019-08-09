@@ -331,6 +331,11 @@ if (SERVER) then
 		end;
 	end;
 	
+	concommand.Add("cw", function(player, command, arguments)
+		Clockwork.command:ConsoleCommand(player, command, arguments);
+	end);
+	
+	-- This command is being deprecated in favor of `cw`, avoid using `cwCmd` in future.
 	concommand.Add("cwCmd", function(player, command, arguments)
 		Clockwork.command:ConsoleCommand(player, command, arguments);
 	end);
