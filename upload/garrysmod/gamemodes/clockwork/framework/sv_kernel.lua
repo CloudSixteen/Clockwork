@@ -68,7 +68,7 @@ local cwVoice = Clockwork.voice;
 local cwChatbox = Clockwork.chatBox;
 
 --[[ Downloads the content addon for clients. --]]
-resource.AddWorkshop("1642469693");
+resource.AddWorkshop("1828874406");
 
 --[[ Do this internally, because it's one less step for schemas. --]]
 AddCSLuaFile(cwKernel:GetSchemaGamemodePath().."/cl_init.lua");
