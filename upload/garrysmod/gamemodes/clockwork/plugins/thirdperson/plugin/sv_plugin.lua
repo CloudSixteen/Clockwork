@@ -2,7 +2,7 @@ local cwThirdPerson = cwThirdPerson;
 
 Clockwork.config:Add("enable_third_person", true);
 
-function cwThirdPerson:Disable(player)
+function cwThirdPerson:ThirdPersonDisable(player)
 	local entity = player:GetViewEntity();
 
 	player:SetNWBool("thirdperson", false);
@@ -13,7 +13,7 @@ function cwThirdPerson:Disable(player)
 	end;
 end;
 
-function cwThirdPerson:Enable(player)
+function cwThirdPerson:ThirdPersonEnable(player)
 	local entity = ents.Create("prop_dynamic");
 
 	entity:SetModel("models/error.mdl");
@@ -43,13 +43,13 @@ function cwThirdPerson:SetThirdPerson(player, value)
 		if (player:GetThirdPerson()) then
 			return;
 		else
-			self:Enable(player);
+			self:ThirdPersonEnable(player);
 		end;
 	else
 		if (!player:GetThirdPerson()) then
 			return;
 		else
-			self:Disable(player);
+			self:ThirdPersonDisable(player);
 		end;
 	end;	
 end;
@@ -58,7 +58,7 @@ function cwThirdPerson:ClockworkConfigChanged(key, data, previousValue, newValue
 	if (key == "enable_third_person") then
 		for k, v in pairs(player.GetAll()) do
 			if (v:GetThirdPerson()) then
-				self:Disable(v);
+				self:ThirdPersonDisable(v);
 			end;
 		end;
 	end;
