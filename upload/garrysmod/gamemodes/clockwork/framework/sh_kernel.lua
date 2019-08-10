@@ -727,6 +727,10 @@ function Clockwork:HandlePlayerSwimming(player)
 		end;
 		
 		player.m_bInSwim = true;
+		
+		if (player.m_bInSwim) then
+			player.CalcIdeal = Clockwork.animation:GetForModel(player:GetModel(), "swim");
+		end;
 	else
 		player.m_bInSwim = false;
 		
@@ -734,6 +738,7 @@ function Clockwork:HandlePlayerSwimming(player)
 			player.m_bFirstSwimFrame = true;
 		end;
 	end;
+	
 	
 	return false;
 end;
