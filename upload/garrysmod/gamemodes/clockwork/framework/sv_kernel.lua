@@ -4199,6 +4199,8 @@ function Clockwork:PlayerCharacterInitialized(player)
 	if (rankTable and rankTable.class and cwClass:GetAll()[rankTable.class]) then
 		cwClass:Set(player, rankTable.class);
 	end;
+	
+	hook.Call("OnPlayerCharacterInitialized", Clockwork, player);
 end;
 
 --[[
