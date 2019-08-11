@@ -4200,7 +4200,7 @@ function Clockwork:PlayerCharacterInitialized(player)
 		cwClass:Set(player, rankTable.class);
 	end;
 	
-	cwPlugin:Call("PostPlayerCharacterInititialized", player);
+	cwPlugin:Call("PostPlayerCharacterInitialized", player);
 end;
 
 --[[
