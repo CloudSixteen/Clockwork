@@ -4200,7 +4200,7 @@ function Clockwork:PlayerCharacterInitialized(player)
 		cwClass:Set(player, rankTable.class);
 	end;
 	
-	hook.Call("OnPlayerCharacterInitialized", Clockwork, player);
+	cwPlugin:Call("PostPlayerCharacterInititialized", player);
 end;
 
 --[[
