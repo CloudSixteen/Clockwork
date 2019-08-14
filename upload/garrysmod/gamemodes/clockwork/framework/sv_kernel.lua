@@ -1348,6 +1348,13 @@ function Clockwork:PlayerCanPunchKnockout(player, target) return true; end;
 
 --[[
 	@codebase Server
+	@details Called when a player gets damaged and should receive knockback.
+	@returns {Unknown}
+--]]
+function Clockwork:PlayerCanTakeKnockbackFromDamage(player, damageInfo) return true; end;
+
+--[[
+	@codebase Server
 	@details Called when a player attempts to bypass the faction limit.
 	@returns {Unknown}
 --]]
@@ -5082,8 +5089,10 @@ function Clockwork:EntityTakeDamage(entity, damageInfo)
 
 				if (damageInfo:GetDamage() > 0) then
 					cwKernel:CalculatePlayerDamage(player, lastHitGroup, damageInfo);
-
-					player:SetVelocity(cwKernel:ConvertForce(damageInfo:GetDamageForce() * 32, 200));
+					
+					if (cwPlugin:Call("PlayerCanTakeKnockbackFromDamage", entity, damageInfo)) then
+						player:SetVelocity(cwKernel:ConvertForce(damageInfo:GetDamageForce() * 32, 200));
+					end;
 
 					if (player:Alive() and player:Health() == 1) then
 						player:SetFakingDeath(true);
