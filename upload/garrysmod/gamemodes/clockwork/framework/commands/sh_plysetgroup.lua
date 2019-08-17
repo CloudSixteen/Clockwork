@@ -23,7 +23,7 @@ function COMMAND:OnConsoleRun(arguments)
 	
 	if (userGroup != "superadmin" and userGroup != "admin"
 	and userGroup != "operator") then
-		print(L("UserGroupMustBeAdminType"));
+		print(L(nil, "UserGroupMustBeAdminType"));
 		return;
 	end;
 	
@@ -35,7 +35,7 @@ function COMMAND:OnConsoleRun(arguments)
 			
 			Clockwork.player:LightSpawn(target, true, true);
 		else
-			print(L("PlayerHasProtectionStatus", target:Name()));
+			print(L(nil, "PlayerHasProtectionStatus", target:Name()));
 		end;
 	else
 		Clockwork.player:Notify(player, {"NotValidPlayer", arguments[1]});
