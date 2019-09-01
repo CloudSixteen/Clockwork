@@ -857,13 +857,9 @@ function Clockwork.animation:GetWeaponHoldType(player, weapon)
 	if (self.holdTypes[class]) then
 		holdType = self.holdTypes[class];
 	elseif (IsValid(weapon)) then
-		local holdType = weapon.HoldType or weapon:GetHoldType();
-		
-		if (self.convert[holdType]) then
-			holdType = self.convert[holdType];
-		else
-			holdType = holdType;
-		end;
+		local _holdType = weapon.HoldType or weapon:GetHoldType();
+
+		holdType = self.convert[_holdType] or _holdType;
 	else
 		local act = player:Weapon_TranslateActivity(ACT_HL2MP_IDLE) or -1;
 		
