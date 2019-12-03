@@ -87,7 +87,6 @@ Clockwork.config:AddToSystem("EnableChatMultiplier", "chat_multiplier", "EnableC
 Clockwork.config:AddToSystem("SteamAPIKey", "steam_api_key", "SteamAPIKeyDesc");
 Clockwork.config:AddToSystem("EnableMapPropsPhysgrab", "enable_map_props_physgrab", "EnableMapPropsPhysgrabDesc");
 Clockwork.config:AddToSystem("EntityUseCooldown", "entity_handle_time", "EntityUseCooldownDesc", 0, 1, 3);
-Clockwork.config:AddToSystem("EnableSmoothSprint", "player_should_smooth_sprint", "EnableSmoothSprintDesc");
 Clockwork.config:AddToSystem("EnableQuickRaise", "quick_raise_enabled", "EnableQuickRaiseDesc");
 Clockwork.config:AddToSystem("PlayersChangeThemes", "modify_themes", "PlayersChangeThemesDesc");
 Clockwork.config:AddToSystem("DefaultTheme", "default_theme", "DefaultThemeDesc");
