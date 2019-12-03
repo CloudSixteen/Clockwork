@@ -2,6 +2,10 @@
 
 > The following changes have been made for each official Clockwork build.
 
+### 0.101
+
+* Added support for the Turkish language (thanks polo-roleplay!)
+
 ### 0.100
 
 * Fixed "weapon charging" when a weapon isn't raised
