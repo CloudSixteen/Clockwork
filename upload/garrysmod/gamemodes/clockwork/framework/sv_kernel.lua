@@ -301,33 +301,6 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 		infoTable.runSpeed = infoTable.walkSpeed;
 	end;
 
-	if (cwPlugin:Call("PlayerShouldSmoothSprint", player, infoTable)) then
-		--[[ The target run speed is what we're aiming for! --]]
-		player.cwTargetRunSpeed = infoTable.runSpeed;
-
-		--[[
-			Lerp the walk and run speeds so that it doesn't seem so
-			instantanious. Otherwise it looks like your characters are
-			on crack.
-		--]]
-
-		if (!player.cwLastRunSpeed) then
-			player.cwLastRunSpeed = infoTable.walkSpeed;
-		end;
-
-		if (player:IsRunning(true)) then
-			player.cwLastRunSpeed = math.Approach(
-				player.cwLastRunSpeed, infoTable.runSpeed, player.cwLastRunSpeed * 0.3
-			);
-		else
-			player.cwLastRunSpeed = math.Approach(
-				player.cwLastRunSpeed, infoTable.walkSpeed, player.cwLastRunSpeed * 0.3
-			);
-		end;
-
-		infoTable.runSpeed = player.cwLastRunSpeed;
-	end;
-
 	--[[ Update whether the weapon has fired, or is being raised. --]]
 	player:UpdateWeaponFired();
 	player:UpdateWeaponRaised();
@@ -382,17 +355,6 @@ function Clockwork:PlayerThink(player, curTime, infoTable)
 			);
 		end;
 	end;
-end;
-
---[[
-	@codebase Server
-	@details Called when a player should smooth sprint.
-	@param {Unknown} Missing description for player.
-	@param {Unknown} Missing description for infoTable.
-	@returns {Unknown}
---]]
-function Clockwork:PlayerShouldSmoothSprint(player, infoTable)
-	return cwConfig:Get("player_should_smooth_sprint"):GetBoolean();
 end;
 
 --[[
