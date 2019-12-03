@@ -5,6 +5,7 @@
 ### 0.101
 
 * Added support for the Turkish language (thanks polo-roleplay!)
+* Removed the Smooth Sprint system because it was always buggy
 
 ### 0.100
 
