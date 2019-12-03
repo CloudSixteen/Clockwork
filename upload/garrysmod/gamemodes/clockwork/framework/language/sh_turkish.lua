@@ -69,15 +69,15 @@ CW_TURKISH["NotValidAmount"] = "Bu geçerli bir miktar değil!";
 CW_TURKISH["NotValidTarget"] = "#1 geçerli bir hedef değil!";
 CW_TURKISH["PlayerHasProtectionStatus"] = "#1 koruma statüsüne sahiptir ve değiştirilemez!";
 CW_TURKISH["PlayerHasProtectionOffline"] = "Bu oyuncu koruma durumuna sahip ve değiştirilemez!";
-CW_TURKISH["CannotGiveAdminFlags"] = "'o', 'a', veya 's' flaglarını veremezsin!";
-CW_TURKISH["CannotTakeAdminFlags"] = "'o', 'a', veya 's' flaglarını alamazsın!";
+CW_TURKISH["CannotGiveAdminFlags"] = "'o', 'a', or 's' flaglarını veremezsin!";
+CW_TURKISH["CannotTakeAdminFlags"] = "'o', 'a', or 's' flaglarını alamazsın!";
 CW_TURKISH["PlayerIsOnlyAUser"] = "Bu oyuncu sadece bir kullanıcı ve düşürülemez!";
 CW_TURKISH["TargetIsTooFarAway"] = "Bu hedef çok uzak!";
 CW_TURKISH["MustLookAtValidTarget"] = "Geçerli bir hedefe bakmalısınız!";
 CW_TURKISH["ThisNotValidWeapon"] = "Bu geçerli bir silah değil!";
 CW_TURKISH["Framework"] = "Yapı";
 CW_TURKISH["ChatBox"] = "Sohbet Kutusu";
-CW_TURKISH["AdminESP"] = "Yönetici ESP";
+CW_TURKISH["AdminESP"] = "Yöentici ESP";
 CW_TURKISH["Theme"] = "Tema";
 CW_TURKISH["Language"] = "Dil";
 CW_TURKISH["LangDesc"] = "Seçili dil.";
@@ -98,10 +98,10 @@ CW_TURKISH["YouWereGivenAnItem"] = "#1 adlı kişi sana #2 verdi.";
 CW_TURKISH["YouGaveCashTo"] = "Sen #2 adlı kişiye #1 verdin.";
 CW_TURKISH["YouWereGivenCashBy"] = "Sana #2 tarafından #1 para verildi.";
 
-CW_TURKISH["NoAuthority"] = "Bunu yapmaya yetkin yok!";
+CW_TURKISH["NoAuthority"] = "You do not have the authority to do this!";
 
-CW_TURKISH["ErrorGiveNonInstance"] = "Oyuncuya non-instance eşya verilemedi!";
-CW_TURKISH["YourInventoryFull"] = "Envanterin şuanda dolu!";
+CW_TURKISH["ErrorGiveNonInstance"] = "Failed to give a player a non-instanced item!";
+CW_TURKISH["YourInventoryFull"] = "Your inventory is currently too full!";
 
 CW_TURKISH["PluginNotValid"] = "Bu eklenti geçerli değil!";
 CW_TURKISH["PluginCouldNotBeUnloaded"] = "Bu eklenti kaldırılamadı!";
