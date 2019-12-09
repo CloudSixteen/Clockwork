@@ -1024,4 +1024,4 @@ CW_TURKISH["PlayerInfoClass"] = "#1";
 
 CW_TURKISH["CashAmountSingular"] = "$#1";
 CW_TURKISH["CashAmount"] = "#1 #2";
-CW_TURKISH["Cash"] = "Para";
+CW_TURKISH["Cash"] = "Token";
