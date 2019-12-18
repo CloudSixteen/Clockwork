@@ -6,6 +6,7 @@
 
 * Added support for the Turkish language (thanks polo-roleplay!)
 * Removed the Smooth Sprint system because it was always buggy
+* An attempt has been made to resolve the server listing issues (update HL2RP too!)
 
 ### 0.100
 
