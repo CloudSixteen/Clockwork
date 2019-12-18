@@ -1,6 +1,7 @@
 --[[
 	© CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
+
 	Clockwork was created by Conna Wiles (also known as kurozael.)
 	http://cloudsixteen.com/license/clockwork.html
 --]]
@@ -69,15 +70,15 @@ CW_TURKISH["NotValidAmount"] = "Bu geçerli bir miktar değil!";
 CW_TURKISH["NotValidTarget"] = "#1 geçerli bir hedef değil!";
 CW_TURKISH["PlayerHasProtectionStatus"] = "#1 koruma statüsüne sahiptir ve değiştirilemez!";
 CW_TURKISH["PlayerHasProtectionOffline"] = "Bu oyuncu koruma durumuna sahip ve değiştirilemez!";
-CW_TURKISH["CannotGiveAdminFlags"] = "'o', 'a', or 's' flaglarını veremezsin!";
-CW_TURKISH["CannotTakeAdminFlags"] = "'o', 'a', or 's' flaglarını alamazsın!";
+CW_TURKISH["CannotGiveAdminFlags"] = "'o', 'a', veya 's' flaglarını veremezsin!";
+CW_TURKISH["CannotTakeAdminFlags"] = "'o', 'a', veya 's' flaglarını alamazsın!";
 CW_TURKISH["PlayerIsOnlyAUser"] = "Bu oyuncu sadece bir kullanıcı ve düşürülemez!";
 CW_TURKISH["TargetIsTooFarAway"] = "Bu hedef çok uzak!";
 CW_TURKISH["MustLookAtValidTarget"] = "Geçerli bir hedefe bakmalısınız!";
 CW_TURKISH["ThisNotValidWeapon"] = "Bu geçerli bir silah değil!";
 CW_TURKISH["Framework"] = "Yapı";
 CW_TURKISH["ChatBox"] = "Sohbet Kutusu";
-CW_TURKISH["AdminESP"] = "Yöentici ESP";
+CW_TURKISH["AdminESP"] = "Yönetici ESP";
 CW_TURKISH["Theme"] = "Tema";
 CW_TURKISH["Language"] = "Dil";
 CW_TURKISH["LangDesc"] = "Seçili dil.";
@@ -98,10 +99,10 @@ CW_TURKISH["YouWereGivenAnItem"] = "#1 adlı kişi sana #2 verdi.";
 CW_TURKISH["YouGaveCashTo"] = "Sen #2 adlı kişiye #1 verdin.";
 CW_TURKISH["YouWereGivenCashBy"] = "Sana #2 tarafından #1 para verildi.";
 
-CW_TURKISH["NoAuthority"] = "You do not have the authority to do this!";
+CW_TURKISH["NoAuthority"] = "Bunu yapmaya yetkin yok!";
 
-CW_TURKISH["ErrorGiveNonInstance"] = "Failed to give a player a non-instanced item!";
-CW_TURKISH["YourInventoryFull"] = "Your inventory is currently too full!";
+CW_TURKISH["ErrorGiveNonInstance"] = "Oyuncuya non-instance eşya verilemedi!";
+CW_TURKISH["YourInventoryFull"] = "Envanterin şuanda dolu!";
 
 CW_TURKISH["PluginNotValid"] = "Bu eklenti geçerli değil!";
 CW_TURKISH["PluginCouldNotBeUnloaded"] = "Bu eklenti kaldırılamadı!";
@@ -250,10 +251,10 @@ CW_TURKISH["MenuDescSettings"] = "Clockwork'ün sizin için çalışma şeklini 
 CW_TURKISH["MenuNameAttributes"] = "Özellikler";
 CW_TURKISH["MenuNameScoreboard"] = "Skor Tahtası";
 CW_TURKISH["MenuNamePluginCenter"] = "Eklenti Merkezi";
-CW_TURKISH["MenuNameDirectory"] = "Rehebr";
+CW_TURKISH["MenuNameDirectory"] = "Rehber";
 CW_TURKISH["MenuNameBusiness"] = "İşletme";
 CW_TURKISH["MenuNameCrafting"] = "Üretim";
-CW_TURKISH["MenuNameInventory"] = "Envater";
+CW_TURKISH["MenuNameInventory"] = "Envanter";
 CW_TURKISH["MenuNameCommunity"] = "Topluluk";
 CW_TURKISH["MenuNameClasses"] = "Sınıflar";
 CW_TURKISH["MenuNameDonations"] = "Bağışlar";
@@ -534,7 +535,7 @@ CW_TURKISH["GeneratorIntervalDesc"] = "Jeneratör nakitlerinin dağıtılması i
 CW_TURKISH["GravityGunPuntEnabled"] = "Yerçekimi Silahı Seçimi Etkin";
 CW_TURKISH["GravityGunPuntEnabledDesc"] = "Varlıkların Yerçekimi Silahı ile tutulup tutulmayacağı.";
 CW_TURKISH["DefaultInventoryWeight"] = "Varsayılan Envanter Ağırlığı";
-CW_TURKISH["DefaultInventoryWeightDesc"] = "Varsayılan envater ağırlığı (kilogram).";
+CW_TURKISH["DefaultInventoryWeightDesc"] = "Varsayılan envanter ağırlığı (kilogram).";
 CW_TURKISH["DefaultInventorySpace"] = "Varsayılan Envanter Alanı";
 CW_TURKISH["DefaultInventorySpaceDesc"] = "Varsayılan envanter alanı (kilogram).";
 CW_TURKISH["DataSaveInterval"] = "Veri Kaydetme Süresi";
@@ -1021,4 +1022,4 @@ CW_TURKISH["PlayerInfoClass"] = "#1";
 
 CW_TURKISH["CashAmountSingular"] = "$#1";
 CW_TURKISH["CashAmount"] = "#1 #2";
-CW_TURKISH["Cash"] = "Para";
+CW_TURKISH["Cash"] = "Token";

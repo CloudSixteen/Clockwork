@@ -32,7 +32,7 @@ function COMMAND:OnRun(player, arguments)
 			if (istable(rankTable) and targetRankTable.position and targetRankTable.position != rankTable.position) then
 				local rank, rankTable = target:GetFactionRank();
 				
-				Clockwork.player:SetFactionRank(target, Clockwork.faction:GetLowerRank(target:GetFaction(), rankTable));
+				Clockwork.player:SetFactionRank(target, (Clockwork.faction:GetLowerRank(target:GetFaction(), rankTable)));
 
 				Clockwork.player:NotifyAll({"PlayerForceDemoted", player:Name(), target:Name(), (target:GetFactionRank())});
 			else
@@ -46,7 +46,7 @@ function COMMAND:OnRun(player, arguments)
 			if (Clockwork.player:CanDemote(player, target)) then
 				local rank, rankTable = target:GetFactionRank();
 
-				Clockwork.player:SetFactionRank(target, Clockwork.faction:GetLowerRank(target:GetFaction(), rankTable));
+				Clockwork.player:SetFactionRank(target, (Clockwork.faction:GetLowerRank(target:GetFaction(), rankTable)));
 
 				Clockwork.player:NotifyAll({"PlayerDemotedPlayer", player:Name(), target:Name(), (target:GetFactionRank())});
 			else
