@@ -49,7 +49,7 @@ end;
 --]]
 function Clockwork:GetGameDescription()
 	local schemaName = self.kernel:GetSchemaGamemodeName();
-	return "Clockwork: "..schemaName;
+	return "CW: "..schemaName;
 end;
 
 AddCSLuaFile("cl_kernel.lua");
