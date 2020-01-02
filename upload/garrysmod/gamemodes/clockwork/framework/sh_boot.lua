@@ -90,6 +90,16 @@ Clockwork.kernel:IncludePrefixed("libraries/server/sv_file.lua");
 
 if (SERVER) then CloudAuthX.Authenticate(); end;
 
+--[[
+	Do not edit this function. Editing this function will cause
+	the schema to not function, and CloudAuthX will not
+	auth you.
+--]]
+function Clockwork:GetGameDescription()
+	local schemaName = self.kernel:GetSchemaGamemodeName();
+	return "Clockwork: "..schemaName;
+end;
+
 Clockwork.kernel:IncludeDirectory("libraries/server", true);
 Clockwork.kernel:IncludeDirectory("libraries/client", true);
 Clockwork.kernel:IncludeDirectory("libraries/", true);
