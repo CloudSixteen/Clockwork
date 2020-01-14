@@ -36,18 +36,22 @@ CW_RUSSIAN["DemotePermsNeeded"] = "Вы не имеете права пониж�
 CW_RUSSIAN["DemoteFactionOnly"] = "Вы можете понижать только тех, кто находится в вашей фракции!";
 CW_RUSSIAN["YouCannotDemotePlayer"] = "Вы не можете его понизить!";
 CW_RUSSIAN["ForceDemoteAdminNeeded"] = "Чтобы понизить игрока, вы должны быть администратором!";
-
-CW_RUSSIAN["PlayerUnbannedPlayer"] = "#1 разбанил #2.";
-
-CW_RUSSIAN["PlayerSetConfigRestart"] = "#1 изменил вариацию конфига #2 на '#3'(Необходим рестарт).";
-CW_RUSSIAN["PlayerSetConfig"] = "#1 set #2 to '#3'.";
-
 CW_RUSSIAN["PlayerForcePromoted"] = "#1 повысил #2 до '#3'.";
 CW_RUSSIAN["PlayerPromotedPlayer"] = "#1 повысил #2 до '#3'.";
 CW_RUSSIAN["PromotePermsNeeded"] = "У вас нету права повышать этого игрока.";
 CW_RUSSIAN["PromoteFactionOnly"] = "Вы можете повышать игроков, находящихся только в вашей фракции!";
 CW_RUSSIAN["YouCannotPromotePlayer"] = "Вы не можете повысить этого игрока!";
 CW_RUSSIAN["ForcePromoteAdminNeeded"] = "Чтобы повысить игрока, вы должны быть администратором!";
+CW_RUSSIAN["CharFactionNoRanks"] = "Фракция этого персонажа не имеет рангов!";
+CW_RUSSIAN["FactionRanksPrintedConsole"] = "Ранги фракции для этого персонажа были напечатаны на вашей консоли.";
+CW_RUSSIAN["AvailableRanksForFaction"] = "Доступные ранги для фракции #1:\n";
+CW_RUSSIAN["NotValidRankForFaction"] = "#1 не является действительным рангом для этой фракции!";
+CW_RUSSIAN["PlayerSetCharRankTo"] = "#1 повысил #2 до '#3'.";
+
+CW_RUSSIAN["PlayerUnbannedPlayer"] = "#1 разбанил #2.";
+
+CW_RUSSIAN["PlayerSetConfigRestart"] = "#1 изменил вариацию конфига #2 на '#3'(Необходим рестарт).";
+CW_RUSSIAN["PlayerSetConfig"] = "#1 set #2 to '#3'.";
 
 CW_RUSSIAN["PlayerRemovedFromWhitelist"] = "#1 убрал #2 из вайтлиста #3.";
 CW_RUSSIAN["PlayerAddedToWhitelist"] = "#1 добавил #2 в вайтлист #3.";
@@ -286,8 +290,13 @@ CW_RUSSIAN["Examine"] = "Описать";
 CW_RUSSIAN["Destroy"] = "Уничтожить";
 CW_RUSSIAN["Supply"] = "Перенаполнить";
 CW_RUSSIAN["Gender"] = "Пол";
+
+-- Amount of weight an inventory can carry.
 CW_RUSSIAN["Weight"] = "Вес";
+
+-- Amount of space (size) an inventory can hold.
 CW_RUSSIAN["Space"] = "Место";
+
 CW_RUSSIAN["Next"] = "Далее";
 CW_RUSSIAN["Back"] = "Обратно";
 CW_RUSSIAN["Drop"] = "Выбросить";
@@ -335,8 +344,8 @@ CW_RUSSIAN["CharacterMenuForename"] = "Имя";
 CW_RUSSIAN["CharacterMenuSurname"] = "Фамилия";
 CW_RUSSIAN["CharacterMenuFaction"] = "Фракция";
 
-CW_RUSSIAN["KickPlayer"] = "Выкинуть игрока";
-CW_RUSSIAN["KickPlayerReason"] = "Какая причина выкидывания игрока?";
+CW_RUSSIAN["KickPlayer"] = "Выгнать игрока";
+CW_RUSSIAN["KickPlayerReason"] = "Какая причина изгнания игрока?";
 CW_RUSSIAN["BanPlayer"] = "Забанить игрока";
 CW_RUSSIAN["BanPlayerTime"] = "На сколько минут забанить человека?";
 CW_RUSSIAN["BanPlayerReason"] = "Какая причина бана игрока?";
@@ -685,6 +694,10 @@ CW_RUSSIAN["CraftingEnabled"] = "Встроенное меню крафта вк
 CW_RUSSIAN["CraftingEnabledDesc"] = "Будет ли включено меню крафта.";
 CW_RUSSIAN["CraftingName"] = "Название меню крафта";
 CW_RUSSIAN["CraftingNameDesc"] = "Название кнопки для встроенного меню крафта.";
+CW_ENGLISH["EnableVCs"] = "Включить голосовые команды";
+CW_ENGLISH["EnableVCsDesc"] = "Будут ли включены голосовые команды.";
+CW_ENGLISH["MaxCharName"] = "Лимит имени персонажа";
+CW_ENGLISH["MaxCharNameDesc"] = "Максимальное количество символов, которое кто-то может использовать в своем имени.";
 
 CW_RUSSIAN["HintOOC"] = "Чтобы написать в глобальный чат, поставьте перед сообщением //";
 CW_RUSSIAN["HintLOOC"] = "Чтобы написать в близкий нон-рп чат, поставьте перед сообщениями .// или [[.";
@@ -1025,4 +1038,4 @@ CW_RUSSIAN["CashAmountSingular"] = "$#1";
 CW_RUSSIAN["CashAmount"] = "#1 #2";
 CW_RUSSIAN["Cash"] = "Деньги";
 
-CW_RUSSIAN["Ranked"] = "Получил ранг #1"
+CW_RUSSIAN["Ranked"] = "Повышен до #1"
