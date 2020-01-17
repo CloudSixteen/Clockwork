@@ -9,6 +9,7 @@
 --[[
     Contributor(s):
 		ROSS <pootiswwe@gmail.com>
+		Blueberry <igory.ygr200@gmail.com>
 --]]
 
 
@@ -35,18 +36,22 @@ CW_RUSSIAN["DemotePermsNeeded"] = "Вы не имеете права пониж�
 CW_RUSSIAN["DemoteFactionOnly"] = "Вы можете понижать только тех, кто находится в вашей фракции!";
 CW_RUSSIAN["YouCannotDemotePlayer"] = "Вы не можете его понизить!";
 CW_RUSSIAN["ForceDemoteAdminNeeded"] = "Чтобы понизить игрока, вы должны быть администратором!";
-
-CW_RUSSIAN["PlayerUnbannedPlayer"] = "#1 разбанил #2.";
-
-CW_RUSSIAN["PlayerSetConfigRestart"] = "#1 изменил вариацию конфига #2 на '#3'(Необходим рестарт).";
-CW_RUSSIAN["PlayerSetConfig"] = "#1 set #2 to '#3'.";
-
 CW_RUSSIAN["PlayerForcePromoted"] = "#1 повысил #2 до '#3'.";
 CW_RUSSIAN["PlayerPromotedPlayer"] = "#1 повысил #2 до '#3'.";
 CW_RUSSIAN["PromotePermsNeeded"] = "У вас нету права повышать этого игрока.";
 CW_RUSSIAN["PromoteFactionOnly"] = "Вы можете повышать игроков, находящихся только в вашей фракции!";
 CW_RUSSIAN["YouCannotPromotePlayer"] = "Вы не можете повысить этого игрока!";
 CW_RUSSIAN["ForcePromoteAdminNeeded"] = "Чтобы повысить игрока, вы должны быть администратором!";
+CW_RUSSIAN["CharFactionNoRanks"] = "Фракция этого персонажа не имеет рангов!";
+CW_RUSSIAN["FactionRanksPrintedConsole"] = "Ранги фракции для этого персонажа были напечатаны на вашей консоли.";
+CW_RUSSIAN["AvailableRanksForFaction"] = "Доступные ранги для фракции #1:\n";
+CW_RUSSIAN["NotValidRankForFaction"] = "#1 не является действительным рангом для этой фракции!";
+CW_RUSSIAN["PlayerSetCharRankTo"] = "#1 повысил #2 до '#3'.";
+
+CW_RUSSIAN["PlayerUnbannedPlayer"] = "#1 разбанил #2.";
+
+CW_RUSSIAN["PlayerSetConfigRestart"] = "#1 изменил вариацию конфига #2 на '#3'(Необходим рестарт).";
+CW_RUSSIAN["PlayerSetConfig"] = "#1 set #2 to '#3'.";
 
 CW_RUSSIAN["PlayerRemovedFromWhitelist"] = "#1 убрал #2 из вайтлиста #3.";
 CW_RUSSIAN["PlayerAddedToWhitelist"] = "#1 добавил #2 в вайтлист #3.";
@@ -285,8 +290,13 @@ CW_RUSSIAN["Examine"] = "Описать";
 CW_RUSSIAN["Destroy"] = "Уничтожить";
 CW_RUSSIAN["Supply"] = "Перенаполнить";
 CW_RUSSIAN["Gender"] = "Пол";
+
+-- Amount of weight an inventory can carry.
 CW_RUSSIAN["Weight"] = "Вес";
+
+-- Amount of space (size) an inventory can hold.
 CW_RUSSIAN["Space"] = "Место";
+
 CW_RUSSIAN["Next"] = "Далее";
 CW_RUSSIAN["Back"] = "Обратно";
 CW_RUSSIAN["Drop"] = "Выбросить";
@@ -334,8 +344,8 @@ CW_RUSSIAN["CharacterMenuForename"] = "Имя";
 CW_RUSSIAN["CharacterMenuSurname"] = "Фамилия";
 CW_RUSSIAN["CharacterMenuFaction"] = "Фракция";
 
-CW_RUSSIAN["KickPlayer"] = "Выкинуть игрока";
-CW_RUSSIAN["KickPlayerReason"] = "Какая причина выкидывания игрока?";
+CW_RUSSIAN["KickPlayer"] = "Выгнать игрока";
+CW_RUSSIAN["KickPlayerReason"] = "Какая причина изгнания игрока?";
 CW_RUSSIAN["BanPlayer"] = "Забанить игрока";
 CW_RUSSIAN["BanPlayerTime"] = "На сколько минут забанить человека?";
 CW_RUSSIAN["BanPlayerReason"] = "Какая причина бана игрока?";
@@ -684,6 +694,10 @@ CW_RUSSIAN["CraftingEnabled"] = "Встроенное меню крафта вк
 CW_RUSSIAN["CraftingEnabledDesc"] = "Будет ли включено меню крафта.";
 CW_RUSSIAN["CraftingName"] = "Название меню крафта";
 CW_RUSSIAN["CraftingNameDesc"] = "Название кнопки для встроенного меню крафта.";
+CW_ENGLISH["EnableVCs"] = "Включить голосовые команды";
+CW_ENGLISH["EnableVCsDesc"] = "Будут ли включены голосовые команды.";
+CW_ENGLISH["MaxCharName"] = "Лимит имени персонажа";
+CW_ENGLISH["MaxCharNameDesc"] = "Максимальное количество символов, которое кто-то может использовать в своем имени.";
 
 CW_RUSSIAN["HintOOC"] = "Чтобы написать в глобальный чат, поставьте перед сообщением //";
 CW_RUSSIAN["HintLOOC"] = "Чтобы написать в близкий нон-рп чат, поставьте перед сообщениями .// или [[.";
@@ -835,3 +849,193 @@ CW_RUSSIAN["LimbLeftArm"] = "Левая рука";
 CW_RUSSIAN["LimbLeftLeg"] = "Левая нога";
 CW_RUSSIAN["LimbStomach"] = "Живот";
 CW_RUSSIAN["LimbChest"] = "Грудь";
+CW_RUSSIAN["LimbHead"] = "Голова";
+
+CW_RUSSIAN["ConfigNoHelpProvided"] = "Никакая информация не была предоставлена для этого конфига!";
+CW_RUSSIAN["ConfigClockworkCategory"] = "Clockwork";
+
+CW_RUSSIAN["HelpBugsIssues"] = "Ошибки/Проблемы";
+CW_RUSSIAN["HelpCloudSixteen"] = "Cloud Sixteen";
+CW_RUSSIAN["HelpUpdates"] = "Cloud Sixteen";
+CW_RUSSIAN["HelpCredits"] = "Авторы";
+
+CW_RUSSIAN["SystemPluginsHelpText"] = "Красные плагины отключены, зеленые загружены и оранжевые отключены.";
+CW_RUSSIAN["SystemPluginsNoneInstalled"] = "На вашем сервере не установлены плагины.";
+CW_RUSSIAN["SystemColorModHelpText"] = "Изменение этих значений повлияет на цвет для всех игроков.";
+CW_RUSSIAN["SystemColorModAdvOnly"] = "Обратите внимание, что это только для опытных пользователей.";
+CW_RUSSIAN["InvalidPluginAuthor"] = "Неверное имя автора";
+CW_RUSSIAN["Color"] = "Цвет";
+
+CW_RUSSIAN["ChatPlayerItC"] = ":color1:*' #1";
+CW_RUSSIAN["StorageTransfer"] = "Перевод";
+
+CW_RUSSIAN["CraftErrorNotAllowed"] = "У вас нет необходимого доступа к этому!";
+CW_RUSSIAN["YouCannotAffordToDoThat"] = "Вы не можете позволить себе это сделать!";
+CW_RUSSIAN["MissingItemRequirements"] = "Отсутствуют некоторые требования!";
+
+CW_RUSSIAN["HintRaiseWeapon"] = "Удерживайте :+reload: чтобы поднять или опустить оружие.";
+
+CW_RUSSIAN["Equip"] = "Экипировать";
+CW_RUSSIAN["Holster"] = "Снять";
+CW_RUSSIAN["Drink"] = "Выпить";
+
+CW_RUSSIAN["CmdA"] = "Отправить личное сообщение всем администраторам.";
+CW_RUSSIAN["CmdADesc"] = "<строка Сбщ>";
+CW_RUSSIAN["CmdCharSetRank"] = "Установить звание персонажа.";
+CW_RUSSIAN["CmdCharSetRankDesc"] = "<строка Назв> <строка Ранг> [bool noModelChange]";
+CW_RUSSIAN["CmdAnnounce"] = "Объявите что-нибудь всем игрокам.";
+CW_RUSSIAN["CmdAnnounceDesc"] = "<строка Текс>";
+CW_RUSSIAN["CmdARequest"] = "Отправить запрос всей онлайн администрации.";
+CW_RUSSIAN["CmdARequestDesc"] = "<строка Текс>";
+CW_RUSSIAN["CmdCfgListVars"] = "Лист переменных конфигураций Clockwork.";
+CW_RUSSIAN["CmdCfgListVarsDesc"] = "[строка Найт]";
+CW_RUSSIAN["CmdCfgSetVar"] = "Установить переменную конфигурации для Clockwork.";
+CW_RUSSIAN["CmdCfgSetVarDesc"] = "<строка Клавиша> [все Числа] [Карта]";
+CW_RUSSIAN["CmdCharBan"] = "Запретить использование персонажа.";
+CW_RUSSIAN["CmdCharBanDesc"] = "<строка Назв>";
+CW_RUSSIAN["CmdCharCheckFlags"] = "Проверяет флаги персонажа.";
+CW_RUSSIAN["CmdCharCheckFlagsDesc"] = "<строка Назв>";
+CW_RUSSIAN["CmdCharFallOver"] = "Заставь своего персонажа упасть на пол.";
+CW_RUSSIAN["CmdCharFallOverDesc"] = "[число Секунд]";
+CW_RUSSIAN["CmdCharGetUp"] = "Поднимите своего персонажа с пола.";
+CW_RUSSIAN["CmdCharGiveFlags"] = "Выдать флаги персонажу.";
+CW_RUSSIAN["CmdCharGiveFlagsDesc"] = "<строка Назв> <строка Флаг(и)>";
+CW_RUSSIAN["CmdCharGiveItem"] = "Дать предмет персонажу.";
+CW_RUSSIAN["CmdCharGiveItemDesc"] = "<строка Назв> <строка Предм> [число Количес]";
+CW_RUSSIAN["CmdCharPhysDesc"] = "Изменить физическое описание вашего персонажа.";
+CW_RUSSIAN["CmdCharPhysDescDesc"] = "[строка Текс]";
+CW_RUSSIAN["CmdCharSetDesc"] = "Установить описание персонажа навсегда.";
+CW_RUSSIAN["CmdCharSetDescDesc"] = "<строка Назв> <строка Описание>";
+CW_RUSSIAN["CmdCharSetFlags"] = "Установить флаги персонажа.";
+CW_RUSSIAN["CmdCharSetFlagsDesc"] = "<строка Назв> <строка Флаг(и)>";
+CW_RUSSIAN["CmdCharSetModel"] = "Установить модель персонажа навсегда.";
+CW_RUSSIAN["CmdCharSetModelDesc"] = "<строка Назв> <строка Модель>";
+CW_RUSSIAN["CmdCharSetName"] = "Установить имя персонажа навсегда.";
+CW_RUSSIAN["CmdCharSetNameDesc"] = "<строка Назв> <строка Назв>";
+CW_RUSSIAN["CmdCharTakeFlags"] = "Взять флаги у персонажа.";
+CW_RUSSIAN["CmdCharTakeFlagsDesc"] = "<строка Назв> <строка Флаг(и)>";
+CW_RUSSIAN["CmdCharTransfer"] = "Передача персонажа фракции.";
+CW_RUSSIAN["CmdCharTransferDesc"] = "<строка Назв> <строка Фракция> [строка Данные]";
+CW_RUSSIAN["CmdCharUnban"] = "Разблокировать персонажа от использования.";
+CW_RUSSIAN["CmdCharUnbanDesc"] = "<строка Назв>";
+CW_RUSSIAN["CmdCraftBlueprint"] = "Создать прежмет.";
+CW_RUSSIAN["CmdCraftBlueprintDesc"] = "<строка UniqueID>";
+CW_RUSSIAN["CmdDropCash"] = "Сбросить деньги на вашей целевой позиции.";
+CW_RUSSIAN["CmdDropCashDesc"] = "<число Количес>";
+CW_RUSSIAN["CmdDropWeapon"] = "Сбросить ваше оружие на вашей целевой позиции.";
+CW_RUSSIAN["CmdEvent"] = "Отправить событие всем персонажам.";
+CW_RUSSIAN["CmdEventDesc"] = "<строка Назв>";
+CW_RUSSIAN["CmdEventLocal"] = "Отправить событие для персонажей вокруг вас.";
+CW_RUSSIAN["CmdEventLocalDesc"] = "<строка Назв>";
+CW_RUSSIAN["CmdGiveCash"] = "Дайте деньги целевому персонажу.";
+CW_RUSSIAN["CmdGiveCashDesc"] = "<число Количес>";
+CW_RUSSIAN["CmdInvAction"] = "Запустить действие инвентаря на предмет.";
+CW_RUSSIAN["CmdInvActionDesc"] = "<строка Действ> <строка UniqueID> [строка ItemID]";
+CW_RUSSIAN["CmdIt"] = "Опишите местное действие или событие.";
+CW_RUSSIAN["CmdItDesc"] = "<строка Назв>";
+CW_RUSSIAN["CmdItC"] = "Опишите локальное действие или событие ближнего радиуса действия.";
+CW_RUSSIAN["CmdItCDesc"] = "<строка Назв>";
+CW_RUSSIAN["CmdItL"] = "Опишите локальное действие или событие на большом расстоянии.";
+CW_RUSSIAN["CmdItLDesc"] = "<строка Назв>";
+CW_RUSSIAN["CmdMapChange"] = "Изменить текущую карту.";
+CW_RUSSIAN["CmdMapChangeDesc"] = "<строка Карта> [число Задержка]";
+CW_RUSSIAN["CmdMapRestart"] = "Перезапустить текущую карту.";
+CW_RUSSIAN["CmdMapRestartDesc"] = "[число Задержка]";
+CW_RUSSIAN["CmdMe"] = "Говорить от третьего лица с окружающими.";
+CW_RUSSIAN["CmdMeDesc"] = "<строка Назв>";
+CW_RUSSIAN["CmdMeC"] = "Говорить от третьего лица с окружающими ВБЛИЗИ вас.";
+CW_RUSSIAN["CmdMeCDesc"] = "<строка Назв>";
+CW_RUSSIAN["CmdMeL"] = "Говорить от третьего лица с окружающими большой площади вокруг вас.";
+CW_RUSSIAN["CmdMeLDesc"] = "<строка Назв>";
+CW_RUSSIAN["CmdOrderShipment"] = "Закажите доставку товара в нужную вам позицию.";
+CW_RUSSIAN["CmdOrderShipmentDesc"] = "<строка UniqueID>";
+CW_RUSSIAN["CmdPluginLoad"] = "Попытаться загрузить плагин.";
+CW_RUSSIAN["CmdPluginLoadDesc"] = "<строка Назв>";
+CW_RUSSIAN["CmdPluginUnload"] = "Попытаться отключить плагин.";
+CW_RUSSIAN["CmdPluginUnloadDesc"] = "<строка Назв>";
+CW_RUSSIAN["CmdPlyBan"] = "Забанить игрока с сервера.";
+CW_RUSSIAN["CmdPlyBanDesc"] = "<строка Имя|SteamID|IPAddress> <число Минут> [строка Причина]";
+CW_RUSSIAN["CmdPlyBring"] = "Приведите игрока в положение прицела.";
+CW_RUSSIAN["CmdPlyBringDesc"] = "<строка Цель> <bool IsSilent>";
+CW_RUSSIAN["CmdPlyDemote"] = "Понизить игрока из группы пользователей.";
+CW_RUSSIAN["CmdPlyDemoteDesc"] = "<строка Имя>";
+CW_RUSSIAN["CmdPlyGiveFlags"] = "Дать флаг игроку.";
+CW_RUSSIAN["CmdPlyGiveFlagsDesc"] = "<строка Имя> <строка Флаг(и)>";
+CW_RUSSIAN["CmdPlyGoTo"] = "Перейти к местоположению игрока.";
+CW_RUSSIAN["CmdPlyGoToDesc"] = "<строка Имя>";
+CW_RUSSIAN["CmdPlyKick"] = "Выгнать игрока с сервера.";
+CW_RUSSIAN["CmdPlyKickDesc"] = "<строка Имя> <строка Причина>";
+CW_RUSSIAN["CmdPlyRespawnStay"] = "Возродить игрока на его позиции смерти.";
+CW_RUSSIAN["CmdPlyRespawnStayDesc"] = "<строка Цель>";
+CW_RUSSIAN["CmdPlyRespawnTP"] = "Возродить игрока и телепортировать его к месту назначения.";
+CW_RUSSIAN["CmdPlyRespawnTPDesc"] = "<строка Цель> <bool IsSilent>";
+CW_RUSSIAN["CmdPlySearch"] = "Поиск инвентаря игрока.";
+CW_RUSSIAN["CmdPlySearchDesc"] = "<строка Имя>";
+CW_RUSSIAN["CmdPlySetFlags"] = "Установить флаги игрока.";
+CW_RUSSIAN["CmdPlySetFlagsDesc"] = "<строка Имя> <строка Флаг(и)>";
+CW_RUSSIAN["CmdPlySetGroup"] = "Установить группу пользователей игрока.";
+CW_RUSSIAN["CmdPlySetGroupDesc"] = "<строка Имя> <строка UserGroup>";
+CW_RUSSIAN["CmdPlySetHealth"] = "Установить здоровье игрока.";
+CW_RUSSIAN["CmdPlySetHealthDesc"] = "<строка Цель> <число ОЗ>";
+CW_RUSSIAN["CmdPlySlay"] = "Убить другого игрока.";
+CW_RUSSIAN["CmdPlySlayDesc"] = "<строка Цель> <bool IsSilent>";
+CW_RUSSIAN["CmdPlyTakeFlags"] = "Взять флаги у игрока.";
+CW_RUSSIAN["CmdPlyTakeFlagsDesc"] = "<строка Имя> <строка Флаг(и)>";
+CW_RUSSIAN["CmdPlyTeleport"] = "Телепорт игрока в целевое место.";
+CW_RUSSIAN["CmdPlyTeleportDesc"] = "<строка Имя>";
+CW_RUSSIAN["CmdPlyTeleportTo"] = "Телепортировать игрока к другому игроку.";
+CW_RUSSIAN["CmdPlyTeleportToDesc"] = "<строка Цель> <строка Другой> <bool IsSilent>";
+CW_RUSSIAN["CmdPlyUnban"] = "Снять бан Steam ID.";
+CW_RUSSIAN["CmdPlyUnbanDesc"] = "<строка SteamID|IPAddress>";
+CW_RUSSIAN["CmdPlyUnwhitelist"] = "Удалить игрока из вайтлиста.";
+CW_RUSSIAN["CmdPlyUnwhitelistDesc"] = "<строка Имя> <строка Фракция>";
+CW_RUSSIAN["CmdPlyVoiceBan"] = "Запретить игроку использовать голосовой чат.";
+CW_RUSSIAN["CmdPlyVoiceBanDesc"] = "<строка Имя|SteamID|IPAddress>";
+CW_RUSSIAN["CmdPlyVoiceUnban"] = "Разбанить игрока от использования голосового чата.";
+CW_RUSSIAN["CmdPlyVoiceUnbanDesc"] = "<строка Имя|SteamID|IPAddress>";
+CW_RUSSIAN["CmdPlyWhitelist"] = "Добавить игрока в вайтлист.";
+CW_RUSSIAN["CmdPlyWhitelistDesc"] = "<строка Имя> <строка Фракция>";
+CW_RUSSIAN["CmdPM"] = "Отправить личное сообщение игроку.";
+CW_RUSSIAN["CmdPMDesc"] = "<строка Имя> <строка Текст>";
+CW_RUSSIAN["CmdRadio"] = "Отправить радио сообщение другим персонажам.";
+CW_RUSSIAN["CmdRadioDesc"] = "<строка Текст>";
+CW_RUSSIAN["CmdRankDemote"] = "Понижение кого-либо до следующего ранга.";
+CW_RUSSIAN["CmdRankDemoteDesc"] = "<строка Имя> [bool IsForced]";
+CW_RUSSIAN["CmdRankPromote"] = "Повысить кого-то до следующего ранга.";
+CW_RUSSIAN["CmdRankPromoteDesc"] = "<строка Имя> [bool IsForced]";
+CW_RUSSIAN["CmdRoll"] = "Крутить число от 0 до указанного числа.";
+CW_RUSSIAN["CmdRollDesc"] = "[число Предел]";
+CW_RUSSIAN["CmdSetCash"] = "Установить деньги персонажа.";
+CW_RUSSIAN["CmdSetCashDesc"] = "<строка Имя> <число Количество>";
+CW_RUSSIAN["CmdSetClass"] = "Установить класс вашего персонажа.";
+CW_RUSSIAN["CmdSetClassDesc"] = "<строка Класс>";
+CW_RUSSIAN["CmdSetVoicemail"] = "Установить ваше личное сообщение голосовой почты.";
+CW_RUSSIAN["CmdSetVoicemailDesc"] = "[строка Текст]";
+CW_RUSSIAN["CmdStorageClose"] = "Закрыть активное хранилище.";
+CW_RUSSIAN["CmdStorageGiveCash"] = "Дайте немного денег на хранение.";
+CW_RUSSIAN["CmdStorageGiveCashDesc"] = "<число Количество>";
+CW_RUSSIAN["CmdStorageGiveItem"] = "Отдать предмет на хранение.";
+CW_RUSSIAN["CmdStorageGiveItemDesc"] = "<строка UniqueID> <строка ItemID>";
+CW_RUSSIAN["CmdStorageTakeCash"] = "Возьмите немного денег с хранилища.";
+CW_RUSSIAN["CmdStorageTakeCashDesc"] = "<число Количество>";
+CW_RUSSIAN["CmdStorageTakeItem"] = "Взять предмет из хранилища.";
+CW_RUSSIAN["CmdStorageTakeItemDesc"] = "<число uniqueID> <число ItemID>";
+CW_RUSSIAN["CmdSu"] = "Отправить личное сообщение для всех СуперАдминистраторов.";
+CW_RUSSIAN["CmdSuDesc"] = "<число Сбщ>";
+CW_RUSSIAN["CmdTranslate"] = "Перевести данный текст на указанный язык и напечатать его в чате.";
+CW_RUSSIAN["CmdTranslateDesc"] = "<строка Источник> <строка Язык> <строка Текст>";
+CW_RUSSIAN["CmdW"] = "Шептать персонажам рядом с вами.";
+CW_RUSSIAN["CmdWDesc"] = "<строка Текст>";
+CW_RUSSIAN["CmdY"] = "Крикнуть персонажам рядом с вами.";
+CW_RUSSIAN["CmdYDesc"] = "<строка Текст>";
+
+CW_RUSSIAN["PlayerInfoCash"] = "#1: #2";
+CW_RUSSIAN["PlayerInfoWages"] = "#1: #2";
+CW_RUSSIAN["PlayerInfoName"] = "#1";
+CW_RUSSIAN["PlayerInfoClass"] = "#1";
+
+CW_RUSSIAN["CashAmountSingular"] = "$#1";
+CW_RUSSIAN["CashAmount"] = "#1 #2";
+CW_RUSSIAN["Cash"] = "Деньги";
+
+CW_RUSSIAN["Ranked"] = "Повышен до #1"
