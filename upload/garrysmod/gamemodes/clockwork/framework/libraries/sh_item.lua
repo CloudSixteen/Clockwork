@@ -894,6 +894,9 @@ else
 				markupObject:Add(costString, colorToUse, 1);
 			end;
 		end;
+
+		markupObject:Title(L("Weight"));
+		markupObject:Add(itemTable("weight").."kg");
 		
 		markupObject:Title(L("Category"));
 		markupObject:Add(itemTable("category"));
