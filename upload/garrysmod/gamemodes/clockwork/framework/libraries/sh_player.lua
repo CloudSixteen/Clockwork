@@ -4476,7 +4476,7 @@ function Clockwork.player:SetRagdollState(player, state, delay, decay, force, mu
 				player:CrosshairEnable();
 				
 				if (state != RAGDOLL_RESET) then
-					self:LightSpawn(player, nil, nil, true);
+					self:LightSpawn(player, nil, true, true);
 				end;
 				
 				if (state != RAGDOLL_RESET) then
