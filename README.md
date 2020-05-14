@@ -1,82 +1,45 @@
-Clockwork
----------
+## Clockwork
+[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg)](#contributors)
+[![Latest Release](https://img.shields.io/github/release/cloudsixteen/clockwork.svg)](https://github.com/CloudSixteen/Clockwork/releases/latest)
+[![Discord](https://img.shields.io/discord/126667779095920640.svg)](https://discord.gg/EEg47Dw)
+[![Open Collective sponsors](https://img.shields.io/opencollective/sponsors/cloudsixteen.svg)](https://opencollective.com/cloudsixteen)
+[![GitHub issues](https://img.shields.io/github/issues-raw/cloudsixteen/clockwork.svg)](https://github.com/cloudsixteen/clockwork/issues)
+  
 A roleplaying framework developed by Cloud Sixteen for the people.  
-*Clockwork was created and is under development by Conna Wiles, also known as kurozael.*
+*Clockwork was created by Conna Wiles, also known as kurozael.*
 
-Documentation and Installation
-------------
-http://wiki.cloudsixteen.com/installation  
-http://wiki.cloudsixteen.com/
+## Documentation
+[Cloud Sixteen Wiki](https://wiki.cloudsixteen.com)
 
-Creating a Schema for Clockwork
-------------
-http://forums.cloudsixteen.com/threads/free-dev-keys.33497/
+## Donations
+[Donate to Cloud Sixteen](https://paypal.me/kurozael)
 
-Coding Standard
-------------
-Please make sure any contributed code follows this standard to the letter:
+## Contributors
 
-https://docs.google.com/document/d/1F24V5s21aXx5T5bbz0bQsOT1FWLgnqaP5iMy-DxHhL8/edit
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+<table>
+  <tr>
+    <td align="center"><a href="http://kurozael.com"><img src="https://avatars1.githubusercontent.com/u/486972?v=4" width="100px;" alt="Conna Wiles"/><br /><sub><b>Conna Wiles</b></sub></a><br /><a href="https://github.com/CloudSixteen/Clockwork/commits?author=kurozael" title="Code">💻</a> <a href="#maintenance-kurozael" title="Maintenance">🚧</a> <a href="#design-kurozael" title="Design">🎨</a> <a href="https://github.com/CloudSixteen/Clockwork/commits?author=kurozael" title="Documentation">📖</a> <a href="#infra-kurozael" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#plugin-kurozael" title="Plugin/utility libraries">🔌</a> <a href="#security-kurozael" title="Security">🛡️</a> <a href="#projectManagement-kurozael" title="Project Management">📆</a> <a href="#ideas-kurozael" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/VortixDev"><img src="https://avatars1.githubusercontent.com/u/8403417?v=4" width="100px;" alt="Ryan Saridar"/><br /><sub><b>Ryan Saridar</b></sub></a><br /><a href="https://github.com/CloudSixteen/Clockwork/commits?author=VortixDev" title="Code">💻</a> <a href="#maintenance-VortixDev" title="Maintenance">🚧</a> <a href="#design-VortixDev" title="Design">🎨</a></td>
+    <td align="center"><a href="http://sanny.io"><img src="https://avatars2.githubusercontent.com/u/3054653?v=4" width="100px;" alt="sanny.io"/><br /><sub><b>sanny.io</b></sub></a><br /><a href="https://github.com/CloudSixteen/Clockwork/commits?author=sanny-io" title="Code">💻</a></td>
+    <td align="center"><a href="http://alexsavory.me"><img src="https://avatars3.githubusercontent.com/u/838217?v=4" width="100px;" alt="Alex"/><br /><sub><b>Alex</b></sub></a><br /><a href="#design-trurascalz" title="Design">🎨</a> <a href="https://github.com/CloudSixteen/Clockwork/commits?author=trurascalz" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/ametrocavich"><img src="https://avatars0.githubusercontent.com/u/2490800?v=4" width="100px;" alt="Alexander Metrocavich"/><br /><sub><b>Alexander Metrocavich</b></sub></a><br /><a href="https://github.com/CloudSixteen/Clockwork/commits?author=ametrocavich" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Gr4Ss"><img src="https://avatars0.githubusercontent.com/u/1671806?v=4" width="100px;" alt="Arno Biesmans"/><br /><sub><b>Arno Biesmans</b></sub></a><br /><a href="https://github.com/CloudSixteen/Clockwork/commits?author=Gr4Ss" title="Code">💻</a></td>
+    <td align="center"><a href="http://jonathandroogh.com"><img src="https://avatars2.githubusercontent.com/u/5252282?v=4" width="100px;" alt="Jonathan Droogh"/><br /><sub><b>Jonathan Droogh</b></sub></a><br /><a href="https://github.com/CloudSixteen/Clockwork/commits?author=xRJx" title="Code">💻</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/Skiastra"><img src="https://avatars2.githubusercontent.com/u/8324893?v=4" width="100px;" alt="Skiastra"/><br /><sub><b>Skiastra</b></sub></a><br /><a href="https://github.com/CloudSixteen/Clockwork/commits?author=Skiastra" title="Code">💻</a></td>
+    <td align="center"><a href="http://alexgrist.com"><img src="https://avatars3.githubusercontent.com/u/180351?v=4" width="100px;" alt="Alex Grist-Hucker"/><br /><sub><b>Alex Grist-Hucker</b></sub></a><br /><a href="https://github.com/CloudSixteen/Clockwork/commits?author=alexgrist" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/impulsh"><img src="https://avatars0.githubusercontent.com/u/2431907?v=4" width="100px;" alt="Igor Radovanovic"/><br /><sub><b>Igor Radovanovic</b></sub></a><br /><a href="https://github.com/CloudSixteen/Clockwork/commits?author=impulsh" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/minikanyas"><img src="https://avatars0.githubusercontent.com/u/5072163?v=4" width="100px;" alt="minikanyas"/><br /><sub><b>minikanyas</b></sub></a><br /><a href="#translation-minikanyas" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/10sa"><img src="https://avatars0.githubusercontent.com/u/16622747?v=4" width="100px;" alt="Tensa"/><br /><sub><b>Tensa</b></sub></a><br /><a href="#translation-10sa" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/karl-police"><img src="https://avatars0.githubusercontent.com/u/12023782?v=4" width="100px;" alt="karl-police"/><br /><sub><b>karl-police</b></sub></a><br /><a href="#translation-karl-police" title="Translation">🌍</a> <a href="https://github.com/CloudSixteen/Clockwork/commits?author=karl-police" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/TheRealEnderHero"><img src="https://avatars2.githubusercontent.com/u/10726205?v=4" width="100px;" alt="EnderHero"/><br /><sub><b>EnderHero</b></sub></a><br /><a href="#translation-TheRealEnderHero" title="Translation">🌍</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="http://www.elimurray.co.uk/"><img src="https://avatars1.githubusercontent.com/u/34821469?v=4" width="100px;" alt="Eli Murray"/><br /><sub><b>Eli Murray</b></sub></a><br /><a href="https://github.com/CloudSixteen/Clockwork/commits?author=murray-elijah" title="Documentation">📖</a></td>
+  </tr>
+</table>
 
-Donations
-------------
-If you'd like to support the development you can donate via Bitcoin to the following address
-**12wPvfmNkokbyyjNFUcCVHrJiQR4vL76Q1**
-
-Or via PayPal to **kurozael@gmail.com**
-
-Contributing
-------------
-If you wish to contribute to the development of Clockwork, you may issue a pull request using GitHub. You can find the Clockwork GitHub repository here https://github.com/CloudSixteen/Clockwork/
-  
-**We will only accept your pull request if it meets the following requirements:**
-  
-* Code must follow this standard: https://docs.google.com/document/d/1F24V5s21aXx5T5bbz0bQsOT1FWLgnqaP5iMy-DxHhL8/edit
-* Pull requests must only contain one commit. Add all of your changes files to one commit.
-* All contributions must match the coding standard used throughout Clockwork.
-* Commit messages must be descriptive, well punctuated, and tidy.
-  * You can use `Fixes #<id>` in your title to automatically close an issue by that id. For example (and this formatting is mandatory) `Fixed an awful bug where so and so would happen. Fixes #3.` You could also fix multiple in the commit title, `Fixed a bug where so and so would happen, and also fixed a bug where another thing would occur. Fixes #2, Fixes #3.`
-* You agree to contribute your code under the terms of the license below:
-
-Licenses
--------
-
-#### Clockwork
-http://cloudsixteen.com/license/clockwork.html
-
-#### CloudAuthX
-http://cloudsixteen.com/license/cloudauthx.html
-
-Credits
--------
-
-#### kurozael
-* Cider/Blueprint/kuroScript/OpenAura/Clockwork creator and long-term developer.
-
-#### SomeSortOfDuck
-* Former lead developer.
-* Maintaining the framework and associated schemas.
-
-#### alexanderk
-* Various Clockwork contributions in many forms, including web applications.
-* Helped establish secure community back-end.
-
-#### Gr4ss + Vortix
-* Maintaining the framework and associated schemas
-* Contracted work on HL2 RP 2015.
-
-#### RJ
-* Maintaining the framework and associated schemas.
-* Contracted work on Severance.
-
-#### NightAngel
-* Maintaining the framework and associated schemas.
-* Contracted work on Severance and Atomic.
-
-#### trurascalz
-* Developing the plugin center.
-* Various contributions to Clockwork.
-
-#### Other Contributors
-* Alex Grist and Impulse for fixing Clockwork and schemas to work with GMod 13 API.
-* Assorted contributors that have sent pull requests and fixes through the years.
+<!-- ALL-CONTRIBUTORS-LIST:END -->

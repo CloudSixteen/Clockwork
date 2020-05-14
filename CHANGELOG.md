@@ -1,9 +1,120 @@
-Changelog
----------
-The following changes have been made for each official Clockwork build.
+## Changelog
 
-0.96.3
--------
+> The following changes have been made for each official Clockwork build.
+
+### 0.101
+
+* Added support for the Turkish language (thanks polo-roleplay!)
+* Removed the Smooth Sprint system because it was always buggy
+* An attempt has been made to resolve the server listing issues (update HL2RP too!)
+
+### 0.100
+
+* Fixed "weapon charging" when a weapon isn't raised
+* Removed HL2RP scanner ranking reference
+* Fixed custom models being overridden by rank models
+* Fixed rank model reversion to faction models
+* Added ITEM.noPlacementUse and ITEM.noInventoryUse fields to determine whether or not an item can be used as a placed entity, or in the inventory, respectively
+* Fixed containers being openable from the inventory
+* Fixed players being able to self-supply via storage items
+* Fixed faction ranks not networking to the client
+* Fixed container_base derived items losing their content on closure
+* Fixed some localisation issues
+* Added a config to allow you to disable voice commands
+* Added the option to display a character's rank
+* Added the ThirdPersonEnabled and ThirdPersonDisabled events
+* Updated the chatbox so that it moves up to match any present cinematic notifications
+* Added the CharSetRank and CharGetRanks commands
+	* *Contributed by karl-police.*
+* Deprecated `cwCmd` in favor of `cw` for console commands
+* Fixed `cw plysetgroup` not working from the server console
+* Fixed setting a player's group causing a language error where #3 would be displayed
+* Hints from the base gamemode will no longer be displayed at all
+
+### 0.99
+
+* Updated CloudAuthX
+* Added German language support
+* Various language string updates
+* Various localisation fixes
+* Changed more systems to use localisation
+* Fixed PostCommandUsed not being called
+* Added an example schema
+* Added blueprint.CanCraft
+* Added value restoration for the PLUGIN global
+* Added schema version rounding
+* Added automatic gender selection for single gendered factions
+* Reworked the voice command system
+* Added the ShouldDeleteCharacter hook, to separate character deletion from character table adjustment
+* Fixed crafting
+* Fixed static entities being physgunnable physable by anyone after a restart
+* Fixed decaying entities not rendering alpha changes
+* Fixed clientside decaying entities not rendering alpha changes
+* Changed player.CommunityID to alias player.SteamID64
+* Updated directory formatting
+* Fixed ammo loss
+* Fixed legs not drawing
+* Fixed player.GiveItems
+* Fixed Clockwork.crafting.CheckTakeItems taking the same unique items multiple times
+* Fixed an issue of whitelist losses
+* Fixed Clockwork.kernel.IsShuttingDown
+* Fixed CLASS_TABLE.__tostring
+* Fixed rank demotion
+* Fixed file reading issue relating to UTF8
+* Fixed Clockwork.kernel.ValidateTableKeys
+* Fixed the networking of player names upon name setting
+* Updated the reference to the content pack
+* Corrected stored chat text width, meaning text separation between timestamps and text will scale according to the chat size multiplier
+
+### 0.98
+
+* Updated a lot of systems to support localisation
+* Added French language support
+* Added Korean language support
+* Added Russian language support
+* Added Spanish language support
+* Added Swedish language support
+* Added Clockwork.lang:ReplaceSubs(language, input, subs)
+* Added Clockwork.kernel:SplitKeepDelim(input, delim)
+* Added the ability to disable the quiz
+* Added traits
+* Added OnConsoleRun method for commands
+* Added OnConsoleRun method to PlySetGroup (example)
+* Added a character name limit
+* Added exception handling for rankpromote and rankdemote
+* Added Tools folder to repo with HookDoccer and ItemTranslator (for developers)
+* Updated CloudAuthX
+* Updated directory formatting
+* Updated the system menu's functionality and styling, and added icons
+* Updated character creation's attributes screen
+* Updated Codebase
+* Moved the stamina plugin to HL2RP
+* Theme updates
+* Fixed a faction error
+* Fixed an error with the typing display
+* Fixed various GUI issues
+* Fixed PermaKill mode
+* Fixed config setting
+* Fixed an issue with progression past the character screen
+* Fixed the itc command
+* Fixed the plyrespawntp command
+* Removed the cwc command
+* Removed sh_fixes.lua
+* Removed support for the anonymous speech character, "?"
+
+### 0.97
+* Fixed a cl_character bug with factions
+* Removed inclusion of sh_fixes.lua
+* Increased localisation support
+
+### 0.96.6
+
+* Various localisation fixes
+* Font updates
+* Fixed file.Exists faction materials issue
+* Crafting and blueprint fixes
+
+### 0.96.3
 
 * Fixed items being removed too soon on creation.
 * Fixed TOOL binds not working (such as camera key, etc.)
@@ -12,8 +123,7 @@ The following changes have been made for each official Clockwork build.
 * Moved experimental Backsword and themetest plugins to development/ folder.
 * Made ironsights library name more consistent with others.
 
-0.96.2
--------
+### 0.96.2
 
 * Fixed doors not displaying 3D2D info properly.
 * Removed theme library debug prints when switching a theme.
@@ -24,8 +134,7 @@ The following changes have been made for each official Clockwork build.
 * Fixed fists not playing the knocking noise when the secondary fire is used on a door.
 	* *Contributed by NightAngel.*
 
-0.96.1
--------
+### 0.96.1
 
 * Optimized cl_kernel, sv_kernel and sh_kernel with localizations and added library/class functions.
 	* *Contributed by NightAngel.*
@@ -65,8 +174,7 @@ The following changes have been made for each official Clockwork build.
 	* *Contributed by Tyler.*
 
 
-0.95.3
--------
+### 0.95.3
 
 * Consolidated cl_player, sv_player and sh_player into sh_player and optimized it by localizing Clockwork libraries.
 	* *Contributed by NightAngel.*
@@ -77,8 +185,7 @@ The following changes have been made for each official Clockwork build.
 * Localized Clockwork libraries in sv_kernel for micro optimizations and fixed some mistakes that would slow down PlayerThink hooks.
 	* *Contributed by NightAngel.*
 
-0.95.2
--------
+### 0.95.2
 
 * Added BackSword 2, a reworked SWEP base made for Clockwork that includes ironsights variables.
 	* *Contributed by Zigalishous.*
@@ -114,8 +221,7 @@ Just press middle mouse while your weapon is raised to use the ironsights, it wi
 * Added two configs to modify how much ironsights will reduce the spread, as well as how much they will reduce walk speed of the player.
 	* *Contributed by NightAngel.*
 
-0.95.1
--------
+### 0.95.1
 
 * Added command aliases, which can be used to shorten longer commands while still keeping the original commands present.
 	* *Contributed by Mr. Meow.*
@@ -128,8 +234,7 @@ Just press middle mouse while your weapon is raised to use the ironsights, it wi
 * Fixed DisplayTyping plugin not drawing properly due to a minor mistake and optimized it further.
 	* *Contributed by NightAngel.*
 
-0.95
--------
+### 0.95
 
 * Optimized cl_kernel by localizing global tables.
 	* *Contributed by NightAngel.*
@@ -176,8 +281,7 @@ Just press middle mouse while your weapon is raised to use the ironsights, it wi
 * Updated hands and keys SWEPs to new hands model and changed hands SWEP to play viewmodel animations.
 	* *Contributed by Zigalishous.*
 
-0.94.8
--------
+### 0.94.8
 
 * Clarified some documentation in the entity library.
 	* *Contributed by RJ.*
@@ -196,26 +300,22 @@ Just press middle mouse while your weapon is raised to use the ironsights, it wi
 * Hands SWEP is now impossible to quick raise, due to quick raising conflicting with certain functions of the SWEP.
 	* *Contributed by NightAngel.*
 
-0.94.75
--------
+### 0.94.75
 
 * Added the ability to raise your weapon by pressing left or right click if it is lowered.
 	* *Contributed by NightAngel.*
 
-0.94.74
--------
+### 0.94.74
 
 * Fixed a fatal error with schema prints erroring out clientside.
 	* *Contributed by NightAngel.*
 
-0.94.73
--------
+### 0.94.73
 
 * Changed the ESP system to be a little less confusing with its tables, uses string keys instead of numbered keys now.
 	* *Contributed by NightAngel.*
 
-0.94.72
--------
+### 0.94.72
 
 * Fixed issues with command hints not showing due to recent GMOD update.
 	* *Contributed by NightAngel.*
@@ -226,14 +326,12 @@ Just press middle mouse while your weapon is raised to use the ironsights, it wi
 * Added three new functions to access the voice groups table easier GetAll(), FindByID(id) and GetVoices(id).
 	* *Contributed by NightAngel.*
 
-0.94.69
--------
+### 0.94.69
 
 * Fixed schema version print to show properly (small bugs may occur where extra decimals are added).
 	* *Contributed by NightAngel.*
 
-0.94.68
--------
+### 0.94.68
 
 * Moved chatbox hooks that implement voice commands to the voice library file for better organization.
 	* *Contributed by NightAngel.*
@@ -244,8 +342,7 @@ Just press middle mouse while your weapon is raised to use the ironsights, it wi
 * Using a voice command will no longer display a message from the player if the phrase of the voice command is nil or empty.
 	* *Contributed by NightAngel.*
 
-0.94.64
--------
+### 0.94.64
 
 * Added setting to disable/enable drawing of the vignette.
 	* *Contributed by NightAngel.*
@@ -262,8 +359,7 @@ Just press middle mouse while your weapon is raised to use the ironsights, it wi
 * Cleaned up useless comment from 'SalesmanPlaySound' datastream hook.
 	* *Contributed by NightAngel.*
 
-0.94.6
--------
+### 0.94.6
 
 * Patched weakness that was being exploited to dupe items/currency, cooldown on entity use can now be edited with 'entity_handle_time' in the config.
 	* *Contributed by NightAngel.*
@@ -278,34 +374,29 @@ Just press middle mouse while your weapon is raised to use the ironsights, it wi
 * Added config to save whether doors are locked and/or opened (on by default).
 	* *Contributed by NightAngel.*
 
-0.94.51
--------
+### 0.94.51
 
 * Fixes problem with some menus overlapping next buttons for lower resolutions in char creation
 	* *Contributed by NightAngel.*
 
-0.94.5
--------
+### 0.94.5
 
 * Fixed animations not saving for salesmen
 * Added sounds for phrases and whether or not a phrase will display the salesman's name
 * Added phrase for when a player starts trading with a salesman
 	* *Contributed by NightAngel.*
 
-0.94.42
--------
+### 0.94.42
 
 * Fixed a small problem with voice library being overwritten by HL2 RP.
 	* *Contributed by NightAngel.*
 
-0.94.41
--------
+### 0.94.41
 
 * Fixed a small bug with voice commands that stopped them from working correctly.
 	* *Contributed by NightAngel.*
 
-0.94.4
--------
+### 0.94.4
 
 * Added 'PostCommandUsed' hook called after a command succeeds in running.
 	* *Contributed by NightAngel.*
@@ -340,8 +431,7 @@ Just press middle mouse while your weapon is raised to use the ironsights, it wi
 * Added work in progress translate command along with 'translate_api_key' config option.
 	* *Contributed by Vortix.*
 
-0.94.17
--------
+### 0.94.17
 
 * Added bitflag library.
     * *Contributed by duck.*
@@ -356,8 +446,7 @@ Just press middle mouse while your weapon is raised to use the ironsights, it wi
 * Added checks to chatbox that solve len bug from utf8 commit.
     * *Contributed by NightAngel.*
 
-0.94.1
--------
+### 0.94.1
 * Added plugin call for drawing salesman targetID.
     * *Contributed by NightAngel.*
 * Added custom ammo type saving and AdjustAmmoTypes hook.
@@ -365,8 +454,7 @@ Just press middle mouse while your weapon is raised to use the ironsights, it wi
 * Shifted faction/rank derived stat setting from PostPlayerSpawn to PlayerSpawn.
     * *Contributed by NightAngel.*
 
-0.94
--------
+### 0.94
 
 * Added entity relationships, to make NPCs hostile/friendly/fearful towards players of certain factions.
     * *Contributed by Vortix.*
@@ -453,8 +541,7 @@ Just press middle mouse while your weapon is raised to use the ironsights, it wi
 * Added system to add icons to menu items in the TAB menu.
     * *Contributed by kurozael.*
 
-0.93
--------
+### 0.93
 
 
 * Added Entity Library documentation.
@@ -531,8 +618,7 @@ Just press middle mouse while your weapon is raised to use the ironsights, it wi
 * Added auto-refresh support.
   * *Contributed by Alex Grist.*
 
-0.92
--------
+### 0.92
 
 * Added Clockwork.player:AddCharacterData and Clockwork.player:AddPlayerData for adding character and player data that is automatically networked to either all players, or the local player only. This comes with a client-side version of player:GetData(key, default) and player:GetCharacterData(key, default).
 * Added Linux binaries. This is a big deal. You can now run Clockwork on your Linux server, please report bugs to the issue tracker as it isn't guaranteed to be flawless right now, but at least it will run.
@@ -560,8 +646,7 @@ Just press middle mouse while your weapon is raised to use the ironsights, it wi
 * Fixed issue preventing salesmen and storage from working.
 * Added a way to allow icons to be set for notifications.
 
-0.91
--------
+### 0.91
 
 * Added GiveCash from the player library to the player meta table.
   * *Contributed by SomeSortOfDuck.*
@@ -578,8 +663,7 @@ Just press middle mouse while your weapon is raised to use the ironsights, it wi
 * Added cl_imagebutton.lua
   * *Contributed by RJ.*
   
-0.9
--------
+### 0.9
 * Progress bars will now use ScissorRect for an improved graphical aesthetic.
   * *Contributed by Spencer Sharkey.*
 * A new config option (observer_reset) was added to prevent a player's position being reset when exiting observer mode.

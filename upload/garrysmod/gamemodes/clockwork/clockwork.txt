@@ -1,0 +1,12 @@
+"clockwork"
+{
+	"title"			"Clockwork"
+	"maps"			"^rp_"
+	"settings"
+	{
+	}
+	"version"		"0.101"
+	"author"		"Cloud Sixteen"
+	"description"	"A roleplaying framework developed by Cloud Sixteen for the people."
+	"workshopid"	"474315121"
+}
