@@ -2796,6 +2796,13 @@ function Clockwork:PlayerCanDeathClearRecognisedNames(player, attacker, damageIn
 
 --[[
 	@codebase Server
+	@details Called when death attempts to strip a player's ammo.
+	@returns {Unknown}
+--]]
+function Clockwork:PlayerCanDeathStripAmmo(player, attacker, damageInfo) return true; end;
+
+--[[
+	@codebase Server
 	@details Called when a player's ragdoll attempts to take damage.
 	@param {Unknown} Missing description for player.
 	@param {Unknown} Missing description for ragdoll.
@@ -4686,13 +4693,16 @@ function Clockwork:DoPlayerDeath(player, attacker, damageInfo)
 			end;
 		end);
 	end;
+	
+	if (cwPlugin:Call("PlayerCanDeathStripAmmo", player, attacker, damageInfo)) then
+		player:SetCharacterData("Ammo", {}, true);
+		player:StripAmmo();
+	end;
 
 	player:SetForcedAnimation(false);
-	player:SetCharacterData("Ammo", {}, true);
 	player:StripWeapons();
-	player:Extinguish();
 	player.cwSpawnAmmo = {};
-	player:StripAmmo();
+	player:Extinguish();
 	player:AddDeaths(1);
 	player:UnLock();
 
