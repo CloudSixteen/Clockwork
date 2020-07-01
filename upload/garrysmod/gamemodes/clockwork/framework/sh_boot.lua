@@ -172,6 +172,7 @@ function Clockwork:ClockworkAddSharedVars(globalVars, playerVars)
 	playerVars:Bool("Initialized");
 	playerVars:Bool("IsJogMode");
 	playerVars:Bool("IsRunMode");
+	playerVars:Bool("IsSearching", true)
 	playerVars:String("Clothes", true);
 	playerVars:String("ActName");
 	playerVars:String("Icon");

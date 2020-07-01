@@ -19,9 +19,9 @@ function COMMAND:OnRun(player, arguments)
 	
 	if (target) then
 		if (!target.cwBeingSearched) then
-			if (!player.cwSearching) then
+			if (!player:GetSharedVar("IsSearching")) then
 				target.cwBeingSearched = true;
-				player.cwSearching = target;
+				player:SetSharedVar("IsSearching", true)
 				
 				Clockwork.storage:Open(player, {
 					name = target:Name(),
@@ -31,8 +31,8 @@ function COMMAND:OnRun(player, arguments)
 					entity = target,
 					inventory = target:GetInventory(),
 					OnClose = function(player, storageTable, entity)
-						player.cwSearching = nil;
-						
+						player:SetSharedVar("IsSearching", false)
+
 						if (IsValid(entity)) then
 							entity.cwBeingSearched = nil;
 						end;
