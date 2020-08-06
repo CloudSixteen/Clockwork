@@ -694,10 +694,10 @@ CW_RUSSIAN["CraftingEnabled"] = "Встроенное меню крафта вк
 CW_RUSSIAN["CraftingEnabledDesc"] = "Будет ли включено меню крафта.";
 CW_RUSSIAN["CraftingName"] = "Название меню крафта";
 CW_RUSSIAN["CraftingNameDesc"] = "Название кнопки для встроенного меню крафта.";
-CW_ENGLISH["EnableVCs"] = "Включить голосовые команды";
-CW_ENGLISH["EnableVCsDesc"] = "Будут ли включены голосовые команды.";
-CW_ENGLISH["MaxCharName"] = "Лимит имени персонажа";
-CW_ENGLISH["MaxCharNameDesc"] = "Максимальное количество символов, которое кто-то может использовать в своем имени.";
+CW_RUSSIAN["EnableVCs"] = "Включить голосовые команды";
+CW_RUSSIAN["EnableVCsDesc"] = "Будут ли включены голосовые команды.";
+CW_RUSSIAN["MaxCharName"] = "Лимит имени персонажа";
+CW_RUSSIAN["MaxCharNameDesc"] = "Максимальное количество символов, которое кто-то может использовать в своем имени.";
 
 CW_RUSSIAN["HintOOC"] = "Чтобы написать в глобальный чат, поставьте перед сообщением //";
 CW_RUSSIAN["HintLOOC"] = "Чтобы написать в близкий нон-рп чат, поставьте перед сообщениями .// или [[.";
