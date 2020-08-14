@@ -411,7 +411,7 @@ function Clockwork.storage:GiveTo(player, itemTable)
 		local space = itemTable("storageSpace", itemTable("space"));
 		
 		if ((self:GetWeight(player) + math.max(weight, 0) > storageTable.weight)
-		or (self:GetSpace(player) + math.max(space, 0) > storageTable.space)) then
+		or (Clockwork.inventory:UseSpaceSystem() and (self:GetSpace(player) + math.max(space, 0)) > storageTable.space)) then
 			return false;
 		end;
 	end;
