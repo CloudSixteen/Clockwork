@@ -31,16 +31,21 @@ CW_KOREAN["DemotePermsNeeded"] = "이 플레이어를 강등시킬 수 있는 �
 CW_KOREAN["DemoteFactionOnly"] = "오직 같은 팩션 내의 플레이어만을 강등시킬 수 잇습니다!";
 CW_KOREAN["YouCannotDemotePlayer"] = "이 플레이어는 강등시킬 수 없습니다!";
 CW_KOREAN["ForceDemoteAdminNeeded"] = "강제로 강등시키려면 어드민 또는 슈퍼 어드민 권한을 필요로 합니다!";
+CW_KOREAN["CharFactionNoRanks"] = "이 캐릭터의 팩션은 아무런 랭크도 가지고 있지 않습니다!";
+CW_KOREAN["FactionRanksPrintedConsole"] = "현재 캐릭터가 소속된 팩션의 모든 랭크가 콘솔에 출력되었습니다.";
+CW_KOREAN["AvailableRanksForFaction"] = "팩션 '#1' 에서 사용 가능한 랭크 목록:\n";
+CW_KOREAN["NotValidRankForFaction"] = "랭크 '#1' 는 팩션에 맞지 않는 랭크입니다!";
+CW_KOREAN["PlayerSetCharRankTo"] = "#1 님이 #2 님의 팩션 랭크를 '#3' 으로 설정하였습니다.";
 
-CW_KOREAN["PlayerUnbannedPlayer"] = "#1 님이 #2 님의 캐릭터 밴을 헤재하였습니다.";
+CW_KOREAN["PlayerUnbannedPlayer"] = "#1 님이 #2 님의 캐릭터 밴을 해제하였습니다.";
 
-CW_KOREAN["PlayerSetConfigRestart"] = "#1 님이 다음 재시작 때 #2 설정을 '#3' 으로 변경하도록 설정했습니다.";
-CW_KOREAN["PlayerSetConfig"] = "#1 님이 #2 설정을 '#3' 로 설정했습니다.";
+CW_KOREAN["PlayerSetConfigRestart"] = "#1 님이 다음 재시작 때 #2 설정을 '#3' 으로 변경하도록 설정하였습니다.";
+CW_KOREAN["PlayerSetConfig"] = "#1 님이 #2 설정을 '#3' 로 설정하였습니다.";
 
 CW_KOREAN["PlayerForcePromoted"] = "#1 님이 #2 님의 랭크를 '#3' 로 강제 승급시켰습니다.";
 CW_KOREAN["PlayerPromotedPlayer"] = "#1 님이 #2 님의 랭크를 '#3' 로 승급시켰습니다.";
 CW_KOREAN["PromotePermsNeeded"] = "이 플레이어를 승급시킬 수 있는 권한을 가지고 있지 않습니다!";
-CW_KOREAN["PromoteFactionOnly"] = "오직 같은 팩션 내의 플레이어만을 승급시킬 수 잇습니다!";
+CW_KOREAN["PromoteFactionOnly"] = "오직 같은 팩션 내의 플레이어만을 승급시킬 수 있습니다!";
 CW_KOREAN["YouCannotPromotePlayer"] = "이 플레이어는 승급시킬 수 없습니다!";
 CW_KOREAN["ForcePromoteAdminNeeded"] = "강제로 승급시키려면 어드민 또는 슈퍼 어드민 권한을 필요로 합니다!";
 
@@ -110,10 +115,10 @@ CW_KOREAN["PluginNotValid"] = "해당 플러그인은 올바르지 않은 플러
 CW_KOREAN["PluginCouldNotBeUnloaded"] = "해당 플러그인을 비활성화 할 수없습니다!";
 CW_KOREAN["PluginCouldNotBeLoaded"] = "해당 플러그인을 활성화할 수 없습니다!";
 CW_KOREAN["PluginDependsOnAnother"] = "해당 플러그인은 다른 플러그인과 의존성이 있습니다!";
-CW_KOREAN["PlayerUnloadedPlugin"] = "#1 님이 다음 재시작 때 #2 플러그인을 비활성화하도록 설정했습니다.";
-CW_KOREAN["PlayerLoadedPlugin"] = "#1 님이 다음 재시작 때 #2 플러그인을 활성화하도록 설정했습니다.";
-CW_KOREAN["PlayerRestartingMapIn"] = "#1 님이 #2 초 뒤에 맵을 재시작하도록 설정했습니다!";
-CW_KOREAN["PlayerChangingMapIn"] = "#1 님이 #2 맵으로 #3 초 뒤에 변경하도록 설정했습니다!";
+CW_KOREAN["PlayerUnloadedPlugin"] = "#1 님이 다음 재시작 때 #2 플러그인을 비활성화하도록 설정하였습니다.";
+CW_KOREAN["PlayerLoadedPlugin"] = "#1 님이 다음 재시작 때 #2 플러그인을 활성화하도록 설정하였습니다.";
+CW_KOREAN["PlayerRestartingMapIn"] = "#1 님이 #2 초 뒤에 맵을 재시작하도록 설정하였습니다!";
+CW_KOREAN["PlayerChangingMapIn"] = "#1 님이 #2 맵으로 #3 초 뒤에 변경하도록 설정하였습니다!";
 
 CW_KOREAN["MapNameIsNotValid"] = "#1 는 올바르지 않은 맵입니다!";
 CW_KOREAN["ConfigKeyIsStatic"] = "#1 는 정적 설정 입니다!";
@@ -515,8 +520,8 @@ CW_KOREAN["SavedRecognisedNames"] = "인식된 이름 저장";
 CW_KOREAN["SavedRecognisedNamesDesc"] = "인식한 캐릭터의 이름을 저장할지에 대한 여부입니다.";
 CW_KOREAN["SaveAttributeBoosts"] = "능력치 부스팅 저장";
 CW_KOREAN["SaveAttributeBoostsDesc"] = "눙력치 부스팅을 저장할지에 대한 여부입니다.";
-CW_KOREAN["RagdollDamageImmunityTime"] = "레그돌 무 데미지 시간";
-CW_KOREAN["RagdollDamageImmunityTimeDesc"] = "플레이어가 레그돌로 변한 뒤 몇초 뒤 부터 데미지를 입을 수 있는지에 대한 여부입니다.";
+CW_KOREAN["RagdollDamageImmunityTime"] = "레그돌 데미지 면역 시간";
+CW_KOREAN["RagdollDamageImmunityTimeDesc"] = "플레이어가 레그돌로 변한 뒤 몇초 동안 데미지 면역 효과를 부여할지에 대한 값입니다.";
 CW_KOREAN["AdditionalCharacterCount"] = "추가 캐릭터 갯수";
 CW_KOREAN["AdditionalCharacterCountDesc"] = "플레이어가 가질 수 있는 추가적인 캐릭터의 갯수입니다.";
 CW_KOREAN["ClassChangingInterval"] = "클래스 변경 인터벌";
@@ -591,8 +596,8 @@ CW_KOREAN["CashWeight"] = "돈 무게";
 CW_KOREAN["CashWeightDesc"] = "돈의 무게를 설정하는 값입니다. (kg)";
 CW_KOREAN["CashSpace"] = "돈 크기";
 CW_KOREAN["CashSpaceDesc"] = "돈의 크기를 설정하는 값입니다. (L)";
-CW_KOREAN["HeadDamageScale"] = "머리 데미지 크기";
-CW_KOREAN["HeadDamageScaleDesc"] = "머리에 입는 데미지의 크기에 대한 값입니다.";
+CW_KOREAN["HeadDamageScale"] = "헤드샷 데미지 배율";
+CW_KOREAN["HeadDamageScaleDesc"] = "헤드샷 데미지의 배율입니다.";
 CW_KOREAN["BlockInventoryBinds"] = "인벤토리 바인드 차단";
 CW_KOREAN["BlockInventoryBindsDesc"] = "플레이어의 인벤토리 키의 바인딩을 차단할지에 대한 여부입니다.";
 CW_KOREAN["LimbDamageScale"] = "사지 데미지 크기";
@@ -872,6 +877,8 @@ CW_KOREAN["Drink"] = "마시기";
 
 CW_KOREAN["CmdA"] = "모든 어드민들에게 메세지를 보냅니다.";
 CW_KOREAN["CmdADesc"] = "<문자열 메세지>";
+CW_KOREAN["CmdCharSetRank"] = "캐릭터의 랭크를 설정합니다.";
+CW_KOREAN["CmdCharSetRankDesc"] = "<문자열 이름> <문자열 랭크> [논리 모델 비변경]";
 CW_KOREAN["CmdAnnounce"] = "모든 플레이어에게 무언가를 발표합니다.";
 CW_KOREAN["CmdAnnounceDesc"] = "<문자열 텍스트>";
 CW_KOREAN["CmdARequest"] = "모돈 어드민에게 요청 메시지를 보냅니다.";
@@ -1026,3 +1033,5 @@ CW_KOREAN["PlayerInfoClass"] = "#1";
 CW_KOREAN["CashAmountSingular"] = "$#1";
 CW_KOREAN["CashAmount"] = "#1 #2";
 CW_KOREAN["Cash"] = "돈";
+
+CW_ENGLISH["Ranked"] = "#1 랭크"
