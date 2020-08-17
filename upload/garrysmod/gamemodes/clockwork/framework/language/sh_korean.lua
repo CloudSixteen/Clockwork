@@ -1034,4 +1034,4 @@ CW_KOREAN["CashAmountSingular"] = "$#1";
 CW_KOREAN["CashAmount"] = "#1 #2";
 CW_KOREAN["Cash"] = "돈";
 
-CW_ENGLISH["Ranked"] = "#1 랭크"
+CW_KOREAN["Ranked"] = "#1 랭크"
