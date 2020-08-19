@@ -152,11 +152,22 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "kiobu",
+      "name": "きおぶ",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/13487173?v=4",
+      "profile": "https://www.youtube.com/watch?v=k0qmkQGqpM8",
+      "contributions": [
+        "code",
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7,
   "projectName": "Clockwork",
   "projectOwner": "CloudSixteen",
   "repoType": "github",
-  "repoHost": "https://github.com"
+  "repoHost": "https://github.com",
+  "skipCi": true
 }
