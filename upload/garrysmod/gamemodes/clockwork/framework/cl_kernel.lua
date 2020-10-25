@@ -3088,7 +3088,7 @@ function Clockwork:GetDoorInfo(door, information)
 				return "OwnedDoorText";
 			end;
 		elseif (doorCost > 0) then
-			return "PurchasedDoorText";
+			return "PurchasableDoorText";
 		else
 			return "OwnableDoorText";
 		end;
