@@ -440,6 +440,7 @@ CW_ENGLISH["AlreadyUsingThisCharacter"] = "You are already using this character!
 CW_ENGLISH["YouCannotSwitchToCharacter"] = "You cannot switch to this character!";
 CW_ENGLISH["CannotSwitchFactionFull"] = "The #1 faction is full (#2/#3)!";
 CW_ENGLISH["CannotDeleteCharacterUsing"] = "You cannot delete the character you are using!";
+CW_ENGLISH["CannotDeleteCharacterDefaultCash"] = "You cannot delete characters with less than #1.";
 
 CW_ENGLISH["UseThisCharacter"] = "Use this character.";
 CW_ENGLISH["DeleteThisCharacter"] = "Delete this character.";
