@@ -2512,7 +2512,7 @@ end;
 function Clockwork:PlayerCanDeleteCharacter(player, character)
 	if (cwConfig:Get("cash_enabled"):Get() and character.cash < cwConfig:Get("default_cash"):Get()) then
 		if (!character.data["CharBanned"]) then
-			return "You cannot delete characters with less than "..cwKernel:FormatCash(cwConfig:Get("default_cash"):Get(), nil, true)..".";
+			return L(player, "CannotDeleteCharacterDefaultCash", cwKernel:FormatCash(cwConfig:Get("default_cash"):Get(), nil, true));
 		end;
 	end;
 end;
