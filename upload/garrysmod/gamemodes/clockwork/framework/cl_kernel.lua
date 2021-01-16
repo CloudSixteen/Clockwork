@@ -1335,7 +1335,23 @@ function Clockwork:CalcViewModelView(weapon, viewModel, oldEyePos, oldEyeAngles,
 	if (bLerp) then
 		Clockwork.ironsights.ironFraction = Lerp(FrameTime() * 5, Clockwork.ironsights.ironFraction or 100, ironTargetValue);
 	end;
-	
+
+	-- Controls the position of all viewmodels
+	local func = weapon.GetViewModelPosition
+	if ( func ) then
+		local pos, ang = func( weapon, eyePos * 1, eyeAngles * 1 )
+		oldEyePos = pos or oldEyePos
+		eyeAngles = ang or eyeAngles
+	end
+
+	-- Controls the position of individual viewmodels
+	func = weapon.CalcViewModelView
+	if ( func ) then
+		local pos, ang = func( weapon, ViewModel, oldEyePos * 1, oldEyeAng * 1, eyePos * 1, eyeAngles * 1 )
+		oldEyePos = pos or oldEyePos
+		eyeAngles = ang or eyeAngles
+	end
+
 	--Return the edited angle and position.
 	return oldEyePos, eyeAngles;
 end;
