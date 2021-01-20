@@ -97,14 +97,14 @@ function hook.Call(name, gamemode, ...)
 		cwClient = Clockwork.Client;
 	end;
 	
-	local status, value = pcall(cwPlugin.RunHooks, cwPlugin, name, nil, ...);
+	local status, value = xpcall(cwPlugin.RunHooks, debug.traceback, cwPlugin, name, nil, ...);
 	
 	if (!status) then
 		MsgC(Color(255, 100, 0, 255), "[Clockwork] The '"..name.."' hook failed to run.\n"..value.."\n"..value.."\n");
 	end;
 	
 	if (value == nil) then
-		local status, a, b, c = pcall(hook.ClockworkCall, name, gamemode or Clockwork, ...);
+		local status, a, b, c = xpcall(hook.ClockworkCall, debug.traceback, name, gamemode or Clockwork, ...);
 		
 		if (!status) then
 			MsgC(Color(255, 100, 0, 255), "[Clockwork] The '"..name.."' hook failed to run.\n"..a.."\n");

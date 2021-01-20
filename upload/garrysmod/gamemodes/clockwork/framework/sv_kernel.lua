@@ -129,7 +129,7 @@ function hook.Call(name, gamemode, ...)
 		end;
 	end;
 
-	local status, value = pcall(cwPlugin.RunHooks, cwPlugin, name, nil, ...);
+	local status, value = xpcall(cwPlugin.RunHooks, debug.traceback, cwPlugin, name, nil, ...);
 
 	if (!status) then
 		if (!Clockwork.Unauthorized) then
@@ -138,7 +138,7 @@ function hook.Call(name, gamemode, ...)
 	end;
 
 	if (value == nil or name == THINK_NAME) then
-		local status, a, b, c = pcall(hook.ClockworkCall, name, gamemode or Clockwork, ...);
+		local status, a, b, c = xpcall(hook.ClockworkCall, debug.traceback, name, gamemode or Clockwork, ...);
 
 		if (!status) then
 			if (!Clockwork.Unauthorized) then
