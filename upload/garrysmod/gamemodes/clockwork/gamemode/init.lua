@@ -14,24 +14,9 @@ else
 	MsgC(Color(0, 255, 100, 255), "[Clockwork] The framework is initializing...\n");
 end;
 
-local caxVersion = file.Read("cax.txt", "DATA");
-local requireName = "cloudauthx";
+CLOUDAUTHX_VERSION = -1;
 
-if (caxVersion != "" and tonumber(caxVersion)) then
-	local fileName = caxVersion;
- 
-	if (system.IsLinux()) then
-		fileName = "gmsv_cloudauthx_"..fileName.."_linux.dll";
-	else
-		fileName = "gmsv_cloudauthx_"..fileName.."_win32.dll";
-	end;
- 
-	if (file.Exists("lua/bin/"..fileName, "GAME")) then
-		requireName = "cloudauthx_"..caxVersion;
-	end;
-end;
-
-require(requireName);
+require("cwutil");
 
 if (system.IsLinux()) then
 	require("mysqloo");
@@ -46,6 +31,7 @@ AddCSLuaFile("external/von.lua");
 --[[ Include Vercas's serialization library and the Clockwork kernel. --]]
 include("external/utf8.lua");
 include("external/von.lua");
+include("clockwork/framework/sv_cax_patch.lua");
 include("clockwork/framework/sv_kernel.lua");
 
 if (Clockwork and cwBootComplete) then

@@ -6,6 +6,7 @@
 	http://cloudsixteen.com/license/clockwork.html
 --]]
 
+--[=[
 -- Called when the Clockwork database has connected.
 function cwXCS:ClockworkDatabaseConnected()
 	local CREATE_MESSAGES_TABLE = [[
@@ -20,6 +21,7 @@ function cwXCS:ClockworkDatabaseConnected()
 	
 	Clockwork.database:Query(string.gsub(CREATE_MESSAGES_TABLE, "%s", " "), nil, nil, true);
 end;
+]=]
 
 -- Called when a player attempts to say something out-of-character.
 function cwXCS:PlayerCanSayOOC(player, text)

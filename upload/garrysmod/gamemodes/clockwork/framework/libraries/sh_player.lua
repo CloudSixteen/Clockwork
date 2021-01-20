@@ -994,6 +994,58 @@ local cwDatabase = Clockwork.database;
 Clockwork.player.property = Clockwork.player.property or {};
 Clockwork.player.stored = Clockwork.player.stored or {};
 
+function Clockwork.player:RestoreData(player, data)
+	for k, v in pairs(data) do
+		self:UpdatePlayerData(player, k, v);
+	end;
+
+	for k, v in pairs(self.playerData) do
+		if (data[k] == nil) then
+			player:SetData(k, v.default);
+		end;
+	end;
+end;
+
+function Clockwork.player:RestoreCharacterData(player, data)
+	for k, v in pairs(data) do
+		self:UpdateCharacterData(player, k, v);
+	end;
+	 
+	for k, v in pairs(self.characterData) do
+		local query = player:QueryCharacter(k);
+
+		if (query != nil) then
+			self:UpdateCharacterData(player, k, query);
+		elseif (data[k] == nil) then
+			player:SetCharacterData(k, v.default);
+		end;
+	end;
+end;
+
+function Clockwork.player:UpdateCharacterData(player, key, value)
+	local characterData = self.characterData;
+
+	if (characterData[key]) then
+		if (characterData[key].callback) then
+			value = characterData[key].callback(player, value);
+		end;
+
+		player:SetSharedVar(key, value);
+	end;
+end;
+
+function Clockwork.player:UpdatePlayerData(player, key, value)
+	local playerData = self.playerData;
+
+	if (playerData[key]) then
+		if (playerData[key].callback) then
+			value = playerData[key].callback(player, value);
+		end;
+
+		player:SetSharedVar(key, value);
+	end;
+end;
+
 --[[
 	@codebase Shared
 	@details A function to run an inventory action for a player.

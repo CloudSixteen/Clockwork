@@ -1044,9 +1044,83 @@ function PANEL:SetWeaponModel(weaponModel)
 	self.weaponEntity:AddEffects(EF_BONEMERGE);
 end;
 
-PANEL.OnMousePressed = extern_CharModelOnMousePressed;
-PANEL.LayoutEntity = extern_CharModelLayoutEntity;
-PANEL.Init = extern_CharModelInit;
+function PANEL:OnMousePressed()
+	if (self.DoClick) then
+		self:DoClick();
+	end;
+end;
+
+local function setModelAndSequence(panel, model)
+	panel:ClockworkSetModel(model);
+	
+	local entity = panel.Entity;
+	
+	if (not IsValid(entity)) then
+		return;
+	end;
+	
+	local sequence = entity:LookupSequence("idle");
+	local menuSequence = Clockwork.animation:GetMenuSequence(model, true);
+	local leanBackAnims = {"LineIdle01", "LineIdle02", "LineIdle03"};
+	local leanBackAnim = entity:LookupSequence(
+		leanBackAnims[math.random(1, #leanBackAnims)]
+	);
+	
+	if (leanBackAnim > 0) then
+		sequence = leanBackAnim;
+	end;
+	
+	if (menuSequence) then
+		menuSequence = entity:LookupSequence(menuSequence);
+		
+		if (menuSequence > 0) then
+			sequence = menuSequence;
+		end;
+	end;
+	
+	if (sequence <= 0) then
+		sequence = entity:LookupSequence("idle_unarmed");
+	end;
+	
+	if (sequence <= 0) then
+		sequence = entity:LookupSequence("idle1");
+	end;
+	
+	if (sequence <= 0) then
+		sequence = entity:LookupSequence("walk_all");
+	end;
+	
+	if (sequence > 0) then
+		entity:ResetSequence(sequence);
+	end;
+end;
+
+function PANEL:LayoutEntity()
+	local screenW = ScrW();
+	local screenH = ScrH();
+	
+	local fractionMX = gui.MouseX() / screenW;
+	local fractionMY = gui.MouseY() / screenH;
+	
+	local entity = self.Entity;
+	local x, y = self:LocalToScreen(self:GetWide() / 2);
+	local fx = x / screenW;
+	
+	entity:SetPoseParameter("head_pitch", fractionMY * 80 - 30);
+	entity:SetPoseParameter("head_yaw", (fractionMX - fx) * 70);
+	entity:SetAngles(Angle(0, 45, 0));
+	entity:SetIK(false);
+	
+	self:RunAnimation();
+end;
+
+function PANEL:Init()
+	self:SetCursor("none");
+	self.ClockworkSetModel = self.SetModel;
+	self.SetModel = setModelAndSequence;
+	
+	Clockwork.kernel:CreateMarkupToolTip(self);
+end;
 
 vgui.Register("cwCharacterModel", PANEL, "DModelPanel");
 

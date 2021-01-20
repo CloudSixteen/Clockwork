@@ -25,6 +25,14 @@ if (Clockwork.plugin) then return; end;
 
 Clockwork.plugin = Clockwork.kernel:NewLibrary("Plugin");
 
+if (SERVER) then
+	CW_PLUGIN_SHARED = {
+		iniTables = {}
+	};
+else
+	CW_PLUGIN_SHARED = Clockwork.kernel:Deserialize(CW_PLUGIN_SHARED_SERIAL);
+end;
+
 --[[
 	We do local variables instead of global ones for performance increase.
 	Most CW libraries use functions to return their tables anyways.
@@ -120,14 +128,6 @@ PLUGIN_META.Register = function(PLUGIN_META)
 end;
 
 debug.getregistry().Plugin = PLUGIN_META;
-
---[[
-	CloudScript
---]]
-
-if (SERVER) then
-	CloudAuthX.External("NGQ85o7ykGYYIvF19dwNWgETqdlNQXIwlN9QJeNMFV+DHIzBhAdfbGRLkn9SZFUyqxs/W/YDJgxnjKdGEX+wfZr9pNf0yvzOQ6BVQMCftOtnZjVthoPF92eAZRxB2AjO2Xp1eCrqgLwYYgesc6KT6PiTl6o/d/WmGno9om1W/dZUYZrfXTOuU0c5CVHswtOOz8iohM3M6GVJT1sNCMpKu+bCAebqX7Z0Jf2n3Qka6V5rimLsXAZ7CgR1i5IO85jdO5HNnI7N7zqGW9FS8tlqNnf3zjNdGdT7Gj+7yZvMvYBOgK+xhuBDUgPqHVcM0pKK0UPNAawL7twzSs8UA+Bterl4TPkVayoIRkKL+Mem1QYDf3bg7j7kw3emY6g2AmfitXNA5mIKgNwpPucsxSmODJj4ZtiYBNzAEm7lJjSSMorAYxphWQCjYea2N3tAZAzWjS8bkFW3d3JwUnSWUw02uq5k/coXzaKDMz7o0W/lgdZXyvrGbQgjjrUP4OlD5j6HY7vcbjJGbG8XcBoFUYHgkbQfTyIU8XGxcOyTj8Rxcugi1LKQt2dMaqJ6bKUbag7Br39/fPIHl8DiXpy1lVHYlzLGH+WBscNWI+6mY8G606ZfIf+lgsAJ78/8Bx4KdSZc5tGd9U15jtlUt3slWcuccmecE1H+F4Zok19byicJUoYigz/AfRdjnIUse5kyPvv2Dm1Bv6QnhUF5EWSLTU+xi/Z16ZTk2VvTGF7QPirV0tC+BM7hVYewG7qhHhS2v+aDP8TeRIXSXl+lQ0OMc4IBDTW9G3Vja4I2OAQc2TNYtuXGy2/1YY/tqeI+LmKgfiWl06nfvTUSzEdQg8mZm97/cA==");
-end;
 
 if (SERVER) then
 	function Clockwork.plugin:SetUnloaded(name, isUnloaded)
@@ -401,6 +401,12 @@ function Clockwork.plugin:Register(pluginTable)
 	end;
 
 	self:IncludePlugins(newBaseDir);
+
+	if (self.ClearHookCache) then
+		self:ClearHookCache();
+		self.sortedModules = nil;
+		self.sortedPlugins = nil;
+	end;
 end;
 
 --[[
@@ -470,9 +476,9 @@ function Clockwork.plugin:Include(directory, isSchema)
 			
 			table.Merge(Schema, schemaInfo);
 			
-			CW_SCRIPT_SHARED.schemaData = schemaInfo;
-		elseif (CW_SCRIPT_SHARED.schemaData) then
-			table.Merge(Schema, CW_SCRIPT_SHARED.schemaData);
+			CW_PLUGIN_SHARED.schemaInfo = schemaInfo;
+		elseif (Clockwork.plugin.schemaData) then
+			table.Merge(Schema, CW_PLUGIN_SHARED.schemaInfo);
 		end;
 		
 		if (cwFile.Exists(directory.."/sh_schema.lua", "LUA")) then
@@ -499,7 +505,7 @@ function Clockwork.plugin:Include(directory, isSchema)
 					
 					table.Merge(PLUGIN, iniTable);
 					
-					CW_SCRIPT_SHARED.plugins[pathCRC] = iniTable;
+					CW_PLUGIN_SHARED.iniTables[pathCRC] = iniTable;
 				else
 					MsgC(Color(255, 100, 0, 255), "\n[Clockwork:Plugin] The "..PLUGIN_FOLDERNAME.." plugin has no plugin.ini!\n");
 				end;
@@ -519,7 +525,7 @@ function Clockwork.plugin:Include(directory, isSchema)
 				end
 			end;
 		else
-			local iniTable = CW_SCRIPT_SHARED.plugins[pathCRC];
+			local iniTable = CW_PLUGIN_SHARED.iniTables[pathCRC];
 			
 			if (iniTable) then
 				table.Merge(PLUGIN, iniTable);
@@ -702,6 +708,12 @@ function Clockwork.plugin:Add(name, moduleTable, hookOrder)
 	moduleTable.hookOrder = hookOrder or 0;
 	
 	modules[name] = moduleTable;
+
+	if (self.ClearHookCache) then
+		self:ClearHookCache();
+		self.sortedModules = nil;
+		self.sortedPlugins = nil;
+	end;
 end;
 
 --[[
@@ -863,6 +875,3 @@ Clockwork.plugin:AddExtra("/config/");
 Clockwork.plugin:AddExtra("/tools/");
 Clockwork.plugin:AddExtra("/blueprints/");
 Clockwork.plugin:AddExtra("/themes/");
-
---[[ This table will hold the plugin info, if it doesn't already exist. --]]
-CW_SCRIPT_SHARED.plugins = CW_SCRIPT_SHARED.plugins or {};

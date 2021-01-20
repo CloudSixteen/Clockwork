@@ -39,11 +39,92 @@ playerMeta.ClockworkSetRunSpeed = playerMeta.ClockworkSetRunSpeed or playerMeta.
 playerMeta.ClockworkStripWeapon = playerMeta.ClockworkStripWeapon or playerMeta.StripWeapon;
 playerMeta.ClockworkGodDisable = playerMeta.ClockworkGodDisable or playerMeta.GodDisable;
 playerMeta.ClockworkGodEnable = playerMeta.ClockworkGodEnable or playerMeta.GodEnable;
+playerMeta.ClockworkSteamID64 = playerMeta.ClockworkSteamID64 or playerMeta.SteamID64;
 playerMeta.ClockworkUniqueID = playerMeta.ClockworkUniqueID or playerMeta.UniqueID;
 playerMeta.ClockworkSetArmor = playerMeta.ClockworkSetArmor or playerMeta.SetArmor;
 playerMeta.ClockworkGive = playerMeta.ClockworkGive or playerMeta.Give;
 playerMeta.ClockworkKick = playerMeta.ClockworkKick or playerMeta.Kick;
 playerMeta.SteamName = playerMeta.SteamName or playerMeta.Name;
+
+function playerMeta:NetworkAccessories()
+	local accessoryData = self:GetAccessoryData();
+	
+	Clockwork.datastream:Start(self, "AllAccessories", accessoryData);
+end;
+
+function playerMeta:RemoveAccessory(itemTable)
+	if (not self:IsWearingAccessory(itemTable)) then
+		return;
+	end;
+	
+	local accessoryData = self:GetAccessoryData();
+	local uniqueID = itemTable("uniqueID");
+	local itemID = itemTable("itemID");
+	
+	accessoryData[itemID] = nil;
+	
+	Clockwork.datastream:Start(
+		self, "RemoveAccessory", {itemID = itemID}
+	);
+	
+	if (itemTable.OnWearAccessory) then
+		itemTable:OnWearAccessory(self, false);
+	end;
+end;
+
+function playerMeta:HasAccessory(uniqueID)
+	local accessoryData = self:GetAccessoryData();
+	
+	for k, v in pairs(accessoryData) do
+		if (string.lower(v) == string.lower(uniqueID)) then
+			return true;
+		end;
+	end;
+	
+	return false;
+end;
+
+function playerMeta:IsWearingAccessory(itemTable)
+	local accessoryData = self:GetAccessoryData();
+	local itemID = itemTable("itemID");
+	
+	if (accessoryData[itemID]) then
+		return true;
+	else
+		return false;
+	end;
+end;
+
+function playerMeta:WearAccessory(itemTable)
+	if (self:IsWearingAccessory(itemTable)) then
+		return;
+	end;
+	
+	local accessoryData = self:GetAccessoryData();
+	local uniqueID = itemTable("uniqueID");
+	local itemID = itemTable("itemID");
+	
+	accessoryData[itemID] = itemTable("uniqueID");
+	
+	Clockwork.datastream:Start(
+		self, "AddAccessory", {itemID = itemID, uniqueID = uniqueID}
+	);
+	
+	if (itemTable.OnWearAccessory) then
+		itemTable:OnWearAccessory(self, true);
+	end;
+end;
+
+-- A function to get a player's steamID64
+function playerMeta:SteamID64()
+	local value = self:ClockworkSteamID64();
+	
+	if (value == nil) then
+		return "";
+	else
+		return value;
+	end;
+end;
 
 -- A function to get a player's name.
 function playerMeta:Name()

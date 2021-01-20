@@ -1391,6 +1391,11 @@ Clockwork.chatBox:RegisterDefaultClass("chat", "ooc", function(info)
 	end;	
 end);
 
+Clockwork.chatBox:RegisterClass("cw_news", "ooc", function(info)
+	Clockwork.chatBox:SetMultiplier(0.825);
+	Clockwork.chatBox:Add(info.filtered, "icon16/newspaper.png", Color(204, 102, 153, 255), info.text);
+end);
+
 hook.Add("PlayerBindPress", "Clockwork.chatBox:PlayerBindPress", function(player, bind, bPress)
 	if ((string.find(bind, "messagemode") or string.find(bind, "messagemode2")) and bPress) then
 		if (Clockwork.Client:HasInitialized()) then

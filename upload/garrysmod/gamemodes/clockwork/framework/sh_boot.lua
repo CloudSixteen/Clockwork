@@ -27,29 +27,17 @@ else
 end;
 
 Clockwork.ClockworkFolder = Clockwork.ClockworkFolder or GM.Folder;
-Clockwork.SchemaFolder = Clockwork.SchemaFolder or GM.Folder;
-Clockwork.KernelVersion = "0.101";
+Clockwork.SchemaFolder = Clockwork.SchemaFolder or engine.ActiveGamemode();
+Clockwork.KernelVersion = "1.0.0";
 Clockwork.DeveloperVersion = true;
 Clockwork.Website = "http://kurozael.com";
 Clockwork.Author = "kurozael";
 Clockwork.Email = "kurozael@gmail.com";
 Clockwork.Name = "Clockwork";
 
---[[ Check if we are using the right CloudAuthX version. --]]
-if (SERVER and CloudAuthX.GetVersion() < 21) then
-	for i = 1, 3 do
-		Error("[CloudAuthX] This version of Clockwork requires CloudAuthX 16!\n Make sure you have installed the binary files from the Store!\n");
-	end;
-end;
-
---[[
-	Do not edit this function. Editing this function will cause
-	the schema to not function, and CloudAuthX will not
-	auth you.
---]]
 function Clockwork:GetGameDescription()
 	local schemaName = self.kernel:GetSchemaGamemodeName();
-	return "CW: "..schemaName;
+	return "Clockwork: "..schemaName;
 end;
 
 AddCSLuaFile("cl_kernel.lua");
@@ -57,24 +45,9 @@ AddCSLuaFile("cl_theme.lua");
 AddCSLuaFile("sh_kernel.lua");
 AddCSLuaFile("sh_enum.lua");
 AddCSLuaFile("sh_boot.lua");
+AddCSLuaFile("Clockwork.lua");
 include("sh_enum.lua");
 include("sh_kernel.lua");
-
-if (CLIENT) then
-	if (CW_SCRIPT_SHARED) then
-		CW_SCRIPT_SHARED = Clockwork.kernel:Deserialize(CW_SCRIPT_SHARED);
-	else
-		CW_SCRIPT_SHARED = {};
-	end;
-	
-	if (CW_SCRIPT_SHARED.clientCode) then
-		RunString(CW_SCRIPT_SHARED.clientCode);
-	end;
-end;
-
-if (CW_SCRIPT_SHARED.schemaFolder) then
-	Clockwork.SchemaFolder = CW_SCRIPT_SHARED.schemaFolder;
-end;
 
 if (!game.GetWorld) then
 	game.GetWorld = function() return Entity(0); end;
@@ -87,19 +60,6 @@ library, lib = cwLibrary, cwLib;
 
 --[[ These are libraries that we want to load before any others. --]]
 Clockwork.kernel:IncludePrefixed("libraries/server/sv_file.lua");
-
-if (SERVER) then CloudAuthX.Authenticate(); end;
-
---[[
-	Do not edit this function. Editing this function will cause
-	the schema to not function, and CloudAuthX will not
-	auth you.
---]]
-function Clockwork:GetGameDescription()
-	local schemaName = self.kernel:GetSchemaGamemodeName();
-	return "Clockwork: "..schemaName;
-end;
-
 Clockwork.kernel:IncludeDirectory("libraries/server", true);
 Clockwork.kernel:IncludeDirectory("libraries/client", true);
 Clockwork.kernel:IncludeDirectory("libraries/", true);
@@ -123,15 +83,6 @@ Clockwork.plugin:Call("ClockworkSchemaLoaded");
 
 if (SERVER) then
 	MsgC(Color(0, 255, 100, 255), "[Clockwork] Successfully loaded "..Schema:GetName().." version "..Clockwork.kernel:GetSchemaGamemodeVersion().." by "..Schema:GetAuthor()..".\n");
-end;
-
---[[ The following code is loaded over-the-Cloud. --]]
-if (SERVER and Clockwork.LoadPostSchemaExternals) then
-	Clockwork:LoadPostSchemaExternals();
-end;	
-
-if (CLIENT) then
-	Clockwork.plugin:Call("ClockworkLoadShared", CW_SCRIPT_SHARED);
 end;
 
 Clockwork.kernel:IncludeDirectory("commands/", true);
@@ -194,4 +145,6 @@ Clockwork.plugin:IncludeEffects("Clockwork/framework");
 Clockwork.plugin:IncludeWeapons("Clockwork/framework");
 Clockwork.plugin:IncludeEntities("Clockwork/framework");
 
-if (SERVER) then CloudAuthX.Initialize(); end;
+if (SERVER) then
+	Clockwork.file:Write("lua/Clockwork.lua", "CW_PLUGIN_SHARED_SERIAL = [[" .. Clockwork.kernel:Serialize(CW_PLUGIN_SHARED) .. "]]");
+end;

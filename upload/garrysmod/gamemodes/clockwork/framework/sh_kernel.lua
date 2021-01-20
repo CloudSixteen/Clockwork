@@ -4760,14 +4760,14 @@ end;
 	@returns {Unknown}
 --]]
 function Clockwork.kernel:ModifyPhysDesc(description)
-	if (stringLen(description) <= 128) then
+	if (stringLen(description) <= 256) then
 		if (!stringFind(stringSub(description, -2), "%p")) then
 			return description..".";
 		else
 			return description;
 		end;
 	else
-		return stringSub(description, 1, 125).."...";
+		return stringSub(description, 1, 253).."...";
 	end;
 end;
 

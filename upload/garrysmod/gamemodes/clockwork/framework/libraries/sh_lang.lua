@@ -198,6 +198,19 @@ else
 			return L(data);
 		end;
 	end;
+		
+	Clockwork.lang.fileList = {};
+
+	function Clockwork.lang:Add(language, fileName)
+		if (not self.fileList[language]) then
+			self.fileList[language] = {};
+		end;
+		
+		table.insert(self.fileList[language], fileName);
+	end;
+
+	function Clockwork.lang:Set(language) end;
+
 end;
 
 Clockwork.lang:SetNative("Korean", "한국어");
