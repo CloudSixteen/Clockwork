@@ -802,6 +802,8 @@ else
 			toolTip = itemTable:GetClientSideInfo(markupObject);
 		end;
 		
+		Clockwork.plugin:Call("AdjustItemClientSideInfo", itemTable, toolTip);
+		
 		if (itemTable.GetClientSideDescription
 		and itemTable:GetClientSideDescription()) then
 			description = itemTable:GetClientSideDescription();
