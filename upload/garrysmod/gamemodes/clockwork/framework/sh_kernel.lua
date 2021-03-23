@@ -416,15 +416,6 @@ end;
 
 --[[
 	@codebase Shared
-	@details A function to get the path to GMod.
-	@returns {Unknown}
---]]
-function Clockwork.kernel:GetPathToGMod()
-	return util.RelativePathToFull("."):sub(1, -2);
-end;
-
---[[
-	@codebase Shared
 	@details A function to convert a string to a boolean.
 	@param {Unknown} Missing description for text.
 	@returns {Unknown}
@@ -1199,7 +1190,7 @@ if (SERVER) then
 		@returns {Unknown}
 	--]]
 	function Clockwork.kernel:SetupFullDirectory(filePath)
-		local directory = stringGsub(self:GetPathToGMod()..filePath, "\\", "/");
+		local directory = stringGsub("garrysmod/"..filePath, "\\", "/");
 		local exploded = stringExplode("/", directory);
 		local currentPath = "";
 		
