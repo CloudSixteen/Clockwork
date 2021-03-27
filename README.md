@@ -1,3 +1,7 @@
+# Clockwork is no longer being actively maintained
+
+As of March 2021, since the relicensing of Clockwork as MIT and the deprecation of CloudAuthX, Clockwork is no longer being actively maintained, supported, or developed. Contributors are welcome to fork their own maintaned version of Clockwork, as well as open pull requests.
+
 ## Clockwork
 [![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg)](#contributors)
 [![Latest Release](https://img.shields.io/github/release/cloudsixteen/clockwork.svg)](https://github.com/CloudSixteen/Clockwork/releases/latest)
