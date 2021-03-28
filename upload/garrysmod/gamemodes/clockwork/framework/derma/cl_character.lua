@@ -207,6 +207,8 @@ function PANEL:FadeInModelPanel(model)
 		y = (panel.y + (panel:GetTall() / 2)) - (self.characterModel:GetTall() / 2);
 	end;
 	
+	if y < 0 then y = 2 end;
+	
 	self.characterModel:SetPos(x, y);
 	
 	if (self.characterModel:FadeIn(0.5)) then
