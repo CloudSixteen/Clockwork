@@ -420,7 +420,7 @@ end;
 	@returns {Unknown}
 --]]
 function Clockwork.kernel:GetPathToGMod()
-	return util.RelativePathToFull("."):sub(1, -2);
+	return "garrysmod/";
 end;
 
 --[[
