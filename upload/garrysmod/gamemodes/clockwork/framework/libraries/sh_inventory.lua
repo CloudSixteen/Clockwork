@@ -243,7 +243,7 @@ function Clockwork.inventory:RemoveInstance(inventory, itemTable)
 	end;
 end;
 
--- A function to remove a uniquen ID from a table.
+-- A function to remove a unique ID from a table.
 function Clockwork.inventory:RemoveUniqueID(inventory, uniqueID, itemID)
 	local itemTable = Clockwork.item:FindByID(uniqueID);
 	if (itemID) then itemID = tonumber(itemID); end;
