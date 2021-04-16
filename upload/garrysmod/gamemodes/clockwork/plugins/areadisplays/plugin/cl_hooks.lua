@@ -64,7 +64,7 @@ function cwAreaDisplays:Tick()
 	for k, v in pairs(self.storedList) do
 		if (Clockwork.entity:IsInBox(Clockwork.Client, v.minimum, v.maximum)) then
 			
-			if (self.currentAreaDisplay != v.name) then
+			if (lastAreaDisplay != v.name) then
 				local bCalledHooks = self:HandleAreaTable(v, k);
 				
 				if (!bCalledHooks) then
